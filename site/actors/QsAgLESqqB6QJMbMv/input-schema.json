@@ -1,60 +1,191 @@
 {
+  "description": "Choose Zillow rate products, purposes, states, rate assumptions, history, and the optional lender directory.",
   "properties": {
-    "fetchLenderQuotes": {
-      "default": false,
-      "description": "Enable Playwright pass to fetch individual lender quotes per state. Requires residential proxy and takes longer. Off by default.",
-      "editor": "checkbox",
-      "prefill": false,
-      "title": "Fetch Lender Quotes",
+    "creditScore": {
+      "default": "veryHigh",
+      "description": "Credit-score assumption used for the rate query.",
+      "editor": "select",
+      "enum": [
+        "veryHigh",
+        "high",
+        "low"
+      ],
+      "enumTitles": [
+        "740 or higher",
+        "680–739",
+        "Below 680"
+      ],
+      "prefill": "veryHigh",
+      "title": "Credit score",
+      "type": "string"
+    },
+    "historyAggregation": {
+      "default": "daily",
+      "description": "Sampling interval for the rate history.",
+      "editor": "select",
+      "enum": [
+        "daily",
+        "weekly",
+        "monthly"
+      ],
+      "enumTitles": [
+        "Daily",
+        "Weekly",
+        "Monthly"
+      ],
+      "prefill": "daily",
+      "title": "History interval",
+      "type": "string"
+    },
+    "historyDays": {
+      "default": "90",
+      "description": "How far back to fetch history. Zillow's maximum is 4000 days.",
+      "editor": "select",
+      "enum": [
+        "30",
+        "90",
+        "365",
+        "1095",
+        "4000"
+      ],
+      "enumTitles": [
+        "30 days",
+        "90 days",
+        "1 year",
+        "3 years",
+        "Maximum (about 11 years)"
+      ],
+      "prefill": "90",
+      "title": "History window",
+      "type": "string"
+    },
+    "includeHomeLoanRates": {
+      "default": true,
+      "description": "Attach Zillow Home Loans sample rates with points, fees, and monthly payment.",
+      "prefill": true,
+      "title": "Include Zillow Home Loans samples",
       "type": "boolean"
     },
-    "loanTypes": {
-      "description": "Which loan types to scrape. All types are scraped if omitted.",
+    "includeLenderDirectory": {
+      "default": false,
+      "description": "Also return Zillow mortgage lender directory records with names, logos, ratings, and reviews.",
+      "prefill": false,
+      "title": "Include lender directory",
+      "type": "boolean"
+    },
+    "includeLenderProfiles": {
+      "default": false,
+      "description": "Fetch full profiles for up to 50 lenders: address, phone, website, licenses, and biography.",
+      "prefill": false,
+      "title": "Include lender profiles",
+      "type": "boolean"
+    },
+    "includeRateHistory": {
+      "default": false,
+      "description": "Add a daily, weekly, or monthly rate history to each rate record.",
+      "prefill": false,
+      "title": "Include rate history",
+      "type": "boolean"
+    },
+    "lenderLocations": {
+      "default": [],
+      "description": "Cities, states, or ZIP codes for the lender directory, e.g. Austin, TX or 90210. Used only when the directory is enabled.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Lender locations",
+      "type": "array"
+    },
+    "loanAmount": {
+      "default": "conforming",
+      "description": "Loan-size assumption. Jumbo 30-year always uses the jumbo bucket.",
+      "editor": "select",
+      "enum": [
+        "conforming",
+        "jumbo",
+        "smallConforming",
+        "superConforming",
+        "micro"
+      ],
+      "enumTitles": [
+        "Conforming",
+        "Jumbo",
+        "$100k–$200k",
+        "Super conforming",
+        "Under $100k"
+      ],
+      "prefill": "conforming",
+      "title": "Loan amount",
+      "type": "string"
+    },
+    "loanPrograms": {
+      "description": "Which Zillow rate products to request. Leave empty to include all nine.",
       "editor": "select",
       "items": {
         "enum": [
           "30yr-fixed",
+          "20yr-fixed",
           "15yr-fixed",
+          "10yr-fixed",
           "5/1-arm",
           "7/1-arm",
-          "fha",
-          "va",
-          "jumbo"
+          "fha-30yr",
+          "va-30yr",
+          "jumbo-30yr"
         ],
         "enumTitles": [
-          "30-Year Fixed",
-          "15-Year Fixed",
+          "30-year fixed",
+          "20-year fixed",
+          "15-year fixed",
+          "10-year fixed",
           "5/1 ARM",
           "7/1 ARM",
-          "FHA Loan",
-          "VA Loan",
-          "Jumbo Loan"
+          "FHA 30-year",
+          "VA 30-year",
+          "Jumbo 30-year"
         ],
         "type": "string"
       },
       "prefill": [
-        "30yr-fixed",
-        "fha",
-        "va"
+        "30yr-fixed"
       ],
-      "title": "Loan Types",
+      "title": "Loan programs",
       "type": "array"
     },
-    "maxLendersPerState": {
+    "loanPurpose": {
+      "default": "purchase",
+      "description": "Return purchase rates, refinance rates, or both.",
+      "editor": "select",
+      "enum": [
+        "purchase",
+        "refinance",
+        "both"
+      ],
+      "enumTitles": [
+        "Purchase",
+        "Refinance",
+        "Both"
+      ],
+      "prefill": "purchase",
+      "title": "Loan purpose",
+      "type": "string"
+    },
+    "maxLenders": {
       "default": 10,
-      "description": "Maximum number of lender quotes to extract per state per loan type (1–50). Only applies when fetchLenderQuotes is enabled.",
-      "editor": "number",
-      "maximum": 50,
+      "description": "Maximum lender records to return when the directory is enabled (1–200).",
+      "maximum": 200,
       "minimum": 1,
       "prefill": 5,
-      "title": "Max Lenders Per State",
+      "title": "Maximum lenders",
       "type": "integer"
     },
     "states": {
       "default": [
         "national"
       ],
-      "description": "States to include. 'national' returns national aggregate data. Individual states are used for lender quotes (requires fetchLenderQuotes: true).",
+      "description": "National plus any states. State-level coverage is widest for 30-year and 15-year products.",
       "editor": "select",
       "items": {
         "enum": [
@@ -176,6 +307,6 @@
   },
   "required": [],
   "schemaVersion": 1,
-  "title": "Zillow Mortgage Rates Scraper Input",
+  "title": "Zillow Mortgage Rates & Lender Directory Scraper Input",
   "type": "object"
 }

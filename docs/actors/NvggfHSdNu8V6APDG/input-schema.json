@@ -1,76 +1,27 @@
 {
+  "description": "Public LinkedIn post URLs or IDs. Returns total reactions and exact reaction-type counts; no cookie or login is needed.",
   "properties": {
-    "cookie": {
-      "description": "Your LinkedIn session cookie. Accepts: (1) the li_at value from browser DevTools, or (2) full cookies JSON array exported from an extension like EditThisCookie.",
-      "editor": "textarea",
-      "isSecret": true,
-      "prefill": "AQEDATVc5uMEM5s_AAABnro67cYAAAGe3kdxxk0Ajoj1en-Axa4lUoxvqVMAsMpFO2u4rOjJfIS1U1wrBETHJHqkj5i6KReB53dmYSZDgX9K4XnaFLmn7vE30gVWegfZltSOZVu_-Ny8sl4-aAKzeN-H",
-      "title": "LinkedIn Cookie",
-      "type": "string"
-    },
-    "language": {
-      "default": "en_US",
-      "description": "Preferred LinkedIn locale for the session (affects headline/text language where applicable).",
-      "editor": "select",
-      "enum": [
-        "en_US",
-        "en_GB",
-        "es_ES",
-        "fr_FR",
-        "de_DE",
-        "pt_BR",
-        "it_IT",
-        "nl_NL",
-        "ja_JP",
-        "zh_CN"
-      ],
-      "enumTitles": [
-        "English (US)",
-        "English (UK)",
-        "Spanish",
-        "French",
-        "German",
-        "Portuguese (BR)",
-        "Italian",
-        "Dutch",
-        "Japanese",
-        "Chinese (Simplified)"
-      ],
-      "title": "Language",
-      "type": "string"
-    },
-    "maxReactorsPerPost": {
-      "default": 100,
-      "description": "Maximum number of reactors to scrape per post. LinkedIn typically exposes up to 1000.",
-      "editor": "number",
-      "maximum": 5000,
-      "minimum": 1,
-      "title": "Max Reactors Per Post",
-      "type": "integer"
-    },
-    "minDate": {
-      "description": "Only include reactions newer than this ISO date (YYYY-MM-DD). Optional.",
-      "editor": "datepicker",
-      "title": "Minimum Reaction Date",
-      "type": "string"
+    "emitNoResultsMarker": {
+      "default": true,
+      "description": "When no public post can be resolved, add one marker row instead of failing with an empty dataset.",
+      "prefill": true,
+      "title": "Emit a No-Results Marker",
+      "type": "boolean"
     },
     "postUrls": {
-      "description": "LinkedIn post URLs or bare activity IDs. Accepts full post URLs (feed/update/urn:li:activity:... or /posts/...) or plain numeric activity IDs.",
+      "description": "Public LinkedIn posts to summarize. Accepts /posts/ links (activity, share or ugcPost), /feed/update/urn:li:... links, embed links, bare numeric IDs, lnkd.in short links and country subdomains.",
       "editor": "stringList",
+      "maxItems": 100,
+      "minItems": 1,
       "prefill": [
-        "https://www.linkedin.com/feed/update/urn:li:activity:7234567890123456789/"
+        "https://www.linkedin.com/posts/microsoft_this-month-the-microsoft-atlanta-team-in-activity-7516505833061474305-T6ou"
       ],
-      "title": "Post URLs or Activity IDs",
+      "title": "LinkedIn Post URLs or IDs",
       "type": "array"
     },
-    "proxyConfiguration": {
-      "description": "Optional Apify proxy configuration. Residential proxy recommended for best results.",
-      "editor": "proxy",
-      "title": "Proxy Configuration",
-      "type": "object"
-    },
     "reactionTypeFilter": {
-      "description": "Only include reactors who gave these reaction types. Leave empty to include all reaction types.",
+      "default": [],
+      "description": "Optional post filter. A post is returned only when at least one selected reaction type has a count above zero. Every returned row still contains all available counts.",
       "editor": "select",
       "items": {
         "enum": [
@@ -80,7 +31,7 @@
           "support",
           "insightful",
           "funny",
-          "curious"
+          "superLike"
         ],
         "enumTitles": [
           "Like",
@@ -89,52 +40,19 @@
           "Support",
           "Insightful",
           "Funny",
-          "Curious"
+          "Super like"
         ],
         "type": "string"
       },
-      "title": "Reaction Type Filter",
-      "type": "array"
-    },
-    "reactionTypes": {
-      "default": [
-        "LIKE",
-        "PRAISE",
-        "EMPATHY",
-        "INTEREST",
-        "APPRECIATION",
-        "ENTERTAINMENT"
-      ],
-      "description": "Alternative multi-select filter using LinkedIn's raw API reaction codes. Leave empty to include all.",
-      "editor": "select",
-      "items": {
-        "enum": [
-          "LIKE",
-          "PRAISE",
-          "EMPATHY",
-          "INTEREST",
-          "APPRECIATION",
-          "ENTERTAINMENT"
-        ],
-        "enumTitles": [
-          "Like",
-          "Praise / Celebrate",
-          "Empathy / Love",
-          "Interest / Insightful",
-          "Appreciation / Support",
-          "Entertainment / Funny"
-        ],
-        "type": "string"
-      },
-      "title": "Reaction Types (raw API codes)",
+      "prefill": [],
+      "title": "Only Posts With These Reactions",
       "type": "array"
     }
   },
   "required": [
-    "postUrls",
-    "cookie"
+    "postUrls"
   ],
   "schemaVersion": 1,
-  "title": "LinkedIn Post Reactions Scraper Input",
+  "title": "LinkedIn Post Reaction Summary Input",
   "type": "object"
 }

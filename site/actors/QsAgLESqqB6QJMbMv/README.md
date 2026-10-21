@@ -1,106 +1,181 @@
-# Zillow Daily Mortgage Rate & Lender Quote Scraper
+# Zillow Mortgage Rates & Lender Directory Scraper
 
-Pull Zillow's published mortgage rate data by loan type — national averages, a rolling daily trend, and sample marketplace rates — and optionally drill down into individual lender quotes for specific states.
+Pull Zillow's mortgage rates for nine loan products, nationally or by state, for purchase or refinance. Compare today with yesterday, last week, and three months ago; add up to 4,000 days of rate history, payment estimates, Zillow Home Loans points and fees, and an optional Zillow lender directory with names, logos, ratings, and reviews.
+
+No login, API key, or proxy setup is needed.
 
 ## What this actor does
 
-- Returns the current national average rate and APR for each loan type you select, when Zillow publishes one for it
-- Includes Zillow's recent daily rate trend for the same loan types
-- Includes rate samples (with points and estimated monthly payment) pulled from Zillow's mortgage-rate pages
-- Can optionally fetch individual lender names and quotes from Zillow's state mortgage-rate pages
-- Fields a given loan type or source doesn't have data for are left out of the record rather than filled with a placeholder
+- **Nine products:** 30-, 20-, 15-, and 10-year fixed, 5/1 and 7/1 ARM, FHA 30-year, VA 30-year, and jumbo 30-year
+- **National and state rates:** choose one state, many states, or national; purchase, refinance, or both
+- **Rate context:** current rate and APR, yesterday / last week / three months ago, and Zillow's payment estimate
+- **History:** daily, weekly, or monthly series with a requested window from 30 to 4,000 days
+- **Zillow Home Loans samples:** rate, APR, points, fees, monthly payment, and price date for matching products
+- **Lender directory:** names, logos, ratings, review counts, NMLS IDs, profile URLs, and optional full profiles
+- **Omit-empty:** a value Zillow does not publish is left out of the record rather than filled with a placeholder
 
-## Output per record
+## Output per rate record
 
-Two record types land in the same dataset — check `recordType` to tell them apart.
-
-### `aggregate` records (one per loan type)
-
-A loan type for which no source returns any data is left out of the dataset.
+Rate records use `recordType: "aggregate"`.
 
 - `recordType` — always `aggregate`
-- `loanType` — e.g. `30yr-fixed`, `15yr-fixed`, `5/1-arm`, `fha`, `va`, `jumbo`
-- `productType` — the underlying loan program category, e.g. `CONFORMING`
-- `scope` — always `national` for aggregate records
-- `currentRate`, `currentApr` — the current national average rate and APR. Requested for `30yr-fixed`, `15yr-fixed`, and the 30-year `fha`, `va` and `jumbo` programs, and omitted when Zillow reports no rate (this happens regularly for FHA and jumbo). ARM loan types never have them
-- `rateDate` — when the actor captured this rate (same value as `scrapedAt`), present alongside `currentRate`
-- `rateTrend` — array of `{date, rate, apr}` daily points as Zillow publishes them, for the same loan types as `currentRate`, when available
-- `rateSamples` — array of sample rate quotes for the loan's product category (`CONFORMING`, `FHA`, `VA` or `NON_CONFORMING`), each with `rate`, `apr`, `pointsPaid`, `pointsPaidDollar`, `monthlyPayment`, and `datePriced` where present
-- `scrapedAt` — when the run started (the same value on every record)
+- `loanType` — `30yr-fixed`, `20yr-fixed`, `15yr-fixed`, `10yr-fixed`, `5/1-arm`, `7/1-arm`, `fha`, `va`, or `jumbo`
+- `productType` — `CONFORMING`, `FHA`, `VA`, or `NON_CONFORMING`
+- `scope` — `national` or `state`
+- `state` — two-letter state code for state rows
+- `program` — Zillow program name, e.g. `Fixed30Year`, `ARM5`
+- `termYears` — term or initial fixed period in years
+- `rateType` — `fixed` or `arm`
+- `loanPurpose` — `purchase` or `refinance`
+- `currentRate`, `currentApr` — current rate and APR in percent from Zillow's mortgage-rate API (an index; Zillow Home Loans' advertised rates are in `rateSamples` and can differ)
+- `rateDate` — source date for the current rate
+- `rateComparison` — `yesterday`, `lastWeek`, and `threeMonthsAgo`, each with `rate`, `apr`, and a date (`threeMonthsAgo` is dated today − 90 days)
+- `paymentEstimate` — `monthlyPayment`, `loanAmount`, `downPayment`, and `loanToValue` used by Zillow
+- `assumptions` — `creditScoreBucket`, `loanToValueBucket`, and `loanAmountBucket` used for the query
+- `rateTrend` — array of `{date, rate, apr}` when history is enabled
+- `rateSamples` — Zillow Home Loans products matching the record's term and loan type, each with `productName`, `termYears`, `loanType`, `productType`, `rate`, `apr`, `pointsPaid`, `pointsPaidDollar`, `monthlyPayment`, `datePriced`, and FHA/VA mortgage-insurance fields where published
+- `source` — `zillow_mortgage_api`
+- `scrapedAt` — when the run started
 
-### `lenderQuote` records (only when `fetchLenderQuotes` is enabled)
+## Output per lender
 
-- `recordType` — always `lenderQuote`
-- `loanType` — the selected loan type this pass ran for. The actor reads the same state page for every loan type, so the quotes themselves are not specific to it
-- `state` — the two-letter state whose page the quote came from
-- `lenderName` — the lender offering this quote
-- `rate`, `apr`, `pointsPaid`, `pointsPaidDollar`, `monthlyPayment` — the quote's terms, each when shown
+Lender records use `recordType: "lenderProfile"`.
+
+- `recordType` — always `lenderProfile`
+- `lenderName` — company or individual name
+- `companyName`, `individualName` — when Zillow publishes them
+- `nmlsId`, `nmlsType` — NMLS identifier and registration type
+- `rating`, `totalReviews`, `confirmedReviews`, `recentReviews` — Zillow rating and review counts
+- `screenName` — Zillow profile slug
+- `profileUrl` — absolute Zillow lender profile URL
+- `logoUrl` — absolute Zillow lender logo URL
+- `address` — `street`, `city`, `state`, `zipCode`
+- `website`, `officePhone`, `cellPhone` — published contact details
+- `title`, `languagesSpoken`, `stateLicenses`, `aboutMe` — profile enrichment
 - `scrapedAt` — when the run started
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `loanTypes` | array | – | Loan types to scrape: `30yr-fixed`, `15yr-fixed`, `5/1-arm`, `7/1-arm`, `fha`, `va`, `jumbo`. All 7 are scraped when left empty. |
-| `states` | array | `["national"]` | States to fetch lender quotes for when `fetchLenderQuotes` is on; ignored otherwise (the national aggregate pass always runs for every selected loan type regardless of this input). `national` itself is ignored for quotes; if no other state is listed, quotes default to `CA`. |
-| `fetchLenderQuotes` | boolean | `false` | When enabled, also fetches individual lender quotes for each listed state (repeated once per selected loan type). |
-| `maxLendersPerState` | integer | `10` | Maximum lender quotes to return per state × loan type (1–50); only applies when `fetchLenderQuotes` is on. |
+| `loanPrograms` | array | all nine | Products to request: `30yr-fixed`, `20yr-fixed`, `15yr-fixed`, `10yr-fixed`, `5/1-arm`, `7/1-arm`, `fha-30yr`, `va-30yr`, `jumbo-30yr` |
+| `loanPurpose` | string | `purchase` | `purchase`, `refinance`, or `both` |
+| `states` | array | `["national"]` | `national` plus any states. State coverage is widest for 30- and 15-year products |
+| `creditScore` | string | `veryHigh` | `veryHigh` (740+), `high` (680–739), or `low` (below 680) |
+| `loanAmount` | string | `conforming` | `conforming`, `jumbo`, `smallConforming`, `superConforming`, or `micro`. Jumbo 30-year always uses the jumbo bucket |
+| `includeRateHistory` | boolean | `false` | Add `rateTrend` to each rate record |
+| `historyDays` | string | `90` | `30`, `90`, `365`, `1095`, or `4000` |
+| `historyAggregation` | string | `daily` | `daily`, `weekly`, or `monthly` |
+| `includeHomeLoanRates` | boolean | `true` | Attach Zillow Home Loans samples with points and fees |
+| `includeLenderDirectory` | boolean | `false` | Return lender directory records |
+| `lenderLocations` | array | `[]` | Cities, states, or ZIP codes, e.g. `Austin, TX` or `90210` |
+| `maxLenders` | integer | `10` | Maximum lender records (1–200) |
+| `includeLenderProfiles` | boolean | `false` | Fetch full profiles for up to 50 lenders |
 
-## Example: national rates for the most common loan types
+## Example: today's national 30-year fixed rate
 
 ```json
 {
-  "loanTypes": ["30yr-fixed", "15yr-fixed", "fha", "va"],
-  "states": ["national"]
+  "loanPrograms": ["30yr-fixed"],
+  "loanPurpose": "purchase",
+  "states": ["national"],
+  "includeRateHistory": false,
+  "includeHomeLoanRates": true
 }
 ```
 
-## Example: lender quotes across every state
+## Example: purchase and refinance rates in three states
 
 ```json
 {
-  "loanTypes": ["30yr-fixed"],
-  "fetchLenderQuotes": true,
-  "maxLendersPerState": 5,
-  "states": ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY", "DC"]
-}
-```
-
-## Example: individual lender quotes in three states
-
-```json
-{
-  "loanTypes": ["30yr-fixed"],
+  "loanPrograms": ["30yr-fixed", "15yr-fixed", "fha-30yr", "va-30yr"],
+  "loanPurpose": "both",
   "states": ["CA", "TX", "NY"],
-  "fetchLenderQuotes": true,
-  "maxLendersPerState": 10
+  "creditScore": "high",
+  "loanAmount": "conforming",
+  "includeRateHistory": true,
+  "historyDays": "365",
+  "historyAggregation": "weekly"
+}
+```
+
+## Example: all products with a 4,000-day history
+
+```json
+{
+  "loanPrograms": ["30yr-fixed", "20yr-fixed", "15yr-fixed", "10yr-fixed", "5/1-arm", "7/1-arm", "fha-30yr", "va-30yr", "jumbo-30yr"],
+  "loanPurpose": "purchase",
+  "states": ["national"],
+  "includeRateHistory": true,
+  "historyDays": "4000",
+  "historyAggregation": "monthly"
+}
+```
+
+## Example: lender directory with full profiles
+
+```json
+{
+  "loanPrograms": ["30yr-fixed"],
+  "states": ["national"],
+  "includeLenderDirectory": true,
+  "lenderLocations": ["Austin, TX", "CA", "90210"],
+  "maxLenders": 25,
+  "includeLenderProfiles": true
 }
 ```
 
 ## Use cases
 
-- **Daily rate tracking** — schedule a run every morning to log how national rates move over time
-- **Finance content and apps** — surface current rates and recent trend to your own users or readers
-- **Mortgage shopping research** — compare lender quotes across states before choosing where to apply
-- **Lender benchmarking** — see how a specific lender's quoted rate compares to the broader marketplace sample
-- **Regional analysis** — pull lender quotes across many states to spot regional rate differences
+- **Rate monitoring:** schedule a daily national or state snapshot and track movement over weeks
+- **Mortgage comparison sites:** show rate, APR, payment estimate, and points in one feed
+- **Market research:** study state-level purchase and refinance spreads across products
+- **Lender research:** build a directory of licensed lenders with ratings, NMLS IDs, and profiles
+- **Financial content:** pair current rates with long-run history for charts and explainers
 
 ## FAQ
 
-**Why don't ARM loan types (`5/1-arm`, `7/1-arm`) have `currentRate` or `rateTrend`?**
-The actor only requests Zillow's national average and trend for fixed-rate programs. ARM records carry `rateSamples` from their own Zillow page; if that page can't be loaded, the ARM record is left out.
+**Does this actor return per-lender quote rates?**
 
-**What exactly is in `rateSamples`?**
-Example rate quotes embedded in Zillow's mortgage-rate page for the loan type, each with points paid and an estimated monthly payment. They are matched by product category (conforming, FHA, VA, jumbo), not by exact loan term, so `30yr-fixed`, `15yr-fixed` and the ARMs can show overlapping conforming samples. If a non-ARM loan type's own page can't be loaded, its samples come from another Zillow rate page.
+No. Zillow's per-lender quote endpoint can return quotes from a residential client, but its submission endpoint is bot-protected and rejects requests from the Apify platform (direct HTTP, TLS-impersonated HTTP, datacenter proxy, residential proxy, and a real browser all returned the same block). This actor returns Zillow Home Loans' own product rates with points and fees, plus the lender directory. It does not invent or proxy third-party quote rates.
 
-**When should I turn on `fetchLenderQuotes`?**
-Turn it on when you need named lenders and state-specific quotes rather than national aggregates; it takes longer and adds a page load per state and loan type. If you enable it without listing a specific state in `states`, lender quotes default to California as a sample market. After five state/loan-type combinations in a row fail to return quotes, the lender pass stops early.
+**What do the rate assumptions mean?**
 
-**How often does the data change?**
-Each run reads whatever Zillow is publishing at that moment; `datePriced` on the samples and the dates in `rateTrend` show how recent the figures are. Re-running on a schedule picks up new values as Zillow updates them.
+`creditScore`, `loanAmount`, and the fixed loan-to-value bucket for each product determine the query. FHA and VA use a 95%+ loan-to-value assumption. Jumbo uses a jumbo loan amount. Zillow's public refinance table uses different credit and LTV buckets, so its displayed rates can differ from this actor's defaults; the `assumptions` field on every record shows exactly what was used.
 
-**Can I get quotes for every state in one run?**
-Yes, list every state abbreviation you want in `states` along with `fetchLenderQuotes: true`, as in the example above. Keep `loanTypes` short, since each loan type repeats the same state pages.
+**Why are some states or products missing?**
+
+Zillow's own coverage varies. The 30-year and 15-year fixed products have the widest state coverage; other products are more complete nationally. A combination Zillow does not publish is omitted, not filled with a placeholder.
+
+**How far back does history go?**
+
+You can request up to 4,000 days. Zillow's history starts in November 2015. A 4,000-day daily request returns 4,001 points from 2015-11-08; monthly returns 132 points from 2015-11-01. Early points can have a rate without an APR; those APR values are omitted. A 90-day window is daily; longer windows are weekly or monthly depending on the interval you choose.
+
+**What are the Zillow Home Loans samples?**
+
+They are Zillow Home Loans' published product rates, not third-party lender quotes. Each sample includes rate, APR, points, the dollar cost of points, monthly payment, and the price date.
+
+**Are points the same as fees?**
+
+No. Points are an upfront cost shown by Zillow Home Loans. They are not a complete closing-cost or lender-fee table.
+
+**Do I need a proxy or a Zillow login?**
+
+No. The actor runs without cookies, logins, or proxy setup and returns public data.
+
+**How fresh is the data?**
+
+Each run reads the values Zillow is publishing at that moment. `rateDate` and `datePriced` show the source date for the rate and the sample.
 
 **Is this affiliated with Zillow?**
-No. This is an independent, third-party actor that reads Zillow's publicly published mortgage rate data; it is not affiliated with or endorsed by Zillow.
+
+No. This is an independent third-party actor that reads Zillow's publicly published mortgage data.
+
+## Limitations
+
+- No third-party lender quote rates: Zillow's quote submission is blocked from the Apify platform on direct HTTP, TLS-impersonated HTTP, datacenter proxy, five residential sessions, and a real Chromium session. Lender directory records and Zillow Home Loans samples are the available substitutes. The underlying quote API works only from a residential client outside the platform.
+- Early history points can have a rate without an APR; the actor keeps the rate and omits the missing APR.
+- No city-level rates: Zillow's city pages resolve to state-level rate data.
+- State coverage for 20-year, 10-year, ARM, FHA, VA, and jumbo products is partial; national data is more complete. FHA/VA/jumbo coverage also varies with the credit-score bucket (more states publish data at 680–739 than at 740+).
+- Zillow Home Loans samples are national; state records reuse them. State pages vary points (for example, 30-year conforming points were 1.558 in Texas vs 1.908 in California on 2026-10-21). New York has no state ZHL sheet and redirects to the legacy app; its records use the national samples.
+- Points are not a complete closing-fee breakdown.

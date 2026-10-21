@@ -2,93 +2,251 @@
   "actorSpecification": 1,
   "fields": {
     "properties": {
-      "apr": {
-        "description": "APR % (lenderQuote records only)",
+      "aboutMe": {
+        "description": "Lender biography.",
+        "nullable": true,
+        "type": "string"
+      },
+      "address": {
+        "description": "Lender business address with street, city, state, and zipCode.",
+        "nullable": true,
+        "type": "object"
+      },
+      "assumptions": {
+        "description": "Credit-score, loan-to-value, and loan-amount buckets used for the query.",
+        "nullable": true,
+        "type": "object"
+      },
+      "cellPhone": {
+        "description": "Lender cell phone when published.",
+        "nullable": true,
+        "type": "string"
+      },
+      "companyName": {
+        "description": "Lender company name when available.",
+        "nullable": true,
+        "type": "string"
+      },
+      "confirmedReviews": {
+        "description": "Confirmed Zillow reviews.",
         "nullable": true,
         "type": "number"
       },
       "currentApr": {
-        "description": "Current national average APR % (paired with currentRate).",
+        "description": "Current APR in percent.",
         "nullable": true,
         "type": "number"
       },
       "currentRate": {
-        "description": "Current national average interest rate % per loan type. Populated from Zillow's getCurrentRates API for Fixed-rate Conventional / VA loans. Omitted for ARMs (no API support) and for FHA/Jumbo when Zillow API returns 0/0.",
+        "description": "Current interest rate in percent.",
         "nullable": true,
         "type": "number"
       },
+      "individualName": {
+        "description": "Individual loan officer name when available.",
+        "nullable": true,
+        "type": "string"
+      },
+      "languagesSpoken": {
+        "description": "Languages the lender publishes.",
+        "nullable": true,
+        "type": "array"
+      },
       "lenderName": {
-        "description": "Lender name (lenderQuote records only)",
+        "description": "Lender company or individual name.",
+        "nullable": true,
+        "type": "string"
+      },
+      "loanPurpose": {
+        "description": "purchase or refinance.",
         "nullable": true,
         "type": "string"
       },
       "loanType": {
-        "description": "Loan type key: 30yr-fixed, 15yr-fixed, 5/1-arm, 7/1-arm, fha, va, jumbo",
+        "description": "Rate product key: 30yr-fixed, 20yr-fixed, 15yr-fixed, 10yr-fixed, 5/1-arm, 7/1-arm, fha, va, or jumbo.",
+        "nullable": true,
         "type": "string"
       },
-      "monthlyPayment": {
-        "description": "Estimated monthly payment ($)",
+      "logoUrl": {
+        "description": "Absolute Zillow lender logo URL.",
+        "nullable": true,
+        "type": "string"
+      },
+      "nmlsId": {
+        "description": "NMLS identifier.",
         "nullable": true,
         "type": "number"
       },
-      "pointsPaid": {
-        "description": "Points paid (%)",
+      "nmlsType": {
+        "description": "NMLS registration type: Company or Individual.",
         "nullable": true,
-        "type": "number"
+        "type": "string"
       },
-      "pointsPaidDollar": {
-        "description": "Points paid ($)",
+      "officePhone": {
+        "description": "Lender office phone.",
         "nullable": true,
-        "type": "number"
+        "type": "string"
+      },
+      "paymentEstimate": {
+        "description": "Estimated monthly payment with the loan amount, down payment, and loan-to-value used by Zillow.",
+        "nullable": true,
+        "type": "object"
       },
       "productType": {
-        "description": "Zillow product type: CONFORMING, FHA, VA, NON_CONFORMING (aggregate records only)",
+        "description": "Zillow product category: CONFORMING, FHA, VA, or NON_CONFORMING.",
         "nullable": true,
         "type": "string"
       },
-      "rate": {
-        "description": "Interest rate % (lenderQuote records only)",
+      "profileUrl": {
+        "description": "Absolute Zillow lender profile URL.",
         "nullable": true,
-        "type": "number"
+        "type": "string"
+      },
+      "program": {
+        "description": "Zillow loan program, e.g. Fixed30Year, ARM5, Fixed15Year.",
+        "nullable": true,
+        "type": "string"
+      },
+      "rateComparison": {
+        "description": "Rate and APR for yesterday, lastWeek, and threeMonthsAgo when Zillow provides them.",
+        "nullable": true,
+        "type": "object"
       },
       "rateDate": {
-        "description": "Timestamp when currentRate was fetched (paired with currentRate).",
+        "description": "Source date for the current rate, or the scrape timestamp when no source date exists.",
         "nullable": true,
         "type": "string"
       },
       "rateSamples": {
-        "description": "Rate sample objects from HTML blobs: [{rate, apr, pointsPaid, pointsPaidDollar, monthlyPayment, datePriced}]",
+        "description": "Zillow Home Loans sample products with rate, APR, points, fees, monthly payment, and price date.",
         "nullable": true,
         "type": "array"
       },
       "rateTrend": {
-        "description": "30-day daily rate series: [{date, rate, apr}] per loan type. Populated for Fixed-rate Conventional/FHA/VA via Zillow's getRates API. Omitted for ARMs (no API support) and Jumbo (Zillow returns 0).",
+        "description": "Rate history as [{date, rate, apr}] when history is enabled.",
         "nullable": true,
         "type": "array"
       },
+      "rateType": {
+        "description": "fixed or arm.",
+        "nullable": true,
+        "type": "string"
+      },
+      "rating": {
+        "description": "Average Zillow lender rating.",
+        "nullable": true,
+        "type": "number"
+      },
+      "recentReviews": {
+        "description": "Recent Zillow reviews.",
+        "nullable": true,
+        "type": "number"
+      },
       "recordType": {
-        "description": "Either 'aggregate' (national rate data) or 'lenderQuote' (per-lender rate from widget)",
+        "description": "Either 'aggregate' for a rate record or 'lenderProfile' for a lender directory record.",
         "type": "string"
       },
       "scope": {
-        "description": "Data scope: 'national' (aggregate records only)",
+        "description": "national or state.",
         "nullable": true,
         "type": "string"
       },
       "scrapedAt": {
-        "description": "ISO 8601 scrape timestamp",
+        "description": "ISO 8601 scrape timestamp.",
+        "type": "string"
+      },
+      "screenName": {
+        "description": "Zillow lender profile slug.",
+        "nullable": true,
+        "type": "string"
+      },
+      "source": {
+        "description": "Data source label for rate records.",
+        "nullable": true,
         "type": "string"
       },
       "state": {
-        "description": "State abbreviation (lenderQuote records only)",
+        "description": "Two-letter state abbreviation for state-level rate records.",
+        "nullable": true,
+        "type": "string"
+      },
+      "stateLicenses": {
+        "description": "State license map when published.",
+        "nullable": true,
+        "type": "object"
+      },
+      "termYears": {
+        "description": "Loan term or initial fixed period in years.",
+        "nullable": true,
+        "type": "number"
+      },
+      "title": {
+        "description": "Lender professional title when published.",
+        "nullable": true,
+        "type": "string"
+      },
+      "totalReviews": {
+        "description": "Total Zillow reviews.",
+        "nullable": true,
+        "type": "number"
+      },
+      "website": {
+        "description": "Lender website.",
         "nullable": true,
         "type": "string"
       }
     },
     "type": "object"
   },
-  "title": "Zillow Mortgage Rates",
+  "title": "Zillow Mortgage Rates & Lender Directory",
   "views": {
+    "lenders": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "lenderName": {
+            "format": "text",
+            "label": "Lender"
+          },
+          "logoUrl": {
+            "format": "text",
+            "label": "Logo"
+          },
+          "nmlsId": {
+            "format": "number",
+            "label": "NMLS"
+          },
+          "rating": {
+            "format": "number",
+            "label": "Rating"
+          },
+          "recordType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "state": {
+            "format": "text",
+            "label": "State"
+          },
+          "totalReviews": {
+            "format": "number",
+            "label": "Reviews"
+          }
+        }
+      },
+      "title": "Lender Directory",
+      "transformation": {
+        "fields": [
+          "recordType",
+          "lenderName",
+          "rating",
+          "totalReviews",
+          "nmlsId",
+          "state",
+          "logoUrl"
+        ]
+      }
+    },
     "overview": {
       "display": {
         "component": "table",
@@ -101,11 +259,11 @@
             "format": "number",
             "label": "Rate %"
           },
-          "loanType": {
+          "loanPurpose": {
             "format": "text",
-            "label": "Loan Type"
+            "label": "Purpose"
           },
-          "productType": {
+          "loanType": {
             "format": "text",
             "label": "Product"
           },
@@ -121,23 +279,23 @@
             "format": "text",
             "label": "Scope"
           },
-          "scrapedAt": {
+          "state": {
             "format": "text",
-            "label": "Scraped At"
+            "label": "State"
           }
         }
       },
-      "title": "Rates Overview",
+      "title": "Mortgage Rates",
       "transformation": {
         "fields": [
           "recordType",
           "loanType",
-          "productType",
+          "loanPurpose",
           "scope",
+          "state",
           "currentRate",
           "currentApr",
-          "rateDate",
-          "scrapedAt"
+          "rateDate"
         ]
       }
     }

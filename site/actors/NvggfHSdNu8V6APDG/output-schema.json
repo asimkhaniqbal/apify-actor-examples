@@ -1,13 +1,13 @@
 {
   "actorOutputSchemaVersion": 1,
-  "description": "Per-reactor records for a LinkedIn post with name, headline, profile URL, reaction type, and account type.",
+  "description": "One record per public post: total reactions, exact counts for like/celebrate/love/support/insightful/funny/superLike when LinkedIn's guest layout exposes them, reaction types present, optional comment/repost totals, post URL and timestamp. Reactor identities are not returned.",
   "properties": {
     "reactions": {
-      "description": "Dataset containing all scraped reactor records.",
+      "description": "Dataset containing one reaction summary per resolved public post.",
       "template": "{{links.apiDefaultDatasetUrl}}/items",
-      "title": "LinkedIn post reactions",
+      "title": "LinkedIn post reaction summaries",
       "type": "string"
     }
   },
-  "title": "LinkedIn Post Reactor Identity & Reaction Type Scraper Output"
+  "title": "LinkedIn Post Reaction Summary Output"
 }

@@ -1,6 +1,6 @@
 {
   "actorSpecification": 1,
-  "title": "LinkedIn Post Reactions",
+  "title": "LinkedIn Post Reaction Summaries",
   "views": {
     "overview": {
       "display": {
@@ -10,36 +10,31 @@
             "format": "text",
             "label": "Post ID"
           },
-          "reactionType": {
-            "format": "text",
-            "label": "Reaction"
-          },
-          "reactorHeadline": {
-            "format": "text",
-            "label": "Headline"
-          },
-          "reactorName": {
-            "format": "text",
-            "label": "Name"
-          },
-          "reactorProfileUrl": {
+          "postUrl": {
             "format": "link",
-            "label": "Profile URL"
+            "label": "Post URL"
+          },
+          "reactionTypesPresent": {
+            "format": "text",
+            "label": "Types present"
+          },
+          "reactionsTotal": {
+            "format": "number",
+            "label": "Reactions"
           },
           "scrapedAt": {
-            "format": "datetime",
+            "format": "text",
             "label": "Scraped At"
           }
         }
       },
-      "title": "Reactions",
+      "title": "Reaction summaries",
       "transformation": {
         "fields": [
-          "reactorName",
-          "reactionType",
-          "reactorHeadline",
-          "reactorProfileUrl",
           "postId",
+          "reactionsTotal",
+          "reactionTypesPresent",
+          "postUrl",
           "scrapedAt"
         ]
       }
