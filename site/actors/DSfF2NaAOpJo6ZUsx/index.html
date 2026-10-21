@@ -1,0 +1,833 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-8Fp/TbJJEZdm35tHpm6ohEBnwAOHDb0WS6yp9LH4TTU=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Glassdoor Job Listings Salary &amp; Rating Scraper | Vexaloom Labs</title><meta name="description" content="Pull Glassdoor job listings by keyword and location or from a single company&#x27;s jobs page, with salary estimates, employer ratings, Easy Apply status, and extracted skills per role."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/DSfF2NaAOpJo6ZUsx/"><meta property="og:title" content="Glassdoor Job Listings Salary &amp; Rating Scraper | Vexaloom Labs"><meta property="og:description" content="Pull Glassdoor job listings by keyword and location or from a single company&#x27;s jobs page, with salary estimates, employer ratings, Easy Apply status, and extracted skills per role."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/DSfF2NaAOpJo6ZUsx/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/DSfF2NaAOpJo6ZUsx/#webpage","name":"Glassdoor Job Listings Salary & Rating Scraper","description":"Pull Glassdoor job listings by keyword and location or from a single company's jobs page, with salary estimates, employer ratings, Easy Apply status, and extracted skills per role.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/DSfF2NaAOpJo6ZUsx/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/DSfF2NaAOpJo6ZUsx/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/DSfF2NaAOpJo6ZUsx/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/DSfF2NaAOpJo6ZUsx/#article","headline":"Glassdoor Job Listings Salary & Rating Scraper","name":"Glassdoor Job Listings Salary & Rating Scraper","description":"Pull Glassdoor job listings by keyword and location or from a single company's jobs page, with salary estimates, employer ratings, Easy Apply status, and extracted skills per role.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/DSfF2NaAOpJo6ZUsx/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/DSfF2NaAOpJo6ZUsx/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/DSfF2NaAOpJo6ZUsx/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Glassdoor Job Listings Salary & Rating Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/DSfF2NaAOpJo6ZUsx/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Glassdoor Job Listings Salary &amp; Rating Scraper</span></div><section id="overview"><h1 class="doc-title">Glassdoor Job Listings Salary &amp; Rating Scraper</h1><p class="lede">Pull Glassdoor job listings by keyword and location or from a single company&#x27;s jobs page, with salary estimates, employer ratings, Easy Apply status, and extracted skills per role.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/glassdoor-job-listings-salary-and-rating-scraper">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/DSfF2NaAOpJo6ZUsx/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>Search by keyword and location, or scrape specific Glassdoor URLs and job IDs.</td></tr><tr><td><code>searchQueries</code></td><td>array</td><td>optional</td><td>Job titles, skills, or company names to search for (mode=search). One search is run per query.</td></tr><tr><td><code>location</code></td><td>string</td><td>optional</td><td>City, state, or country, e.g. &#x27;New York, NY&#x27;, &#x27;London&#x27;, &#x27;Berlin&#x27;. Leave empty for the selected country&#x27;s whole market.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>Search by keyword and location, or scrape specific Glassdoor URLs and job IDs.</td></tr><tr><td><code>searchQueries</code></td><td>array</td><td>optional</td><td>Job titles, skills, or company names to search for (mode=search). One search is run per query.</td></tr><tr><td><code>location</code></td><td>string</td><td>optional</td><td>City, state, or country, e.g. &#x27;New York, NY&#x27;, &#x27;London&#x27;, &#x27;Berlin&#x27;. Leave empty for the selected country&#x27;s whole market.</td></tr><tr><td><code>country</code></td><td>string</td><td>optional</td><td>Which Glassdoor country site to search.</td></tr><tr><td><code>startUrls</code></td><td>array</td><td>optional</td><td>Glassdoor search, job, or company jobs page URLs. Job URLs return one detailed record each.</td></tr><tr><td><code>jobIds</code></td><td>array</td><td>optional</td><td>Glassdoor job listing IDs to refresh directly, e.g. &#x27;1010224897915&#x27;. The country site decides the domain.</td></tr><tr><td><code>postedWithin</code></td><td>string</td><td>optional</td><td>Only include jobs posted within this window.</td></tr><tr><td><code>employmentType</code></td><td>string</td><td>optional</td><td>Filter by the type of employment.</td></tr><tr><td><code>seniority</code></td><td>string</td><td>optional</td><td>Filter by the role&#x27;s seniority level.</td></tr><tr><td><code>minRating</code></td><td>string</td><td>optional</td><td>Only include employers rated at least this well on Glassdoor.</td></tr><tr><td><code>minSalary</code></td><td>integer</td><td>optional</td><td>Only include jobs paying at least this much per year, in the country&#x27;s currency. Leave empty for no minimum.</td></tr><tr><td><code>maxSalary</code></td><td>integer</td><td>optional</td><td>Only include jobs paying at most this much per year, in the country&#x27;s currency. Leave empty for no maximum.</td></tr><tr><td><code>easyApplyOnly</code></td><td>boolean</td><td>optional</td><td>Only return jobs you can apply to directly on Glassdoor.</td></tr><tr><td><code>remoteOnly</code></td><td>boolean</td><td>optional</td><td>Only return remote jobs. Remote-only searches run market-wide because Glassdoor rejects city-scoped remote filters.</td></tr><tr><td><code>companySize</code></td><td>string</td><td>optional</td><td>Filter by the employer&#x27;s employee-count band.</td></tr><tr><td><code>industry</code></td><td>string</td><td>optional</td><td>Filter by the employer&#x27;s industry.</td></tr><tr><td><code>jobFunction</code></td><td>string</td><td>optional</td><td>Narrow the search to one kind of role.</td></tr><tr><td><code>radius</code></td><td>string</td><td>optional</td><td>How far around the location to search. Only used when a location is set.</td></tr><tr><td><code>sortBy</code></td><td>string</td><td>optional</td><td>Order of the results. Sponsored listings may stay pinned at the top.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of job listings to return across all queries and slices.</td></tr><tr><td><code>includeDetails</code></td><td>boolean</td><td>optional</td><td>Fetch each job page for the full description, exact dates, benefits, requirements, coordinates, apply URL, and company profile. Slower and uses more requests.</td></tr><tr><td><code>maximizeCoverage</code></td><td>boolean</td><td>optional</td><td>Run additional searches split by date, job type, rating, and salary to get past a single search&#x27;s depth limit.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Search Glassdoor job listings by keyword and location, or scrape search, job, and company URLs. Filter by date, type, rating, salary, Easy Apply, company size, industry, and job function.&quot;,
+  &quot;properties&quot;: {
+    &quot;companySize&quot;: {
+      &quot;default&quot;: &quot;any&quot;,
+      &quot;description&quot;: &quot;Filter by the employer&#x27;s employee-count band.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;any&quot;,
+        &quot;1&quot;,
+        &quot;2&quot;,
+        &quot;3&quot;,
+        &quot;4&quot;,
+        &quot;5&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any size&quot;,
+        &quot;Tiny (1-50)&quot;,
+        &quot;Small (51-200)&quot;,
+        &quot;Medium (201-1000)&quot;,
+        &quot;Large (1001-5000)&quot;,
+        &quot;Huge (5001+)&quot;
+      ],
+      &quot;prefill&quot;: &quot;any&quot;,
+      &quot;title&quot;: &quot;Company size&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;country&quot;: {
+      &quot;default&quot;: &quot;united-states&quot;,
+      &quot;description&quot;: &quot;Which Glassdoor country site to search.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;united-states&quot;,
+        &quot;united-kingdom&quot;,
+        &quot;canada&quot;,
+        &quot;ireland&quot;,
+        &quot;france&quot;,
+        &quot;germany&quot;,
+        &quot;spain&quot;,
+        &quot;italy&quot;,
+        &quot;netherlands&quot;,
+        &quot;belgium&quot;,
+        &quot;austria&quot;,
+        &quot;switzerland&quot;,
+        &quot;australia&quot;,
+        &quot;new-zealand&quot;,
+        &quot;india&quot;,
+        &quot;singapore&quot;,
+        &quot;hong-kong&quot;,
+        &quot;brazil&quot;,
+        &quot;mexico&quot;,
+        &quot;argentina&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;United States&quot;,
+        &quot;United Kingdom&quot;,
+        &quot;Canada&quot;,
+        &quot;Ireland&quot;,
+        &quot;France&quot;,
+        &quot;Germany&quot;,
+        &quot;Spain&quot;,
+        &quot;Italy&quot;,
+        &quot;Netherlands&quot;,
+        &quot;Belgium&quot;,
+        &quot;Austria&quot;,
+        &quot;Switzerland&quot;,
+        &quot;Australia&quot;,
+        &quot;New Zealand&quot;,
+        &quot;India&quot;,
+        &quot;Singapore&quot;,
+        &quot;Hong Kong&quot;,
+        &quot;Brazil&quot;,
+        &quot;Mexico&quot;,
+        &quot;Argentina&quot;
+      ],
+      &quot;prefill&quot;: &quot;united-states&quot;,
+      &quot;title&quot;: &quot;Country&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;easyApplyOnly&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only return jobs you can apply to directly on Glassdoor.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Easy Apply only&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;employmentType&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;Filter by the type of employment.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
+        &quot;fulltime&quot;,
+        &quot;parttime&quot;,
+        &quot;contract&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All types&quot;,
+        &quot;Full-time&quot;,
+        &quot;Part-time&quot;,
+        &quot;Contract&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Employment type&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;includeDetails&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Fetch each job page for the full description, exact dates, benefits, requirements, coordinates, apply URL, and company profile. Slower and uses more requests.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include full details&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;industry&quot;: {
+      &quot;default&quot;: &quot;any&quot;,
+      &quot;description&quot;: &quot;Filter by the employer&#x27;s industry.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;any&quot;,
+        &quot;information-technology&quot;,
+        &quot;hr-staffing&quot;,
+        &quot;financial-services&quot;,
+        &quot;management-consulting&quot;,
+        &quot;media-communication&quot;,
+        &quot;healthcare&quot;,
+        &quot;insurance&quot;,
+        &quot;pharma-biotech&quot;,
+        &quot;aerospace-defense&quot;,
+        &quot;manufacturing&quot;,
+        &quot;consumer-services&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any industry&quot;,
+        &quot;Information Technology&quot;,
+        &quot;Human Resources &amp; Staffing&quot;,
+        &quot;Financial Services&quot;,
+        &quot;Management &amp; Consulting&quot;,
+        &quot;Media &amp; Communication&quot;,
+        &quot;Healthcare&quot;,
+        &quot;Insurance&quot;,
+        &quot;Pharmaceutical &amp; Biotechnology&quot;,
+        &quot;Aerospace &amp; Defense&quot;,
+        &quot;Manufacturing&quot;,
+        &quot;Personal Consumer Services&quot;
+      ],
+      &quot;prefill&quot;: &quot;any&quot;,
+      &quot;title&quot;: &quot;Industry&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;jobFunction&quot;: {
+      &quot;default&quot;: &quot;any&quot;,
+      &quot;description&quot;: &quot;Narrow the search to one kind of role.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;any&quot;,
+        &quot;engineering&quot;,
+        &quot;information-technology&quot;,
+        &quot;business&quot;,
+        &quot;other&quot;,
+        &quot;research-science&quot;,
+        &quot;arts-design&quot;,
+        &quot;consulting&quot;,
+        &quot;finance-accounting&quot;,
+        &quot;product-project-management&quot;,
+        &quot;healthcare&quot;,
+        &quot;sales&quot;,
+        &quot;skilled-labor-manufacturing&quot;,
+        &quot;administrative&quot;,
+        &quot;human-resources&quot;,
+        &quot;customer-support&quot;,
+        &quot;retail-food&quot;,
+        &quot;operations&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any function&quot;,
+        &quot;Engineering&quot;,
+        &quot;Information Technology&quot;,
+        &quot;Business&quot;,
+        &quot;Other&quot;,
+        &quot;Research &amp; Science&quot;,
+        &quot;Arts &amp; Design&quot;,
+        &quot;Consulting&quot;,
+        &quot;Finance &amp; Accounting&quot;,
+        &quot;Product &amp; Project Management&quot;,
+        &quot;Healthcare&quot;,
+        &quot;Sales&quot;,
+        &quot;Skilled Labor &amp; Manufacturing&quot;,
+        &quot;Administrative&quot;,
+        &quot;Human Resources&quot;,
+        &quot;Customer Services &amp; Support&quot;,
+        &quot;Retail &amp; Food Services&quot;,
+        &quot;Operations&quot;
+      ],
+      &quot;prefill&quot;: &quot;any&quot;,
+      &quot;title&quot;: &quot;Job function&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;jobIds&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Glassdoor job listing IDs to refresh directly, e.g. &#x27;1010224897915&#x27;. The country site decides the domain.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Job IDs (mode=byUrl)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;location&quot;: {
+      &quot;description&quot;: &quot;City, state, or country, e.g. &#x27;New York, NY&#x27;, &#x27;London&#x27;, &#x27;Berlin&#x27;. Leave empty for the selected country&#x27;s whole market.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;New York, NY&quot;,
+      &quot;title&quot;: &quot;Location&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 100,
+      &quot;description&quot;: &quot;Maximum number of job listings to return across all queries and slices.&quot;,
+      &quot;maximum&quot;: 1000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 3,
+      &quot;title&quot;: &quot;Maximum items&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxSalary&quot;: {
+      &quot;description&quot;: &quot;Only include jobs paying at most this much per year, in the country&#x27;s currency. Leave empty for no maximum.&quot;,
+      &quot;maximum&quot;: 10000000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Maximum salary&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maximizeCoverage&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Run additional searches split by date, job type, rating, and salary to get past a single search&#x27;s depth limit.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Maximize coverage&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;minRating&quot;: {
+      &quot;default&quot;: &quot;0.0&quot;,
+      &quot;description&quot;: &quot;Only include employers rated at least this well on Glassdoor.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;0.0&quot;,
+        &quot;1.0&quot;,
+        &quot;2.0&quot;,
+        &quot;3.0&quot;,
+        &quot;4.0&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any rating&quot;,
+        &quot;1.0+&quot;,
+        &quot;2.0+&quot;,
+        &quot;3.0+&quot;,
+        &quot;4.0+&quot;
+      ],
+      &quot;prefill&quot;: &quot;0.0&quot;,
+      &quot;title&quot;: &quot;Minimum company rating&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;minSalary&quot;: {
+      &quot;description&quot;: &quot;Only include jobs paying at least this much per year, in the country&#x27;s currency. Leave empty for no minimum.&quot;,
+      &quot;maximum&quot;: 10000000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Minimum salary&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;search&quot;,
+      &quot;description&quot;: &quot;Search by keyword and location, or scrape specific Glassdoor URLs and job IDs.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;search&quot;,
+        &quot;byUrl&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Search jobs by keyword&quot;,
+        &quot;Scrape specific URLs or job IDs&quot;
+      ],
+      &quot;prefill&quot;: &quot;search&quot;,
+      &quot;title&quot;: &quot;Mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;postedWithin&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Only include jobs posted within this window.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;1&quot;,
+        &quot;3&quot;,
+        &quot;7&quot;,
+        &quot;14&quot;,
+        &quot;30&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any time&quot;,
+        &quot;Last 24 hours&quot;,
+        &quot;Last 3 days&quot;,
+        &quot;Last 7 days&quot;,
+        &quot;Last 14 days&quot;,
+        &quot;Last 30 days&quot;
+      ],
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Posted within&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;radius&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;How far around the location to search. Only used when a location is set.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;0&quot;,
+        &quot;5&quot;,
+        &quot;10&quot;,
+        &quot;15&quot;,
+        &quot;25&quot;,
+        &quot;50&quot;,
+        &quot;100&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Default&quot;,
+        &quot;Exact location&quot;,
+        &quot;5 miles&quot;,
+        &quot;10 miles&quot;,
+        &quot;15 miles&quot;,
+        &quot;25 miles&quot;,
+        &quot;50 miles&quot;,
+        &quot;100 miles&quot;
+      ],
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Search radius&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;remoteOnly&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only return remote jobs. Remote-only searches run market-wide because Glassdoor rejects city-scoped remote filters.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Remote only&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;searchQueries&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Job titles, skills, or company names to search for (mode=search). One search is run per query.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [
+        &quot;software engineer&quot;
+      ],
+      &quot;title&quot;: &quot;Search queries&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;seniority&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;Filter by the role&#x27;s seniority level.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
+        &quot;entrylevel&quot;,
+        &quot;midseniorlevel&quot;,
+        &quot;director&quot;,
+        &quot;executive&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All levels&quot;,
+        &quot;Entry level&quot;,
+        &quot;Mid-senior level&quot;,
+        &quot;Director&quot;,
+        &quot;Executive&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Seniority&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;sortBy&quot;: {
+      &quot;default&quot;: &quot;relevance&quot;,
+      &quot;description&quot;: &quot;Order of the results. Sponsored listings may stay pinned at the top.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;relevance&quot;,
+        &quot;date_desc&quot;,
+        &quot;date_asc&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Relevance&quot;,
+        &quot;Newest first&quot;,
+        &quot;Oldest first&quot;
+      ],
+      &quot;prefill&quot;: &quot;relevance&quot;,
+      &quot;title&quot;: &quot;Sort by&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;startUrls&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Glassdoor search, job, or company jobs page URLs. Job URLs return one detailed record each.&quot;,
+      &quot;editor&quot;: &quot;requestListSources&quot;,
+      &quot;items&quot;: {
+        &quot;properties&quot;: {
+          &quot;url&quot;: {
+            &quot;description&quot;: &quot;Glassdoor search, job, or company jobs page URL.&quot;,
+            &quot;title&quot;: &quot;URL&quot;,
+            &quot;type&quot;: &quot;string&quot;
+          }
+        },
+        &quot;type&quot;: &quot;object&quot;
+      },
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Start URLs (mode=byUrl)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;mode&quot;
+  ],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Glassdoor Jobs Scraper Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>jobs</code></td><td>string</td><td>optional</td><td>Dataset containing scraped job listings</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Glassdoor job listings with salary percentiles, employer ratings and profiles, full descriptions, dates, benefits, requirements, coordinates, and apply links.&quot;,
+  &quot;properties&quot;: {
+    &quot;jobs&quot;: {
+      &quot;description&quot;: &quot;Dataset containing scraped job listings&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Job Listings&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Glassdoor Job Listings Salary &amp; Rating Scraper Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;title&quot;: &quot;Glassdoor Job Listings&quot;,
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;companyName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Company&quot;
+          },
+          &quot;companyRating&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Rating&quot;
+          },
+          &quot;datePosted&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Posted&quot;
+          },
+          &quot;easyApply&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Easy Apply&quot;
+          },
+          &quot;jobTitle&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Job Title&quot;
+          },
+          &quot;jobUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;URL&quot;
+          },
+          &quot;location&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Location&quot;
+          },
+          &quot;salaryCurrency&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Currency&quot;
+          },
+          &quot;salaryPeriod&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Period&quot;
+          },
+          &quot;salary_max&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Salary max&quot;
+          },
+          &quot;salary_median&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Salary median&quot;
+          },
+          &quot;salary_min&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Salary min&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Job Overview&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;jobTitle&quot;,
+          &quot;companyName&quot;,
+          &quot;companyRating&quot;,
+          &quot;location&quot;,
+          &quot;salary_min&quot;,
+          &quot;salary_median&quot;,
+          &quot;salary_max&quot;,
+          &quot;salaryCurrency&quot;,
+          &quot;salaryPeriod&quot;,
+          &quot;datePosted&quot;,
+          &quot;easyApply&quot;,
+          &quot;jobUrl&quot;
+        ]
+      }
+    },
+    &quot;salary&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;companyName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Company&quot;
+          },
+          &quot;companyRating&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Rating&quot;
+          },
+          &quot;companySize&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Size&quot;
+          },
+          &quot;datePosted&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Posted&quot;
+          },
+          &quot;industry&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Industry&quot;
+          },
+          &quot;jobTitle&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Job Title&quot;
+          },
+          &quot;salaryCurrency&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Currency&quot;
+          },
+          &quot;salaryPeriod&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Period&quot;
+          },
+          &quot;salarySource&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Source&quot;
+          },
+          &quot;salary_max&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Max&quot;
+          },
+          &quot;salary_median&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Median&quot;
+          },
+          &quot;salary_min&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Min&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Salary &amp; Company&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;jobTitle&quot;,
+          &quot;companyName&quot;,
+          &quot;companyRating&quot;,
+          &quot;companySize&quot;,
+          &quot;industry&quot;,
+          &quot;salary_min&quot;,
+          &quot;salary_median&quot;,
+          &quot;salary_max&quot;,
+          &quot;salaryCurrency&quot;,
+          &quot;salaryPeriod&quot;,
+          &quot;salarySource&quot;,
+          &quot;datePosted&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-glassdoor-job-listings-salary-rating-scraper">Glassdoor Job Listings Salary &amp; Rating Scraper</h2>
+<p>Scrape <strong>Glassdoor</strong> job listings with salary percentiles, employer ratings and company profiles, full descriptions, and the site's own search filters. Search by keyword and location, paste search or company URLs, or refresh known job IDs across 20 Glassdoor country sites.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li><strong>Two modes:</strong> <code>search</code> for keyword + location searches, and <code>byUrl</code> for search pages, company jobs pages, job URLs, and job IDs</li>
+<li><strong>Full filter surface:</strong> posting date, employment type, seniority, company rating, salary range, Easy Apply, company size, industry, job function, radius, and sort order</li>
+<li><strong>Salary percentiles:</strong> p10, median, and p90 with currency, pay period, and whether the employer or Glassdoor supplied the figure</li>
+<li><strong>Company context:</strong> overall rating, logo, profile URL, size, revenue, headquarters, website, founded year, CEO, review count, and sub-ratings when available</li>
+<li><strong>Detail enrichment:</strong> full description, exact posting and expiry dates, benefits, education and experience requirements, coordinates, and the Glassdoor apply link</li>
+<li><strong>Multi-country:</strong> United States, United Kingdom, Canada, Ireland, France, Germany, Spain, Italy, Netherlands, Belgium, Austria, Switzerland, Australia, New Zealand, India, Singapore, Hong Kong, Brazil, Mexico, and Argentina</li>
+<li><strong>Omit-empty output:</strong> fields Glassdoor does not provide are left out instead of returned as null, zero, or an empty list</li>
+</ul>
+<h2 id="readme-output-per-job-listing">Output per job listing</h2>
+<ul>
+<li><code>jobListingId</code> — Glassdoor's internal listing ID</li>
+<li><code>jobTitle</code>, <code>normalizedJobTitle</code> — posted title and Glassdoor's normalized role title</li>
+<li><code>companyName</code>, <code>companyId</code> — employer and its Glassdoor ID</li>
+<li><code>companyRating</code>, <code>companyLogo</code>, <code>companyProfileUrl</code> — overall rating, logo, and profile link</li>
+<li><code>location</code>, <code>city</code>, <code>state</code>, <code>country</code>, <code>postalCode</code> — location as displayed plus structured parts when available</li>
+<li><code>latitude</code>, <code>longitude</code> — coordinates when Glassdoor provides them</li>
+<li><code>salary_min</code>, <code>salary_median</code>, <code>salary_max</code> — 10th percentile, median, and 90th percentile pay</li>
+<li><code>salaryCurrency</code>, <code>salaryPeriod</code>, <code>salarySource</code> — currency, pay period, and pay source</li>
+<li><code>datePosted</code>, <code>validThrough</code> — ISO posting and expiry dates when details are enabled</li>
+<li><code>ageInDays</code> — listing age as shown in search results</li>
+<li><code>employmentType</code>, <code>employmentTypes</code>, <code>jobTypes</code> — normalized and site-specific employment types</li>
+<li><code>easyApply</code>, <code>directApply</code>, <code>isSponsored</code> — apply and placement flags</li>
+<li><code>applyUrl</code> — Glassdoor's apply link for the listing</li>
+<li><code>description</code> — the search-result description snippet</li>
+<li><code>fullDescription</code>, <code>fullDescriptionHtml</code> — full posting text and HTML when details are enabled</li>
+<li><code>benefits</code>, <code>educationRequirements</code>, <code>experienceMonths</code>, <code>experienceDescription</code> — structured requirements and benefits</li>
+<li><code>industry</code>, <code>occupation</code>, <code>occupationId</code> — employer industry and Glassdoor occupation</li>
+<li><code>skills</code> — skills Glassdoor extracted from the posting</li>
+<li><code>companySize</code>, <code>companyRevenue</code>, <code>companyWebsite</code>, <code>companyHeadquarters</code>, <code>companyType</code>, <code>companyFoundedYear</code>, <code>companyCeo</code>, <code>companyReviewCount</code>, <code>companySubRatings</code> — employer profile fields</li>
+<li><code>jobUrl</code> — direct link to the listing</li>
+<li><code>searchQuery</code>, <code>searchLocation</code>, <code>searchUrl</code>, <code>sourceDomain</code> — search context</li>
+<li><code>recordType</code>, <code>scrapedAt</code> — record metadata</li>
+</ul>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td>string</td>
+<td><code>search</code></td>
+<td><code>search</code> or <code>byUrl</code></td>
+</tr>
+<tr>
+<td><code>searchQueries</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Job titles, skills, or company names to search for (mode=search)</td>
+</tr>
+<tr>
+<td><code>location</code></td>
+<td>string</td>
+<td>–</td>
+<td>City, state, or country; leave empty for the country's whole market</td>
+</tr>
+<tr>
+<td><code>country</code></td>
+<td>string</td>
+<td><code>united-states</code></td>
+<td>Glassdoor country site</td>
+</tr>
+<tr>
+<td><code>startUrls</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Search, job, or company jobs page URLs (mode=byUrl)</td>
+</tr>
+<tr>
+<td><code>jobIds</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Glassdoor job IDs to refresh (mode=byUrl)</td>
+</tr>
+<tr>
+<td><code>postedWithin</code></td>
+<td>string</td>
+<td>–</td>
+<td>Any time, 24 hours, 3, 7, 14, or 30 days</td>
+</tr>
+<tr>
+<td><code>employmentType</code></td>
+<td>string</td>
+<td><code>all</code></td>
+<td>All, full-time, part-time, or contract</td>
+</tr>
+<tr>
+<td><code>seniority</code></td>
+<td>string</td>
+<td><code>all</code></td>
+<td>All, entry, mid-senior, director, or executive</td>
+</tr>
+<tr>
+<td><code>minRating</code></td>
+<td>string</td>
+<td><code>0.0</code></td>
+<td>Minimum employer rating: 1.0 through 4.0</td>
+</tr>
+<tr>
+<td><code>minSalary</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Minimum yearly pay in the country's currency</td>
+</tr>
+<tr>
+<td><code>maxSalary</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Maximum yearly pay in the country's currency</td>
+</tr>
+<tr>
+<td><code>easyApplyOnly</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Only Easy Apply jobs</td>
+</tr>
+<tr>
+<td><code>remoteOnly</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Prefer remote jobs; the site filter is best-effort</td>
+</tr>
+<tr>
+<td><code>companySize</code></td>
+<td>string</td>
+<td><code>any</code></td>
+<td>Employer size band</td>
+</tr>
+<tr>
+<td><code>industry</code></td>
+<td>string</td>
+<td><code>any</code></td>
+<td>Employer industry</td>
+</tr>
+<tr>
+<td><code>jobFunction</code></td>
+<td>string</td>
+<td><code>any</code></td>
+<td>Role function</td>
+</tr>
+<tr>
+<td><code>radius</code></td>
+<td>string</td>
+<td>–</td>
+<td>Distance around the location in miles</td>
+</tr>
+<tr>
+<td><code>sortBy</code></td>
+<td>string</td>
+<td><code>relevance</code></td>
+<td>Relevance, newest first, or oldest first</td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>integer</td>
+<td><code>100</code></td>
+<td>Hard cap across all queries and slices (1–1000)</td>
+</tr>
+<tr>
+<td><code>includeDetails</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Fetch each job page for full details</td>
+</tr>
+<tr>
+<td><code>maximizeCoverage</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Run extra date, type, rating, and salary slices to go beyond one search's depth</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="readme-example-us-search-with-rating-and-easy-apply-filters">Example: US search with rating and Easy Apply filters</h2>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;searchQueries&quot;: [&quot;software engineer&quot;],
+  &quot;location&quot;: &quot;New York, NY&quot;,
+  &quot;country&quot;: &quot;united-states&quot;,
+  &quot;minRating&quot;: &quot;4.0&quot;,
+  &quot;easyApplyOnly&quot;: true,
+  &quot;maxItems&quot;: 50,
+  &quot;includeDetails&quot;: true
+}
+</code></pre>
+<h2 id="readme-example-uk-search-for-recent-contract-roles">Example: UK search for recent contract roles</h2>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;searchQueries&quot;: [&quot;data analyst&quot;],
+  &quot;location&quot;: &quot;London&quot;,
+  &quot;country&quot;: &quot;united-kingdom&quot;,
+  &quot;postedWithin&quot;: &quot;7&quot;,
+  &quot;employmentType&quot;: &quot;contract&quot;,
+  &quot;minSalary&quot;: 50000,
+  &quot;maxItems&quot;: 30
+}
+</code></pre>
+<h2 id="readme-example-all-current-roles-at-one-company">Example: all current roles at one company</h2>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;byUrl&quot;,
+  &quot;startUrls&quot;: [
+    { &quot;url&quot;: &quot;https://www.glassdoor.com/Jobs/Google-Jobs-E9079.htm&quot; }
+  ],
+  &quot;maxItems&quot;: 100,
+  &quot;includeDetails&quot;: true
+}
+</code></pre>
+<h2 id="readme-example-refresh-known-job-ids">Example: refresh known job IDs</h2>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;byUrl&quot;,
+  &quot;jobIds&quot;: [&quot;1010224897915&quot;, &quot;1010283907867&quot;],
+  &quot;country&quot;: &quot;united-states&quot;,
+  &quot;includeDetails&quot;: true
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>Salary benchmarking</strong> — compare Glassdoor's 10th, 50th, and 90th percentile pay for a role across cities, companies, and countries</li>
+<li><strong>Recruiting intelligence</strong> — see which employers are hiring, for what, and how they are rated</li>
+<li><strong>Competitor hiring monitoring</strong> — schedule a daily or weekly run for a company or job family</li>
+<li><strong>Lead generation for staffing agencies</strong> — build lists of companies with open requisitions in a skill area</li>
+<li><strong>Job-board aggregation</strong> — feed a niche board or newsletter with fresh listings</li>
+<li><strong>Labor-market research</strong> — measure demand by industry, function, seniority, and location</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<h3 id="readme-do-i-need-a-glassdoor-account-cookies-or-a-proxy">Do I need a Glassdoor account, cookies, or a proxy?</h3>
+<p>No. The actor reads public Glassdoor pages without logging in and chooses a working connection automatically. Just fill in the input and run it.</p>
+<h3 id="readme-are-salaries-employer-reported-or-estimated">Are salaries employer-reported or estimated?</h3>
+<p>Both happen. Check <code>salarySource</code>: <code>EMPLOYER_PROVIDED</code> means the posting states the pay; <code>ESTIMATED</code> means Glassdoor estimated it. When a listing publishes no pay, the salary fields are omitted.</p>
+<h3 id="readme-why-did-i-get-fewer-results-than-maxitems">Why did I get fewer results than <code>maxItems</code>?</h3>
+<p>Glassdoor reports a large match count but stops serving new pages well before that number. The actor stops when the cursor chain is exhausted or several pages bring no new listings, and reports the site's own match count in the run status. Turn on <code>maximizeCoverage</code> to split the search by date, job type, rating, and salary for more rows.</p>
+<h3 id="readme-why-are-some-fields-missing-from-a-record">Why are some fields missing from a record?</h3>
+<p>Glassdoor does not provide every field for every listing. Company profiles, benefits, ratings, coordinates, and salary are the most common gaps. Fields with no value are omitted instead of returned as null. If <code>includeDetails</code> is on but <code>fullDescription</code>, dates, or company profile fields are absent, Glassdoor blocked the job page for this run; the record still contains every search-result field.</p>
+<h3 id="readme-what-does-includedetails-change">What does <code>includeDetails</code> change?</h3>
+<p>With details on, each job page is opened for the full description, exact dates, benefits, requirements, coordinates, apply link, and company profile. With details off, the actor uses the search results only: title, company, location, salary percentiles, rating, snippet, and flags. The daily test runs with details off.</p>
+<h3 id="readme-can-i-search-more-than-one-country-in-one-run">Can I search more than one country in one run?</h3>
+<p>Each run uses one country site. Run the actor once per country to compare markets; <code>sourceDomain</code> records which site produced each row.</p>
+<h3 id="readme-does-the-remote-filter-always-work">Does the remote filter always work?</h3>
+<p>Remote-only searches run market-wide. Glassdoor's remote filter can report matches but serve no rows when it is combined with a city, so the actor deliberately drops the city filter for remote-only runs and searches the selected country.</p>
+<h3 id="readme-can-i-scrape-a-company-s-open-roles">Can I scrape a company's open roles?</h3>
+<p>Yes. Use <code>mode=byUrl</code> with the company's Glassdoor jobs page URL, or search the company name as a keyword.</p>
+<h3 id="readme-why-did-a-job-id-or-job-url-return-no-record">Why did a job ID or job URL return no record?</h3>
+<p>Job IDs and direct job URLs need Glassdoor's job detail page. If that page is blocked for the current network, the actor cannot rebuild the record; keyword/company searches and company jobs pages still work. Try a search by title or company instead of a bare job ID.</p>
+<h3 id="readme-is-this-affiliated-with-glassdoor">Is this affiliated with Glassdoor?</h3>
+<p>No. This is an independent, third-party actor that reads Glassdoor's public job pages. It has no connection to Glassdoor.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/DSfF2NaAOpJo6ZUsx/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>BdZTD0QnUCK2T2UIM</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

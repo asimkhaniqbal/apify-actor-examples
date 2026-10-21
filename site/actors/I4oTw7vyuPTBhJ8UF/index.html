@@ -1,0 +1,597 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-g1rr3SIMgQxwhfwWk3mjt6Gp5+NnoSVKODHRdA7GybQ=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>LinkedIn Profile Feed Scraper with Likers &amp; Commenters | Vexaloom Labs</title><meta name="description" content="Pull posts from a LinkedIn profile&#x27;s activity feed or a direct post URL, with engagement counts, hashtags, media, and optionally the people who liked or commented on each post. Req"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/I4oTw7vyuPTBhJ8UF/"><meta property="og:title" content="LinkedIn Profile Feed Scraper with Likers &amp; Commenters | Vexaloom Labs"><meta property="og:description" content="Pull posts from a LinkedIn profile&#x27;s activity feed or a direct post URL, with engagement counts, hashtags, media, and optionally the people who liked or commented on each post. Req"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/I4oTw7vyuPTBhJ8UF/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/I4oTw7vyuPTBhJ8UF/#webpage","name":"LinkedIn Profile Feed Scraper with Likers & Commenters","description":"Pull posts from a LinkedIn profile's activity feed or a direct post URL, with engagement counts, hashtags, media, and optionally the people who liked or commented on each post. Requires a LinkedIn session cookie.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/I4oTw7vyuPTBhJ8UF/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/I4oTw7vyuPTBhJ8UF/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/I4oTw7vyuPTBhJ8UF/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/I4oTw7vyuPTBhJ8UF/#article","headline":"LinkedIn Profile Feed Scraper with Likers & Commenters","name":"LinkedIn Profile Feed Scraper with Likers & Commenters","description":"Pull posts from a LinkedIn profile's activity feed or a direct post URL, with engagement counts, hashtags, media, and optionally the people who liked or commented on each post. Requires a LinkedIn session cookie.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/I4oTw7vyuPTBhJ8UF/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/I4oTw7vyuPTBhJ8UF/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/I4oTw7vyuPTBhJ8UF/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"LinkedIn Profile Feed Scraper with Likers & Commenters","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/I4oTw7vyuPTBhJ8UF/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>LinkedIn Profile Feed Scraper with Likers &amp; Commenters</span></div><section id="overview"><h1 class="doc-title">LinkedIn Profile Feed Scraper with Likers &amp; Commenters</h1><p class="lede">Pull posts from a LinkedIn profile&#x27;s activity feed or a direct post URL, with engagement counts, hashtags, media, and optionally the people who liked or commented on each post. Requires a LinkedIn session cookie.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/linkedin-profile-feed-scraper-with-likers">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/I4oTw7vyuPTBhJ8UF/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>What to scrape. &quot;Auto&quot; uses the URLs you provide; the actor picks the right pipeline automatically.</td></tr><tr><td><code>profileUrl</code></td><td>string</td><td>optional</td><td>(mode=profilePosts or auto) LinkedIn profile URL, e.g. https://www.linkedin.com/in/williamhgates, or just the username.</td></tr><tr><td><code>postUrl</code></td><td>string</td><td>optional</td><td>(mode=postUrls or auto) A LinkedIn post link, feed-update link, activity URN or bare activity ID. No login needed.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>What to scrape. &quot;Auto&quot; uses the URLs you provide; the actor picks the right pipeline automatically.</td></tr><tr><td><code>profileUrl</code></td><td>string</td><td>optional</td><td>(mode=profilePosts or auto) LinkedIn profile URL, e.g. https://www.linkedin.com/in/williamhgates, or just the username.</td></tr><tr><td><code>postUrl</code></td><td>string</td><td>optional</td><td>(mode=postUrls or auto) A LinkedIn post link, feed-update link, activity URN or bare activity ID. No login needed.</td></tr><tr><td><code>postUrls</code></td><td>array</td><td>optional</td><td>(mode=postUrls) A list of LinkedIn post links, feed-update links, activity URNs or bare activity IDs. Combined with Post URL if both are set.</td></tr><tr><td><code>maxPosts</code></td><td>integer</td><td>optional</td><td>Maximum number of posts to return. Cookieless profile feeds are capped by LinkedIn at the newest ~8 public posts; with the optional cookie the feed paginates up to this limit.</td></tr><tr><td><code>postedLimit</code></td><td>string</td><td>optional</td><td>Keep only posts published within this window. &quot;Any time&quot; keeps everything.</td></tr><tr><td><code>postedAfter</code></td><td>string</td><td>optional</td><td>Optional. Keep posts published on or after this date. Format: 2026-01-31 or full ISO 8601.</td></tr><tr><td><code>postedBefore</code></td><td>string</td><td>optional</td><td>Optional. Keep posts published on or before this date. Format: 2026-01-31 or full ISO 8601.</td></tr><tr><td><code>maxComments</code></td><td>integer</td><td>optional</td><td>How many top comments to include per post. LinkedIn shows ~10 comments to logged-out visitors and the cookie path adds commenter profile URLs to those same first ~10 - a documented source ceiling either way.</td></tr><tr><td><code>includeVideoTranscript</code></td><td>boolean</td><td>optional</td><td>When on, video posts include the full spoken transcript (can make rows large).</td></tr><tr><td><code>scrapeInteractors</code></td><td>boolean</td><td>optional</td><td>Optional extra. Requires the LinkedIn Cookie field and adds the first page of commenters with profile URLs/headlines. Cookieless runs always include engagement counts and the top comments.</td></tr><tr><td><code>scrapeReactions</code></td><td>boolean</td><td>optional</td><td>With Scrape Likers &amp; Commenters on, also include the first page of likers (name/headline/profile URL). Requires the optional cookie. LinkedIn&#x27;s liker pagination endpoint is not available to visitors, so this is the visible first page only.</td></tr><tr><td><code>maxInteractors</code></td><td>integer</td><td>optional</td><td>Cap applied separately to the likers list and the commenters list of each post when interactor scraping is enabled.</td></tr><tr><td><code>cookie</code></td><td>string</td><td>optional</td><td>Optional and never required - the actor works without any login. If supplied, it unlocks extra data: profile feeds paginate past the ~10-post cookieless ceiling up to Max Posts, and every post gains reaction-type breakdowns, reposts/views counts and the first page of likers/commenters. Accepts the li_at value, a raw cookie header, or a full cookies JSON array.</td></tr><tr><td><code>cookies</code></td><td>array</td><td>optional</td><td>Full browser cookie export for linkedin.com as a JSON array of {name, value} objects (Cookie-Editor extension -&gt; Export -&gt; JSON). Same effect as the Cookie field - merged with it when both are set. Optional and never required.</td></tr><tr><td><code>language</code></td><td>string</td><td>optional</td><td>Language hint sent to LinkedIn. Affects localized content where available.</td></tr><tr><td><code>includeReposts</code></td><td>boolean</td><td>optional</td><td>When off, reposts/reshared posts are excluded from the output.</td></tr><tr><td><code>minReactions</code></td><td>integer</td><td>optional</td><td>Skip posts that received fewer than this many reactions. 0 keeps everything.</td></tr><tr><td><code>minComments</code></td><td>integer</td><td>optional</td><td>Skip posts that received fewer than this many comments. 0 keeps everything.</td></tr><tr><td><code>mediaTypes</code></td><td>array</td><td>optional</td><td>Restrict output to specific post media types. Leave empty to keep all. Cookieless runs detect text, image, video and repost posts.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Scrape public LinkedIn posts, a profile&#x27;s recent posts, comments and video metadata - no login or cookie needed.&quot;,
+  &quot;properties&quot;: {
+    &quot;cookie&quot;: {
+      &quot;description&quot;: &quot;Optional and never required - the actor works without any login. If supplied, it unlocks extra data: profile feeds paginate past the ~10-post cookieless ceiling up to Max Posts, and every post gains reaction-type breakdowns, reposts/views counts and the first page of likers/commenters. Accepts the li_at value, a raw cookie header, or a full cookies JSON array.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;isSecret&quot;: true,
+      &quot;title&quot;: &quot;LinkedIn Cookie (optional)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;cookies&quot;: {
+      &quot;description&quot;: &quot;Full browser cookie export for linkedin.com as a JSON array of {name, value} objects (Cookie-Editor extension -&gt; Export -&gt; JSON). Same effect as the Cookie field - merged with it when both are set. Optional and never required.&quot;,
+      &quot;editor&quot;: &quot;json&quot;,
+      &quot;isSecret&quot;: true,
+      &quot;title&quot;: &quot;LinkedIn Cookies (JSON array, optional)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;includeReposts&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;When off, reposts/reshared posts are excluded from the output.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Include Reposts&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeVideoTranscript&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;When on, video posts include the full spoken transcript (can make rows large).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include Video Transcript&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;language&quot;: {
+      &quot;default&quot;: &quot;en&quot;,
+      &quot;description&quot;: &quot;Language hint sent to LinkedIn. Affects localized content where available.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;en&quot;,
+        &quot;es&quot;,
+        &quot;fr&quot;,
+        &quot;de&quot;,
+        &quot;pt&quot;,
+        &quot;it&quot;,
+        &quot;nl&quot;,
+        &quot;pl&quot;,
+        &quot;tr&quot;,
+        &quot;ar&quot;,
+        &quot;zh&quot;,
+        &quot;ja&quot;,
+        &quot;ko&quot;,
+        &quot;ru&quot;,
+        &quot;sv&quot;,
+        &quot;da&quot;,
+        &quot;no&quot;,
+        &quot;fi&quot;,
+        &quot;cs&quot;,
+        &quot;ro&quot;,
+        &quot;hu&quot;,
+        &quot;el&quot;,
+        &quot;he&quot;,
+        &quot;hi&quot;,
+        &quot;id&quot;,
+        &quot;ms&quot;,
+        &quot;th&quot;,
+        &quot;vi&quot;,
+        &quot;uk&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;English&quot;,
+        &quot;Spanish&quot;,
+        &quot;French&quot;,
+        &quot;German&quot;,
+        &quot;Portuguese&quot;,
+        &quot;Italian&quot;,
+        &quot;Dutch&quot;,
+        &quot;Polish&quot;,
+        &quot;Turkish&quot;,
+        &quot;Arabic&quot;,
+        &quot;Chinese&quot;,
+        &quot;Japanese&quot;,
+        &quot;Korean&quot;,
+        &quot;Russian&quot;,
+        &quot;Swedish&quot;,
+        &quot;Danish&quot;,
+        &quot;Norwegian&quot;,
+        &quot;Finnish&quot;,
+        &quot;Czech&quot;,
+        &quot;Romanian&quot;,
+        &quot;Hungarian&quot;,
+        &quot;Greek&quot;,
+        &quot;Hebrew&quot;,
+        &quot;Hindi&quot;,
+        &quot;Indonesian&quot;,
+        &quot;Malay&quot;,
+        &quot;Thai&quot;,
+        &quot;Vietnamese&quot;,
+        &quot;Ukrainian&quot;
+      ],
+      &quot;prefill&quot;: &quot;en&quot;,
+      &quot;title&quot;: &quot;Language&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;maxComments&quot;: {
+      &quot;default&quot;: 10,
+      &quot;description&quot;: &quot;How many top comments to include per post. LinkedIn shows ~10 comments to logged-out visitors and the cookie path adds commenter profile URLs to those same first ~10 - a documented source ceiling either way.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 10,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 10,
+      &quot;title&quot;: &quot;Max Comments per Post&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxInteractors&quot;: {
+      &quot;default&quot;: 50,
+      &quot;description&quot;: &quot;Cap applied separately to the likers list and the commenters list of each post when interactor scraping is enabled.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 600,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 50,
+      &quot;title&quot;: &quot;Max Likers + Commenters per Post&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxPosts&quot;: {
+      &quot;default&quot;: 10,
+      &quot;description&quot;: &quot;Maximum number of posts to return. Cookieless profile feeds are capped by LinkedIn at the newest ~8 public posts; with the optional cookie the feed paginates up to this limit.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 200,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 1,
+      &quot;title&quot;: &quot;Max Posts&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mediaTypes&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Restrict output to specific post media types. Leave empty to keep all. Cookieless runs detect text, image, video and repost posts.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;items&quot;: {
+        &quot;enum&quot;: [
+          &quot;text&quot;,
+          &quot;image&quot;,
+          &quot;video&quot;,
+          &quot;article&quot;,
+          &quot;document&quot;,
+          &quot;carousel&quot;,
+          &quot;poll&quot;,
+          &quot;event&quot;,
+          &quot;repost&quot;
+        ],
+        &quot;enumTitles&quot;: [
+          &quot;Text&quot;,
+          &quot;Image&quot;,
+          &quot;Video&quot;,
+          &quot;Article&quot;,
+          &quot;Document&quot;,
+          &quot;Carousel&quot;,
+          &quot;Poll&quot;,
+          &quot;Event&quot;,
+          &quot;Repost&quot;
+        ],
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Media Types&quot;,
+      &quot;type&quot;: &quot;array&quot;,
+      &quot;uniqueItems&quot;: true
+    },
+    &quot;minComments&quot;: {
+      &quot;default&quot;: 0,
+      &quot;description&quot;: &quot;Skip posts that received fewer than this many comments. 0 keeps everything.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 0,
+      &quot;title&quot;: &quot;Minimum Comments&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;minReactions&quot;: {
+      &quot;default&quot;: 0,
+      &quot;description&quot;: &quot;Skip posts that received fewer than this many reactions. 0 keeps everything.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 0,
+      &quot;title&quot;: &quot;Minimum Reactions&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;auto&quot;,
+      &quot;description&quot;: &quot;What to scrape. \&quot;Auto\&quot; uses the URLs you provide; the actor picks the right pipeline automatically.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;auto&quot;,
+        &quot;postUrls&quot;,
+        &quot;profilePosts&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Auto (from the URLs you provide)&quot;,
+        &quot;Scrape specific post URLs&quot;,
+        &quot;Scrape a profile&#x27;s recent posts&quot;
+      ],
+      &quot;prefill&quot;: &quot;postUrls&quot;,
+      &quot;title&quot;: &quot;Mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;postUrl&quot;: {
+      &quot;description&quot;: &quot;(mode=postUrls or auto) A LinkedIn post link, feed-update link, activity URN or bare activity ID. No login needed.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;https://www.linkedin.com/posts/nvidia_ai-is-technology-that-is-built-and-improved-activity-7508569677040893954-sffp&quot;,
+      &quot;title&quot;: &quot;Post URL&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;postUrls&quot;: {
+      &quot;description&quot;: &quot;(mode=postUrls) A list of LinkedIn post links, feed-update links, activity URNs or bare activity IDs. Combined with Post URL if both are set.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Post URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;postedAfter&quot;: {
+      &quot;description&quot;: &quot;Optional. Keep posts published on or after this date. Format: 2026-01-31 or full ISO 8601.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Posted After (date)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;postedBefore&quot;: {
+      &quot;description&quot;: &quot;Optional. Keep posts published on or before this date. Format: 2026-01-31 or full ISO 8601.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Posted Before (date)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;postedLimit&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Keep only posts published within this window. \&quot;Any time\&quot; keeps everything.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;1h&quot;,
+        &quot;24h&quot;,
+        &quot;week&quot;,
+        &quot;month&quot;,
+        &quot;3months&quot;,
+        &quot;6months&quot;,
+        &quot;year&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any time&quot;,
+        &quot;Past hour&quot;,
+        &quot;Past 24 hours&quot;,
+        &quot;Past week&quot;,
+        &quot;Past month&quot;,
+        &quot;Past 3 months&quot;,
+        &quot;Past 6 months&quot;,
+        &quot;Past year&quot;
+      ],
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Posted Within&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;profileUrl&quot;: {
+      &quot;description&quot;: &quot;(mode=profilePosts or auto) LinkedIn profile URL, e.g. https://www.linkedin.com/in/williamhgates, or just the username.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;https://www.linkedin.com/in/satyanadella&quot;,
+      &quot;title&quot;: &quot;Profile URL&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;scrapeInteractors&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Optional extra. Requires the LinkedIn Cookie field and adds the first page of commenters with profile URLs/headlines. Cookieless runs always include engagement counts and the top comments.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Scrape Likers &amp; Commenters (needs cookie)&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;scrapeReactions&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;With Scrape Likers &amp; Commenters on, also include the first page of likers (name/headline/profile URL). Requires the optional cookie. LinkedIn&#x27;s liker pagination endpoint is not available to visitors, so this is the visible first page only.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include Likers List (needs cookie)&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    }
+  },
+  &quot;required&quot;: [],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;LinkedIn Post Scraper Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>results</code></td><td>string</td><td>optional</td><td>Dataset with scraped LinkedIn posts</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;One record per public LinkedIn post: text, author and follower count, engagement counts, top comments, media and video metadata, hashed from logged-out pages.&quot;,
+  &quot;properties&quot;: {
+    &quot;results&quot;: {
+      &quot;description&quot;: &quot;Dataset with scraped LinkedIn posts&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;LinkedIn Post Scraper Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;views&quot;: {
+    &quot;detailed&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;authorFollowers&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Author Followers&quot;
+          },
+          &quot;authorHeadline&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Headline&quot;
+          },
+          &quot;authorName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Author&quot;
+          },
+          &quot;authorProfileUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Author URL&quot;
+          },
+          &quot;comments&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Top Comments&quot;
+          },
+          &quot;commentsCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Comments&quot;
+          },
+          &quot;content&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Post Content&quot;
+          },
+          &quot;inputUrl&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Input URL&quot;
+          },
+          &quot;mediaType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Media Type&quot;
+          },
+          &quot;postId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Post ID&quot;
+          },
+          &quot;postUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Post URL&quot;
+          },
+          &quot;postedAt&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Posted At&quot;
+          },
+          &quot;reactionsCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Reactions&quot;
+          },
+          &quot;scrapedAt&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Scraped At&quot;
+          },
+          &quot;videoDuration&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Video Duration&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Detailed&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;postId&quot;,
+          &quot;authorName&quot;,
+          &quot;authorFollowers&quot;,
+          &quot;authorHeadline&quot;,
+          &quot;authorProfileUrl&quot;,
+          &quot;postedAt&quot;,
+          &quot;content&quot;,
+          &quot;mediaType&quot;,
+          &quot;reactionsCount&quot;,
+          &quot;commentsCount&quot;,
+          &quot;comments&quot;,
+          &quot;videoDuration&quot;,
+          &quot;postUrl&quot;,
+          &quot;inputUrl&quot;,
+          &quot;scrapedAt&quot;
+        ]
+      }
+    },
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;authorName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Author&quot;
+          },
+          &quot;commentsCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Comments&quot;
+          },
+          &quot;mediaType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Media Type&quot;
+          },
+          &quot;postUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Post URL&quot;
+          },
+          &quot;postedAt&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Posted At&quot;
+          },
+          &quot;reactionsCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Reactions&quot;
+          },
+          &quot;scrapedAt&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Scraped At&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Overview&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;authorName&quot;,
+          &quot;postedAt&quot;,
+          &quot;mediaType&quot;,
+          &quot;reactionsCount&quot;,
+          &quot;commentsCount&quot;,
+          &quot;postUrl&quot;,
+          &quot;scrapedAt&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-linkedin-public-post-scraper-profile-feeds-comments-video">LinkedIn Public Post Scraper — Profile Feeds, Comments &amp; Video</h2>
+<p>Collect public LinkedIn posts without logging in. Give the actor one or more post links, or a profile URL, and it returns the post text, the author and their follower count, reaction and comment totals, the comments LinkedIn shows to logged-out visitors, images, videos with duration and (optionally) the full video transcript. No account, no cookie, no browser session.</p>
+<h2 id="readme-ways-to-use-it">Ways to use it</h2>
+<ol>
+<li><strong>Specific posts</strong> — paste any LinkedIn post link (<code>linkedin.com/posts/...</code>), a feed-update link (<code>/feed/update/urn:li:activity:...</code>, also <code>ugcPost</code>), or just the numeric activity ID. Country subdomains (<code>uk.linkedin.com/...</code>) work too.</li>
+<li><strong>A profile's recent posts</strong> — provide a profile URL and the actor reads the profile's public activity feed, then opens each post it finds for the full record.</li>
+</ol>
+<p>Set <code>mode</code> to force one pipeline, or leave it on <code>Auto</code> and the actor figures it out from the URLs you supply.</p>
+<h2 id="readme-what-each-row-contains">What each row contains</h2>
+<ul>
+<li><code>postId</code>, <code>postUrl</code>, <code>postedAt</code> (ISO 8601), <code>inputUrl</code>, <code>scrapedAt</code></li>
+<li><code>authorName</code>, <code>authorProfileUrl</code>, <code>authorAvatar</code>, <code>authorFollowers</code></li>
+<li><code>content</code> — the full post text, exactly as published</li>
+<li><code>hashtags</code> — pulled out of the text</li>
+<li><code>reactionsCount</code>, <code>commentsCount</code></li>
+<li><code>comments</code> — the newest comments visible to logged-out visitors: <code>authorName</code>, <code>text</code>, <code>postedAt</code>, and <code>reactionsCount</code> when the comment has likes</li>
+<li><code>mediaType</code> — <code>text</code>, <code>image</code>, <code>video</code> or <code>repost</code></li>
+<li><code>mediaUrls</code> / <code>mediaItems</code> — image links, or the MP4 link plus its poster frame for videos</li>
+<li><code>videoDuration</code> (e.g. <code>PT1M14S</code>), <code>videoTranscript</code> when you turn it on</li>
+<li><code>isRepost</code> and <code>repostOf</code> (original author and reshared text) for reshares</li>
+</ul>
+<p>Optional extras with a session cookie for people who still want them: <code>likers</code> (first visible page), <code>commenters</code> (with profile URLs), <code>reactionBreakdown</code>, <code>repostsCount</code> and <code>viewsCount</code> — plus profile feeds that paginate past the logged-out ceiling. See the cookie note below.</p>
+<h2 id="readme-examples">Examples</h2>
+<p>A single post:</p>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;postUrls&quot;,
+  &quot;postUrl&quot;: &quot;https://www.linkedin.com/posts/nvidia_ai-is-technology-that-is-built-and-improved-activity-7508569677040893954-sffp&quot;,
+  &quot;maxPosts&quot;: 1
+}
+</code></pre>
+<p>A batch of posts with quality filters:</p>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;postUrls&quot;,
+  &quot;postUrls&quot;: [
+    &quot;https://www.linkedin.com/posts/nvidia_ai-is-technology-that-is-built-and-improved-activity-7508569677040893954-sffp&quot;,
+    &quot;urn:li:activity:7469496437156925441&quot;
+  ],
+  &quot;minReactions&quot;: 25,
+  &quot;includeReposts&quot;: false,
+  &quot;postedLimit&quot;: &quot;month&quot;
+}
+</code></pre>
+<p>A profile's latest posts with their top comments:</p>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;profilePosts&quot;,
+  &quot;profileUrl&quot;: &quot;https://www.linkedin.com/in/mohamed-rhioui&quot;,
+  &quot;maxPosts&quot;: 10,
+  &quot;maxComments&quot;: 10
+}
+</code></pre>
+<h2 id="readme-input-reference">Input reference</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>What it does</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td><code>auto</code>, <code>postUrls</code>, or <code>profilePosts</code></td>
+<td><code>auto</code></td>
+</tr>
+<tr>
+<td><code>profileUrl</code></td>
+<td>Profile URL or bare username (profile-feed mode)</td>
+<td>–</td>
+</tr>
+<tr>
+<td><code>postUrl</code> / <code>postUrls</code></td>
+<td>One or many post links, feed-update links, URNs, or activity IDs</td>
+<td>–</td>
+</tr>
+<tr>
+<td><code>maxPosts</code></td>
+<td>Upper bound on returned posts</td>
+<td><code>10</code> (max 200)</td>
+</tr>
+<tr>
+<td><code>postedLimit</code></td>
+<td>Any time / past hour / 24h / week / month / 3 / 6 months / year</td>
+<td>Any time</td>
+</tr>
+<tr>
+<td><code>postedAfter</code>, <code>postedBefore</code></td>
+<td>Exact date window (<code>2026-01-31</code> or ISO 8601)</td>
+<td>–</td>
+</tr>
+<tr>
+<td><code>maxComments</code></td>
+<td>Top comments kept per post (LinkedIn caps this at 10)</td>
+<td><code>10</code></td>
+</tr>
+<tr>
+<td><code>includeVideoTranscript</code></td>
+<td>Add the spoken transcript of video posts</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>includeReposts</code></td>
+<td>Keep or drop reshares</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>minReactions</code>, <code>minComments</code></td>
+<td>Skip low-engagement posts</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td><code>mediaTypes</code></td>
+<td>Restrict to text / image / video / repost (and other legacy categories)</td>
+<td>all</td>
+</tr>
+<tr>
+<td><code>language</code></td>
+<td>Language hint for localized content</td>
+<td><code>en</code></td>
+</tr>
+<tr>
+<td><code>scrapeInteractors</code></td>
+<td>Optional cookie-only extra: add <code>commenters</code> (with profile URLs/headlines)</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>scrapeReactions</code></td>
+<td>With <code>scrapeInteractors</code>, also add the first page of <code>likers</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>maxInteractors</code></td>
+<td>Cap per likers list and per commenters list</td>
+<td><code>50</code></td>
+</tr>
+<tr>
+<td><code>cookie</code></td>
+<td>Optional. Unlocks feed pagination + reaction breakdowns/likers/commenters</td>
+<td>empty</td>
+</tr>
+<tr>
+<td><code>cookies</code></td>
+<td>Optional. Same as <code>cookie</code>, as a browser cookie-export JSON array</td>
+<td>–</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="readme-comments-and-limits-honestly">Comments and limits, honestly</h2>
+<ul>
+<li><strong>Public posts only.</strong> Posts that LinkedIn reserves for signed-in members, or that were deleted, are skipped and the run still finishes with the posts it could read.</li>
+<li><strong>Profile feeds show a preview, not an archive — unless you bring a cookie.</strong> Without one, LinkedIn's logged-out activity page lists only the newest few public posts (usually 8). There is no pagination for visitors who are not signed in. With your own session cookie the actor paginates the profile feed up to <code>maxPosts</code>.</li>
+<li><strong>Comments are the visible pageful.</strong> Logged-out post pages embed roughly the ten most recent comments, and the cookie path adds commenter profile URLs to those same first ~10. LinkedIn's &quot;more comments&quot; pagination is not available to visitors.</li>
+<li><strong>Likers and reaction-type breakdowns are account-scoped.</strong> LinkedIn shows those lists only to signed-in members. If you paste a session cookie from your own browser, the actor adds the first visible page of likers, the reaction-type breakdown, reposts/views counts and commenter profiles. LinkedIn often rejects sessions coming from a server IP, so treat cookie extras as best-effort. Everything in the output still works with no cookie at all.</li>
+<li><strong>Repost flags survive both page versions.</strong> Reshares are detected from the full-page <code>sharedContent</code> block or from the lighter page's &quot;reposted this&quot; header, whichever LinkedIn serves.</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Do I need a LinkedIn account or cookie?</strong> No. The actor reads the same public pages a logged-out visitor sees.</p>
+<p><strong>How current is the data?</strong> Every run fetches the pages live. <code>scrapedAt</code> tells you when each row was captured.</p>
+<p><strong>Which post link formats are accepted?</strong> <code>linkedin.com/posts/...</code> share links, <code>/feed/update/urn:li:activity:...</code> and <code>urn:li:ugcPost:...</code> links, bare activity IDs, and country subdomains such as <code>uk.linkedin.com</code>.</p>
+<p><strong>Can it scrape company pages or keyword-search LinkedIn?</strong> Those surfaces are login-gated at the publicly visible layer, so this actor focuses on profiles and individual posts.</p>
+<p><strong>Why did a specific URL return nothing?</strong> Either the post is member-only/removed, or it does not exist. The run log lists each URL with the reason.</p>
+<p><strong>Do I need a proxy?</strong> No. The actor selects its own connection and escalates only when a page request is challenged.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/I4oTw7vyuPTBhJ8UF/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>PMjjgrE6QguMnaiyI</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

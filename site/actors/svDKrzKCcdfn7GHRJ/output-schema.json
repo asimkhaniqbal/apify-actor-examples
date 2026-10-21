@@ -1,0 +1,13 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "description": "One record per search result or fetched page with clean Markdown/text/HTML, links, page metadata for citations, optional heading-aware chunks, and the search-engine provenance of each result. Pages that could not be fetched still produce a metadata-only record with a `fetchError` note when `emitFailedResults` is on.",
+  "properties": {
+    "pages": {
+      "description": "Dataset of fetched pages with content and metadata, ready for LLM and RAG pipelines.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items",
+      "title": "RAG pages",
+      "type": "string"
+    }
+  },
+  "title": "RAG Web Browser Output"
+}

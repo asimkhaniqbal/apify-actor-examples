@@ -1,0 +1,916 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-Mbp87FidppPW+/caMR59kcYaFTXEGXdpexgJAhZWmhE=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>SimilarWeb Traffic &amp; AI Chatbot Analytics Scraper | Vexaloom Labs</title><meta name="description" content="Look up website traffic estimates, rankings, traffic-source breakdown, top keywords, and AI-chatbot traffic share for any list of domains, with no login or API key needed."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/CA9G7LcHX1KciQGeC/"><meta property="og:title" content="SimilarWeb Traffic &amp; AI Chatbot Analytics Scraper | Vexaloom Labs"><meta property="og:description" content="Look up website traffic estimates, rankings, traffic-source breakdown, top keywords, and AI-chatbot traffic share for any list of domains, with no login or API key needed."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/CA9G7LcHX1KciQGeC/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/CA9G7LcHX1KciQGeC/#webpage","name":"SimilarWeb Traffic & AI Chatbot Analytics Scraper","description":"Look up website traffic estimates, rankings, traffic-source breakdown, top keywords, and AI-chatbot traffic share for any list of domains, with no login or API key needed.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/CA9G7LcHX1KciQGeC/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/CA9G7LcHX1KciQGeC/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/CA9G7LcHX1KciQGeC/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/CA9G7LcHX1KciQGeC/#article","headline":"SimilarWeb Traffic & AI Chatbot Analytics Scraper","name":"SimilarWeb Traffic & AI Chatbot Analytics Scraper","description":"Look up website traffic estimates, rankings, traffic-source breakdown, top keywords, and AI-chatbot traffic share for any list of domains, with no login or API key needed.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/CA9G7LcHX1KciQGeC/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/CA9G7LcHX1KciQGeC/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/CA9G7LcHX1KciQGeC/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"SimilarWeb Traffic & AI Chatbot Analytics Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/CA9G7LcHX1KciQGeC/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>SimilarWeb Traffic &amp; AI Chatbot Analytics Scraper</span></div><section id="overview"><h1 class="doc-title">SimilarWeb Traffic &amp; AI Chatbot Analytics Scraper</h1><p class="lede">Look up website traffic estimates, rankings, traffic-source breakdown, top keywords, and AI-chatbot traffic share for any list of domains, with no login or API key needed.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/similarweb-traffic-and-ai-chatbot-analytics">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/CA9G7LcHX1KciQGeC/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>What to fetch. Full report combines deep website analytics with AI chatbot traffic for each domain.</td></tr><tr><td><code>domains</code></td><td>array</td><td>optional</td><td>Domains or URLs to analyze. Accepts bare domains, full URLs and www hosts; duplicates and invalid entries are skipped.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum domains or rows to process. Deep reports are capped at 1,000; top-website lists at 50 (5 for a country plus category).</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>What to fetch. Full report combines deep website analytics with AI chatbot traffic for each domain.</td></tr><tr><td><code>domains</code></td><td>array</td><td>optional</td><td>Domains or URLs to analyze. Accepts bare domains, full URLs and www hosts; duplicates and invalid entries are skipped.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum domains or rows to process. Deep reports are capped at 1,000; top-website lists at 50 (5 for a country plus category).</td></tr><tr><td><code>includePrompts</code></td><td>boolean</td><td>optional</td><td>Add SimilarWeb&#x27;s three example AI prompts when a domain has AI chatbot traffic.</td></tr><tr><td><code>includeSimilarSites</code></td><td>boolean</td><td>optional</td><td>Add the 20 similar sites to each full report. Costs one extra request per domain.</td></tr><tr><td><code>category</code></td><td>string</td><td>optional</td><td>Category for topWebsites mode. Pick all categories or a SimilarWeb category or subcategory.</td></tr><tr><td><code>country</code></td><td>string</td><td>optional</td><td>Country for topWebsites mode. Pick worldwide or one of SimilarWeb&#x27;s ranked countries.</td></tr><tr><td><code>includeRankChange</code></td><td>boolean</td><td>optional</td><td>Include rank movement and new-entry fields in topWebsites and trending results.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Website traffic, rankings, audience, competitors and AI-chatbot referral analytics for any list of domains, plus top-website rankings.&quot;,
+  &quot;properties&quot;: {
+    &quot;category&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;Category for topWebsites mode. Pick all categories or a SimilarWeb category or subcategory.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
+        &quot;arts-and-entertainment&quot;,
+        &quot;arts-and-entertainment/animation-and-comics&quot;,
+        &quot;arts-and-entertainment/books-and-literature&quot;,
+        &quot;arts-and-entertainment/humor&quot;,
+        &quot;arts-and-entertainment/music&quot;,
+        &quot;arts-and-entertainment/performing-arts&quot;,
+        &quot;arts-and-entertainment/tv-movies-and-streaming&quot;,
+        &quot;arts-and-entertainment/visual-arts-and-design&quot;,
+        &quot;business-and-consumer-services&quot;,
+        &quot;business-and-consumer-services/business-services&quot;,
+        &quot;business-and-consumer-services/marketing-and-advertising&quot;,
+        &quot;business-and-consumer-services/online-marketing&quot;,
+        &quot;business-and-consumer-services/publishing-and-printing&quot;,
+        &quot;business-and-consumer-services/real-estate&quot;,
+        &quot;business-and-consumer-services/relocation-and-household-moving&quot;,
+        &quot;business-and-consumer-services/shipping-and-logistics&quot;,
+        &quot;business-and-consumer-services/textiles&quot;,
+        &quot;community-and-society&quot;,
+        &quot;community-and-society/decease&quot;,
+        &quot;community-and-society/faith-and-beliefs&quot;,
+        &quot;community-and-society/holidays-and-seasonal-events&quot;,
+        &quot;community-and-society/lgbtq&quot;,
+        &quot;community-and-society/philanthropy&quot;,
+        &quot;community-and-society/romance-and-relationships&quot;,
+        &quot;computers-electronics-and-technology&quot;,
+        &quot;computers-electronics-and-technology/advertising-networks&quot;,
+        &quot;computers-electronics-and-technology/computer-hardware&quot;,
+        &quot;computers-electronics-and-technology/computer-security&quot;,
+        &quot;computers-electronics-and-technology/consumer-electronics&quot;,
+        &quot;computers-electronics-and-technology/email&quot;,
+        &quot;computers-electronics-and-technology/file-sharing-and-hosting&quot;,
+        &quot;computers-electronics-and-technology/graphics-multimedia-and-web-design&quot;,
+        &quot;computers-electronics-and-technology/programming-and-developer-software&quot;,
+        &quot;computers-electronics-and-technology/search-engines&quot;,
+        &quot;computers-electronics-and-technology/social-networks-and-online-communities&quot;,
+        &quot;computers-electronics-and-technology/telecommunications&quot;,
+        &quot;computers-electronics-and-technology/web-hosting-and-domain-names&quot;,
+        &quot;e-commerce-and-shopping&quot;,
+        &quot;e-commerce-and-shopping/auctions&quot;,
+        &quot;e-commerce-and-shopping/classifieds&quot;,
+        &quot;e-commerce-and-shopping/coupons-and-rebates&quot;,
+        &quot;e-commerce-and-shopping/marketplace&quot;,
+        &quot;e-commerce-and-shopping/price-comparison&quot;,
+        &quot;e-commerce-and-shopping/tickets&quot;,
+        &quot;finance&quot;,
+        &quot;finance/accounting-and-auditing&quot;,
+        &quot;finance/banking-credit-and-lending&quot;,
+        &quot;finance/financial-planning-and-management&quot;,
+        &quot;finance/insurance&quot;,
+        &quot;finance/investing&quot;,
+        &quot;food-and-drink&quot;,
+        &quot;food-and-drink/beverages&quot;,
+        &quot;food-and-drink/cooking-and-recipes&quot;,
+        &quot;food-and-drink/groceries&quot;,
+        &quot;food-and-drink/restaurants-and-delivery&quot;,
+        &quot;food-and-drink/vegetarian-and-vegan&quot;,
+        &quot;gambling&quot;,
+        &quot;gambling/bingo&quot;,
+        &quot;gambling/casinos&quot;,
+        &quot;gambling/lottery&quot;,
+        &quot;gambling/poker&quot;,
+        &quot;gambling/sports-betting&quot;,
+        &quot;games&quot;,
+        &quot;games/board-and-card-games&quot;,
+        &quot;games/puzzles-and-brainteasers&quot;,
+        &quot;games/roleplaying-games&quot;,
+        &quot;games/video-games-consoles-and-accessories&quot;,
+        &quot;health&quot;,
+        &quot;health/addictions&quot;,
+        &quot;health/alternative-and-natural-medicine&quot;,
+        &quot;health/biotechnology-and-pharmaceuticals&quot;,
+        &quot;health/childrens-health&quot;,
+        &quot;health/dentist-and-dental-services&quot;,
+        &quot;health/developmental-and-physical-disabilities&quot;,
+        &quot;health/geriatric-and-aging-care&quot;,
+        &quot;health/health-conditions-and-concerns&quot;,
+        &quot;health/medicine&quot;,
+        &quot;health/mens-health&quot;,
+        &quot;health/mental-health&quot;,
+        &quot;health/nutrition-diets-and-fitness&quot;,
+        &quot;health/pharmacy&quot;,
+        &quot;health/public-health-and-safety&quot;,
+        &quot;health/womens-health&quot;,
+        &quot;heavy-industry-and-engineering&quot;,
+        &quot;heavy-industry-and-engineering/aerospace-and-defense&quot;,
+        &quot;heavy-industry-and-engineering/agriculture&quot;,
+        &quot;heavy-industry-and-engineering/architecture&quot;,
+        &quot;heavy-industry-and-engineering/chemical-industry&quot;,
+        &quot;heavy-industry-and-engineering/construction-and-maintenance&quot;,
+        &quot;heavy-industry-and-engineering/energy-industry&quot;,
+        &quot;heavy-industry-and-engineering/metals-and-mining&quot;,
+        &quot;heavy-industry-and-engineering/waste-water-and-environmental&quot;,
+        &quot;hobbies-and-leisure&quot;,
+        &quot;hobbies-and-leisure/ancestry-and-genealogy&quot;,
+        &quot;hobbies-and-leisure/antiques-and-collectibles&quot;,
+        &quot;hobbies-and-leisure/camping-scouting-and-outdoors&quot;,
+        &quot;hobbies-and-leisure/crafts&quot;,
+        &quot;hobbies-and-leisure/models&quot;,
+        &quot;hobbies-and-leisure/photography&quot;,
+        &quot;home-and-garden&quot;,
+        &quot;home-and-garden/furniture&quot;,
+        &quot;home-and-garden/gardening&quot;,
+        &quot;home-and-garden/home-improvement-and-maintenance&quot;,
+        &quot;home-and-garden/interior-design&quot;,
+        &quot;jobs-and-career&quot;,
+        &quot;jobs-and-career/human-resources&quot;,
+        &quot;jobs-and-career/jobs-and-employment&quot;,
+        &quot;law-and-government&quot;,
+        &quot;law-and-government/government&quot;,
+        &quot;law-and-government/immigration-and-visas&quot;,
+        &quot;law-and-government/law-enforcement-and-protective-services&quot;,
+        &quot;law-and-government/legal&quot;,
+        &quot;law-and-government/national-security&quot;,
+        &quot;lifestyle&quot;,
+        &quot;lifestyle/beauty-and-cosmetics&quot;,
+        &quot;lifestyle/childcare&quot;,
+        &quot;lifestyle/fashion-and-apparel&quot;,
+        &quot;lifestyle/gifts-and-flowers&quot;,
+        &quot;lifestyle/jewelry-and-luxury-products&quot;,
+        &quot;lifestyle/tobacco&quot;,
+        &quot;lifestyle/weddings&quot;,
+        &quot;news-and-media&quot;,
+        &quot;pets-and-animals&quot;,
+        &quot;pets-and-animals/animals&quot;,
+        &quot;pets-and-animals/birds&quot;,
+        &quot;pets-and-animals/fish-and-aquaria&quot;,
+        &quot;pets-and-animals/horses&quot;,
+        &quot;pets-and-animals/pet-food-and-supplies&quot;,
+        &quot;pets-and-animals/pets&quot;,
+        &quot;reference-materials&quot;,
+        &quot;reference-materials/dictionaries-and-encyclopedias&quot;,
+        &quot;reference-materials/maps&quot;,
+        &quot;reference-materials/public-records-and-directories&quot;,
+        &quot;science-and-education&quot;,
+        &quot;science-and-education/astronomy&quot;,
+        &quot;science-and-education/biology&quot;,
+        &quot;science-and-education/business-training&quot;,
+        &quot;science-and-education/chemistry&quot;,
+        &quot;science-and-education/earth-sciences&quot;,
+        &quot;science-and-education/education&quot;,
+        &quot;science-and-education/environmental-science&quot;,
+        &quot;science-and-education/grants-scholarships-and-financial-aid&quot;,
+        &quot;science-and-education/history&quot;,
+        &quot;science-and-education/libraries-and-museums&quot;,
+        &quot;science-and-education/literature&quot;,
+        &quot;science-and-education/math&quot;,
+        &quot;science-and-education/philosophy&quot;,
+        &quot;science-and-education/physics&quot;,
+        &quot;science-and-education/public-records-and-directories&quot;,
+        &quot;science-and-education/social-sciences&quot;,
+        &quot;science-and-education/universities-and-colleges&quot;,
+        &quot;science-and-education/weather&quot;,
+        &quot;sports&quot;,
+        &quot;sports/american-football&quot;,
+        &quot;sports/baseball&quot;,
+        &quot;sports/basketball&quot;,
+        &quot;sports/boxing&quot;,
+        &quot;sports/climbing&quot;,
+        &quot;sports/cycling-and-biking&quot;,
+        &quot;sports/extreme-sports&quot;,
+        &quot;sports/fantasy-sports&quot;,
+        &quot;sports/fishing&quot;,
+        &quot;sports/golf&quot;,
+        &quot;sports/hunting-and-shooting&quot;,
+        &quot;sports/martial-arts&quot;,
+        &quot;sports/rugby&quot;,
+        &quot;sports/running&quot;,
+        &quot;sports/soccer&quot;,
+        &quot;sports/tennis&quot;,
+        &quot;sports/volleyball&quot;,
+        &quot;sports/water-sports&quot;,
+        &quot;sports/winter-sports&quot;,
+        &quot;travel-and-tourism&quot;,
+        &quot;travel-and-tourism/accommodation-and-hotels&quot;,
+        &quot;travel-and-tourism/air-travel&quot;,
+        &quot;travel-and-tourism/car-rentals&quot;,
+        &quot;travel-and-tourism/ground-transportation&quot;,
+        &quot;travel-and-tourism/tourist-attractions&quot;,
+        &quot;travel-and-tourism/transportation-and-excursions&quot;,
+        &quot;vehicles&quot;,
+        &quot;vehicles/automotive-industry&quot;,
+        &quot;vehicles/aviation&quot;,
+        &quot;vehicles/boats&quot;,
+        &quot;vehicles/makes-and-models&quot;,
+        &quot;vehicles/motorcycles&quot;,
+        &quot;vehicles/motorsports&quot;,
+        &quot;adult&quot;,
+        &quot;ai-chatbots-and-tools&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All categories&quot;,
+        &quot;Arts and Entertainment&quot;,
+        &quot;Arts and Entertainment &gt; Animation and Comics&quot;,
+        &quot;Arts and Entertainment &gt; Books and Literature&quot;,
+        &quot;Arts and Entertainment &gt; Humor&quot;,
+        &quot;Arts and Entertainment &gt; Music&quot;,
+        &quot;Arts and Entertainment &gt; Performing Arts&quot;,
+        &quot;Arts and Entertainment &gt; TV Movies and Streaming&quot;,
+        &quot;Arts and Entertainment &gt; Visual Arts and Design&quot;,
+        &quot;Business and Consumer Services&quot;,
+        &quot;Business and Consumer Services &gt; Business Services&quot;,
+        &quot;Business and Consumer Services &gt; Marketing and Advertising&quot;,
+        &quot;Business and Consumer Services &gt; Online Marketing&quot;,
+        &quot;Business and Consumer Services &gt; Publishing and Printing&quot;,
+        &quot;Business and Consumer Services &gt; Real Estate&quot;,
+        &quot;Business and Consumer Services &gt; Relocation and Household Moving&quot;,
+        &quot;Business and Consumer Services &gt; Shipping and Logistics&quot;,
+        &quot;Business and Consumer Services &gt; Textiles&quot;,
+        &quot;Community and Society&quot;,
+        &quot;Community and Society &gt; Decease&quot;,
+        &quot;Community and Society &gt; Faith and Beliefs&quot;,
+        &quot;Community and Society &gt; Holidays and Seasonal Events&quot;,
+        &quot;Community and Society &gt; LGBTQ&quot;,
+        &quot;Community and Society &gt; Philanthropy&quot;,
+        &quot;Community and Society &gt; Romance and Relationships&quot;,
+        &quot;Computers Electronics and Technology&quot;,
+        &quot;Computers Electronics and Technology &gt; Advertising Networks&quot;,
+        &quot;Computers Electronics and Technology &gt; Computer Hardware&quot;,
+        &quot;Computers Electronics and Technology &gt; Computer Security&quot;,
+        &quot;Computers Electronics and Technology &gt; Consumer Electronics&quot;,
+        &quot;Computers Electronics and Technology &gt; Email&quot;,
+        &quot;Computers Electronics and Technology &gt; File Sharing and Hosting&quot;,
+        &quot;Computers Electronics and Technology &gt; Graphics Multimedia and Web Design&quot;,
+        &quot;Computers Electronics and Technology &gt; Programming and Developer Software&quot;,
+        &quot;Computers Electronics and Technology &gt; Search Engines&quot;,
+        &quot;Computers Electronics and Technology &gt; Social Networks and Online Communities&quot;,
+        &quot;Computers Electronics and Technology &gt; Telecommunications&quot;,
+        &quot;Computers Electronics and Technology &gt; Web Hosting and Domain Names&quot;,
+        &quot;E-commerce and Shopping&quot;,
+        &quot;E-commerce and Shopping &gt; Auctions&quot;,
+        &quot;E-commerce and Shopping &gt; Classifieds&quot;,
+        &quot;E-commerce and Shopping &gt; Coupons and Rebates&quot;,
+        &quot;E-commerce and Shopping &gt; Marketplace&quot;,
+        &quot;E-commerce and Shopping &gt; Price Comparison&quot;,
+        &quot;E-commerce and Shopping &gt; Tickets&quot;,
+        &quot;Finance&quot;,
+        &quot;Finance &gt; Accounting and Auditing&quot;,
+        &quot;Finance &gt; Banking Credit and Lending&quot;,
+        &quot;Finance &gt; Financial Planning and Management&quot;,
+        &quot;Finance &gt; Insurance&quot;,
+        &quot;Finance &gt; Investing&quot;,
+        &quot;Food and Drink&quot;,
+        &quot;Food and Drink &gt; Beverages&quot;,
+        &quot;Food and Drink &gt; Cooking and Recipes&quot;,
+        &quot;Food and Drink &gt; Groceries&quot;,
+        &quot;Food and Drink &gt; Restaurants and Delivery&quot;,
+        &quot;Food and Drink &gt; Vegetarian and Vegan&quot;,
+        &quot;Gambling&quot;,
+        &quot;Gambling &gt; Bingo&quot;,
+        &quot;Gambling &gt; Casinos&quot;,
+        &quot;Gambling &gt; Lottery&quot;,
+        &quot;Gambling &gt; Poker&quot;,
+        &quot;Gambling &gt; Sports Betting&quot;,
+        &quot;Games&quot;,
+        &quot;Games &gt; Board and Card Games&quot;,
+        &quot;Games &gt; Puzzles and Brainteasers&quot;,
+        &quot;Games &gt; Roleplaying Games&quot;,
+        &quot;Games &gt; Video Games Consoles and Accessories&quot;,
+        &quot;Health&quot;,
+        &quot;Health &gt; Addictions&quot;,
+        &quot;Health &gt; Alternative and Natural Medicine&quot;,
+        &quot;Health &gt; Biotechnology and Pharmaceuticals&quot;,
+        &quot;Health &gt; Children&#x27;s Health&quot;,
+        &quot;Health &gt; Dentist and Dental Services&quot;,
+        &quot;Health &gt; Developmental and Physical Disabilities&quot;,
+        &quot;Health &gt; Geriatric and Aging Care&quot;,
+        &quot;Health &gt; Health Conditions and Concerns&quot;,
+        &quot;Health &gt; Medicine&quot;,
+        &quot;Health &gt; Men&#x27;s Health&quot;,
+        &quot;Health &gt; Mental Health&quot;,
+        &quot;Health &gt; Nutrition Diets and Fitness&quot;,
+        &quot;Health &gt; Pharmacy&quot;,
+        &quot;Health &gt; Public Health and Safety&quot;,
+        &quot;Health &gt; Women&#x27;s Health&quot;,
+        &quot;Heavy Industry and Engineering&quot;,
+        &quot;Heavy Industry and Engineering &gt; Aerospace and Defense&quot;,
+        &quot;Heavy Industry and Engineering &gt; Agriculture&quot;,
+        &quot;Heavy Industry and Engineering &gt; Architecture&quot;,
+        &quot;Heavy Industry and Engineering &gt; Chemical Industry&quot;,
+        &quot;Heavy Industry and Engineering &gt; Construction and Maintenance&quot;,
+        &quot;Heavy Industry and Engineering &gt; Energy Industry&quot;,
+        &quot;Heavy Industry and Engineering &gt; Metals and Mining&quot;,
+        &quot;Heavy Industry and Engineering &gt; Waste Water and Environmental&quot;,
+        &quot;Hobbies and Leisure&quot;,
+        &quot;Hobbies and Leisure &gt; Ancestry and Genealogy&quot;,
+        &quot;Hobbies and Leisure &gt; Antiques and Collectibles&quot;,
+        &quot;Hobbies and Leisure &gt; Camping Scouting and Outdoors&quot;,
+        &quot;Hobbies and Leisure &gt; Crafts&quot;,
+        &quot;Hobbies and Leisure &gt; Models&quot;,
+        &quot;Hobbies and Leisure &gt; Photography&quot;,
+        &quot;Home and Garden&quot;,
+        &quot;Home and Garden &gt; Furniture&quot;,
+        &quot;Home and Garden &gt; Gardening&quot;,
+        &quot;Home and Garden &gt; Home Improvement and Maintenance&quot;,
+        &quot;Home and Garden &gt; Interior Design&quot;,
+        &quot;Jobs and Career&quot;,
+        &quot;Jobs and Career &gt; Human Resources&quot;,
+        &quot;Jobs and Career &gt; Jobs and Employment&quot;,
+        &quot;Law and Government&quot;,
+        &quot;Law and Government &gt; Government&quot;,
+        &quot;Law and Government &gt; Immigration and Visas&quot;,
+        &quot;Law and Government &gt; Law Enforcement and Protective Services&quot;,
+        &quot;Law and Government &gt; Legal&quot;,
+        &quot;Law and Government &gt; National Security&quot;,
+        &quot;Lifestyle&quot;,
+        &quot;Lifestyle &gt; Beauty and Cosmetics&quot;,
+        &quot;Lifestyle &gt; Childcare&quot;,
+        &quot;Lifestyle &gt; Fashion and Apparel&quot;,
+        &quot;Lifestyle &gt; Gifts and Flowers&quot;,
+        &quot;Lifestyle &gt; Jewelry and Luxury Products&quot;,
+        &quot;Lifestyle &gt; Tobacco&quot;,
+        &quot;Lifestyle &gt; Weddings&quot;,
+        &quot;News and Media&quot;,
+        &quot;Pets and Animals&quot;,
+        &quot;Pets and Animals &gt; Animals&quot;,
+        &quot;Pets and Animals &gt; Birds&quot;,
+        &quot;Pets and Animals &gt; Fish and Aquaria&quot;,
+        &quot;Pets and Animals &gt; Horses&quot;,
+        &quot;Pets and Animals &gt; Pet Food and Supplies&quot;,
+        &quot;Pets and Animals &gt; Pets&quot;,
+        &quot;Reference Materials&quot;,
+        &quot;Reference Materials &gt; Dictionaries and Encyclopedias&quot;,
+        &quot;Reference Materials &gt; Maps&quot;,
+        &quot;Reference Materials &gt; Public Records and Directories&quot;,
+        &quot;Science and Education&quot;,
+        &quot;Science and Education &gt; Astronomy&quot;,
+        &quot;Science and Education &gt; Biology&quot;,
+        &quot;Science and Education &gt; Business Training&quot;,
+        &quot;Science and Education &gt; Chemistry&quot;,
+        &quot;Science and Education &gt; Earth Sciences&quot;,
+        &quot;Science and Education &gt; Education&quot;,
+        &quot;Science and Education &gt; Environmental Science&quot;,
+        &quot;Science and Education &gt; Grants Scholarships and Financial Aid&quot;,
+        &quot;Science and Education &gt; History&quot;,
+        &quot;Science and Education &gt; Libraries and Museums&quot;,
+        &quot;Science and Education &gt; Literature&quot;,
+        &quot;Science and Education &gt; Math&quot;,
+        &quot;Science and Education &gt; Philosophy&quot;,
+        &quot;Science and Education &gt; Physics&quot;,
+        &quot;Science and Education &gt; Public Records and Directories&quot;,
+        &quot;Science and Education &gt; Social Sciences&quot;,
+        &quot;Science and Education &gt; Universities and Colleges&quot;,
+        &quot;Science and Education &gt; Weather&quot;,
+        &quot;Sports&quot;,
+        &quot;Sports &gt; American Football&quot;,
+        &quot;Sports &gt; Baseball&quot;,
+        &quot;Sports &gt; Basketball&quot;,
+        &quot;Sports &gt; Boxing&quot;,
+        &quot;Sports &gt; Climbing&quot;,
+        &quot;Sports &gt; Cycling and Biking&quot;,
+        &quot;Sports &gt; Extreme Sports&quot;,
+        &quot;Sports &gt; Fantasy Sports&quot;,
+        &quot;Sports &gt; Fishing&quot;,
+        &quot;Sports &gt; Golf&quot;,
+        &quot;Sports &gt; Hunting and Shooting&quot;,
+        &quot;Sports &gt; Martial Arts&quot;,
+        &quot;Sports &gt; Rugby&quot;,
+        &quot;Sports &gt; Running&quot;,
+        &quot;Sports &gt; Soccer&quot;,
+        &quot;Sports &gt; Tennis&quot;,
+        &quot;Sports &gt; Volleyball&quot;,
+        &quot;Sports &gt; Water Sports&quot;,
+        &quot;Sports &gt; Winter Sports&quot;,
+        &quot;Travel and Tourism&quot;,
+        &quot;Travel and Tourism &gt; Accommodation and Hotels&quot;,
+        &quot;Travel and Tourism &gt; Air Travel&quot;,
+        &quot;Travel and Tourism &gt; Car Rentals&quot;,
+        &quot;Travel and Tourism &gt; Ground Transportation&quot;,
+        &quot;Travel and Tourism &gt; Tourist Attractions&quot;,
+        &quot;Travel and Tourism &gt; Transportation and Excursions&quot;,
+        &quot;Vehicles&quot;,
+        &quot;Vehicles &gt; Automotive Industry&quot;,
+        &quot;Vehicles &gt; Aviation&quot;,
+        &quot;Vehicles &gt; Boats&quot;,
+        &quot;Vehicles &gt; Makes and Models&quot;,
+        &quot;Vehicles &gt; Motorcycles&quot;,
+        &quot;Vehicles &gt; Motorsports&quot;,
+        &quot;Adult&quot;,
+        &quot;AI Chatbots and Tools&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Top-websites category&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;country&quot;: {
+      &quot;default&quot;: &quot;worldwide&quot;,
+      &quot;description&quot;: &quot;Country for topWebsites mode. Pick worldwide or one of SimilarWeb&#x27;s ranked countries.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;worldwide&quot;,
+        &quot;argentina&quot;,
+        &quot;australia&quot;,
+        &quot;austria&quot;,
+        &quot;belgium&quot;,
+        &quot;brazil&quot;,
+        &quot;bulgaria&quot;,
+        &quot;canada&quot;,
+        &quot;chile&quot;,
+        &quot;colombia&quot;,
+        &quot;costa-rica&quot;,
+        &quot;croatia&quot;,
+        &quot;czech-republic&quot;,
+        &quot;denmark&quot;,
+        &quot;dominican-republic&quot;,
+        &quot;ecuador&quot;,
+        &quot;egypt&quot;,
+        &quot;finland&quot;,
+        &quot;france&quot;,
+        &quot;germany&quot;,
+        &quot;greece&quot;,
+        &quot;guatemala&quot;,
+        &quot;hong-kong&quot;,
+        &quot;hungary&quot;,
+        &quot;india&quot;,
+        &quot;indonesia&quot;,
+        &quot;iraq&quot;,
+        &quot;ireland&quot;,
+        &quot;israel&quot;,
+        &quot;italy&quot;,
+        &quot;japan&quot;,
+        &quot;korea-republic-of&quot;,
+        &quot;kuwait&quot;,
+        &quot;malaysia&quot;,
+        &quot;mexico&quot;,
+        &quot;morocco&quot;,
+        &quot;netherlands&quot;,
+        &quot;new-zealand&quot;,
+        &quot;norway&quot;,
+        &quot;pakistan&quot;,
+        &quot;panama&quot;,
+        &quot;peru&quot;,
+        &quot;philippines&quot;,
+        &quot;poland&quot;,
+        &quot;portugal&quot;,
+        &quot;puerto-rico&quot;,
+        &quot;qatar&quot;,
+        &quot;romania&quot;,
+        &quot;russian-federation&quot;,
+        &quot;saudi-arabia&quot;,
+        &quot;serbia&quot;,
+        &quot;singapore&quot;,
+        &quot;slovakia&quot;,
+        &quot;south-africa&quot;,
+        &quot;spain&quot;,
+        &quot;sweden&quot;,
+        &quot;switzerland&quot;,
+        &quot;taiwan&quot;,
+        &quot;thailand&quot;,
+        &quot;turkey&quot;,
+        &quot;ukraine&quot;,
+        &quot;united-arab-emirates&quot;,
+        &quot;united-kingdom&quot;,
+        &quot;united-states&quot;,
+        &quot;uruguay&quot;,
+        &quot;venezuela-bolivarian-republic-of&quot;,
+        &quot;vietnam&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Worldwide&quot;,
+        &quot;Argentina&quot;,
+        &quot;Australia&quot;,
+        &quot;Austria&quot;,
+        &quot;Belgium&quot;,
+        &quot;Brazil&quot;,
+        &quot;Bulgaria&quot;,
+        &quot;Canada&quot;,
+        &quot;Chile&quot;,
+        &quot;Colombia&quot;,
+        &quot;Costa Rica&quot;,
+        &quot;Croatia&quot;,
+        &quot;Czech Republic&quot;,
+        &quot;Denmark&quot;,
+        &quot;Dominican Republic&quot;,
+        &quot;Ecuador&quot;,
+        &quot;Egypt&quot;,
+        &quot;Finland&quot;,
+        &quot;France&quot;,
+        &quot;Germany&quot;,
+        &quot;Greece&quot;,
+        &quot;Guatemala&quot;,
+        &quot;Hong Kong&quot;,
+        &quot;Hungary&quot;,
+        &quot;India&quot;,
+        &quot;Indonesia&quot;,
+        &quot;Iraq&quot;,
+        &quot;Ireland&quot;,
+        &quot;Israel&quot;,
+        &quot;Italy&quot;,
+        &quot;Japan&quot;,
+        &quot;South Korea&quot;,
+        &quot;Kuwait&quot;,
+        &quot;Malaysia&quot;,
+        &quot;Mexico&quot;,
+        &quot;Morocco&quot;,
+        &quot;Netherlands&quot;,
+        &quot;New Zealand&quot;,
+        &quot;Norway&quot;,
+        &quot;Pakistan&quot;,
+        &quot;Panama&quot;,
+        &quot;Peru&quot;,
+        &quot;Philippines&quot;,
+        &quot;Poland&quot;,
+        &quot;Portugal&quot;,
+        &quot;Puerto Rico&quot;,
+        &quot;Qatar&quot;,
+        &quot;Romania&quot;,
+        &quot;Russia&quot;,
+        &quot;Saudi Arabia&quot;,
+        &quot;Serbia&quot;,
+        &quot;Singapore&quot;,
+        &quot;Slovakia&quot;,
+        &quot;South Africa&quot;,
+        &quot;Spain&quot;,
+        &quot;Sweden&quot;,
+        &quot;Switzerland&quot;,
+        &quot;Taiwan&quot;,
+        &quot;Thailand&quot;,
+        &quot;Turkey&quot;,
+        &quot;Ukraine&quot;,
+        &quot;United Arab Emirates&quot;,
+        &quot;United Kingdom&quot;,
+        &quot;United States&quot;,
+        &quot;Uruguay&quot;,
+        &quot;Venezuela&quot;,
+        &quot;Vietnam&quot;
+      ],
+      &quot;prefill&quot;: &quot;worldwide&quot;,
+      &quot;title&quot;: &quot;Top-websites country&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;domains&quot;: {
+      &quot;description&quot;: &quot;Domains or URLs to analyze. Accepts bare domains, full URLs and www hosts; duplicates and invalid entries are skipped.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [
+        &quot;google.com&quot;
+      ],
+      &quot;title&quot;: &quot;Domains&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;includePrompts&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Add SimilarWeb&#x27;s three example AI prompts when a domain has AI chatbot traffic.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include AI prompts&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeRankChange&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Include rank movement and new-entry fields in topWebsites and trending results.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Include rank change&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeSimilarSites&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Add the 20 similar sites to each full report. Costs one extra request per domain.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include similar sites&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 100,
+      &quot;description&quot;: &quot;Maximum domains or rows to process. Deep reports are capped at 1,000; top-website lists at 50 (5 for a country plus category).&quot;,
+      &quot;maximum&quot;: 5000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 1,
+      &quot;title&quot;: &quot;Maximum items&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;fullReport&quot;,
+      &quot;description&quot;: &quot;What to fetch. Full report combines deep website analytics with AI chatbot traffic for each domain.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;fullReport&quot;,
+        &quot;website&quot;,
+        &quot;traffic&quot;,
+        &quot;aiTraffic&quot;,
+        &quot;similarSites&quot;,
+        &quot;topWebsites&quot;,
+        &quot;trending&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Full report (website + AI)&quot;,
+        &quot;Website analytics (deep)&quot;,
+        &quot;Traffic snapshot (fast)&quot;,
+        &quot;AI chatbot traffic&quot;,
+        &quot;Similar sites&quot;,
+        &quot;Top websites ranking&quot;,
+        &quot;Trending websites&quot;
+      ],
+      &quot;prefill&quot;: &quot;aiTraffic&quot;,
+      &quot;title&quot;: &quot;Mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;SimilarWeb Traffic &amp; AI Chatbot Analytics Scraper Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>results</code></td><td>string</td><td>optional</td><td>All records from the run, in the default dataset.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Per-domain website traffic, rankings, audience, competitors and AI-chatbot referral data, plus similar-site, top-website and trending rows.&quot;,
+  &quot;properties&quot;: {
+    &quot;results&quot;: {
+      &quot;description&quot;: &quot;All records from the run, in the default dataset.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Results&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;SimilarWeb Traffic &amp; AI Chatbot Analytics Scraper Output&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;title&quot;: &quot;Website Analytics&quot;,
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;aiTotalVisits&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;AI Visits&quot;
+          },
+          &quot;category&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Category&quot;
+          },
+          &quot;domain&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Domain&quot;
+          },
+          &quot;globalRank&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Global Rank&quot;
+          },
+          &quot;recordType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Type&quot;
+          },
+          &quot;snapshotDate&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Snapshot&quot;
+          },
+          &quot;title&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Title&quot;
+          },
+          &quot;topTrafficSource&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Top Source&quot;
+          },
+          &quot;totalVisits&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Visits&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Results&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;recordType&quot;,
+          &quot;domain&quot;,
+          &quot;title&quot;,
+          &quot;globalRank&quot;,
+          &quot;totalVisits&quot;,
+          &quot;aiTotalVisits&quot;,
+          &quot;topTrafficSource&quot;,
+          &quot;category&quot;,
+          &quot;snapshotDate&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-similarweb-traffic-ai-chatbot-analytics-scraper">SimilarWeb Traffic &amp; AI Chatbot Analytics Scraper</h2>
+<p>Get a complete traffic picture for any list of websites: estimated visits, global / country / category rank, engagement, three-month history, audience geography and demographics, competitors, technologies, and the share of visits arriving from AI chatbots such as ChatGPT, Gemini, Claude and Perplexity. Add ranked top-website lists, trending movers, and similar-site discovery for market mapping.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li><strong>Seven ways to look at a market:</strong> a full website + AI report, deep website analytics, a fast traffic snapshot, AI chatbot traffic, similar sites, top-website rankings, and trending websites.</li>
+<li><strong>Bulk domains:</strong> one clean row per domain for full, deep, snapshot and AI modes; up to 5,000 domains in the cheap modes and 1,000 deep reports per run.</li>
+<li><strong>AI referral intelligence:</strong> total AI visits, AI share of referral traffic, which chatbots send the visits, a three-month chatbot mix, and SimilarWeb's example prompts.</li>
+<li><strong>Audience and competition:</strong> top countries, age and gender split, interests, technologies, up to 10 competitors plus 20 similar sites, and the public referral / ad / social entries.</li>
+<li><strong>Rankings without a domain list:</strong> the top 50 websites worldwide, in a country or in a category — plus 18 global trending movers.</li>
+<li>Empty fields are omitted. A value is never invented when SimilarWeb does not publish it.</li>
+</ul>
+<h2 id="readme-modes">Modes</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>What you get</th>
+<th>Good for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fullReport</code></td>
+<td>Deep website analytics + AI chatbot traffic for each domain</td>
+<td>One complete profile per competitor</td>
+</tr>
+<tr>
+<td><code>website</code></td>
+<td>Deep website analytics only</td>
+<td>Traffic, ranks, audience and competitors</td>
+</tr>
+<tr>
+<td><code>traffic</code></td>
+<td>Fast traffic snapshot from SimilarWeb's similar-sites data + 20 similar sites; a deep report fills a domain the fast source misses</td>
+<td>Large domain lists on a budget</td>
+</tr>
+<tr>
+<td><code>aiTraffic</code></td>
+<td>AI chatbot visits, share, chatbot mix, history and prompts</td>
+<td>AI-search visibility tracking</td>
+</tr>
+<tr>
+<td><code>similarSites</code></td>
+<td>One row per similar site for each seed domain</td>
+<td>Competitor discovery</td>
+</tr>
+<tr>
+<td><code>topWebsites</code></td>
+<td>Ranked websites by category and/or country</td>
+<td>Market mapping</td>
+</tr>
+<tr>
+<td><code>trending</code></td>
+<td>18 global rising and falling websites</td>
+<td>Spotting momentum</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="readme-output-per-domain-row-recordtype-domain">Output per domain row (<code>recordType: &quot;domain&quot;</code>)</h2>
+<ul>
+<li><code>domain</code>, <code>title</code>, <code>description</code> — the site and its public description</li>
+<li><code>category</code>, <code>categoryId</code>, <code>categoryName</code> — SimilarWeb category and subcategory</li>
+<li><code>totalVisits</code>, <code>totalVisitsSource</code> — latest monthly estimate and which SimilarWeb product supplied it</li>
+<li><code>bounceRate</code>, <code>pagesPerVisit</code>, <code>timeOnSite</code> — engagement; time in seconds</li>
+<li><code>engagementMonth</code>, <code>visitsChangePercent</code> — month the engagement figures cover and month-over-month change</li>
+<li><code>estimatedMonthlyVisits</code>, <code>trafficHistory</code> — three-month visit history as JSON</li>
+<li><code>globalRank</code>, <code>countryRank</code>, <code>countryRankCountry</code>, <code>categoryRank</code> — current ranks</li>
+<li><code>globalRankChange</code>, <code>countryRankChange</code>, <code>categoryRankChange</code> — movement since the previous month</li>
+<li><code>globalRankHistory</code>, <code>countryRankHistory</code>, <code>categoryRankHistory</code> — three-month rank history as JSON</li>
+<li><code>topTrafficSource</code>, <code>topTrafficSourceShare</code> — the #1 marketing channel and its share</li>
+<li><code>trafficSources</code> — the public channel ranking as JSON</li>
+<li><code>trafficSourceDirect</code>, <code>trafficSourceSearch</code>, <code>trafficSourceSocial</code>, <code>trafficSourceReferrals</code>, <code>trafficSourceMail</code>, <code>trafficSourcePaidReferrals</code> — legacy share fields; only the channel that is #1 is filled</li>
+<li><code>topCountries</code> — top five countries with share, as JSON</li>
+<li><code>topKeywords</code> — top five organic keywords with name and CPC, as JSON</li>
+<li><code>ageDistribution</code>, <code>genderDistribution</code> — audience demographics as JSON</li>
+<li><code>interests</code> — websites, topics and categories the audience also visits</li>
+<li><code>technologies</code> — top technology per category and totals</li>
+<li><code>competitors</code> — up to 10 similar sites with affinity and category rank</li>
+<li><code>incomingReferrals</code>, <code>outgoingReferrals</code>, <code>ads</code>, <code>socialNetworks</code> — public unlocked entries; SimilarWeb hides some referral/ad hostnames behind a login</li>
+<li><code>companyName</code>, <code>companyYearFounded</code>, <code>companyEmployeesMin</code>, <code>companyRevenueMin</code>, <code>companyHeadquarters</code>, <code>companyCategoryId</code>, <code>companyParentDomain</code> — company profile when SimilarWeb has it</li>
+<li><code>aiTotalVisits</code>, <code>aiTrafficShareOfReferrals</code>, <code>aiTrafficAvailable</code> — AI-referred visits, share and availability</li>
+<li><code>aiTrafficSplit</code>, <code>aiChatbotDistribution</code>, <code>aiTrafficHistory</code>, <code>aiBoundary</code> — chatbot mix and three-month history</li>
+<li><code>topPrompts</code> — SimilarWeb's three example prompts, only when AI visits exist</li>
+<li><code>isSmall</code> — true when SimilarWeb has no traffic estimate for the domain</li>
+<li><code>screenshot</code>, <code>previewMobileUrl</code>, <code>faviconUrl</code> — public image URLs</li>
+<li><code>websiteAnalyticsAvailable</code> — full reports only: whether the deep profile was available</li>
+<li><code>similarSites</code> — full reports only when requested: 20 similar sites</li>
+<li><code>dataSources</code>, <code>snapshotDate</code>, <code>scrapeTimestamp</code>, <code>recordType</code></li>
+</ul>
+<h2 id="readme-output-per-similar-site-recordtype-similarsite">Output per similar site (<code>recordType: &quot;similarSite&quot;</code>)</h2>
+<p><code>seedDomain</code>, <code>domain</code>, <code>description</code>, <code>category</code>, <code>categoryId</code>, <code>categoryName</code>, <code>topCountryRank</code>, <code>totalVisits</code>, <code>similarityRank</code>, <code>similarityGrade</code>, <code>thumbnailUrl</code>, <code>source</code>, <code>scrapeTimestamp</code>, <code>recordType</code>.</p>
+<h2 id="readme-output-per-ranked-website-recordtype-topwebsite">Output per ranked website (<code>recordType: &quot;topWebsite&quot;</code>)</h2>
+<p><code>rank</code>, <code>domain</code>, <code>country</code>, <code>category</code>, <code>categoryId</code>, <code>categoryName</code>, <code>bounceRate</code>, <code>pagesPerVisit</code>, <code>timeOnSite</code>, <code>rankChange</code>, <code>isNewRank</code>, <code>faviconUrl</code>, <code>snapshotDate</code>, <code>source</code>, <code>scrapeTimestamp</code>, <code>recordType</code>.</p>
+<h2 id="readme-output-per-trending-website-recordtype-trendingwebsite">Output per trending website (<code>recordType: &quot;trendingWebsite&quot;</code>)</h2>
+<p><code>trend</code> (<code>increasing</code>, <code>decreasing</code>, <code>in</code> or <code>out</code>), <code>rank</code>, <code>rankChange</code>, <code>isTotallyNew</code>, <code>domain</code>, <code>faviconUrl</code>, <code>snapshotDate</code>, <code>source</code>, <code>scrapeTimestamp</code>, <code>recordType</code>.</p>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td>string</td>
+<td><code>fullReport</code></td>
+<td><code>fullReport</code> / <code>website</code> / <code>traffic</code> / <code>aiTraffic</code> / <code>similarSites</code> / <code>topWebsites</code> / <code>trending</code></td>
+</tr>
+<tr>
+<td><code>domains</code></td>
+<td>array</td>
+<td>–</td>
+<td>Domains or URLs for the domain modes. Duplicates and invalid entries are skipped.</td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>integer</td>
+<td><code>100</code></td>
+<td>Maximum domains or rows to process (1–5,000). Deep reports are capped at 1,000; top lists at 50.</td>
+</tr>
+<tr>
+<td><code>includePrompts</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Add SimilarWeb's three example prompts when a domain has AI traffic.</td>
+</tr>
+<tr>
+<td><code>includeSimilarSites</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Add 20 similar sites to each full report.</td>
+</tr>
+<tr>
+<td><code>category</code></td>
+<td>string</td>
+<td><code>all</code></td>
+<td>Category or subcategory for <code>topWebsites</code>.</td>
+</tr>
+<tr>
+<td><code>country</code></td>
+<td>string</td>
+<td><code>worldwide</code></td>
+<td>Country for <code>topWebsites</code>.</td>
+</tr>
+<tr>
+<td><code>includeRankChange</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Include rank movement and new-entry fields in ranking modes.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="readme-example-compare-ai-traffic-for-three-competitors">Example: compare AI traffic for three competitors</h2>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;aiTraffic&quot;,
+  &quot;domains&quot;: [&quot;openai.com&quot;, &quot;anthropic.com&quot;, &quot;perplexity.ai&quot;],
+  &quot;includePrompts&quot;: true
+}
+</code></pre>
+<h2 id="readme-example-full-reports-for-a-shortlist">Example: full reports for a shortlist</h2>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;fullReport&quot;,
+  &quot;domains&quot;: [&quot;github.com&quot;, &quot;gitlab.com&quot;, &quot;bitbucket.org&quot;],
+  &quot;includeSimilarSites&quot;: true
+}
+</code></pre>
+<h2 id="readme-example-a-large-traffic-snapshot">Example: a large traffic snapshot</h2>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;traffic&quot;,
+  &quot;domains&quot;: [&quot;shopify.com&quot;, &quot;woocommerce.com&quot;, &quot;bigcommerce.com&quot;, &quot;squarespace.com&quot;],
+  &quot;maxItems&quot;: 1000
+}
+</code></pre>
+<h2 id="readme-example-top-e-commerce-websites-in-the-united-states">Example: top e-commerce websites in the United States</h2>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;topWebsites&quot;,
+  &quot;category&quot;: &quot;e-commerce-and-shopping&quot;,
+  &quot;country&quot;: &quot;united-states&quot;,
+  &quot;maxItems&quot;: 50
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>AI-search visibility:</strong> track which competitors already receive traffic from ChatGPT, Gemini, Claude or Perplexity, and which prompts send it.</li>
+<li><strong>Competitive benchmarking:</strong> line up visits, rank, engagement, geography and audience for a shortlist of domains.</li>
+<li><strong>SEO and content research:</strong> use the public keyword names, CPC and top countries to prioritise markets.</li>
+<li><strong>Market mapping:</strong> pull the top 50 websites in a category or country and the 18 trending movers.</li>
+<li><strong>Competitor discovery:</strong> turn one seed domain into 20 similar sites with traffic and category rank.</li>
+<li><strong>Due diligence:</strong> check a site's three-month trend, audience and referral mix before a partnership.</li>
+</ul>
+<h2 id="readme-limits-worth-knowing">Limits worth knowing</h2>
+<ul>
+<li>SimilarWeb publishes only the <strong>#1 marketing channel share</strong>. The other legacy <code>trafficSource*</code> fields appear only when that channel is #1.</li>
+<li>Keyword <strong>search volume and estimated value are not public</strong>; <code>topKeywords</code> contains name and CPC only.</li>
+<li>Visit history is <strong>three months</strong>.</li>
+<li>Deep profiles expose the top <strong>5 countries</strong>, top <strong>10 competitors</strong>, and top <strong>3 chatbots</strong> in the distribution (the full chatbot ranking is in <code>aiTrafficSplit</code>).</li>
+<li>AI prompts are <strong>three examples</strong> and are shown only when the domain has AI-referred visits.</li>
+<li>Deep reports are capped at <strong>1,000 domains per run</strong>; use <code>traffic</code> for larger lists. <code>traffic</code> falls back to one deep report for a domain when the fast snapshots have no data.</li>
+<li>Top-website lists are <strong>50 rows</strong>; a country plus category is capped at <strong>5 rows</strong>. For broader coverage, query the country list and the category list separately, or query subcategories. Trending is global only.</li>
+<li><code>traffic</code> uses SimilarWeb's similar-sites product, so its <code>totalVisits</code> can differ from a full report; <code>totalVisitsSource</code> tells you which source was used.</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<h3 id="readme-do-i-need-a-similarweb-account-or-api-key">Do I need a SimilarWeb account or API key?</h3>
+<p>No. The actor reads SimilarWeb's publicly available website data and does not require a login, subscription or API key.</p>
+<h3 id="readme-what-exactly-is-ai-traffic">What exactly is &quot;AI traffic&quot;?</h3>
+<p>It is traffic that arrives at the website <strong>from</strong> AI chatbots — ChatGPT, Gemini, Claude, Perplexity, Copilot, Grok and DeepSeek — when someone clicks a link or citation in an AI answer. It is not traffic to the chatbots themselves.</p>
+<h3 id="readme-why-is-only-one-traffic-source-share-filled">Why is only one traffic-source share filled?</h3>
+<p>SimilarWeb's public report exposes the leading channel's share and the ranking of the other channels, but not their percentages. The actor fills the leading channel and leaves the others out rather than writing zeros.</p>
+<h3 id="readme-why-is-there-no-keyword-search-volume">Why is there no keyword search volume?</h3>
+<p>SimilarWeb no longer publishes keyword volume or estimated value on the public report. The actor returns the keyword names and the public CPC.</p>
+<h3 id="readme-why-do-deep-reports-stop-at-1-000-domains-and-why-is-one-occasionally-missing">Why do deep reports stop at 1,000 domains, and why is one occasionally missing?</h3>
+<p>SimilarWeb meters deep website reports per connection. The actor rotates connections automatically; 1,000 is the practical per-run cap, and <code>traffic</code> is designed for larger lists. If a deep report is still limited, <code>fullReport</code> falls back to AI traffic plus the fast snapshot; <code>website</code> mode skips that domain rather than returning a zeroed row.</p>
+<h3 id="readme-why-does-totalvisits-differ-between-a-full-report-and-a-traffic-snapshot">Why does <code>totalVisits</code> differ between a full report and a traffic snapshot?</h3>
+<p>They come from two SimilarWeb data products with different snapshots. The <code>totalVisitsSource</code> field says whether the number came from the website report or the similar-sites product.</p>
+<h3 id="readme-why-do-ranked-websites-not-show-total-visits">Why do ranked websites not show total visits?</h3>
+<p>The public ranking list publishes rank, engagement and category, but not absolute visits. Use a domain mode for a specific site's visits.</p>
+<h3 id="readme-how-fresh-is-the-data">How fresh is the data?</h3>
+<p>Each row carries <code>snapshotDate</code>, usually the first day of the latest published month. <code>engagementMonth</code> says which month the engagement figures cover.</p>
+<h3 id="readme-do-i-need-to-set-up-a-proxy">Do I need to set up a proxy?</h3>
+<p>No. The actor chooses a working connection automatically. Just fill in the input and run it.</p>
+<h3 id="readme-is-this-affiliated-with-similarweb">Is this affiliated with SimilarWeb?</h3>
+<p>No. This is an independent, third-party actor that reads publicly available SimilarWeb data; it is not affiliated with or endorsed by SimilarWeb.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/CA9G7LcHX1KciQGeC/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>tMWJpULmMAGrijTIJ</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

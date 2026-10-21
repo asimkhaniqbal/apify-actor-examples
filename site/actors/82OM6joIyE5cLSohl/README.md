@@ -1,0 +1,200 @@
+# TikTok Keyword Discovery — Videos, Photos, Hashtags & Creators
+
+Search TikTok by keyword and get structured video and photo posts, or look up a hashtag's own
+metadata. Each row carries the caption, engagement counts, creator snapshot, sound details,
+hashtags and mentions, and the post's stable URL. Optional discovery expansion runs related
+searches, top hashtags and the most-reused sound from a keyword's own results to surface more
+posts. No login, cookies or proxy setup required.
+
+## What this actor does
+
+- **Three search types:** `videos` by keyword, `photos`/slideshows by keyword, and `hashtags`
+  with metadata plus the tag's top posts
+- **Deep pagination:** keeps loading until TikTok's own result pool ends or your per-query limit
+  is reached (TikTok typically serves about 150–220 posts per query)
+- **Video and photo rows:** captions, creation time, plays, likes, comments, shares, saves,
+  reposts, creator profile snapshot, sound metadata, video technical details and slideshow images
+- **Discovery expansion:** related searches, top hashtags and sound pages, deduplicated against
+  the seed results
+- **Client-side controls:** sort by relevance/likes/views/newest, date window, duration, ads,
+  minimum likes/views, one post per creator and max posts per creator
+- **Honest empty fields:** fields TikTok does not provide for a post are omitted, never `null`
+
+## Output per post
+
+- `rowType` — `video` for all post rows (including slideshows; `postType` says which) or `hashtag` for hashtag metadata rows
+- `postId`, `postUrl`, `postType` — post identity; `postType` is `video` or `slideshow`
+- `caption`, `textLanguage`, `createTime`, `createdAt`
+- `query` — the search phrase that returned this post; `rank` — zero-based position in that
+  search; `queryVariant` — casing/spacing variant when a query pass found it
+- `searchType` — `general`, `photo`, `hashtag` or `sound`
+- `expansionSource`, `expansionTerm` — only on expansion-discovered posts
+- `playCount`, `likeCount`, `commentCount`, `shareCount`, `collectCount`, `repostCount`
+- `author.id`, `author.secUid`, `author.username`, `author.displayName`, `author.bio`,
+  `author.verified`, `author.privateAccount`, `author.avatarUrl`, `author.followerCount`,
+  `author.followingCount`, `author.heartCount`, `author.videoCount`, `author.roomId`,
+  `author.isVirtualAccount`
+- `music.id`, `music.title`, `music.authorName`, `music.original`, `music.duration`,
+  `music.album`, `music.playUrl`, `music.coverUrl`, and licensing flags
+- `video.width`, `video.height`, `video.duration`, `video.ratio`, `video.definition`,
+  `video.bitrate`, `video.codecType`, `video.format`, `video.size`, `video.videoQuality`,
+- `video.playUrl`, `video.downloadAddr` — signed CDN URLs, reference-only: TikTok's CDN can
+  reject direct downloads (HTTP 403) even while the post plays on TikTok
+- `video.cover`, `video.originCover`, `video.dynamicCover`, `video.subtitles`,
+  `video.qualityScore`, `video.qualityTags`,
+  `video.coverVariants`, `video.bitrateInfo`, `video.volumeInfo`
+- `images[]` — real image URLs for slideshow/photo posts
+- `hashtags[]`, `mentions[]`, `poi` — caption tags, @mentions and a location tag when present
+- `isAd`, `isECVideo`, `adLabelVersion`, `privateItem`, `forFriend`, `isAigc`,
+  `AIGCDescription`, `originalItem`, `categoryType`, `item_control`, `contents`,
+  `effectStickers`, `stickersOnItem`
+- `mediaUrlExpiresAt` — when the signed media URLs expire, when it can be read
+
+## Output per hashtag
+
+Hashtag searches emit one metadata row (`rowType: "hashtag"`) before the tag's post rows:
+
+- `query` — the hashtag, e.g. `#coffee`
+- `hashtagMetadata.hashtagId`, `name`, `desc`, `isCommerce`, `videoCount`, `viewCount`,
+  `profileUrl`, `shareTitle`, `shareDesc`
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `searchType` | string | `videos` | `videos`, `photos` or `hashtags` |
+| `queries` | string[] | — | Keywords for video/photo search |
+| `hashtags` | string[] | — | Hashtags for `searchType=hashtags`; `#` optional |
+| `maxResultsPerQuery` | integer | 30 | Posts per query/tag before filters (1–500) |
+| `sortBy` | string | `relevance` | `relevance`, `mostLiked`, `mostViewed`, `newest` |
+| `publishedWithin` | string | `all` | `all`, `day`, `week`, `month`, `3months`, `6months`; narrow windows scan up to 5× the requested count |
+| `minDurationSeconds` | integer | — | Drop shorter videos |
+| `maxDurationSeconds` | integer | — | Drop longer videos |
+| `excludeAds` | boolean | false | Drop posts flagged as ads |
+| `minLikeCount` | integer | — | Drop posts with fewer likes |
+| `minViewCount` | integer | — | Drop posts with fewer plays |
+| `uniqueAuthors` | boolean | false | Keep at most one post per creator |
+| `maxPostsPerAuthor` | integer | — | Cap posts per creator (ignored when `uniqueAuthors` is on) |
+| `enableExpansion` | boolean | false | Run related searches, hashtags and sounds |
+| `expansionSources` | string[] | `["suggestions", "hashtags", "sounds"]` | `suggestions`, `hashtags`, `sounds` |
+| `maxExpansionQueriesPerSeed` | integer | 3 | Extra searches per keyword (0–10) |
+| `includeHashtagMetadata` | boolean | true | Emit hashtag metadata rows/expansion metadata |
+
+## Examples
+
+### Keyword video search
+
+```json
+{
+  "searchType": "videos",
+  "queries": ["cottagecore aesthetic", "dark academia"],
+  "maxResultsPerQuery": 100,
+  "sortBy": "mostLiked",
+  "publishedWithin": "month"
+}
+```
+
+### Photo / slideshow search
+
+```json
+{
+  "searchType": "photos",
+  "queries": ["coffee"],
+  "maxResultsPerQuery": 50
+}
+```
+
+### Hashtag discovery
+
+```json
+{
+  "searchType": "hashtags",
+  "hashtags": ["coffee", "#fitness"],
+  "maxResultsPerQuery": 30,
+  "includeHashtagMetadata": true
+}
+```
+
+### Creator shortlist with expansion
+
+```json
+{
+  "searchType": "videos",
+  "queries": ["skincare routine"],
+  "maxResultsPerQuery": 200,
+  "uniqueAuthors": true,
+  "enableExpansion": true,
+  "expansionSources": ["suggestions", "hashtags"],
+  "maxExpansionQueriesPerSeed": 3
+}
+```
+
+## Use cases
+
+- **Content research** — see which videos and slideshows rank for a topic, newest or most liked
+- **Creator discovery** — collapse results to one post per creator, then review follower counts
+- **Brand and campaign monitoring** — track keyword mentions, hashtags and sounds across markets
+- **Trend exploration** — expand a seed keyword through TikTok's own related searches and tags
+- **Dataset building** — export structured post, engagement and creator fields for analysis
+
+## FAQ
+
+### Do I need a TikTok account or cookies?
+
+No. The actor reads the search results TikTok shows to signed-out visitors. There is no cookie,
+token or proxy field to fill in.
+
+### How many results can I get per query?
+
+TikTok's own search pool usually ends around 150–220 posts per query, even when a larger limit is
+requested. The actor follows TikTok's cursor until the pool ends, then optionally runs casing and
+spacing query passes. To collect more, add more queries or turn on discovery expansion.
+
+### Why is my result count lower than `maxResultsPerQuery`?
+
+Two reasons: TikTok may exhaust its result pool before your limit, and the date, duration, ads,
+likes, views and creator filters run after collection. The final dataset is always the
+post-filter set.
+
+### Are the sort and filters applied by TikTok or by the actor?
+
+By the actor. The actor collects posts in TikTok's default relevance order and then applies your
+sort and filters locally. For a narrow date window it scans up to 5× the requested count (capped
+at 500) before applying the window; because that scan is bounded, a week or day window can
+legitimately yield fewer posts than requested.
+
+### What is the difference between the video and photo search types?
+
+Both return posts for a keyword. Video search uses TikTok's main search ranking; photo search
+uses its photo/slideshow vertical. Photo rows always include `images[]`; video playback fields
+are omitted because slideshows do not carry a direct video stream.
+
+### Why are some fields missing on some posts?
+
+TikTok includes fields such as subtitles, location, mentions, AR effects or quality badges only
+when they apply. Empty fields are omitted rather than filled with placeholders.
+
+### Do the media URLs work forever?
+
+TikTok's media URLs are signed and expire; `mediaUrlExpiresAt` shows when the actor can read the
+expiry. Use `postUrl` as the stable reference. Cover images, avatars and sound preview URLs are
+generally directly accessible, but TikTok's video CDN may reject direct downloads even while the
+video plays on TikTok itself.
+
+### Can I search a specific country or language?
+
+Queries can be in any language and return results in that language. TikTok's web search does not
+expose a working country filter: its `region` parameter is cosmetic and results still follow the
+request's network location, so no region input is offered.
+
+### Can I search for creators directly?
+
+This actor focuses on posts and hashtags. To find creators, use `uniqueAuthors` on a keyword
+search (one post per creator), or turn on expansion to reach more creators through related
+searches, hashtags and sounds. A dedicated user-search mode is not included because TikTok
+serves it inconsistently to signed-out sessions.
+
+### Is this affiliated with TikTok?
+
+No. It is an independent tool that reads TikTok's public search results and is not run or
+endorsed by TikTok.

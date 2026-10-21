@@ -1,0 +1,407 @@
+{
+  "description": "Search Indeed job listings by keyword and location in 62 countries, or paste Indeed search, company and job URLs. Returns full descriptions, structured salaries, benefits, company details and apply links.",
+  "properties": {
+    "country": {
+      "default": "US",
+      "description": "Indeed country site to search. Results come in the site's language and salaries in its currency.",
+      "editor": "select",
+      "enum": [
+        "US",
+        "CA",
+        "GB",
+        "AU",
+        "NZ",
+        "IE",
+        "IN",
+        "SG",
+        "MY",
+        "PH",
+        "HK",
+        "PK",
+        "NG",
+        "ZA",
+        "AE",
+        "SA",
+        "QA",
+        "KW",
+        "BH",
+        "OM",
+        "EG",
+        "IL",
+        "DE",
+        "AT",
+        "CH",
+        "LU",
+        "FR",
+        "BE",
+        "MA",
+        "NL",
+        "ES",
+        "IT",
+        "PT",
+        "BR",
+        "MX",
+        "AR",
+        "CL",
+        "CO",
+        "PE",
+        "VE",
+        "CR",
+        "EC",
+        "PA",
+        "UY",
+        "PL",
+        "CZ",
+        "HU",
+        "RO",
+        "GR",
+        "SE",
+        "NO",
+        "DK",
+        "FI",
+        "TR",
+        "UA",
+        "JP",
+        "KR",
+        "CN",
+        "TW",
+        "ID",
+        "TH",
+        "VN"
+      ],
+      "enumTitles": [
+        "United States",
+        "Canada",
+        "United Kingdom",
+        "Australia",
+        "New Zealand",
+        "Ireland",
+        "India",
+        "Singapore",
+        "Malaysia",
+        "Philippines",
+        "Hong Kong",
+        "Pakistan",
+        "Nigeria",
+        "South Africa",
+        "United Arab Emirates",
+        "Saudi Arabia",
+        "Qatar",
+        "Kuwait",
+        "Bahrain",
+        "Oman",
+        "Egypt",
+        "Israel",
+        "Germany",
+        "Austria",
+        "Switzerland",
+        "Luxembourg",
+        "France",
+        "Belgium",
+        "Morocco",
+        "Netherlands",
+        "Spain",
+        "Italy",
+        "Portugal",
+        "Brazil",
+        "Mexico",
+        "Argentina",
+        "Chile",
+        "Colombia",
+        "Peru",
+        "Venezuela",
+        "Costa Rica",
+        "Ecuador",
+        "Panama",
+        "Uruguay",
+        "Poland",
+        "Czech Republic",
+        "Hungary",
+        "Romania",
+        "Greece",
+        "Sweden",
+        "Norway",
+        "Denmark",
+        "Finland",
+        "Turkey",
+        "Ukraine",
+        "Japan",
+        "South Korea",
+        "China",
+        "Taiwan",
+        "Indonesia",
+        "Thailand",
+        "Vietnam"
+      ],
+      "prefill": "US",
+      "title": "Country",
+      "type": "string"
+    },
+    "datePosted": {
+      "default": "",
+      "description": "Only jobs posted within this window.",
+      "editor": "select",
+      "enum": [
+        "",
+        "1",
+        "3",
+        "7",
+        "14",
+        "30"
+      ],
+      "enumTitles": [
+        "Any time",
+        "Last 24 hours",
+        "Last 3 days",
+        "Last 7 days",
+        "Last 14 days",
+        "Last 30 days"
+      ],
+      "title": "Date posted",
+      "type": "string"
+    },
+    "easyApplyOnly": {
+      "default": false,
+      "description": "Only jobs that accept Indeed's one-click application.",
+      "prefill": false,
+      "title": "Easy Apply only",
+      "type": "boolean"
+    },
+    "educationLevel": {
+      "default": "",
+      "description": "Only jobs asking for this education level.",
+      "editor": "select",
+      "enum": [
+        "",
+        "noDegree",
+        "highSchool",
+        "associate",
+        "bachelor",
+        "master",
+        "doctoral"
+      ],
+      "enumTitles": [
+        "Any education",
+        "No degree needed",
+        "High school",
+        "Associate degree",
+        "Bachelor's degree",
+        "Master's degree",
+        "Doctoral degree"
+      ],
+      "title": "Education level",
+      "type": "string"
+    },
+    "expandBeyondCeiling": {
+      "default": true,
+      "description": "Indeed's app search stops at roughly 600-900 unique jobs per query. When a search reaches that ceiling, split its time range into date windows and merge them, so the run returns the full set Indeed's index holds for the query. Narrow searches are handled in a single pass.",
+      "prefill": false,
+      "title": "Expand beyond Indeed's search ceiling",
+      "type": "boolean"
+    },
+    "experienceLevel": {
+      "default": "",
+      "description": "Only jobs asking for this experience level.",
+      "editor": "select",
+      "enum": [
+        "",
+        "noExperience",
+        "entry",
+        "mid",
+        "senior"
+      ],
+      "enumTitles": [
+        "Any level",
+        "No experience needed",
+        "Entry level",
+        "Mid level",
+        "Senior level"
+      ],
+      "title": "Experience level",
+      "type": "string"
+    },
+    "includeCompanyRatings": {
+      "default": false,
+      "description": "Look up each employer's Indeed rating and review count. Off by default; a rating that cannot be read is left out of the record.",
+      "prefill": false,
+      "title": "Include company ratings",
+      "type": "boolean"
+    },
+    "includeCompanyReviews": {
+      "default": false,
+      "description": "Fetch the first page of each employer's Indeed reviews (up to 20 full reviews with pros/cons and sub-ratings); combine with Include company ratings. Off by default.",
+      "prefill": false,
+      "title": "Include company reviews",
+      "type": "boolean"
+    },
+    "includeCompanySalaries": {
+      "default": false,
+      "description": "Fetch each employer's Indeed salaries page (total salary reports, satisfaction and the broader salary-by-title list); combine with Include company ratings. Off by default.",
+      "prefill": false,
+      "title": "Include company salary reports",
+      "type": "boolean"
+    },
+    "includeContacts": {
+      "default": false,
+      "description": "Extract email addresses and phone numbers written in the posting's own description text (pattern extraction, not an Indeed field). Off by default.",
+      "prefill": false,
+      "title": "Include contacts from descriptions",
+      "type": "boolean"
+    },
+    "includeDescriptionHtml": {
+      "default": false,
+      "description": "Also save each job description as HTML next to the plain text.",
+      "prefill": false,
+      "title": "Include description HTML",
+      "type": "boolean"
+    },
+    "jobType": {
+      "default": "",
+      "description": "Only jobs of this employment type.",
+      "editor": "select",
+      "enum": [
+        "",
+        "fulltime",
+        "parttime",
+        "contract",
+        "temporary",
+        "internship",
+        "permanent",
+        "seasonal",
+        "perdiem",
+        "freelance",
+        "apprenticeship",
+        "volunteer"
+      ],
+      "enumTitles": [
+        "Any type",
+        "Full-time",
+        "Part-time",
+        "Contract",
+        "Temporary",
+        "Internship",
+        "Permanent",
+        "Seasonal",
+        "Per diem",
+        "Freelance",
+        "Apprenticeship",
+        "Volunteer"
+      ],
+      "title": "Job type",
+      "type": "string"
+    },
+    "location": {
+      "description": "City, region or postal code for searches that don't name a location themselves, e.g. `Austin, TX`, `10001`, `London`. Leave empty to search the whole country. Ignored for remote-only searches (remote jobs are searched country-wide).",
+      "editor": "textfield",
+      "prefill": "San Francisco",
+      "title": "Location",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of job listings to save across all searches.",
+      "maximum": 10000,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Maximum jobs",
+      "type": "integer"
+    },
+    "maxItemsPerSearch": {
+      "description": "Optional cap per search query or URL. Defaults to the overall Maximum jobs value.",
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Maximum jobs per search",
+      "type": "integer"
+    },
+    "radius": {
+      "default": 25,
+      "description": "How far from the location to search.",
+      "maximum": 500,
+      "minimum": 0,
+      "prefill": 25,
+      "title": "Search radius",
+      "type": "integer"
+    },
+    "radiusUnit": {
+      "default": "miles",
+      "description": "Unit for the search radius.",
+      "editor": "select",
+      "enum": [
+        "miles",
+        "kilometers"
+      ],
+      "enumTitles": [
+        "Miles",
+        "Kilometers"
+      ],
+      "title": "Radius unit",
+      "type": "string"
+    },
+    "salaryMin": {
+      "description": "Only jobs paying at least this much per year (employer-stated salaries; hourly and monthly pay is compared at its annualized value). Jobs without a stated salary are kept.",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Minimum salary",
+      "type": "integer"
+    },
+    "searchQueries": {
+      "description": "Job searches. Write a location after \" in \" to search one city, e.g. `software engineer in New York`, `registered nurse in Houston, TX`. A query without \" in \" uses the Location field below, or searches the whole country.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "web developer in San Francisco"
+      ],
+      "title": "Search queries",
+      "type": "array"
+    },
+    "sort": {
+      "default": "relevance",
+      "description": "How to order results: by relevance to the keywords, or with the newest postings first.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "date"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Newest first"
+      ],
+      "title": "Sort",
+      "type": "string"
+    },
+    "startUrls": {
+      "description": "Indeed pages to scrape: filtered search URLs (filters in the URL are honored), company job pages like `https://www.indeed.com/cmp/Google/jobs`, or individual job links like `https://www.indeed.com/viewjob?jk=...`. Country sites such as `uk.indeed.com` work too.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Indeed URLs",
+      "type": "array"
+    },
+    "workplaceType": {
+      "default": "",
+      "description": "Remote, hybrid or on-site jobs only. Remote searches run country-wide because Indeed's app index does not geo-attribute remote jobs.",
+      "editor": "select",
+      "enum": [
+        "",
+        "remote",
+        "hybrid",
+        "inPerson"
+      ],
+      "enumTitles": [
+        "Any workplace",
+        "Remote only",
+        "Hybrid",
+        "On-site"
+      ],
+      "title": "Workplace",
+      "type": "string"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "Indeed Job Search Scraper Input",
+  "type": "object"
+}

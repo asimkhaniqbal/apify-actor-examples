@@ -1,0 +1,454 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-zOQlFTlYxoVEoDGBwo7U55bpFIlpfAwgrRF1bI1sxEQ=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Zillow Daily Mortgage Rate &amp; Lender Quote Scraper | Vexaloom Labs</title><meta name="description" content="Pull Zillow&#x27;s national mortgage rates, APR, and daily rate trend by loan type, with optional individual lender quotes per state."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/QsAgLESqqB6QJMbMv/"><meta property="og:title" content="Zillow Daily Mortgage Rate &amp; Lender Quote Scraper | Vexaloom Labs"><meta property="og:description" content="Pull Zillow&#x27;s national mortgage rates, APR, and daily rate trend by loan type, with optional individual lender quotes per state."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/QsAgLESqqB6QJMbMv/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/QsAgLESqqB6QJMbMv/#webpage","name":"Zillow Daily Mortgage Rate & Lender Quote Scraper","description":"Pull Zillow's national mortgage rates, APR, and daily rate trend by loan type, with optional individual lender quotes per state.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/QsAgLESqqB6QJMbMv/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/QsAgLESqqB6QJMbMv/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/QsAgLESqqB6QJMbMv/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/QsAgLESqqB6QJMbMv/#article","headline":"Zillow Daily Mortgage Rate & Lender Quote Scraper","name":"Zillow Daily Mortgage Rate & Lender Quote Scraper","description":"Pull Zillow's national mortgage rates, APR, and daily rate trend by loan type, with optional individual lender quotes per state.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/QsAgLESqqB6QJMbMv/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/QsAgLESqqB6QJMbMv/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/QsAgLESqqB6QJMbMv/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Zillow Daily Mortgage Rate & Lender Quote Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/QsAgLESqqB6QJMbMv/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Zillow Daily Mortgage Rate &amp; Lender Quote Scraper</span></div><section id="overview"><h1 class="doc-title">Zillow Daily Mortgage Rate &amp; Lender Quote Scraper</h1><p class="lede">Pull Zillow&#x27;s national mortgage rates, APR, and daily rate trend by loan type, with optional individual lender quotes per state.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/zillow-daily-mortgage-rate-and-lender-quote">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/QsAgLESqqB6QJMbMv/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>loanTypes</code></td><td>array</td><td>optional</td><td>Which loan types to scrape. All types are scraped if omitted.</td></tr><tr><td><code>states</code></td><td>array</td><td>optional</td><td>States to include. &#x27;national&#x27; returns national aggregate data. Individual states are used for lender quotes (requires fetchLenderQuotes: true).</td></tr><tr><td><code>fetchLenderQuotes</code></td><td>boolean</td><td>optional</td><td>Enable Playwright pass to fetch individual lender quotes per state. Requires residential proxy and takes longer. Off by default.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>loanTypes</code></td><td>array</td><td>optional</td><td>Which loan types to scrape. All types are scraped if omitted.</td></tr><tr><td><code>states</code></td><td>array</td><td>optional</td><td>States to include. &#x27;national&#x27; returns national aggregate data. Individual states are used for lender quotes (requires fetchLenderQuotes: true).</td></tr><tr><td><code>fetchLenderQuotes</code></td><td>boolean</td><td>optional</td><td>Enable Playwright pass to fetch individual lender quotes per state. Requires residential proxy and takes longer. Off by default.</td></tr><tr><td><code>maxLendersPerState</code></td><td>integer</td><td>optional</td><td>Maximum number of lender quotes to extract per state per loan type (1–50). Only applies when fetchLenderQuotes is enabled.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;properties&quot;: {
+    &quot;fetchLenderQuotes&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Enable Playwright pass to fetch individual lender quotes per state. Requires residential proxy and takes longer. Off by default.&quot;,
+      &quot;editor&quot;: &quot;checkbox&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Fetch Lender Quotes&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;loanTypes&quot;: {
+      &quot;description&quot;: &quot;Which loan types to scrape. All types are scraped if omitted.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;items&quot;: {
+        &quot;enum&quot;: [
+          &quot;30yr-fixed&quot;,
+          &quot;15yr-fixed&quot;,
+          &quot;5/1-arm&quot;,
+          &quot;7/1-arm&quot;,
+          &quot;fha&quot;,
+          &quot;va&quot;,
+          &quot;jumbo&quot;
+        ],
+        &quot;enumTitles&quot;: [
+          &quot;30-Year Fixed&quot;,
+          &quot;15-Year Fixed&quot;,
+          &quot;5/1 ARM&quot;,
+          &quot;7/1 ARM&quot;,
+          &quot;FHA Loan&quot;,
+          &quot;VA Loan&quot;,
+          &quot;Jumbo Loan&quot;
+        ],
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [
+        &quot;30yr-fixed&quot;,
+        &quot;fha&quot;,
+        &quot;va&quot;
+      ],
+      &quot;title&quot;: &quot;Loan Types&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;maxLendersPerState&quot;: {
+      &quot;default&quot;: 10,
+      &quot;description&quot;: &quot;Maximum number of lender quotes to extract per state per loan type (1–50). Only applies when fetchLenderQuotes is enabled.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 50,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 5,
+      &quot;title&quot;: &quot;Max Lenders Per State&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;states&quot;: {
+      &quot;default&quot;: [
+        &quot;national&quot;
+      ],
+      &quot;description&quot;: &quot;States to include. &#x27;national&#x27; returns national aggregate data. Individual states are used for lender quotes (requires fetchLenderQuotes: true).&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;items&quot;: {
+        &quot;enum&quot;: [
+          &quot;national&quot;,
+          &quot;AL&quot;,
+          &quot;AK&quot;,
+          &quot;AZ&quot;,
+          &quot;AR&quot;,
+          &quot;CA&quot;,
+          &quot;CO&quot;,
+          &quot;CT&quot;,
+          &quot;DE&quot;,
+          &quot;DC&quot;,
+          &quot;FL&quot;,
+          &quot;GA&quot;,
+          &quot;HI&quot;,
+          &quot;ID&quot;,
+          &quot;IL&quot;,
+          &quot;IN&quot;,
+          &quot;IA&quot;,
+          &quot;KS&quot;,
+          &quot;KY&quot;,
+          &quot;LA&quot;,
+          &quot;ME&quot;,
+          &quot;MD&quot;,
+          &quot;MA&quot;,
+          &quot;MI&quot;,
+          &quot;MN&quot;,
+          &quot;MS&quot;,
+          &quot;MO&quot;,
+          &quot;MT&quot;,
+          &quot;NE&quot;,
+          &quot;NV&quot;,
+          &quot;NH&quot;,
+          &quot;NJ&quot;,
+          &quot;NM&quot;,
+          &quot;NY&quot;,
+          &quot;NC&quot;,
+          &quot;ND&quot;,
+          &quot;OH&quot;,
+          &quot;OK&quot;,
+          &quot;OR&quot;,
+          &quot;PA&quot;,
+          &quot;RI&quot;,
+          &quot;SC&quot;,
+          &quot;SD&quot;,
+          &quot;TN&quot;,
+          &quot;TX&quot;,
+          &quot;UT&quot;,
+          &quot;VT&quot;,
+          &quot;VA&quot;,
+          &quot;WA&quot;,
+          &quot;WV&quot;,
+          &quot;WI&quot;,
+          &quot;WY&quot;
+        ],
+        &quot;enumTitles&quot;: [
+          &quot;National (all states)&quot;,
+          &quot;Alabama&quot;,
+          &quot;Alaska&quot;,
+          &quot;Arizona&quot;,
+          &quot;Arkansas&quot;,
+          &quot;California&quot;,
+          &quot;Colorado&quot;,
+          &quot;Connecticut&quot;,
+          &quot;Delaware&quot;,
+          &quot;Washington D.C.&quot;,
+          &quot;Florida&quot;,
+          &quot;Georgia&quot;,
+          &quot;Hawaii&quot;,
+          &quot;Idaho&quot;,
+          &quot;Illinois&quot;,
+          &quot;Indiana&quot;,
+          &quot;Iowa&quot;,
+          &quot;Kansas&quot;,
+          &quot;Kentucky&quot;,
+          &quot;Louisiana&quot;,
+          &quot;Maine&quot;,
+          &quot;Maryland&quot;,
+          &quot;Massachusetts&quot;,
+          &quot;Michigan&quot;,
+          &quot;Minnesota&quot;,
+          &quot;Mississippi&quot;,
+          &quot;Missouri&quot;,
+          &quot;Montana&quot;,
+          &quot;Nebraska&quot;,
+          &quot;Nevada&quot;,
+          &quot;New Hampshire&quot;,
+          &quot;New Jersey&quot;,
+          &quot;New Mexico&quot;,
+          &quot;New York&quot;,
+          &quot;North Carolina&quot;,
+          &quot;North Dakota&quot;,
+          &quot;Ohio&quot;,
+          &quot;Oklahoma&quot;,
+          &quot;Oregon&quot;,
+          &quot;Pennsylvania&quot;,
+          &quot;Rhode Island&quot;,
+          &quot;South Carolina&quot;,
+          &quot;South Dakota&quot;,
+          &quot;Tennessee&quot;,
+          &quot;Texas&quot;,
+          &quot;Utah&quot;,
+          &quot;Vermont&quot;,
+          &quot;Virginia&quot;,
+          &quot;Washington&quot;,
+          &quot;West Virginia&quot;,
+          &quot;Wisconsin&quot;,
+          &quot;Wyoming&quot;
+        ],
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [
+        &quot;national&quot;
+      ],
+      &quot;title&quot;: &quot;States&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    }
+  },
+  &quot;required&quot;: [],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Zillow Mortgage Rates Scraper Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>rates</code></td><td>string</td><td>optional</td><td>Dataset of national rate-aggregate records (one per loan type) plus, when enabled, individual lender-quote records per loan-type and state combination.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Daily US national mortgage rate aggregates from Zillow across 7 loan types (30yr fixed, 15yr fixed, 5/1 ARM, 7/1 ARM, FHA, VA, jumbo), plus optional per-state lender quotes.&quot;,
+  &quot;properties&quot;: {
+    &quot;rates&quot;: {
+      &quot;description&quot;: &quot;Dataset of national rate-aggregate records (one per loan type) plus, when enabled, individual lender-quote records per loan-type and state combination.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Zillow mortgage rates&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Zillow Daily Mortgage Rate &amp; Lender Quote Scraper Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;fields&quot;: {
+    &quot;properties&quot;: {
+      &quot;apr&quot;: {
+        &quot;description&quot;: &quot;APR % (lenderQuote records only)&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;number&quot;
+      },
+      &quot;currentApr&quot;: {
+        &quot;description&quot;: &quot;Current national average APR % (paired with currentRate).&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;number&quot;
+      },
+      &quot;currentRate&quot;: {
+        &quot;description&quot;: &quot;Current national average interest rate % per loan type. Populated from Zillow&#x27;s getCurrentRates API for Fixed-rate Conventional / VA loans. Omitted for ARMs (no API support) and for FHA/Jumbo when Zillow API returns 0/0.&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;number&quot;
+      },
+      &quot;lenderName&quot;: {
+        &quot;description&quot;: &quot;Lender name (lenderQuote records only)&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;loanType&quot;: {
+        &quot;description&quot;: &quot;Loan type key: 30yr-fixed, 15yr-fixed, 5/1-arm, 7/1-arm, fha, va, jumbo&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;monthlyPayment&quot;: {
+        &quot;description&quot;: &quot;Estimated monthly payment ($)&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;number&quot;
+      },
+      &quot;pointsPaid&quot;: {
+        &quot;description&quot;: &quot;Points paid (%)&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;number&quot;
+      },
+      &quot;pointsPaidDollar&quot;: {
+        &quot;description&quot;: &quot;Points paid ($)&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;number&quot;
+      },
+      &quot;productType&quot;: {
+        &quot;description&quot;: &quot;Zillow product type: CONFORMING, FHA, VA, NON_CONFORMING (aggregate records only)&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;rate&quot;: {
+        &quot;description&quot;: &quot;Interest rate % (lenderQuote records only)&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;number&quot;
+      },
+      &quot;rateDate&quot;: {
+        &quot;description&quot;: &quot;Timestamp when currentRate was fetched (paired with currentRate).&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;rateSamples&quot;: {
+        &quot;description&quot;: &quot;Rate sample objects from HTML blobs: [{rate, apr, pointsPaid, pointsPaidDollar, monthlyPayment, datePriced}]&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;array&quot;
+      },
+      &quot;rateTrend&quot;: {
+        &quot;description&quot;: &quot;30-day daily rate series: [{date, rate, apr}] per loan type. Populated for Fixed-rate Conventional/FHA/VA via Zillow&#x27;s getRates API. Omitted for ARMs (no API support) and Jumbo (Zillow returns 0).&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;array&quot;
+      },
+      &quot;recordType&quot;: {
+        &quot;description&quot;: &quot;Either &#x27;aggregate&#x27; (national rate data) or &#x27;lenderQuote&#x27; (per-lender rate from widget)&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;scope&quot;: {
+        &quot;description&quot;: &quot;Data scope: &#x27;national&#x27; (aggregate records only)&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;scrapedAt&quot;: {
+        &quot;description&quot;: &quot;ISO 8601 scrape timestamp&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;state&quot;: {
+        &quot;description&quot;: &quot;State abbreviation (lenderQuote records only)&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      }
+    },
+    &quot;type&quot;: &quot;object&quot;
+  },
+  &quot;title&quot;: &quot;Zillow Mortgage Rates&quot;,
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;currentApr&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;APR %&quot;
+          },
+          &quot;currentRate&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Rate %&quot;
+          },
+          &quot;loanType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Loan Type&quot;
+          },
+          &quot;productType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Product&quot;
+          },
+          &quot;rateDate&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Rate Date&quot;
+          },
+          &quot;recordType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Type&quot;
+          },
+          &quot;scope&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Scope&quot;
+          },
+          &quot;scrapedAt&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Scraped At&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Rates Overview&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;recordType&quot;,
+          &quot;loanType&quot;,
+          &quot;productType&quot;,
+          &quot;scope&quot;,
+          &quot;currentRate&quot;,
+          &quot;currentApr&quot;,
+          &quot;rateDate&quot;,
+          &quot;scrapedAt&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-zillow-daily-mortgage-rate-lender-quote-scraper">Zillow Daily Mortgage Rate &amp; Lender Quote Scraper</h2>
+<p>Pull Zillow's published mortgage rate data by loan type — national averages, a rolling daily trend, and sample marketplace rates — and optionally drill down into individual lender quotes for specific states.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li>Returns the current national average rate and APR for each loan type you select, when Zillow publishes one for it</li>
+<li>Includes Zillow's recent daily rate trend for the same loan types</li>
+<li>Includes rate samples (with points and estimated monthly payment) pulled from Zillow's mortgage-rate pages</li>
+<li>Can optionally fetch individual lender names and quotes from Zillow's state mortgage-rate pages</li>
+<li>Fields a given loan type or source doesn't have data for are left out of the record rather than filled with a placeholder</li>
+</ul>
+<h2 id="readme-output-per-record">Output per record</h2>
+<p>Two record types land in the same dataset — check <code>recordType</code> to tell them apart.</p>
+<h3 id="readme-aggregate-records-one-per-loan-type"><code>aggregate</code> records (one per loan type)</h3>
+<p>A loan type for which no source returns any data is left out of the dataset.</p>
+<ul>
+<li><code>recordType</code> — always <code>aggregate</code></li>
+<li><code>loanType</code> — e.g. <code>30yr-fixed</code>, <code>15yr-fixed</code>, <code>5/1-arm</code>, <code>fha</code>, <code>va</code>, <code>jumbo</code></li>
+<li><code>productType</code> — the underlying loan program category, e.g. <code>CONFORMING</code></li>
+<li><code>scope</code> — always <code>national</code> for aggregate records</li>
+<li><code>currentRate</code>, <code>currentApr</code> — the current national average rate and APR. Requested for <code>30yr-fixed</code>, <code>15yr-fixed</code>, and the 30-year <code>fha</code>, <code>va</code> and <code>jumbo</code> programs, and omitted when Zillow reports no rate (this happens regularly for FHA and jumbo). ARM loan types never have them</li>
+<li><code>rateDate</code> — when the actor captured this rate (same value as <code>scrapedAt</code>), present alongside <code>currentRate</code></li>
+<li><code>rateTrend</code> — array of <code>{date, rate, apr}</code> daily points as Zillow publishes them, for the same loan types as <code>currentRate</code>, when available</li>
+<li><code>rateSamples</code> — array of sample rate quotes for the loan's product category (<code>CONFORMING</code>, <code>FHA</code>, <code>VA</code> or <code>NON_CONFORMING</code>), each with <code>rate</code>, <code>apr</code>, <code>pointsPaid</code>, <code>pointsPaidDollar</code>, <code>monthlyPayment</code>, and <code>datePriced</code> where present</li>
+<li><code>scrapedAt</code> — when the run started (the same value on every record)</li>
+</ul>
+<h3 id="readme-lenderquote-records-only-when-fetchlenderquotes-is-enabled"><code>lenderQuote</code> records (only when <code>fetchLenderQuotes</code> is enabled)</h3>
+<ul>
+<li><code>recordType</code> — always <code>lenderQuote</code></li>
+<li><code>loanType</code> — the selected loan type this pass ran for. The actor reads the same state page for every loan type, so the quotes themselves are not specific to it</li>
+<li><code>state</code> — the two-letter state whose page the quote came from</li>
+<li><code>lenderName</code> — the lender offering this quote</li>
+<li><code>rate</code>, <code>apr</code>, <code>pointsPaid</code>, <code>pointsPaidDollar</code>, <code>monthlyPayment</code> — the quote's terms, each when shown</li>
+<li><code>scrapedAt</code> — when the run started</li>
+</ul>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>loanTypes</code></td>
+<td>array</td>
+<td>–</td>
+<td>Loan types to scrape: <code>30yr-fixed</code>, <code>15yr-fixed</code>, <code>5/1-arm</code>, <code>7/1-arm</code>, <code>fha</code>, <code>va</code>, <code>jumbo</code>. All 7 are scraped when left empty.</td>
+</tr>
+<tr>
+<td><code>states</code></td>
+<td>array</td>
+<td><code>[&quot;national&quot;]</code></td>
+<td>States to fetch lender quotes for when <code>fetchLenderQuotes</code> is on; ignored otherwise (the national aggregate pass always runs for every selected loan type regardless of this input). <code>national</code> itself is ignored for quotes; if no other state is listed, quotes default to <code>CA</code>.</td>
+</tr>
+<tr>
+<td><code>fetchLenderQuotes</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>When enabled, also fetches individual lender quotes for each listed state (repeated once per selected loan type).</td>
+</tr>
+<tr>
+<td><code>maxLendersPerState</code></td>
+<td>integer</td>
+<td><code>10</code></td>
+<td>Maximum lender quotes to return per state × loan type (1–50); only applies when <code>fetchLenderQuotes</code> is on.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="readme-example-national-rates-for-the-most-common-loan-types">Example: national rates for the most common loan types</h2>
+<pre><code class="language-json">{
+  &quot;loanTypes&quot;: [&quot;30yr-fixed&quot;, &quot;15yr-fixed&quot;, &quot;fha&quot;, &quot;va&quot;],
+  &quot;states&quot;: [&quot;national&quot;]
+}
+</code></pre>
+<h2 id="readme-example-lender-quotes-across-every-state">Example: lender quotes across every state</h2>
+<pre><code class="language-json">{
+  &quot;loanTypes&quot;: [&quot;30yr-fixed&quot;],
+  &quot;fetchLenderQuotes&quot;: true,
+  &quot;maxLendersPerState&quot;: 5,
+  &quot;states&quot;: [&quot;AL&quot;, &quot;AK&quot;, &quot;AZ&quot;, &quot;AR&quot;, &quot;CA&quot;, &quot;CO&quot;, &quot;CT&quot;, &quot;DE&quot;, &quot;FL&quot;, &quot;GA&quot;, &quot;HI&quot;, &quot;ID&quot;, &quot;IL&quot;, &quot;IN&quot;, &quot;IA&quot;, &quot;KS&quot;, &quot;KY&quot;, &quot;LA&quot;, &quot;ME&quot;, &quot;MD&quot;, &quot;MA&quot;, &quot;MI&quot;, &quot;MN&quot;, &quot;MS&quot;, &quot;MO&quot;, &quot;MT&quot;, &quot;NE&quot;, &quot;NV&quot;, &quot;NH&quot;, &quot;NJ&quot;, &quot;NM&quot;, &quot;NY&quot;, &quot;NC&quot;, &quot;ND&quot;, &quot;OH&quot;, &quot;OK&quot;, &quot;OR&quot;, &quot;PA&quot;, &quot;RI&quot;, &quot;SC&quot;, &quot;SD&quot;, &quot;TN&quot;, &quot;TX&quot;, &quot;UT&quot;, &quot;VT&quot;, &quot;VA&quot;, &quot;WA&quot;, &quot;WV&quot;, &quot;WI&quot;, &quot;WY&quot;, &quot;DC&quot;]
+}
+</code></pre>
+<h2 id="readme-example-individual-lender-quotes-in-three-states">Example: individual lender quotes in three states</h2>
+<pre><code class="language-json">{
+  &quot;loanTypes&quot;: [&quot;30yr-fixed&quot;],
+  &quot;states&quot;: [&quot;CA&quot;, &quot;TX&quot;, &quot;NY&quot;],
+  &quot;fetchLenderQuotes&quot;: true,
+  &quot;maxLendersPerState&quot;: 10
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>Daily rate tracking</strong> — schedule a run every morning to log how national rates move over time</li>
+<li><strong>Finance content and apps</strong> — surface current rates and recent trend to your own users or readers</li>
+<li><strong>Mortgage shopping research</strong> — compare lender quotes across states before choosing where to apply</li>
+<li><strong>Lender benchmarking</strong> — see how a specific lender's quoted rate compares to the broader marketplace sample</li>
+<li><strong>Regional analysis</strong> — pull lender quotes across many states to spot regional rate differences</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Why don't ARM loan types (<code>5/1-arm</code>, <code>7/1-arm</code>) have <code>currentRate</code> or <code>rateTrend</code>?</strong>
+The actor only requests Zillow's national average and trend for fixed-rate programs. ARM records carry <code>rateSamples</code> from their own Zillow page; if that page can't be loaded, the ARM record is left out.</p>
+<p><strong>What exactly is in <code>rateSamples</code>?</strong>
+Example rate quotes embedded in Zillow's mortgage-rate page for the loan type, each with points paid and an estimated monthly payment. They are matched by product category (conforming, FHA, VA, jumbo), not by exact loan term, so <code>30yr-fixed</code>, <code>15yr-fixed</code> and the ARMs can show overlapping conforming samples. If a non-ARM loan type's own page can't be loaded, its samples come from another Zillow rate page.</p>
+<p><strong>When should I turn on <code>fetchLenderQuotes</code>?</strong>
+Turn it on when you need named lenders and state-specific quotes rather than national aggregates; it takes longer and adds a page load per state and loan type. If you enable it without listing a specific state in <code>states</code>, lender quotes default to California as a sample market. After five state/loan-type combinations in a row fail to return quotes, the lender pass stops early.</p>
+<p><strong>How often does the data change?</strong>
+Each run reads whatever Zillow is publishing at that moment; <code>datePriced</code> on the samples and the dates in <code>rateTrend</code> show how recent the figures are. Re-running on a schedule picks up new values as Zillow updates them.</p>
+<p><strong>Can I get quotes for every state in one run?</strong>
+Yes, list every state abbreviation you want in <code>states</code> along with <code>fetchLenderQuotes: true</code>, as in the example above. Keep <code>loanTypes</code> short, since each loan type repeats the same state pages.</p>
+<p><strong>Is this affiliated with Zillow?</strong>
+No. This is an independent, third-party actor that reads Zillow's publicly published mortgage rate data; it is not affiliated with or endorsed by Zillow.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/QsAgLESqqB6QJMbMv/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>HSJwpc62HcfOsikqp</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

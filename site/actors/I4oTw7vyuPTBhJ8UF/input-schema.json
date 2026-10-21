@@ -1,0 +1,283 @@
+{
+  "description": "Scrape public LinkedIn posts, a profile's recent posts, comments and video metadata - no login or cookie needed.",
+  "properties": {
+    "cookie": {
+      "description": "Optional and never required - the actor works without any login. If supplied, it unlocks extra data: profile feeds paginate past the ~10-post cookieless ceiling up to Max Posts, and every post gains reaction-type breakdowns, reposts/views counts and the first page of likers/commenters. Accepts the li_at value, a raw cookie header, or a full cookies JSON array.",
+      "editor": "textfield",
+      "isSecret": true,
+      "title": "LinkedIn Cookie (optional)",
+      "type": "string"
+    },
+    "cookies": {
+      "description": "Full browser cookie export for linkedin.com as a JSON array of {name, value} objects (Cookie-Editor extension -> Export -> JSON). Same effect as the Cookie field - merged with it when both are set. Optional and never required.",
+      "editor": "json",
+      "isSecret": true,
+      "title": "LinkedIn Cookies (JSON array, optional)",
+      "type": "array"
+    },
+    "includeReposts": {
+      "default": true,
+      "description": "When off, reposts/reshared posts are excluded from the output.",
+      "prefill": true,
+      "title": "Include Reposts",
+      "type": "boolean"
+    },
+    "includeVideoTranscript": {
+      "default": false,
+      "description": "When on, video posts include the full spoken transcript (can make rows large).",
+      "prefill": false,
+      "title": "Include Video Transcript",
+      "type": "boolean"
+    },
+    "language": {
+      "default": "en",
+      "description": "Language hint sent to LinkedIn. Affects localized content where available.",
+      "editor": "select",
+      "enum": [
+        "en",
+        "es",
+        "fr",
+        "de",
+        "pt",
+        "it",
+        "nl",
+        "pl",
+        "tr",
+        "ar",
+        "zh",
+        "ja",
+        "ko",
+        "ru",
+        "sv",
+        "da",
+        "no",
+        "fi",
+        "cs",
+        "ro",
+        "hu",
+        "el",
+        "he",
+        "hi",
+        "id",
+        "ms",
+        "th",
+        "vi",
+        "uk"
+      ],
+      "enumTitles": [
+        "English",
+        "Spanish",
+        "French",
+        "German",
+        "Portuguese",
+        "Italian",
+        "Dutch",
+        "Polish",
+        "Turkish",
+        "Arabic",
+        "Chinese",
+        "Japanese",
+        "Korean",
+        "Russian",
+        "Swedish",
+        "Danish",
+        "Norwegian",
+        "Finnish",
+        "Czech",
+        "Romanian",
+        "Hungarian",
+        "Greek",
+        "Hebrew",
+        "Hindi",
+        "Indonesian",
+        "Malay",
+        "Thai",
+        "Vietnamese",
+        "Ukrainian"
+      ],
+      "prefill": "en",
+      "title": "Language",
+      "type": "string"
+    },
+    "maxComments": {
+      "default": 10,
+      "description": "How many top comments to include per post. LinkedIn shows ~10 comments to logged-out visitors and the cookie path adds commenter profile URLs to those same first ~10 - a documented source ceiling either way.",
+      "editor": "number",
+      "maximum": 10,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Max Comments per Post",
+      "type": "integer"
+    },
+    "maxInteractors": {
+      "default": 50,
+      "description": "Cap applied separately to the likers list and the commenters list of each post when interactor scraping is enabled.",
+      "editor": "number",
+      "maximum": 600,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max Likers + Commenters per Post",
+      "type": "integer"
+    },
+    "maxPosts": {
+      "default": 10,
+      "description": "Maximum number of posts to return. Cookieless profile feeds are capped by LinkedIn at the newest ~8 public posts; with the optional cookie the feed paginates up to this limit.",
+      "editor": "number",
+      "maximum": 200,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Max Posts",
+      "type": "integer"
+    },
+    "mediaTypes": {
+      "default": [],
+      "description": "Restrict output to specific post media types. Leave empty to keep all. Cookieless runs detect text, image, video and repost posts.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "text",
+          "image",
+          "video",
+          "article",
+          "document",
+          "carousel",
+          "poll",
+          "event",
+          "repost"
+        ],
+        "enumTitles": [
+          "Text",
+          "Image",
+          "Video",
+          "Article",
+          "Document",
+          "Carousel",
+          "Poll",
+          "Event",
+          "Repost"
+        ],
+        "type": "string"
+      },
+      "title": "Media Types",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "minComments": {
+      "default": 0,
+      "description": "Skip posts that received fewer than this many comments. 0 keeps everything.",
+      "editor": "number",
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum Comments",
+      "type": "integer"
+    },
+    "minReactions": {
+      "default": 0,
+      "description": "Skip posts that received fewer than this many reactions. 0 keeps everything.",
+      "editor": "number",
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum Reactions",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "auto",
+      "description": "What to scrape. \"Auto\" uses the URLs you provide; the actor picks the right pipeline automatically.",
+      "editor": "select",
+      "enum": [
+        "auto",
+        "postUrls",
+        "profilePosts"
+      ],
+      "enumTitles": [
+        "Auto (from the URLs you provide)",
+        "Scrape specific post URLs",
+        "Scrape a profile's recent posts"
+      ],
+      "prefill": "postUrls",
+      "title": "Mode",
+      "type": "string"
+    },
+    "postUrl": {
+      "description": "(mode=postUrls or auto) A LinkedIn post link, feed-update link, activity URN or bare activity ID. No login needed.",
+      "editor": "textfield",
+      "prefill": "https://www.linkedin.com/posts/nvidia_ai-is-technology-that-is-built-and-improved-activity-7508569677040893954-sffp",
+      "title": "Post URL",
+      "type": "string"
+    },
+    "postUrls": {
+      "description": "(mode=postUrls) A list of LinkedIn post links, feed-update links, activity URNs or bare activity IDs. Combined with Post URL if both are set.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Post URLs",
+      "type": "array"
+    },
+    "postedAfter": {
+      "description": "Optional. Keep posts published on or after this date. Format: 2026-01-31 or full ISO 8601.",
+      "editor": "textfield",
+      "title": "Posted After (date)",
+      "type": "string"
+    },
+    "postedBefore": {
+      "description": "Optional. Keep posts published on or before this date. Format: 2026-01-31 or full ISO 8601.",
+      "editor": "textfield",
+      "title": "Posted Before (date)",
+      "type": "string"
+    },
+    "postedLimit": {
+      "default": "",
+      "description": "Keep only posts published within this window. \"Any time\" keeps everything.",
+      "editor": "select",
+      "enum": [
+        "",
+        "1h",
+        "24h",
+        "week",
+        "month",
+        "3months",
+        "6months",
+        "year"
+      ],
+      "enumTitles": [
+        "Any time",
+        "Past hour",
+        "Past 24 hours",
+        "Past week",
+        "Past month",
+        "Past 3 months",
+        "Past 6 months",
+        "Past year"
+      ],
+      "prefill": "",
+      "title": "Posted Within",
+      "type": "string"
+    },
+    "profileUrl": {
+      "description": "(mode=profilePosts or auto) LinkedIn profile URL, e.g. https://www.linkedin.com/in/williamhgates, or just the username.",
+      "editor": "textfield",
+      "prefill": "https://www.linkedin.com/in/satyanadella",
+      "title": "Profile URL",
+      "type": "string"
+    },
+    "scrapeInteractors": {
+      "default": false,
+      "description": "Optional extra. Requires the LinkedIn Cookie field and adds the first page of commenters with profile URLs/headlines. Cookieless runs always include engagement counts and the top comments.",
+      "prefill": false,
+      "title": "Scrape Likers & Commenters (needs cookie)",
+      "type": "boolean"
+    },
+    "scrapeReactions": {
+      "default": false,
+      "description": "With Scrape Likers & Commenters on, also include the first page of likers (name/headline/profile URL). Requires the optional cookie. LinkedIn's liker pagination endpoint is not available to visitors, so this is the visible first page only.",
+      "prefill": false,
+      "title": "Include Likers List (needs cookie)",
+      "type": "boolean"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "LinkedIn Post Scraper Input",
+  "type": "object"
+}

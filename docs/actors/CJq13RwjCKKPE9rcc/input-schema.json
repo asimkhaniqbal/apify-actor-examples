@@ -1,0 +1,159 @@
+{
+  "description": "Find Facebook Pages and public profiles by keyword, or read a list of Facebook URLs, IDs or handles. No login, cookies or proxy setup required.",
+  "properties": {
+    "addDetail": {
+      "default": false,
+      "description": "Add creation date, whether the Page is currently running ads, and its public Page Transparency ID. Adds one request per result.",
+      "prefill": false,
+      "title": "Include Page Transparency",
+      "type": "boolean"
+    },
+    "categoryFilter": {
+      "description": "Optional case-insensitive text filter on a page's category, e.g. 'dentist' or 'restaurant'. Applied after page details are read; leave empty for all categories.",
+      "editor": "textfield",
+      "title": "Category Contains",
+      "type": "string"
+    },
+    "fetchPageDetails": {
+      "default": true,
+      "description": "Open each result to add category, contact details, follower counts, ratings and reviews links. Turn off for a fast identity-only list of names, URLs, IDs and verification badges.",
+      "prefill": false,
+      "title": "Fetch Page Details",
+      "type": "boolean"
+    },
+    "includePosts": {
+      "default": false,
+      "description": "Add up to maxPosts recent posts from the Page/profile timeline (text, timestamp, permalink, media and engagement when visible).",
+      "prefill": false,
+      "title": "Include Recent Post",
+      "type": "boolean"
+    },
+    "includeReviews": {
+      "default": true,
+      "description": "Fetch up to 10 real reviews per page when Facebook publishes them. Adds one request per result.",
+      "prefill": false,
+      "title": "Include Reviews",
+      "type": "boolean"
+    },
+    "location": {
+      "description": "A city or country added to every keyword, e.g. 'Berlin' or 'Kansas City, Missouri'. Facebook search is relevance-ranked, so this narrows results toward that place; it is not a strict geographic filter.",
+      "editor": "textfield",
+      "title": "Location Hint (optional)",
+      "type": "string"
+    },
+    "locationUids": {
+      "description": "Optional numeric Facebook Place IDs, one page search per UID, e.g. 108591349161413 from facebook.com/places/<id>/. maxResults is distributed across the UIDs and duplicate pages are removed. Results can include nearby businesses; this is not a strict city boundary.",
+      "editor": "stringList",
+      "title": "Location UIDs (partitioned pages search)",
+      "type": "array"
+    },
+    "maxPosts": {
+      "default": 5,
+      "description": "Maximum recent posts to keep per result when includePosts is on. Facebook may serve fewer when the timeline is empty or restricted.",
+      "editor": "number",
+      "maximum": 20,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Maximum Posts Per Page",
+      "type": "integer"
+    },
+    "maxResults": {
+      "default": 50,
+      "description": "Upper bound on rows per search query (mode=search) or in total (mode=urls). Facebook may return fewer when the index is exhausted. Deep searches use extra networking automatically.",
+      "editor": "number",
+      "maximum": 5000,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Maximum Results",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "Choose whether to discover Pages/profiles by keyword or read the Facebook URLs you already have.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "urls"
+      ],
+      "enumTitles": [
+        "Find by keyword",
+        "Read these URLs"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "rehostImages": {
+      "default": false,
+      "description": "Copy profile and cover images into Apify storage so their URLs stay valid, instead of returning Facebook's signed CDN links (which expire after about five days). Adds one download per image.",
+      "prefill": false,
+      "title": "Rehost Images",
+      "type": "boolean"
+    },
+    "searchQueries": {
+      "description": "Keywords to search on Facebook (mode=search), e.g. 'coffee shop', 'dentist Berlin'. A pasted facebook.com/search/pages/?q=... URL is accepted too. Either this or startUrls is required.",
+      "editor": "stringList",
+      "prefill": [
+        "McDonald's"
+      ],
+      "title": "Search Keywords",
+      "type": "array"
+    },
+    "searchType": {
+      "default": "pages",
+      "description": "Search for Pages, public profiles, or both. Applies to mode=search.",
+      "editor": "select",
+      "enum": [
+        "pages",
+        "people",
+        "all"
+      ],
+      "enumTitles": [
+        "Facebook Pages",
+        "Public profiles",
+        "Pages and profiles"
+      ],
+      "prefill": "pages",
+      "title": "Result Type",
+      "type": "string"
+    },
+    "startIds": {
+      "description": "Numeric Facebook IDs or @handles to read (mode=urls), e.g. 100064458773195 or @McDonalds. Combine with startUrls if you have both. Either startUrls, startIds or searchQueries is required.",
+      "editor": "stringList",
+      "title": "Facebook IDs or Handles",
+      "type": "array"
+    },
+    "startUrls": {
+      "description": "Direct Facebook Page or profile URLs to read (mode=urls), e.g. https://www.facebook.com/McDonalds, https://www.facebook.com/profile.php?id=..., /people/... or /p/.... Either startUrls, startIds or searchQueries is required.",
+      "editor": "requestListSources",
+      "items": {
+        "properties": {
+          "url": {
+            "description": "e.g. https://www.facebook.com/McDonalds, 100064458773195 or @McDonalds",
+            "title": "Facebook URL, ID or handle",
+            "type": "string"
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "type": "object"
+      },
+      "title": "Facebook URLs",
+      "type": "array"
+    },
+    "verifiedOnly": {
+      "default": false,
+      "description": "Keep only results Facebook marks as verified. Unverified or unknown results are dropped.",
+      "prefill": false,
+      "title": "Verified Pages Only",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Facebook Page & Profile Finder Input",
+  "type": "object"
+}

@@ -1,0 +1,205 @@
+{
+  "properties": {
+    "channelUrls": {
+      "default": [
+        "https://www.youtube.com/@MrBeast"
+      ],
+      "description": "YouTube channel URLs, handles (@username), or channel IDs (UCxxx). Required when inputMode is 'channel'.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "https://www.youtube.com/@MrBeast"
+      ],
+      "title": "Channel URLs",
+      "type": "array"
+    },
+    "hashtags": {
+      "description": "Hashtags to scrape Shorts from (e.g. #cooking, sports). Required when inputMode is 'hashtag'. Include or omit the # prefix.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "#shorts"
+      ],
+      "title": "Hashtags",
+      "type": "array"
+    },
+    "includeDetails": {
+      "default": true,
+      "description": "Visit each Short's page for exact views, likes, comment count, publish date, duration, category, sound and captions. Turn off for a faster, cheaper listing-only run (views as displayed, no likes or dates).",
+      "prefill": true,
+      "title": "Include Exact Details",
+      "type": "boolean"
+    },
+    "includeMembersOnly": {
+      "default": false,
+      "description": "Channel mode only. Also collect members-only Shorts when YouTube offers the 'Members only' filter on that channel's Shorts tab (a gradual rollout — the actor retries the tab a few times and notes it in the status message when unavailable). Member rows count toward maxShorts and cost up to two player requests each.",
+      "prefill": false,
+      "title": "Include Members-Only Shorts",
+      "type": "boolean"
+    },
+    "inputMode": {
+      "default": "channel",
+      "description": "Where to find Shorts. 'channel' reads a channel's Shorts tab, 'hashtag' a hashtag's Shorts feed, 'search' YouTube search results filtered to Shorts, 'direct' specific Shorts URLs or video IDs, 'sound' finds other Shorts that use the same sound as seed Shorts.",
+      "enum": [
+        "channel",
+        "hashtag",
+        "search",
+        "direct",
+        "sound"
+      ],
+      "enumTitles": [
+        "Channel Shorts Tab",
+        "Hashtag Shorts",
+        "Keyword Search",
+        "Direct Shorts URLs",
+        "Shorts by Sound"
+      ],
+      "title": "Input Mode",
+      "type": "string"
+    },
+    "market": {
+      "default": "US",
+      "description": "YouTube market/region for localized content. Affects the language of metadata returned.",
+      "editor": "select",
+      "enum": [
+        "US",
+        "GB",
+        "CA",
+        "AU",
+        "DE",
+        "FR",
+        "JP",
+        "KR",
+        "BR",
+        "IN",
+        "MX",
+        "IT",
+        "ES",
+        "NL",
+        "PL",
+        "RU",
+        "SE",
+        "NO",
+        "DK",
+        "FI",
+        "ZA",
+        "SG",
+        "HK",
+        "TW",
+        "ID",
+        "MY",
+        "TH",
+        "PH",
+        "AR",
+        "CO",
+        "CL"
+      ],
+      "enumTitles": [
+        "United States",
+        "United Kingdom",
+        "Canada",
+        "Australia",
+        "Germany",
+        "France",
+        "Japan",
+        "South Korea",
+        "Brazil",
+        "India",
+        "Mexico",
+        "Italy",
+        "Spain",
+        "Netherlands",
+        "Poland",
+        "Russia",
+        "Sweden",
+        "Norway",
+        "Denmark",
+        "Finland",
+        "South Africa",
+        "Singapore",
+        "Hong Kong",
+        "Taiwan",
+        "Indonesia",
+        "Malaysia",
+        "Thailand",
+        "Philippines",
+        "Argentina",
+        "Colombia",
+        "Chile"
+      ],
+      "title": "Market / Region",
+      "type": "string"
+    },
+    "maxShorts": {
+      "default": 3,
+      "description": "Maximum number of Shorts to return per channel, hashtag or search query (per run in direct mode).",
+      "editor": "number",
+      "maximum": 10000,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Max Shorts Per Source",
+      "type": "integer"
+    },
+    "oldestPostDate": {
+      "description": "Only include Shorts published on or after this date. Format: YYYY-MM-DD. Leave empty to include all. Works in channel, search and direct modes; hashtag mode needs 'Include Exact Details' because dates come from each Short's page.",
+      "editor": "textfield",
+      "nullable": true,
+      "prefill": "",
+      "title": "Oldest Post Date",
+      "type": "string"
+    },
+    "searchQueries": {
+      "description": "Keywords to search on YouTube, keeping only Shorts results. Required when inputMode is 'search'.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "cooking shorts"
+      ],
+      "title": "Search Queries",
+      "type": "array"
+    },
+    "shortUrls": {
+      "default": [
+        "https://www.youtube.com/shorts/pfUG56htjBc"
+      ],
+      "description": "Shorts URLs, youtu.be links, watch URLs, or 11-character video IDs. Required when inputMode is 'direct'; used as the sound seeds when inputMode is 'sound'.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "https://www.youtube.com/shorts/pfUG56htjBc"
+      ],
+      "title": "Shorts URLs or IDs",
+      "type": "array"
+    },
+    "sortShortsBy": {
+      "default": "newest",
+      "description": "Order of the channel's Shorts tab, matching the buttons YouTube shows: newest first (default), most popular, or oldest first. Falls back to newest when a channel does not offer the chosen order.",
+      "editor": "select",
+      "enum": [
+        "newest",
+        "popular",
+        "oldest"
+      ],
+      "enumTitles": [
+        "Newest first",
+        "Most popular",
+        "Oldest first"
+      ],
+      "prefill": "newest",
+      "title": "Sort Shorts By",
+      "type": "string"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "YouTube Shorts Scraper Input",
+  "type": "object"
+}

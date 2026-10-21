@@ -1,0 +1,424 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "commentId": {
+      "description": "TikTok's unique comment ID (cid field)",
+      "title": "Comment ID",
+      "type": "string"
+    },
+    "createTime": {
+      "description": "Unix timestamp when the comment was posted",
+      "title": "Create Time (Unix)",
+      "type": "integer"
+    },
+    "createdAt": {
+      "description": "ISO 8601 UTC datetime when the comment was posted",
+      "title": "Created At",
+      "type": "string"
+    },
+    "images": {
+      "description": "Raw image_list from TikTok for comments with image attachments",
+      "title": "Images",
+      "type": "array"
+    },
+    "isLikedByAuthor": {
+      "description": "Whether the post author liked this comment (heart)",
+      "title": "Liked By Author",
+      "type": "boolean"
+    },
+    "isPinnedByAuthor": {
+      "description": "Whether the post author pinned this comment",
+      "title": "Pinned By Author",
+      "type": "boolean"
+    },
+    "isReply": {
+      "description": "True if this is a reply to another comment",
+      "title": "Is Reply",
+      "type": "boolean"
+    },
+    "isTranslatable": {
+      "description": "Whether TikTok offers a translation for this comment",
+      "title": "Is Translatable",
+      "type": "boolean"
+    },
+    "labels": {
+      "description": "Raw label_list entries TikTok attaches to the comment",
+      "title": "Labels",
+      "type": "array"
+    },
+    "language": {
+      "description": "Detected language code of the comment text",
+      "title": "Language",
+      "type": "string"
+    },
+    "likeCount": {
+      "description": "Number of likes/diggs on this comment",
+      "title": "Like Count",
+      "type": "integer"
+    },
+    "postId": {
+      "description": "TikTok post/video ID this comment belongs to",
+      "title": "Post ID",
+      "type": "string"
+    },
+    "postUrl": {
+      "description": "URL of the TikTok post",
+      "title": "Post URL",
+      "type": "string"
+    },
+    "replyCount": {
+      "description": "Total number of replies to this comment",
+      "title": "Reply Count",
+      "type": "integer"
+    },
+    "replyToCommentId": {
+      "description": "ID of the root comment this row replies to (reply rows)",
+      "title": "Reply To Comment ID",
+      "type": "string"
+    },
+    "replyToNickname": {
+      "description": "Display name of the comment/reply being answered",
+      "title": "Reply To Nickname",
+      "type": "string"
+    },
+    "replyToReplyId": {
+      "description": "For nested replies, the ID of the reply this row answers",
+      "title": "Reply To Reply ID",
+      "type": "string"
+    },
+    "replyToUserId": {
+      "description": "Numeric user ID of the comment/reply being answered",
+      "title": "Reply To User ID",
+      "type": "string"
+    },
+    "replyToUsername": {
+      "description": "Handle of the comment/reply being answered",
+      "title": "Reply To Username",
+      "type": "string"
+    },
+    "rowType": {
+      "description": "'comment' for top-level comments, 'reply' for replies",
+      "title": "Row Type",
+      "type": "string"
+    },
+    "scrapedAt": {
+      "description": "ISO 8601 timestamp when the row was collected",
+      "title": "Scraped At",
+      "type": "string"
+    },
+    "shareUrl": {
+      "description": "TikTok share link that opens this comment",
+      "title": "Share URL",
+      "type": "string"
+    },
+    "stickers": {
+      "description": "Raw cmt_sticker_struct when the comment uses a sticker",
+      "title": "Stickers",
+      "type": "object"
+    },
+    "text": {
+      "description": "Raw comment text content",
+      "title": "Comment Text",
+      "type": "string"
+    },
+    "textExtra": {
+      "description": "Raw textExtra entries from TikTok API — contains hashtags, mentions, and other inline annotations in the comment text",
+      "title": "Text Extra",
+      "type": "array"
+    },
+    "threadId": {
+      "description": "Thread identifier grouping root comment + all its replies",
+      "title": "Thread ID",
+      "type": "string"
+    },
+    "user": {
+      "description": "Author of the comment",
+      "properties": {
+        "avatarUrl": {
+          "title": "Avatar URL",
+          "type": "string"
+        },
+        "bio": {
+          "description": "Commenter profile bio when set (with 'Include commenter details')",
+          "title": "Bio",
+          "type": "string"
+        },
+        "displayName": {
+          "title": "Display Name",
+          "type": "string"
+        },
+        "followerCount": {
+          "description": "Commenter's exact follower count (with 'Include commenter follower counts')",
+          "title": "Follower Count",
+          "type": "integer"
+        },
+        "followingCount": {
+          "description": "Commenter's exact following count (with 'Include commenter follower counts')",
+          "title": "Following Count",
+          "type": "integer"
+        },
+        "heartCount": {
+          "description": "Total likes received by the commenter (with 'Include commenter follower counts')",
+          "title": "Heart Count",
+          "type": "integer"
+        },
+        "id": {
+          "title": "User ID",
+          "type": "string"
+        },
+        "region": {
+          "description": "Country/region code TikTok reports for the commenter (with 'Include commenter details')",
+          "title": "Region",
+          "type": "string"
+        },
+        "secUid": {
+          "title": "Secure UID",
+          "type": "string"
+        },
+        "username": {
+          "title": "Username",
+          "type": "string"
+        },
+        "verified": {
+          "title": "Verified",
+          "type": "boolean"
+        },
+        "videoCount": {
+          "description": "Number of public videos on the commenter's profile (with 'Include commenter follower counts')",
+          "title": "Video Count",
+          "type": "integer"
+        }
+      },
+      "title": "User",
+      "type": "object"
+    },
+    "video": {
+      "description": "Caption, author and stats of the source video (only when 'Include video metadata' is on)",
+      "properties": {
+        "authorNickname": {
+          "title": "Author Nickname",
+          "type": "string"
+        },
+        "authorUsername": {
+          "title": "Author Username",
+          "type": "string"
+        },
+        "collectCount": {
+          "title": "Collect Count",
+          "type": "integer"
+        },
+        "commentCount": {
+          "title": "Comment Count",
+          "type": "integer"
+        },
+        "createTime": {
+          "title": "Create Time (Unix)",
+          "type": "integer"
+        },
+        "createdAt": {
+          "title": "Created At",
+          "type": "string"
+        },
+        "desc": {
+          "title": "Caption",
+          "type": "string"
+        },
+        "id": {
+          "title": "Video ID",
+          "type": "string"
+        },
+        "likeCount": {
+          "title": "Like Count",
+          "type": "integer"
+        },
+        "playCount": {
+          "title": "Play Count",
+          "type": "integer"
+        },
+        "shareCount": {
+          "title": "Share Count",
+          "type": "integer"
+        }
+      },
+      "title": "Video Metadata",
+      "type": "object"
+    }
+  },
+  "title": "TikTok Comments & Replies",
+  "views": {
+    "overview": {
+      "description": "TikTok comments with engagement metrics and author info.",
+      "display": {
+        "component": "table",
+        "properties": {
+          "commentId": {
+            "format": "text",
+            "label": "Comment ID"
+          },
+          "createdAt": {
+            "format": "text",
+            "label": "Created At"
+          },
+          "isReply": {
+            "format": "text",
+            "label": "Is Reply"
+          },
+          "likeCount": {
+            "format": "number",
+            "label": "Likes"
+          },
+          "postId": {
+            "format": "text",
+            "label": "Post ID"
+          },
+          "replyCount": {
+            "format": "number",
+            "label": "Replies"
+          },
+          "replyToCommentId": {
+            "format": "text",
+            "label": "Reply To"
+          },
+          "rowType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "text": {
+            "format": "text",
+            "label": "Comment Text"
+          },
+          "user": {
+            "format": "text",
+            "label": "User"
+          }
+        }
+      },
+      "title": "Comments Overview",
+      "transformation": {
+        "fields": [
+          "rowType",
+          "commentId",
+          "postId",
+          "text",
+          "createdAt",
+          "likeCount",
+          "replyCount",
+          "isReply",
+          "replyToCommentId",
+          "user"
+        ]
+      }
+    },
+    "replies": {
+      "description": "Only reply rows, keyed by the root comment they answer.",
+      "display": {
+        "component": "table",
+        "properties": {
+          "commentId": {
+            "format": "text",
+            "label": "Reply ID"
+          },
+          "createdAt": {
+            "format": "text",
+            "label": "Created At"
+          },
+          "likeCount": {
+            "format": "number",
+            "label": "Likes"
+          },
+          "postId": {
+            "format": "text",
+            "label": "Post ID"
+          },
+          "postUrl": {
+            "format": "text",
+            "label": "Video"
+          },
+          "replyToCommentId": {
+            "format": "text",
+            "label": "Root Comment"
+          },
+          "replyToReplyId": {
+            "format": "text",
+            "label": "Answers Reply"
+          },
+          "replyToUsername": {
+            "format": "text",
+            "label": "Answers User"
+          },
+          "text": {
+            "format": "text",
+            "label": "Text"
+          },
+          "user": {
+            "format": "text",
+            "label": "User"
+          }
+        }
+      },
+      "title": "Replies",
+      "transformation": {
+        "fields": [
+          "commentId",
+          "postId",
+          "replyToCommentId",
+          "replyToReplyId",
+          "replyToUsername",
+          "text",
+          "createdAt",
+          "likeCount",
+          "user",
+          "postUrl"
+        ]
+      }
+    },
+    "withVideo": {
+      "description": "Rows enriched with the source video's caption and stats.",
+      "display": {
+        "component": "table",
+        "properties": {
+          "commentId": {
+            "format": "text",
+            "label": "Comment ID"
+          },
+          "createdAt": {
+            "format": "text",
+            "label": "Created At"
+          },
+          "likeCount": {
+            "format": "number",
+            "label": "Likes"
+          },
+          "postUrl": {
+            "format": "text",
+            "label": "Video URL"
+          },
+          "rowType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "text": {
+            "format": "text",
+            "label": "Comment Text"
+          },
+          "video": {
+            "format": "text",
+            "label": "Video"
+          }
+        }
+      },
+      "title": "With Video Metadata",
+      "transformation": {
+        "fields": [
+          "rowType",
+          "commentId",
+          "text",
+          "likeCount",
+          "createdAt",
+          "video",
+          "postUrl"
+        ]
+      }
+    }
+  }
+}

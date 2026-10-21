@@ -1,0 +1,415 @@
+{
+  "description": "Search Glassdoor job listings by keyword and location, or scrape search, job, and company URLs. Filter by date, type, rating, salary, Easy Apply, company size, industry, and job function.",
+  "properties": {
+    "companySize": {
+      "default": "any",
+      "description": "Filter by the employer's employee-count band.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "enumTitles": [
+        "Any size",
+        "Tiny (1-50)",
+        "Small (51-200)",
+        "Medium (201-1000)",
+        "Large (1001-5000)",
+        "Huge (5001+)"
+      ],
+      "prefill": "any",
+      "title": "Company size",
+      "type": "string"
+    },
+    "country": {
+      "default": "united-states",
+      "description": "Which Glassdoor country site to search.",
+      "editor": "select",
+      "enum": [
+        "united-states",
+        "united-kingdom",
+        "canada",
+        "ireland",
+        "france",
+        "germany",
+        "spain",
+        "italy",
+        "netherlands",
+        "belgium",
+        "austria",
+        "switzerland",
+        "australia",
+        "new-zealand",
+        "india",
+        "singapore",
+        "hong-kong",
+        "brazil",
+        "mexico",
+        "argentina"
+      ],
+      "enumTitles": [
+        "United States",
+        "United Kingdom",
+        "Canada",
+        "Ireland",
+        "France",
+        "Germany",
+        "Spain",
+        "Italy",
+        "Netherlands",
+        "Belgium",
+        "Austria",
+        "Switzerland",
+        "Australia",
+        "New Zealand",
+        "India",
+        "Singapore",
+        "Hong Kong",
+        "Brazil",
+        "Mexico",
+        "Argentina"
+      ],
+      "prefill": "united-states",
+      "title": "Country",
+      "type": "string"
+    },
+    "easyApplyOnly": {
+      "default": false,
+      "description": "Only return jobs you can apply to directly on Glassdoor.",
+      "prefill": false,
+      "title": "Easy Apply only",
+      "type": "boolean"
+    },
+    "employmentType": {
+      "default": "all",
+      "description": "Filter by the type of employment.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "fulltime",
+        "parttime",
+        "contract"
+      ],
+      "enumTitles": [
+        "All types",
+        "Full-time",
+        "Part-time",
+        "Contract"
+      ],
+      "prefill": "all",
+      "title": "Employment type",
+      "type": "string"
+    },
+    "includeDetails": {
+      "default": false,
+      "description": "Fetch each job page for the full description, exact dates, benefits, requirements, coordinates, apply URL, and company profile. Slower and uses more requests.",
+      "prefill": false,
+      "title": "Include full details",
+      "type": "boolean"
+    },
+    "industry": {
+      "default": "any",
+      "description": "Filter by the employer's industry.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "information-technology",
+        "hr-staffing",
+        "financial-services",
+        "management-consulting",
+        "media-communication",
+        "healthcare",
+        "insurance",
+        "pharma-biotech",
+        "aerospace-defense",
+        "manufacturing",
+        "consumer-services"
+      ],
+      "enumTitles": [
+        "Any industry",
+        "Information Technology",
+        "Human Resources & Staffing",
+        "Financial Services",
+        "Management & Consulting",
+        "Media & Communication",
+        "Healthcare",
+        "Insurance",
+        "Pharmaceutical & Biotechnology",
+        "Aerospace & Defense",
+        "Manufacturing",
+        "Personal Consumer Services"
+      ],
+      "prefill": "any",
+      "title": "Industry",
+      "type": "string"
+    },
+    "jobFunction": {
+      "default": "any",
+      "description": "Narrow the search to one kind of role.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "engineering",
+        "information-technology",
+        "business",
+        "other",
+        "research-science",
+        "arts-design",
+        "consulting",
+        "finance-accounting",
+        "product-project-management",
+        "healthcare",
+        "sales",
+        "skilled-labor-manufacturing",
+        "administrative",
+        "human-resources",
+        "customer-support",
+        "retail-food",
+        "operations"
+      ],
+      "enumTitles": [
+        "Any function",
+        "Engineering",
+        "Information Technology",
+        "Business",
+        "Other",
+        "Research & Science",
+        "Arts & Design",
+        "Consulting",
+        "Finance & Accounting",
+        "Product & Project Management",
+        "Healthcare",
+        "Sales",
+        "Skilled Labor & Manufacturing",
+        "Administrative",
+        "Human Resources",
+        "Customer Services & Support",
+        "Retail & Food Services",
+        "Operations"
+      ],
+      "prefill": "any",
+      "title": "Job function",
+      "type": "string"
+    },
+    "jobIds": {
+      "default": [],
+      "description": "Glassdoor job listing IDs to refresh directly, e.g. '1010224897915'. The country site decides the domain.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Job IDs (mode=byUrl)",
+      "type": "array"
+    },
+    "location": {
+      "description": "City, state, or country, e.g. 'New York, NY', 'London', 'Berlin'. Leave empty for the selected country's whole market.",
+      "editor": "textfield",
+      "prefill": "New York, NY",
+      "title": "Location",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 100,
+      "description": "Maximum number of job listings to return across all queries and slices.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Maximum items",
+      "type": "integer"
+    },
+    "maxSalary": {
+      "description": "Only include jobs paying at most this much per year, in the country's currency. Leave empty for no maximum.",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Maximum salary",
+      "type": "integer"
+    },
+    "maximizeCoverage": {
+      "default": false,
+      "description": "Run additional searches split by date, job type, rating, and salary to get past a single search's depth limit.",
+      "prefill": false,
+      "title": "Maximize coverage",
+      "type": "boolean"
+    },
+    "minRating": {
+      "default": "0.0",
+      "description": "Only include employers rated at least this well on Glassdoor.",
+      "editor": "select",
+      "enum": [
+        "0.0",
+        "1.0",
+        "2.0",
+        "3.0",
+        "4.0"
+      ],
+      "enumTitles": [
+        "Any rating",
+        "1.0+",
+        "2.0+",
+        "3.0+",
+        "4.0+"
+      ],
+      "prefill": "0.0",
+      "title": "Minimum company rating",
+      "type": "string"
+    },
+    "minSalary": {
+      "description": "Only include jobs paying at least this much per year, in the country's currency. Leave empty for no minimum.",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Minimum salary",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "Search by keyword and location, or scrape specific Glassdoor URLs and job IDs.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byUrl"
+      ],
+      "enumTitles": [
+        "Search jobs by keyword",
+        "Scrape specific URLs or job IDs"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "postedWithin": {
+      "default": "",
+      "description": "Only include jobs posted within this window.",
+      "editor": "select",
+      "enum": [
+        "",
+        "1",
+        "3",
+        "7",
+        "14",
+        "30"
+      ],
+      "enumTitles": [
+        "Any time",
+        "Last 24 hours",
+        "Last 3 days",
+        "Last 7 days",
+        "Last 14 days",
+        "Last 30 days"
+      ],
+      "prefill": "",
+      "title": "Posted within",
+      "type": "string"
+    },
+    "radius": {
+      "default": "",
+      "description": "How far around the location to search. Only used when a location is set.",
+      "editor": "select",
+      "enum": [
+        "",
+        "0",
+        "5",
+        "10",
+        "15",
+        "25",
+        "50",
+        "100"
+      ],
+      "enumTitles": [
+        "Default",
+        "Exact location",
+        "5 miles",
+        "10 miles",
+        "15 miles",
+        "25 miles",
+        "50 miles",
+        "100 miles"
+      ],
+      "prefill": "",
+      "title": "Search radius",
+      "type": "string"
+    },
+    "remoteOnly": {
+      "default": false,
+      "description": "Only return remote jobs. Remote-only searches run market-wide because Glassdoor rejects city-scoped remote filters.",
+      "prefill": false,
+      "title": "Remote only",
+      "type": "boolean"
+    },
+    "searchQueries": {
+      "default": [],
+      "description": "Job titles, skills, or company names to search for (mode=search). One search is run per query.",
+      "editor": "stringList",
+      "prefill": [
+        "software engineer"
+      ],
+      "title": "Search queries",
+      "type": "array"
+    },
+    "seniority": {
+      "default": "all",
+      "description": "Filter by the role's seniority level.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "entrylevel",
+        "midseniorlevel",
+        "director",
+        "executive"
+      ],
+      "enumTitles": [
+        "All levels",
+        "Entry level",
+        "Mid-senior level",
+        "Director",
+        "Executive"
+      ],
+      "prefill": "all",
+      "title": "Seniority",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Order of the results. Sponsored listings may stay pinned at the top.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "date_desc",
+        "date_asc"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Newest first",
+        "Oldest first"
+      ],
+      "prefill": "relevance",
+      "title": "Sort by",
+      "type": "string"
+    },
+    "startUrls": {
+      "default": [],
+      "description": "Glassdoor search, job, or company jobs page URLs. Job URLs return one detailed record each.",
+      "editor": "requestListSources",
+      "items": {
+        "properties": {
+          "url": {
+            "description": "Glassdoor search, job, or company jobs page URL.",
+            "title": "URL",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "prefill": [],
+      "title": "Start URLs (mode=byUrl)",
+      "type": "array"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Glassdoor Jobs Scraper Input",
+  "type": "object"
+}

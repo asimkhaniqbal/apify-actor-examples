@@ -1,0 +1,205 @@
+{
+  "description": "Search TikTok by keyword for videos or photo posts, or look up hashtag metadata and top posts. Optional discovery expansion finds more posts from related searches, hashtags and sounds.",
+  "properties": {
+    "enableExpansion": {
+      "default": false,
+      "description": "After each keyword search, run extra searches derived from its own results: related searches, its top hashtags and its most-reused sound. Increases run time and the number of posts found. Videos only.",
+      "prefill": false,
+      "title": "Enable Discovery Expansion",
+      "type": "boolean"
+    },
+    "excludeAds": {
+      "default": false,
+      "description": "Drop posts TikTok flags as paid advertisements.",
+      "prefill": false,
+      "title": "Exclude Ads",
+      "type": "boolean"
+    },
+    "expansionSources": {
+      "default": [
+        "suggestions",
+        "hashtags",
+        "sounds"
+      ],
+      "description": "Which discovery sources to use when expansion is on. All three can be combined.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "suggestions",
+          "hashtags",
+          "sounds"
+        ],
+        "enumTitles": [
+          "Related searches",
+          "Hashtags",
+          "Sounds"
+        ],
+        "type": "string"
+      },
+      "prefill": [
+        "suggestions",
+        "hashtags",
+        "sounds"
+      ],
+      "title": "Expansion Sources",
+      "type": "array"
+    },
+    "hashtags": {
+      "description": "Hashtags to look up (searchType=hashtags). The # is optional, e.g. coffee or #coffee.",
+      "editor": "stringList",
+      "example": [
+        "coffee",
+        "fitness"
+      ],
+      "title": "Hashtags",
+      "type": "array"
+    },
+    "includeHashtagMetadata": {
+      "default": true,
+      "description": "For hashtag searches: emit a metadata row with the hashtag's post count, view count, description and images. Also attaches metadata to hashtag-expansion posts when expansion is on.",
+      "prefill": true,
+      "title": "Include Hashtag Metadata",
+      "type": "boolean"
+    },
+    "maxDurationSeconds": {
+      "description": "Drop videos longer than this. Leave blank for no maximum.",
+      "maximum": 7200,
+      "minimum": 0,
+      "title": "Maximum Duration (seconds)",
+      "type": "integer"
+    },
+    "maxExpansionQueriesPerSeed": {
+      "default": 3,
+      "description": "Maximum number of extra searches to run per keyword when expansion is on. Each one costs roughly as much run time as the original search.",
+      "maximum": 10,
+      "minimum": 0,
+      "prefill": 3,
+      "title": "Max Expansion Searches Per Query",
+      "type": "integer"
+    },
+    "maxPostsPerAuthor": {
+      "description": "Optional cap on how many posts one creator may contribute. Ignored when One Post Per Author is on.",
+      "maximum": 100,
+      "minimum": 1,
+      "title": "Max Posts Per Author",
+      "type": "integer"
+    },
+    "maxResultsPerQuery": {
+      "default": 30,
+      "description": "Maximum posts to collect per query or hashtag, before filters. TikTok itself usually returns about 150-220 posts per query even when you ask for more. For hashtags, the metadata row is not counted against this limit.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Max Results Per Query",
+      "type": "integer"
+    },
+    "minDurationSeconds": {
+      "description": "Drop videos shorter than this. Leave blank for no minimum.",
+      "maximum": 7200,
+      "minimum": 0,
+      "title": "Minimum Duration (seconds)",
+      "type": "integer"
+    },
+    "minLikeCount": {
+      "description": "Drop posts with fewer likes than this. Leave blank for no minimum.",
+      "minimum": 0,
+      "title": "Minimum Like Count",
+      "type": "integer"
+    },
+    "minViewCount": {
+      "description": "Drop posts with fewer plays/views than this. Leave blank for no minimum.",
+      "minimum": 0,
+      "title": "Minimum View Count",
+      "type": "integer"
+    },
+    "publishedWithin": {
+      "default": "all",
+      "description": "Client-side filter that drops posts older than the selected window, based on each post's creation time. TikTok ranks results by relevance, not date, so a narrow window can return fewer posts than requested; the actor scans up to 5x the requested count (capped at 500) to fill it.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "day",
+        "week",
+        "month",
+        "3months",
+        "6months"
+      ],
+      "enumTitles": [
+        "All time",
+        "Past 24 hours",
+        "Past week",
+        "Past month",
+        "Past 3 months",
+        "Past 6 months"
+      ],
+      "prefill": "all",
+      "title": "Published Within",
+      "type": "string"
+    },
+    "queries": {
+      "description": "Keywords or phrases to search for (searchType=videos or photos). Each query is searched independently.",
+      "editor": "stringList",
+      "example": [
+        "cooking recipes",
+        "travel vlog",
+        "@khaby.lame"
+      ],
+      "prefill": [
+        "viral"
+      ],
+      "title": "Search Queries",
+      "type": "array"
+    },
+    "searchType": {
+      "default": "videos",
+      "description": "Videos: keyword video search. Photos: slideshow/photo search. Hashtags: hashtag metadata plus its top videos (uses the Hashtags field).",
+      "editor": "select",
+      "enum": [
+        "videos",
+        "photos",
+        "hashtags"
+      ],
+      "enumTitles": [
+        "Videos by keyword",
+        "Photo / slideshow posts",
+        "Hashtags (metadata + top posts)"
+      ],
+      "prefill": "videos",
+      "title": "What to Search",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Client-side sort applied after collecting results. TikTok's web search does not support server-side sorting, so this only reorders the posts TikTok returned.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "mostLiked",
+        "mostViewed",
+        "newest"
+      ],
+      "enumTitles": [
+        "Relevance (TikTok's default order)",
+        "Most liked",
+        "Most viewed",
+        "Newest first"
+      ],
+      "prefill": "relevance",
+      "title": "Sort By",
+      "type": "string"
+    },
+    "uniqueAuthors": {
+      "default": false,
+      "description": "Keep at most one post per creator, so the results read like a creator shortlist. When a sort is selected, the top-ranked post from each creator is kept.",
+      "prefill": false,
+      "title": "One Post Per Author",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "searchType"
+  ],
+  "schemaVersion": 1,
+  "title": "TikTok Keyword Discovery — Videos, Photos, Hashtags & Creators Input",
+  "type": "object"
+}

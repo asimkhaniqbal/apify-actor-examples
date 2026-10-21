@@ -1,0 +1,544 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-twFLdSEqDiOiUdCFhjNX5RvvIUAw10YmLk76jwxlk9g=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Facebook Page &amp; Profile Finder by Keyword or URL | Vexaloom Labs</title><meta name="description" content="Find Facebook Pages or public profiles by keyword, or scrape a list of Facebook URLs directly, and get back contact info, category, ratings, follower counts, reviews, and recent po"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/CJq13RwjCKKPE9rcc/"><meta property="og:title" content="Facebook Page &amp; Profile Finder by Keyword or URL | Vexaloom Labs"><meta property="og:description" content="Find Facebook Pages or public profiles by keyword, or scrape a list of Facebook URLs directly, and get back contact info, category, ratings, follower counts, reviews, and recent po"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/CJq13RwjCKKPE9rcc/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/CJq13RwjCKKPE9rcc/#webpage","name":"Facebook Page & Profile Finder by Keyword or URL","description":"Find Facebook Pages or public profiles by keyword, or scrape a list of Facebook URLs directly, and get back contact info, category, ratings, follower counts, reviews, and recent posts.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/CJq13RwjCKKPE9rcc/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/CJq13RwjCKKPE9rcc/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/CJq13RwjCKKPE9rcc/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/CJq13RwjCKKPE9rcc/#article","headline":"Facebook Page & Profile Finder by Keyword or URL","name":"Facebook Page & Profile Finder by Keyword or URL","description":"Find Facebook Pages or public profiles by keyword, or scrape a list of Facebook URLs directly, and get back contact info, category, ratings, follower counts, reviews, and recent posts.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/CJq13RwjCKKPE9rcc/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/CJq13RwjCKKPE9rcc/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/CJq13RwjCKKPE9rcc/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Facebook Page & Profile Finder by Keyword or URL","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/CJq13RwjCKKPE9rcc/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Facebook Page &amp; Profile Finder by Keyword or URL</span></div><section id="overview"><h1 class="doc-title">Facebook Page &amp; Profile Finder by Keyword or URL</h1><p class="lede">Find Facebook Pages or public profiles by keyword, or scrape a list of Facebook URLs directly, and get back contact info, category, ratings, follower counts, reviews, and recent posts.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/facebook-page-and-profile-finder-by-keyword-or-url">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/CJq13RwjCKKPE9rcc/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>Choose whether to discover Pages/profiles by keyword or read the Facebook URLs you already have.</td></tr><tr><td><code>searchQueries</code></td><td>array</td><td>optional</td><td>Keywords to search on Facebook (mode=search), e.g. &#x27;coffee shop&#x27;, &#x27;dentist Berlin&#x27;. A pasted facebook.com/search/pages/?q=... URL is accepted too. Either this or startUrls is required.</td></tr><tr><td><code>searchType</code></td><td>string</td><td>optional</td><td>Search for Pages, public profiles, or both. Applies to mode=search.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>Choose whether to discover Pages/profiles by keyword or read the Facebook URLs you already have.</td></tr><tr><td><code>searchQueries</code></td><td>array</td><td>optional</td><td>Keywords to search on Facebook (mode=search), e.g. &#x27;coffee shop&#x27;, &#x27;dentist Berlin&#x27;. A pasted facebook.com/search/pages/?q=... URL is accepted too. Either this or startUrls is required.</td></tr><tr><td><code>searchType</code></td><td>string</td><td>optional</td><td>Search for Pages, public profiles, or both. Applies to mode=search.</td></tr><tr><td><code>location</code></td><td>string</td><td>optional</td><td>A city or country added to every keyword, e.g. &#x27;Berlin&#x27; or &#x27;Kansas City, Missouri&#x27;. Facebook search is relevance-ranked, so this narrows results toward that place; it is not a strict geographic filter.</td></tr><tr><td><code>locationUids</code></td><td>array</td><td>optional</td><td>Optional numeric Facebook Place IDs, one page search per UID, e.g. 108591349161413 from facebook.com/places/&lt;id&gt;/. maxResults is distributed across the UIDs and duplicate pages are removed. Results can include nearby businesses; this is not a strict city boundary.</td></tr><tr><td><code>categoryFilter</code></td><td>string</td><td>optional</td><td>Optional case-insensitive text filter on a page&#x27;s category, e.g. &#x27;dentist&#x27; or &#x27;restaurant&#x27;. Applied after page details are read; leave empty for all categories.</td></tr><tr><td><code>startUrls</code></td><td>array</td><td>optional</td><td>Direct Facebook Page or profile URLs to read (mode=urls), e.g. https://www.facebook.com/McDonalds, https://www.facebook.com/profile.php?id=..., /people/... or /p/.... Either startUrls, startIds or searchQueries is required.</td></tr><tr><td><code>startIds</code></td><td>array</td><td>optional</td><td>Numeric Facebook IDs or @handles to read (mode=urls), e.g. 100064458773195 or @McDonalds. Combine with startUrls if you have both. Either startUrls, startIds or searchQueries is required.</td></tr><tr><td><code>maxResults</code></td><td>integer</td><td>optional</td><td>Upper bound on rows per search query (mode=search) or in total (mode=urls). Facebook may return fewer when the index is exhausted. Deep searches use extra networking automatically.</td></tr><tr><td><code>fetchPageDetails</code></td><td>boolean</td><td>optional</td><td>Open each result to add category, contact details, follower counts, ratings and reviews links. Turn off for a fast identity-only list of names, URLs, IDs and verification badges.</td></tr><tr><td><code>includeReviews</code></td><td>boolean</td><td>optional</td><td>Fetch up to 10 real reviews per page when Facebook publishes them. Adds one request per result.</td></tr><tr><td><code>addDetail</code></td><td>boolean</td><td>optional</td><td>Add creation date, whether the Page is currently running ads, and its public Page Transparency ID. Adds one request per result.</td></tr><tr><td><code>includePosts</code></td><td>boolean</td><td>optional</td><td>Add up to maxPosts recent posts from the Page/profile timeline (text, timestamp, permalink, media and engagement when visible).</td></tr><tr><td><code>maxPosts</code></td><td>integer</td><td>optional</td><td>Maximum recent posts to keep per result when includePosts is on. Facebook may serve fewer when the timeline is empty or restricted.</td></tr><tr><td><code>verifiedOnly</code></td><td>boolean</td><td>optional</td><td>Keep only results Facebook marks as verified. Unverified or unknown results are dropped.</td></tr><tr><td><code>rehostImages</code></td><td>boolean</td><td>optional</td><td>Copy profile and cover images into Apify storage so their URLs stay valid, instead of returning Facebook&#x27;s signed CDN links (which expire after about five days). Adds one download per image.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Find Facebook Pages and public profiles by keyword, or read a list of Facebook URLs, IDs or handles. No login, cookies or proxy setup required.&quot;,
+  &quot;properties&quot;: {
+    &quot;addDetail&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Add creation date, whether the Page is currently running ads, and its public Page Transparency ID. Adds one request per result.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include Page Transparency&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;categoryFilter&quot;: {
+      &quot;description&quot;: &quot;Optional case-insensitive text filter on a page&#x27;s category, e.g. &#x27;dentist&#x27; or &#x27;restaurant&#x27;. Applied after page details are read; leave empty for all categories.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Category Contains&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;fetchPageDetails&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Open each result to add category, contact details, follower counts, ratings and reviews links. Turn off for a fast identity-only list of names, URLs, IDs and verification badges.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Fetch Page Details&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includePosts&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Add up to maxPosts recent posts from the Page/profile timeline (text, timestamp, permalink, media and engagement when visible).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include Recent Post&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeReviews&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Fetch up to 10 real reviews per page when Facebook publishes them. Adds one request per result.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include Reviews&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;location&quot;: {
+      &quot;description&quot;: &quot;A city or country added to every keyword, e.g. &#x27;Berlin&#x27; or &#x27;Kansas City, Missouri&#x27;. Facebook search is relevance-ranked, so this narrows results toward that place; it is not a strict geographic filter.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Location Hint (optional)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;locationUids&quot;: {
+      &quot;description&quot;: &quot;Optional numeric Facebook Place IDs, one page search per UID, e.g. 108591349161413 from facebook.com/places/&lt;id&gt;/. maxResults is distributed across the UIDs and duplicate pages are removed. Results can include nearby businesses; this is not a strict city boundary.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;title&quot;: &quot;Location UIDs (partitioned pages search)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;maxPosts&quot;: {
+      &quot;default&quot;: 5,
+      &quot;description&quot;: &quot;Maximum recent posts to keep per result when includePosts is on. Facebook may serve fewer when the timeline is empty or restricted.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 20,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 3,
+      &quot;title&quot;: &quot;Maximum Posts Per Page&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxResults&quot;: {
+      &quot;default&quot;: 50,
+      &quot;description&quot;: &quot;Upper bound on rows per search query (mode=search) or in total (mode=urls). Facebook may return fewer when the index is exhausted. Deep searches use extra networking automatically.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 5000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 1,
+      &quot;title&quot;: &quot;Maximum Results&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;search&quot;,
+      &quot;description&quot;: &quot;Choose whether to discover Pages/profiles by keyword or read the Facebook URLs you already have.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;search&quot;,
+        &quot;urls&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Find by keyword&quot;,
+        &quot;Read these URLs&quot;
+      ],
+      &quot;prefill&quot;: &quot;search&quot;,
+      &quot;title&quot;: &quot;Mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;rehostImages&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Copy profile and cover images into Apify storage so their URLs stay valid, instead of returning Facebook&#x27;s signed CDN links (which expire after about five days). Adds one download per image.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Rehost Images&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;searchQueries&quot;: {
+      &quot;description&quot;: &quot;Keywords to search on Facebook (mode=search), e.g. &#x27;coffee shop&#x27;, &#x27;dentist Berlin&#x27;. A pasted facebook.com/search/pages/?q=... URL is accepted too. Either this or startUrls is required.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [
+        &quot;McDonald&#x27;s&quot;
+      ],
+      &quot;title&quot;: &quot;Search Keywords&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;searchType&quot;: {
+      &quot;default&quot;: &quot;pages&quot;,
+      &quot;description&quot;: &quot;Search for Pages, public profiles, or both. Applies to mode=search.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;pages&quot;,
+        &quot;people&quot;,
+        &quot;all&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Facebook Pages&quot;,
+        &quot;Public profiles&quot;,
+        &quot;Pages and profiles&quot;
+      ],
+      &quot;prefill&quot;: &quot;pages&quot;,
+      &quot;title&quot;: &quot;Result Type&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;startIds&quot;: {
+      &quot;description&quot;: &quot;Numeric Facebook IDs or @handles to read (mode=urls), e.g. 100064458773195 or @McDonalds. Combine with startUrls if you have both. Either startUrls, startIds or searchQueries is required.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;title&quot;: &quot;Facebook IDs or Handles&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;startUrls&quot;: {
+      &quot;description&quot;: &quot;Direct Facebook Page or profile URLs to read (mode=urls), e.g. https://www.facebook.com/McDonalds, https://www.facebook.com/profile.php?id=..., /people/... or /p/.... Either startUrls, startIds or searchQueries is required.&quot;,
+      &quot;editor&quot;: &quot;requestListSources&quot;,
+      &quot;items&quot;: {
+        &quot;properties&quot;: {
+          &quot;url&quot;: {
+            &quot;description&quot;: &quot;e.g. https://www.facebook.com/McDonalds, 100064458773195 or @McDonalds&quot;,
+            &quot;title&quot;: &quot;Facebook URL, ID or handle&quot;,
+            &quot;type&quot;: &quot;string&quot;
+          }
+        },
+        &quot;required&quot;: [
+          &quot;url&quot;
+        ],
+        &quot;type&quot;: &quot;object&quot;
+      },
+      &quot;title&quot;: &quot;Facebook URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;verifiedOnly&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Keep only results Facebook marks as verified. Unverified or unknown results are dropped.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Verified Pages Only&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;mode&quot;
+  ],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Facebook Page &amp; Profile Finder Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>results</code></td><td>string</td><td>optional</td><td>Dataset with extracted Facebook Page and profile records</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Structured Facebook Page or profile records: name, ID, URL, verified badge, entity type, category, contact details, followers, ratings, reviews, Page Transparency and recent post data.&quot;,
+  &quot;properties&quot;: {
+    &quot;results&quot;: {
+      &quot;description&quot;: &quot;Dataset with extracted Facebook Page and profile records&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Facebook Pages &amp; Profiles&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Facebook Page &amp; Profile Finder Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;title&quot;: &quot;Facebook Page &amp; Profile Results&quot;,
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;category&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Category&quot;
+          },
+          &quot;entityType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Type&quot;
+          },
+          &quot;facebookUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Facebook URL&quot;
+          },
+          &quot;followers&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Followers&quot;
+          },
+          &quot;likes&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Likes&quot;
+          },
+          &quot;pageName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Page / Profile&quot;
+          },
+          &quot;phone&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Phone&quot;
+          },
+          &quot;recommendPercentage&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Recommend %&quot;
+          },
+          &quot;searchQuery&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Query&quot;
+          },
+          &quot;verified&quot;: {
+            &quot;format&quot;: &quot;boolean&quot;,
+            &quot;label&quot;: &quot;Verified&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Overview&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;pageName&quot;,
+          &quot;facebookUrl&quot;,
+          &quot;entityType&quot;,
+          &quot;verified&quot;,
+          &quot;category&quot;,
+          &quot;likes&quot;,
+          &quot;followers&quot;,
+          &quot;phone&quot;,
+          &quot;recommendPercentage&quot;,
+          &quot;searchQuery&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-facebook-page-profile-finder-by-keyword-or-url">Facebook Page &amp; Profile Finder by Keyword or URL</h2>
+<p>Find Facebook Pages and public profiles by keyword, or read a list of Facebook URLs, IDs and handles. Each row can include the verified badge, category, phone, email, address, website, followers, ratings and reviews — plus optional Page Transparency and the latest visible post. No login, cookies or proxy setup.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li><strong>Two ways in:</strong> search Facebook by keyword, or read Pages/profiles you already have via URLs, <code>profile.php?id=</code>, <code>/people/</code>, <code>/p/</code>, numeric IDs and <code>@handles</code>.</li>
+<li><strong>Pages, profiles or both:</strong> one search can return Facebook Pages, public profiles, or a deduplicated mix of the two.</li>
+<li><strong>Deep, paginated results:</strong> follow Facebook's own result pages up to your <code>maxResults</code> limit, instead of stopping at a handful of search-engine hits.</li>
+<li><strong>Enrichment on demand:</strong> turn <code>fetchPageDetails</code> on for contact details, category, followers and ratings; add reviews, Page Transparency and the latest visible post when you need them.</li>
+<li><strong>Verified filtering:</strong> keep only Pages/profiles Facebook marks as verified with <code>verifiedOnly</code>.</li>
+<li>Empty fields are omitted — the actor never fills a missing value with <code>null</code>, <code>0</code>, or a placeholder.</li>
+</ul>
+<h2 id="readme-output-per-page-or-profile">Output per Page or profile</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>facebookUrl</code> / <code>pageUrl</code></td>
+<td>Normalized URL of the Page or profile.</td>
+</tr>
+<tr>
+<td><code>pageName</code></td>
+<td>Display name.</td>
+</tr>
+<tr>
+<td><code>pageId</code> / <code>facebookId</code></td>
+<td>Facebook identifier (numeric or <code>pfbid…</code> for some profiles).</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>Page title.</td>
+</tr>
+<tr>
+<td><code>verified</code></td>
+<td><code>true</code>/<code>false</code> when Facebook exposes the badge.</td>
+</tr>
+<tr>
+<td><code>entityType</code></td>
+<td><code>page</code> or <code>profile</code> when search identifies it.</td>
+</tr>
+<tr>
+<td><code>searchQuery</code> / <code>searchRank</code></td>
+<td>Keyword that found the row and its 1-based position (reset per UID slice).</td>
+</tr>
+<tr>
+<td><code>searchLocationUid</code></td>
+<td>The location UID slice that produced the row, when <code>locationUids</code> is used.</td>
+</tr>
+<tr>
+<td><code>category</code> / <code>categories</code></td>
+<td>Primary category and full list.</td>
+</tr>
+<tr>
+<td><code>intro</code> / <code>info</code></td>
+<td>Page introduction and up to 5 description lines.</td>
+</tr>
+<tr>
+<td><code>likes</code></td>
+<td>Likes count (exact when Facebook exposes it).</td>
+</tr>
+<tr>
+<td><code>followers</code> / <code>followings</code></td>
+<td>Follower and following counts (exact when <code>og:description</code> carries them, otherwise Facebook's rounded number).</td>
+</tr>
+<tr>
+<td><code>talkingAboutCount</code> / <code>checkins</code></td>
+<td>&quot;Talking about this&quot; and &quot;were here&quot; counts.</td>
+</tr>
+<tr>
+<td><code>phone</code> / <code>email</code> / <code>messenger</code></td>
+<td>Contact details when published.</td>
+</tr>
+<tr>
+<td><code>address</code> / <code>addressUrl</code></td>
+<td>Address text and a Google Maps link.</td>
+</tr>
+<tr>
+<td><code>website</code> / <code>websites</code></td>
+<td>Linked website(s).</td>
+</tr>
+<tr>
+<td><code>priceRange</code></td>
+<td>Price marker such as <code>££</code> or <code>$$</code>.</td>
+</tr>
+<tr>
+<td><code>business_hours</code> / <code>openNowStatus</code></td>
+<td>Published hours and the current open/closed label when shown.</td>
+</tr>
+<tr>
+<td><code>ratingOverall</code> / <code>ratingCount</code> / <code>ratingText</code> / <code>recommendPercentage</code></td>
+<td>Rating and recommendation data.</td>
+</tr>
+<tr>
+<td><code>ownerOrganization</code></td>
+<td>Organization Facebook discloses as responsible for the Page.</td>
+</tr>
+<tr>
+<td><code>profilePictureUrl</code> / <code>coverPhotoUrl</code></td>
+<td>Profile and cover image URLs (signed; ~5-day expiry unless <code>rehostImages</code> is on).</td>
+</tr>
+<tr>
+<td><code>profilePictureUrlOriginal</code> / <code>coverPhotoUrlOriginal</code></td>
+<td>Original signed URLs retained when rehosting.</td>
+</tr>
+<tr>
+<td><code>pageAdLibrary</code></td>
+<td>Link to the Page's Ad Library listing.</td>
+</tr>
+<tr>
+<td><code>pageCreatedDate</code> / <code>isRunningAds</code> / <code>pageTransparencyId</code></td>
+<td>Added by <code>addDetail</code>.</td>
+</tr>
+<tr>
+<td><code>reviews</code></td>
+<td>Up to 10 <code>{reviewerName, recommends, reviewText, reviewDate}</code> objects.</td>
+</tr>
+<tr>
+<td><code>posts</code></td>
+<td>Up to <code>maxPosts</code> recent posts: <code>post_text</code>, <code>post_timestamp</code>, <code>post_url</code>, <code>media_urls</code>, <code>reaction_count</code>, <code>comment_count</code>, <code>share_count</code>.</td>
+</tr>
+<tr>
+<td><code>instagram</code> / <code>instagramFollowers</code> / <code>instagramVerified</code></td>
+<td>Linked Instagram profile when the Ad Library index knows it.</td>
+</tr>
+<tr>
+<td><code>scrapedAt</code></td>
+<td>Collection timestamp (ISO 8601 UTC).</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td>select</td>
+<td><code>search</code></td>
+<td><code>search</code> (find by keyword) or <code>urls</code> (read URLs/IDs/handles).</td>
+</tr>
+<tr>
+<td><code>searchQueries</code></td>
+<td>string list</td>
+<td>–</td>
+<td>Keywords for <code>mode=search</code>; a Facebook search URL is accepted.</td>
+</tr>
+<tr>
+<td><code>searchType</code></td>
+<td>select</td>
+<td><code>pages</code></td>
+<td><code>pages</code>, <code>people</code> or <code>all</code>.</td>
+</tr>
+<tr>
+<td><code>location</code></td>
+<td>string</td>
+<td>–</td>
+<td>City/country added to each keyword; relevance hint, not a strict filter.</td>
+</tr>
+<tr>
+<td><code>locationUids</code></td>
+<td>array</td>
+<td>–</td>
+<td>Numeric Facebook Place IDs. Runs one page search per UID, splits <code>maxResults</code> across them, dedupes by page ID and adds <code>searchLocationUid</code>; nearby results can appear.</td>
+</tr>
+<tr>
+<td><code>categoryFilter</code></td>
+<td>string</td>
+<td>–</td>
+<td>Case-insensitive category text filter (e.g. <code>dentist</code>); requires page details.</td>
+</tr>
+<tr>
+<td><code>startUrls</code></td>
+<td>URL list</td>
+<td>–</td>
+<td>Facebook Page/profile URLs for <code>mode=urls</code>.</td>
+</tr>
+<tr>
+<td><code>startIds</code></td>
+<td>ID/handle list</td>
+<td>–</td>
+<td>Numeric IDs or <code>@handles</code> for <code>mode=urls</code>; combine with <code>startUrls</code> when needed.</td>
+</tr>
+<tr>
+<td><code>maxResults</code></td>
+<td>integer</td>
+<td><code>50</code></td>
+<td>1–5000 rows per query (or in total for <code>urls</code>).</td>
+</tr>
+<tr>
+<td><code>fetchPageDetails</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Add category, contacts, followers and ratings. Off = fast identity-only list.</td>
+</tr>
+<tr>
+<td><code>includeReviews</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Add up to 10 published reviews per Page.</td>
+</tr>
+<tr>
+<td><code>addDetail</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Add Page creation date, ad status and Transparency ID.</td>
+</tr>
+<tr>
+<td><code>includePosts</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Add up to <code>maxPosts</code> recent timeline posts.</td>
+</tr>
+<tr>
+<td><code>maxPosts</code></td>
+<td>integer</td>
+<td><code>5</code></td>
+<td>1–20; only used with <code>includePosts</code>.</td>
+</tr>
+<tr>
+<td><code>verifiedOnly</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Keep only verified results.</td>
+</tr>
+<tr>
+<td><code>rehostImages</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Copy profile/cover images to Apify storage; signed Facebook CDN links expire in about five days.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-example-search-pages-and-profiles">Example: search Pages and profiles</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;searchQueries&quot;: [&quot;coffee shop&quot;, &quot;dentist Berlin&quot;],
+  &quot;searchType&quot;: &quot;all&quot;,
+  &quot;maxResults&quot;: 100,
+  &quot;fetchPageDetails&quot;: true,
+  &quot;includeReviews&quot;: true
+}
+</code></pre>
+<h3 id="readme-example-read-a-list-of-urls-ids-and-handles">Example: read a list of URLs, IDs and handles</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;urls&quot;,
+  &quot;startUrls&quot;: [
+    { &quot;url&quot;: &quot;https://www.facebook.com/McDonalds&quot; },
+    { &quot;url&quot;: &quot;https://www.facebook.com/profile.php?id=100064458773195&quot; }
+  ],
+  &quot;startIds&quot;: [&quot;100064458773195&quot;, &quot;@Starbucks&quot;],
+  &quot;includePosts&quot;: true,
+  &quot;maxPosts&quot;: 1
+}
+</code></pre>
+<h3 id="readme-example-verified-only-identity-list">Example: verified-only identity list</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;searchQueries&quot;: [&quot;nike&quot;, &quot;starbucks&quot;],
+  &quot;searchType&quot;: &quot;pages&quot;,
+  &quot;maxResults&quot;: 50,
+  &quot;fetchPageDetails&quot;: false,
+  &quot;verifiedOnly&quot;: true
+}
+</code></pre>
+<h2 id="readme-limits">Limits</h2>
+<ul>
+<li><code>maxResults</code> is a ceiling. A single keyword query has its own finite index; add keywords, or use <code>locationUids</code> to partition a pages search across several Place IDs and merge the slices.</li>
+<li>Facebook does not expose a server-side category filter to logged-out search. <code>categoryFilter</code> filters the enriched rows locally and requires <code>fetchPageDetails</code>.</li>
+<li>Profile follower counts are returned only when Facebook shows them publicly; hidden/zero counts are omitted rather than guessed.</li>
+<li>Exact likes in URL mode are filled when the page matches Meta's Ad Library typeahead; otherwise Facebook does not expose the count and it is omitted.</li>
+<li>Facebook image URLs are signed and expire after about five days. Turn on <code>rehostImages</code> for durable profile/cover images; the original URLs are kept in <code>profilePictureUrlOriginal</code> and <code>coverPhotoUrlOriginal</code>.</li>
+<li><code>locationUids</code> partitions page searches by Facebook Place IDs; each row records its slice in <code>searchLocationUid</code>. Results can include nearby businesses, not only a strict city boundary.</li>
+</ul>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>Lead generation</strong> — find local businesses by keyword and collect the phone, email, address and website they publish.</li>
+<li><strong>Brand research</strong> — compare Pages in a category by followers, rating and verified status.</li>
+<li><strong>Competitor discovery</strong> — find every Page and public profile active around a keyword.</li>
+<li><strong>Bulk enrichment</strong> — feed a CRM export of URLs or numeric IDs and add contact and engagement data.</li>
+<li><strong>Reputation monitoring</strong> — pull published reviews and the latest post for a set of Pages.</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Do I need a Facebook account or cookies?</strong> No. The actor reads only what Facebook serves to logged-out visitors. There is no login, cookie or API-key field.</p>
+<p><strong>What is the difference between <code>pages</code> and <code>people</code>?</strong> <code>pages</code> returns business/brand/organization Pages; <code>people</code> returns public personal profiles; <code>all</code> returns both and removes duplicates.</p>
+<p><strong>Why are some fields missing?</strong> The Page owner did not publish that information, or Facebook does not show it to logged-out visitors. The actor omits missing fields instead of guessing.</p>
+<p><strong>Does the output include verified badges?</strong> Yes. <code>verified</code> is filled when Facebook shows the badge. Use <code>verifiedOnly</code> to keep only verified results.</p>
+<p><strong>Why do image URLs stop working after a few days?</strong> Facebook serves signed CDN links that expire. Turn on <code>rehostImages</code> to copy profile and cover images into Apify storage; the originals remain in <code>profilePictureUrlOriginal</code> and <code>coverPhotoUrlOriginal</code>.</p>
+<p><strong>Can I filter by category?</strong> Set <code>categoryFilter</code> to a word from the category, such as <code>dentist</code>, <code>restaurant</code> or <code>clinic</code>. It filters the enriched rows after page details are read; with <code>fetchPageDetails</code> off, rows without a category are dropped.</p>
+<p><strong>Can I filter by city?</strong> Add a city or country to <code>location</code> or include it in the keyword (e.g. &quot;dentist Berlin&quot;). Facebook search is relevance-ranked, so this is a hint, not a strict filter. For Facebook’s Place filter on Pages, set <code>locationUids</code> to numeric Place IDs from <code>facebook.com/places/&lt;id&gt;/</code> URLs. Multiple UIDs partition the search; nearby businesses can still appear.</p>
+<p><strong>How many reviews and posts can I get?</strong> Up to 10 published reviews per Page and up to <code>maxPosts</code> recent timeline posts. Facebook does not expose the full review history or an unlimited timeline without a login.</p>
+<p><strong>Can I use <code>profile.php?id=</code>, numeric IDs or handles?</strong> Yes. <code>startUrls</code> accepts full URLs, <code>profile.php?id=…</code>, <code>/people/…</code> and <code>/p/…</code>; <code>startIds</code> accepts numeric IDs and <code>@handles</code>.</p>
+<p><strong>Is this affiliated with Facebook or Meta?</strong> No. This is an independent tool and is not affiliated with, endorsed by, or sponsored by Meta Platforms, Inc.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/CJq13RwjCKKPE9rcc/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>QgeIPeYymvYKKgS13</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

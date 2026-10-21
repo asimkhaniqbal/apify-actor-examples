@@ -1,0 +1,127 @@
+{
+  "description": "Scrape comments and full reply threads from TikTok videos. Provide video URLs/IDs and/or profiles.",
+  "properties": {
+    "deepWalk": {
+      "default": false,
+      "description": "Read TikTok's app-style view of the comment list, which reaches far more comments on many videos, and restore image/sticker data from the standard view per comment. Off keeps the standard walk.",
+      "prefill": false,
+      "title": "Deep walk (higher comment coverage)",
+      "type": "boolean"
+    },
+    "includeCommenterDetails": {
+      "default": false,
+      "description": "Add the commenter's region code and bio to user.region / user.bio, matched by comment ID from TikTok's app-style view of the page.",
+      "prefill": false,
+      "title": "Include commenter details (region, bio)",
+      "type": "boolean"
+    },
+    "includeCommenterStats": {
+      "default": false,
+      "description": "Add exact follower, following, heart and video counts to user.* for every commenter. Each commenter's public profile is looked up once; private or banned accounts are omitted.",
+      "prefill": false,
+      "title": "Include commenter follower counts",
+      "type": "boolean"
+    },
+    "includeReplies": {
+      "default": true,
+      "description": "Fetch the reply thread under each root comment and emit each reply as its own row right after its parent.",
+      "prefill": true,
+      "title": "Include replies",
+      "type": "boolean"
+    },
+    "includeVideoMetadata": {
+      "default": false,
+      "description": "Add a 'video' object (caption, author, view/like/comment counts) to every row.",
+      "prefill": false,
+      "title": "Include video metadata",
+      "type": "boolean"
+    },
+    "maxCommenterLookups": {
+      "default": 100,
+      "description": "Cap on how many commenters are enriched when 'Include commenter follower counts' is on. Set to 0 for no cap.",
+      "maximum": 10000,
+      "minimum": 0,
+      "prefill": 100,
+      "title": "Max commenter lookups",
+      "type": "integer"
+    },
+    "maxCommentsPerPost": {
+      "description": "Maximum number of rows per video, counting replies when 'Include replies' is on. The actor walks the comment section as deep as TikTok serves it.",
+      "maximum": 10000,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Max comment rows per video",
+      "type": "integer"
+    },
+    "maxItems": {
+      "default": 0,
+      "description": "Global cap on the number of rows in the run (comments + replies). Set to 0 for no global cap.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Max total rows",
+      "type": "integer"
+    },
+    "maxRepliesPerComment": {
+      "default": 0,
+      "description": "Cap the replies fetched for any single root comment. Set to 0 for all replies (still bounded by 'Max comment rows per video').",
+      "maximum": 5000,
+      "minimum": 0,
+      "prefill": 5,
+      "title": "Max replies per comment",
+      "type": "integer"
+    },
+    "maxVideosPerProfile": {
+      "default": 10,
+      "description": "How many of each profile's newest videos to scrape comments from.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Max videos per profile",
+      "type": "integer"
+    },
+    "minLikes": {
+      "default": 0,
+      "description": "Only keep comments and replies with at least this many likes. Comments below the threshold are skipped before their replies are fetched.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum likes",
+      "type": "integer"
+    },
+    "postIds": {
+      "description": "Numeric TikTok video IDs (15-20 digits) as an alternative to URLs.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Video IDs",
+      "type": "array"
+    },
+    "postUrls": {
+      "description": "TikTok video or photo URLs to scrape comments from (e.g. https://www.tiktok.com/@user/video/123...).",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "https://www.tiktok.com/@khaby.lame/video/7574844184952081686"
+      ],
+      "title": "Video URLs",
+      "type": "array"
+    },
+    "profiles": {
+      "description": "TikTok usernames or profile URLs. The actor scrapes comments from their newest videos, up to 'Max videos per profile'.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Profiles (comments on their newest videos)",
+      "type": "array"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "TikTok Comment & Reply Thread Extractor Input",
+  "type": "object"
+}

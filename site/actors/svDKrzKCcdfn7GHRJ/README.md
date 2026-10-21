@@ -1,0 +1,165 @@
+# Web Search & RAG Markdown Extractor for LLMs
+
+Give your LLM or RAG pipeline fresh web content in one run: search the web, read specific pages, or crawl a small site — and receive clean Markdown, plain text, HTML, structured links, and citation metadata. The actor starts its search on Google and automatically falls back to Bing or DuckDuckGo when an engine is unavailable, so a query keeps returning results even when one search provider is having a bad day.
+
+## What this actor does
+
+- **Three intents in one actor:** search by keyword (`query` / `queries`), read exact pages (`startUrls`), or crawl a site by following links within the same domain (`maxCrawlDepth`)
+- **Resilient search:** Google first, with automatic Bing and DuckDuckGo fallbacks; every result keeps its title, snippet, displayed address, position, and the engine that found it
+- **RAG-ready output:** clean Markdown, plain text, or HTML, plus every link on the page as structured `{url, text}` pairs and optional heading-aware chunks that never cut code blocks or tables in half
+- **Citation metadata:** canonical URL, author, published date, keywords, social image, and site name — each included when the page actually provides it
+- **Token control:** `maxContentLength` caps the returned content per page; `includeMetadata` and `chunkMarkdown` are opt-in extras
+- **Filters:** domain allowlist/blocklist, minimum text length, required keywords, and custom CSS selectors to strip or keep
+- **No login, cookies, or API keys required.** Fields a page doesn't have are omitted from its record rather than returned empty
+
+## Output per page
+
+- `url` — the page's address; `loadedUrl` — where the fetch ended after redirects; `redirectedUrl` — the final address when it differs from `url`
+- `domain` — host name of the page
+- `title`, `description`, `languageCode`
+- `markdown`, `text`, `html` — included only for the formats you select
+- `links` — every http(s) link found on the page as `{url, text}`, when `links` is selected
+- `chunks` — heading-aware content pieces with `index`, `text`, `headingPath`, `charCount`, when `chunkMarkdown` is on
+- `wordCount`, `readingTimeMinutes` (at 220 words per minute), `contentLength` (characters of the emitted content), `contentHash` (SHA-256 for change detection)
+- `canonicalUrl`, `author`, `publishedDate` (ISO 8601), `keywords`, `ogImage`, `siteName` — page metadata, when present
+- `searchRank` — 1-based position of the page in the search results (search mode only)
+- `searchResult` — `{url, title, snippet, displayedUrl, position, engine}` for pages that came from a search query
+- `query` — the search query that produced the page; `engine` — which engine found it
+- `crawlDepth` — how many link hops from a start URL (crawl mode only)
+- `fetchError` — why a page could not be fetched, on metadata-only records (see below)
+- `httpStatusCode` — the status the page answered with; pages that answer with an error status but still return content are kept like any other page
+- `loadedTime` — seconds spent fetching the page
+- `recordType: "page"`, `scrapedAt`
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `query` | string | `what is retrieval augmented generation` | Search terms, or a single page URL to read directly |
+| `queries` | array | `[]` | More queries for batch runs; a URL here is fetched directly |
+| `startUrls` | array | `[]` | Pages to read; with `maxCrawlDepth` > 0 these become crawl seeds |
+| `searchEngine` | string | `auto` | `auto` / `google` / `bing` / `duckduckgo` |
+| `searchLanguage` | string | `auto` | Language bias for results |
+| `searchCountry` | string | `auto` | Country bias for results |
+| `maxResults` | integer | `3` | Search results fetched per query (1–250; > 10 needs multiple result pages) |
+| `maxItems` | integer | `0` | Global page cap for the whole run (0 = no cap) |
+| `outputFormats` | array | `["markdown"]` | Any of `markdown`, `text`, `html`, `links` |
+| `removeElementsCssSelector` | string | `nav, footer, aside, script, style, .ad, .advertisement, [aria-hidden='true']` | Elements removed before extraction |
+| `keepElementsCssSelector` | array | `[]` | Keep only content inside these selectors |
+| `htmlTransformer` | string | `readable-text` | `readable-text` (main article) or `none` (full page) |
+| `maxContentLength` | integer | `0` | Truncate content per page (0 = full content) |
+| `includeMetadata` | boolean | `true` | Include author, dates, canonical URL, and friends |
+| `chunkMarkdown` | boolean | `false` | Emit heading-aware `chunks` |
+| `chunkMaxChars` | integer | `2000` | Target chunk size (200–10000) |
+| `chunkOverlapChars` | integer | `200` | Overlap between chunks (0–1000) |
+| `maxCrawlDepth` | integer | `0` | Follow same-domain links up to this depth (0 = off) |
+| `maxCrawlPages` | integer | `25` | Page cap in crawl mode |
+| `domainAllowlist` | array | `[]` | Only keep pages whose host contains one of these |
+| `domainBlocklist` | array | `[]` | Drop pages whose host contains one of these |
+| `minTextLength` | integer | – | Drop pages with less extracted text than this |
+| `excludeContentSelectors` | array | `[]` | Extra CSS selectors to strip |
+| `keywordsAnyOf` | array | `[]` | Keep only pages containing at least one keyword |
+| `emitFailedResults` | boolean | `true` | Emit a metadata-only record with `fetchError` for pages that could not be fetched |
+
+Older tasks may still carry tuning fields such as `scrapingTool`, `requestTimeoutSecs`, `desiredConcurrency`, `maxRequestRetries`, `dynamicContentWaitSecs`, `removeCookieWarnings`, `useApifyProxy`, or `debugMode`. They are accepted and ignored: request timeouts, retries, rendering, proxy rotation, and diagnostics are decided automatically by the actor.
+
+### Example: Google a question and keep only substantial pages
+
+```json
+{
+  "query": "vector database comparison 2026",
+  "maxResults": 5,
+  "outputFormats": ["markdown", "links"],
+  "minTextLength": 1000,
+  "domainBlocklist": ["pinterest.com"]
+}
+```
+
+### Example: batch queries with citation metadata
+
+```json
+{
+  "queries": ["retrieval augmented generation evaluation", "chunking strategies for RAG"],
+  "maxResults": 3,
+  "includeMetadata": true,
+  "chunkMarkdown": true,
+  "chunkMaxChars": 1500
+}
+```
+
+### Example: read exact pages
+
+```json
+{
+  "query": "",
+  "startUrls": [
+    "https://en.wikipedia.org/wiki/Retrieval-augmented_generation",
+    "https://docs.langchain.com/oss/python/langchain/retrieval"
+  ],
+  "outputFormats": ["markdown", "text"],
+  "htmlTransformer": "readable-text"
+}
+```
+
+### Example: crawl a documentation section
+
+```json
+{
+  "query": "",
+  "startUrls": ["https://docs.crawl4ai.com/core/"],
+  "maxCrawlDepth": 2,
+  "maxCrawlPages": 20,
+  "outputFormats": ["markdown", "links"]
+}
+```
+
+## Use cases
+
+- **RAG ingestion** — pull the current top results for a topic and hand the Markdown (or ready-made chunks) straight to your embedding step
+- **Agent context gathering** — give an AI agent a fresh, citation-bearing view of the web without building a search stack
+- **Citation enrichment** — resolve each reference URL from a document into clean text plus author and publication date
+- **Documentation snapshots** — crawl a docs section and keep `contentHash` values to detect what actually changed between runs
+- **Competitive monitoring** — schedule queries with a `domainAllowlist` to watch specific companies or publications
+- **Due-diligence research** — batch a list of questions, filter to long-form sources with `minTextLength`, and export one tidy dataset
+
+## FAQ
+
+### Do I need to log in or provide cookies?
+
+No. Every search and page request is anonymous: no account, no cookies, no API keys.
+
+### How does the actor choose a search engine?
+
+`searchEngine: auto` (the default) tries Google first. If Google cannot be reached or returns no readable results, the actor automatically tries Bing and then DuckDuckGo. You can also pin one engine explicitly — useful when you want strictly one provider for reproducibility.
+
+### Do I need to set up a proxy?
+
+No. The actor starts with direct requests and only switches connections when a page actually blocks it. Everything is handled automatically; there is nothing to configure. Blocked pages get a per-request escalation (datacenter rotation, then a rendering relay) before the actor gives up on them, and pages that still fail are reported through `fetchError`.
+
+### Why do some pages have fewer fields?
+
+Metadata like `author` or `publishedDate` is emitted only when the page itself declares it. If a page has no publication date, the field is simply absent from that record — never `null`, never an empty string. The same applies to `chunks` (only with `chunkMarkdown`) and `links` (only when selected).
+
+### Can the actor read JavaScript-heavy pages?
+
+Yes, automatically. The actor first requests every page with plain HTTP; when a page answers with a JavaScript challenge, a 202-style JS stub, or an empty app shell, it renders that page in a real browser (dismissing common consent banners and expanding collapsed sections) before extraction. No setting to change — the escalation is decided per page.
+
+### How do I control the size of the output?
+
+Set `maxContentLength` to cap characters per page, or enable `chunkMarkdown` to get evenly sized pieces. Both help keep embedding and token costs predictable.
+
+### What happens when a page can't be fetched?
+
+`maxResults` counts *search results*, so every requested result yields one record. When a site refuses the fetch (for example a paywall or a bot challenge that survives the actor's retry ladder), the record still carries `url`, `title`, `description`, `searchResult` and `searchRank`, plus a `fetchError` note explaining what happened — with no fabricated page content. Set `emitFailedResults` to `false` if you prefer the dataset to contain successfully fetched pages only.
+
+### What happens if a search returns nothing?
+
+The run finishes with a status message explaining what happened and still succeeds — no placeholder rows. If every provider fails for a query, the log lists the reason.
+
+### Are file downloads and AI summaries supported?
+
+No — this actor returns text and metadata for pages. It skips media and document files (video, audio, images, PDFs) because they carry no page text, and it does not call any paid AI service.
+
+### Is this affiliated with Google, Bing, or DuckDuckGo?
+
+No. This is an independent, third-party actor. It reads public search result pages and public web pages; it is not operated by or affiliated with any search provider.

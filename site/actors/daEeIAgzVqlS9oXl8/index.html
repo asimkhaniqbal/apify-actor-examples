@@ -1,0 +1,762 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-9weHYTUPp4E7j+QlfpDoQDp2sFJlORh71duQLs+EbJw=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Domain-Scoped Site Crawler for Markdown Datasets | Vexaloom Labs</title><meta name="description" content="Crawl a website from one or more start URLs, staying on the same domain, and get back clean Markdown, text, or HTML per page with title, description, and crawl depth. Built for fee"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/daEeIAgzVqlS9oXl8/"><meta property="og:title" content="Domain-Scoped Site Crawler for Markdown Datasets | Vexaloom Labs"><meta property="og:description" content="Crawl a website from one or more start URLs, staying on the same domain, and get back clean Markdown, text, or HTML per page with title, description, and crawl depth. Built for fee"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/daEeIAgzVqlS9oXl8/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/daEeIAgzVqlS9oXl8/#webpage","name":"Domain-Scoped Site Crawler for Markdown Datasets","description":"Crawl a website from one or more start URLs, staying on the same domain, and get back clean Markdown, text, or HTML per page with title, description, and crawl depth. Built for feeding LLM, RAG, or knowledge-base pipelines.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/daEeIAgzVqlS9oXl8/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/daEeIAgzVqlS9oXl8/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/daEeIAgzVqlS9oXl8/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/daEeIAgzVqlS9oXl8/#article","headline":"Domain-Scoped Site Crawler for Markdown Datasets","name":"Domain-Scoped Site Crawler for Markdown Datasets","description":"Crawl a website from one or more start URLs, staying on the same domain, and get back clean Markdown, text, or HTML per page with title, description, and crawl depth. Built for feeding LLM, RAG, or knowledge-base pipelines.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/daEeIAgzVqlS9oXl8/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/daEeIAgzVqlS9oXl8/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/daEeIAgzVqlS9oXl8/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Domain-Scoped Site Crawler for Markdown Datasets","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/daEeIAgzVqlS9oXl8/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Domain-Scoped Site Crawler for Markdown Datasets</span></div><section id="overview"><h1 class="doc-title">Domain-Scoped Site Crawler for Markdown Datasets</h1><p class="lede">Crawl a website from one or more start URLs, staying on the same domain, and get back clean Markdown, text, or HTML per page with title, description, and crawl depth. Built for feeding LLM, RAG, or knowledge-base pipelines.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/domain-scoped-site-crawler-for-markdown-datasets">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/daEeIAgzVqlS9oXl8/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>startUrls</code></td><td>array</td><td>required</td><td>One or more URLs to start crawling from. The crawler follows links found on these pages and stays on the domain of the first start URL.</td></tr><tr><td><code>maxCrawlDepth</code></td><td>integer</td><td>optional</td><td>How many links deep to follow from the start URLs. 0 means only the start URLs are crawled.</td></tr><tr><td><code>maxCrawlPages</code></td><td>integer</td><td>optional</td><td>Maximum number of pages (and files) to store. The crawl stops when this limit is reached.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>startUrls</code></td><td>array</td><td>required</td><td>One or more URLs to start crawling from. The crawler follows links found on these pages and stays on the domain of the first start URL.</td></tr><tr><td><code>maxCrawlDepth</code></td><td>integer</td><td>optional</td><td>How many links deep to follow from the start URLs. 0 means only the start URLs are crawled.</td></tr><tr><td><code>maxCrawlPages</code></td><td>integer</td><td>optional</td><td>Maximum number of pages (and files) to store. The crawl stops when this limit is reached.</td></tr><tr><td><code>useSitemaps</code></td><td>boolean</td><td>optional</td><td>Look for sitemaps (from robots.txt and /sitemap.xml) and enqueue the URLs they list. Finds pages that are not linked from the start URLs.</td></tr><tr><td><code>useLlmsTxt</code></td><td>boolean</td><td>optional</td><td>Look for /llms.txt at the start URL domains and enqueue the files listed there (common on documentation sites).</td></tr><tr><td><code>respectRobotsTxtFile</code></td><td>boolean</td><td>optional</td><td>Skip discovered pages that the site&#x27;s robots.txt disallows. Start URLs are always crawled.</td></tr><tr><td><code>crawlOnlyPagesChangedSince</code></td><td>string</td><td>optional</td><td>Optional date (YYYY-MM-DD or full ISO date-time). Crawls only pages that may have changed since then and outputs a delta. Leave empty to crawl everything.</td></tr><tr><td><code>includeUrlGlobs</code></td><td>array</td><td>optional</td><td>Only crawl discovered URLs matching these glob patterns (e.g. https://example.com/docs/*). Leave empty to allow everything on the domain.</td></tr><tr><td><code>excludeUrlGlobs</code></td><td>array</td><td>optional</td><td>Skip discovered URLs matching any of these glob patterns (e.g. *login*, *.pdf).</td></tr><tr><td><code>includeUrlRegexps</code></td><td>array</td><td>optional</td><td>Only crawl discovered URLs matching at least one of these regular expressions. Combined with glob patterns (both must pass when both are set).</td></tr><tr><td><code>excludeUrlRegexps</code></td><td>array</td><td>optional</td><td>Skip discovered URLs matching any of these regular expressions.</td></tr><tr><td><code>keepUrlFragments</code></td><td>boolean</td><td>optional</td><td>Treat URLs that differ only in #fragment as different pages. Enable for single-page sites that use fragments as routes.</td></tr><tr><td><code>ignoreCanonicalUrl</code></td><td>boolean</td><td>optional</td><td>When disabled, pages whose canonical URL points to a page that was already crawled are skipped as duplicates.</td></tr><tr><td><code>outputFormat</code></td><td>string</td><td>optional</td><td>How page content is returned. Markdown keeps headings, lists, tables, and links — best for LLMs and RAG.</td></tr><tr><td><code>htmlTransformer</code></td><td>string</td><td>optional</td><td>How the main content is isolated from navigation, footers, ads, and cookie banners.</td></tr><tr><td><code>includeImages</code></td><td>boolean</td><td>optional</td><td>Add image references to the markdown field. Image URLs are always collected in the imageUrls field.</td></tr><tr><td><code>chunkMarkdown</code></td><td>boolean</td><td>optional</td><td>Emit a chunks array per page — heading-aware Markdown pieces ready for embeddings. Code blocks and tables are never split, each piece carries its heading path and character count, and consecutive pieces overlap so context is kept at the boundaries.</td></tr><tr><td><code>chunkMaxChars</code></td><td>integer</td><td>optional</td><td>Target size of each chunk when chunkMarkdown is on. Code blocks and tables stay whole even when larger than this.</td></tr><tr><td><code>chunkOverlapChars</code></td><td>integer</td><td>optional</td><td>Approximate overlap between consecutive chunks when chunkMarkdown is on, so context is not lost at chunk boundaries.</td></tr><tr><td><code>keepElementsCssSelector</code></td><td>string</td><td>optional</td><td>Keep only the elements matching this CSS selector (e.g. article, main .content) before extraction. Leave empty to use the whole page.</td></tr><tr><td><code>removeElementsCssSelector</code></td><td>string</td><td>optional</td><td>Remove elements matching this CSS selector (e.g. .sidebar, .ad, nav) before extraction.</td></tr><tr><td><code>parsePdfText</code></td><td>boolean</td><td>optional</td><td>When a crawled URL serves a PDF, extract its text into the text field as a file record instead of skipping it.</td></tr><tr><td><code>clickElementsCssSelector</code></td><td>string</td><td>optional</td><td>Click elements matching this CSS selector (e.g. [aria-expanded=&quot;false&quot;]) before extraction to expand collapsed content.</td></tr><tr><td><code>takeScreenshots</code></td><td>boolean</td><td>optional</td><td>Render every stored page in the browser and capture a full-page JPEG (quality 80) of it, putting its public URL in the screenshot field. Screenshots are held in memory until pushed and add roughly 0.3-1 MB and a fraction of a second per page; screenshot capture always runs after the page is rendered.</td></tr><tr><td><code>customHttpHeaders</code></td><td>array</td><td>optional</td><td>Extra request headers for all engines and discovery requests, as a list of {&quot;key&quot;, &quot;value&quot;} pairs (e.g. an Authorization token or a specific User-Agent for sites that ask for one). Transport/framing and cookie headers (Host, Cookie, Content-Length, Connection, ...) are rejected so the actor stays cookieless.</td></tr><tr><td><code>storeSkippedUrls</code></td><td>boolean</td><td>optional</td><td>Save a SKIPPED_URLS record to the key-value store listing skipped URLs grouped by reason (robots, blocked, non-HTML, errors, duplicates).</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Enter one or more start URLs, set your crawl and content options, and run the Actor to get clean Markdown, text, or HTML per page — with metadata, links, and images. The Actor fetches each page the fastest way that works automatically (plain HTTP, browser TLS fingerprint, or a headless browser for JavaScript pages).&quot;,
+  &quot;properties&quot;: {
+    &quot;chunkMarkdown&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Emit a chunks array per page — heading-aware Markdown pieces ready for embeddings. Code blocks and tables are never split, each piece carries its heading path and character count, and consecutive pieces overlap so context is kept at the boundaries.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Split Content into Chunks&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;chunkMaxChars&quot;: {
+      &quot;default&quot;: 2000,
+      &quot;description&quot;: &quot;Target size of each chunk when chunkMarkdown is on. Code blocks and tables stay whole even when larger than this.&quot;,
+      &quot;maximum&quot;: 10000,
+      &quot;minimum&quot;: 200,
+      &quot;prefill&quot;: 2000,
+      &quot;title&quot;: &quot;Chunk Size (characters)&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;chunkOverlapChars&quot;: {
+      &quot;default&quot;: 200,
+      &quot;description&quot;: &quot;Approximate overlap between consecutive chunks when chunkMarkdown is on, so context is not lost at chunk boundaries.&quot;,
+      &quot;maximum&quot;: 1000,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 200,
+      &quot;title&quot;: &quot;Chunk Overlap (characters)&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;clickElementsCssSelector&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Click elements matching this CSS selector (e.g. [aria-expanded=\&quot;false\&quot;]) before extraction to expand collapsed content.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;sectionCaption&quot;: &quot;Rendered pages&quot;,
+      &quot;sectionDescription&quot;: &quot;Options for content that only appears after JavaScript runs.&quot;,
+      &quot;title&quot;: &quot;Click Elements (CSS selector)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;crawlOnlyPagesChangedSince&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Optional date (YYYY-MM-DD or full ISO date-time). Crawls only pages that may have changed since then and outputs a delta. Leave empty to crawl everything.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Crawl Only Pages Changed Since&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;customHttpHeaders&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Extra request headers for all engines and discovery requests, as a list of {\&quot;key\&quot;, \&quot;value\&quot;} pairs (e.g. an Authorization token or a specific User-Agent for sites that ask for one). Transport/framing and cookie headers (Host, Cookie, Content-Length, Connection, ...) are rejected so the actor stays cookieless.&quot;,
+      &quot;editor&quot;: &quot;json&quot;,
+      &quot;items&quot;: {
+        &quot;properties&quot;: {
+          &quot;key&quot;: {
+            &quot;description&quot;: &quot;HTTP header name, e.g. Authorization or Accept-Language.&quot;,
+            &quot;title&quot;: &quot;Header name&quot;,
+            &quot;type&quot;: &quot;string&quot;
+          },
+          &quot;value&quot;: {
+            &quot;description&quot;: &quot;Header value sent with every request.&quot;,
+            &quot;title&quot;: &quot;Header value&quot;,
+            &quot;type&quot;: &quot;string&quot;
+          }
+        },
+        &quot;required&quot;: [
+          &quot;key&quot;,
+          &quot;value&quot;
+        ],
+        &quot;type&quot;: &quot;object&quot;
+      },
+      &quot;prefill&quot;: [],
+      &quot;sectionCaption&quot;: &quot;Advanced&quot;,
+      &quot;sectionDescription&quot;: &quot;Request headers and run diagnostics.&quot;,
+      &quot;title&quot;: &quot;Custom HTTP Headers&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;excludeUrlGlobs&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Skip discovered URLs matching any of these glob patterns (e.g. *login*, *.pdf).&quot;,
+      &quot;editor&quot;: &quot;globs&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Exclude URL Patterns (globs)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;excludeUrlRegexps&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Skip discovered URLs matching any of these regular expressions.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Exclude URL Patterns (regex)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;htmlTransformer&quot;: {
+      &quot;default&quot;: &quot;auto&quot;,
+      &quot;description&quot;: &quot;How the main content is isolated from navigation, footers, ads, and cookie banners.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;auto&quot;,
+        &quot;trafilatura&quot;,
+        &quot;readability&quot;,
+        &quot;basic&quot;,
+        &quot;none&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Auto (recommended) — best content, boilerplate removed&quot;,
+        &quot;Trafilatura (article/text extraction)&quot;,
+        &quot;Readability (Mozilla article extractor)&quot;,
+        &quot;Basic cleanup (remove nav/header/footer only)&quot;,
+        &quot;No cleaning (keep the full page)&quot;
+      ],
+      &quot;prefill&quot;: &quot;auto&quot;,
+      &quot;title&quot;: &quot;HTML Transformer&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;ignoreCanonicalUrl&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;When disabled, pages whose canonical URL points to a page that was already crawled are skipped as duplicates.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Ignore canonical URL&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeImages&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Add image references to the markdown field. Image URLs are always collected in the imageUrls field.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include Images in Markdown&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeUrlGlobs&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Only crawl discovered URLs matching these glob patterns (e.g. https://example.com/docs/*). Leave empty to allow everything on the domain.&quot;,
+      &quot;editor&quot;: &quot;globs&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Include URL Patterns (globs)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;includeUrlRegexps&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Only crawl discovered URLs matching at least one of these regular expressions. Combined with glob patterns (both must pass when both are set).&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Include URL Patterns (regex)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;keepElementsCssSelector&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Keep only the elements matching this CSS selector (e.g. article, main .content) before extraction. Leave empty to use the whole page.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Keep HTML Elements (CSS selector)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;keepUrlFragments&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Treat URLs that differ only in #fragment as different pages. Enable for single-page sites that use fragments as routes.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Keep URL Fragments&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;maxCrawlDepth&quot;: {
+      &quot;default&quot;: 10,
+      &quot;description&quot;: &quot;How many links deep to follow from the start URLs. 0 means only the start URLs are crawled.&quot;,
+      &quot;maximum&quot;: 100,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 1,
+      &quot;sectionCaption&quot;: &quot;Crawling&quot;,
+      &quot;sectionDescription&quot;: &quot;Where the crawl starts and how far it goes.&quot;,
+      &quot;title&quot;: &quot;Max Crawl Depth&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxCrawlPages&quot;: {
+      &quot;default&quot;: 20,
+      &quot;description&quot;: &quot;Maximum number of pages (and files) to store. The crawl stops when this limit is reached.&quot;,
+      &quot;maximum&quot;: 100000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 3,
+      &quot;title&quot;: &quot;Max Pages&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;outputFormat&quot;: {
+      &quot;default&quot;: &quot;markdown&quot;,
+      &quot;description&quot;: &quot;How page content is returned. Markdown keeps headings, lists, tables, and links — best for LLMs and RAG.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;markdown&quot;,
+        &quot;text&quot;,
+        &quot;html&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Markdown&quot;,
+        &quot;Plain text&quot;,
+        &quot;Cleaned HTML&quot;
+      ],
+      &quot;prefill&quot;: &quot;markdown&quot;,
+      &quot;sectionCaption&quot;: &quot;Content extraction&quot;,
+      &quot;sectionDescription&quot;: &quot;How page content is cleaned and returned.&quot;,
+      &quot;title&quot;: &quot;Output Format&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;parsePdfText&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;When a crawled URL serves a PDF, extract its text into the text field as a file record instead of skipping it.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Extract PDF Text&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;removeElementsCssSelector&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Remove elements matching this CSS selector (e.g. .sidebar, .ad, nav) before extraction.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Remove HTML Elements (CSS selector)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;respectRobotsTxtFile&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Skip discovered pages that the site&#x27;s robots.txt disallows. Start URLs are always crawled.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Respect robots.txt&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;startUrls&quot;: {
+      &quot;description&quot;: &quot;One or more URLs to start crawling from. The crawler follows links found on these pages and stays on the domain of the first start URL.&quot;,
+      &quot;editor&quot;: &quot;requestListSources&quot;,
+      &quot;prefill&quot;: [
+        {
+          &quot;url&quot;: &quot;https://docs.apify.com&quot;
+        }
+      ],
+      &quot;title&quot;: &quot;Start URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;storeSkippedUrls&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Save a SKIPPED_URLS record to the key-value store listing skipped URLs grouped by reason (robots, blocked, non-HTML, errors, duplicates).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Store Skipped URLs&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;takeScreenshots&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Render every stored page in the browser and capture a full-page JPEG (quality 80) of it, putting its public URL in the screenshot field. Screenshots are held in memory until pushed and add roughly 0.3-1 MB and a fraction of a second per page; screenshot capture always runs after the page is rendered.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Take Page Screenshots&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;useLlmsTxt&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Look for /llms.txt at the start URL domains and enqueue the files listed there (common on documentation sites).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Use llms.txt&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;useSitemaps&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Look for sitemaps (from robots.txt and /sitemap.xml) and enqueue the URLs they list. Finds pages that are not linked from the start URLs.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;sectionCaption&quot;: &quot;Discovery &amp; filters&quot;,
+      &quot;sectionDescription&quot;: &quot;How the crawler finds pages and which URLs it keeps.&quot;,
+      &quot;title&quot;: &quot;Use Sitemaps&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;startUrls&quot;
+  ],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Domain-Scoped Site Crawler Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>pages</code></td><td>string</td><td>optional</td><td>Dataset containing all crawled pages and extracted files.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;One record per crawled page: Markdown/text/HTML content, title, description, author, dates, canonical URL, links, images, OpenGraph, JSON-LD, word count, approximate token count, optional RAG chunks, optional screenshot URL, and content hash.&quot;,
+  &quot;properties&quot;: {
+    &quot;pages&quot;: {
+      &quot;description&quot;: &quot;Dataset containing all crawled pages and extracted files.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Crawled pages&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Domain-Scoped Site Crawler for Markdown Datasets Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;depth&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Depth&quot;
+          },
+          &quot;httpStatusCode&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Status&quot;
+          },
+          &quot;title&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Title&quot;
+          },
+          &quot;url&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;URL&quot;
+          },
+          &quot;wordCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Words&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Crawled Pages&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;url&quot;,
+          &quot;title&quot;,
+          &quot;depth&quot;,
+          &quot;wordCount&quot;,
+          &quot;httpStatusCode&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-domain-scoped-site-crawler-for-markdown-datasets">Domain-Scoped Site Crawler for Markdown Datasets</h2>
+<p>Give it one or more start URLs and it crawls the site the way a documentation index should be crawled: it follows same-domain links, isolates the main content of every page, and returns clean <strong>Markdown</strong>, <strong>text</strong>, or <strong>HTML</strong> alongside per-page metadata — title, description, author, publish dates, canonical URL, links, and image URLs. Built for LLM training sets, RAG pipelines, knowledge bases, and content migrations.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li><strong>Fetches pages with the right engine automatically.</strong> Every page starts with fast raw HTTP; hosts that reject plain clients get a browser TLS fingerprint (<code>curl_cffi</code>), and pages that render only with JavaScript are loaded in a headless browser — no engine choice needed.</li>
+<li><strong>Finds more pages.</strong> Follows links up to your depth limit, and can also enqueue URLs from <code>sitemap.xml</code> / robots.txt sitemaps and from <code>/llms.txt</code>.</li>
+<li><strong>Respects robots.txt</strong> by default: discovered URLs that the site disallows are skipped (start URLs are always crawled).</li>
+<li><strong>Extracts the meaningful content.</strong> An extraction cascade (Trafilatura → Readability → basic cleanup) removes navigation, footers, sidebars, ads, and cookie dialogs, while preserving headings, tables, lists, code blocks, and links.</li>
+<li><strong>Prepares content for RAG.</strong> Every record carries an approximate token count, and you can switch on heading-aware <code>chunks</code> (code blocks and tables never split, context-preserving overlap) that drop straight into an embedding pipeline.</li>
+<li><strong>Returns rich metadata per page</strong>: canonical URL, author, published/modified dates, keywords, OpenGraph, JSON-LD, image URLs, page links, word count, and a content hash.</li>
+<li><strong>Handles PDFs</strong>: when a crawled URL serves a PDF, its text is extracted into the record as a file row — never raw binary.</li>
+<li><strong>Stores Markdown and plain-text files</strong>: pages served as <code>text/markdown</code> or plain text (for example the <code>.md</code>/<code>.txt</code> files listed in an <code>llms.txt</code>) are stored with their content in <code>text</code> and <code>markdown</code>, and their links are followed when depth allows.</li>
+<li><strong>Skips non-pages cleanly</strong>: RSS/XML feeds, JSON, images, archives and other binary responses are skipped with a reason (see <code>storeSkippedUrls</code>).</li>
+<li><strong>Supports incremental re-crawls</strong>: <code>crawlOnlyPagesChangedSince</code> produces a delta of changed pages using HTTP validators, sitemap <code>lastmod</code>, and content hashes.</li>
+<li><strong>Cuts crawl waste</strong>: canonical duplicates are skipped, pages are pushed as they finish, retries and waits are bounded per URL, and an adaptive per-domain pacer slows down (bounded) only when a host actually throttles.</li>
+<li><strong>Handles late and lazy content</strong>: a bounded wait after load lets client-rendered pages finish, and pages that declare lazy images or infinite scroll are scrolled automatically (bounded) so that content is captured.</li>
+<li><strong>Optional screenshots</strong>: every stored page can be rendered in the browser and captured as a full-page JPEG with a public URL.</li>
+<li><strong>Optional request headers</strong>: send extra headers (e.g. a token for a public API or a specific User-Agent) on every request; cookie and transport headers are refused, so the actor stays cookieless.</li>
+<li><strong>Works cookieless</strong> for any public website — no logins, no API keys.</li>
+</ul>
+<h2 id="readme-output-per-page">Output per page</h2>
+<p>Every record is pushed with empty values omitted (no <code>null</code>, no empty strings). A page record contains:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>url</code></td>
+<td>URL that was requested</td>
+</tr>
+<tr>
+<td><code>loadedUrl</code></td>
+<td>Final URL after redirects</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>OpenGraph title, JSON-LD headline, or <code>&lt;title&gt;</code></td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>Meta description / OpenGraph description</td>
+</tr>
+<tr>
+<td><code>languageCode</code></td>
+<td>Language from <code>lang</code>, OpenGraph locale, or hreflang</td>
+</tr>
+<tr>
+<td><code>author</code></td>
+<td>JSON-LD author, meta author, citation author, or byline</td>
+</tr>
+<tr>
+<td><code>publishedDate</code></td>
+<td>Normalized ISO date: JSON-LD <code>datePublished</code>, <code>article:published_time</code>, <code>citation_date</code>, or <code>&lt;time datetime&gt;</code></td>
+</tr>
+<tr>
+<td><code>modifiedDate</code></td>
+<td>Normalized ISO date: JSON-LD <code>dateModified</code>, <code>article:modified_time</code>, or <code>last-modified</code></td>
+</tr>
+<tr>
+<td><code>canonicalUrl</code></td>
+<td><code>&lt;link rel=&quot;canonical&quot;&gt;</code>, <code>og:url</code>, or JSON-LD URL</td>
+</tr>
+<tr>
+<td><code>keywords</code></td>
+<td>Meta keywords or JSON-LD keywords, as an array</td>
+</tr>
+<tr>
+<td><code>imageUrls</code></td>
+<td>Every image URL found (OpenGraph, Twitter, <code>&lt;img&gt;</code>), absolute and unique</td>
+</tr>
+<tr>
+<td><code>links</code></td>
+<td>Every link found on the page, absolute and unique</td>
+</tr>
+<tr>
+<td><code>openGraph</code></td>
+<td>Raw <code>og:*</code> and <code>twitter:*</code> meta tags as an object</td>
+</tr>
+<tr>
+<td><code>jsonLd</code></td>
+<td>Parsed <code>application/ld+json</code> blocks (including <code>@graph</code>)</td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td>Clean plain text of the page content</td>
+</tr>
+<tr>
+<td><code>markdown</code></td>
+<td>Content as Markdown (only when <code>outputFormat</code> is <code>markdown</code>)</td>
+</tr>
+<tr>
+<td><code>html</code></td>
+<td>Cleaned content HTML (only when <code>outputFormat</code> is <code>html</code>)</td>
+</tr>
+<tr>
+<td><code>wordCount</code></td>
+<td>Word count of <code>text</code></td>
+</tr>
+<tr>
+<td><code>tokenCount</code></td>
+<td>Approximate LLM tokens in the returned content (characters ÷ 4)</td>
+</tr>
+<tr>
+<td><code>chunks</code></td>
+<td>Heading-aware Markdown pieces for embeddings (only with <code>chunkMarkdown</code>); each has <code>index</code>, <code>text</code>, <code>charCount</code>, and <code>headingPath</code> when the piece sits under headings</td>
+</tr>
+<tr>
+<td><code>screenshot</code></td>
+<td>Public URL of the page's full-page JPEG (only with <code>takeScreenshots</code>)</td>
+</tr>
+<tr>
+<td><code>contentHash</code></td>
+<td>SHA-256 of the normalized text — use it to detect unchanged pages</td>
+</tr>
+<tr>
+<td><code>depth</code></td>
+<td>Crawl depth (<code>0</code> = start URL)</td>
+</tr>
+<tr>
+<td><code>httpStatusCode</code></td>
+<td>HTTP status of the response</td>
+</tr>
+<tr>
+<td><code>loadedTime</code></td>
+<td>ISO 8601 UTC timestamp when the page was fetched</td>
+</tr>
+<tr>
+<td><code>referrerUrl</code></td>
+<td>URL of the page that linked here (start URLs have none)</td>
+</tr>
+<tr>
+<td><code>recordType</code></td>
+<td><code>page</code> for HTML pages, <code>file</code> for extracted documents</td>
+</tr>
+<tr>
+<td><code>fileType</code></td>
+<td><code>pdf</code> on file records</td>
+</tr>
+<tr>
+<td><code>pageCount</code></td>
+<td>Number of pages, on PDF records</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-example-output-row-truncated">Example output row (truncated)</h3>
+<pre><code class="language-json">{
+    &quot;url&quot;: &quot;https://example.com/blog/release-notes&quot;,
+    &quot;loadedUrl&quot;: &quot;https://example.com/blog/release-notes&quot;,
+    &quot;title&quot;: &quot;Release notes — Example&quot;,
+    &quot;description&quot;: &quot;What changed in the latest release.&quot;,
+    &quot;author&quot;: &quot;Jane Developer&quot;,
+    &quot;publishedDate&quot;: &quot;2026-09-12T00:00:00Z&quot;,
+    &quot;canonicalUrl&quot;: &quot;https://example.com/blog/release-notes&quot;,
+    &quot;languageCode&quot;: &quot;en&quot;,
+    &quot;imageUrls&quot;: [&quot;https://example.com/media/hero.png&quot;],
+    &quot;links&quot;: [&quot;https://example.com/blog&quot;, &quot;https://example.com/download&quot;],
+    &quot;text&quot;: &quot;What changed in the latest release...&quot;,
+    &quot;markdown&quot;: &quot;## What changed\n\n- Faster startup\n&quot;,
+    &quot;depth&quot;: 1,
+    &quot;httpStatusCode&quot;: 200,
+    &quot;loadedTime&quot;: &quot;2026-10-16T12:00:05.123Z&quot;,
+    &quot;referrerUrl&quot;: &quot;https://example.com/blog&quot;,
+    &quot;wordCount&quot;: 412,
+    &quot;contentHash&quot;: &quot;8f2c1d…&quot;,
+    &quot;recordType&quot;: &quot;page&quot;
+}
+</code></pre>
+<p>PDF record example:</p>
+<pre><code class="language-json">{
+    &quot;url&quot;: &quot;https://example.com/whitepaper.pdf&quot;,
+    &quot;loadededUrl&quot;: &quot;https://example.com/whitepaper.pdf&quot;,
+    &quot;title&quot;: &quot;Whitepaper 2026&quot;,
+    &quot;text&quot;: &quot;Executive summary ...&quot;,
+    &quot;fileType&quot;: &quot;pdf&quot;,
+    &quot;recordType&quot;: &quot;file&quot;,
+    &quot;wordCount&quot;: 5321
+}
+</code></pre>
+<h2 id="readme-input">Input</h2>
+<p>Picking a fetch engine, parallelism, timeouts, retries, rate limits, and proxies are auto-decided per page and per domain — no tuning needed.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>startUrls</code></td>
+<td>array</td>
+<td>–</td>
+<td>Pages where the crawl begins. Required. Accepts URL objects or plain URL strings.</td>
+</tr>
+<tr>
+<td><code>maxCrawlDepth</code></td>
+<td>integer</td>
+<td><code>10</code></td>
+<td>How many links deep to follow (<code>0</code> = start URLs only).</td>
+</tr>
+<tr>
+<td><code>maxCrawlPages</code></td>
+<td>integer</td>
+<td><code>20</code></td>
+<td>Total pages and files to store; the crawl stops at this limit.</td>
+</tr>
+<tr>
+<td><code>useSitemaps</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Enqueue URLs from robots.txt sitemaps and <code>/sitemap.xml</code> (sitemap indexes are followed).</td>
+</tr>
+<tr>
+<td><code>useLlmsTxt</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Enqueue the files linked from <code>/llms.txt</code>.</td>
+</tr>
+<tr>
+<td><code>respectRobotsTxtFile</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Skip discovered URLs disallowed by robots.txt. Start URLs are always crawled.</td>
+</tr>
+<tr>
+<td><code>crawlOnlyPagesChangedSince</code></td>
+<td>string</td>
+<td>–</td>
+<td>Date (<code>YYYY-MM-DD</code> or full ISO) for incremental crawls; pages unchanged since then are not stored and the output is a delta.</td>
+</tr>
+<tr>
+<td><code>includeUrlGlobs</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Only crawl discovered URLs matching these glob patterns.</td>
+</tr>
+<tr>
+<td><code>excludeUrlGlobs</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Skip discovered URLs matching these glob patterns.</td>
+</tr>
+<tr>
+<td><code>includeUrlRegexps</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Only crawl discovered URLs matching at least one regex.</td>
+</tr>
+<tr>
+<td><code>excludeUrlRegexps</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Skip discovered URLs matching any regex.</td>
+</tr>
+<tr>
+<td><code>keepUrlFragments</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Treat <code>#fragment</code> variants as separate pages (useful for fragment-routed SPAs).</td>
+</tr>
+<tr>
+<td><code>ignoreCanonicalUrl</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>When off, a page whose canonical URL was already crawled is skipped as a duplicate.</td>
+</tr>
+<tr>
+<td><code>outputFormat</code></td>
+<td>string</td>
+<td><code>markdown</code></td>
+<td><code>markdown</code>, <code>text</code>, or <code>html</code>.</td>
+</tr>
+<tr>
+<td><code>htmlTransformer</code></td>
+<td>string</td>
+<td><code>auto</code></td>
+<td><code>auto</code> picks Trafilatura or Readability per page; <code>trafilatura</code>, <code>readability</code>, <code>basic</code>, and <code>none</code> force a strategy.</td>
+</tr>
+<tr>
+<td><code>includeImages</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Add image references to Markdown (<code>imageUrls</code> is filled regardless).</td>
+</tr>
+<tr>
+<td><code>keepElementsCssSelector</code></td>
+<td>string</td>
+<td>–</td>
+<td>Keep only matching elements before extraction (e.g. <code>article, main</code>).</td>
+</tr>
+<tr>
+<td><code>removeElementsCssSelector</code></td>
+<td>string</td>
+<td>–</td>
+<td>Remove matching elements before extraction (e.g. <code>.sidebar, .ad</code>).</td>
+</tr>
+<tr>
+<td><code>parsePdfText</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Extract text from linked PDFs into file records instead of skipping them.</td>
+</tr>
+<tr>
+<td><code>chunkMarkdown</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Emit a <code>chunks</code> array per page for RAG/embeddings.</td>
+</tr>
+<tr>
+<td><code>chunkMaxChars</code></td>
+<td>integer</td>
+<td><code>2000</code></td>
+<td>Target chunk size in characters (200–10000); code blocks and tables stay whole.</td>
+</tr>
+<tr>
+<td><code>chunkOverlapChars</code></td>
+<td>integer</td>
+<td><code>200</code></td>
+<td>Overlap between consecutive chunks (0–1000).</td>
+</tr>
+<tr>
+<td><code>takeScreenshots</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Render every stored page in the browser, store a full-page JPEG, and return its URL in <code>screenshot</code>.</td>
+</tr>
+<tr>
+<td><code>customHttpHeaders</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Extra request headers as <code>{&quot;key&quot;, &quot;value&quot;}</code> pairs, applied to every engine. Cookie/transport headers are refused.</td>
+</tr>
+<tr>
+<td><code>clickElementsCssSelector</code></td>
+<td>string</td>
+<td>–</td>
+<td>Click these elements first (e.g. <code>[aria-expanded=&quot;false&quot;]</code>) to expand collapsed content.</td>
+</tr>
+<tr>
+<td><code>storeSkippedUrls</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Save a <code>SKIPPED_URLS</code> key-value record with skipped URLs grouped by reason.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-examples">Examples</h3>
+<p>Crawl a documentation site to Markdown with metadata:</p>
+<pre><code class="language-json">{
+    &quot;startUrls&quot;: [{ &quot;url&quot;: &quot;https://docs.example.com&quot; }],
+    &quot;maxCrawlPages&quot;: 500,
+    &quot;maxCrawlDepth&quot;: 5,
+    &quot;outputFormat&quot;: &quot;markdown&quot;
+}
+</code></pre>
+<p>Only one section of a site, using glob and regex filters:</p>
+<pre><code class="language-json">{
+    &quot;startUrls&quot;: [{ &quot;url&quot;: &quot;https://example.com&quot; }],
+    &quot;includeUrlGlobs&quot;: [&quot;https://example.com/docs/*&quot;],
+    &quot;excludeUrlRegexps&quot;: [&quot;/v[0-9]+/&quot;, &quot;/changelog/&quot;]
+}
+</code></pre>
+<p>Weekly incremental re-crawl (delta of changed pages):</p>
+<pre><code class="language-json">{
+    &quot;startUrls&quot;: [{ &quot;url&quot;: &quot;https://example.com/blog&quot; }],
+    &quot;useSitemaps&quot;: true,
+    &quot;crawlOnlyPagesChangedSince&quot;: &quot;2026-10-01&quot;
+}
+</code></pre>
+<p>Find pages through the sitemap only, without following links:</p>
+<pre><code class="language-json">{
+    &quot;startUrls&quot;: [{ &quot;url&quot;: &quot;https://example.com&quot; }],
+    &quot;useSitemaps&quot;: true,
+    &quot;maxCrawlDepth&quot;: 0,
+    &quot;maxCrawlPages&quot;: 2000
+}
+</code></pre>
+<p>Crawl a documentation site straight into embedding-ready chunks:</p>
+<pre><code class="language-json">{
+    &quot;startUrls&quot;: [{ &quot;url&quot;: &quot;https://docs.example.com&quot; }],
+    &quot;maxCrawlPages&quot;: 500,
+    &quot;chunkMarkdown&quot;: true,
+    &quot;chunkMaxChars&quot;: 1500,
+    &quot;chunkOverlapChars&quot;: 200
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>LLM training and fine-tuning data</strong> — turn documentation, blogs, and help centers into structured Markdown with source metadata</li>
+<li><strong>RAG pipelines and semantic search</strong> — per-page content with optional heading-aware <code>chunks</code> and <code>tokenCount</code>, plus canonical URLs, dates, and hashes for clean indexing and re-indexing</li>
+<li><strong>Knowledge-base and chatbot grounding</strong> — keep a site's content current with scheduled incremental crawls</li>
+<li><strong>Content migration and archival</strong> — export a whole site to Markdown while keeping authorship and publication dates</li>
+<li><strong>Competitive and market research</strong> — compare content across sites with consistent fields per page</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Do I need to choose a crawler engine?</strong>
+No. The actor starts every page with fast raw HTTP, retries blocked hosts with a browser TLS fingerprint (<code>curl_cffi</code>), and loads pages that render only with JavaScript in a headless browser. Parallelism, timeouts, retries, and pacing are also chosen automatically per page and per domain, so the input surface only contains options that change which data you get.</p>
+<p><strong>How does the extraction cascade pick content?</strong>
+With <code>htmlTransformer</code> set to <code>auto</code>, the actor runs Trafilatura and Readability on each page, keeps the candidate that preserves the most structure (headings, tables, lists, images), and falls back to full basic-cleaned content when both would drop most of the page. Use <code>none</code> to keep the page almost untouched.</p>
+<p><strong>Does it respect robots.txt?</strong>
+Yes, <code>respectRobotsTxtFile</code> is on by default: discovered URLs that robots.txt disallows are skipped and listed under the <code>robots</code> skip reason. Start URLs are always crawled. Crawl-delay directives are not applied; the adaptive per-domain pacer keeps request rates polite automatically.</p>
+<p><strong>How do sitemaps work?</strong>
+With <code>useSitemaps</code> enabled, the actor reads the <code>Sitemap:</code> entries from robots.txt and <code>/sitemap.xml</code>, follows sitemap indexes, and enqueues matching same-domain URLs at depth 1. Combined with <code>maxCrawlDepth: 0</code> this crawls exactly the sitemap's URL set.</p>
+<p><strong>What happens with JavaScript-heavy sites?</strong>
+Pages whose raw HTML is an empty SPA shell are automatically rendered in a headless browser. After load the actor waits a bounded couple of seconds for late content, waits again briefly if the DOM still looks empty, and scrolls (bounded) only when the page declares lazy images or infinite scroll, so client-rendered and lazy content is captured. <code>clickElementsCssSelector</code> expands collapsed sections when you need it.</p>
+<p><strong>What happens with PDFs, feeds, and other files?</strong>
+PDFs are converted to text and stored as <code>recordType: &quot;file&quot;</code> rows with <code>fileType: &quot;pdf&quot;</code>. Markdown and plain-text files (<code>text/markdown</code>, <code>text/plain</code>) are stored as pages with their raw content in <code>text</code>/<code>markdown</code> (JSON/XML payloads served as text are still skipped). RSS/XML feeds, JSON, and binary responses (images, archives) are not stored as pages; each skip is counted and visible in the run log, and in the <code>SKIPPED_URLS</code> record when <code>storeSkippedUrls</code> is enabled.</p>
+<p><strong>How do incremental crawls work?</strong>
+Set <code>crawlOnlyPagesChangedSince</code> to a date. The actor keeps ETag/Last-Modified validators and content hashes in a persistent key-value store, filters sitemap entries by <code>lastmod</code>, and stores only pages that changed — the output is a delta, not a full snapshot. Keep previous results if you need the complete site.</p>
+<p><strong>How does chunking work?</strong>
+With <code>chunkMarkdown</code> on, each page also gets a <code>chunks</code> array: heading-aware Markdown pieces up to <code>chunkMaxChars</code> characters (200–10000) with <code>chunkOverlapChars</code> (0–1000) of overlap so context survives the boundaries. Code fences and tables are never split, every piece knows its <code>headingPath</code> (<code>Guide &gt; Install &gt; Linux</code>) and <code>charCount</code>, and the pieces are in reading order. <code>tokenCount</code> on the page is an approximation (characters ÷ 4) — good for budgeting, not a tokenizer.</p>
+<p><strong>Can I take screenshots?</strong>
+Yes, with <code>takeScreenshots</code>. Every stored page is rendered in the headless browser and gets a full-page JPEG (quality 80) in the run's key-value store; the record's <code>screenshot</code> field is its public URL. Expect roughly 0.3–1 MB and a fraction of a second per page; the bytes are held only until the page is pushed.</p>
+<p><strong>Can I send custom headers?</strong>
+<code>customHttpHeaders</code> accepts a list of <code>{&quot;key&quot;, &quot;value&quot;}</code> pairs and applies them to page requests and to robots.txt/sitemap/llms.txt lookups on every engine — useful for public APIs that want a token or sites that ask for a contact User-Agent. Cookie and transport/framing headers (<code>Cookie</code>, <code>Host</code>, <code>Content-Length</code>, <code>Connection</code>, ...) are refused on purpose: the actor never carries logins.</p>
+<p><strong>What happens when a site throttles the crawl?</strong>
+The actor watches each domain: after connection timeouts or 429/503 responses it halves the parallel requests for that domain (down to 1) and adds a small delay (up to 2 seconds), then heals as pages succeed again. Throttled pages are requeued a bounded number of times, so a hostile host can't stall the run.</p>
+<p><strong>Which fields are filled for every page?</strong>
+Content-derived fields (<code>url</code>, <code>loadedUrl</code>, <code>depth</code>, <code>httpStatusCode</code>, <code>loadedTime</code>, <code>recordType</code>, and one of <code>text</code>/<code>markdown</code>/<code>html</code>) are always present. Metadata fields (<code>author</code>, <code>publishedDate</code>, <code>keywords</code>, and so on) appear only when the page declares them, and empty values are never pushed.</p>
+<p><strong>When do results appear in the dataset?</strong>
+Pages are pushed as soon as they finish, so you can watch results grow while the crawl is running. If a run is interrupted, everything already stored is kept.</p>
+<p><strong>Are image and link URLs usable directly?</strong>
+<code>imageUrls</code> and <code>links</code> contain absolute <code>http(s)</code> URLs exactly as the page declares them. No rehosting is done.</p>
+<p><strong>Can it crawl pages behind a login?</strong>
+No. The actor only works with publicly accessible pages and never requires credentials.</p>
+<p><strong>What is out of scope?</strong>
+Login-protected content and AI summaries are intentionally not implemented — crawling behind a login needs credentials this actor refuses to require, and summaries need an external LLM key. Chunking and token counting are built in (<code>chunkMarkdown</code>, <code>tokenCount</code>); for anything more, the dataset stays atomic per page with a <code>contentHash</code> you can diff.</p>
+<p><strong>Are the links in Markdown absolute?</strong>
+Yes. Relative links and images are resolved against the page URL before converting to Markdown.</p>
+<p><strong>Is this affiliated with the websites it crawls?</strong>
+No. This is an independent, third-party actor that crawls publicly accessible pages; it isn't operated by or affiliated with any site it's pointed at. Check the target site's terms before scraping.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/daEeIAgzVqlS9oXl8/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>mlbNAEkzbrejmXih5</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

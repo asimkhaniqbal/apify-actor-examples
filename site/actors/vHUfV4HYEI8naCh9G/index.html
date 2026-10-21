@@ -1,0 +1,904 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-/vtRcTSmOJyNApZ256ygBlYgHManYXzfe7ocWCLinSg=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>TikTok Comment &amp; Reply Thread Extractor | Vexaloom Labs</title><meta name="description" content="Pull comments and reply threads from TikTok videos by URL or post ID, with pinned/hearted-by-author flags, commenter details, and like counts. No TikTok account or cookies required"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/vHUfV4HYEI8naCh9G/"><meta property="og:title" content="TikTok Comment &amp; Reply Thread Extractor | Vexaloom Labs"><meta property="og:description" content="Pull comments and reply threads from TikTok videos by URL or post ID, with pinned/hearted-by-author flags, commenter details, and like counts. No TikTok account or cookies required"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/vHUfV4HYEI8naCh9G/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/vHUfV4HYEI8naCh9G/#webpage","name":"TikTok Comment & Reply Thread Extractor","description":"Pull comments and reply threads from TikTok videos by URL or post ID, with pinned/hearted-by-author flags, commenter details, and like counts. No TikTok account or cookies required.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/vHUfV4HYEI8naCh9G/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/vHUfV4HYEI8naCh9G/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/vHUfV4HYEI8naCh9G/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/vHUfV4HYEI8naCh9G/#article","headline":"TikTok Comment & Reply Thread Extractor","name":"TikTok Comment & Reply Thread Extractor","description":"Pull comments and reply threads from TikTok videos by URL or post ID, with pinned/hearted-by-author flags, commenter details, and like counts. No TikTok account or cookies required.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/vHUfV4HYEI8naCh9G/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/vHUfV4HYEI8naCh9G/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/vHUfV4HYEI8naCh9G/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"TikTok Comment & Reply Thread Extractor","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/vHUfV4HYEI8naCh9G/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>TikTok Comment &amp; Reply Thread Extractor</span></div><section id="overview"><h1 class="doc-title">TikTok Comment &amp; Reply Thread Extractor</h1><p class="lede">Pull comments and reply threads from TikTok videos by URL or post ID, with pinned/hearted-by-author flags, commenter details, and like counts. No TikTok account or cookies required.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/tiktok-comment-and-reply-thread-extractor">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/vHUfV4HYEI8naCh9G/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>postUrls</code></td><td>array</td><td>optional</td><td>TikTok video or photo URLs to scrape comments from (e.g. https://www.tiktok.com/@user/video/123...).</td></tr><tr><td><code>postIds</code></td><td>array</td><td>optional</td><td>Numeric TikTok video IDs (15-20 digits) as an alternative to URLs.</td></tr><tr><td><code>profiles</code></td><td>array</td><td>optional</td><td>TikTok usernames or profile URLs. The actor scrapes comments from their newest videos, up to &#x27;Max videos per profile&#x27;.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>postUrls</code></td><td>array</td><td>optional</td><td>TikTok video or photo URLs to scrape comments from (e.g. https://www.tiktok.com/@user/video/123...).</td></tr><tr><td><code>postIds</code></td><td>array</td><td>optional</td><td>Numeric TikTok video IDs (15-20 digits) as an alternative to URLs.</td></tr><tr><td><code>profiles</code></td><td>array</td><td>optional</td><td>TikTok usernames or profile URLs. The actor scrapes comments from their newest videos, up to &#x27;Max videos per profile&#x27;.</td></tr><tr><td><code>maxVideosPerProfile</code></td><td>integer</td><td>optional</td><td>How many of each profile&#x27;s newest videos to scrape comments from.</td></tr><tr><td><code>maxCommentsPerPost</code></td><td>integer</td><td>optional</td><td>Maximum number of rows per video, counting replies when &#x27;Include replies&#x27; is on. The actor walks the comment section as deep as TikTok serves it.</td></tr><tr><td><code>includeReplies</code></td><td>boolean</td><td>optional</td><td>Fetch the reply thread under each root comment and emit each reply as its own row right after its parent.</td></tr><tr><td><code>maxRepliesPerComment</code></td><td>integer</td><td>optional</td><td>Cap the replies fetched for any single root comment. Set to 0 for all replies (still bounded by &#x27;Max comment rows per video&#x27;).</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Global cap on the number of rows in the run (comments + replies). Set to 0 for no global cap.</td></tr><tr><td><code>minLikes</code></td><td>integer</td><td>optional</td><td>Only keep comments and replies with at least this many likes. Comments below the threshold are skipped before their replies are fetched.</td></tr><tr><td><code>includeVideoMetadata</code></td><td>boolean</td><td>optional</td><td>Add a &#x27;video&#x27; object (caption, author, view/like/comment counts) to every row.</td></tr><tr><td><code>includeCommenterDetails</code></td><td>boolean</td><td>optional</td><td>Add the commenter&#x27;s region code and bio to user.region / user.bio, matched by comment ID from TikTok&#x27;s app-style view of the page.</td></tr><tr><td><code>includeCommenterStats</code></td><td>boolean</td><td>optional</td><td>Add exact follower, following, heart and video counts to user.* for every commenter. Each commenter&#x27;s public profile is looked up once; private or banned accounts are omitted.</td></tr><tr><td><code>maxCommenterLookups</code></td><td>integer</td><td>optional</td><td>Cap on how many commenters are enriched when &#x27;Include commenter follower counts&#x27; is on. Set to 0 for no cap.</td></tr><tr><td><code>deepWalk</code></td><td>boolean</td><td>optional</td><td>Read TikTok&#x27;s app-style view of the comment list, which reaches far more comments on many videos, and restore image/sticker data from the standard view per comment. Off keeps the standard walk.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Scrape comments and full reply threads from TikTok videos. Provide video URLs/IDs and/or profiles.&quot;,
+  &quot;properties&quot;: {
+    &quot;deepWalk&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Read TikTok&#x27;s app-style view of the comment list, which reaches far more comments on many videos, and restore image/sticker data from the standard view per comment. Off keeps the standard walk.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Deep walk (higher comment coverage)&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeCommenterDetails&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Add the commenter&#x27;s region code and bio to user.region / user.bio, matched by comment ID from TikTok&#x27;s app-style view of the page.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include commenter details (region, bio)&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeCommenterStats&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Add exact follower, following, heart and video counts to user.* for every commenter. Each commenter&#x27;s public profile is looked up once; private or banned accounts are omitted.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include commenter follower counts&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeReplies&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Fetch the reply thread under each root comment and emit each reply as its own row right after its parent.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Include replies&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeVideoMetadata&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Add a &#x27;video&#x27; object (caption, author, view/like/comment counts) to every row.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include video metadata&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;maxCommenterLookups&quot;: {
+      &quot;default&quot;: 100,
+      &quot;description&quot;: &quot;Cap on how many commenters are enriched when &#x27;Include commenter follower counts&#x27; is on. Set to 0 for no cap.&quot;,
+      &quot;maximum&quot;: 10000,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 100,
+      &quot;title&quot;: &quot;Max commenter lookups&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxCommentsPerPost&quot;: {
+      &quot;description&quot;: &quot;Maximum number of rows per video, counting replies when &#x27;Include replies&#x27; is on. The actor walks the comment section as deep as TikTok serves it.&quot;,
+      &quot;maximum&quot;: 10000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 5,
+      &quot;title&quot;: &quot;Max comment rows per video&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 0,
+      &quot;description&quot;: &quot;Global cap on the number of rows in the run (comments + replies). Set to 0 for no global cap.&quot;,
+      &quot;maximum&quot;: 1000000,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 0,
+      &quot;title&quot;: &quot;Max total rows&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxRepliesPerComment&quot;: {
+      &quot;default&quot;: 0,
+      &quot;description&quot;: &quot;Cap the replies fetched for any single root comment. Set to 0 for all replies (still bounded by &#x27;Max comment rows per video&#x27;).&quot;,
+      &quot;maximum&quot;: 5000,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 5,
+      &quot;title&quot;: &quot;Max replies per comment&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxVideosPerProfile&quot;: {
+      &quot;default&quot;: 10,
+      &quot;description&quot;: &quot;How many of each profile&#x27;s newest videos to scrape comments from.&quot;,
+      &quot;maximum&quot;: 500,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 5,
+      &quot;title&quot;: &quot;Max videos per profile&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;minLikes&quot;: {
+      &quot;default&quot;: 0,
+      &quot;description&quot;: &quot;Only keep comments and replies with at least this many likes. Comments below the threshold are skipped before their replies are fetched.&quot;,
+      &quot;maximum&quot;: 1000000,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 0,
+      &quot;title&quot;: &quot;Minimum likes&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;postIds&quot;: {
+      &quot;description&quot;: &quot;Numeric TikTok video IDs (15-20 digits) as an alternative to URLs.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Video IDs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;postUrls&quot;: {
+      &quot;description&quot;: &quot;TikTok video or photo URLs to scrape comments from (e.g. https://www.tiktok.com/@user/video/123...).&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [
+        &quot;https://www.tiktok.com/@khaby.lame/video/7574844184952081686&quot;
+      ],
+      &quot;title&quot;: &quot;Video URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;profiles&quot;: {
+      &quot;description&quot;: &quot;TikTok usernames or profile URLs. The actor scrapes comments from their newest videos, up to &#x27;Max videos per profile&#x27;.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Profiles (comments on their newest videos)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    }
+  },
+  &quot;required&quot;: [],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;TikTok Comment &amp; Reply Thread Extractor Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>commentId</code></td><td>string</td><td>required</td><td>Unique numeric ID of the comment or reply.</td></tr><tr><td><code>postId</code></td><td>string</td><td>required</td><td>Numeric ID of the TikTok video this comment belongs to.</td></tr><tr><td><code>postUrl</code></td><td>string</td><td>required</td><td>URL of the TikTok video.</td></tr><tr><td><code>rowType</code></td><td>string</td><td>optional</td><td>&#x27;comment&#x27; for top-level comments, &#x27;reply&#x27; for replies.</td></tr><tr><td><code>text</code></td><td>string</td><td>optional</td><td>The text content of the comment or reply.</td></tr><tr><td><code>createdAt</code></td><td>string</td><td>required</td><td>ISO 8601 timestamp when the comment was posted.</td></tr><tr><td><code>likeCount</code></td><td>string</td><td>required</td><td>Number of likes on the comment.</td></tr><tr><td><code>replyCount</code></td><td>string</td><td>required</td><td>Total number of direct replies to this comment.</td></tr><tr><td><code>isPinnedByAuthor</code></td><td>string</td><td>required</td><td>True if the comment is pinned by the video author.</td></tr><tr><td><code>isLikedByAuthor</code></td><td>string</td><td>required</td><td>True if the video author has liked this comment.</td></tr><tr><td><code>isReply</code></td><td>string</td><td>required</td><td>True when this row is a reply to another comment rather than a top-level comment.</td></tr><tr><td><code>replyToCommentId</code></td><td>string</td><td>optional</td><td>ID of the root comment this row replies to. Present only on reply rows.</td></tr><tr><td><code>replyToReplyId</code></td><td>string</td><td>optional</td><td>For nested replies, the ID of the reply this row answers.</td></tr><tr><td><code>replyToUsername</code></td><td>string</td><td>optional</td><td>Handle of the comment/reply being answered (reply rows).</td></tr><tr><td><code>replyToNickname</code></td><td>string</td><td>optional</td><td>Display name of the comment/reply being answered (reply rows).</td></tr><tr><td><code>replyToUserId</code></td><td>string</td><td>optional</td><td>Numeric user ID of the comment/reply being answered (reply rows).</td></tr><tr><td><code>threadId</code></td><td>string</td><td>optional</td><td>ID grouping a root comment with its replies, when TikTok provides one.</td></tr><tr><td><code>language</code></td><td>string</td><td>optional</td><td>Detected language code of the comment (e.g. &#x27;en&#x27;, &#x27;es&#x27;). May be absent.</td></tr><tr><td><code>isTranslatable</code></td><td>string</td><td>optional</td><td>Whether TikTok offers a translation for this comment.</td></tr><tr><td><code>shareUrl</code></td><td>string</td><td>optional</td><td>TikTok share link that opens this comment.</td></tr><tr><td><code>scrapedAt</code></td><td>string</td><td>optional</td><td>ISO 8601 timestamp when the row was collected.</td></tr><tr><td><code>video</code></td><td>string</td><td>optional</td><td>Caption, author and stats of the source video (only when &#x27;Include video metadata&#x27; is on).</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;One record per TikTok comment or reply, with text, like/reply counts, pinned/hearted flags, reply-thread links, and commenter details.&quot;,
+  &quot;properties&quot;: {
+    &quot;commentId&quot;: {
+      &quot;description&quot;: &quot;Unique numeric ID of the comment or reply.&quot;,
+      &quot;template&quot;: &quot;{{commentId}}&quot;,
+      &quot;title&quot;: &quot;Comment ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;createdAt&quot;: {
+      &quot;description&quot;: &quot;ISO 8601 timestamp when the comment was posted.&quot;,
+      &quot;template&quot;: &quot;{{createdAt}}&quot;,
+      &quot;title&quot;: &quot;Created At&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;isLikedByAuthor&quot;: {
+      &quot;description&quot;: &quot;True if the video author has liked this comment.&quot;,
+      &quot;template&quot;: &quot;{{isLikedByAuthor}}&quot;,
+      &quot;title&quot;: &quot;Liked by Author&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;isPinnedByAuthor&quot;: {
+      &quot;description&quot;: &quot;True if the comment is pinned by the video author.&quot;,
+      &quot;template&quot;: &quot;{{isPinnedByAuthor}}&quot;,
+      &quot;title&quot;: &quot;Pinned by Author&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;isReply&quot;: {
+      &quot;description&quot;: &quot;True when this row is a reply to another comment rather than a top-level comment.&quot;,
+      &quot;template&quot;: &quot;{{isReply}}&quot;,
+      &quot;title&quot;: &quot;Is Reply&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;isTranslatable&quot;: {
+      &quot;description&quot;: &quot;Whether TikTok offers a translation for this comment.&quot;,
+      &quot;template&quot;: &quot;{{isTranslatable}}&quot;,
+      &quot;title&quot;: &quot;Is Translatable&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;language&quot;: {
+      &quot;description&quot;: &quot;Detected language code of the comment (e.g. &#x27;en&#x27;, &#x27;es&#x27;). May be absent.&quot;,
+      &quot;template&quot;: &quot;{{language}}&quot;,
+      &quot;title&quot;: &quot;Language&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;likeCount&quot;: {
+      &quot;description&quot;: &quot;Number of likes on the comment.&quot;,
+      &quot;template&quot;: &quot;{{likeCount}}&quot;,
+      &quot;title&quot;: &quot;Likes&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;postId&quot;: {
+      &quot;description&quot;: &quot;Numeric ID of the TikTok video this comment belongs to.&quot;,
+      &quot;template&quot;: &quot;{{postId}}&quot;,
+      &quot;title&quot;: &quot;Post ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;postUrl&quot;: {
+      &quot;description&quot;: &quot;URL of the TikTok video.&quot;,
+      &quot;template&quot;: &quot;{{postUrl}}&quot;,
+      &quot;title&quot;: &quot;Post URL&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;replyCount&quot;: {
+      &quot;description&quot;: &quot;Total number of direct replies to this comment.&quot;,
+      &quot;template&quot;: &quot;{{replyCount}}&quot;,
+      &quot;title&quot;: &quot;Reply Count&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;replyToCommentId&quot;: {
+      &quot;description&quot;: &quot;ID of the root comment this row replies to. Present only on reply rows.&quot;,
+      &quot;template&quot;: &quot;{{replyToCommentId}}&quot;,
+      &quot;title&quot;: &quot;Reply To Comment ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;replyToNickname&quot;: {
+      &quot;description&quot;: &quot;Display name of the comment/reply being answered (reply rows).&quot;,
+      &quot;template&quot;: &quot;{{replyToNickname}}&quot;,
+      &quot;title&quot;: &quot;Reply To Nickname&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;replyToReplyId&quot;: {
+      &quot;description&quot;: &quot;For nested replies, the ID of the reply this row answers.&quot;,
+      &quot;template&quot;: &quot;{{replyToReplyId}}&quot;,
+      &quot;title&quot;: &quot;Reply To Reply ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;replyToUserId&quot;: {
+      &quot;description&quot;: &quot;Numeric user ID of the comment/reply being answered (reply rows).&quot;,
+      &quot;template&quot;: &quot;{{replyToUserId}}&quot;,
+      &quot;title&quot;: &quot;Reply To User ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;replyToUsername&quot;: {
+      &quot;description&quot;: &quot;Handle of the comment/reply being answered (reply rows).&quot;,
+      &quot;template&quot;: &quot;{{replyToUsername}}&quot;,
+      &quot;title&quot;: &quot;Reply To Username&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;rowType&quot;: {
+      &quot;description&quot;: &quot;&#x27;comment&#x27; for top-level comments, &#x27;reply&#x27; for replies.&quot;,
+      &quot;template&quot;: &quot;{{rowType}}&quot;,
+      &quot;title&quot;: &quot;Row Type&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;scrapedAt&quot;: {
+      &quot;description&quot;: &quot;ISO 8601 timestamp when the row was collected.&quot;,
+      &quot;template&quot;: &quot;{{scrapedAt}}&quot;,
+      &quot;title&quot;: &quot;Scraped At&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;shareUrl&quot;: {
+      &quot;description&quot;: &quot;TikTok share link that opens this comment.&quot;,
+      &quot;template&quot;: &quot;{{shareUrl}}&quot;,
+      &quot;title&quot;: &quot;Share URL&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;text&quot;: {
+      &quot;description&quot;: &quot;The text content of the comment or reply.&quot;,
+      &quot;template&quot;: &quot;{{text}}&quot;,
+      &quot;title&quot;: &quot;Comment Text&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;threadId&quot;: {
+      &quot;description&quot;: &quot;ID grouping a root comment with its replies, when TikTok provides one.&quot;,
+      &quot;template&quot;: &quot;{{threadId}}&quot;,
+      &quot;title&quot;: &quot;Thread ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;video&quot;: {
+      &quot;description&quot;: &quot;Caption, author and stats of the source video (only when &#x27;Include video metadata&#x27; is on).&quot;,
+      &quot;template&quot;: &quot;{{video}}&quot;,
+      &quot;title&quot;: &quot;Video Metadata&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;commentId&quot;,
+    &quot;postId&quot;,
+    &quot;createdAt&quot;,
+    &quot;likeCount&quot;,
+    &quot;replyCount&quot;,
+    &quot;isPinnedByAuthor&quot;,
+    &quot;isLikedByAuthor&quot;,
+    &quot;isReply&quot;,
+    &quot;postUrl&quot;
+  ],
+  &quot;title&quot;: &quot;TikTok Comment &amp; Reply Thread Extractor Output&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;fields&quot;: {
+    &quot;commentId&quot;: {
+      &quot;description&quot;: &quot;TikTok&#x27;s unique comment ID (cid field)&quot;,
+      &quot;title&quot;: &quot;Comment ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;createTime&quot;: {
+      &quot;description&quot;: &quot;Unix timestamp when the comment was posted&quot;,
+      &quot;title&quot;: &quot;Create Time (Unix)&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;createdAt&quot;: {
+      &quot;description&quot;: &quot;ISO 8601 UTC datetime when the comment was posted&quot;,
+      &quot;title&quot;: &quot;Created At&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;images&quot;: {
+      &quot;description&quot;: &quot;Raw image_list from TikTok for comments with image attachments&quot;,
+      &quot;title&quot;: &quot;Images&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;isLikedByAuthor&quot;: {
+      &quot;description&quot;: &quot;Whether the post author liked this comment (heart)&quot;,
+      &quot;title&quot;: &quot;Liked By Author&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;isPinnedByAuthor&quot;: {
+      &quot;description&quot;: &quot;Whether the post author pinned this comment&quot;,
+      &quot;title&quot;: &quot;Pinned By Author&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;isReply&quot;: {
+      &quot;description&quot;: &quot;True if this is a reply to another comment&quot;,
+      &quot;title&quot;: &quot;Is Reply&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;isTranslatable&quot;: {
+      &quot;description&quot;: &quot;Whether TikTok offers a translation for this comment&quot;,
+      &quot;title&quot;: &quot;Is Translatable&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;labels&quot;: {
+      &quot;description&quot;: &quot;Raw label_list entries TikTok attaches to the comment&quot;,
+      &quot;title&quot;: &quot;Labels&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;language&quot;: {
+      &quot;description&quot;: &quot;Detected language code of the comment text&quot;,
+      &quot;title&quot;: &quot;Language&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;likeCount&quot;: {
+      &quot;description&quot;: &quot;Number of likes/diggs on this comment&quot;,
+      &quot;title&quot;: &quot;Like Count&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;postId&quot;: {
+      &quot;description&quot;: &quot;TikTok post/video ID this comment belongs to&quot;,
+      &quot;title&quot;: &quot;Post ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;postUrl&quot;: {
+      &quot;description&quot;: &quot;URL of the TikTok post&quot;,
+      &quot;title&quot;: &quot;Post URL&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;replyCount&quot;: {
+      &quot;description&quot;: &quot;Total number of replies to this comment&quot;,
+      &quot;title&quot;: &quot;Reply Count&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;replyToCommentId&quot;: {
+      &quot;description&quot;: &quot;ID of the root comment this row replies to (reply rows)&quot;,
+      &quot;title&quot;: &quot;Reply To Comment ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;replyToNickname&quot;: {
+      &quot;description&quot;: &quot;Display name of the comment/reply being answered&quot;,
+      &quot;title&quot;: &quot;Reply To Nickname&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;replyToReplyId&quot;: {
+      &quot;description&quot;: &quot;For nested replies, the ID of the reply this row answers&quot;,
+      &quot;title&quot;: &quot;Reply To Reply ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;replyToUserId&quot;: {
+      &quot;description&quot;: &quot;Numeric user ID of the comment/reply being answered&quot;,
+      &quot;title&quot;: &quot;Reply To User ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;replyToUsername&quot;: {
+      &quot;description&quot;: &quot;Handle of the comment/reply being answered&quot;,
+      &quot;title&quot;: &quot;Reply To Username&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;rowType&quot;: {
+      &quot;description&quot;: &quot;&#x27;comment&#x27; for top-level comments, &#x27;reply&#x27; for replies&quot;,
+      &quot;title&quot;: &quot;Row Type&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;scrapedAt&quot;: {
+      &quot;description&quot;: &quot;ISO 8601 timestamp when the row was collected&quot;,
+      &quot;title&quot;: &quot;Scraped At&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;shareUrl&quot;: {
+      &quot;description&quot;: &quot;TikTok share link that opens this comment&quot;,
+      &quot;title&quot;: &quot;Share URL&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;stickers&quot;: {
+      &quot;description&quot;: &quot;Raw cmt_sticker_struct when the comment uses a sticker&quot;,
+      &quot;title&quot;: &quot;Stickers&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;text&quot;: {
+      &quot;description&quot;: &quot;Raw comment text content&quot;,
+      &quot;title&quot;: &quot;Comment Text&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;textExtra&quot;: {
+      &quot;description&quot;: &quot;Raw textExtra entries from TikTok API — contains hashtags, mentions, and other inline annotations in the comment text&quot;,
+      &quot;title&quot;: &quot;Text Extra&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;threadId&quot;: {
+      &quot;description&quot;: &quot;Thread identifier grouping root comment + all its replies&quot;,
+      &quot;title&quot;: &quot;Thread ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;user&quot;: {
+      &quot;description&quot;: &quot;Author of the comment&quot;,
+      &quot;properties&quot;: {
+        &quot;avatarUrl&quot;: {
+          &quot;title&quot;: &quot;Avatar URL&quot;,
+          &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;bio&quot;: {
+          &quot;description&quot;: &quot;Commenter profile bio when set (with &#x27;Include commenter details&#x27;)&quot;,
+          &quot;title&quot;: &quot;Bio&quot;,
+          &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;displayName&quot;: {
+          &quot;title&quot;: &quot;Display Name&quot;,
+          &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;followerCount&quot;: {
+          &quot;description&quot;: &quot;Commenter&#x27;s exact follower count (with &#x27;Include commenter follower counts&#x27;)&quot;,
+          &quot;title&quot;: &quot;Follower Count&quot;,
+          &quot;type&quot;: &quot;integer&quot;
+        },
+        &quot;followingCount&quot;: {
+          &quot;description&quot;: &quot;Commenter&#x27;s exact following count (with &#x27;Include commenter follower counts&#x27;)&quot;,
+          &quot;title&quot;: &quot;Following Count&quot;,
+          &quot;type&quot;: &quot;integer&quot;
+        },
+        &quot;heartCount&quot;: {
+          &quot;description&quot;: &quot;Total likes received by the commenter (with &#x27;Include commenter follower counts&#x27;)&quot;,
+          &quot;title&quot;: &quot;Heart Count&quot;,
+          &quot;type&quot;: &quot;integer&quot;
+        },
+        &quot;id&quot;: {
+          &quot;title&quot;: &quot;User ID&quot;,
+          &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;region&quot;: {
+          &quot;description&quot;: &quot;Country/region code TikTok reports for the commenter (with &#x27;Include commenter details&#x27;)&quot;,
+          &quot;title&quot;: &quot;Region&quot;,
+          &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;secUid&quot;: {
+          &quot;title&quot;: &quot;Secure UID&quot;,
+          &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;username&quot;: {
+          &quot;title&quot;: &quot;Username&quot;,
+          &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;verified&quot;: {
+          &quot;title&quot;: &quot;Verified&quot;,
+          &quot;type&quot;: &quot;boolean&quot;
+        },
+        &quot;videoCount&quot;: {
+          &quot;description&quot;: &quot;Number of public videos on the commenter&#x27;s profile (with &#x27;Include commenter follower counts&#x27;)&quot;,
+          &quot;title&quot;: &quot;Video Count&quot;,
+          &quot;type&quot;: &quot;integer&quot;
+        }
+      },
+      &quot;title&quot;: &quot;User&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;video&quot;: {
+      &quot;description&quot;: &quot;Caption, author and stats of the source video (only when &#x27;Include video metadata&#x27; is on)&quot;,
+      &quot;properties&quot;: {
+        &quot;authorNickname&quot;: {
+          &quot;title&quot;: &quot;Author Nickname&quot;,
+          &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;authorUsername&quot;: {
+          &quot;title&quot;: &quot;Author Username&quot;,
+          &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;collectCount&quot;: {
+          &quot;title&quot;: &quot;Collect Count&quot;,
+          &quot;type&quot;: &quot;integer&quot;
+        },
+        &quot;commentCount&quot;: {
+          &quot;title&quot;: &quot;Comment Count&quot;,
+          &quot;type&quot;: &quot;integer&quot;
+        },
+        &quot;createTime&quot;: {
+          &quot;title&quot;: &quot;Create Time (Unix)&quot;,
+          &quot;type&quot;: &quot;integer&quot;
+        },
+        &quot;createdAt&quot;: {
+          &quot;title&quot;: &quot;Created At&quot;,
+          &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;desc&quot;: {
+          &quot;title&quot;: &quot;Caption&quot;,
+          &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;id&quot;: {
+          &quot;title&quot;: &quot;Video ID&quot;,
+          &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;likeCount&quot;: {
+          &quot;title&quot;: &quot;Like Count&quot;,
+          &quot;type&quot;: &quot;integer&quot;
+        },
+        &quot;playCount&quot;: {
+          &quot;title&quot;: &quot;Play Count&quot;,
+          &quot;type&quot;: &quot;integer&quot;
+        },
+        &quot;shareCount&quot;: {
+          &quot;title&quot;: &quot;Share Count&quot;,
+          &quot;type&quot;: &quot;integer&quot;
+        }
+      },
+      &quot;title&quot;: &quot;Video Metadata&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    }
+  },
+  &quot;title&quot;: &quot;TikTok Comments &amp; Replies&quot;,
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;description&quot;: &quot;TikTok comments with engagement metrics and author info.&quot;,
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;commentId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Comment ID&quot;
+          },
+          &quot;createdAt&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Created At&quot;
+          },
+          &quot;isReply&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Is Reply&quot;
+          },
+          &quot;likeCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Likes&quot;
+          },
+          &quot;postId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Post ID&quot;
+          },
+          &quot;replyCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Replies&quot;
+          },
+          &quot;replyToCommentId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Reply To&quot;
+          },
+          &quot;rowType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Type&quot;
+          },
+          &quot;text&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Comment Text&quot;
+          },
+          &quot;user&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;User&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Comments Overview&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;rowType&quot;,
+          &quot;commentId&quot;,
+          &quot;postId&quot;,
+          &quot;text&quot;,
+          &quot;createdAt&quot;,
+          &quot;likeCount&quot;,
+          &quot;replyCount&quot;,
+          &quot;isReply&quot;,
+          &quot;replyToCommentId&quot;,
+          &quot;user&quot;
+        ]
+      }
+    },
+    &quot;replies&quot;: {
+      &quot;description&quot;: &quot;Only reply rows, keyed by the root comment they answer.&quot;,
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;commentId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Reply ID&quot;
+          },
+          &quot;createdAt&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Created At&quot;
+          },
+          &quot;likeCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Likes&quot;
+          },
+          &quot;postId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Post ID&quot;
+          },
+          &quot;postUrl&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Video&quot;
+          },
+          &quot;replyToCommentId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Root Comment&quot;
+          },
+          &quot;replyToReplyId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Answers Reply&quot;
+          },
+          &quot;replyToUsername&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Answers User&quot;
+          },
+          &quot;text&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Text&quot;
+          },
+          &quot;user&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;User&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Replies&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;commentId&quot;,
+          &quot;postId&quot;,
+          &quot;replyToCommentId&quot;,
+          &quot;replyToReplyId&quot;,
+          &quot;replyToUsername&quot;,
+          &quot;text&quot;,
+          &quot;createdAt&quot;,
+          &quot;likeCount&quot;,
+          &quot;user&quot;,
+          &quot;postUrl&quot;
+        ]
+      }
+    },
+    &quot;withVideo&quot;: {
+      &quot;description&quot;: &quot;Rows enriched with the source video&#x27;s caption and stats.&quot;,
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;commentId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Comment ID&quot;
+          },
+          &quot;createdAt&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Created At&quot;
+          },
+          &quot;likeCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Likes&quot;
+          },
+          &quot;postUrl&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Video URL&quot;
+          },
+          &quot;rowType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Type&quot;
+          },
+          &quot;text&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Comment Text&quot;
+          },
+          &quot;video&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Video&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;With Video Metadata&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;rowType&quot;,
+          &quot;commentId&quot;,
+          &quot;text&quot;,
+          &quot;likeCount&quot;,
+          &quot;createdAt&quot;,
+          &quot;video&quot;,
+          &quot;postUrl&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-tiktok-comment-reply-thread-extractor">TikTok Comment &amp; Reply Thread Extractor</h2>
+<p>Pull the comment section of any public TikTok video — including the full reply thread under each comment — with no TikTok account, no cookies and no proxy setup. Every comment and reply becomes one dataset row, with its author, like count, timestamps and creator-engagement flags.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li>Accepts TikTok video URLs, numeric video IDs, and/or profile names (scrapes the newest videos of each profile)</li>
+<li>Walks the comment section as deep as TikTok serves it, recovering far past the first few hundred comments on huge videos</li>
+<li>Fetches the reply thread under every root comment — replies are paged past TikTok's first reply batch, not truncated</li>
+<li>Emits each root comment followed immediately by its own replies, linked by <code>replyToCommentId</code> (and <code>replyToReplyId</code> for nested answers)</li>
+<li>Flags pinned comments, creator-hearted comments, and translation availability</li>
+<li>Captures commenter handle, display name, numeric user ID, secUid and avatar, plus image and sticker comments</li>
+<li>Optionally attaches the source video's caption and stats (<code>includeVideoMetadata</code>)</li>
+<li>Optionally adds each commenter's region code and bio (<code>includeCommenterDetails</code>) and exact follower/following/heart/video counts (<code>includeCommenterStats</code>)</li>
+<li><code>deepWalk</code> mode recovers far more comments on videos where TikTok's default list stops early, restoring image/sticker data from the web payload per comment ID</li>
+<li>Reports videos that are deleted, private or nonexistent as &quot;unavailable&quot; instead of silently empty</li>
+<li>Filters by minimum likes (<code>minLikes</code>) and caps rows per video (<code>maxCommentsPerPost</code>) or per run (<code>maxItems</code>)</li>
+<li>Omits empty fields everywhere — no nulls, no placeholders</li>
+</ul>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>postUrls</code></td>
+<td>array</td>
+<td>—</td>
+<td>TikTok video/photo URLs to scrape comments from</td>
+</tr>
+<tr>
+<td><code>postIds</code></td>
+<td>array</td>
+<td>—</td>
+<td>Numeric video IDs (15–20 digits), alternative to URLs</td>
+</tr>
+<tr>
+<td><code>profiles</code></td>
+<td>array</td>
+<td>—</td>
+<td>Usernames or profile URLs — comments on their newest videos</td>
+</tr>
+<tr>
+<td><code>maxVideosPerProfile</code></td>
+<td>integer</td>
+<td><code>10</code></td>
+<td>How many of each profile's newest videos to scrape</td>
+</tr>
+<tr>
+<td><code>maxCommentsPerPost</code></td>
+<td>integer</td>
+<td>– (100 if not set)</td>
+<td>Maximum rows per video (replies included)</td>
+</tr>
+<tr>
+<td><code>includeReplies</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Fetch and emit reply threads</td>
+</tr>
+<tr>
+<td><code>maxRepliesPerComment</code></td>
+<td>integer</td>
+<td><code>0</code></td>
+<td>Cap replies per root comment; <code>0</code> = all</td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>integer</td>
+<td><code>0</code></td>
+<td>Global row cap for the run; <code>0</code> = no cap</td>
+</tr>
+<tr>
+<td><code>minLikes</code></td>
+<td>integer</td>
+<td><code>0</code></td>
+<td>Keep only comments/replies with at least this many likes</td>
+</tr>
+<tr>
+<td><code>includeVideoMetadata</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Attach a <code>video</code> object (caption, author, stats) to every row</td>
+</tr>
+<tr>
+<td><code>includeCommenterDetails</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Add <code>user.region</code> and <code>user.bio</code> to every row</td>
+</tr>
+<tr>
+<td><code>includeCommenterStats</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Add exact <code>user.followerCount</code> / <code>followingCount</code> / <code>heartCount</code> / <code>videoCount</code></td>
+</tr>
+<tr>
+<td><code>maxCommenterLookups</code></td>
+<td>integer</td>
+<td><code>100</code></td>
+<td>Cap on how many commenters are enriched by <code>includeCommenterStats</code>; <code>0</code> = no cap</td>
+</tr>
+<tr>
+<td><code>deepWalk</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Read TikTok's app-style view of the comment list (much higher coverage on many videos) and restore image/sticker fields per comment; off keeps the standard walk</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-example-comments-and-replies-for-one-video">Example: comments and replies for one video</h3>
+<pre><code class="language-json">{
+  &quot;postUrls&quot;: [&quot;https://www.tiktok.com/@khaby.lame/video/7574844184952081686&quot;],
+  &quot;maxCommentsPerPost&quot;: 500,
+  &quot;includeReplies&quot;: true
+}
+</code></pre>
+<h3 id="readme-example-top-comments-only-no-replies">Example: top comments only, no replies</h3>
+<pre><code class="language-json">{
+  &quot;postUrls&quot;: [&quot;https://www.tiktok.com/@natgeo/video/7640880319159094559&quot;],
+  &quot;maxCommentsPerPost&quot;: 200,
+  &quot;includeReplies&quot;: false
+}
+</code></pre>
+<h3 id="readme-example-comments-from-a-profile-s-newest-videos">Example: comments from a profile's newest videos</h3>
+<pre><code class="language-json">{
+  &quot;profiles&quot;: [&quot;mrbeast&quot;],
+  &quot;maxVideosPerProfile&quot;: 3,
+  &quot;maxCommentsPerPost&quot;: 200,
+  &quot;maxItems&quot;: 1000
+}
+</code></pre>
+<h3 id="readme-example-only-highly-liked-comments-with-video-metadata">Example: only highly-liked comments, with video metadata</h3>
+<pre><code class="language-json">{
+  &quot;postIds&quot;: [&quot;7574844184952081686&quot;, &quot;7640880319159094559&quot;],
+  &quot;minLikes&quot;: 100,
+  &quot;includeVideoMetadata&quot;: true
+}
+</code></pre>
+<h2 id="readme-output-per-comment-or-reply">Output per comment or reply</h2>
+<ul>
+<li><code>rowType</code> — <code>comment</code> for top-level comments, <code>reply</code> for replies</li>
+<li><code>commentId</code> — unique TikTok comment ID</li>
+<li><code>postId</code> — ID of the video the comment belongs to</li>
+<li><code>postUrl</code> — URL of the video</li>
+<li><code>text</code> — comment text (absent on image/sticker-only comments)</li>
+<li><code>createTime</code> / <code>createdAt</code> — Unix and ISO 8601 creation time</li>
+<li><code>likeCount</code> — likes on the comment</li>
+<li><code>replyCount</code> — replies TikTok reports for this comment (comments only)</li>
+<li><code>isPinnedByAuthor</code> — pinned by the video creator</li>
+<li><code>isLikedByAuthor</code> — hearted by the video creator</li>
+<li><code>isReply</code> — true on reply rows</li>
+<li><code>replyToCommentId</code> — root comment ID (reply rows)</li>
+<li><code>replyToReplyId</code> — the reply being answered (nested replies)</li>
+<li><code>replyToUsername</code> / <code>replyToNickname</code> / <code>replyToUserId</code> — who the reply answers</li>
+<li><code>threadId</code> — TikTok's thread identifier for the reply chain</li>
+<li><code>language</code> — detected comment language</li>
+<li><code>isTranslatable</code> — TikTok offers a translation</li>
+<li><code>shareUrl</code> — share link that opens the comment</li>
+<li><code>user.id</code> / <code>user.secUid</code> / <code>user.username</code> / <code>user.displayName</code> / <code>user.avatarUrl</code> — commenter details</li>
+<li><code>user.verified</code> — present (true) when the commenter carries a verification badge</li>
+<li><code>user.region</code> / <code>user.bio</code> — commenter country/region code and profile bio (only with <code>includeCommenterDetails</code>)</li>
+<li><code>user.followerCount</code> / <code>user.followingCount</code> / <code>user.heartCount</code> / <code>user.videoCount</code> — exact commenter stats (only with <code>includeCommenterStats</code>)</li>
+<li><code>images</code> — raw image list for image comments</li>
+<li><code>stickers</code> — raw sticker data for sticker comments</li>
+<li><code>labels</code> / <code>textExtra</code> — raw TikTok annotations (mentions, hashtags, labels)</li>
+<li><code>video</code> — caption and stats of the source video (only with <code>includeVideoMetadata</code>)</li>
+<li><code>scrapedAt</code> — ISO 8601 collection time</li>
+</ul>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>Sentiment &amp; topic analysis</strong> — build comment corpora per video, per creator or per campaign</li>
+<li><strong>Creator engagement audits</strong> — pinned and creator-hearted comments surface the conversations a creator endorses</li>
+<li><strong>Reply-thread research</strong> — reconstruct who answered whom with <code>replyToCommentId</code> / <code>replyToReplyId</code></li>
+<li><strong>Brand monitoring</strong> — sweep a profile's newest videos and catch complaints or questions early</li>
+<li><strong>Moderation exports</strong> — pull full threads into CSV/JSON for review tooling</li>
+<li><strong>Academic research</strong> — comment and reply networks with exact timestamps and stable IDs</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Do I need a TikTok account, cookies or a proxy?</strong>
+No. The actor reads TikTok's public comment data anonymously — no login, no cookies, no proxy setup. Pacing and retries are handled automatically.</p>
+<p><strong>How many comments can I get from one video?</strong>
+As many as TikTok serves. The actor keeps walking the comment list past the point where a basic scraper stops. With <code>deepWalk</code> it reads TikTok's app-style view of the list, which exposes far more comments on many videos (for one video: ~42 via the standard walk, 131–160 via the app view), and restores image and sticker data from the standard view for each comment. Coverage still varies by network exit and by how many comments TikTok filters (spam, deleted, region-restricted) or withholds from anonymous readers, and the count shown in the app is live and can change during a run. The actor never invents rows.</p>
+<p><strong>How complete are reply threads?</strong>
+Replies are fetched per comment with their own cursor walk and capped only by your inputs. A thread with thousands of replies is collected across pages until it ends or your cap is reached.</p>
+<p><strong>What happens with deleted, private or comment-disabled videos?</strong>
+Deleted, private and nonexistent videos are detected from the video page and reported as <strong>unavailable</strong> in the status message; videos that exist but have no (or disabled) comments are reported as empty. Either way the actor emits no rows for that video and moves on.</p>
+<p><strong>Can I sort or filter comments?</strong>
+Sorting and date filters are not available: TikTok returns comments in its own engagement-based ranking order and ignores sort/date parameters, so the actor offers none instead of silently dropping rows. You can trim by likes with <code>minLikes</code> — comments and replies below the threshold are left out; keyword filtering is best done in your own pipeline on the exported text.</p>
+<p><strong>How do I get commenter details and follower counts?</strong>
+Two optional toggles. <code>includeCommenterDetails</code> adds the commenter's region code and bio (<code>user.region</code>, <code>user.bio</code>). <code>includeCommenterStats</code> adds exact follower, following, heart and video counts (<code>user.followerCount</code>, …) by looking up each unique commenter's public profile once; private or banned accounts are omitted, never guessed, and <code>maxCommenterLookups</code> caps how many commenters are enriched per run.</p>
+<p><strong>Can comments be translated?</strong>
+No. TikTok's payload carries no translated text and the translation endpoint requires signed requests; the actor exports the original text plus <code>language</code> and <code>isTranslatable</code> for downstream translation.</p>
+<p><strong>Why do some comments have no <code>text</code>, and do media URLs expire?</strong>
+Image-only and sticker-only comments have no text; their attachments are in <code>images</code> / <code>stickers</code>. Avatar and sticker URLs are signed TikTok CDN links that work when exported but expire after roughly a day or two — use <code>commentId</code>, <code>user.username</code>, <code>shareUrl</code> and <code>postUrl</code> as the durable keys.</p>
+<p><strong>Is this affiliated with TikTok?</strong>
+No. This is an independent, third-party actor that reads TikTok's publicly available comment data; it is not affiliated with, endorsed by, or operated by TikTok.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/vHUfV4HYEI8naCh9G/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>5xR7gMTgKlauNkvWC</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

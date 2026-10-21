@@ -1,0 +1,1145 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-58jAM8aacLXnjeQDVBZ58LMrUHCh3gjIusRnylHhCTw=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Trustpilot Company Review Extractor | Vexaloom Labs</title><meta name="description" content="Pull reviews from any Trustpilot company page with star rating, reviewer details, verification status, and company replies, filterable by rating, language, and verification."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/GxhFe08FWhhuHEcFZ/"><meta property="og:title" content="Trustpilot Company Review Extractor | Vexaloom Labs"><meta property="og:description" content="Pull reviews from any Trustpilot company page with star rating, reviewer details, verification status, and company replies, filterable by rating, language, and verification."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/GxhFe08FWhhuHEcFZ/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/GxhFe08FWhhuHEcFZ/#webpage","name":"Trustpilot Company Review Extractor","description":"Pull reviews from any Trustpilot company page with star rating, reviewer details, verification status, and company replies, filterable by rating, language, and verification.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/GxhFe08FWhhuHEcFZ/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/GxhFe08FWhhuHEcFZ/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/GxhFe08FWhhuHEcFZ/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/GxhFe08FWhhuHEcFZ/#article","headline":"Trustpilot Company Review Extractor","name":"Trustpilot Company Review Extractor","description":"Pull reviews from any Trustpilot company page with star rating, reviewer details, verification status, and company replies, filterable by rating, language, and verification.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/GxhFe08FWhhuHEcFZ/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/GxhFe08FWhhuHEcFZ/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/GxhFe08FWhhuHEcFZ/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Trustpilot Company Review Extractor","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/GxhFe08FWhhuHEcFZ/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Trustpilot Company Review Extractor</span></div><section id="overview"><h1 class="doc-title">Trustpilot Company Review Extractor</h1><p class="lede">Pull reviews from any Trustpilot company page with star rating, reviewer details, verification status, and company replies, filterable by rating, language, and verification.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/trustpilot-company-review-extractor">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/GxhFe08FWhhuHEcFZ/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to collect. Reviews: scrape reviews. Companies: one profile record per company, with contacts and transparency data. Search companies: find companies by keyword.</td></tr><tr><td><code>startUrls</code></td><td>array</td><td>optional</td><td>Trustpilot company page URLs, e.g. https://www.trustpilot.com/review/notion.so. You can also paste a company&#x27;s own website URL. Merged with &#x27;Company domains or names&#x27;.</td></tr><tr><td><code>companies</code></td><td>array</td><td>optional</td><td>Domains (booking.com, notion.so) or company names (Nike, Notion). Names are resolved through Trustpilot search. Merged with &#x27;Company URLs&#x27;.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to collect. Reviews: scrape reviews. Companies: one profile record per company, with contacts and transparency data. Search companies: find companies by keyword.</td></tr><tr><td><code>startUrls</code></td><td>array</td><td>optional</td><td>Trustpilot company page URLs, e.g. https://www.trustpilot.com/review/notion.so. You can also paste a company&#x27;s own website URL. Merged with &#x27;Company domains or names&#x27;.</td></tr><tr><td><code>companies</code></td><td>array</td><td>optional</td><td>Domains (booking.com, notion.so) or company names (Nike, Notion). Names are resolved through Trustpilot search. Merged with &#x27;Company URLs&#x27;.</td></tr><tr><td><code>searchQueries</code></td><td>array</td><td>optional</td><td>Keywords for mode=searchCompanies, e.g. plumber, dentist, CRM software.</td></tr><tr><td><code>searchCountry</code></td><td>string</td><td>optional</td><td>Country context for company search. It affects ranking and localisation, not a strict country filter.</td></tr><tr><td><code>maxCompanies</code></td><td>integer</td><td>optional</td><td>Maximum company results per search keyword (mode=searchCompanies).</td></tr><tr><td><code>maxReviews</code></td><td>integer</td><td>optional</td><td>Maximum reviews per company. Values above 200 are collected by splitting Trustpilot&#x27;s 200-review view across star, language, and topic slices.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum reviews across all companies in one run.</td></tr><tr><td><code>filterStars</code></td><td>string</td><td>optional</td><td>Only include reviews with this star rating. Leave on &#x27;All stars&#x27; to include every rating.</td></tr><tr><td><code>filterLanguage</code></td><td>string</td><td>optional</td><td>Only include reviews in this language. Trustpilot only serves a language a company actually has; otherwise the run returns no reviews for that company instead of mixing languages.</td></tr><tr><td><code>filterDateRange</code></td><td>string</td><td>optional</td><td>Only include reviews posted in this rolling window.</td></tr><tr><td><code>sortBy</code></td><td>string</td><td>optional</td><td>How Trustpilot orders reviews before collection.</td></tr><tr><td><code>onlyVerified</code></td><td>boolean</td><td>optional</td><td>Only include reviews Trustpilot marks as verified purchases.</td></tr><tr><td><code>onlyWithReplies</code></td><td>boolean</td><td>optional</td><td>Only include reviews that already have a company reply.</td></tr><tr><td><code>searchKeyword</code></td><td>string</td><td>optional</td><td>Only include reviews whose title or text contains this phrase. Applied by Trustpilot before collection. Works with mode=reviews.</td></tr><tr><td><code>filterReviewerCountries</code></td><td>array</td><td>optional</td><td>Only keep reviews from reviewers in these ISO country codes, e.g. US, GB, DE. Applied after collection.</td></tr><tr><td><code>publishedAfter</code></td><td>string</td><td>optional</td><td>Exact cutoff date (YYYY-MM-DD). Reviews older than this are skipped. Works with mode=reviews.</td></tr><tr><td><code>lastDays</code></td><td>integer</td><td>optional</td><td>Rolling cutoff for scheduled runs, e.g. 7 for weekly or 1 for daily. If both this and the exact date are set, the more recent cutoff wins.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Choose what to collect: company reviews, company profiles, or companies matching a keyword.&quot;,
+  &quot;properties&quot;: {
+    &quot;companies&quot;: {
+      &quot;description&quot;: &quot;Domains (booking.com, notion.so) or company names (Nike, Notion). Names are resolved through Trustpilot search. Merged with &#x27;Company URLs&#x27;.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;title&quot;: &quot;Company domains or names&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;filterDateRange&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;Only include reviews posted in this rolling window.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
+        &quot;last30days&quot;,
+        &quot;last3months&quot;,
+        &quot;last6months&quot;,
+        &quot;last12months&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All time&quot;,
+        &quot;Last 30 days&quot;,
+        &quot;Last 3 months&quot;,
+        &quot;Last 6 months&quot;,
+        &quot;Last 12 months&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Date posted&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;filterLanguage&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;Only include reviews in this language. Trustpilot only serves a language a company actually has; otherwise the run returns no reviews for that company instead of mixing languages.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
+        &quot;en&quot;,
+        &quot;de&quot;,
+        &quot;fr&quot;,
+        &quot;es&quot;,
+        &quot;it&quot;,
+        &quot;nl&quot;,
+        &quot;pt&quot;,
+        &quot;pl&quot;,
+        &quot;sv&quot;,
+        &quot;da&quot;,
+        &quot;no&quot;,
+        &quot;fi&quot;,
+        &quot;cs&quot;,
+        &quot;sk&quot;,
+        &quot;hu&quot;,
+        &quot;ro&quot;,
+        &quot;bg&quot;,
+        &quot;el&quot;,
+        &quot;tr&quot;,
+        &quot;ru&quot;,
+        &quot;uk&quot;,
+        &quot;ar&quot;,
+        &quot;he&quot;,
+        &quot;hi&quot;,
+        &quot;ja&quot;,
+        &quot;ko&quot;,
+        &quot;zh&quot;,
+        &quot;th&quot;,
+        &quot;vi&quot;,
+        &quot;id&quot;,
+        &quot;ms&quot;,
+        &quot;ca&quot;,
+        &quot;et&quot;,
+        &quot;lv&quot;,
+        &quot;lt&quot;,
+        &quot;sl&quot;,
+        &quot;hr&quot;,
+        &quot;sr&quot;,
+        &quot;is&quot;,
+        &quot;fa&quot;,
+        &quot;bn&quot;,
+        &quot;ta&quot;,
+        &quot;te&quot;,
+        &quot;ml&quot;,
+        &quot;ur&quot;,
+        &quot;sw&quot;,
+        &quot;af&quot;,
+        &quot;sq&quot;,
+        &quot;mk&quot;,
+        &quot;bs&quot;,
+        &quot;be&quot;,
+        &quot;az&quot;,
+        &quot;ka&quot;,
+        &quot;hy&quot;,
+        &quot;kk&quot;,
+        &quot;uz&quot;,
+        &quot;mn&quot;,
+        &quot;ne&quot;,
+        &quot;si&quot;,
+        &quot;km&quot;,
+        &quot;lo&quot;,
+        &quot;my&quot;,
+        &quot;am&quot;,
+        &quot;zu&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All languages&quot;,
+        &quot;English&quot;,
+        &quot;German&quot;,
+        &quot;French&quot;,
+        &quot;Spanish&quot;,
+        &quot;Italian&quot;,
+        &quot;Dutch&quot;,
+        &quot;Portuguese&quot;,
+        &quot;Polish&quot;,
+        &quot;Swedish&quot;,
+        &quot;Danish&quot;,
+        &quot;Norwegian&quot;,
+        &quot;Finnish&quot;,
+        &quot;Czech&quot;,
+        &quot;Slovak&quot;,
+        &quot;Hungarian&quot;,
+        &quot;Romanian&quot;,
+        &quot;Bulgarian&quot;,
+        &quot;Modern Greek (1453-)&quot;,
+        &quot;Turkish&quot;,
+        &quot;Russian&quot;,
+        &quot;Ukrainian&quot;,
+        &quot;Arabic&quot;,
+        &quot;Hebrew&quot;,
+        &quot;Hindi&quot;,
+        &quot;Japanese&quot;,
+        &quot;Korean&quot;,
+        &quot;Chinese&quot;,
+        &quot;Thai&quot;,
+        &quot;Vietnamese&quot;,
+        &quot;Indonesian&quot;,
+        &quot;Malay (macrolanguage)&quot;,
+        &quot;Catalan&quot;,
+        &quot;Estonian&quot;,
+        &quot;Latvian&quot;,
+        &quot;Lithuanian&quot;,
+        &quot;Slovenian&quot;,
+        &quot;Croatian&quot;,
+        &quot;Serbian&quot;,
+        &quot;Icelandic&quot;,
+        &quot;Persian&quot;,
+        &quot;Bengali&quot;,
+        &quot;Tamil&quot;,
+        &quot;Telugu&quot;,
+        &quot;Malayalam&quot;,
+        &quot;Urdu&quot;,
+        &quot;Swahili (macrolanguage)&quot;,
+        &quot;Afrikaans&quot;,
+        &quot;Albanian&quot;,
+        &quot;Macedonian&quot;,
+        &quot;Bosnian&quot;,
+        &quot;Belarusian&quot;,
+        &quot;Azerbaijani&quot;,
+        &quot;Georgian&quot;,
+        &quot;Armenian&quot;,
+        &quot;Kazakh&quot;,
+        &quot;Uzbek&quot;,
+        &quot;Mongolian&quot;,
+        &quot;Nepali (macrolanguage)&quot;,
+        &quot;Sinhala&quot;,
+        &quot;Khmer&quot;,
+        &quot;Lao&quot;,
+        &quot;Burmese&quot;,
+        &quot;Amharic&quot;,
+        &quot;Zulu&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Review language&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;filterReviewerCountries&quot;: {
+      &quot;description&quot;: &quot;Only keep reviews from reviewers in these ISO country codes, e.g. US, GB, DE. Applied after collection.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;title&quot;: &quot;Reviewer countries&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;filterStars&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Only include reviews with this star rating. Leave on &#x27;All stars&#x27; to include every rating.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;1&quot;,
+        &quot;2&quot;,
+        &quot;3&quot;,
+        &quot;4&quot;,
+        &quot;5&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All stars&quot;,
+        &quot;1 star&quot;,
+        &quot;2 stars&quot;,
+        &quot;3 stars&quot;,
+        &quot;4 stars&quot;,
+        &quot;5 stars&quot;
+      ],
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Star rating&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;lastDays&quot;: {
+      &quot;description&quot;: &quot;Rolling cutoff for scheduled runs, e.g. 7 for weekly or 1 for daily. If both this and the exact date are set, the more recent cutoff wins.&quot;,
+      &quot;maximum&quot;: 3650,
+      &quot;minimum&quot;: 1,
+      &quot;title&quot;: &quot;Only the last N days&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxCompanies&quot;: {
+      &quot;default&quot;: 20,
+      &quot;description&quot;: &quot;Maximum company results per search keyword (mode=searchCompanies).&quot;,
+      &quot;maximum&quot;: 1000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 5,
+      &quot;title&quot;: &quot;Max companies per search&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 50000,
+      &quot;description&quot;: &quot;Maximum reviews across all companies in one run.&quot;,
+      &quot;maximum&quot;: 50000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 3,
+      &quot;title&quot;: &quot;Max reviews total&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxReviews&quot;: {
+      &quot;default&quot;: 100,
+      &quot;description&quot;: &quot;Maximum reviews per company. Values above 200 are collected by splitting Trustpilot&#x27;s 200-review view across star, language, and topic slices.&quot;,
+      &quot;maximum&quot;: 10000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 3,
+      &quot;title&quot;: &quot;Max reviews per company&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;reviews&quot;,
+      &quot;description&quot;: &quot;What to collect. Reviews: scrape reviews. Companies: one profile record per company, with contacts and transparency data. Search companies: find companies by keyword.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;reviews&quot;,
+        &quot;companies&quot;,
+        &quot;searchCompanies&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Company reviews&quot;,
+        &quot;Company profiles&quot;,
+        &quot;Search companies&quot;
+      ],
+      &quot;prefill&quot;: &quot;reviews&quot;,
+      &quot;title&quot;: &quot;Mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;onlyVerified&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only include reviews Trustpilot marks as verified purchases.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Verified reviews only&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;onlyWithReplies&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only include reviews that already have a company reply.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Reviews with company replies only&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;publishedAfter&quot;: {
+      &quot;description&quot;: &quot;Exact cutoff date (YYYY-MM-DD). Reviews older than this are skipped. Works with mode=reviews.&quot;,
+      &quot;editor&quot;: &quot;datepicker&quot;,
+      &quot;title&quot;: &quot;Only reviews newer than&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;searchCountry&quot;: {
+      &quot;default&quot;: &quot;US&quot;,
+      &quot;description&quot;: &quot;Country context for company search. It affects ranking and localisation, not a strict country filter.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;US&quot;,
+        &quot;AF&quot;,
+        &quot;AL&quot;,
+        &quot;DZ&quot;,
+        &quot;AS&quot;,
+        &quot;AD&quot;,
+        &quot;AO&quot;,
+        &quot;AI&quot;,
+        &quot;AQ&quot;,
+        &quot;AG&quot;,
+        &quot;AR&quot;,
+        &quot;AM&quot;,
+        &quot;AW&quot;,
+        &quot;AU&quot;,
+        &quot;AT&quot;,
+        &quot;AZ&quot;,
+        &quot;BS&quot;,
+        &quot;BH&quot;,
+        &quot;BD&quot;,
+        &quot;BB&quot;,
+        &quot;BY&quot;,
+        &quot;BE&quot;,
+        &quot;BZ&quot;,
+        &quot;BJ&quot;,
+        &quot;BM&quot;,
+        &quot;BT&quot;,
+        &quot;BO&quot;,
+        &quot;BQ&quot;,
+        &quot;BA&quot;,
+        &quot;BW&quot;,
+        &quot;BV&quot;,
+        &quot;BR&quot;,
+        &quot;IO&quot;,
+        &quot;BN&quot;,
+        &quot;BG&quot;,
+        &quot;BF&quot;,
+        &quot;BI&quot;,
+        &quot;CV&quot;,
+        &quot;KH&quot;,
+        &quot;CM&quot;,
+        &quot;CA&quot;,
+        &quot;KY&quot;,
+        &quot;CF&quot;,
+        &quot;TD&quot;,
+        &quot;CL&quot;,
+        &quot;CN&quot;,
+        &quot;CX&quot;,
+        &quot;CC&quot;,
+        &quot;CO&quot;,
+        &quot;KM&quot;,
+        &quot;CG&quot;,
+        &quot;CD&quot;,
+        &quot;CK&quot;,
+        &quot;CR&quot;,
+        &quot;HR&quot;,
+        &quot;CU&quot;,
+        &quot;CW&quot;,
+        &quot;CY&quot;,
+        &quot;CZ&quot;,
+        &quot;CI&quot;,
+        &quot;DK&quot;,
+        &quot;DJ&quot;,
+        &quot;DM&quot;,
+        &quot;DO&quot;,
+        &quot;EC&quot;,
+        &quot;EG&quot;,
+        &quot;SV&quot;,
+        &quot;GQ&quot;,
+        &quot;ER&quot;,
+        &quot;EE&quot;,
+        &quot;SZ&quot;,
+        &quot;ET&quot;,
+        &quot;FK&quot;,
+        &quot;FO&quot;,
+        &quot;FJ&quot;,
+        &quot;FI&quot;,
+        &quot;FR&quot;,
+        &quot;GF&quot;,
+        &quot;PF&quot;,
+        &quot;TF&quot;,
+        &quot;GA&quot;,
+        &quot;GM&quot;,
+        &quot;GE&quot;,
+        &quot;DE&quot;,
+        &quot;GH&quot;,
+        &quot;GI&quot;,
+        &quot;GR&quot;,
+        &quot;GL&quot;,
+        &quot;GD&quot;,
+        &quot;GP&quot;,
+        &quot;GU&quot;,
+        &quot;GT&quot;,
+        &quot;GG&quot;,
+        &quot;GN&quot;,
+        &quot;GW&quot;,
+        &quot;GY&quot;,
+        &quot;HT&quot;,
+        &quot;HM&quot;,
+        &quot;VA&quot;,
+        &quot;HN&quot;,
+        &quot;HK&quot;,
+        &quot;HU&quot;,
+        &quot;IS&quot;,
+        &quot;IN&quot;,
+        &quot;ID&quot;,
+        &quot;IR&quot;,
+        &quot;IQ&quot;,
+        &quot;IE&quot;,
+        &quot;IM&quot;,
+        &quot;IL&quot;,
+        &quot;IT&quot;,
+        &quot;JM&quot;,
+        &quot;JP&quot;,
+        &quot;JE&quot;,
+        &quot;JO&quot;,
+        &quot;KZ&quot;,
+        &quot;KE&quot;,
+        &quot;KI&quot;,
+        &quot;KP&quot;,
+        &quot;KR&quot;,
+        &quot;KW&quot;,
+        &quot;KG&quot;,
+        &quot;LA&quot;,
+        &quot;LV&quot;,
+        &quot;LB&quot;,
+        &quot;LS&quot;,
+        &quot;LR&quot;,
+        &quot;LY&quot;,
+        &quot;LI&quot;,
+        &quot;LT&quot;,
+        &quot;LU&quot;,
+        &quot;MO&quot;,
+        &quot;MG&quot;,
+        &quot;MW&quot;,
+        &quot;MY&quot;,
+        &quot;MV&quot;,
+        &quot;ML&quot;,
+        &quot;MT&quot;,
+        &quot;MH&quot;,
+        &quot;MQ&quot;,
+        &quot;MR&quot;,
+        &quot;MU&quot;,
+        &quot;YT&quot;,
+        &quot;MX&quot;,
+        &quot;FM&quot;,
+        &quot;MD&quot;,
+        &quot;MC&quot;,
+        &quot;MN&quot;,
+        &quot;ME&quot;,
+        &quot;MS&quot;,
+        &quot;MA&quot;,
+        &quot;MZ&quot;,
+        &quot;MM&quot;,
+        &quot;NA&quot;,
+        &quot;NR&quot;,
+        &quot;NP&quot;,
+        &quot;NL&quot;,
+        &quot;NC&quot;,
+        &quot;NZ&quot;,
+        &quot;NI&quot;,
+        &quot;NE&quot;,
+        &quot;NG&quot;,
+        &quot;NU&quot;,
+        &quot;NF&quot;,
+        &quot;MK&quot;,
+        &quot;MP&quot;,
+        &quot;NO&quot;,
+        &quot;OM&quot;,
+        &quot;PK&quot;,
+        &quot;PW&quot;,
+        &quot;PS&quot;,
+        &quot;PA&quot;,
+        &quot;PG&quot;,
+        &quot;PY&quot;,
+        &quot;PE&quot;,
+        &quot;PH&quot;,
+        &quot;PN&quot;,
+        &quot;PL&quot;,
+        &quot;PT&quot;,
+        &quot;PR&quot;,
+        &quot;QA&quot;,
+        &quot;RO&quot;,
+        &quot;RU&quot;,
+        &quot;RW&quot;,
+        &quot;RE&quot;,
+        &quot;BL&quot;,
+        &quot;SH&quot;,
+        &quot;KN&quot;,
+        &quot;LC&quot;,
+        &quot;MF&quot;,
+        &quot;PM&quot;,
+        &quot;VC&quot;,
+        &quot;WS&quot;,
+        &quot;SM&quot;,
+        &quot;ST&quot;,
+        &quot;SA&quot;,
+        &quot;SN&quot;,
+        &quot;RS&quot;,
+        &quot;SC&quot;,
+        &quot;SL&quot;,
+        &quot;SG&quot;,
+        &quot;SX&quot;,
+        &quot;SK&quot;,
+        &quot;SI&quot;,
+        &quot;SB&quot;,
+        &quot;SO&quot;,
+        &quot;ZA&quot;,
+        &quot;GS&quot;,
+        &quot;SS&quot;,
+        &quot;ES&quot;,
+        &quot;LK&quot;,
+        &quot;SD&quot;,
+        &quot;SR&quot;,
+        &quot;SJ&quot;,
+        &quot;SE&quot;,
+        &quot;CH&quot;,
+        &quot;SY&quot;,
+        &quot;TW&quot;,
+        &quot;TJ&quot;,
+        &quot;TZ&quot;,
+        &quot;TH&quot;,
+        &quot;TL&quot;,
+        &quot;TG&quot;,
+        &quot;TK&quot;,
+        &quot;TO&quot;,
+        &quot;TT&quot;,
+        &quot;TN&quot;,
+        &quot;TM&quot;,
+        &quot;TC&quot;,
+        &quot;TV&quot;,
+        &quot;TR&quot;,
+        &quot;UG&quot;,
+        &quot;UA&quot;,
+        &quot;AE&quot;,
+        &quot;GB&quot;,
+        &quot;UM&quot;,
+        &quot;UY&quot;,
+        &quot;UZ&quot;,
+        &quot;VU&quot;,
+        &quot;VE&quot;,
+        &quot;VN&quot;,
+        &quot;VG&quot;,
+        &quot;VI&quot;,
+        &quot;WF&quot;,
+        &quot;EH&quot;,
+        &quot;YE&quot;,
+        &quot;ZM&quot;,
+        &quot;ZW&quot;,
+        &quot;AX&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;United States&quot;,
+        &quot;Afghanistan&quot;,
+        &quot;Albania&quot;,
+        &quot;Algeria&quot;,
+        &quot;American Samoa&quot;,
+        &quot;Andorra&quot;,
+        &quot;Angola&quot;,
+        &quot;Anguilla&quot;,
+        &quot;Antarctica&quot;,
+        &quot;Antigua and Barbuda&quot;,
+        &quot;Argentina&quot;,
+        &quot;Armenia&quot;,
+        &quot;Aruba&quot;,
+        &quot;Australia&quot;,
+        &quot;Austria&quot;,
+        &quot;Azerbaijan&quot;,
+        &quot;Bahamas&quot;,
+        &quot;Bahrain&quot;,
+        &quot;Bangladesh&quot;,
+        &quot;Barbados&quot;,
+        &quot;Belarus&quot;,
+        &quot;Belgium&quot;,
+        &quot;Belize&quot;,
+        &quot;Benin&quot;,
+        &quot;Bermuda&quot;,
+        &quot;Bhutan&quot;,
+        &quot;Bolivia, Plurinational State of&quot;,
+        &quot;Bonaire, Sint Eustatius and Saba&quot;,
+        &quot;Bosnia and Herzegovina&quot;,
+        &quot;Botswana&quot;,
+        &quot;Bouvet Island&quot;,
+        &quot;Brazil&quot;,
+        &quot;British Indian Ocean Territory&quot;,
+        &quot;Brunei Darussalam&quot;,
+        &quot;Bulgaria&quot;,
+        &quot;Burkina Faso&quot;,
+        &quot;Burundi&quot;,
+        &quot;Cabo Verde&quot;,
+        &quot;Cambodia&quot;,
+        &quot;Cameroon&quot;,
+        &quot;Canada&quot;,
+        &quot;Cayman Islands&quot;,
+        &quot;Central African Republic&quot;,
+        &quot;Chad&quot;,
+        &quot;Chile&quot;,
+        &quot;China&quot;,
+        &quot;Christmas Island&quot;,
+        &quot;Cocos (Keeling) Islands&quot;,
+        &quot;Colombia&quot;,
+        &quot;Comoros&quot;,
+        &quot;Congo&quot;,
+        &quot;Congo, The Democratic Republic of the&quot;,
+        &quot;Cook Islands&quot;,
+        &quot;Costa Rica&quot;,
+        &quot;Croatia&quot;,
+        &quot;Cuba&quot;,
+        &quot;Curaçao&quot;,
+        &quot;Cyprus&quot;,
+        &quot;Czechia&quot;,
+        &quot;Côte d&#x27;Ivoire&quot;,
+        &quot;Denmark&quot;,
+        &quot;Djibouti&quot;,
+        &quot;Dominica&quot;,
+        &quot;Dominican Republic&quot;,
+        &quot;Ecuador&quot;,
+        &quot;Egypt&quot;,
+        &quot;El Salvador&quot;,
+        &quot;Equatorial Guinea&quot;,
+        &quot;Eritrea&quot;,
+        &quot;Estonia&quot;,
+        &quot;Eswatini&quot;,
+        &quot;Ethiopia&quot;,
+        &quot;Falkland Islands (Malvinas)&quot;,
+        &quot;Faroe Islands&quot;,
+        &quot;Fiji&quot;,
+        &quot;Finland&quot;,
+        &quot;France&quot;,
+        &quot;French Guiana&quot;,
+        &quot;French Polynesia&quot;,
+        &quot;French Southern Territories&quot;,
+        &quot;Gabon&quot;,
+        &quot;Gambia&quot;,
+        &quot;Georgia&quot;,
+        &quot;Germany&quot;,
+        &quot;Ghana&quot;,
+        &quot;Gibraltar&quot;,
+        &quot;Greece&quot;,
+        &quot;Greenland&quot;,
+        &quot;Grenada&quot;,
+        &quot;Guadeloupe&quot;,
+        &quot;Guam&quot;,
+        &quot;Guatemala&quot;,
+        &quot;Guernsey&quot;,
+        &quot;Guinea&quot;,
+        &quot;Guinea-Bissau&quot;,
+        &quot;Guyana&quot;,
+        &quot;Haiti&quot;,
+        &quot;Heard Island and McDonald Islands&quot;,
+        &quot;Holy See (Vatican City State)&quot;,
+        &quot;Honduras&quot;,
+        &quot;Hong Kong&quot;,
+        &quot;Hungary&quot;,
+        &quot;Iceland&quot;,
+        &quot;India&quot;,
+        &quot;Indonesia&quot;,
+        &quot;Iran, Islamic Republic of&quot;,
+        &quot;Iraq&quot;,
+        &quot;Ireland&quot;,
+        &quot;Isle of Man&quot;,
+        &quot;Israel&quot;,
+        &quot;Italy&quot;,
+        &quot;Jamaica&quot;,
+        &quot;Japan&quot;,
+        &quot;Jersey&quot;,
+        &quot;Jordan&quot;,
+        &quot;Kazakhstan&quot;,
+        &quot;Kenya&quot;,
+        &quot;Kiribati&quot;,
+        &quot;Korea, Democratic People&#x27;s Republic of&quot;,
+        &quot;Korea, Republic of&quot;,
+        &quot;Kuwait&quot;,
+        &quot;Kyrgyzstan&quot;,
+        &quot;Lao People&#x27;s Democratic Republic&quot;,
+        &quot;Latvia&quot;,
+        &quot;Lebanon&quot;,
+        &quot;Lesotho&quot;,
+        &quot;Liberia&quot;,
+        &quot;Libya&quot;,
+        &quot;Liechtenstein&quot;,
+        &quot;Lithuania&quot;,
+        &quot;Luxembourg&quot;,
+        &quot;Macao&quot;,
+        &quot;Madagascar&quot;,
+        &quot;Malawi&quot;,
+        &quot;Malaysia&quot;,
+        &quot;Maldives&quot;,
+        &quot;Mali&quot;,
+        &quot;Malta&quot;,
+        &quot;Marshall Islands&quot;,
+        &quot;Martinique&quot;,
+        &quot;Mauritania&quot;,
+        &quot;Mauritius&quot;,
+        &quot;Mayotte&quot;,
+        &quot;Mexico&quot;,
+        &quot;Micronesia, Federated States of&quot;,
+        &quot;Moldova, Republic of&quot;,
+        &quot;Monaco&quot;,
+        &quot;Mongolia&quot;,
+        &quot;Montenegro&quot;,
+        &quot;Montserrat&quot;,
+        &quot;Morocco&quot;,
+        &quot;Mozambique&quot;,
+        &quot;Myanmar&quot;,
+        &quot;Namibia&quot;,
+        &quot;Nauru&quot;,
+        &quot;Nepal&quot;,
+        &quot;Netherlands&quot;,
+        &quot;New Caledonia&quot;,
+        &quot;New Zealand&quot;,
+        &quot;Nicaragua&quot;,
+        &quot;Niger&quot;,
+        &quot;Nigeria&quot;,
+        &quot;Niue&quot;,
+        &quot;Norfolk Island&quot;,
+        &quot;North Macedonia&quot;,
+        &quot;Northern Mariana Islands&quot;,
+        &quot;Norway&quot;,
+        &quot;Oman&quot;,
+        &quot;Pakistan&quot;,
+        &quot;Palau&quot;,
+        &quot;Palestine, State of&quot;,
+        &quot;Panama&quot;,
+        &quot;Papua New Guinea&quot;,
+        &quot;Paraguay&quot;,
+        &quot;Peru&quot;,
+        &quot;Philippines&quot;,
+        &quot;Pitcairn&quot;,
+        &quot;Poland&quot;,
+        &quot;Portugal&quot;,
+        &quot;Puerto Rico&quot;,
+        &quot;Qatar&quot;,
+        &quot;Romania&quot;,
+        &quot;Russian Federation&quot;,
+        &quot;Rwanda&quot;,
+        &quot;Réunion&quot;,
+        &quot;Saint Barthélemy&quot;,
+        &quot;Saint Helena, Ascension and Tristan da Cunha&quot;,
+        &quot;Saint Kitts and Nevis&quot;,
+        &quot;Saint Lucia&quot;,
+        &quot;Saint Martin (French part)&quot;,
+        &quot;Saint Pierre and Miquelon&quot;,
+        &quot;Saint Vincent and the Grenadines&quot;,
+        &quot;Samoa&quot;,
+        &quot;San Marino&quot;,
+        &quot;Sao Tome and Principe&quot;,
+        &quot;Saudi Arabia&quot;,
+        &quot;Senegal&quot;,
+        &quot;Serbia&quot;,
+        &quot;Seychelles&quot;,
+        &quot;Sierra Leone&quot;,
+        &quot;Singapore&quot;,
+        &quot;Sint Maarten (Dutch part)&quot;,
+        &quot;Slovakia&quot;,
+        &quot;Slovenia&quot;,
+        &quot;Solomon Islands&quot;,
+        &quot;Somalia&quot;,
+        &quot;South Africa&quot;,
+        &quot;South Georgia and the South Sandwich Islands&quot;,
+        &quot;South Sudan&quot;,
+        &quot;Spain&quot;,
+        &quot;Sri Lanka&quot;,
+        &quot;Sudan&quot;,
+        &quot;Suriname&quot;,
+        &quot;Svalbard and Jan Mayen&quot;,
+        &quot;Sweden&quot;,
+        &quot;Switzerland&quot;,
+        &quot;Syrian Arab Republic&quot;,
+        &quot;Taiwan, Province of China&quot;,
+        &quot;Tajikistan&quot;,
+        &quot;Tanzania, United Republic of&quot;,
+        &quot;Thailand&quot;,
+        &quot;Timor-Leste&quot;,
+        &quot;Togo&quot;,
+        &quot;Tokelau&quot;,
+        &quot;Tonga&quot;,
+        &quot;Trinidad and Tobago&quot;,
+        &quot;Tunisia&quot;,
+        &quot;Turkmenistan&quot;,
+        &quot;Turks and Caicos Islands&quot;,
+        &quot;Tuvalu&quot;,
+        &quot;Türkiye&quot;,
+        &quot;Uganda&quot;,
+        &quot;Ukraine&quot;,
+        &quot;United Arab Emirates&quot;,
+        &quot;United Kingdom&quot;,
+        &quot;United States Minor Outlying Islands&quot;,
+        &quot;Uruguay&quot;,
+        &quot;Uzbekistan&quot;,
+        &quot;Vanuatu&quot;,
+        &quot;Venezuela, Bolivarian Republic of&quot;,
+        &quot;Viet Nam&quot;,
+        &quot;Virgin Islands, British&quot;,
+        &quot;Virgin Islands, U.S.&quot;,
+        &quot;Wallis and Futuna&quot;,
+        &quot;Western Sahara&quot;,
+        &quot;Yemen&quot;,
+        &quot;Zambia&quot;,
+        &quot;Zimbabwe&quot;,
+        &quot;Åland Islands&quot;
+      ],
+      &quot;prefill&quot;: &quot;US&quot;,
+      &quot;title&quot;: &quot;Search country&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;searchKeyword&quot;: {
+      &quot;description&quot;: &quot;Only include reviews whose title or text contains this phrase. Applied by Trustpilot before collection. Works with mode=reviews.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Keyword in review text&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;searchQueries&quot;: {
+      &quot;description&quot;: &quot;Keywords for mode=searchCompanies, e.g. plumber, dentist, CRM software.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;title&quot;: &quot;Company search keywords&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;sortBy&quot;: {
+      &quot;default&quot;: &quot;recency&quot;,
+      &quot;description&quot;: &quot;How Trustpilot orders reviews before collection.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;recency&quot;,
+        &quot;relevance&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Newest first&quot;,
+        &quot;Most relevant&quot;
+      ],
+      &quot;prefill&quot;: &quot;recency&quot;,
+      &quot;title&quot;: &quot;Sort order&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;startUrls&quot;: {
+      &quot;description&quot;: &quot;Trustpilot company page URLs, e.g. https://www.trustpilot.com/review/notion.so. You can also paste a company&#x27;s own website URL. Merged with &#x27;Company domains or names&#x27;.&quot;,
+      &quot;editor&quot;: &quot;requestListSources&quot;,
+      &quot;prefill&quot;: [
+        {
+          &quot;url&quot;: &quot;https://www.trustpilot.com/review/notion.so&quot;
+        }
+      ],
+      &quot;title&quot;: &quot;Company URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;mode&quot;
+  ],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Trustpilot Company Review Extractor Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>reviews</code></td><td>string</td><td>optional</td><td>Dataset containing review, company, or companySearch records, tagged by recordType.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Trustpilot reviews, company profiles, and company search results with ratings, reviewer details, owner replies, contacts, and transparency data.&quot;,
+  &quot;properties&quot;: {
+    &quot;reviews&quot;: {
+      &quot;description&quot;: &quot;Dataset containing review, company, or companySearch records, tagged by recordType.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Trustpilot dataset&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Trustpilot Company Review Extractor Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;fields&quot;: {},
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;authorCountry&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Country&quot;
+          },
+          &quot;authorName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Author&quot;
+          },
+          &quot;businessName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Company&quot;
+          },
+          &quot;categories&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Categories&quot;
+          },
+          &quot;companyStars&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Company stars&quot;
+          },
+          &quot;isClaimed&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Claimed&quot;
+          },
+          &quot;isVerified&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Verified&quot;
+          },
+          &quot;likes&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Likes&quot;
+          },
+          &quot;publishedDate&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Published&quot;
+          },
+          &quot;rating&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Rating&quot;
+          },
+          &quot;recordType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Type&quot;
+          },
+          &quot;replyText&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Reply&quot;
+          },
+          &quot;reviewUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Review URL&quot;
+          },
+          &quot;scrapedAt&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Scraped at&quot;
+          },
+          &quot;text&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Review&quot;
+          },
+          &quot;title&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Title&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Overview&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;recordType&quot;,
+          &quot;businessName&quot;,
+          &quot;title&quot;,
+          &quot;text&quot;,
+          &quot;rating&quot;,
+          &quot;companyStars&quot;,
+          &quot;authorName&quot;,
+          &quot;authorCountry&quot;,
+          &quot;isVerified&quot;,
+          &quot;publishedDate&quot;,
+          &quot;replyText&quot;,
+          &quot;likes&quot;,
+          &quot;categories&quot;,
+          &quot;isClaimed&quot;,
+          &quot;reviewUrl&quot;,
+          &quot;scrapedAt&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-trustpilot-company-review-extractor">Trustpilot Company Review Extractor</h2>
+<p>Collect Trustpilot reviews and company profiles in one run. Paste a company URL, a domain, or a company name and get review text, star ratings, reviewer details, owner replies, verification data, company statistics, contacts, and transparency information as flat records.</p>
+<p>Trustpilot normally shows an anonymous visitor 200 reviews per filtered view. This actor reads Trustpilot's own review views and combines star and language slices to go beyond that limit, while reporting honestly when a very large brand has more history than the public web views expose.</p>
+<h2 id="readme-three-modes">Three modes</h2>
+<ul>
+<li><strong>Company reviews</strong> — reviews for one or more companies. Accepts Trustpilot URLs, bare domains, or company names. Names are resolved through Trustpilot search.</li>
+<li><strong>Company profiles</strong> — one record per company with TrustScore, star rating, lifetime and last-12-month review counts, rating distribution, language counts, categories, claimed status, contacts, owner reply behaviour, verification flags, consumer alerts, and transparency data.</li>
+<li><strong>Search companies</strong> — find companies by keyword, optionally scoped to a search country, and return company profile rows with contacts and categories.</li>
+</ul>
+<h2 id="readme-what-each-review-record-contains">What each review record contains</h2>
+<p><code>businessName</code>, <code>businessDomain</code>, <code>businessId</code>, <code>businessUrl</code>, <code>trustpilotUrl</code>, <code>trustScore</code>, <code>companyStars</code>, <code>totalReviews</code>, <code>reviewsLast12Months</code>, <code>categories</code>, <code>isClaimed</code>, <code>companyCountry</code>, <code>ratingDistribution</code>, <code>contactEmail</code>, <code>contactPhone</code>, <code>reviewId</code>, <code>reviewUrl</code>, <code>title</code>, <code>text</code>, <code>rating</code>, <code>language</code>, <code>authorName</code>, <code>authorId</code>, <code>authorCountry</code>, <code>authorReviewCount</code>, <code>authorAvatarUrl</code>, <code>authorProfileUrl</code>, <code>authorIsVerified</code>, <code>isVerified</code>, <code>verificationLevel</code>, <code>verificationSource</code>, <code>publishedDate</code>, <code>experiencedDate</code>, <code>updatedDate</code>, <code>replyText</code>, <code>replyDate</code>, <code>replyUpdatedDate</code>, <code>hasReply</code>, <code>likes</code>, <code>source</code>, <code>reviewsOnSameDomain</code>, <code>locationId</code>, <code>locationName</code>, <code>sourcePage</code>, <code>recordType</code>, <code>scrapedAt</code>.</p>
+<p>Company profiles also include <code>aiSummary</code>, <code>aiSummaryModel</code>, <code>aiSummaryTopics</code>, <code>locationsCount</code>, and a <code>locations</code> list (store name, address, rating and review count) when Trustpilot publishes locations. Search records use the same company fields plus their own profile fields. Every record has a <code>recordType</code> (<code>review</code>, <code>company</code>, or <code>companySearch</code>), so mixed datasets stay usable.</p>
+<p>Missing values are omitted rather than written as <code>null</code>. Counts of zero and boolean <code>false</code> are kept when they are real.</p>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td>select</td>
+<td><code>reviews</code></td>
+<td>Reviews, company profiles, or company search</td>
+</tr>
+<tr>
+<td><code>startUrls</code></td>
+<td>URL list</td>
+<td>–</td>
+<td>Trustpilot company page URLs</td>
+</tr>
+<tr>
+<td><code>companies</code></td>
+<td>string list</td>
+<td>–</td>
+<td>Domains or names, e.g. <code>booking.com</code>, <code>Nike</code></td>
+</tr>
+<tr>
+<td><code>searchQueries</code></td>
+<td>string list</td>
+<td>–</td>
+<td>Keywords for company search</td>
+</tr>
+<tr>
+<td><code>searchCountry</code></td>
+<td>select</td>
+<td><code>US</code></td>
+<td>Country context for company search (ranking, not a strict filter)</td>
+</tr>
+<tr>
+<td><code>maxCompanies</code></td>
+<td>integer</td>
+<td>20</td>
+<td>Maximum company results per search keyword</td>
+</tr>
+<tr>
+<td><code>maxReviews</code></td>
+<td>integer</td>
+<td>100</td>
+<td>Maximum reviews per company; values above 200 use star/language/topic slices</td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>integer</td>
+<td>50000</td>
+<td>Maximum reviews across all companies</td>
+</tr>
+<tr>
+<td><code>filterStars</code></td>
+<td>select</td>
+<td>all</td>
+<td>Only one-star through five-star reviews</td>
+</tr>
+<tr>
+<td><code>filterLanguage</code></td>
+<td>select</td>
+<td>all</td>
+<td>Only one review language; a company without that language returns no reviews instead of mixing languages</td>
+</tr>
+<tr>
+<td><code>filterDateRange</code></td>
+<td>select</td>
+<td>all</td>
+<td>Last 30 days, 3 months, 6 months, or 12 months</td>
+</tr>
+<tr>
+<td><code>sortBy</code></td>
+<td>select</td>
+<td><code>recency</code></td>
+<td>Newest first or most relevant</td>
+</tr>
+<tr>
+<td><code>onlyVerified</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Only verified-purchase reviews</td>
+</tr>
+<tr>
+<td><code>onlyWithReplies</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Only reviews with a company reply</td>
+</tr>
+<tr>
+<td><code>searchKeyword</code></td>
+<td>text</td>
+<td>–</td>
+<td>Only reviews whose title or text contains this phrase</td>
+</tr>
+<tr>
+<td><code>filterReviewerCountries</code></td>
+<td>string list</td>
+<td>–</td>
+<td>Keep only reviewers from these ISO country codes</td>
+</tr>
+<tr>
+<td><code>publishedAfter</code></td>
+<td>date</td>
+<td>–</td>
+<td>Only reviews newer than this exact date</td>
+</tr>
+<tr>
+<td><code>lastDays</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Rolling cutoff for scheduled runs; if both cutoffs are set, the more recent wins</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="readme-examples">Examples</h2>
+<h3 id="readme-scrape-500-reviews-for-one-company">Scrape 500 reviews for one company</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;reviews&quot;,
+  &quot;startUrls&quot;: [{ &quot;url&quot;: &quot;https://www.trustpilot.com/review/www.booking.com&quot; }],
+  &quot;maxReviews&quot;: 500
+}
+</code></pre>
+<h3 id="readme-negative-verified-reviews-from-the-last-12-months">Negative verified reviews from the last 12 months</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;reviews&quot;,
+  &quot;companies&quot;: [&quot;octopus.energy&quot;],
+  &quot;filterStars&quot;: &quot;1&quot;,
+  &quot;filterDateRange&quot;: &quot;last12months&quot;,
+  &quot;onlyVerified&quot;: true,
+  &quot;maxReviews&quot;: 200
+}
+</code></pre>
+<h3 id="readme-company-profiles-for-several-brands">Company profiles for several brands</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;companies&quot;,
+  &quot;companies&quot;: [&quot;notion.so&quot;, &quot;www.booking.com&quot;, &quot;wise.com&quot;]
+}
+</code></pre>
+<h3 id="readme-find-plumbing-companies">Find plumbing companies</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;searchCompanies&quot;,
+  &quot;searchQueries&quot;: [&quot;plumber&quot;],
+  &quot;searchCountry&quot;: &quot;US&quot;,
+  &quot;maxCompanies&quot;: 50
+}
+</code></pre>
+<h2 id="readme-how-deep-can-it-go">How deep can it go?</h2>
+<p>Trustpilot serves 20 reviews per page and stops anonymous visitors at page 10 — 200 reviews for a single filtered view. The actor fetches the unfiltered view, then each of the five star views (up to 200 each), then star-by-language views for global brands. For multi-location businesses it also slices by Trustpilot location, which can add substantially more coverage. When a company's star × language views still stop short of the requested count, the actor reads Trustpilot's AI topics and adds topic × star slices, bounded by <code>maxReviews</code>. Star × language slices can reach up to the 10,000-review input maximum for global brands; smaller companies are fully covered.</p>
+<p>There is no public absolute-date filter on Trustpilot, so a brand with hundreds of thousands of reviews cannot be exported in full without an account. The actor tells you in its status message when it hit this wall.</p>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Do I need a Trustpilot account, cookies, or a proxy?</strong>
+No. The actor reads public Trustpilot pages and handles the site's connection check itself. You do not configure a proxy.</p>
+<p><strong>Why did I get fewer reviews than I asked for?</strong>
+Either the company has fewer reviews than requested, or it has more than the public views can expose. The status message says which. For big brands, request up to 1,000 to use the star slices efficiently.</p>
+<p><strong>Does setting a language filter return other languages if the company has none in that language?</strong>
+No. The actor checks the company's own language counts first. If the language is absent, that company returns no reviews instead of falling back to all languages.</p>
+<p><strong>What does &quot;verified&quot; mean?</strong>
+<code>isVerified</code> follows Trustpilot's verification flag. The <code>onlyVerified</code> input keeps the strict verified-purchase level; <code>verificationLevel</code> and <code>verificationSource</code> are included for every review.</p>
+<p><strong>Are owner replies included?</strong>
+Yes. <code>replyText</code>, <code>replyDate</code>, <code>replyUpdatedDate</code>, and <code>hasReply</code> are returned when a reply exists. The company profile also includes overall reply percentage and average reply time.</p>
+<p><strong>Can I get reviewer email addresses?</strong>
+No. Trustpilot does not publish reviewer contact details. Company contact email and phone are included when Trustpilot publishes them.</p>
+<p><strong>What is the difference between <code>companyStars</code>, <code>trustScore</code>, and the rating distribution?</strong>
+<code>trustScore</code> is Trustpilot's weighted score; <code>companyStars</code> is the rounded display value; <code>ratingDistribution</code> is the raw count of reviews per star. They are different numbers by design.</p>
+<p><strong>Can I run this on a schedule for new reviews only?</strong>
+Yes. Set <code>lastDays</code> (for example <code>1</code> for daily) or <code>publishedAfter</code> to an exact date. The actor reads newest-first and stops once it passes the cutoff.</p>
+<p><strong>Does it include Trustpilot's AI summary?</strong>
+Yes, on company profile records (<code>mode=companies</code>). <code>aiSummary</code> is Trustpilot's own English-page summary; <code>aiSummaryTopics</code> carries the per-topic summaries. Review rows do not repeat the summary.</p>
+<p><strong>Is this affiliated with Trustpilot?</strong>
+No. This is an independent tool that reads publicly available Trustpilot pages. It is not affiliated with, endorsed by, or sponsored by Trustpilot A/S.</p>
+<h2 id="readme-limitations">Limitations</h2>
+<ul>
+<li>200 reviews per filtered view; up to 1,000 through star slices, up to 10,000 through star × language slices, and topic × star slices where Trustpilot publishes AI topics (34/40 companies in the survey).</li>
+<li>Topic slices are bounded by <code>maxReviews</code>; companies without AI topics stop at the star/language ceiling and report it.</li>
+<li>No absolute date-range filter in Trustpilot's public web views, so very large brands are sampled rather than complete.</li>
+<li>Company search country affects ranking, not a strict country filter.</li>
+<li>Reviewer-country filtering happens after collection and can return fewer rows than requested.</li>
+<li>Trustpilot test/placeholder reviews without a valid 1–5 rating are skipped.</li>
+<li>Company contact email and phone are present only when Trustpilot publishes them (22.5 % email / 27.5 % phone in the 40-company survey). Trustpilot search and transparency pages do not add missing contacts; scraping the company's own website is a separate data source.</li>
+<li>AI summaries are available on company profiles only; the review data route does not carry them.</li>
+</ul>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/GxhFe08FWhhuHEcFZ/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>EBDiJJKewcsfmWgXA</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

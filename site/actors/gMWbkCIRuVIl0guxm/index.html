@@ -1,0 +1,934 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-o8REhOjQeKKulx8T/90grmHkVnbvx/C3z8Rx4jrLQZI=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Google Maps Business Lead Finder with Email &amp; Social Links | Vexaloom Labs</title><meta name="description" content="Search Google Maps by business type and location and get back listing details enriched with email addresses and social profiles pulled from each business&#x27;s own website."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/gMWbkCIRuVIl0guxm/"><meta property="og:title" content="Google Maps Business Lead Finder with Email &amp; Social Links | Vexaloom Labs"><meta property="og:description" content="Search Google Maps by business type and location and get back listing details enriched with email addresses and social profiles pulled from each business&#x27;s own website."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/gMWbkCIRuVIl0guxm/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gMWbkCIRuVIl0guxm/#webpage","name":"Google Maps Business Lead Finder with Email & Social Links","description":"Search Google Maps by business type and location and get back listing details enriched with email addresses and social profiles pulled from each business's own website.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gMWbkCIRuVIl0guxm/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gMWbkCIRuVIl0guxm/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gMWbkCIRuVIl0guxm/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gMWbkCIRuVIl0guxm/#article","headline":"Google Maps Business Lead Finder with Email & Social Links","name":"Google Maps Business Lead Finder with Email & Social Links","description":"Search Google Maps by business type and location and get back listing details enriched with email addresses and social profiles pulled from each business's own website.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gMWbkCIRuVIl0guxm/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gMWbkCIRuVIl0guxm/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gMWbkCIRuVIl0guxm/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Google Maps Business Lead Finder with Email & Social Links","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gMWbkCIRuVIl0guxm/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Google Maps Business Lead Finder with Email &amp; Social Links</span></div><section id="overview"><h1 class="doc-title">Google Maps Business Lead Finder with Email &amp; Social Links</h1><p class="lede">Search Google Maps by business type and location and get back listing details enriched with email addresses and social profiles pulled from each business&#x27;s own website.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/google-maps-business-lead-finder-with-email">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/gMWbkCIRuVIl0guxm/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>Choose how to find businesses. Search Google Maps by phrase, enrich a list of websites you already have, or look up specific Google Maps places.</td></tr><tr><td><code>searchQueries</code></td><td>array</td><td>optional</td><td>Natural-language searches such as &#x27;coffee shops in Austin TX&#x27; or &#x27;plumbers near Chicago&#x27;. Include the place in the phrase, or use the location field below. Each phrase is searched separately.</td></tr><tr><td><code>locationQuery</code></td><td>string</td><td>optional</td><td>Adds a shared location to every search phrase, for example &#x27;Austin, TX, USA&#x27;. Leave empty when your phrases already contain the place.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>Choose how to find businesses. Search Google Maps by phrase, enrich a list of websites you already have, or look up specific Google Maps places.</td></tr><tr><td><code>searchQueries</code></td><td>array</td><td>optional</td><td>Natural-language searches such as &#x27;coffee shops in Austin TX&#x27; or &#x27;plumbers near Chicago&#x27;. Include the place in the phrase, or use the location field below. Each phrase is searched separately.</td></tr><tr><td><code>locationQuery</code></td><td>string</td><td>optional</td><td>Adds a shared location to every search phrase, for example &#x27;Austin, TX, USA&#x27;. Leave empty when your phrases already contain the place.</td></tr><tr><td><code>websites</code></td><td>array</td><td>optional</td><td>Websites to extract contacts from, one per line. Bare domains such as &#x27;example.com&#x27; are accepted.</td></tr><tr><td><code>placeUrls</code></td><td>array</td><td>optional</td><td>Google Maps place links, copied from the address bar or from a previous export.</td></tr><tr><td><code>placeIds</code></td><td>array</td><td>optional</td><td>Canonical Google Place IDs starting with &#x27;ChIJ&#x27;.</td></tr><tr><td><code>maxPlacesPerSearch</code></td><td>integer</td><td>optional</td><td>Maximum businesses to keep for each search phrase. Google returns a ranked window of roughly 160-220 places per phrase; asking for more simply returns what the source has.</td></tr><tr><td><code>language</code></td><td>string</td><td>optional</td><td>Language of the Google Maps interface and listing text.</td></tr><tr><td><code>extractEmailsFromWebsite</code></td><td>boolean</td><td>optional</td><td>Visit each business website to collect contact details. Disable for a faster run with Google Maps data only.</td></tr><tr><td><code>maxEmailsPerWebsite</code></td><td>integer</td><td>optional</td><td>Maximum email addresses to keep for one business website.</td></tr><tr><td><code>maxContactPagesPerWebsite</code></td><td>integer</td><td>optional</td><td>How many pages to read on each website: the homepage plus contact, about, legal, privacy or careers pages. More pages find more contacts but take longer.</td></tr><tr><td><code>onlySaveResults</code></td><td>string</td><td>optional</td><td>Save every business, only businesses where an email was found, or only businesses with any contact detail (email, website phone or social profile).</td></tr><tr><td><code>placeMinimumStars</code></td><td>string</td><td>optional</td><td>Keep only businesses rated at least this high. Places without a rating are left out when a minimum is set.</td></tr><tr><td><code>categoryFilter</code></td><td>array</td><td>optional</td><td>Keep places whose Google Maps category contains all words of at least one entry, for example &#x27;coffee&#x27; or &#x27;italian restaur&#x27;. Leave empty for no category filter.</td></tr><tr><td><code>websiteFilter</code></td><td>string</td><td>optional</td><td>Keep all places, only places with a website, or only places without one.</td></tr><tr><td><code>skipClosedPlaces</code></td><td>boolean</td><td>optional</td><td>Check each place&#x27;s public status and leave out businesses marked closed. This adds one small request per place.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;properties&quot;: {
+    &quot;categoryFilter&quot;: {
+      &quot;description&quot;: &quot;Keep places whose Google Maps category contains all words of at least one entry, for example &#x27;coffee&#x27; or &#x27;italian restaur&#x27;. Leave empty for no category filter.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Category filter words&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;extractEmailsFromWebsite&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Visit each business website to collect contact details. Disable for a faster run with Google Maps data only.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;sectionCaption&quot;: &quot;Contact extraction&quot;,
+      &quot;title&quot;: &quot;Find emails, phones and social profiles on the business website&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;language&quot;: {
+      &quot;default&quot;: &quot;en&quot;,
+      &quot;description&quot;: &quot;Language of the Google Maps interface and listing text.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;en&quot;,
+        &quot;af&quot;,
+        &quot;az&quot;,
+        &quot;id&quot;,
+        &quot;ms&quot;,
+        &quot;bs&quot;,
+        &quot;ca&quot;,
+        &quot;cs&quot;,
+        &quot;da&quot;,
+        &quot;de&quot;,
+        &quot;et&quot;,
+        &quot;es&quot;,
+        &quot;es-419&quot;,
+        &quot;eu&quot;,
+        &quot;fil&quot;,
+        &quot;fr&quot;,
+        &quot;gl&quot;,
+        &quot;hr&quot;,
+        &quot;zu&quot;,
+        &quot;is&quot;,
+        &quot;it&quot;,
+        &quot;sw&quot;,
+        &quot;lv&quot;,
+        &quot;lt&quot;,
+        &quot;hu&quot;,
+        &quot;nl&quot;,
+        &quot;no&quot;,
+        &quot;uz&quot;,
+        &quot;pl&quot;,
+        &quot;pt-BR&quot;,
+        &quot;pt-PT&quot;,
+        &quot;ro&quot;,
+        &quot;sq&quot;,
+        &quot;sk&quot;,
+        &quot;sl&quot;,
+        &quot;fi&quot;,
+        &quot;sv&quot;,
+        &quot;vi&quot;,
+        &quot;tr&quot;,
+        &quot;el&quot;,
+        &quot;bg&quot;,
+        &quot;ky&quot;,
+        &quot;kk&quot;,
+        &quot;mk&quot;,
+        &quot;mn&quot;,
+        &quot;ru&quot;,
+        &quot;sr&quot;,
+        &quot;uk&quot;,
+        &quot;ka&quot;,
+        &quot;hy&quot;,
+        &quot;iw&quot;,
+        &quot;ur&quot;,
+        &quot;ar&quot;,
+        &quot;fa&quot;,
+        &quot;am&quot;,
+        &quot;ne&quot;,
+        &quot;hi&quot;,
+        &quot;mr&quot;,
+        &quot;bn&quot;,
+        &quot;pa&quot;,
+        &quot;gu&quot;,
+        &quot;ta&quot;,
+        &quot;te&quot;,
+        &quot;kn&quot;,
+        &quot;ml&quot;,
+        &quot;si&quot;,
+        &quot;th&quot;,
+        &quot;lo&quot;,
+        &quot;my&quot;,
+        &quot;km&quot;,
+        &quot;ko&quot;,
+        &quot;ja&quot;,
+        &quot;zh-CN&quot;,
+        &quot;zh-TW&quot;,
+        &quot;zh&quot;,
+        &quot;pt&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;English&quot;,
+        &quot;Afrikaans&quot;,
+        &quot;azərbaycan&quot;,
+        &quot;Bahasa Indonesia&quot;,
+        &quot;Bahasa Melayu&quot;,
+        &quot;bosanski&quot;,
+        &quot;català&quot;,
+        &quot;Čeština&quot;,
+        &quot;Dansk&quot;,
+        &quot;Deutsch&quot;,
+        &quot;eesti&quot;,
+        &quot;Español&quot;,
+        &quot;Español (Latinoamérica)&quot;,
+        &quot;euskara&quot;,
+        &quot;Filipino&quot;,
+        &quot;Français&quot;,
+        &quot;galego&quot;,
+        &quot;Hrvatski&quot;,
+        &quot;isiZulu&quot;,
+        &quot;íslenska&quot;,
+        &quot;Italiano&quot;,
+        &quot;Kiswahili&quot;,
+        &quot;latviešu&quot;,
+        &quot;lietuvių&quot;,
+        &quot;magyar&quot;,
+        &quot;Nederlands&quot;,
+        &quot;norsk&quot;,
+        &quot;oʻzbekcha&quot;,
+        &quot;polski&quot;,
+        &quot;Português (Brasil)&quot;,
+        &quot;Português (Portugal)&quot;,
+        &quot;română&quot;,
+        &quot;shqip&quot;,
+        &quot;Slovenčina&quot;,
+        &quot;slovenščina&quot;,
+        &quot;Suomi&quot;,
+        &quot;Svenska&quot;,
+        &quot;Tiếng Việt&quot;,
+        &quot;Türkçe&quot;,
+        &quot;Ελληνικά&quot;,
+        &quot;български&quot;,
+        &quot;кыргызча&quot;,
+        &quot;қазақ тілі&quot;,
+        &quot;македонски&quot;,
+        &quot;монгол&quot;,
+        &quot;Русский&quot;,
+        &quot;српски&quot;,
+        &quot;Українська&quot;,
+        &quot;ქართული&quot;,
+        &quot;հայերեն&quot;,
+        &quot;עברית&quot;,
+        &quot;اردو&quot;,
+        &quot;العربية&quot;,
+        &quot;فارسی&quot;,
+        &quot;አማርኛ&quot;,
+        &quot;नेपाली&quot;,
+        &quot;हिन्दी&quot;,
+        &quot;मराठी&quot;,
+        &quot;বাংলা&quot;,
+        &quot;ਪੰਜਾਬੀ&quot;,
+        &quot;ગુજરાતી&quot;,
+        &quot;தமிழ்&quot;,
+        &quot;తెలుగు&quot;,
+        &quot;ಕನ್ನಡ&quot;,
+        &quot;മലയാളം&quot;,
+        &quot;සිංහල&quot;,
+        &quot;ไทย&quot;,
+        &quot;ລາວ&quot;,
+        &quot;ဗမာ&quot;,
+        &quot;ខ្មែរ&quot;,
+        &quot;한국어&quot;,
+        &quot;日本語&quot;,
+        &quot;简体中文&quot;,
+        &quot;繁體中文&quot;,
+        &quot;中文 (Chinese)&quot;,
+        &quot;Português&quot;
+      ],
+      &quot;prefill&quot;: &quot;en&quot;,
+      &quot;title&quot;: &quot;Language&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;locationQuery&quot;: {
+      &quot;description&quot;: &quot;Adds a shared location to every search phrase, for example &#x27;Austin, TX, USA&#x27;. Leave empty when your phrases already contain the place.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Location (optional)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;maxContactPagesPerWebsite&quot;: {
+      &quot;default&quot;: 3,
+      &quot;description&quot;: &quot;How many pages to read on each website: the homepage plus contact, about, legal, privacy or careers pages. More pages find more contacts but take longer.&quot;,
+      &quot;maximum&quot;: 10,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 2,
+      &quot;title&quot;: &quot;Pages checked per website&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxEmailsPerWebsite&quot;: {
+      &quot;default&quot;: 5,
+      &quot;description&quot;: &quot;Maximum email addresses to keep for one business website.&quot;,
+      &quot;maximum&quot;: 20,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 5,
+      &quot;title&quot;: &quot;Emails per website&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxPlacesPerSearch&quot;: {
+      &quot;default&quot;: 20,
+      &quot;description&quot;: &quot;Maximum businesses to keep for each search phrase. Google returns a ranked window of roughly 160-220 places per phrase; asking for more simply returns what the source has.&quot;,
+      &quot;maximum&quot;: 1000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 3,
+      &quot;sectionCaption&quot;: &quot;Limits and language&quot;,
+      &quot;title&quot;: &quot;Businesses per search phrase&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;searchPlaces&quot;,
+      &quot;description&quot;: &quot;Choose how to find businesses. Search Google Maps by phrase, enrich a list of websites you already have, or look up specific Google Maps places.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;searchPlaces&quot;,
+        &quot;enrichWebsites&quot;,
+        &quot;specificPlaces&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Search Google Maps for businesses&quot;,
+        &quot;Get contacts from a list of websites&quot;,
+        &quot;Scrape specific Google Maps places&quot;
+      ],
+      &quot;prefill&quot;: &quot;searchPlaces&quot;,
+      &quot;sectionCaption&quot;: &quot;How to find businesses&quot;,
+      &quot;title&quot;: &quot;What do you want to do?&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;onlySaveResults&quot;: {
+      &quot;default&quot;: &quot;allPlaces&quot;,
+      &quot;description&quot;: &quot;Save every business, only businesses where an email was found, or only businesses with any contact detail (email, website phone or social profile).&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;allPlaces&quot;,
+        &quot;onlyWithEmails&quot;,
+        &quot;onlyWithContacts&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All matching businesses&quot;,
+        &quot;Only businesses with an email&quot;,
+        &quot;Only businesses with any contact detail&quot;
+      ],
+      &quot;prefill&quot;: &quot;allPlaces&quot;,
+      &quot;sectionCaption&quot;: &quot;Filters and results&quot;,
+      &quot;title&quot;: &quot;Which places to save&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;placeIds&quot;: {
+      &quot;description&quot;: &quot;Canonical Google Place IDs starting with &#x27;ChIJ&#x27;.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Google Place IDs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;placeMinimumStars&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Keep only businesses rated at least this high. Places without a rating are left out when a minimum is set.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;two&quot;,
+        &quot;twoAndHalf&quot;,
+        &quot;three&quot;,
+        &quot;threeAndHalf&quot;,
+        &quot;four&quot;,
+        &quot;fourAndHalf&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any rating&quot;,
+        &quot;2+ stars&quot;,
+        &quot;2.5+ stars&quot;,
+        &quot;3+ stars&quot;,
+        &quot;3.5+ stars&quot;,
+        &quot;4+ stars&quot;,
+        &quot;4.5+ stars&quot;
+      ],
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Minimum rating&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;placeUrls&quot;: {
+      &quot;description&quot;: &quot;Google Maps place links, copied from the address bar or from a previous export.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [],
+      &quot;sectionCaption&quot;: &quot;Scrape specific places&quot;,
+      &quot;sectionDescription&quot;: &quot;Used when the selected mode is &#x27;Scrape specific Google Maps places&#x27;. Provide place links, Place IDs, or both.&quot;,
+      &quot;title&quot;: &quot;Google Maps place URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;searchQueries&quot;: {
+      &quot;description&quot;: &quot;Natural-language searches such as &#x27;coffee shops in Austin TX&#x27; or &#x27;plumbers near Chicago&#x27;. Include the place in the phrase, or use the location field below. Each phrase is searched separately.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;minItems&quot;: 1,
+      &quot;prefill&quot;: [
+        &quot;coffee shops in Austin TX&quot;
+      ],
+      &quot;sectionCaption&quot;: &quot;Search Google Maps&quot;,
+      &quot;sectionDescription&quot;: &quot;Used when the selected mode is &#x27;Search Google Maps for businesses&#x27;.&quot;,
+      &quot;title&quot;: &quot;Search phrases&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;skipClosedPlaces&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Check each place&#x27;s public status and leave out businesses marked closed. This adds one small request per place.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Skip permanently or temporarily closed places&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;websiteFilter&quot;: {
+      &quot;default&quot;: &quot;allPlaces&quot;,
+      &quot;description&quot;: &quot;Keep all places, only places with a website, or only places without one.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;allPlaces&quot;,
+        &quot;withWebsite&quot;,
+        &quot;withoutWebsite&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All places&quot;,
+        &quot;Only places with a website&quot;,
+        &quot;Only places without a website&quot;
+      ],
+      &quot;prefill&quot;: &quot;allPlaces&quot;,
+      &quot;title&quot;: &quot;Website filter&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;websites&quot;: {
+      &quot;description&quot;: &quot;Websites to extract contacts from, one per line. Bare domains such as &#x27;example.com&#x27; are accepted.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [],
+      &quot;sectionCaption&quot;: &quot;Enrich a list of websites&quot;,
+      &quot;sectionDescription&quot;: &quot;Used when the selected mode is &#x27;Get contacts from a list of websites&#x27;. No Google Maps lookup is made.&quot;,
+      &quot;title&quot;: &quot;Business websites&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    }
+  },
+  &quot;required&quot;: [],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Google Maps Lead Finder Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>results</code></td><td>string</td><td>optional</td><td>Dataset with business leads including names, addresses, phones, emails, social links, ratings, and Google Maps metadata.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Google Maps business listings enriched with email addresses (including a DNS-checked subset), website phone numbers, social profiles, categories and place identifiers.&quot;,
+  &quot;properties&quot;: {
+    &quot;results&quot;: {
+      &quot;description&quot;: &quot;Dataset with business leads including names, addresses, phones, emails, social links, ratings, and Google Maps metadata.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Business Leads&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Google Maps Business Lead Finder with Email &amp; Social Links Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;views&quot;: {
+    &quot;detailed&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;address&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Address&quot;
+          },
+          &quot;categories&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Categories&quot;
+          },
+          &quot;categoryName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Category&quot;
+          },
+          &quot;contactPageUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Contact page&quot;
+          },
+          &quot;emails&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Emails&quot;
+          },
+          &quot;emailsMxValid&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;MX-valid emails&quot;
+          },
+          &quot;featureId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Feature ID&quot;
+          },
+          &quot;kgmid&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Knowledge Graph ID&quot;
+          },
+          &quot;location.lat&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Latitude&quot;
+          },
+          &quot;location.lng&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Longitude&quot;
+          },
+          &quot;phone&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Phone&quot;
+          },
+          &quot;phonesOnWebsite&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Website phones&quot;
+          },
+          &quot;placeId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Place ID&quot;
+          },
+          &quot;plusCode&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Plus Code&quot;
+          },
+          &quot;priceLevel&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Price&quot;
+          },
+          &quot;reviewsCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Reviews&quot;
+          },
+          &quot;scrapedAt&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Scraped At&quot;
+          },
+          &quot;searchQuery&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Search Query&quot;
+          },
+          &quot;socialLinks.facebook&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Facebook&quot;
+          },
+          &quot;socialLinks.instagram&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Instagram&quot;
+          },
+          &quot;socialLinks.linkedin&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;LinkedIn&quot;
+          },
+          &quot;socialLinks.pinterest&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Pinterest&quot;
+          },
+          &quot;socialLinks.telegram&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Telegram&quot;
+          },
+          &quot;socialLinks.threads&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Threads&quot;
+          },
+          &quot;socialLinks.tiktok&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;TikTok&quot;
+          },
+          &quot;socialLinks.twitter&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Twitter&quot;
+          },
+          &quot;socialLinks.whatsapp&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;WhatsApp&quot;
+          },
+          &quot;socialLinks.youtube&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;YouTube&quot;
+          },
+          &quot;title&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Business&quot;
+          },
+          &quot;totalScore&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Rating&quot;
+          },
+          &quot;url&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Maps URL&quot;
+          },
+          &quot;website&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Website&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Full Details&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;recordType&quot;,
+          &quot;searchQuery&quot;,
+          &quot;title&quot;,
+          &quot;categoryName&quot;,
+          &quot;categories&quot;,
+          &quot;address&quot;,
+          &quot;phone&quot;,
+          &quot;website&quot;,
+          &quot;emails&quot;,
+          &quot;emailsMxValid&quot;,
+          &quot;phonesOnWebsite&quot;,
+          &quot;contactPageUrl&quot;,
+          &quot;totalScore&quot;,
+          &quot;reviewsCount&quot;,
+          &quot;placeId&quot;,
+          &quot;featureId&quot;,
+          &quot;kgmid&quot;,
+          &quot;url&quot;,
+          &quot;priceLevel&quot;,
+          &quot;plusCode&quot;,
+          &quot;location.lat&quot;,
+          &quot;location.lng&quot;,
+          &quot;socialLinks.facebook&quot;,
+          &quot;socialLinks.instagram&quot;,
+          &quot;socialLinks.linkedin&quot;,
+          &quot;socialLinks.twitter&quot;,
+          &quot;socialLinks.youtube&quot;,
+          &quot;socialLinks.tiktok&quot;,
+          &quot;socialLinks.pinterest&quot;,
+          &quot;socialLinks.threads&quot;,
+          &quot;socialLinks.telegram&quot;,
+          &quot;socialLinks.whatsapp&quot;,
+          &quot;sourceUrl&quot;,
+          &quot;scrapedAt&quot;
+        ],
+        &quot;flatten&quot;: [
+          &quot;location&quot;,
+          &quot;socialLinks&quot;
+        ]
+      }
+    },
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;address&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Address&quot;
+          },
+          &quot;categoryName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Category&quot;
+          },
+          &quot;emails&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Emails&quot;
+          },
+          &quot;emailsMxValid&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;MX-valid emails&quot;
+          },
+          &quot;phone&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Phone&quot;
+          },
+          &quot;reviewsCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Reviews&quot;
+          },
+          &quot;searchQuery&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Search Query&quot;
+          },
+          &quot;title&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Business&quot;
+          },
+          &quot;totalScore&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Rating&quot;
+          },
+          &quot;website&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Website&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Business Leads&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;recordType&quot;,
+          &quot;searchQuery&quot;,
+          &quot;title&quot;,
+          &quot;categoryName&quot;,
+          &quot;address&quot;,
+          &quot;phone&quot;,
+          &quot;website&quot;,
+          &quot;emails&quot;,
+          &quot;emailsMxValid&quot;,
+          &quot;totalScore&quot;,
+          &quot;reviewsCount&quot;,
+          &quot;sourceUrl&quot;,
+          &quot;scrapedAt&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-google-maps-business-lead-finder-with-email-social-links">Google Maps Business Lead Finder with Email &amp; Social Links</h2>
+<p>Turn a local market into a contact-ready lead list. Search Google Maps by phrase (&quot;roofers in Dallas TX&quot;, &quot;dentists in Berlin&quot;), then read each business's own website for the email addresses, phone numbers and social profiles it publishes. Two more modes let you enrich a list of websites you already own, or look up specific Google Maps places.</p>
+<p>No Google account, cookies or API key is needed.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li><strong>Search Google Maps</strong> — runs each search phrase and keeps the businesses Google returns for it. Every place comes with its listing details and a link to its Google Maps page.</li>
+<li><strong>Read the business website</strong> — visits the homepage and a small number of contact, about, legal, privacy or careers pages (including local names such as <em>kontakt</em> and <em>impressum</em>), and collects public emails, phone numbers and social profiles.</li>
+<li><strong>Check email domains</strong> — reports which found addresses sit on a domain that actually accepts mail (an MX record), so you can prioritise them before outreach.</li>
+<li><strong>Filter and de-duplicate</strong> — one row per business, matched by Place ID; optional rating, category, website and closed-place filters.</li>
+<li><strong>Enrich websites directly</strong> — paste a list of domains when you already have the businesses and only need their contact details.</li>
+<li><strong>Look up specific places</strong> — paste Google Maps place links or Place IDs and get the same lead rows without running a search.</li>
+</ul>
+<p>The actor never guesses an email address from a name or a domain, and never invents fields. If a business does not publish a contact, the field is left out.</p>
+<h2 id="readme-output-per-lead">Output per lead</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>recordType</code></td>
+<td>string</td>
+<td>Always <code>lead</code></td>
+</tr>
+<tr>
+<td><code>searchQuery</code></td>
+<td>string</td>
+<td>The search phrase that found the business (search mode only)</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>string</td>
+<td>Business name</td>
+</tr>
+<tr>
+<td><code>categoryName</code></td>
+<td>string</td>
+<td>Primary Google Maps category</td>
+</tr>
+<tr>
+<td><code>categories</code></td>
+<td>string[]</td>
+<td>All Google Maps categories for the place</td>
+</tr>
+<tr>
+<td><code>address</code></td>
+<td>string</td>
+<td>Full address</td>
+</tr>
+<tr>
+<td><code>phone</code></td>
+<td>string</td>
+<td>Phone number shown on Google Maps</td>
+</tr>
+<tr>
+<td><code>website</code></td>
+<td>string</td>
+<td>The business's website</td>
+</tr>
+<tr>
+<td><code>emails</code></td>
+<td>string[]</td>
+<td>Public email addresses found on the business's own website</td>
+</tr>
+<tr>
+<td><code>emailsMxValid</code></td>
+<td>string[]</td>
+<td>The subset of <code>emails</code> whose domain published a mail server record at run time</td>
+</tr>
+<tr>
+<td><code>phonesOnWebsite</code></td>
+<td>string[]</td>
+<td>Phone numbers found on the website (may differ from the Maps number)</td>
+</tr>
+<tr>
+<td><code>contactPageUrl</code></td>
+<td>string</td>
+<td>The contact or legal page that supplied the first website email</td>
+</tr>
+<tr>
+<td><code>totalScore</code></td>
+<td>number</td>
+<td>Google Maps rating (1–5)</td>
+</tr>
+<tr>
+<td><code>reviewsCount</code></td>
+<td>integer</td>
+<td>Number of Google reviews</td>
+</tr>
+<tr>
+<td><code>placeId</code></td>
+<td>string</td>
+<td>Canonical Google Place ID (starts with <code>ChIJ</code>)</td>
+</tr>
+<tr>
+<td><code>featureId</code></td>
+<td>string</td>
+<td>Legacy Google feature token (<code>0x…:0x…</code>)</td>
+</tr>
+<tr>
+<td><code>kgmid</code></td>
+<td>string</td>
+<td>Google Knowledge Graph identifier</td>
+</tr>
+<tr>
+<td><code>url</code></td>
+<td>string</td>
+<td>Google Maps URL of the place</td>
+</tr>
+<tr>
+<td><code>sourceUrl</code></td>
+<td>string</td>
+<td>Source URL (Maps place URL, or the website in website mode)</td>
+</tr>
+<tr>
+<td><code>location</code></td>
+<td>object</td>
+<td><code>{lat, lng}</code> place coordinates</td>
+</tr>
+<tr>
+<td><code>plusCode</code></td>
+<td>string</td>
+<td>Plus Code computed from the place coordinates</td>
+</tr>
+<tr>
+<td><code>priceLevel</code></td>
+<td>string</td>
+<td>Price range only when Google supplies one; often unavailable</td>
+</tr>
+<tr>
+<td><code>socialLinks</code></td>
+<td>object</td>
+<td>Profile URLs for Facebook, Instagram, LinkedIn, X/Twitter, YouTube, TikTok, Pinterest, Threads, Telegram and WhatsApp</td>
+</tr>
+<tr>
+<td><code>scrapedAt</code></td>
+<td>string</td>
+<td>ISO 8601 timestamp shared by all rows of a run</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td>select</td>
+<td><code>searchPlaces</code></td>
+<td>What to do: search Google Maps, enrich websites, or scrape specific places</td>
+</tr>
+<tr>
+<td><code>searchQueries</code></td>
+<td>string[]</td>
+<td>–</td>
+<td>Search phrases for Google Maps (search mode). Include the place in the phrase or use <code>locationQuery</code></td>
+</tr>
+<tr>
+<td><code>locationQuery</code></td>
+<td>string</td>
+<td>–</td>
+<td>Adds a shared location to every search phrase, e.g. <code>Austin, TX, USA</code></td>
+</tr>
+<tr>
+<td><code>websites</code></td>
+<td>string[]</td>
+<td>–</td>
+<td>Websites to enrich (website mode); bare domains are accepted</td>
+</tr>
+<tr>
+<td><code>placeUrls</code></td>
+<td>string[]</td>
+<td>–</td>
+<td>Google Maps place links (specific-places mode)</td>
+</tr>
+<tr>
+<td><code>placeIds</code></td>
+<td>string[]</td>
+<td>–</td>
+<td>Canonical Place IDs starting with <code>ChIJ</code> (specific-places mode)</td>
+</tr>
+<tr>
+<td><code>maxPlacesPerSearch</code></td>
+<td>integer</td>
+<td><code>20</code></td>
+<td>Maximum businesses kept per search phrase (1–1000)</td>
+</tr>
+<tr>
+<td><code>language</code></td>
+<td>select</td>
+<td><code>en</code></td>
+<td>Language of the Google Maps interface and listing text (74 options)</td>
+</tr>
+<tr>
+<td><code>extractEmailsFromWebsite</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Visit business websites to collect contact details</td>
+</tr>
+<tr>
+<td><code>maxEmailsPerWebsite</code></td>
+<td>integer</td>
+<td><code>5</code></td>
+<td>Maximum emails kept per website (1–20)</td>
+</tr>
+<tr>
+<td><code>maxContactPagesPerWebsite</code></td>
+<td>integer</td>
+<td><code>3</code></td>
+<td>Pages read per website: homepage plus contact/about/legal/privacy/careers pages (1–10)</td>
+</tr>
+<tr>
+<td><code>onlySaveResults</code></td>
+<td>select</td>
+<td><code>allPlaces</code></td>
+<td>Save all places, only places with an email, or only places with any contact detail</td>
+</tr>
+<tr>
+<td><code>placeMinimumStars</code></td>
+<td>select</td>
+<td>Any rating (empty)</td>
+<td>Keep only places rated at least the selected value</td>
+</tr>
+<tr>
+<td><code>categoryFilter</code></td>
+<td>string[]</td>
+<td>–</td>
+<td>Keep places whose category contains all words of at least one entry</td>
+</tr>
+<tr>
+<td><code>websiteFilter</code></td>
+<td>select</td>
+<td><code>allPlaces</code></td>
+<td>All places, only places with a website, or only places without one</td>
+</tr>
+<tr>
+<td><code>skipClosedPlaces</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Check public status and leave out permanently or temporarily closed places</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-example-search-google-maps">Example: search Google Maps</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;searchPlaces&quot;,
+  &quot;searchQueries&quot;: [&quot;roofing contractors in Dallas TX&quot;, &quot;coffee shops in Austin TX&quot;],
+  &quot;maxPlacesPerSearch&quot;: 50,
+  &quot;extractEmailsFromWebsite&quot;: true,
+  &quot;onlySaveResults&quot;: &quot;onlyWithContacts&quot;
+}
+</code></pre>
+<h3 id="readme-example-enrich-websites-you-already-have">Example: enrich websites you already have</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;enrichWebsites&quot;,
+  &quot;websites&quot;: [&quot;example-bakery.com&quot;, &quot;example-dentist.de&quot;],
+  &quot;maxContactPagesPerWebsite&quot;: 3
+}
+</code></pre>
+<h3 id="readme-example-specific-places">Example: specific places</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;specificPlaces&quot;,
+  &quot;placeUrls&quot;: [&quot;https://www.google.com/maps/place/…&quot;],
+  &quot;placeIds&quot;: [&quot;ChIJ…&quot;],
+  &quot;skipClosedPlaces&quot;: true
+}
+</code></pre>
+<h2 id="readme-how-complete-is-the-email-data">How complete is the email data?</h2>
+<p>Google Maps has no email field — the address lives on the business's own website, or nowhere. In a 399-business census across restaurants, contractors, dentists, salons, auto repair and shops in the US and Europe, <strong>66% of businesses published an email within the homepage plus two contact pages</strong>, and <strong>70% when up to nine contact pages were checked</strong>. Homepages supplied most of them; contact, about, legal, privacy and careers pages added the rest, and theme/store configuration files supplied a further slice. German, Austrian and Swiss businesses are often legally required to publish an Impressum page with a contact address, so those markets tend to score higher (86% in the London restaurant sample).</p>
+<p>Of the rest, about 22% publish only a contact form or no address at all, and a small share of sites are unreachable (dead, archived or behind bot protection). Those rows keep their Google Maps details, but no website contacts. Nothing is fabricated to fill the gap.</p>
+<h2 id="readme-limitations">Limitations</h2>
+<ul>
+<li>Google Maps returns a ranked window of about 160–220 places per search phrase, not every business in a city. Use several related phrases to widen coverage.</li>
+<li>A business with no website, or one that publishes only a contact form, cannot yield a public email. Raising <code>maxContactPagesPerWebsite</code> finds addresses that only appear on deeper privacy or careers pages.</li>
+<li><code>emailsMxValid</code> confirms that the email domain publishes a mail-server (MX) record; it cannot detect a catch-all mailbox or an abandoned inbox. A domain that publishes only an A record (no MX) is not included.</li>
+<li><code>priceLevel</code> is usually unavailable from public listing data and is omitted rather than guessed.</li>
+<li><code>plusCode</code> is computed from the place coordinates, so it carries the code but not Google's locality suffix next to it.</li>
+<li>Closed-place checking reads Google's public status; a place whose status cannot be read is kept.</li>
+<li>Results depend on Google Maps' search relevance for your phrase.</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>How many businesses can I get per search phrase?</strong>
+Up to what Google Maps exposes for that phrase — usually 160–220 unique places, and you can keep up to 1000. Use several related phrases to cover more of a market.</p>
+<p><strong>Does this actor need cookies, a login or an API key?</strong>
+No. It reads public Google Maps pages and public business websites.</p>
+<p><strong>Why does a row have no email?</strong>
+Not every business has a website, and not every website publishes an email. Some use a contact form or a booking widget instead. Rows without contacts are kept unless you choose <code>onlySaveResults</code>.</p>
+<p><strong>What does <code>emailsMxValid</code> mean?</strong>
+It is the part of <code>emails</code> whose domain published a mail-server (MX) record when the run executed. A domain that publishes only an A record is not included. It is a deliverability hint, not a guarantee that a person reads that inbox.</p>
+<p><strong>Can I search in languages other than English?</strong>
+Yes. <code>language</code> offers 74 Google Maps languages, and contact-page discovery understands common local page names such as kontakt, impressum, contacto, contatti and contactez-nous.</p>
+<p><strong>Can I use the actor on a list of websites without Google Maps?</strong>
+Yes. Choose <code>enrichWebsites</code> and paste the domains.</p>
+<p><strong>Are both email addresses and phone numbers included?</strong>
+Yes. <code>phone</code> is the Google Maps number; <code>phonesOnWebsite</code> lists numbers found on the business's site.</p>
+<p><strong>Is this affiliated with Google?</strong>
+No. This is an independent tool and is not affiliated with, endorsed by, or sponsored by Google.</p>
+<p>Please use this public data lawfully and in line with Google's terms.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/gMWbkCIRuVIl0guxm/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>vbOJFIlsVgFGizez8</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

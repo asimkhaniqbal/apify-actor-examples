@@ -1,0 +1,223 @@
+{
+  "properties": {
+    "companyUrls": {
+      "description": "LinkedIn company pages to scrape. Accepts full URLs (https://www.linkedin.com/company/hubspot/), a posts URL, or just the slug (hubspot).",
+      "editor": "stringList",
+      "prefill": [
+        "https://www.linkedin.com/company/hubspot/"
+      ],
+      "title": "Company URLs or Slugs",
+      "type": "array"
+    },
+    "cookie": {
+      "description": "Kept for backward compatibility with older saved tasks. The actor is 100% cookieless; any value here is ignored.",
+      "editor": "textfield",
+      "isSecret": true,
+      "title": "LinkedIn Cookie (optional, not needed)",
+      "type": "string"
+    },
+    "datePosted": {
+      "default": "",
+      "description": "Keep only posts published within this window. Applied to each post's real publish date.",
+      "editor": "select",
+      "enum": [
+        "",
+        "r86400",
+        "r604800",
+        "r2592000"
+      ],
+      "enumTitles": [
+        "Any time",
+        "Past 24 hours",
+        "Past week",
+        "Past month"
+      ],
+      "prefill": "",
+      "title": "Posted Within",
+      "type": "string"
+    },
+    "hydratePosts": {
+      "default": true,
+      "description": "Open each post's public page for the full text, exact publish time, top comments and media. Turn off for a faster, lighter run.",
+      "prefill": true,
+      "title": "Fetch Full Post Details",
+      "type": "boolean"
+    },
+    "includeDocumentDetails": {
+      "default": false,
+      "description": "For document (PDF/PPTX) posts, also return the original PDF link, page images and the per-page text transcript.",
+      "prefill": false,
+      "title": "Include Document Details",
+      "type": "boolean"
+    },
+    "includeEmployeePosts": {
+      "default": false,
+      "description": "The public company page mixes a few featured employee posts into its recent feed. Turn this on to include them; off returns the company's own posts (including its showcase/sub-brand pages) only.",
+      "prefill": false,
+      "title": "Include Employee Posts",
+      "type": "boolean"
+    },
+    "includeIndexedPosts": {
+      "default": true,
+      "description": "Also search the public web index for older company-authored posts. This finds more posts than the company page shows, but coverage depends on the search index.",
+      "prefill": false,
+      "title": "Include Indexed Posts (deeper history)",
+      "type": "boolean"
+    },
+    "includeReactionBreakdown": {
+      "default": false,
+      "description": "Also return the per-reaction-type breakdown and the repost (share) count when LinkedIn serves the richer public layout. Slightly slower.",
+      "prefill": false,
+      "title": "Include Reaction Breakdown",
+      "type": "boolean"
+    },
+    "includeReposts": {
+      "default": true,
+      "description": "Whether to include reposts (posts the company reshared from someone else).",
+      "prefill": true,
+      "title": "Include Reposts",
+      "type": "boolean"
+    },
+    "language": {
+      "default": "en",
+      "description": "Preferred content language used when requesting LinkedIn pages.",
+      "editor": "select",
+      "enum": [
+        "en",
+        "es",
+        "fr",
+        "de",
+        "pt"
+      ],
+      "enumTitles": [
+        "English",
+        "Spanish",
+        "French",
+        "German",
+        "Portuguese"
+      ],
+      "prefill": "en",
+      "title": "Language",
+      "type": "string"
+    },
+    "maxPostsPerCompany": {
+      "default": 10,
+      "description": "Maximum posts to return per company. LinkedIn itself stops a company's post history at 500 posts and one year; deeper older posts are reachable only through the public search index.",
+      "editor": "number",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 2,
+      "title": "Max Posts Per Company",
+      "type": "integer"
+    },
+    "minComments": {
+      "default": 0,
+      "description": "Skip posts with fewer than this many comments.",
+      "editor": "number",
+      "maximum": 10000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum Comments",
+      "type": "integer"
+    },
+    "minReactions": {
+      "default": 0,
+      "description": "Skip posts with fewer than this many reactions.",
+      "editor": "number",
+      "maximum": 10000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum Reactions",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "auto",
+      "description": "What to scrape. \"Auto\" uses the targets you provide; the actor picks the right pipeline automatically.",
+      "editor": "select",
+      "enum": [
+        "auto",
+        "companyPosts",
+        "postUrls"
+      ],
+      "enumTitles": [
+        "Auto (from the targets you provide)",
+        "Company page posts",
+        "Specific post URLs"
+      ],
+      "prefill": "auto",
+      "title": "Mode",
+      "type": "string"
+    },
+    "monitorMode": {
+      "default": false,
+      "description": "Return only posts that were not returned by a previous run with the same settings. Useful for scheduled monitoring.",
+      "prefill": false,
+      "title": "Monitor Mode (new posts only)",
+      "type": "boolean"
+    },
+    "postTypes": {
+      "default": [],
+      "description": "Which post media types to keep. Leave empty to keep every type.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "text",
+          "image",
+          "video",
+          "article",
+          "document",
+          "repost"
+        ],
+        "enumTitles": [
+          "Text",
+          "Image",
+          "Video",
+          "Article link",
+          "Document",
+          "Repost"
+        ],
+        "type": "string"
+      },
+      "title": "Post Types",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "postUrls": {
+      "description": "Specific LinkedIn post links to extract (any format: /posts/...-activity-..., share, ugcPost, or /feed/update/urn:li:...). Used in the \"Specific post URLs\" mode.",
+      "editor": "stringList",
+      "title": "Post URLs",
+      "type": "array"
+    },
+    "postedAfter": {
+      "description": "Only posts published on or after this date. Accepts YYYY-MM-DD or an ISO date-time.",
+      "editor": "datepicker",
+      "title": "Posted On or After",
+      "type": "string"
+    },
+    "postedBefore": {
+      "description": "Only posts published on or before this date. Accepts YYYY-MM-DD or an ISO date-time.",
+      "editor": "datepicker",
+      "title": "Posted On or Before",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "recent",
+      "description": "How to order the returned posts. Recent = newest first, Popular = most reactions first.",
+      "editor": "select",
+      "enum": [
+        "recent",
+        "popular"
+      ],
+      "enumTitles": [
+        "Recent",
+        "Popular"
+      ],
+      "prefill": "recent",
+      "title": "Sort By",
+      "type": "string"
+    }
+  },
+  "schemaVersion": 1,
+  "title": "LinkedIn Company Posts Scraper Input",
+  "type": "object"
+}

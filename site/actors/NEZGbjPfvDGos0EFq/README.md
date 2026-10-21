@@ -1,0 +1,143 @@
+# Google Trends Interest & Related Query Scraper
+
+Pull Google Trends data without an API key: interest over time, interest by region, related
+queries, and the Trending Now feed — for any keyword, location, time window and Google surface,
+cookielessly and with no proxy setup.
+
+## What this actor does
+
+- **Interest mode** returns the same Explore view you see on trends.google.com: a 0-100 interest
+  timeline, an interest-by-region breakdown, related topics (when Google serves them) and top and
+  rising related queries, plus derived metrics (`averageInterest`, `latestInterest`, `peakInterest`,
+  `peakDate`, `trendChangePercent`, `trendDirection`).
+- **Comparison mode** puts up to five terms on one shared 0-100 scale and also returns per-term
+  region breakdowns and per-term related queries, so you can see how each term ranks.
+- **Trending mode** returns what is spiking in a country right now: rank-ordered items with the
+  Google-reported volume bucket, growth percentage, start time and related terms, optionally with
+  matching news headlines and links. Filter by any of Google's 18 trending categories.
+- Works with **any country plus 3,400+ states, regions and metros**, all nine preset time windows
+  (including real-time `now` ranges) and custom date ranges down to the hour, 1,100+ categories,
+  and all five Google surfaces (Web, Images, News, Shopping, YouTube).
+- Every row links straight back to Google Trends via `exploreUrl` or `trendingUrl` for a manual
+  spot-check, and every row is tagged with `recordType` (`interest` or `trending`).
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `mode` | string (select) | `interest` | `interest` = Explore keyword analysis; `trending` = Trending Now for a country. |
+| `searchTerms` | array of strings | – | Keywords to analyze (mode=interest). Each term becomes its own row, or compare up to five together. |
+| `compareMode` | boolean | `false` | Compare all terms on one shared 0-100 scale in a single row (maximum 5 terms). |
+| `startUrls` | array of requests | – | Optional Google Trends links (explore, embedded-chart `embed/explore` and Trending Now URLs, including `www.google.com/trends/...` redirect links). URL settings override the fields above. |
+| `geo` | string (select) | Worldwide | Country, state/region or metro to analyze. Trending Now uses the country part. |
+| `timeRange` | string (select) | `today 12-m` | Interest time window: `now 1-H` … `all`, or `custom` with `customDateRange`. |
+| `customDateRange` | string | – | Used when `timeRange` is `custom`: `YYYY-MM-DD YYYY-MM-DD` or `YYYY-MM-DDTHH YYYY-MM-DDTHH`. |
+| `category` | string (select) | `0` (All categories) | Google Trends category filter (mode=interest). |
+| `searchType` | string (select) | Web Search | Google surface: Web, Images, News, Shopping or YouTube (mode=interest). |
+| `geoResolution` | string (select) | Auto | Breakdown level for interest by region; applied when the location supports it. |
+| `trendingHours` | string (select) | `24` | Trending window: past 4, 24 or 48 hours, or past 7 days (mode=trending). |
+| `trendingCategory` | string (select) | All categories | Filter trending items to one of Google's 18 trending categories (mode=trending). |
+| `includeTrendingNews` | boolean | `true` | Attach matching news headlines, links and sources to trending items (mode=trending). |
+| `maxItems` | integer (1-10000) | `100` | Cap on dataset records per run (one per interest row or trending item). |
+
+### Example: one keyword over the last 12 months
+
+```json
+{ "mode": "interest", "searchTerms": ["tesla"], "geo": "US", "timeRange": "today 12-m" }
+```
+
+### Example: compare three brands worldwide over five years
+
+```json
+{
+  "searchTerms": ["tesla", "ford", "toyota"],
+  "compareMode": true,
+  "geo": "",
+  "timeRange": "today 5-y",
+  "category": "47"
+}
+```
+
+### Example: Trending Now in Germany, last 24 hours
+
+```json
+{ "mode": "trending", "geo": "DE", "trendingHours": "24", "includeTrendingNews": true, "maxItems": 100 }
+```
+
+### Example: scrape pasted Google Trends links
+
+```json
+{
+  "startUrls": [
+    { "url": "https://trends.google.com/trends/explore?q=pizza&geo=US&date=today%203-m" },
+    { "url": "https://trends.google.com/trending?geo=GB&hours=48" }
+  ]
+}
+```
+
+## Output
+
+Every row carries `recordType`, `geo`, `geoName` and `scrapedAt`.
+
+**Interest rows:** `searchTerms`, `timeRange`, `timeRangeLabel`, `category`, `categoryName`,
+`searchType`, `searchTypeLabel`, `exploreUrl`, `interestOverTime` (points with `date`,
+`formattedTime`, `value` — or `values[]` per term in comparison mode — and `isPartial` on the
+current period), `averageInterest`, `latestInterest`, `peakInterest`, `peakDate`,
+`trendChangePercent`, `trendDirection`, `interestByRegion`, `relatedTopics`, `relatedQueries`.
+`trendDirection` compares the last quarter of the window with the first (rising at +10% or more,
+falling at -10% or less). Comparison rows add `interestByRegionPerTerm` and `relatedQueriesPerTerm`.
+
+**Trending rows:** `rank`, `title`, `hours`, `hoursLabel`, `startedAt`, `endedAt`, `volume`,
+`volumeText`, `growthPercent`, `relatedTerms`, `news` (when `includeTrendingNews` is on),
+`trendingUrl`.
+
+A query that Google cannot serve (no data for the keyword) is logged and skipped; empty fields are
+omitted rather than written as nulls.
+
+## FAQ
+
+**What do the 0-100 interest numbers mean?** They are Google's relative interest scores, normalised
+to 100 at the peak of the requested window and location — never absolute search counts. Google does
+not publish absolute volumes; for Trending Now, `volume` is Google's own bucket estimate.
+
+**Do I need an API key, cookies or a proxy?** No. The actor works anonymously with no setup; when a
+request is rate-limited it waits and retries on its own, and only switches connection path if a
+block persists.
+
+**Why is `relatedTopics` sometimes missing?** Related topics come from a separate Google widget
+that currently returns no data for most queries on Google Trends itself; the field appears whenever
+Google serves any. Related queries are unaffected.
+
+**How many terms can I compare at once?** Five, Google Trends' own limit. Additional terms are
+trimmed. To cover more keywords, run them independently (`compareMode` off) — each becomes its own
+row on its own 0-100 scale.
+
+**Does Trending Now work for states or cities?** No. Google only publishes the trending list at
+country level; a state or metro location is mapped to its country.
+
+**Why would a niche keyword show a flat or sparse timeline?** Google returns points only where it
+has enough search data. Very rare terms yield mostly empty values; the actor reports exactly what
+Google sends.
+
+**Why are trending news links only on some rows?** Google's Trending RSS feed highlights about ten
+stories per country rather than every trending item, and those stories can sit anywhere in the
+Trending Now list. Small record caps may cover none of them; raise `maxItems` to cover more of
+the list.
+
+**What does `maxItems` count?** One `interest` row counts as one record and each `trending` item as
+one record. The run stops cleanly once the limit is reached.
+
+**What are the limits of a custom date range?** Google Trends data starts in 2004 (earlier dates are
+clamped to 2004), the end date cannot be in the future, and hourly ranges are limited to about seven
+days. Longer windows automatically switch to weekly or monthly points.
+
+**Is this affiliated with Google?** No. This is an independent tool and is not affiliated with,
+endorsed by, or sponsored by Google.
+
+## Use cases
+
+- **SEO and content planning** — mine rising related queries and topics before writing new content.
+- **Brand and market tracking** — compare brands on one scale and see where interest is rising.
+- **Launch monitoring** — watch breaking Trending Now items with their growth and news context.
+- **Market research** — map demand across countries and sub-regions for a product or category.
+- **Seasonality analysis** — pull multi-year timelines to find recurring peaks for planning.

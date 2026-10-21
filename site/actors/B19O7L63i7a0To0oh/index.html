@@ -1,0 +1,644 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-1h2Dhtmgyv3YSOLmo2ApDNzMWPAT/CLGiQSgN6dTQww=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>LinkedIn Company Page Post &amp; Engagement Extractor | Vexaloom Labs</title><meta name="description" content="Pull posts from any LinkedIn company page with captions, media, article links, hashtags, mentions, and reaction/comment/repost counts, filterable by date and engagement."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/B19O7L63i7a0To0oh/"><meta property="og:title" content="LinkedIn Company Page Post &amp; Engagement Extractor | Vexaloom Labs"><meta property="og:description" content="Pull posts from any LinkedIn company page with captions, media, article links, hashtags, mentions, and reaction/comment/repost counts, filterable by date and engagement."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/B19O7L63i7a0To0oh/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/B19O7L63i7a0To0oh/#webpage","name":"LinkedIn Company Page Post & Engagement Extractor","description":"Pull posts from any LinkedIn company page with captions, media, article links, hashtags, mentions, and reaction/comment/repost counts, filterable by date and engagement.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/B19O7L63i7a0To0oh/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/B19O7L63i7a0To0oh/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/B19O7L63i7a0To0oh/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/B19O7L63i7a0To0oh/#article","headline":"LinkedIn Company Page Post & Engagement Extractor","name":"LinkedIn Company Page Post & Engagement Extractor","description":"Pull posts from any LinkedIn company page with captions, media, article links, hashtags, mentions, and reaction/comment/repost counts, filterable by date and engagement.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/B19O7L63i7a0To0oh/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/B19O7L63i7a0To0oh/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/B19O7L63i7a0To0oh/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"LinkedIn Company Page Post & Engagement Extractor","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/B19O7L63i7a0To0oh/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>LinkedIn Company Page Post &amp; Engagement Extractor</span></div><section id="overview"><h1 class="doc-title">LinkedIn Company Page Post &amp; Engagement Extractor</h1><p class="lede">Pull posts from any LinkedIn company page with captions, media, article links, hashtags, mentions, and reaction/comment/repost counts, filterable by date and engagement.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/linkedin-company-page-post-and-engagement">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/B19O7L63i7a0To0oh/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>What to scrape. &quot;Auto&quot; uses the targets you provide; the actor picks the right pipeline automatically.</td></tr><tr><td><code>companyUrls</code></td><td>array</td><td>optional</td><td>LinkedIn company pages to scrape. Accepts full URLs (https://www.linkedin.com/company/hubspot/), a posts URL, or just the slug (hubspot).</td></tr><tr><td><code>postUrls</code></td><td>array</td><td>optional</td><td>Specific LinkedIn post links to extract (any format: /posts/...-activity-..., share, ugcPost, or /feed/update/urn:li:...). Used in the &quot;Specific post URLs&quot; mode.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>What to scrape. &quot;Auto&quot; uses the targets you provide; the actor picks the right pipeline automatically.</td></tr><tr><td><code>companyUrls</code></td><td>array</td><td>optional</td><td>LinkedIn company pages to scrape. Accepts full URLs (https://www.linkedin.com/company/hubspot/), a posts URL, or just the slug (hubspot).</td></tr><tr><td><code>postUrls</code></td><td>array</td><td>optional</td><td>Specific LinkedIn post links to extract (any format: /posts/...-activity-..., share, ugcPost, or /feed/update/urn:li:...). Used in the &quot;Specific post URLs&quot; mode.</td></tr><tr><td><code>maxPostsPerCompany</code></td><td>integer</td><td>optional</td><td>Maximum posts to return per company. LinkedIn itself stops a company&#x27;s post history at 500 posts and one year; deeper older posts are reachable only through the public search index.</td></tr><tr><td><code>postTypes</code></td><td>array</td><td>optional</td><td>Which post media types to keep. Leave empty to keep every type.</td></tr><tr><td><code>includeEmployeePosts</code></td><td>boolean</td><td>optional</td><td>The public company page mixes a few featured employee posts into its recent feed. Turn this on to include them; off returns the company&#x27;s own posts (including its showcase/sub-brand pages) only.</td></tr><tr><td><code>includeIndexedPosts</code></td><td>boolean</td><td>optional</td><td>Also search the public web index for older company-authored posts. This finds more posts than the company page shows, but coverage depends on the search index.</td></tr><tr><td><code>datePosted</code></td><td>string</td><td>optional</td><td>Keep only posts published within this window. Applied to each post&#x27;s real publish date.</td></tr><tr><td><code>postedAfter</code></td><td>string</td><td>optional</td><td>Only posts published on or after this date. Accepts YYYY-MM-DD or an ISO date-time.</td></tr><tr><td><code>postedBefore</code></td><td>string</td><td>optional</td><td>Only posts published on or before this date. Accepts YYYY-MM-DD or an ISO date-time.</td></tr><tr><td><code>minReactions</code></td><td>integer</td><td>optional</td><td>Skip posts with fewer than this many reactions.</td></tr><tr><td><code>minComments</code></td><td>integer</td><td>optional</td><td>Skip posts with fewer than this many comments.</td></tr><tr><td><code>sortBy</code></td><td>string</td><td>optional</td><td>How to order the returned posts. Recent = newest first, Popular = most reactions first.</td></tr><tr><td><code>includeReposts</code></td><td>boolean</td><td>optional</td><td>Whether to include reposts (posts the company reshared from someone else).</td></tr><tr><td><code>hydratePosts</code></td><td>boolean</td><td>optional</td><td>Open each post&#x27;s public page for the full text, exact publish time, top comments and media. Turn off for a faster, lighter run.</td></tr><tr><td><code>includeReactionBreakdown</code></td><td>boolean</td><td>optional</td><td>Also return the per-reaction-type breakdown and the repost (share) count when LinkedIn serves the richer public layout. Slightly slower.</td></tr><tr><td><code>includeDocumentDetails</code></td><td>boolean</td><td>optional</td><td>For document (PDF/PPTX) posts, also return the original PDF link, page images and the per-page text transcript.</td></tr><tr><td><code>monitorMode</code></td><td>boolean</td><td>optional</td><td>Return only posts that were not returned by a previous run with the same settings. Useful for scheduled monitoring.</td></tr><tr><td><code>language</code></td><td>string</td><td>optional</td><td>Preferred content language used when requesting LinkedIn pages.</td></tr><tr><td><code>cookie</code></td><td>string</td><td>optional</td><td>Kept for backward compatibility with older saved tasks. The actor is 100% cookieless; any value here is ignored.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;properties&quot;: {
+    &quot;companyUrls&quot;: {
+      &quot;description&quot;: &quot;LinkedIn company pages to scrape. Accepts full URLs (https://www.linkedin.com/company/hubspot/), a posts URL, or just the slug (hubspot).&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [
+        &quot;https://www.linkedin.com/company/hubspot/&quot;
+      ],
+      &quot;title&quot;: &quot;Company URLs or Slugs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;cookie&quot;: {
+      &quot;description&quot;: &quot;Kept for backward compatibility with older saved tasks. The actor is 100% cookieless; any value here is ignored.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;isSecret&quot;: true,
+      &quot;title&quot;: &quot;LinkedIn Cookie (optional, not needed)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;datePosted&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Keep only posts published within this window. Applied to each post&#x27;s real publish date.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;r86400&quot;,
+        &quot;r604800&quot;,
+        &quot;r2592000&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any time&quot;,
+        &quot;Past 24 hours&quot;,
+        &quot;Past week&quot;,
+        &quot;Past month&quot;
+      ],
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Posted Within&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;hydratePosts&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Open each post&#x27;s public page for the full text, exact publish time, top comments and media. Turn off for a faster, lighter run.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Fetch Full Post Details&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeDocumentDetails&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;For document (PDF/PPTX) posts, also return the original PDF link, page images and the per-page text transcript.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include Document Details&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeEmployeePosts&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;The public company page mixes a few featured employee posts into its recent feed. Turn this on to include them; off returns the company&#x27;s own posts (including its showcase/sub-brand pages) only.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include Employee Posts&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeIndexedPosts&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Also search the public web index for older company-authored posts. This finds more posts than the company page shows, but coverage depends on the search index.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include Indexed Posts (deeper history)&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeReactionBreakdown&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Also return the per-reaction-type breakdown and the repost (share) count when LinkedIn serves the richer public layout. Slightly slower.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include Reaction Breakdown&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeReposts&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Whether to include reposts (posts the company reshared from someone else).&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Include Reposts&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;language&quot;: {
+      &quot;default&quot;: &quot;en&quot;,
+      &quot;description&quot;: &quot;Preferred content language used when requesting LinkedIn pages.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;en&quot;,
+        &quot;es&quot;,
+        &quot;fr&quot;,
+        &quot;de&quot;,
+        &quot;pt&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;English&quot;,
+        &quot;Spanish&quot;,
+        &quot;French&quot;,
+        &quot;German&quot;,
+        &quot;Portuguese&quot;
+      ],
+      &quot;prefill&quot;: &quot;en&quot;,
+      &quot;title&quot;: &quot;Language&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;maxPostsPerCompany&quot;: {
+      &quot;default&quot;: 10,
+      &quot;description&quot;: &quot;Maximum posts to return per company. LinkedIn itself stops a company&#x27;s post history at 500 posts and one year; deeper older posts are reachable only through the public search index.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 500,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 2,
+      &quot;title&quot;: &quot;Max Posts Per Company&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;minComments&quot;: {
+      &quot;default&quot;: 0,
+      &quot;description&quot;: &quot;Skip posts with fewer than this many comments.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 10000000,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 0,
+      &quot;title&quot;: &quot;Minimum Comments&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;minReactions&quot;: {
+      &quot;default&quot;: 0,
+      &quot;description&quot;: &quot;Skip posts with fewer than this many reactions.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 10000000,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 0,
+      &quot;title&quot;: &quot;Minimum Reactions&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;auto&quot;,
+      &quot;description&quot;: &quot;What to scrape. \&quot;Auto\&quot; uses the targets you provide; the actor picks the right pipeline automatically.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;auto&quot;,
+        &quot;companyPosts&quot;,
+        &quot;postUrls&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Auto (from the targets you provide)&quot;,
+        &quot;Company page posts&quot;,
+        &quot;Specific post URLs&quot;
+      ],
+      &quot;prefill&quot;: &quot;auto&quot;,
+      &quot;title&quot;: &quot;Mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;monitorMode&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Return only posts that were not returned by a previous run with the same settings. Useful for scheduled monitoring.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Monitor Mode (new posts only)&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;postTypes&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Which post media types to keep. Leave empty to keep every type.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;items&quot;: {
+        &quot;enum&quot;: [
+          &quot;text&quot;,
+          &quot;image&quot;,
+          &quot;video&quot;,
+          &quot;article&quot;,
+          &quot;document&quot;,
+          &quot;repost&quot;
+        ],
+        &quot;enumTitles&quot;: [
+          &quot;Text&quot;,
+          &quot;Image&quot;,
+          &quot;Video&quot;,
+          &quot;Article link&quot;,
+          &quot;Document&quot;,
+          &quot;Repost&quot;
+        ],
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Post Types&quot;,
+      &quot;type&quot;: &quot;array&quot;,
+      &quot;uniqueItems&quot;: true
+    },
+    &quot;postUrls&quot;: {
+      &quot;description&quot;: &quot;Specific LinkedIn post links to extract (any format: /posts/...-activity-..., share, ugcPost, or /feed/update/urn:li:...). Used in the \&quot;Specific post URLs\&quot; mode.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;title&quot;: &quot;Post URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;postedAfter&quot;: {
+      &quot;description&quot;: &quot;Only posts published on or after this date. Accepts YYYY-MM-DD or an ISO date-time.&quot;,
+      &quot;editor&quot;: &quot;datepicker&quot;,
+      &quot;title&quot;: &quot;Posted On or After&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;postedBefore&quot;: {
+      &quot;description&quot;: &quot;Only posts published on or before this date. Accepts YYYY-MM-DD or an ISO date-time.&quot;,
+      &quot;editor&quot;: &quot;datepicker&quot;,
+      &quot;title&quot;: &quot;Posted On or Before&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;sortBy&quot;: {
+      &quot;default&quot;: &quot;recent&quot;,
+      &quot;description&quot;: &quot;How to order the returned posts. Recent = newest first, Popular = most reactions first.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;recent&quot;,
+        &quot;popular&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Recent&quot;,
+        &quot;Popular&quot;
+      ],
+      &quot;prefill&quot;: &quot;recent&quot;,
+      &quot;title&quot;: &quot;Sort By&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;LinkedIn Company Posts Scraper Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>posts</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped LinkedIn company posts.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;LinkedIn company page posts with captions, media, article links, hashtags, mentions, engagement counts, top comments and document details.&quot;,
+  &quot;properties&quot;: {
+    &quot;posts&quot;: {
+      &quot;description&quot;: &quot;Dataset containing all scraped LinkedIn company posts.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Company Posts&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;LinkedIn Company Page Post &amp; Engagement Extractor Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;commentsCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Comments&quot;
+          },
+          &quot;companyName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Company&quot;
+          },
+          &quot;mediaType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Media Type&quot;
+          },
+          &quot;postUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Post URL&quot;
+          },
+          &quot;postedAt&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Posted At&quot;
+          },
+          &quot;reactionsCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Reactions&quot;
+          },
+          &quot;scrapedAt&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Scraped At&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Overview&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;companyName&quot;,
+          &quot;postedAt&quot;,
+          &quot;mediaType&quot;,
+          &quot;reactionsCount&quot;,
+          &quot;commentsCount&quot;,
+          &quot;postUrl&quot;,
+          &quot;scrapedAt&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-linkedin-company-page-post-engagement-extractor">LinkedIn Company Page Post &amp; Engagement Extractor</h2>
+<p>Pull the public post history off any LinkedIn company page — captions, media, article links, hashtags, mentions, engagement counts and the top comments — <strong>without cookies or a login</strong>. Give it company URLs or bare slugs (one or many), and it returns one clean record per post: the company's own recent posts from its public page, plus deeper company-authored history found through the public search index.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li><strong>Company page feed:</strong> reads the public recent-post feed of each company page (up to 10 posts, mixing in a few featured employee posts — employee posts are excluded by default and can be included with a toggle).</li>
+<li><strong>Deeper indexed history:</strong> optionally searches the public web index for older company-authored posts, so you can go past what the page itself shows. Coverage depends on that index; the actor reports how many posts each source contributed.</li>
+<li><strong>Full post details:</strong> each post's public page is opened for the complete text, exact publish time, top comments, follower count and media (images, video, documents). Turn detail fetching off for a faster, lighter run.</li>
+<li><strong>Documents:</strong> document (PDF/PPTX) posts expose the title, page count, and — when requested — the original PDF, page images and the per-page text transcript.</li>
+<li><strong>Filters that actually apply:</strong> post type, recency window, exact date range, minimum reactions/comments, reposts on/off, and sort by newest or most reactions. The legacy <code>cookie</code> field is accepted but ignored.</li>
+<li>Empty fields are omitted — you will never see <code>null</code> or an empty string in a record.</li>
+</ul>
+<h2 id="readme-output-per-post">Output per post</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>postId</code></td>
+<td>Numeric LinkedIn post ID.</td>
+</tr>
+<tr>
+<td><code>postUrl</code></td>
+<td>Direct link to the post on LinkedIn.</td>
+</tr>
+<tr>
+<td><code>sourcePostUrl</code></td>
+<td>The discovery URL that produced the record (may differ for reposts).</td>
+</tr>
+<tr>
+<td><code>companyName</code></td>
+<td>Display name of the company page.</td>
+</tr>
+<tr>
+<td><code>companySlug</code></td>
+<td>Company slug parsed from your input.</td>
+</tr>
+<tr>
+<td><code>companyUrl</code></td>
+<td>Canonical URL of the company page.</td>
+</tr>
+<tr>
+<td><code>companyLogoUrl</code></td>
+<td>Company logo image URL.</td>
+</tr>
+<tr>
+<td><code>authorName</code></td>
+<td>Name of the author (the company, or an employee for featured posts).</td>
+</tr>
+<tr>
+<td><code>authorProfileUrl</code></td>
+<td>LinkedIn URL of the author.</td>
+</tr>
+<tr>
+<td><code>authorHeadline</code></td>
+<td>Author headline when the page exposes one.</td>
+</tr>
+<tr>
+<td><code>authorFollowers</code></td>
+<td>Author's follower count.</td>
+</tr>
+<tr>
+<td><code>authorAvatar</code></td>
+<td>Author/company avatar image URL.</td>
+</tr>
+<tr>
+<td><code>content</code></td>
+<td>Full text body of the post.</td>
+</tr>
+<tr>
+<td><code>postedAt</code></td>
+<td>ISO 8601 publish timestamp. Rows built without opening the post page carry <code>postedAtApproximate: true</code> (date derived from the post ID).</td>
+</tr>
+<tr>
+<td><code>mediaType</code></td>
+<td><code>text</code>, <code>image</code>, <code>video</code>, <code>article</code>, <code>document</code> or <code>repost</code>.</td>
+</tr>
+<tr>
+<td><code>mediaUrls</code></td>
+<td>Flat list of attached media URLs.</td>
+</tr>
+<tr>
+<td><code>mediaItems</code></td>
+<td>Structured media list (<code>type</code>, <code>url</code>, <code>thumbnailUrl</code>, <code>durationSec</code>).</td>
+</tr>
+<tr>
+<td><code>videoDuration</code></td>
+<td>ISO 8601 duration for video posts (e.g. <code>PT22S</code>).</td>
+</tr>
+<tr>
+<td><code>articleTitle</code>, <code>articleUrl</code></td>
+<td>Title/URL when the post shares an article or link.</td>
+</tr>
+<tr>
+<td><code>linkPreview</code></td>
+<td>Link preview metadata when present.</td>
+</tr>
+<tr>
+<td><code>documentTitle</code>, <code>documentPageCount</code></td>
+<td>Document post title and page count.</td>
+</tr>
+<tr>
+<td><code>documentUrl</code></td>
+<td>Original PDF URL (with <em>Include document details</em> on).</td>
+</tr>
+<tr>
+<td><code>documentPageImages[]</code>, <code>documentTranscript</code></td>
+<td>Page images and per-page text (with <em>Include document details</em> on).</td>
+</tr>
+<tr>
+<td><code>pollOptions</code></td>
+<td>Reserved for poll posts; LinkedIn does not expose poll options to logged-out visitors, so poll posts are returned as text.</td>
+</tr>
+<tr>
+<td><code>repostOf</code></td>
+<td>Original post details when this is a repost; <code>isRepost</code> is also set.</td>
+</tr>
+<tr>
+<td><code>hashtags[]</code></td>
+<td>Hashtags found in the post text.</td>
+</tr>
+<tr>
+<td><code>mentionedCompanies[]</code>, <code>mentionedPeople[]</code></td>
+<td>Entities tagged in the post.</td>
+</tr>
+<tr>
+<td><code>comments[]</code></td>
+<td>Top comments: <code>authorName</code>, <code>text</code>, <code>postedAt</code>, <code>reactionsCount</code>, and <code>authorProfileUrl</code> when the richer layout is served (capped at 10, up to 18 when LinkedIn serves its richer public layout).</td>
+</tr>
+<tr>
+<td><code>reactionsCount</code>, <code>commentsCount</code></td>
+<td>Engagement totals (0 is a real value).</td>
+</tr>
+<tr>
+<td><code>repostsCount</code></td>
+<td>Share count — only returned when <em>Include reaction breakdown</em> is on and LinkedIn serves the richer layout.</td>
+</tr>
+<tr>
+<td><code>reactionBreakdown</code></td>
+<td>Per-reaction-type counts — same conditions as <code>repostsCount</code>.</td>
+</tr>
+<tr>
+<td><code>viewsCount</code></td>
+<td>Reserved; LinkedIn does not publish view counts on public post pages.</td>
+</tr>
+<tr>
+<td><code>source</code></td>
+<td>Where the post was discovered: <code>companyPage</code>, <code>index</code> or <code>postUrl</code>.</td>
+</tr>
+<tr>
+<td><code>inputUrl</code>, <code>recordType</code>, <code>scrapedAt</code></td>
+<td>Your input that produced the row, <code>&quot;post&quot;</code>, and the scrape timestamp.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td>string</td>
+<td><code>auto</code></td>
+<td><code>auto</code> / <code>companyPosts</code> / <code>postUrls</code></td>
+</tr>
+<tr>
+<td><code>companyUrls</code></td>
+<td>array</td>
+<td>–</td>
+<td>Company page URLs or bare slugs (e.g. <code>hubspot</code>).</td>
+</tr>
+<tr>
+<td><code>postUrls</code></td>
+<td>array</td>
+<td>–</td>
+<td>Specific post links to extract (mode=postUrls).</td>
+</tr>
+<tr>
+<td><code>maxPostsPerCompany</code></td>
+<td>int</td>
+<td><code>10</code></td>
+<td>Hard cap per company (1–500).</td>
+</tr>
+<tr>
+<td><code>postTypes</code></td>
+<td>array</td>
+<td>all</td>
+<td>Keep only these media types.</td>
+</tr>
+<tr>
+<td><code>includeEmployeePosts</code></td>
+<td>bool</td>
+<td><code>false</code></td>
+<td>Include featured employee posts from the company feed (sub-brand/showcase posts already count as company posts).</td>
+</tr>
+<tr>
+<td><code>includeIndexedPosts</code></td>
+<td>bool</td>
+<td><code>true</code></td>
+<td>Also search the public index for older company posts.</td>
+</tr>
+<tr>
+<td><code>datePosted</code></td>
+<td>string</td>
+<td><code>&quot;&quot;</code></td>
+<td>Recency window: any / 24 hours / week / month.</td>
+</tr>
+<tr>
+<td><code>postedAfter</code></td>
+<td>string</td>
+<td>–</td>
+<td>Exact ISO date: keep posts on or after this date.</td>
+</tr>
+<tr>
+<td><code>postedBefore</code></td>
+<td>string</td>
+<td>–</td>
+<td>Exact ISO date: keep posts on or before this date.</td>
+</tr>
+<tr>
+<td><code>minReactions</code></td>
+<td>int</td>
+<td><code>0</code></td>
+<td>Minimum reactions threshold.</td>
+</tr>
+<tr>
+<td><code>minComments</code></td>
+<td>int</td>
+<td><code>0</code></td>
+<td>Minimum comments threshold.</td>
+</tr>
+<tr>
+<td><code>sortBy</code></td>
+<td>string</td>
+<td><code>recent</code></td>
+<td><code>recent</code> (newest first) or <code>popular</code> (most reactions).</td>
+</tr>
+<tr>
+<td><code>includeReposts</code></td>
+<td>bool</td>
+<td><code>true</code></td>
+<td>Keep reposts in the output.</td>
+</tr>
+<tr>
+<td><code>hydratePosts</code></td>
+<td>bool</td>
+<td><code>true</code></td>
+<td>Open each post page for full details.</td>
+</tr>
+<tr>
+<td><code>includeReactionBreakdown</code></td>
+<td>bool</td>
+<td><code>false</code></td>
+<td>Add <code>reactionBreakdown</code> and <code>repostsCount</code> when available.</td>
+</tr>
+<tr>
+<td><code>includeDocumentDetails</code></td>
+<td>bool</td>
+<td><code>false</code></td>
+<td>Add PDF URL, page images and transcript for documents.</td>
+</tr>
+<tr>
+<td><code>monitorMode</code></td>
+<td>bool</td>
+<td><code>false</code></td>
+<td>Return only posts not seen by a previous run.</td>
+</tr>
+<tr>
+<td><code>language</code></td>
+<td>string</td>
+<td><code>en</code></td>
+<td>Preferred content language.</td>
+</tr>
+<tr>
+<td><code>cookie</code></td>
+<td>string</td>
+<td>–</td>
+<td>Legacy field, accepted and ignored.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-example-daily-prefill-smallest-run">Example: daily prefill (smallest run)</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;auto&quot;,
+  &quot;companyUrls&quot;: [&quot;https://www.linkedin.com/company/hubspot/&quot;],
+  &quot;maxPostsPerCompany&quot;: 2
+}
+</code></pre>
+<h3 id="readme-example-monitor-competitor-pages-weekly">Example: monitor competitor pages weekly</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;companyPosts&quot;,
+  &quot;companyUrls&quot;: [&quot;salesforce&quot;, &quot;hubspot&quot;, &quot;zendesk&quot;],
+  &quot;maxPostsPerCompany&quot;: 30,
+  &quot;datePosted&quot;: &quot;r604800&quot;,
+  &quot;includeIndexedPosts&quot;: true,
+  &quot;monitorMode&quot;: true
+}
+</code></pre>
+<h3 id="readme-example-only-high-engagement-posts-newest-first">Example: only high-engagement posts, newest first</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;companyPosts&quot;,
+  &quot;companyUrls&quot;: [&quot;https://www.linkedin.com/company/nvidia/&quot;],
+  &quot;maxPostsPerCompany&quot;: 50,
+  &quot;minReactions&quot;: 100,
+  &quot;sortBy&quot;: &quot;popular&quot;,
+  &quot;postTypes&quot;: [&quot;text&quot;, &quot;image&quot;, &quot;video&quot;]
+}
+</code></pre>
+<h3 id="readme-example-documents-with-full-details">Example: documents with full details</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;companyPosts&quot;,
+  &quot;companyUrls&quot;: [&quot;google&quot;, &quot;microsoft&quot;],
+  &quot;maxPostsPerCompany&quot;: 25,
+  &quot;postTypes&quot;: [&quot;document&quot;],
+  &quot;includeDocumentDetails&quot;: true
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>Competitive intelligence</strong> — track what competitors publish, and how their audiences react.</li>
+<li><strong>Sales &amp; ABM signals</strong> — watch target accounts for launches, funding, hiring and event posts.</li>
+<li><strong>Content strategy</strong> — analyse posting cadence, formats and top-performing topics across a sector.</li>
+<li><strong>Social listening exports</strong> — feed company post data into BI tools, CRMs or AI pipelines.</li>
+<li><strong>Recruiting research</strong> — follow employer-brand content and engagement trends.</li>
+<li><strong>Monitoring automation</strong> — schedule runs with monitor mode to collect only new posts.</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<h3 id="readme-does-this-actor-need-cookies-or-a-linkedin-login">Does this actor need cookies or a LinkedIn login?</h3>
+<p>No. Everything is collected from public pages without any account, cookie or API key. The legacy <code>cookie</code> input is accepted for compatibility with older saved tasks and ignored.</p>
+<h3 id="readme-why-does-a-company-return-fewer-posts-than-i-expected">Why does a company return fewer posts than I expected?</h3>
+<p>A company page's public feed only shows its latest handful of posts (up to 10 cards). Turn on <em>Include indexed posts</em> to search the public web index for older company-authored posts — that usually finds more, but its coverage varies by company. LinkedIn itself stops a company's full post history at 500 posts and one year.</p>
+<h3 id="readme-can-it-read-the-company-s-posts-tab-with-pagination">Can it read the company's &quot;Posts&quot; tab with pagination?</h3>
+<p>No — LinkedIn requires a sign-in for that tab, and it stays behind the login page from every connection type we tested. The actor works from the public recent feed plus the public search index instead, and says so in the run summary when a company's feed is not public.</p>
+<h3 id="readme-why-are-some-dates-marked-postedatapproximate">Why are some dates marked <code>postedAtApproximate</code>?</h3>
+<p>When detail fetching is off, the publish date is derived from the post ID (accurate to about an hour). With detail fetching on (the default), the exact timestamp from the post page is used.</p>
+<h3 id="readme-how-many-comments-are-returned">How many comments are returned?</h3>
+<p>Up to 10 top comments from the public post page, or up to 18 when LinkedIn serves its richer public layout (which also includes commenter profile links). LinkedIn does not expose the full comment thread to logged-out visitors.</p>
+<h3 id="readme-why-is-repostscount-missing-on-some-rows">Why is <code>repostsCount</code> missing on some rows?</h3>
+<p>Share counts are only published in the richer public layout. Enable <em>Include reaction breakdown</em> to fetch them when available; the actor never invents a <code>0</code>.</p>
+<h3 id="readme-why-is-a-document-post-missing-its-pdf-link">Why is a document post missing its PDF link?</h3>
+<p>The PDF, page images and transcript are only fetched when <em>Include document details</em> is on. Without it, document posts still include the title and page count.</p>
+<h3 id="readme-do-i-need-to-set-up-a-proxy">Do I need to set up a proxy?</h3>
+<p>No. The actor chooses a working connection to LinkedIn and the search index automatically. Just fill in the input and run it.</p>
+<h3 id="readme-is-this-affiliated-with-linkedin">Is this affiliated with LinkedIn?</h3>
+<p>No, this is a third-party actor that reads publicly available pages. LinkedIn® is a trademark of LinkedIn Corporation.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/B19O7L63i7a0To0oh/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>dfsyX9J6qz6on8sQY</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

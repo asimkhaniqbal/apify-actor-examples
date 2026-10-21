@@ -1,0 +1,711 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "AIGCDescription": {
+      "description": "Description for AI-generated content label",
+      "title": "AIGC Description",
+      "type": "string"
+    },
+    "adLabelVersion": {
+      "description": "Ad label version; non-zero when the post is a sponsored ad",
+      "title": "Ad Label Version",
+      "type": "integer"
+    },
+    "aiContentEligible": {
+      "description": "Whether TikTok's own AI-content detection flagged this post as eligible for AI-generated-content review",
+      "title": "AI Content Eligible",
+      "type": "boolean"
+    },
+    "aigcLabelType": {
+      "description": "TikTok's AI-generated-content moderation label type, when present",
+      "title": "AIGC Label Type",
+      "type": "integer"
+    },
+    "author": {
+      "description": "Author/creator information at time of scraping",
+      "properties": {
+        "avatarUrl": {
+          "title": "Avatar URL",
+          "type": "string"
+        },
+        "bio": {
+          "title": "Bio",
+          "type": "string"
+        },
+        "displayName": {
+          "title": "Display Name",
+          "type": "string"
+        },
+        "followerCount": {
+          "title": "Followers",
+          "type": "integer"
+        },
+        "followingCount": {
+          "title": "Following",
+          "type": "integer"
+        },
+        "heartCount": {
+          "title": "Hearts/Likes",
+          "type": "integer"
+        },
+        "id": {
+          "title": "User ID",
+          "type": "string"
+        },
+        "isVirtualAccount": {
+          "description": "Whether TikTok flags this as an AI-generated/virtual-avatar account",
+          "title": "Is Virtual Account",
+          "type": "boolean"
+        },
+        "privateAccount": {
+          "title": "Private Account",
+          "type": "boolean"
+        },
+        "roomId": {
+          "title": "Live Room ID (non-empty when live)",
+          "type": "string"
+        },
+        "secUid": {
+          "title": "Secure UID",
+          "type": "string"
+        },
+        "username": {
+          "title": "Username",
+          "type": "string"
+        },
+        "verified": {
+          "title": "Verified",
+          "type": "boolean"
+        },
+        "videoCount": {
+          "title": "Videos",
+          "type": "integer"
+        }
+      },
+      "title": "Author",
+      "type": "object"
+    },
+    "caption": {
+      "description": "Post caption/description text including hashtags and mentions",
+      "title": "Caption",
+      "type": "string"
+    },
+    "categoryType": {
+      "description": "TikTok's internal numeric content-category ID",
+      "title": "Category Type",
+      "type": "integer"
+    },
+    "collectCount": {
+      "description": "Number of times post was bookmarked/collected",
+      "title": "Collect Count",
+      "type": "integer"
+    },
+    "commentCount": {
+      "description": "Number of comments",
+      "title": "Comment Count",
+      "type": "integer"
+    },
+    "commentStatus": {
+      "description": "Comment permission setting (0=all, 1=friends, 2=none)",
+      "title": "Comment Status",
+      "type": "integer"
+    },
+    "contents": {
+      "description": "Localized/alternate caption variants for this post, when TikTok provides more than one",
+      "title": "Content Variants",
+      "type": "array"
+    },
+    "createTime": {
+      "description": "Unix timestamp (seconds) when the post was created",
+      "title": "Create Time (Unix)",
+      "type": "integer"
+    },
+    "createdAt": {
+      "description": "ISO 8601 UTC datetime when the post was created",
+      "title": "Created At",
+      "type": "string"
+    },
+    "duetEnabled": {
+      "description": "Whether the creator allows duets with this video",
+      "title": "Duet Enabled",
+      "type": "boolean"
+    },
+    "effectStickers": {
+      "description": "AR effects/filters used in the post, with usage-count stats",
+      "title": "Effect Stickers",
+      "type": "array"
+    },
+    "expansionSource": {
+      "description": "How this result was discovered when Enable Expansion is on: 'sound', 'hashtag', or 'suggestion'. Absent for primary/seed-query results.",
+      "title": "Expansion Source",
+      "type": "string"
+    },
+    "expansionTerm": {
+      "description": "The sound title, hashtag, or suggested search phrase that surfaced this result via expansion. Absent for primary/seed-query results.",
+      "title": "Expansion Term",
+      "type": "string"
+    },
+    "forFriend": {
+      "description": "Whether the post is restricted to friends only",
+      "title": "For Friend",
+      "type": "boolean"
+    },
+    "hashtagMetadata": {
+      "description": "Hashtag details from TikTok for searchType=hashtags and hashtag-expansion rows.",
+      "properties": {
+        "desc": {
+          "title": "Description",
+          "type": "string"
+        },
+        "hashtagId": {
+          "title": "Hashtag ID",
+          "type": "string"
+        },
+        "isCommerce": {
+          "title": "Commerce Hashtag",
+          "type": "boolean"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "profileUrl": {
+          "title": "Profile Image URL",
+          "type": "string"
+        },
+        "shareDesc": {
+          "title": "Share Description",
+          "type": "string"
+        },
+        "shareTitle": {
+          "title": "Share Title",
+          "type": "string"
+        },
+        "videoCount": {
+          "title": "Videos",
+          "type": "integer"
+        },
+        "viewCount": {
+          "title": "Views",
+          "type": "integer"
+        }
+      },
+      "title": "Hashtag Metadata",
+      "type": "object"
+    },
+    "hashtags": {
+      "description": "Hashtags used in the post caption",
+      "items": {
+        "properties": {
+          "id": {
+            "title": "Hashtag ID",
+            "type": "string"
+          },
+          "isCommerce": {
+            "title": "Is Commerce",
+            "type": "boolean"
+          },
+          "name": {
+            "title": "Hashtag Name",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "title": "Hashtags",
+      "type": "array"
+    },
+    "images": {
+      "description": "Images for slideshow posts (postType='slideshow')",
+      "items": {
+        "properties": {
+          "height": {
+            "title": "Height",
+            "type": "integer"
+          },
+          "ordinal": {
+            "title": "Index",
+            "type": "integer"
+          },
+          "urlList": {
+            "title": "Image URLs",
+            "type": "array"
+          },
+          "width": {
+            "title": "Width",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "title": "Slideshow Images",
+      "type": "array"
+    },
+    "isAd": {
+      "description": "Whether this post is a paid advertisement",
+      "title": "Is Ad",
+      "type": "boolean"
+    },
+    "isAigc": {
+      "description": "Whether TikTok labels this as AI-generated content",
+      "title": "Is AI Generated Content",
+      "type": "boolean"
+    },
+    "isECVideo": {
+      "description": "Whether this is a shopping/e-commerce video",
+      "title": "Is E-Commerce Video",
+      "type": "boolean"
+    },
+    "item_control": {
+      "description": "Post-level permission flags (e.g. can_repost)",
+      "title": "Item Control",
+      "type": "object"
+    },
+    "likeCount": {
+      "description": "Number of likes/diggs",
+      "title": "Like Count",
+      "type": "integer"
+    },
+    "locationCreated": {
+      "description": "ISO country code where the post was created (e.g. 'US', 'IT')",
+      "title": "Location Created",
+      "type": "string"
+    },
+    "mediaUrlExpiresAt": {
+      "description": "ISO 8601 UTC datetime when signed media URLs (video/cover) expire",
+      "title": "Media URL Expires At",
+      "type": "string"
+    },
+    "mentions": {
+      "description": "@mentions in the post caption with text offsets",
+      "items": {
+        "properties": {
+          "awemeId": {
+            "title": "Mentioned Post ID (if any)",
+            "type": "string"
+          },
+          "end": {
+            "title": "End Offset",
+            "type": "integer"
+          },
+          "start": {
+            "title": "Start Offset",
+            "type": "integer"
+          },
+          "username": {
+            "title": "Username",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "title": "Mentions",
+      "type": "array"
+    },
+    "moderationAigcLabelType": {
+      "description": "TikTok's moderation-specific AI-generated-content label type, when present",
+      "title": "Moderation AIGC Label Type",
+      "type": "integer"
+    },
+    "music": {
+      "description": "Sound/music used in the post",
+      "properties": {
+        "album": {
+          "title": "Album",
+          "type": "string"
+        },
+        "authorName": {
+          "title": "Author",
+          "type": "string"
+        },
+        "coverUrl": {
+          "title": "Cover URL",
+          "type": "string"
+        },
+        "dspLinks": {
+          "title": "DSP Links (Spotify, Apple Music, etc.)",
+          "type": "array"
+        },
+        "duration": {
+          "title": "Duration (s)",
+          "type": "integer"
+        },
+        "id": {
+          "title": "Music ID",
+          "type": "string"
+        },
+        "isCommerceMusic": {
+          "title": "Is Commerce Music",
+          "type": "boolean"
+        },
+        "isCopyrighted": {
+          "title": "Is Copyrighted",
+          "type": "boolean"
+        },
+        "isPrivate": {
+          "title": "Is Private Sound",
+          "type": "boolean"
+        },
+        "isUnlimitedMusic": {
+          "title": "Is Unlimited Music",
+          "type": "boolean"
+        },
+        "original": {
+          "title": "Original Sound",
+          "type": "boolean"
+        },
+        "playUrl": {
+          "title": "Play URL",
+          "type": "string"
+        },
+        "shootDuration": {
+          "title": "Shoot Duration (s)",
+          "type": "number"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "title": "Music",
+      "type": "object"
+    },
+    "originalItem": {
+      "description": "Whether this post is an original (non-duet, non-stitch) creation",
+      "title": "Original Item",
+      "type": "boolean"
+    },
+    "playCount": {
+      "description": "Number of video plays",
+      "title": "Play Count",
+      "type": "integer"
+    },
+    "poi": {
+      "description": "Location tag attached to the post (restaurant, landmark, etc.) — only present when TikTok attaches a POI to the search result",
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "Point of Interest",
+      "type": "object"
+    },
+    "postId": {
+      "description": "TikTok's unique post/video ID (string to preserve 64-bit precision)",
+      "title": "Post ID",
+      "type": "string"
+    },
+    "postType": {
+      "description": "Either 'video' or 'slideshow'",
+      "title": "Post Type",
+      "type": "string"
+    },
+    "postUrl": {
+      "description": "Direct URL to the TikTok post",
+      "title": "Post URL",
+      "type": "string"
+    },
+    "privateItem": {
+      "description": "Whether the post is set to private",
+      "title": "Private Item",
+      "type": "boolean"
+    },
+    "query": {
+      "description": "The search keyword or phrase used to find this post",
+      "title": "Search Query",
+      "type": "string"
+    },
+    "queryVariant": {
+      "description": "Casing/spacing variant of the query that found this post, when a query pass was used.",
+      "title": "Query Variant",
+      "type": "string"
+    },
+    "rank": {
+      "description": "0-based position of this post in the search results for the given query",
+      "title": "Rank",
+      "type": "integer"
+    },
+    "repostCount": {
+      "description": "Number of reposts",
+      "title": "Repost Count",
+      "type": "integer"
+    },
+    "rowType": {
+      "description": "'video' for all post rows (video or slideshow; use postType to distinguish) or 'hashtag' for hashtag metadata rows.",
+      "title": "Row Type",
+      "type": "string"
+    },
+    "searchType": {
+      "description": "How the row was found: 'general' keyword search, 'photo' search, 'hashtag' search, or 'sound' expansion.",
+      "title": "Search Type",
+      "type": "string"
+    },
+    "shareCount": {
+      "description": "Number of shares",
+      "title": "Share Count",
+      "type": "integer"
+    },
+    "shareEnabled": {
+      "description": "Whether sharing is enabled for this post",
+      "title": "Share Enabled",
+      "type": "boolean"
+    },
+    "stickersOnItem": {
+      "description": "Text/interactive sticker overlays on the post",
+      "title": "Stickers On Item",
+      "type": "array"
+    },
+    "stitchEnabled": {
+      "description": "Whether the creator allows stitching this video",
+      "title": "Stitch Enabled",
+      "type": "boolean"
+    },
+    "textLanguage": {
+      "description": "Detected language code of the caption text",
+      "title": "Text Language",
+      "type": "string"
+    },
+    "video": {
+      "description": "Video technical metadata and signed play/cover URLs",
+      "properties": {
+        "bitrate": {
+          "title": "Bitrate",
+          "type": "integer"
+        },
+        "bitrateInfo": {
+          "description": "All available quality/bitrate variants with play URLs",
+          "title": "Bitrate Info",
+          "type": "array"
+        },
+        "codecType": {
+          "title": "Codec",
+          "type": "string"
+        },
+        "cover": {
+          "title": "Cover Image URL",
+          "type": "string"
+        },
+        "coverVariants": {
+          "description": "Additional cover-image resolutions keyed by pixel size",
+          "title": "Cover Variants",
+          "type": "object"
+        },
+        "definition": {
+          "title": "Definition",
+          "type": "string"
+        },
+        "downloadAddr": {
+          "description": "Signed TikTok CDN download URL. Reference-only: the CDN commonly rejects direct downloads (HTTP 403) outside TikTok.",
+          "title": "Download URL",
+          "type": "string"
+        },
+        "duration": {
+          "title": "Duration (s)",
+          "type": "integer"
+        },
+        "dynamicCover": {
+          "title": "Dynamic Cover URL",
+          "type": "string"
+        },
+        "format": {
+          "title": "Format",
+          "type": "string"
+        },
+        "height": {
+          "title": "Height (px)",
+          "type": "integer"
+        },
+        "originCover": {
+          "title": "Original Cover URL",
+          "type": "string"
+        },
+        "playUrl": {
+          "description": "Signed TikTok CDN play URL. Reference-only: the CDN can reject direct downloads (HTTP 403) outside TikTok.",
+          "title": "Play URL",
+          "type": "string"
+        },
+        "qualityScore": {
+          "description": "TikTok's internal video-quality score (VQScore)",
+          "title": "Quality Score",
+          "type": "number"
+        },
+        "qualityTags": {
+          "description": "UI badge labels TikTok attaches to the video (e.g. 'Top liked')",
+          "title": "Quality Tags",
+          "type": "array"
+        },
+        "ratio": {
+          "title": "Aspect Ratio",
+          "type": "string"
+        },
+        "size": {
+          "title": "File Size (bytes)",
+          "type": "integer"
+        },
+        "subtitles": {
+          "description": "Available caption tracks (auto-generated or original) with expiring VTT URLs",
+          "items": {
+            "properties": {
+              "format": {
+                "type": "string"
+              },
+              "isAutoGenerated": {
+                "type": "boolean"
+              },
+              "isOriginal": {
+                "type": "boolean"
+              },
+              "language": {
+                "type": "string"
+              },
+              "languageCode": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "title": "Subtitles/Captions",
+          "type": "array"
+        },
+        "videoQuality": {
+          "title": "Video Quality Label",
+          "type": "string"
+        },
+        "volumeInfo": {
+          "description": "Audio loudness and peak level metadata",
+          "title": "Volume Info",
+          "type": "object"
+        },
+        "width": {
+          "title": "Width (px)",
+          "type": "integer"
+        }
+      },
+      "title": "Video",
+      "type": "object"
+    },
+    "viewerRegion": {
+      "description": "ISO country code of the inferred viewer region",
+      "title": "Viewer Region",
+      "type": "string"
+    }
+  },
+  "title": "TikTok Search Results",
+  "views": {
+    "hashtags": {
+      "description": "Hashtag metadata rows emitted by searchType=hashtags, including post and view counts.",
+      "display": {
+        "component": "table",
+        "properties": {
+          "hashtagMetadata": {
+            "format": "object",
+            "label": "Metadata"
+          },
+          "query": {
+            "format": "text",
+            "label": "Hashtag"
+          },
+          "searchType": {
+            "format": "text",
+            "label": "Search Type"
+          }
+        }
+      },
+      "title": "Hashtag Results",
+      "transformation": {
+        "fields": [
+          "query",
+          "searchType",
+          "hashtagMetadata"
+        ]
+      }
+    },
+    "overview": {
+      "description": "TikTok video and photo posts returned by keyword search with rank, query context, and engagement metrics.",
+      "display": {
+        "component": "table",
+        "properties": {
+          "caption": {
+            "format": "text",
+            "label": "Caption"
+          },
+          "commentCount": {
+            "format": "number",
+            "label": "Comments"
+          },
+          "createdAt": {
+            "format": "text",
+            "label": "Created At"
+          },
+          "likeCount": {
+            "format": "number",
+            "label": "Likes"
+          },
+          "playCount": {
+            "format": "number",
+            "label": "Views"
+          },
+          "postId": {
+            "format": "text",
+            "label": "Post ID"
+          },
+          "postUrl": {
+            "format": "link",
+            "label": "Post URL"
+          },
+          "query": {
+            "format": "text",
+            "label": "Search Query"
+          },
+          "rank": {
+            "format": "number",
+            "label": "Rank"
+          },
+          "searchType": {
+            "format": "text",
+            "label": "Search Type"
+          },
+          "shareCount": {
+            "format": "number",
+            "label": "Shares"
+          }
+        }
+      },
+      "title": "Search Results Overview",
+      "transformation": {
+        "fields": [
+          "postId",
+          "query",
+          "rank",
+          "searchType",
+          "caption",
+          "createdAt",
+          "author",
+          "playCount",
+          "likeCount",
+          "commentCount",
+          "shareCount",
+          "postUrl"
+        ]
+      }
+    }
+  }
+}

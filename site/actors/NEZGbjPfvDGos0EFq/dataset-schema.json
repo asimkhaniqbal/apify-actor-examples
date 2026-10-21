@@ -1,0 +1,386 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "properties": {
+      "averageInterest": {
+        "description": "Average value across the timeline. A number for single-keyword runs, an array in compare mode."
+      },
+      "category": {
+        "description": "Category id (0 = All categories).",
+        "type": "integer"
+      },
+      "categoryName": {
+        "description": "Human-readable category name.",
+        "type": "string"
+      },
+      "endedAt": {
+        "description": "When the trend stopped spiking (ISO 8601), when provided by Google.",
+        "type": "string"
+      },
+      "exploreUrl": {
+        "description": "URL to view the same query on trends.google.com.",
+        "type": "string"
+      },
+      "geo": {
+        "description": "Location code (empty string = Worldwide).",
+        "type": "string"
+      },
+      "geoName": {
+        "description": "Human-readable location name.",
+        "type": "string"
+      },
+      "growthPercent": {
+        "description": "Growth percentage reported by Google for the trending item.",
+        "type": "integer"
+      },
+      "hours": {
+        "description": "Trending time window in hours.",
+        "type": "integer"
+      },
+      "hoursLabel": {
+        "description": "Human-readable trending time window.",
+        "type": "string"
+      },
+      "interestByRegion": {
+        "description": "Per-region breakdown of search interest at the resolution Google chose for the location.",
+        "type": "array"
+      },
+      "interestByRegionPerTerm": {
+        "description": "Compare mode: per-keyword region breakdowns.",
+        "type": "array"
+      },
+      "interestOverTime": {
+        "description": "Timeline points of relative search interest (0-100 scale).",
+        "type": "array"
+      },
+      "latestInterest": {
+        "description": "Most recent timeline value. A number or an array in compare mode."
+      },
+      "news": {
+        "description": "Matching news headlines, links and sources from Google's Trending RSS feed.",
+        "type": "array"
+      },
+      "peakDate": {
+        "description": "Date of the highest value. A string or an array in compare mode."
+      },
+      "peakInterest": {
+        "description": "Highest timeline value. A number or an array in compare mode."
+      },
+      "rank": {
+        "description": "Position in the Trending Now list.",
+        "type": "integer"
+      },
+      "recordType": {
+        "description": "'interest' rows describe one Explore query; 'trending' rows are Trending Now items.",
+        "type": "string"
+      },
+      "relatedQueries": {
+        "description": "Top and rising related queries (interest rows).",
+        "type": "object"
+      },
+      "relatedQueriesPerTerm": {
+        "description": "Compare mode: per-keyword related query lists.",
+        "type": "array"
+      },
+      "relatedTerms": {
+        "description": "Related search terms Google lists for a trending item (trending rows).",
+        "type": "array"
+      },
+      "relatedTopics": {
+        "description": "Top and rising related topics (interest rows; empty when Google has none).",
+        "type": "object"
+      },
+      "scrapedAt": {
+        "description": "UTC timestamp when this row was produced.",
+        "type": "string"
+      },
+      "searchTerms": {
+        "description": "The keywords analyzed (interest rows).",
+        "type": "array"
+      },
+      "searchType": {
+        "description": "Google surface: '' (Web), 'images', 'news', 'froogle' (Shopping), 'youtube'.",
+        "type": "string"
+      },
+      "searchTypeLabel": {
+        "description": "Human-readable search type label.",
+        "type": "string"
+      },
+      "startedAt": {
+        "description": "When the trend started spiking (ISO 8601).",
+        "type": "string"
+      },
+      "timeRange": {
+        "description": "Time range token sent to Google (interest rows).",
+        "type": "string"
+      },
+      "timeRangeLabel": {
+        "description": "Human-readable label for the time range.",
+        "type": "string"
+      },
+      "title": {
+        "description": "Trending search term or topic.",
+        "type": "string"
+      },
+      "trendChangePercent": {
+        "description": "Change between the last and first quarter of the window, in percent."
+      },
+      "trendDirection": {
+        "description": "'rising', 'falling' or 'stable' based on trendChangePercent."
+      },
+      "trendingUrl": {
+        "description": "URL to the Trending Now page for the location.",
+        "type": "string"
+      },
+      "volume": {
+        "description": "Search volume bucket reported by Google (e.g. 500000).",
+        "type": "integer"
+      },
+      "volumeText": {
+        "description": "Human-readable volume bucket (e.g. '500K+').",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "title": "Google Trends",
+  "views": {
+    "detailed": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "averageInterest": {
+            "format": "text",
+            "label": "Avg"
+          },
+          "category": {
+            "format": "number",
+            "label": "Cat ID"
+          },
+          "categoryName": {
+            "format": "text",
+            "label": "Category"
+          },
+          "endedAt": {
+            "format": "text",
+            "label": "Ended"
+          },
+          "exploreUrl": {
+            "format": "link",
+            "label": "URL"
+          },
+          "geo": {
+            "format": "text",
+            "label": "Geo"
+          },
+          "geoName": {
+            "format": "text",
+            "label": "Location"
+          },
+          "growthPercent": {
+            "format": "number",
+            "label": "Growth %"
+          },
+          "hours": {
+            "format": "number",
+            "label": "Hours"
+          },
+          "hoursLabel": {
+            "format": "text",
+            "label": "Window"
+          },
+          "latestInterest": {
+            "format": "text",
+            "label": "Latest"
+          },
+          "peakDate": {
+            "format": "text",
+            "label": "Peak date"
+          },
+          "peakInterest": {
+            "format": "text",
+            "label": "Peak"
+          },
+          "rank": {
+            "format": "number",
+            "label": "Rank"
+          },
+          "recordType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "scrapedAt": {
+            "format": "text",
+            "label": "Scraped at"
+          },
+          "searchTerms": {
+            "format": "array",
+            "label": "Terms"
+          },
+          "searchType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "searchTypeLabel": {
+            "format": "text",
+            "label": "Type label"
+          },
+          "startedAt": {
+            "format": "text",
+            "label": "Started"
+          },
+          "timeRange": {
+            "format": "text",
+            "label": "Time"
+          },
+          "timeRangeLabel": {
+            "format": "text",
+            "label": "Time label"
+          },
+          "title": {
+            "format": "text",
+            "label": "Trending term"
+          },
+          "trendChangePercent": {
+            "format": "text",
+            "label": "Change %"
+          },
+          "trendDirection": {
+            "format": "text",
+            "label": "Direction"
+          },
+          "trendingUrl": {
+            "format": "link",
+            "label": "Trends URL"
+          },
+          "volume": {
+            "format": "number",
+            "label": "Volume"
+          },
+          "volumeText": {
+            "format": "text",
+            "label": "Volume"
+          }
+        }
+      },
+      "title": "Detailed",
+      "transformation": {
+        "fields": [
+          "recordType",
+          "searchTerms",
+          "title",
+          "rank",
+          "geo",
+          "geoName",
+          "timeRange",
+          "timeRangeLabel",
+          "hours",
+          "hoursLabel",
+          "category",
+          "categoryName",
+          "searchType",
+          "searchTypeLabel",
+          "averageInterest",
+          "latestInterest",
+          "peakInterest",
+          "peakDate",
+          "trendChangePercent",
+          "trendDirection",
+          "volume",
+          "volumeText",
+          "growthPercent",
+          "startedAt",
+          "endedAt",
+          "interestOverTime",
+          "interestByRegion",
+          "interestByRegionPerTerm",
+          "relatedTopics",
+          "relatedQueries",
+          "relatedTerms",
+          "relatedQueriesPerTerm",
+          "news",
+          "exploreUrl",
+          "trendingUrl",
+          "scrapedAt"
+        ]
+      }
+    },
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "averageInterest": {
+            "format": "number",
+            "label": "Avg interest"
+          },
+          "categoryName": {
+            "format": "text",
+            "label": "Category"
+          },
+          "exploreUrl": {
+            "format": "link",
+            "label": "Explore URL"
+          },
+          "geoName": {
+            "format": "text",
+            "label": "Location"
+          },
+          "growthPercent": {
+            "format": "number",
+            "label": "Growth %"
+          },
+          "hoursLabel": {
+            "format": "text",
+            "label": "Window"
+          },
+          "recordType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "searchTerms": {
+            "format": "array",
+            "label": "Terms"
+          },
+          "searchTypeLabel": {
+            "format": "text",
+            "label": "Search type"
+          },
+          "timeRangeLabel": {
+            "format": "text",
+            "label": "Time range"
+          },
+          "title": {
+            "format": "text",
+            "label": "Trending term"
+          },
+          "trendingUrl": {
+            "format": "link",
+            "label": "Trends URL"
+          },
+          "volumeText": {
+            "format": "text",
+            "label": "Volume"
+          }
+        }
+      },
+      "title": "Trends overview",
+      "transformation": {
+        "fields": [
+          "recordType",
+          "searchTerms",
+          "title",
+          "geoName",
+          "timeRangeLabel",
+          "hoursLabel",
+          "categoryName",
+          "searchTypeLabel",
+          "averageInterest",
+          "volumeText",
+          "growthPercent",
+          "exploreUrl",
+          "trendingUrl"
+        ]
+      }
+    }
+  }
+}

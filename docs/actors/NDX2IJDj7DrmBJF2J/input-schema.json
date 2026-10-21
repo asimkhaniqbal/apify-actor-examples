@@ -1,0 +1,135 @@
+{
+  "description": "Collect public Threads profiles, posts, replies, media, reposts, keyword or hashtag search results, and full reply threads. No login, cookies, or API key required.",
+  "properties": {
+    "includeMediaUrls": {
+      "default": true,
+      "description": "Store photos and videos in the run's key-value store so their links keep working after Threads' signed CDN links expire. Turn off to keep the original links.",
+      "prefill": false,
+      "title": "Rehost media files",
+      "type": "boolean"
+    },
+    "includeProfileInfo": {
+      "default": true,
+      "description": "For profile modes, also output one profile record per username with bio, follower count, verification, links, and topics.",
+      "prefill": true,
+      "title": "Include profile record",
+      "type": "boolean"
+    },
+    "maxItems": {
+      "default": 100,
+      "description": "Maximum number of post, reply, or discovered-profile records to return.",
+      "maximum": 5000,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "profile",
+      "description": "What to collect from Threads.",
+      "editor": "select",
+      "enum": [
+        "profile",
+        "profileReplies",
+        "profileMedia",
+        "profileReposts",
+        "search",
+        "tag",
+        "profilesByKeyword",
+        "postReplies"
+      ],
+      "enumTitles": [
+        "Profile posts (by username)",
+        "Profile replies (by username)",
+        "Profile media (by username)",
+        "Profile reposts (by username)",
+        "Keyword search",
+        "Hashtag / topic search",
+        "Discover profiles by keyword",
+        "Single post + its replies"
+      ],
+      "prefill": "profile",
+      "title": "Mode",
+      "type": "string"
+    },
+    "postUrls": {
+      "description": "Threads post links (threads.com or threads.net). Each returns the post and its reply thread. Used by mode=postReplies.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "https://www.threads.com/@zuck/post/DZpPDXbCeTt"
+      ],
+      "title": "Post URLs (mode=postReplies)",
+      "type": "array"
+    },
+    "postedAfter": {
+      "description": "Optional lower date bound. Accepts ISO dates (2026-01-31) or relative windows such as 7d, 24h, or 2w.",
+      "editor": "textfield",
+      "title": "Published after",
+      "type": "string"
+    },
+    "postedBefore": {
+      "description": "Optional upper date bound. Accepts ISO dates or relative windows such as 7d, 24h, or 2w.",
+      "editor": "textfield",
+      "title": "Published before",
+      "type": "string"
+    },
+    "searchQueries": {
+      "description": "Keywords, phrases, or #hashtags. Used by mode=search and mode=profilesByKeyword.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "openai"
+      ],
+      "title": "Search queries (mode=search / profilesByKeyword)",
+      "type": "array"
+    },
+    "sortBy": {
+      "default": "top",
+      "description": "Order for keyword search results: Top (relevance) or Recent (newest first). 'default' is accepted as an alias of Top.",
+      "editor": "select",
+      "enum": [
+        "top",
+        "default",
+        "recent"
+      ],
+      "enumTitles": [
+        "Top (relevance)",
+        "Top (relevance, legacy alias)",
+        "Recent (newest first)"
+      ],
+      "prefill": "top",
+      "title": "Search order (mode=search)",
+      "type": "string"
+    },
+    "tag": {
+      "description": "Hashtag or topic to search without the # sign, e.g. 'ai' or 'mma'. Used by mode=tag.",
+      "editor": "textfield",
+      "prefill": "ai",
+      "title": "Hashtag / topic (mode=tag)",
+      "type": "string"
+    },
+    "usernames": {
+      "description": "Threads usernames, with or without @, or full profile URLs. Used by mode=profile / profileReplies / profileMedia / profileReposts.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "zuck"
+      ],
+      "title": "Usernames (profile modes)",
+      "type": "array"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Threads Scraper Input",
+  "type": "object"
+}

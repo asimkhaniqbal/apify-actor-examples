@@ -1,0 +1,48 @@
+{
+  "actorSpecification": 1,
+  "title": "LinkedIn Post Reactions",
+  "views": {
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "postId": {
+            "format": "text",
+            "label": "Post ID"
+          },
+          "reactionType": {
+            "format": "text",
+            "label": "Reaction"
+          },
+          "reactorHeadline": {
+            "format": "text",
+            "label": "Headline"
+          },
+          "reactorName": {
+            "format": "text",
+            "label": "Name"
+          },
+          "reactorProfileUrl": {
+            "format": "link",
+            "label": "Profile URL"
+          },
+          "scrapedAt": {
+            "format": "datetime",
+            "label": "Scraped At"
+          }
+        }
+      },
+      "title": "Reactions",
+      "transformation": {
+        "fields": [
+          "reactorName",
+          "reactionType",
+          "reactorHeadline",
+          "reactorProfileUrl",
+          "postId",
+          "scrapedAt"
+        ]
+      }
+    }
+  }
+}

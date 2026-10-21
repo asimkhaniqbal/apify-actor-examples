@@ -1,0 +1,138 @@
+{
+  "description": "Look up TikTok accounts and get their stats, full video history, reposts, playlists and live status. No cookies or proxy setup required.",
+  "properties": {
+    "computedStats": {
+      "default": false,
+      "description": "Adds averagePlays, medianPlays and postsPerWeek to the profile row, computed over the videos fetched for that account in this run (the window is the returned set, not the full history).",
+      "prefill": false,
+      "title": "Add Derived Statistics",
+      "type": "boolean"
+    },
+    "contentTypes": {
+      "default": [
+        "profile",
+        "videos"
+      ],
+      "description": "Choose which rows to emit for every account. 'profile' = account stats and metadata, 'videos' = the account's posts, 'reposts' = content the account re-shared, 'playlists' = the account's playlists (names, covers, video counts).",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "profile",
+          "videos",
+          "reposts",
+          "playlists"
+        ],
+        "enumTitles": [
+          "Profile info and stats",
+          "Videos (full history)",
+          "Reposts",
+          "Playlists"
+        ],
+        "type": "string"
+      },
+      "prefill": [
+        "profile",
+        "videos",
+        "reposts"
+      ],
+      "title": "What to collect per account",
+      "type": "array"
+    },
+    "includeLiveStatus": {
+      "default": true,
+      "description": "Adds isLive and, when the account is live, the live room title, start time and viewer count to the profile row. Emitted only when TikTok reports the account's live status.",
+      "prefill": true,
+      "title": "Include Live Status",
+      "type": "boolean"
+    },
+    "includeProfileInfo": {
+      "default": true,
+      "description": "When off, no profile rows are written even if 'profile' is selected above; only post rows are produced.",
+      "prefill": true,
+      "title": "Include Profile Info",
+      "type": "boolean"
+    },
+    "maxItems": {
+      "default": 0,
+      "description": "Global cap on post rows for the whole run across all accounts (0 = no limit). Profile and playlist rows are not counted.",
+      "maximum": 100000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Max Post Rows per Run",
+      "type": "integer"
+    },
+    "maxPostsPerProfile": {
+      "default": 30,
+      "description": "Maximum number of post rows per account, combined across videos and reposts. 0 skips post collection entirely (useful for a fast stats-only run). Playlist rows are not counted.",
+      "maximum": 500,
+      "minimum": 0,
+      "prefill": 10,
+      "title": "Max Post Rows per Profile",
+      "type": "integer"
+    },
+    "newestPostDate": {
+      "default": "",
+      "description": "Skip posts published after this date (UTC). Format: YYYY-MM-DD, e.g. 2026-01-01. Leave empty to start from each account's most recent post.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Only Posts Up To This Date (optional)",
+      "type": "string"
+    },
+    "oldestPostDate": {
+      "default": "",
+      "description": "Skip posts published before this date (UTC). Format: YYYY-MM-DD, e.g. 2026-01-01. Leave empty to collect the newest posts with no lower bound.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Only Posts From This Date (optional)",
+      "type": "string"
+    },
+    "onlyNewVideos": {
+      "default": false,
+      "description": "When on, each account emits only the videos posted since the previous run of that same account. The newest video seen is remembered between runs in the actor's named key-value store, so scheduling the actor turns it into a new-video monitor. The first run for an account returns all videos up to Max Post Rows per Profile and seeds the state. Reposts and playlists are not filtered. If the stored state is ever lost, the next run behaves like a first run.",
+      "prefill": false,
+      "title": "Only New Videos (monitoring)",
+      "type": "boolean"
+    },
+    "pinnedFirst": {
+      "default": false,
+      "description": "When on, videos the account pinned to the top of its profile (TikTok's pinned posts) are emitted before the rest of the post rows collected in this run. Pinned videos also carry isPinned: true.",
+      "prefill": false,
+      "title": "Show Pinned Videos First",
+      "type": "boolean"
+    },
+    "playlistUrls": {
+      "description": "Full playlist URLs (e.g. https://www.tiktok.com/@natgeo/playlist/wildlife-7509464647364283178) to collect the videos inside those playlists. Independent of Usernames.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Playlist URLs (optional)",
+      "type": "array"
+    },
+    "profileUrls": {
+      "description": "Full TikTok profile URLs (e.g. https://www.tiktok.com/@khaby.lame). Can be used instead of or together with Usernames.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Profile URLs",
+      "type": "array"
+    },
+    "usernames": {
+      "description": "TikTok usernames to look up (with or without @). You can mix usernames and profile URLs, and list as many as you need in one run.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "natgeo"
+      ],
+      "title": "TikTok Usernames",
+      "type": "array"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "TikTok Account Stats & Repost History Scraper Input",
+  "type": "object"
+}

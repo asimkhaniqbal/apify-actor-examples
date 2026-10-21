@@ -1,0 +1,73 @@
+{
+  "description": "Extract public comments and reply threads from Facebook posts, photos, reels, videos, and public group posts. Returns comment text, author details, per-reaction-type counts, timestamps, reply context, and the post's own comment totals. No login or cookies required.",
+  "properties": {
+    "commentsMode": {
+      "default": "ALL",
+      "description": "Which comment view to scrape: MOST_RELEVANT (Facebook's ranked view), NEWEST (all comments, newest first), or ALL (Facebook's unfiltered ranked view, including comments its ranked view may hide).",
+      "enum": [
+        "ALL",
+        "NEWEST",
+        "MOST_RELEVANT"
+      ],
+      "enumTitles": [
+        "All comments (Facebook's unfiltered view)",
+        "Newest first",
+        "Most relevant (Facebook's ranked view)"
+      ],
+      "prefill": "MOST_RELEVANT",
+      "title": "Comment ordering",
+      "type": "string"
+    },
+    "includeNestedComments": {
+      "default": true,
+      "description": "If true, also scrape reply rows under top-level comments (with parent/reply metadata). If false, only top-level comments are collected (faster).",
+      "prefill": true,
+      "title": "Include replies",
+      "type": "boolean"
+    },
+    "maxItems": {
+      "default": 100,
+      "description": "Maximum number of comment rows (including replies) to collect per URL. The run also stops when Facebook has no more comments or replies to serve.",
+      "maximum": 10000,
+      "minimum": 1,
+      "prefill": 5,
+      "sectionCaption": "Limits",
+      "title": "Max comments per URL",
+      "type": "integer"
+    },
+    "maxReplyDepth": {
+      "default": 1,
+      "description": "How deep into reply threads to collect: 1 = direct replies to top-level comments only, 2 or more = also include deeper nested replies. Facebook serves reply threads with up to two nesting levels to anonymous visitors.",
+      "maximum": 5,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Max reply nesting depth",
+      "type": "integer"
+    },
+    "onlyCommentsNewerThan": {
+      "description": "Limit results to comments posted after this date. Accepts YYYY-MM-DD, a full ISO 8601 timestamp (e.g. 2024-06-15T12:00:00Z), or a relative value like '1 day', '2 weeks', '3 months', '1 year'. When set, comments are fetched newest-first so the filter can stop as soon as an older comment is reached. Leave blank to disable date filtering.",
+      "editor": "textfield",
+      "title": "Only comments newer than",
+      "type": "string"
+    },
+    "startUrls": {
+      "description": "Facebook post, photo, reel, video, Watch, or public group post URLs (one or more). Comment permalinks (URLs containing ?comment_id=) are accepted and resolved to their post; legacy story.php, permalink.php and share links are normalized automatically. Most public reels and videos are supported; a minority restricted by Facebook return no thread and are reported.",
+      "editor": "requestListSources",
+      "prefill": [
+        {
+          "url": "https://www.facebook.com/NASA/posts/pfbid025kwyoBjhFGUC22fC4Sies56D5xvd65ZHR5PYjHhc7XSzqGsxuWq2uDVriZNxWbeol"
+        }
+      ],
+      "sectionCaption": "Input",
+      "sectionDescription": "Provide one or more public Facebook URLs to scrape comments from.",
+      "title": "Facebook URLs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "startUrls"
+  ],
+  "schemaVersion": 1,
+  "title": "Facebook Comment Thread Extractor",
+  "type": "object"
+}

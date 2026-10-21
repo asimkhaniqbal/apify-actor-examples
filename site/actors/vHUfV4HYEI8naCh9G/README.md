@@ -1,0 +1,146 @@
+# TikTok Comment & Reply Thread Extractor
+
+Pull the comment section of any public TikTok video — including the full reply thread under each comment — with no TikTok account, no cookies and no proxy setup. Every comment and reply becomes one dataset row, with its author, like count, timestamps and creator-engagement flags.
+
+## What this actor does
+
+- Accepts TikTok video URLs, numeric video IDs, and/or profile names (scrapes the newest videos of each profile)
+- Walks the comment section as deep as TikTok serves it, recovering far past the first few hundred comments on huge videos
+- Fetches the reply thread under every root comment — replies are paged past TikTok's first reply batch, not truncated
+- Emits each root comment followed immediately by its own replies, linked by `replyToCommentId` (and `replyToReplyId` for nested answers)
+- Flags pinned comments, creator-hearted comments, and translation availability
+- Captures commenter handle, display name, numeric user ID, secUid and avatar, plus image and sticker comments
+- Optionally attaches the source video's caption and stats (`includeVideoMetadata`)
+- Optionally adds each commenter's region code and bio (`includeCommenterDetails`) and exact follower/following/heart/video counts (`includeCommenterStats`)
+- `deepWalk` mode recovers far more comments on videos where TikTok's default list stops early, restoring image/sticker data from the web payload per comment ID
+- Reports videos that are deleted, private or nonexistent as "unavailable" instead of silently empty
+- Filters by minimum likes (`minLikes`) and caps rows per video (`maxCommentsPerPost`) or per run (`maxItems`)
+- Omits empty fields everywhere — no nulls, no placeholders
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `postUrls` | array | — | TikTok video/photo URLs to scrape comments from |
+| `postIds` | array | — | Numeric video IDs (15–20 digits), alternative to URLs |
+| `profiles` | array | — | Usernames or profile URLs — comments on their newest videos |
+| `maxVideosPerProfile` | integer | `10` | How many of each profile's newest videos to scrape |
+| `maxCommentsPerPost` | integer | – (100 if not set) | Maximum rows per video (replies included) |
+| `includeReplies` | boolean | `true` | Fetch and emit reply threads |
+| `maxRepliesPerComment` | integer | `0` | Cap replies per root comment; `0` = all |
+| `maxItems` | integer | `0` | Global row cap for the run; `0` = no cap |
+| `minLikes` | integer | `0` | Keep only comments/replies with at least this many likes |
+| `includeVideoMetadata` | boolean | `false` | Attach a `video` object (caption, author, stats) to every row |
+| `includeCommenterDetails` | boolean | `false` | Add `user.region` and `user.bio` to every row |
+| `includeCommenterStats` | boolean | `false` | Add exact `user.followerCount` / `followingCount` / `heartCount` / `videoCount` |
+| `maxCommenterLookups` | integer | `100` | Cap on how many commenters are enriched by `includeCommenterStats`; `0` = no cap |
+| `deepWalk` | boolean | `false` | Read TikTok's app-style view of the comment list (much higher coverage on many videos) and restore image/sticker fields per comment; off keeps the standard walk |
+
+### Example: comments and replies for one video
+
+```json
+{
+  "postUrls": ["https://www.tiktok.com/@khaby.lame/video/7574844184952081686"],
+  "maxCommentsPerPost": 500,
+  "includeReplies": true
+}
+```
+
+### Example: top comments only, no replies
+
+```json
+{
+  "postUrls": ["https://www.tiktok.com/@natgeo/video/7640880319159094559"],
+  "maxCommentsPerPost": 200,
+  "includeReplies": false
+}
+```
+
+### Example: comments from a profile's newest videos
+
+```json
+{
+  "profiles": ["mrbeast"],
+  "maxVideosPerProfile": 3,
+  "maxCommentsPerPost": 200,
+  "maxItems": 1000
+}
+```
+
+### Example: only highly-liked comments, with video metadata
+
+```json
+{
+  "postIds": ["7574844184952081686", "7640880319159094559"],
+  "minLikes": 100,
+  "includeVideoMetadata": true
+}
+```
+
+## Output per comment or reply
+
+- `rowType` — `comment` for top-level comments, `reply` for replies
+- `commentId` — unique TikTok comment ID
+- `postId` — ID of the video the comment belongs to
+- `postUrl` — URL of the video
+- `text` — comment text (absent on image/sticker-only comments)
+- `createTime` / `createdAt` — Unix and ISO 8601 creation time
+- `likeCount` — likes on the comment
+- `replyCount` — replies TikTok reports for this comment (comments only)
+- `isPinnedByAuthor` — pinned by the video creator
+- `isLikedByAuthor` — hearted by the video creator
+- `isReply` — true on reply rows
+- `replyToCommentId` — root comment ID (reply rows)
+- `replyToReplyId` — the reply being answered (nested replies)
+- `replyToUsername` / `replyToNickname` / `replyToUserId` — who the reply answers
+- `threadId` — TikTok's thread identifier for the reply chain
+- `language` — detected comment language
+- `isTranslatable` — TikTok offers a translation
+- `shareUrl` — share link that opens the comment
+- `user.id` / `user.secUid` / `user.username` / `user.displayName` / `user.avatarUrl` — commenter details
+- `user.verified` — present (true) when the commenter carries a verification badge
+- `user.region` / `user.bio` — commenter country/region code and profile bio (only with `includeCommenterDetails`)
+- `user.followerCount` / `user.followingCount` / `user.heartCount` / `user.videoCount` — exact commenter stats (only with `includeCommenterStats`)
+- `images` — raw image list for image comments
+- `stickers` — raw sticker data for sticker comments
+- `labels` / `textExtra` — raw TikTok annotations (mentions, hashtags, labels)
+- `video` — caption and stats of the source video (only with `includeVideoMetadata`)
+- `scrapedAt` — ISO 8601 collection time
+
+## Use cases
+
+- **Sentiment & topic analysis** — build comment corpora per video, per creator or per campaign
+- **Creator engagement audits** — pinned and creator-hearted comments surface the conversations a creator endorses
+- **Reply-thread research** — reconstruct who answered whom with `replyToCommentId` / `replyToReplyId`
+- **Brand monitoring** — sweep a profile's newest videos and catch complaints or questions early
+- **Moderation exports** — pull full threads into CSV/JSON for review tooling
+- **Academic research** — comment and reply networks with exact timestamps and stable IDs
+
+## FAQ
+
+**Do I need a TikTok account, cookies or a proxy?**
+No. The actor reads TikTok's public comment data anonymously — no login, no cookies, no proxy setup. Pacing and retries are handled automatically.
+
+**How many comments can I get from one video?**
+As many as TikTok serves. The actor keeps walking the comment list past the point where a basic scraper stops. With `deepWalk` it reads TikTok's app-style view of the list, which exposes far more comments on many videos (for one video: ~42 via the standard walk, 131–160 via the app view), and restores image and sticker data from the standard view for each comment. Coverage still varies by network exit and by how many comments TikTok filters (spam, deleted, region-restricted) or withholds from anonymous readers, and the count shown in the app is live and can change during a run. The actor never invents rows.
+
+**How complete are reply threads?**
+Replies are fetched per comment with their own cursor walk and capped only by your inputs. A thread with thousands of replies is collected across pages until it ends or your cap is reached.
+
+**What happens with deleted, private or comment-disabled videos?**
+Deleted, private and nonexistent videos are detected from the video page and reported as **unavailable** in the status message; videos that exist but have no (or disabled) comments are reported as empty. Either way the actor emits no rows for that video and moves on.
+
+**Can I sort or filter comments?**
+Sorting and date filters are not available: TikTok returns comments in its own engagement-based ranking order and ignores sort/date parameters, so the actor offers none instead of silently dropping rows. You can trim by likes with `minLikes` — comments and replies below the threshold are left out; keyword filtering is best done in your own pipeline on the exported text.
+
+**How do I get commenter details and follower counts?**
+Two optional toggles. `includeCommenterDetails` adds the commenter's region code and bio (`user.region`, `user.bio`). `includeCommenterStats` adds exact follower, following, heart and video counts (`user.followerCount`, …) by looking up each unique commenter's public profile once; private or banned accounts are omitted, never guessed, and `maxCommenterLookups` caps how many commenters are enriched per run.
+
+**Can comments be translated?**
+No. TikTok's payload carries no translated text and the translation endpoint requires signed requests; the actor exports the original text plus `language` and `isTranslatable` for downstream translation.
+
+**Why do some comments have no `text`, and do media URLs expire?**
+Image-only and sticker-only comments have no text; their attachments are in `images` / `stickers`. Avatar and sticker URLs are signed TikTok CDN links that work when exported but expire after roughly a day or two — use `commentId`, `user.username`, `shareUrl` and `postUrl` as the durable keys.
+
+**Is this affiliated with TikTok?**
+No. This is an independent, third-party actor that reads TikTok's publicly available comment data; it is not affiliated with, endorsed by, or operated by TikTok.

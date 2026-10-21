@@ -1,0 +1,13 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "description": "One record per Amazon customer review (rating, text, verified/Vine flags, helpful votes, variant, media, dates, source metadata) plus one type=amazon_review_aggregate record per product with the rating summary and star histogram. Empty fields are omitted, never pushed as null.",
+  "properties": {
+    "reviews": {
+      "description": "Dataset containing all scraped Amazon customer reviews.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items",
+      "title": "Amazon reviews",
+      "type": "string"
+    }
+  },
+  "title": "Amazon Customer Review & Rating Summary Scraper Output"
+}

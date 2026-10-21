@@ -1,0 +1,72 @@
+{
+  "properties": {
+    "cookies": {
+      "description": "Optional and entirely unnecessary for the cookieless data. Supply your own LinkedIn session cookies (browser-export JSON, a JSON array of {name,value}, or a raw Cookie header) to additionally fill fields LinkedIn withholds from logged-out visitors — the real headline, exact connection count, and the full Experience list with titles and dates. Use ``cookie`` as an alias accepted for compatibility. Never required; leave empty for the standard cookieless run.",
+      "editor": "textarea",
+      "title": "Cookies (optional)",
+      "type": "string"
+    },
+    "enrichCompany": {
+      "default": true,
+      "description": "Fetch the current employer's own public LinkedIn company page for extra detail (employee count, size, industry, website, headquarters, logo, specialties, founded year, followers, description). Uses a free public mirror, so it adds no proxy cost. Cached per company within a run.",
+      "editor": "checkbox",
+      "prefill": true,
+      "title": "Enrich Current Company",
+      "type": "boolean"
+    },
+    "includeStatusRows": {
+      "default": true,
+      "description": "Add one structured status row when a run returns no profiles or only some of the requested profiles. Turn off if you want the dataset to contain profile records only.",
+      "editor": "checkbox",
+      "prefill": true,
+      "title": "Include Status Rows",
+      "type": "boolean"
+    },
+    "maxSearchResults": {
+      "default": 25,
+      "description": "Upper bound on profiles discovered and scraped in search-by-name mode.",
+      "editor": "number",
+      "maximum": 100,
+      "minimum": 1,
+      "prefill": 25,
+      "title": "Search: Max Results",
+      "type": "integer"
+    },
+    "profileUrls": {
+      "description": "LinkedIn profile URLs (https://linkedin.com/in/username) or bare usernames. Full URLs, usernames, 'in/username' shorthand and regional subdomains are all accepted. Optional when searchNames is provided.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "https://www.linkedin.com/in/williamhgates"
+      ],
+      "title": "Profile URLs",
+      "type": "array"
+    },
+    "searchCompany": {
+      "description": "Optional. When searching by name, keep only candidates whose directory card lists this company (case-insensitive substring).",
+      "editor": "textfield",
+      "title": "Search: Current Company Filter",
+      "type": "string"
+    },
+    "searchLocation": {
+      "description": "Optional. When searching by name, keep only candidates whose directory card lists this location (case-insensitive substring).",
+      "editor": "textfield",
+      "title": "Search: Location Filter",
+      "type": "string"
+    },
+    "searchNames": {
+      "description": "Optional search-by-name mode: full names (e.g. \"Satya Nadella\") to find on LinkedIn's public people directory. Every discovered profile is then scraped through the same pipeline and appears with its own searchQuery field. Combine with profileUrls or use alone.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Search Names",
+      "type": "array"
+    }
+  },
+  "schemaVersion": 1,
+  "title": "LinkedIn Profile Scraper Input",
+  "type": "object"
+}

@@ -1,0 +1,106 @@
+{
+  "description": "Paste X post links, post IDs or profile handles. Choose whether to include replies, quote posts and author details.",
+  "properties": {
+    "includeAuthorProfile": {
+      "default": true,
+      "description": "Attach the author's public profile details (followers, bio, verification) to every post, reply and quote row under author and authorProfile.",
+      "prefill": true,
+      "title": "Include author profile details",
+      "type": "boolean"
+    },
+    "includeMedia": {
+      "default": true,
+      "description": "Include image links, video links and video variants for each post.",
+      "prefill": true,
+      "title": "Include images and videos",
+      "type": "boolean"
+    },
+    "includeParentTweet": {
+      "default": true,
+      "description": "When a collected post is a reply, attach the post it answers under parentTweet.",
+      "prefill": true,
+      "title": "Include the post being replied to",
+      "type": "boolean"
+    },
+    "includeQuotedTweet": {
+      "default": true,
+      "description": "When a collected post quotes another post, attach the quoted post's text, author and metrics.",
+      "prefill": true,
+      "title": "Include the post each result quotes",
+      "type": "boolean"
+    },
+    "includeQuotes": {
+      "default": false,
+      "description": "Collect the posts that quote each requested post, with their text, author and engagement counts.",
+      "prefill": false,
+      "title": "Include quote posts",
+      "type": "boolean"
+    },
+    "includeReplies": {
+      "default": true,
+      "description": "Collect the replies X shows for each post, walked forward from the post's publication time.",
+      "prefill": true,
+      "title": "Include replies",
+      "type": "boolean"
+    },
+    "includeRetweeters": {
+      "default": false,
+      "description": "Collect the handles of accounts that reposted each requested post. X only exposes a search-index sample of visible reposts, so this is an approximate, recent-biased list.",
+      "prefill": false,
+      "title": "Include retweeter handles",
+      "type": "boolean"
+    },
+    "includeThreadAncestors": {
+      "default": false,
+      "description": "When a requested post is a reply, walk up to 10 posts back to the start of the thread and attach them under threadAncestors (root first).",
+      "prefill": false,
+      "title": "Include the full thread above a reply",
+      "type": "boolean"
+    },
+    "maxQuotes": {
+      "default": 50,
+      "description": "How many quote posts to collect for each requested post (0-500).",
+      "maximum": 500,
+      "minimum": 0,
+      "title": "Maximum quote posts per post",
+      "type": "integer"
+    },
+    "maxReplies": {
+      "default": 20,
+      "description": "How many replies to collect for each post (0-500). Posts with very large threads may return fewer because X does not expose every reply to logged-out visitors.",
+      "maximum": 500,
+      "minimum": 0,
+      "prefill": 3,
+      "title": "Maximum replies per post",
+      "type": "integer"
+    },
+    "maxRetweeters": {
+      "default": 50,
+      "description": "How many retweeter handles to collect for each post (0-500).",
+      "maximum": 500,
+      "minimum": 0,
+      "title": "Maximum retweeters per post",
+      "type": "integer"
+    },
+    "tweetUrls": {
+      "description": "Paste the posts you want to collect. You can also paste post IDs, x.com/i/web/status links, twitter.com links, profile links or bare handles (a profile input returns that profile's public details).",
+      "editor": "stringList",
+      "example": [
+        "https://x.com/elonmusk/status/1519480761749016577",
+        "2106665276758491194",
+        "NASA"
+      ],
+      "prefill": [
+        "https://x.com/NASA/status/2107095768821576019"
+      ],
+      "title": "Post links, post IDs or profile handles",
+      "type": "array"
+    }
+  },
+  "required": [
+    "tweetUrls"
+  ],
+  "schemaVersion": 1,
+  "title": "X Post, Reply & Profile Lookup input",
+  "type": "object"
+}

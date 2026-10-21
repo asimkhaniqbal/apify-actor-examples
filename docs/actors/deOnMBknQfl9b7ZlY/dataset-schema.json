@@ -1,0 +1,795 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "AIGCDescription": {
+      "description": "Creator-provided disclosure text describing which parts of the post are AI-generated. Present on post rows when disclosed.",
+      "title": "AI-Generated Content Description",
+      "type": "string"
+    },
+    "UserStoryStatus": {
+      "description": "TikTok Stories status flag. Present on profile rows when available.",
+      "title": "User Story Status",
+      "type": "integer"
+    },
+    "adLabelVersion": {
+      "description": "Internal TikTok advertising-label version applied to this post. Present on post rows when the post carries an ad label.",
+      "title": "Ad Label Version",
+      "type": "integer"
+    },
+    "author": {
+      "description": "Author snapshot at time of scraping. Present on post rows.",
+      "properties": {
+        "avatarUrl": {
+          "title": "Avatar URL",
+          "type": "string"
+        },
+        "bio": {
+          "title": "Bio",
+          "type": "string"
+        },
+        "displayName": {
+          "title": "Display Name",
+          "type": "string"
+        },
+        "followerCount": {
+          "title": "Followers",
+          "type": "integer"
+        },
+        "followingCount": {
+          "title": "Following",
+          "type": "integer"
+        },
+        "heartCount": {
+          "title": "Hearts",
+          "type": "integer"
+        },
+        "id": {
+          "title": "User ID",
+          "type": "string"
+        },
+        "privateAccount": {
+          "title": "Private Account",
+          "type": "boolean"
+        },
+        "roomId": {
+          "title": "Live Room ID",
+          "type": "string"
+        },
+        "secUid": {
+          "title": "Secure UID",
+          "type": "string"
+        },
+        "username": {
+          "title": "Username",
+          "type": "string"
+        },
+        "verified": {
+          "title": "Verified",
+          "type": "boolean"
+        },
+        "videoCount": {
+          "title": "Videos",
+          "type": "integer"
+        }
+      },
+      "title": "Author",
+      "type": "object"
+    },
+    "avatarLarger": {
+      "description": "URL of the large avatar image. Present on profile rows.",
+      "title": "Avatar (Large)",
+      "type": "string"
+    },
+    "avatarMedium": {
+      "description": "URL of the medium avatar image. Present on profile rows.",
+      "title": "Avatar (Medium)",
+      "type": "string"
+    },
+    "avatarThumb": {
+      "description": "URL of the thumbnail avatar image. Present on profile rows.",
+      "title": "Avatar (Thumbnail)",
+      "type": "string"
+    },
+    "averagePlays": {
+      "description": "Mean play count over the videos fetched for this account in this run (enabled by computedStats).",
+      "title": "Average plays",
+      "type": "number"
+    },
+    "bio": {
+      "description": "Profile biography / signature text. Present on profile rows.",
+      "title": "Bio",
+      "type": "string"
+    },
+    "bioEmail": {
+      "description": "Email address found in the profile bio text, when one is present.",
+      "title": "Email in bio",
+      "type": "string"
+    },
+    "bioLink": {
+      "description": "URL in the profile bio link field. Present on profile rows when set.",
+      "title": "Bio Link",
+      "type": "string"
+    },
+    "caption": {
+      "description": "Post caption/description text including hashtags and mentions. Present on post rows.",
+      "title": "Caption",
+      "type": "string"
+    },
+    "channelTags": {
+      "description": "Content channel/category tags TikTok assigned to the post. Present on post rows when available.",
+      "title": "Channel Tags",
+      "type": "array"
+    },
+    "collectCount": {
+      "description": "Number of times post was bookmarked/collected. Present on post rows.",
+      "title": "Collect Count",
+      "type": "integer"
+    },
+    "commentCount": {
+      "description": "Number of comments. Present on post rows.",
+      "title": "Comment Count",
+      "type": "integer"
+    },
+    "commentSetting": {
+      "description": "Who can comment on the user's posts (0=everyone, 1=friends, 2=no one). Present on profile rows.",
+      "title": "Comment Setting",
+      "type": "integer"
+    },
+    "commentStatus": {
+      "description": "Raw TikTok comment-permission code for this post (0=everyone, 1=friends, 2=off, 3=followers). Present on post rows when available.",
+      "title": "Comment Status",
+      "type": "integer"
+    },
+    "commerceCategory": {
+      "description": "TikTok business account category (e.g. 'Media & Entertainment') when the account has one.",
+      "title": "Business category",
+      "type": "string"
+    },
+    "contentKind": {
+      "description": "Whether the post is the user's own content ('video') or a repost ('repost'). Present on post rows.",
+      "title": "Content Kind",
+      "type": "string"
+    },
+    "contents": {
+      "description": "Structured caption segments (text/hashtag/mention parts) as returned by TikTok's content API. Present on post rows when available.",
+      "title": "Contents",
+      "type": "array"
+    },
+    "coverUrl": {
+      "description": "Signed cover image URL for the playlist or media entity.",
+      "title": "Cover URL",
+      "type": "string"
+    },
+    "createTime": {
+      "description": "Unix timestamp when the post was created. Present on post rows.",
+      "title": "Create Time (Unix)",
+      "type": "integer"
+    },
+    "createdAt": {
+      "description": "ISO 8601 UTC datetime when the post was created. Present on post rows.",
+      "title": "Created At",
+      "type": "string"
+    },
+    "diggCount": {
+      "description": "Number of posts liked by this user (from statsV2). Present on profile rows when available.",
+      "title": "Digg Count",
+      "type": "integer"
+    },
+    "displayName": {
+      "description": "User's public display name / nickname. Present on profile rows.",
+      "title": "Display Name",
+      "type": "string"
+    },
+    "diversificationLabels": {
+      "description": "TikTok content-category labels used for feed diversification. Present on post rows when available.",
+      "title": "Diversification Labels",
+      "type": "array"
+    },
+    "downloadSetting": {
+      "description": "Whether others can download the user's videos. Present on profile rows.",
+      "title": "Download Setting",
+      "type": "integer"
+    },
+    "duetEnabled": {
+      "description": "Whether duets are allowed for this post. Present on post rows.",
+      "title": "Duet Enabled",
+      "type": "boolean"
+    },
+    "duetSetting": {
+      "description": "Who can duet the user's videos. Present on profile rows.",
+      "title": "Duet Setting",
+      "type": "integer"
+    },
+    "effectStickers": {
+      "description": "Visual effects/filters applied to the post. Present on post rows when effects were used.",
+      "title": "Effect Stickers",
+      "type": "array"
+    },
+    "embedUrl": {
+      "description": "Permanent, cookieless player link for the post (https://www.tiktok.com/embed/v2/<postId>). Opens the post in TikTok's embedded player in any browser with no account or cookies.",
+      "title": "Embed URL",
+      "type": "string"
+    },
+    "followerCount": {
+      "description": "Number of followers (from statsV2). Present on profile rows.",
+      "title": "Follower Count",
+      "type": "integer"
+    },
+    "followingCount": {
+      "description": "Number of accounts followed (from statsV2). Present on profile rows.",
+      "title": "Following Count",
+      "type": "integer"
+    },
+    "followingVisibility": {
+      "description": "Who can see the user's following list (0=everyone, 1=friends, 2=no one). Present on profile rows.",
+      "title": "Following Visibility",
+      "type": "integer"
+    },
+    "forFriend": {
+      "description": "Whether the post was published as friends-only. Present on post rows.",
+      "title": "For Friends Only",
+      "type": "boolean"
+    },
+    "hashtags": {
+      "description": "Hashtags used in the post caption. Present on post rows when present.",
+      "items": {
+        "properties": {
+          "id": {
+            "title": "Hashtag ID",
+            "type": "string"
+          },
+          "isCommerce": {
+            "title": "Is Commerce",
+            "type": "boolean"
+          },
+          "name": {
+            "title": "Hashtag Name",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "title": "Hashtags",
+      "type": "array"
+    },
+    "heartCount": {
+      "description": "Total likes/hearts received across all posts (from statsV2). Present on profile rows.",
+      "title": "Heart Count",
+      "type": "integer"
+    },
+    "images": {
+      "description": "Images for slideshow posts (postType='slideshow'). Present on post rows when applicable.",
+      "items": {
+        "properties": {
+          "height": {
+            "title": "Height",
+            "type": "integer"
+          },
+          "ordinal": {
+            "title": "Index",
+            "type": "integer"
+          },
+          "urlList": {
+            "title": "Image URLs",
+            "type": "array"
+          },
+          "width": {
+            "title": "Width",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "title": "Slideshow Images",
+      "type": "array"
+    },
+    "isAd": {
+      "description": "Whether this post is a paid advertisement. Present on post rows.",
+      "title": "Is Ad",
+      "type": "boolean"
+    },
+    "isAigc": {
+      "description": "Whether TikTok labels this as AI-generated content. Present on post rows.",
+      "title": "Is AI Generated Content",
+      "type": "boolean"
+    },
+    "isECVideo": {
+      "description": "Whether this is a TikTok Shop / e-commerce video. Present on post rows.",
+      "title": "Is E-Commerce Video",
+      "type": "boolean"
+    },
+    "isLive": {
+      "description": "True when TikTok reports the account as currently streaming. Present on profile rows when live status is resolved (omitted for accounts TikTok does not report).",
+      "title": "Live now",
+      "type": "boolean"
+    },
+    "isOrganization": {
+      "description": "Whether the account is registered as an organization. Present on profile rows.",
+      "title": "Is Organization",
+      "type": "boolean"
+    },
+    "isPinned": {
+      "description": "True when the account pinned this video to the top of its profile. Only emitted for pinned videos.",
+      "title": "Pinned",
+      "type": "boolean"
+    },
+    "item_control": {
+      "description": "TikTok content-control flags (e.g. duet/stitch/download restrictions at the raw API level). Present on post rows when available.",
+      "title": "Item Control",
+      "type": "object"
+    },
+    "language": {
+      "description": "Account's primary language setting. Present on profile rows when available.",
+      "title": "Language",
+      "type": "string"
+    },
+    "likeCount": {
+      "description": "Number of likes/diggs. Present on post rows.",
+      "title": "Like Count",
+      "type": "integer"
+    },
+    "liveRoomId": {
+      "description": "TikTok live room identifier while the account is streaming. Present on profile rows when live.",
+      "title": "Live room ID",
+      "type": "string"
+    },
+    "liveRoomTitle": {
+      "description": "Title of the current live stream. Present on profile rows while the account is live.",
+      "title": "Live title",
+      "type": "string"
+    },
+    "liveStartTime": {
+      "description": "Unix timestamp (seconds) when the current live stream started.",
+      "title": "Live start time",
+      "type": "integer"
+    },
+    "liveViewerCount": {
+      "description": "Number of viewers in the current live stream, when TikTok reports it.",
+      "title": "Live viewers",
+      "type": "integer"
+    },
+    "locationCreated": {
+      "description": "ISO country code where the post was created. Present on post rows when available.",
+      "title": "Location Created",
+      "type": "string"
+    },
+    "mediaUrlExpiresAt": {
+      "description": "ISO 8601 UTC datetime when signed media URLs (video/cover) expire. Present on post rows when signed URLs are present.",
+      "title": "Media URL Expires At",
+      "type": "string"
+    },
+    "medianPlays": {
+      "description": "Median play count over the videos fetched for this account in this run (enabled by computedStats).",
+      "title": "Median plays",
+      "type": "number"
+    },
+    "mentions": {
+      "description": "@mentions in the post caption. Present on post rows when present.",
+      "items": {
+        "properties": {
+          "awemeId": {
+            "title": "Mentioned Post ID",
+            "type": "string"
+          },
+          "end": {
+            "title": "End Offset",
+            "type": "integer"
+          },
+          "start": {
+            "title": "Start Offset",
+            "type": "integer"
+          },
+          "username": {
+            "title": "Username",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "title": "Mentions",
+      "type": "array"
+    },
+    "mixId": {
+      "description": "TikTok mix identifier used for paginating playlist videos. Present on playlist rows.",
+      "title": "Mix ID",
+      "type": "string"
+    },
+    "music": {
+      "description": "Sound/music used in the post. Present on post rows. Note: playUrl is a signed CDN URL bound to the IP/session that fetched it and may return HTTP 403 if opened from a different network (same behavior as video.playUrl/downloadAddr).",
+      "properties": {
+        "album": {
+          "title": "Album",
+          "type": "string"
+        },
+        "authorName": {
+          "title": "Author",
+          "type": "string"
+        },
+        "coverUrl": {
+          "title": "Cover URL",
+          "type": "string"
+        },
+        "dspLinks": {
+          "description": "Links to the sound on external music platforms (Spotify, Apple Music, etc.) when TikTok provides them.",
+          "title": "DSP Links",
+          "type": "array"
+        },
+        "duration": {
+          "title": "Duration (s)",
+          "type": "integer"
+        },
+        "id": {
+          "title": "Music ID",
+          "type": "string"
+        },
+        "isCommerceMusic": {
+          "title": "Is Commerce Music",
+          "type": "boolean"
+        },
+        "isCopyrighted": {
+          "title": "Is Copyrighted",
+          "type": "boolean"
+        },
+        "isPrivate": {
+          "title": "Is Private Sound",
+          "type": "boolean"
+        },
+        "isUnlimitedMusic": {
+          "title": "Is Unlimited Music",
+          "type": "boolean"
+        },
+        "musicUrl": {
+          "title": "Music URL",
+          "type": "string"
+        },
+        "original": {
+          "title": "Original Sound",
+          "type": "boolean"
+        },
+        "playUrl": {
+          "title": "Play URL",
+          "type": "string"
+        },
+        "shootDuration": {
+          "title": "Shoot Duration (s)",
+          "type": "integer"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "title": "Music",
+      "type": "object"
+    },
+    "name": {
+      "description": "Playlist display name. Present on playlist rows.",
+      "title": "Playlist name",
+      "type": "string"
+    },
+    "openFavorite": {
+      "description": "Whether the user's liked videos are publicly visible. Present on profile rows.",
+      "title": "Open Favorite",
+      "type": "boolean"
+    },
+    "originalItem": {
+      "description": "Whether TikTok flags this post as original (non-duplicated) content. Present on post rows.",
+      "title": "Original Item",
+      "type": "boolean"
+    },
+    "playCount": {
+      "description": "Number of video plays. Present on post rows.",
+      "title": "Play Count",
+      "type": "integer"
+    },
+    "playlistId": {
+      "description": "TikTok playlist identifier. Present on playlist rows.",
+      "title": "Playlist ID",
+      "type": "string"
+    },
+    "playlistUrl": {
+      "description": "Canonical TikTok URL of the playlist.",
+      "title": "Playlist URL",
+      "type": "string"
+    },
+    "poi": {
+      "description": "Tagged location/point-of-interest details (name, address, city) attached to the post. Present on post rows when the creator tagged a location.",
+      "title": "Point of Interest",
+      "type": "object"
+    },
+    "postId": {
+      "description": "TikTok's unique post/video ID (string to preserve 64-bit precision). Present on post rows.",
+      "title": "Post ID",
+      "type": "string"
+    },
+    "postType": {
+      "description": "Either 'video' or 'slideshow'. Present on post rows.",
+      "title": "Post Type",
+      "type": "string"
+    },
+    "postUrl": {
+      "description": "Direct URL to the TikTok post. Present on post rows.",
+      "title": "Post URL",
+      "type": "string"
+    },
+    "postsPerWeek": {
+      "description": "Posting frequency implied by the createTime span of the fetched videos (enabled by computedStats).",
+      "title": "Posts per week",
+      "type": "number"
+    },
+    "privateAccount": {
+      "description": "Whether the account is set to private. Present on profile rows.",
+      "title": "Private Account",
+      "type": "boolean"
+    },
+    "privateItem": {
+      "description": "Whether the post is set to private. Present on post rows.",
+      "title": "Private Item",
+      "type": "boolean"
+    },
+    "profileEmbedPermission": {
+      "description": "Whether the user allows profile embedding. Present on profile rows.",
+      "title": "Profile Embed Permission",
+      "type": "integer"
+    },
+    "profileTab": {
+      "description": "Visibility settings for profile tabs (music, questions, playlists). Present on profile rows.",
+      "properties": {
+        "showMusicTab": {
+          "type": "boolean"
+        },
+        "showPlayListTab": {
+          "type": "boolean"
+        },
+        "showQuestionTab": {
+          "type": "boolean"
+        }
+      },
+      "title": "Profile Tab",
+      "type": "object"
+    },
+    "profileUrl": {
+      "description": "Direct TikTok profile URL (https://www.tiktok.com/@username). Present on profile rows.",
+      "title": "Profile URL",
+      "type": "string"
+    },
+    "profileUsername": {
+      "description": "Username of the profile that was scraped — links post rows back to their source profile. Present on post rows.",
+      "title": "Profile Username",
+      "type": "string"
+    },
+    "repostCount": {
+      "description": "Number of reposts. Present on post rows when available.",
+      "title": "Repost Count",
+      "type": "integer"
+    },
+    "roomId": {
+      "description": "Live room ID — non-empty when the user is currently streaming. Present on profile rows when live.",
+      "title": "Room ID",
+      "type": "string"
+    },
+    "rowType": {
+      "description": "Discriminator field: 'profile' for profile rows, 'video' for video post rows, 'repost' for reposted post rows, 'playlist' for playlist metadata rows",
+      "title": "Row Type",
+      "type": "string"
+    },
+    "scrapedAt": {
+      "description": "ISO 8601 UTC datetime when the profile was scraped. Present on profile rows.",
+      "title": "Scraped At",
+      "type": "string"
+    },
+    "secUid": {
+      "description": "TikTok secure user identifier used in API calls. Present on profile rows.",
+      "title": "Secure UID",
+      "type": "string"
+    },
+    "shareCount": {
+      "description": "Number of shares. Present on post rows.",
+      "title": "Share Count",
+      "type": "integer"
+    },
+    "shareEnabled": {
+      "description": "Whether sharing is enabled for this post. Present on post rows.",
+      "title": "Share Enabled",
+      "type": "boolean"
+    },
+    "sourcePlaylistId": {
+      "description": "Playlist the video was collected from when it was fetched via playlistUrls.",
+      "title": "Source playlist ID",
+      "type": "string"
+    },
+    "stickersOnItem": {
+      "description": "Interactive stickers (polls, Q&A, etc.) overlaid on the post, with their text and position data. Present on post rows when the post has stickers.",
+      "title": "Stickers On Item",
+      "type": "array"
+    },
+    "stitchEnabled": {
+      "description": "Whether stitching is allowed for this post. Present on post rows.",
+      "title": "Stitch Enabled",
+      "type": "boolean"
+    },
+    "stitchSetting": {
+      "description": "Who can stitch the user's videos. Present on profile rows.",
+      "title": "Stitch Setting",
+      "type": "integer"
+    },
+    "textLanguage": {
+      "description": "Detected language code of the caption text. Present on post rows when available.",
+      "title": "Text Language",
+      "type": "string"
+    },
+    "ttSeller": {
+      "description": "Whether the account is a TikTok Shop seller. Present on profile rows.",
+      "title": "TT Seller",
+      "type": "boolean"
+    },
+    "userId": {
+      "description": "TikTok internal user ID (string to preserve 64-bit precision). Present on profile rows.",
+      "title": "User ID",
+      "type": "string"
+    },
+    "username": {
+      "description": "TikTok username (handle) without the @ prefix. Present on profile rows.",
+      "title": "Username",
+      "type": "string"
+    },
+    "verified": {
+      "description": "Whether the account has TikTok's verified badge. Present on profile rows.",
+      "title": "Verified",
+      "type": "boolean"
+    },
+    "video": {
+      "description": "Video technical metadata and signed play/cover URLs. Present on post rows. Note: playUrl/downloadAddr are bound to the IP/session that fetched them and may return HTTP 403 if opened from a different network.",
+      "properties": {
+        "bitrate": {
+          "title": "Bitrate",
+          "type": "integer"
+        },
+        "bitrateInfo": {
+          "description": "Available quality/bitrate variants for this video, each with its own signed play URL.",
+          "title": "Bitrate Info",
+          "type": "array"
+        },
+        "codecType": {
+          "title": "Codec",
+          "type": "string"
+        },
+        "cover": {
+          "title": "Cover Image URL",
+          "type": "string"
+        },
+        "definition": {
+          "title": "Definition",
+          "type": "string"
+        },
+        "downloadAddr": {
+          "title": "Download URL",
+          "type": "string"
+        },
+        "duration": {
+          "title": "Duration (s)",
+          "type": "integer"
+        },
+        "dynamicCover": {
+          "title": "Dynamic Cover URL",
+          "type": "string"
+        },
+        "format": {
+          "title": "Format",
+          "type": "string"
+        },
+        "hasSubtitles": {
+          "description": "Whether TikTok-generated or creator-uploaded captions/subtitles are available for this video.",
+          "title": "Has Subtitles",
+          "type": "boolean"
+        },
+        "height": {
+          "title": "Height (px)",
+          "type": "integer"
+        },
+        "originCover": {
+          "title": "Original Cover URL",
+          "type": "string"
+        },
+        "playUrl": {
+          "title": "Play URL",
+          "type": "string"
+        },
+        "ratio": {
+          "title": "Aspect Ratio",
+          "type": "string"
+        },
+        "size": {
+          "title": "File Size (bytes)",
+          "type": "integer"
+        },
+        "subtitleInfos": {
+          "description": "Available caption/subtitle tracks (language, format, signed URL) when hasSubtitles is true.",
+          "title": "Subtitle Info",
+          "type": "array"
+        },
+        "videoQuality": {
+          "title": "Video Quality Label",
+          "type": "string"
+        },
+        "volumeInfo": {
+          "description": "Loudness/peak audio metadata reported by TikTok for this video.",
+          "title": "Volume Info",
+          "type": "object"
+        },
+        "width": {
+          "title": "Width (px)",
+          "type": "integer"
+        }
+      },
+      "title": "Video",
+      "type": "object"
+    },
+    "videoCount": {
+      "description": "Number of public videos posted (from statsV2). Present on profile rows.",
+      "title": "Video Count",
+      "type": "integer"
+    },
+    "viewerRegion": {
+      "description": "ISO country code of the region the post metadata was served for. Present on post rows when available.",
+      "title": "Viewer Region",
+      "type": "string"
+    },
+    "warnInfo": {
+      "description": "Content warnings TikTok attaches to the post (e.g. sensitive content notices). Present on post rows when TikTok applies a warning.",
+      "title": "Warning Info",
+      "type": "array"
+    }
+  },
+  "title": "TikTok Profiles and Posts",
+  "views": {
+    "overview": {
+      "description": "TikTok profile rows (rowType='profile') and post rows (rowType='video' or 'repost') in a single dataset.",
+      "display": {
+        "component": "table",
+        "properties": {
+          "displayName": {
+            "format": "text",
+            "label": "Display Name"
+          },
+          "followerCount": {
+            "format": "number",
+            "label": "Followers"
+          },
+          "profileUrl": {
+            "format": "link",
+            "label": "Profile URL"
+          },
+          "rowType": {
+            "format": "text",
+            "label": "Row Type"
+          },
+          "scrapedAt": {
+            "format": "text",
+            "label": "Scraped At"
+          },
+          "username": {
+            "format": "text",
+            "label": "Username"
+          },
+          "videoCount": {
+            "format": "number",
+            "label": "Videos"
+          }
+        }
+      },
+      "title": "Profiles Overview",
+      "transformation": {
+        "fields": [
+          "rowType",
+          "username",
+          "displayName",
+          "followerCount",
+          "videoCount",
+          "profileUrl",
+          "scrapedAt"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,381 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-jsdve/oHZeQOP41NYfbeRxU+Q/eVycAateQ3WCjuqMA=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>X Post, Reply &amp; Profile Lookup by Link or ID | Vexaloom Labs</title><meta name="description" content="Resolve X post links or IDs into text, author, media, polls, quoted/parent posts, engagement metrics and replies, or resolve a handle into that account&#x27;s public profile."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/cMnafsv5dV5zfAsHX/"><meta property="og:title" content="X Post, Reply &amp; Profile Lookup by Link or ID | Vexaloom Labs"><meta property="og:description" content="Resolve X post links or IDs into text, author, media, polls, quoted/parent posts, engagement metrics and replies, or resolve a handle into that account&#x27;s public profile."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/cMnafsv5dV5zfAsHX/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/cMnafsv5dV5zfAsHX/#webpage","name":"X Post, Reply & Profile Lookup by Link or ID","description":"Resolve X post links or IDs into text, author, media, polls, quoted/parent posts, engagement metrics and replies, or resolve a handle into that account's public profile.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/cMnafsv5dV5zfAsHX/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/cMnafsv5dV5zfAsHX/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/cMnafsv5dV5zfAsHX/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/cMnafsv5dV5zfAsHX/#article","headline":"X Post, Reply & Profile Lookup by Link or ID","name":"X Post, Reply & Profile Lookup by Link or ID","description":"Resolve X post links or IDs into text, author, media, polls, quoted/parent posts, engagement metrics and replies, or resolve a handle into that account's public profile.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/cMnafsv5dV5zfAsHX/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/cMnafsv5dV5zfAsHX/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/cMnafsv5dV5zfAsHX/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"X Post, Reply & Profile Lookup by Link or ID","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/cMnafsv5dV5zfAsHX/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>X Post, Reply &amp; Profile Lookup by Link or ID</span></div><section id="overview"><h1 class="doc-title">X Post, Reply &amp; Profile Lookup by Link or ID</h1><p class="lede">Resolve X post links or IDs into text, author, media, polls, quoted/parent posts, engagement metrics and replies, or resolve a handle into that account&#x27;s public profile.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/x-post-reply-and-profile-lookup-by-link-or-id">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/cMnafsv5dV5zfAsHX/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>tweetUrls</code></td><td>array</td><td>required</td><td>Paste the posts you want to collect. You can also paste post IDs, x.com/i/web/status links, twitter.com links, profile links or bare handles (a profile input returns that profile&#x27;s public details).</td></tr><tr><td><code>includeReplies</code></td><td>boolean</td><td>optional</td><td>Collect the replies X shows for each post, walked forward from the post&#x27;s publication time.</td></tr><tr><td><code>maxReplies</code></td><td>integer</td><td>optional</td><td>How many replies to collect for each post (0-500). Posts with very large threads may return fewer because X does not expose every reply to logged-out visitors.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>tweetUrls</code></td><td>array</td><td>required</td><td>Paste the posts you want to collect. You can also paste post IDs, x.com/i/web/status links, twitter.com links, profile links or bare handles (a profile input returns that profile&#x27;s public details).</td></tr><tr><td><code>includeReplies</code></td><td>boolean</td><td>optional</td><td>Collect the replies X shows for each post, walked forward from the post&#x27;s publication time.</td></tr><tr><td><code>maxReplies</code></td><td>integer</td><td>optional</td><td>How many replies to collect for each post (0-500). Posts with very large threads may return fewer because X does not expose every reply to logged-out visitors.</td></tr><tr><td><code>includeQuotes</code></td><td>boolean</td><td>optional</td><td>Collect the posts that quote each requested post, with their text, author and engagement counts.</td></tr><tr><td><code>maxQuotes</code></td><td>integer</td><td>optional</td><td>How many quote posts to collect for each requested post (0-500).</td></tr><tr><td><code>includeRetweeters</code></td><td>boolean</td><td>optional</td><td>Collect the handles of accounts that reposted each requested post. X only exposes a search-index sample of visible reposts, so this is an approximate, recent-biased list.</td></tr><tr><td><code>maxRetweeters</code></td><td>integer</td><td>optional</td><td>How many retweeter handles to collect for each post (0-500).</td></tr><tr><td><code>includeQuotedTweet</code></td><td>boolean</td><td>optional</td><td>When a collected post quotes another post, attach the quoted post&#x27;s text, author and metrics.</td></tr><tr><td><code>includeParentTweet</code></td><td>boolean</td><td>optional</td><td>When a collected post is a reply, attach the post it answers under parentTweet.</td></tr><tr><td><code>includeThreadAncestors</code></td><td>boolean</td><td>optional</td><td>When a requested post is a reply, walk up to 10 posts back to the start of the thread and attach them under threadAncestors (root first).</td></tr><tr><td><code>includeMedia</code></td><td>boolean</td><td>optional</td><td>Include image links, video links and video variants for each post.</td></tr><tr><td><code>includeAuthorProfile</code></td><td>boolean</td><td>optional</td><td>Attach the author&#x27;s public profile details (followers, bio, verification) to every post, reply and quote row under author and authorProfile.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Paste X post links, post IDs or profile handles. Choose whether to include replies, quote posts and author details.&quot;,
+  &quot;properties&quot;: {
+    &quot;includeAuthorProfile&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Attach the author&#x27;s public profile details (followers, bio, verification) to every post, reply and quote row under author and authorProfile.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Include author profile details&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeMedia&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Include image links, video links and video variants for each post.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Include images and videos&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeParentTweet&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;When a collected post is a reply, attach the post it answers under parentTweet.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Include the post being replied to&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeQuotedTweet&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;When a collected post quotes another post, attach the quoted post&#x27;s text, author and metrics.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Include the post each result quotes&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeQuotes&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Collect the posts that quote each requested post, with their text, author and engagement counts.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include quote posts&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeReplies&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Collect the replies X shows for each post, walked forward from the post&#x27;s publication time.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Include replies&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeRetweeters&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Collect the handles of accounts that reposted each requested post. X only exposes a search-index sample of visible reposts, so this is an approximate, recent-biased list.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include retweeter handles&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeThreadAncestors&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;When a requested post is a reply, walk up to 10 posts back to the start of the thread and attach them under threadAncestors (root first).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include the full thread above a reply&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;maxQuotes&quot;: {
+      &quot;default&quot;: 50,
+      &quot;description&quot;: &quot;How many quote posts to collect for each requested post (0-500).&quot;,
+      &quot;maximum&quot;: 500,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Maximum quote posts per post&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxReplies&quot;: {
+      &quot;default&quot;: 20,
+      &quot;description&quot;: &quot;How many replies to collect for each post (0-500). Posts with very large threads may return fewer because X does not expose every reply to logged-out visitors.&quot;,
+      &quot;maximum&quot;: 500,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 3,
+      &quot;title&quot;: &quot;Maximum replies per post&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxRetweeters&quot;: {
+      &quot;default&quot;: 50,
+      &quot;description&quot;: &quot;How many retweeter handles to collect for each post (0-500).&quot;,
+      &quot;maximum&quot;: 500,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Maximum retweeters per post&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;tweetUrls&quot;: {
+      &quot;description&quot;: &quot;Paste the posts you want to collect. You can also paste post IDs, x.com/i/web/status links, twitter.com links, profile links or bare handles (a profile input returns that profile&#x27;s public details).&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;example&quot;: [
+        &quot;https://x.com/elonmusk/status/1519480761749016577&quot;,
+        &quot;2106665276758491194&quot;,
+        &quot;NASA&quot;
+      ],
+      &quot;prefill&quot;: [
+        &quot;https://x.com/NASA/status/2107095768821576019&quot;
+      ],
+      &quot;title&quot;: &quot;Post links, post IDs or profile handles&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;tweetUrls&quot;
+  ],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;X Post, Reply &amp; Profile Lookup input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>tweets</code></td><td>string</td><td>optional</td><td>All collected posts, replies and status rows.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;X posts, replies, and profile rows resolved from the links, IDs, or handles you supplied.&quot;,
+  &quot;properties&quot;: {
+    &quot;tweets&quot;: {
+      &quot;description&quot;: &quot;All collected posts, replies and status rows.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Tweets&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;X Post, Reply &amp; Profile Lookup by Link or ID Output&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {}
+      },
+      &quot;title&quot;: &quot;Tweets&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;type&quot;,
+          &quot;text&quot;,
+          &quot;author.username&quot;,
+          &quot;createdAt&quot;,
+          &quot;likeCount&quot;,
+          &quot;retweetCount&quot;,
+          &quot;replyCount&quot;,
+          &quot;viewCount&quot;,
+          &quot;url&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-x-post-reply-profile-lookup-by-link-or-id">X Post, Reply &amp; Profile Lookup by Link or ID</h2>
+<p>Give this actor a post link, a bare post ID, or a profile handle and it returns structured public data: the post's full text, author, media, poll, quoted and parent posts, engagement counts and replies — or that account's public profile. Optional quote collection turns a single post into the conversation around it. No login at any point.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li><strong>Posts by link or ID:</strong> accepts <code>x.com</code> and <code>twitter.com</code> links, <code>x.com/i/web/status</code> links, bare post IDs, profile links and bare handles</li>
+<li><strong>Replies:</strong> walks the replies X exposes to logged-out visitors, starting from the post's publication time, and de-duplicates them by reply ID</li>
+<li><strong>Quotes:</strong> optionally collects the posts that quote the requested post, each with its text, author and metrics (off by default)</li>
+<li><strong>Retweeters:</strong> optionally collects the handles of accounts that reposted the requested post (off by default; X exposes only a search-index sample of visible reposts)</li>
+<li><strong>Rich nested data:</strong> optional parent post, quoted post, poll, link-preview card, photo/video variants and the author's public profile on every row</li>
+<li><strong>Profile input:</strong> a profile link or handle returns one <code>profile</code> row with that account's public bio and counters</li>
+<li><strong>Honest rows:</strong> every row carries a <code>type</code> (<code>post</code>, <code>reply</code>, <code>quote</code>, <code>profile</code>, <code>status</code>); deleted, protected or rate-limited links produce a <code>status</code> row with a message instead of failing the run</li>
+<li><strong>Empty fields are omitted</strong> — the dataset never contains <code>null</code>, <code>&quot;&quot;</code>, <code>[]</code> or <code>{}</code></li>
+</ul>
+<h2 id="readme-output-per-post-or-reply">Output per post or reply</h2>
+<p>Each row describes one post. <code>type</code> is <code>post</code> for requested posts and <code>reply</code> for replies collected from the conversation.</p>
+<ul>
+<li><code>id</code> — post ID</li>
+<li><code>url</code> — direct post URL</li>
+<li><code>text</code> — full post text, multi-line and links intact</li>
+<li><code>createdAt</code> — ISO 8601 post time</li>
+<li><code>language</code> — post language code when X provides it</li>
+<li><code>replyCount</code>, <code>retweetCount</code>, <code>likeCount</code>, <code>quoteCount</code>, <code>bookmarkCount</code>, <code>viewCount</code> — engagement metrics (views when X exposes them)</li>
+<li><code>engagementRate</code> — derived <code>(likes + retweets + replies + quotes) / followers</code>; present only when the author's follower count is known and greater than zero</li>
+<li><code>isReply</code>, <code>isQuote</code>, <code>isRetweet</code>, <code>isNoteTweet</code> — post type flags</li>
+<li><code>conversationId</code> — the thread root of the post</li>
+<li><code>threadRootId</code>, <code>threadPosition</code> — position of the row inside the collected thread</li>
+<li><code>inReplyToTweetId</code>, <code>inReplyToUserId</code>, <code>inReplyToUsername</code> — where a reply points</li>
+<li><code>hashtags</code>, <code>mentions</code>, <code>urls</code>, <code>cashtags</code> — entities found in the text</li>
+<li><code>media</code> — photo/video/GIF objects</li>
+<li><code>poll</code> — poll choices and status</li>
+<li><code>card</code> — link-preview card (<code>title</code>, <code>description</code>, <code>domain</code>, <code>url</code>, <code>thumbnail</code>)</li>
+<li><code>quotedTweet</code>, <code>quotedTweetId</code> — the quoted post when the input post quotes another (removed, together with <code>isQuote</code>, when <code>includeQuotedTweet</code> is off)</li>
+<li><code>parentTweet</code> — the post being replied to when the input post is a reply</li>
+<li><code>threadAncestors</code> — the chain of posts above a reply, root first (when <code>includeThreadAncestors</code> is on)</li>
+<li><code>author</code> — author profile snapshot</li>
+<li><code>authorProfile</code> — fuller author profile attached to every row</li>
+<li><code>possiblySensitive</code>, <code>place</code>, <code>postedFrom</code> — extra labels when X exposes them</li>
+<li><code>type</code>, <code>collectedAt</code></li>
+</ul>
+<p><strong>Media item:</strong> <code>type</code> (<code>photo</code> / <code>video</code> / <code>gif</code>), <code>url</code>, <code>previewImageUrl</code>, <code>width</code>, <code>height</code>, <code>durationSeconds</code>, <code>viewCount</code>, <code>altText</code>, <code>variants</code> (each variant has <code>url</code>, <code>contentType</code>, <code>bitrate</code>).</p>
+<p><strong>Poll:</strong> <code>choices</code> (label + votes), <code>countsAreFinal</code>, <code>endsAt</code>, <code>durationMinutes</code>.</p>
+<p><strong>Author:</strong> <code>id</code>, <code>username</code>, <code>name</code>, <code>bio</code>, <code>bioLinks</code>, <code>bioEmails</code>, <code>website</code>, <code>location</code>, <code>followers</code>, <code>following</code>, <code>postCount</code>, <code>mediaCount</code>, <code>likesGiven</code>, <code>listedCount</code>, <code>isBlueVerified</code>, <code>verified</code>, <code>verifiedType</code>, <code>label</code>, <code>isProtected</code>, <code>profileImageUrl</code>, <code>bannerUrl</code>, <code>createdAt</code>. The last five counters are included when X publishes them for the account.</p>
+<h3 id="readme-sample-record">Sample record</h3>
+<pre><code class="language-json">{
+  &quot;type&quot;: &quot;post&quot;,
+  &quot;id&quot;: &quot;1519480761749016577&quot;,
+  &quot;url&quot;: &quot;https://x.com/i/status/1519480761749016577&quot;,
+  &quot;text&quot;: &quot;Next I'm buying Coca-Cola to put the cocaine back in&quot;,
+  &quot;createdAt&quot;: &quot;2022-04-28T00:56:58+00:00&quot;,
+  &quot;language&quot;: &quot;en&quot;,
+  &quot;replyCount&quot;: 4056,
+  &quot;retweetCount&quot;: 4151,
+  &quot;likeCount&quot;: 91599,
+  &quot;quoteCount&quot;: 762,
+  &quot;viewCount&quot;: 246037082,
+  &quot;isReply&quot;: false,
+  &quot;isRetweet&quot;: false,
+  &quot;isQuote&quot;: false,
+  &quot;conversationId&quot;: &quot;1519480761749016577&quot;,
+  &quot;threadRootId&quot;: &quot;1519480761749016577&quot;,
+  &quot;threadPosition&quot;: 1,
+  &quot;author&quot;: { &quot;username&quot;: &quot;elonmusk&quot;, &quot;name&quot;: &quot;Elon Musk&quot;, &quot;followers&quot;: 241741247 },
+  &quot;collectedAt&quot;: &quot;2026-10-06T00:00:00+00:00&quot;
+}
+</code></pre>
+<h2 id="readme-output-per-quote-row">Output per quote row</h2>
+<p>When quote collection is on, each post that quotes the requested post is emitted as its own row with <code>type: &quot;quote&quot;</code> and the same fields as a post row. <code>quotedTweetId</code> points at the requested post, so quote rows are easy to separate from replies.</p>
+<h2 id="readme-output-per-retweet-row">Output per retweet row</h2>
+<p>When retweeter collection is on, each reposting account is emitted as a row with <code>type: &quot;retweet&quot;</code>. The row carries the retweeter's <code>id</code>, <code>url</code>, <code>createdAt</code> and <code>author</code> (with the public profile snapshot), and <code>retweetedTweetId</code> points at the post you requested. This list is an approximation: X only exposes a search-index sample of recent, visible reposts, so a post with many reposts can return far fewer handles than its repost count.</p>
+<h2 id="readme-output-per-profile-row">Output per profile row</h2>
+<p>When you pass a profile link or handle instead of a post, the actor emits one <code>profile</code> row:</p>
+<ul>
+<li><code>id</code>, <code>username</code>, <code>name</code>, <code>bio</code>, <code>bioLinks</code>, <code>bioEmails</code>, <code>location</code>, <code>website</code></li>
+<li><code>joinedAt</code>, <code>birthDate</code> — when public</li>
+<li><code>followers</code>, <code>following</code>, <code>postCount</code>, <code>mediaCount</code>, <code>listedCount</code>, <code>likesGiven</code> — the last three when X publishes them</li>
+<li><code>isBlueVerified</code>, <code>verified</code>, <code>verifiedType</code>, <code>isProtected</code></li>
+<li><code>avatarUrl</code>, <code>bannerUrl</code></li>
+<li><code>url</code> — profile URL</li>
+<li><code>type: &quot;profile&quot;</code>, <code>collectedAt</code></li>
+</ul>
+<h2 id="readme-output-per-status-row">Output per status row</h2>
+<p>A <code>status</code> row is emitted instead of data when a link cannot be collected. It always has a <code>message</code>:</p>
+<ul>
+<li><code>type: &quot;status&quot;</code></li>
+<li><code>status</code> — <code>noInput</code>, <code>invalidLink</code>, <code>notFound</code>, <code>rateLimited</code> or <code>error</code></li>
+<li><code>tweetUrl</code> and <code>tweetId</code> (post inputs) or <code>profileUrl</code> (profile inputs)</li>
+<li><code>collectedAt</code></li>
+</ul>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tweetUrls</code></td>
+<td>array</td>
+<td>–</td>
+<td><strong>Required.</strong> Post links, <code>x.com/i/web/status</code> links, bare post IDs, or profile links/handles. <code>x.com</code> and <code>twitter.com</code> are both accepted.</td>
+</tr>
+<tr>
+<td><code>includeReplies</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Also collect the replies X exposes under each post. Turn off for the post only.</td>
+</tr>
+<tr>
+<td><code>maxReplies</code></td>
+<td>integer</td>
+<td><code>20</code></td>
+<td>Replies to collect per post (0–500). Very large threads can return fewer.</td>
+</tr>
+<tr>
+<td><code>includeQuotes</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Also collect the posts that quote each requested post, as <code>quote</code> rows.</td>
+</tr>
+<tr>
+<td><code>maxQuotes</code></td>
+<td>integer</td>
+<td><code>50</code></td>
+<td>Quote posts to collect per post (0–500).</td>
+</tr>
+<tr>
+<td><code>includeRetweeters</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Also collect handles of accounts that reposted each post, as <code>retweet</code> rows. Approximate: X exposes only a search-index sample of visible reposts.</td>
+</tr>
+<tr>
+<td><code>maxRetweeters</code></td>
+<td>integer</td>
+<td><code>50</code></td>
+<td>Retweeter handles to collect per post (0–500).</td>
+</tr>
+<tr>
+<td><code>includeQuotedTweet</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Include the quoted post's text, author and metrics.</td>
+</tr>
+<tr>
+<td><code>includeParentTweet</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>When a collected post is a reply, attach the post it answers under <code>parentTweet</code>.</td>
+</tr>
+<tr>
+<td><code>includeThreadAncestors</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>When a requested post is a reply, walk up to 10 posts back to the thread root and attach them under <code>threadAncestors</code>, root first.</td>
+</tr>
+<tr>
+<td><code>includeMedia</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Include image links, video links and video variants.</td>
+</tr>
+<tr>
+<td><code>includeAuthorProfile</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Attach the author's public profile details to every post, reply and quote row under <code>author</code> and <code>authorProfile</code>.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-example-one-post-with-its-replies">Example: one post with its replies</h3>
+<pre><code class="language-json">{
+  &quot;tweetUrls&quot;: [&quot;https://x.com/NASA/status/2107095768821576019&quot;],
+  &quot;includeReplies&quot;: true,
+  &quot;maxReplies&quot;: 100
+}
+</code></pre>
+<h3 id="readme-example-quotes-and-retweeters-of-a-post">Example: quotes and retweeters of a post</h3>
+<pre><code class="language-json">{
+  &quot;tweetUrls&quot;: [&quot;https://x.com/elonmusk/status/1519480761749016577&quot;],
+  &quot;includeReplies&quot;: false,
+  &quot;includeQuotes&quot;: true,
+  &quot;maxQuotes&quot;: 100,
+  &quot;includeRetweeters&quot;: true,
+  &quot;maxRetweeters&quot;: 100
+}
+</code></pre>
+<h3 id="readme-example-quotes-of-a-post-no-replies">Example: quotes of a post, no replies</h3>
+<pre><code class="language-json">{
+  &quot;tweetUrls&quot;: [&quot;https://x.com/elonmusk/status/1519480761749016577&quot;],
+  &quot;includeReplies&quot;: false,
+  &quot;includeQuotes&quot;: true,
+  &quot;maxQuotes&quot;: 100
+}
+</code></pre>
+<h3 id="readme-example-exact-reply-cap-and-no-media">Example: exact reply cap and no media</h3>
+<pre><code class="language-json">{
+  &quot;tweetUrls&quot;: [&quot;2106665276758491194&quot;],
+  &quot;includeReplies&quot;: true,
+  &quot;maxReplies&quot;: 500,
+  &quot;includeMedia&quot;: false,
+  &quot;includeAuthorProfile&quot;: false
+}
+</code></pre>
+<h3 id="readme-example-mix-posts-ids-and-a-profile">Example: mix posts, IDs and a profile</h3>
+<pre><code class="language-json">{
+  &quot;tweetUrls&quot;: [
+    &quot;https://x.com/elonmusk/status/1519480761749016577&quot;,
+    &quot;2106665276758491194&quot;
+  ],
+  &quot;includeParentTweet&quot;: true
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>Brand and crisis monitoring</strong> — collect a post, its replies and the posts quoting it to follow a conversation</li>
+<li><strong>Journalism and research</strong> — archive exact text, timestamps, authors and metrics for citations</li>
+<li><strong>Social listening</strong> — feed post, reply and quote text into sentiment or topic models</li>
+<li><strong>Customer support</strong> — pull replies to your own posts for response triage</li>
+<li><strong>Dataset enrichment</strong> — resolve a list of post IDs into structured records with author profiles</li>
+<li><strong>Compliance</strong> — keep immutable evidence rows for posts you may need to reference later</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>What data does this actor read?</strong>  The same public post, profile and thread data any visitor sees on X without signing in. Nothing private is accessed.</p>
+<p><strong>Do I need an X account, login or developer key?</strong>  No. There is no login step and no credential input at all.</p>
+<p><strong>Why do I get fewer replies than <code>maxReplies</code> or fewer than the post's reply counter?</strong>  X only exposes part of a conversation to logged-out visitors, and some replies are deleted, protected or hidden. The actor collects everything public it can find, de-duplicated by reply ID, and never invents replies to fill the cap. Setting a larger cap and running again later can pick up more.</p>
+<p><strong>Do quote rows include the post that was quoted?</strong>  Yes. Each quote row is a normal post row, and its <code>quotedTweetId</code> points at the post you requested, so you can group quotes by target.</p>
+<p><strong>Why are some profile counters missing?</strong>  X does not publish every counter for every account on the logged-out profile view. The actor merges media, like and list counters from X's public profile widget when they are available; anything the source still omits stays absent rather than being filled with zero.</p>
+<p><strong>Can I get the list of accounts that reposted or liked a post?</strong>  Reposts: yes, approximately. With <code>includeRetweeters</code> the actor searches X for visible reposts of the post and returns their handles; X exposes only a recent search-index sample, so the list can be much shorter than the repost count. Likers: no — X does not publish who liked a post to logged-out visitors; the like count is returned instead.</p>
+<p><strong>What happens with deleted, protected or hidden posts?</strong>  You get a <code>status</code> row with <code>&quot;status&quot;: &quot;notFound&quot;</code> and a message instead of data. The rest of the input is still processed.</p>
+<p><strong>How fresh is the data?</strong>  Live — every run reads X at request time. Schedule the actor for hourly or daily refreshes.</p>
+<p><strong>Is this affiliated with X?</strong>  No. This is a third-party actor that reads publicly available post and profile pages.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/cMnafsv5dV5zfAsHX/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>44rnh640txthNj7fH</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

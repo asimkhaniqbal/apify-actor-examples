@@ -1,0 +1,151 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "description": "One record per TikTok comment or reply, with text, like/reply counts, pinned/hearted flags, reply-thread links, and commenter details.",
+  "properties": {
+    "commentId": {
+      "description": "Unique numeric ID of the comment or reply.",
+      "template": "{{commentId}}",
+      "title": "Comment ID",
+      "type": "string"
+    },
+    "createdAt": {
+      "description": "ISO 8601 timestamp when the comment was posted.",
+      "template": "{{createdAt}}",
+      "title": "Created At",
+      "type": "string"
+    },
+    "isLikedByAuthor": {
+      "description": "True if the video author has liked this comment.",
+      "template": "{{isLikedByAuthor}}",
+      "title": "Liked by Author",
+      "type": "string"
+    },
+    "isPinnedByAuthor": {
+      "description": "True if the comment is pinned by the video author.",
+      "template": "{{isPinnedByAuthor}}",
+      "title": "Pinned by Author",
+      "type": "string"
+    },
+    "isReply": {
+      "description": "True when this row is a reply to another comment rather than a top-level comment.",
+      "template": "{{isReply}}",
+      "title": "Is Reply",
+      "type": "string"
+    },
+    "isTranslatable": {
+      "description": "Whether TikTok offers a translation for this comment.",
+      "template": "{{isTranslatable}}",
+      "title": "Is Translatable",
+      "type": "string"
+    },
+    "language": {
+      "description": "Detected language code of the comment (e.g. 'en', 'es'). May be absent.",
+      "template": "{{language}}",
+      "title": "Language",
+      "type": "string"
+    },
+    "likeCount": {
+      "description": "Number of likes on the comment.",
+      "template": "{{likeCount}}",
+      "title": "Likes",
+      "type": "string"
+    },
+    "postId": {
+      "description": "Numeric ID of the TikTok video this comment belongs to.",
+      "template": "{{postId}}",
+      "title": "Post ID",
+      "type": "string"
+    },
+    "postUrl": {
+      "description": "URL of the TikTok video.",
+      "template": "{{postUrl}}",
+      "title": "Post URL",
+      "type": "string"
+    },
+    "replyCount": {
+      "description": "Total number of direct replies to this comment.",
+      "template": "{{replyCount}}",
+      "title": "Reply Count",
+      "type": "string"
+    },
+    "replyToCommentId": {
+      "description": "ID of the root comment this row replies to. Present only on reply rows.",
+      "template": "{{replyToCommentId}}",
+      "title": "Reply To Comment ID",
+      "type": "string"
+    },
+    "replyToNickname": {
+      "description": "Display name of the comment/reply being answered (reply rows).",
+      "template": "{{replyToNickname}}",
+      "title": "Reply To Nickname",
+      "type": "string"
+    },
+    "replyToReplyId": {
+      "description": "For nested replies, the ID of the reply this row answers.",
+      "template": "{{replyToReplyId}}",
+      "title": "Reply To Reply ID",
+      "type": "string"
+    },
+    "replyToUserId": {
+      "description": "Numeric user ID of the comment/reply being answered (reply rows).",
+      "template": "{{replyToUserId}}",
+      "title": "Reply To User ID",
+      "type": "string"
+    },
+    "replyToUsername": {
+      "description": "Handle of the comment/reply being answered (reply rows).",
+      "template": "{{replyToUsername}}",
+      "title": "Reply To Username",
+      "type": "string"
+    },
+    "rowType": {
+      "description": "'comment' for top-level comments, 'reply' for replies.",
+      "template": "{{rowType}}",
+      "title": "Row Type",
+      "type": "string"
+    },
+    "scrapedAt": {
+      "description": "ISO 8601 timestamp when the row was collected.",
+      "template": "{{scrapedAt}}",
+      "title": "Scraped At",
+      "type": "string"
+    },
+    "shareUrl": {
+      "description": "TikTok share link that opens this comment.",
+      "template": "{{shareUrl}}",
+      "title": "Share URL",
+      "type": "string"
+    },
+    "text": {
+      "description": "The text content of the comment or reply.",
+      "template": "{{text}}",
+      "title": "Comment Text",
+      "type": "string"
+    },
+    "threadId": {
+      "description": "ID grouping a root comment with its replies, when TikTok provides one.",
+      "template": "{{threadId}}",
+      "title": "Thread ID",
+      "type": "string"
+    },
+    "video": {
+      "description": "Caption, author and stats of the source video (only when 'Include video metadata' is on).",
+      "template": "{{video}}",
+      "title": "Video Metadata",
+      "type": "string"
+    }
+  },
+  "required": [
+    "commentId",
+    "postId",
+    "createdAt",
+    "likeCount",
+    "replyCount",
+    "isPinnedByAuthor",
+    "isLikedByAuthor",
+    "isReply",
+    "postUrl"
+  ],
+  "title": "TikTok Comment & Reply Thread Extractor Output",
+  "type": "object"
+}

@@ -1,0 +1,55 @@
+{
+  "description": "Find LinkedIn profiles from a list of names using LinkedIn's public people directory. No login or cookie needed.",
+  "properties": {
+    "currentCompany": {
+      "description": "Keep only people whose current employer contains this text, e.g. \"Microsoft\" or \"Conrad Labs\". Checked against the profile the actor opens for each candidate.",
+      "editor": "textfield",
+      "title": "Current company",
+      "type": "string"
+    },
+    "enrichProfiles": {
+      "default": true,
+      "description": "Open each matched profile's public page to fill photo, about, followers, education and a verified current employer. Turn off for a faster, directory-only result.",
+      "prefill": true,
+      "title": "Open each profile for full details",
+      "type": "boolean"
+    },
+    "includeHeadlinesFromSearchEngines": {
+      "default": true,
+      "description": "When the directory has fewer matches than requested, also check public search-engine results for the name. Also recovers indexed headlines. Free and best-effort.",
+      "prefill": false,
+      "title": "Use search engines for extra matches and headlines",
+      "type": "boolean"
+    },
+    "location": {
+      "description": "Keep only people whose location contains this text, e.g. \"London\" or \"Pakistan\".",
+      "editor": "textfield",
+      "title": "Location",
+      "type": "string"
+    },
+    "maxResultsPerName": {
+      "default": 10,
+      "description": "Maximum profiles to return for each name. LinkedIn's public directory lists up to 50 candidates per name.",
+      "maximum": 50,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Max results per name",
+      "type": "integer"
+    },
+    "names": {
+      "description": "Person names to look up. Use a full name (\"Satya Nadella\"), a single name, or \"First Middle Last\". Prefix a single term with \"first:\" or \"last:\" for a one-sided search.",
+      "editor": "stringList",
+      "prefill": [
+        "Satya Nadella"
+      ],
+      "title": "Names to search",
+      "type": "array"
+    }
+  },
+  "required": [
+    "names"
+  ],
+  "schemaVersion": 1,
+  "title": "LinkedIn People Search by Name — Input",
+  "type": "object"
+}

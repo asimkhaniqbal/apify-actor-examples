@@ -1,0 +1,374 @@
+{
+  "description": "Search public LinkedIn posts by keyword or hashtag, or enrich specific post URLs. No LinkedIn cookie or login is needed.",
+  "properties": {
+    "authorType": {
+      "default": "",
+      "description": "Keep only posts written by a person or by a company page. Applied after each post is opened, so a post whose author type cannot be determined is kept.",
+      "editor": "select",
+      "enum": [
+        "",
+        "PERSON",
+        "COMPANY"
+      ],
+      "enumTitles": [
+        "Anyone",
+        "People only",
+        "Companies only"
+      ],
+      "prefill": "",
+      "title": "Author Type",
+      "type": "string"
+    },
+    "contentType": {
+      "default": [
+        "articles",
+        "posts",
+        "documents",
+        "videos",
+        "images"
+      ],
+      "description": "Keep only these post types: articles (LinkedIn articles), posts (text/reposts/polls/events), documents (PDF/PPTX document cards), videos, images.",
+      "editor": "stringList",
+      "prefill": [
+        "articles",
+        "posts",
+        "documents",
+        "videos",
+        "images"
+      ],
+      "title": "Content Types",
+      "type": "array"
+    },
+    "countryCode": {
+      "default": "auto",
+      "description": "Prefer LinkedIn posts indexed on this country's LinkedIn domain (site:xx.linkedin.com). 'auto' uses linkedin.com worldwide.",
+      "editor": "select",
+      "enum": [
+        "auto",
+        "us",
+        "gb",
+        "de",
+        "fr",
+        "es",
+        "it",
+        "pt",
+        "nl",
+        "br",
+        "in",
+        "ca",
+        "au",
+        "mx",
+        "jp",
+        "sg",
+        "ae",
+        "sa",
+        "za",
+        "ng",
+        "pk",
+        "id",
+        "ph",
+        "my",
+        "pl",
+        "se",
+        "ch",
+        "at",
+        "be",
+        "dk",
+        "ie"
+      ],
+      "enumTitles": [
+        "Automatic (worldwide)",
+        "United States",
+        "United Kingdom",
+        "Germany",
+        "France",
+        "Spain",
+        "Italy",
+        "Portugal",
+        "Netherlands",
+        "Brazil",
+        "India",
+        "Canada",
+        "Australia",
+        "Mexico",
+        "Japan",
+        "Singapore",
+        "United Arab Emirates",
+        "Saudi Arabia",
+        "South Africa",
+        "Nigeria",
+        "Pakistan",
+        "Indonesia",
+        "Philippines",
+        "Malaysia",
+        "Poland",
+        "Sweden",
+        "Switzerland",
+        "Austria",
+        "Belgium",
+        "Denmark",
+        "Ireland"
+      ],
+      "prefill": "auto",
+      "title": "Country",
+      "type": "string"
+    },
+    "datePosted": {
+      "default": "",
+      "description": "Only keep posts from this time window.",
+      "editor": "select",
+      "enum": [
+        "",
+        "r86400",
+        "r604800",
+        "r2592000"
+      ],
+      "enumTitles": [
+        "Any time",
+        "Past 24 hours",
+        "Past week",
+        "Past month"
+      ],
+      "prefill": "",
+      "title": "Date Posted",
+      "type": "string"
+    },
+    "emitNoResultsMarker": {
+      "default": true,
+      "description": "When enabled and a clean search finds nothing, push one marker record ({searchQuery, noResults: true}) so zero matches can be told apart from a failed run.",
+      "editor": "checkbox",
+      "prefill": true,
+      "title": "Emit No-Results Marker",
+      "type": "boolean"
+    },
+    "enrichSdui": {
+      "default": true,
+      "description": "Use LinkedIn's anonymous public guest session (an ephemeral cookie issued by the site, like a normal browser) to read the richer public post layout. This adds reaction-type breakdowns, up to ~18 comments with profile links, and repost counts when available. No user account or credentials are involved.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Enrich From Public Guest Session",
+      "type": "boolean"
+    },
+    "excludeReposts": {
+      "default": false,
+      "description": "When enabled, skip posts that repeat someone else's content.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Exclude Reposts",
+      "type": "boolean"
+    },
+    "hydratePosts": {
+      "default": true,
+      "description": "When enabled, each found post is opened so the record carries the full text, author, date, engagement counts and top comments. Turn off for faster runs with link + snippet only.",
+      "editor": "checkbox",
+      "prefill": true,
+      "title": "Open Each Post Page",
+      "type": "boolean"
+    },
+    "includeDocumentDetails": {
+      "default": false,
+      "description": "For document (PDF/PPTX) posts, also fetch the per-page transcript and page-image URLs in addition to the document URL and page count.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Include Document Details",
+      "type": "boolean"
+    },
+    "includeRepostCounts": {
+      "default": false,
+      "description": "Last-resort fallback: if the richer public guest layout was not obtained for a post, retry a few more times to catch the repost/share counts. Normally unnecessary when the guest session is active.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Include Repost Counts",
+      "type": "boolean"
+    },
+    "includeUnmatched": {
+      "default": false,
+      "description": "When enabled, posts that do not show every word of your query are also returned, marked keywordMatch: false. Useful for hashtags.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Also Return Loose Matches",
+      "type": "boolean"
+    },
+    "includeVideoTranscript": {
+      "default": false,
+      "description": "When enabled and a video post exposes a transcript on its public page, the transcript is added to the record.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Include Video Transcripts",
+      "type": "boolean"
+    },
+    "language": {
+      "default": "en",
+      "description": "Preferred interface language used when opening each post page (affects LinkedIn's rendered text).",
+      "editor": "select",
+      "enum": [
+        "en",
+        "es",
+        "fr",
+        "de",
+        "pt",
+        "it"
+      ],
+      "enumTitles": [
+        "English",
+        "Spanish",
+        "French",
+        "German",
+        "Portuguese",
+        "Italian"
+      ],
+      "prefill": "en",
+      "title": "Language",
+      "type": "string"
+    },
+    "maxResults": {
+      "default": 25,
+      "description": "Maximum number of posts to return per run, after filters. The search index holds fewer posts for narrow queries.",
+      "editor": "number",
+      "maximum": 200,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Max Results",
+      "type": "integer"
+    },
+    "mentions": {
+      "default": [],
+      "description": "Additional words added to every search query, for example a company or person name.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Extra Search Terms",
+      "type": "array"
+    },
+    "mentionsCompany": {
+      "default": "",
+      "description": "Company name added to the search query. Numeric LinkedIn IDs cannot be used without a session and are ignored (a note is added to the run status).",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Mentions Company",
+      "type": "string"
+    },
+    "mentionsPerson": {
+      "default": "",
+      "description": "Person name added to the search query. Numeric LinkedIn IDs cannot be used without a session and are ignored (a note is added to the run status).",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Mentions Person",
+      "type": "string"
+    },
+    "minComments": {
+      "default": 0,
+      "description": "Keep only posts with at least this many comments. Posts whose comment count is unknown are skipped when this is above 0.",
+      "editor": "number",
+      "maximum": 1000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum Comments",
+      "type": "integer"
+    },
+    "minReactions": {
+      "default": 0,
+      "description": "Keep only posts with at least this many reactions. Posts whose reaction count is unknown are skipped when this is above 0.",
+      "editor": "number",
+      "maximum": 1000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum Reactions",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "auto",
+      "description": "What to run. 'auto' searches when searchQuery/searchQueries are set and enriches when postUrls are set (both can run together).",
+      "editor": "select",
+      "enum": [
+        "auto",
+        "search",
+        "postUrls"
+      ],
+      "enumTitles": [
+        "Automatic (recommended)",
+        "Search by keyword or hashtag",
+        "Enrich these post URLs"
+      ],
+      "prefill": "auto",
+      "title": "Mode",
+      "type": "string"
+    },
+    "monitorMode": {
+      "default": false,
+      "description": "When enabled, only posts that were not delivered by an earlier run with the same input are returned. Ideal for schedules.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Monitor Mode (only new posts)",
+      "type": "boolean"
+    },
+    "postUrls": {
+      "default": [],
+      "description": "LinkedIn post or article URLs to enrich directly (activity, share, ugcPost, feed/update, /pulse/ links and country subdomains). (mode=postUrls/auto)",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Post URLs",
+      "type": "array"
+    },
+    "postedAfter": {
+      "default": "",
+      "description": "Only keep posts published on or after this date (YYYY-MM-DD). Leave empty to disable.",
+      "editor": "datepicker",
+      "prefill": "",
+      "title": "Posted After",
+      "type": "string"
+    },
+    "postedBefore": {
+      "default": "",
+      "description": "Only keep posts published on or before this date (YYYY-MM-DD). Leave empty to disable.",
+      "editor": "datepicker",
+      "prefill": "",
+      "title": "Posted Before",
+      "type": "string"
+    },
+    "searchQueries": {
+      "default": [],
+      "description": "Additional queries to run in the same run; each is searched independently, duplicates are delivered once. Combine with Search Query. (mode=search/auto)",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Search Queries (batch)",
+      "type": "array"
+    },
+    "searchQuery": {
+      "description": "Keyword, phrase, or hashtag to find in public LinkedIn posts. Examples: 'artificial intelligence', '\"product launch\"', '#MachineLearning'. (mode=search/auto)",
+      "editor": "textfield",
+      "prefill": "artificial intelligence",
+      "title": "Search Query",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "How to order the posts that were found. 'relevance' keeps the search engine's order; 'recency' sorts the found posts by date (newest first).",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "recency",
+        "date_posted"
+      ],
+      "enumTitles": [
+        "Most relevant",
+        "Most recent (of found posts)",
+        "Most recent (date_posted alias)"
+      ],
+      "prefill": "relevance",
+      "title": "Sort By",
+      "type": "string"
+    },
+    "talksAbout": {
+      "default": [],
+      "description": "Topics or hashtags added to the search query; each value becomes #topic. Values with a leading # are accepted as-is.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Talks About (Topics / Hashtags)",
+      "type": "array"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "LinkedIn Keyword & Hashtag Post Discovery Scraper Input",
+  "type": "object"
+}

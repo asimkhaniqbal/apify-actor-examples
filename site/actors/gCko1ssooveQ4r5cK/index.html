@@ -1,0 +1,570 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-Pq4z/zUKKLEKQ7wL2GsWoWXLAKMtuVsW+EYktzsB0Os=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Facebook Post &amp; Group Comment Thread Extractor | Vexaloom Labs</title><meta name="description" content="Get comments and nested reply threads from public Facebook posts, Watch videos, photos, and group posts, with per-reaction-type counts, author details, and date filtering. No login"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/gCko1ssooveQ4r5cK/"><meta property="og:title" content="Facebook Post &amp; Group Comment Thread Extractor | Vexaloom Labs"><meta property="og:description" content="Get comments and nested reply threads from public Facebook posts, Watch videos, photos, and group posts, with per-reaction-type counts, author details, and date filtering. No login"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/gCko1ssooveQ4r5cK/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gCko1ssooveQ4r5cK/#webpage","name":"Facebook Post & Group Comment Thread Extractor","description":"Get comments and nested reply threads from public Facebook posts, Watch videos, photos, and group posts, with per-reaction-type counts, author details, and date filtering. No login or cookies required.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gCko1ssooveQ4r5cK/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gCko1ssooveQ4r5cK/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gCko1ssooveQ4r5cK/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gCko1ssooveQ4r5cK/#article","headline":"Facebook Post & Group Comment Thread Extractor","name":"Facebook Post & Group Comment Thread Extractor","description":"Get comments and nested reply threads from public Facebook posts, Watch videos, photos, and group posts, with per-reaction-type counts, author details, and date filtering. No login or cookies required.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gCko1ssooveQ4r5cK/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gCko1ssooveQ4r5cK/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gCko1ssooveQ4r5cK/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Facebook Post & Group Comment Thread Extractor","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gCko1ssooveQ4r5cK/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Facebook Post &amp; Group Comment Thread Extractor</span></div><section id="overview"><h1 class="doc-title">Facebook Post &amp; Group Comment Thread Extractor</h1><p class="lede">Get comments and nested reply threads from public Facebook posts, Watch videos, photos, and group posts, with per-reaction-type counts, author details, and date filtering. No login or cookies required.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/facebook-post-and-group-comment-thread-extractor">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/gCko1ssooveQ4r5cK/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>startUrls</code></td><td>array</td><td>required</td><td>Facebook post, photo, reel, video, Watch, or public group post URLs (one or more). Comment permalinks (URLs containing ?comment_id=) are accepted and resolved to their post; legacy story.php, permalink.php and share links are normalized automatically. Most public reels and videos are supported; a minority restricted by Facebook return no thread and are reported.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of comment rows (including replies) to collect per URL. The run also stops when Facebook has no more comments or replies to serve.</td></tr><tr><td><code>onlyCommentsNewerThan</code></td><td>string</td><td>optional</td><td>Limit results to comments posted after this date. Accepts YYYY-MM-DD, a full ISO 8601 timestamp (e.g. 2024-06-15T12:00:00Z), or a relative value like &#x27;1 day&#x27;, &#x27;2 weeks&#x27;, &#x27;3 months&#x27;, &#x27;1 year&#x27;. When set, comments are fetched newest-first so the filter can stop as soon as an older comment is reached. Leave blank to disable date filtering.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>startUrls</code></td><td>array</td><td>required</td><td>Facebook post, photo, reel, video, Watch, or public group post URLs (one or more). Comment permalinks (URLs containing ?comment_id=) are accepted and resolved to their post; legacy story.php, permalink.php and share links are normalized automatically. Most public reels and videos are supported; a minority restricted by Facebook return no thread and are reported.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of comment rows (including replies) to collect per URL. The run also stops when Facebook has no more comments or replies to serve.</td></tr><tr><td><code>onlyCommentsNewerThan</code></td><td>string</td><td>optional</td><td>Limit results to comments posted after this date. Accepts YYYY-MM-DD, a full ISO 8601 timestamp (e.g. 2024-06-15T12:00:00Z), or a relative value like &#x27;1 day&#x27;, &#x27;2 weeks&#x27;, &#x27;3 months&#x27;, &#x27;1 year&#x27;. When set, comments are fetched newest-first so the filter can stop as soon as an older comment is reached. Leave blank to disable date filtering.</td></tr><tr><td><code>commentsMode</code></td><td>string</td><td>optional</td><td>Which comment view to scrape: MOST_RELEVANT (Facebook&#x27;s ranked view), NEWEST (all comments, newest first), or ALL (Facebook&#x27;s unfiltered ranked view, including comments its ranked view may hide).</td></tr><tr><td><code>includeNestedComments</code></td><td>boolean</td><td>optional</td><td>If true, also scrape reply rows under top-level comments (with parent/reply metadata). If false, only top-level comments are collected (faster).</td></tr><tr><td><code>maxReplyDepth</code></td><td>integer</td><td>optional</td><td>How deep into reply threads to collect: 1 = direct replies to top-level comments only, 2 or more = also include deeper nested replies. Facebook serves reply threads with up to two nesting levels to anonymous visitors.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Extract public comments and reply threads from Facebook posts, photos, reels, videos, and public group posts. Returns comment text, author details, per-reaction-type counts, timestamps, reply context, and the post&#x27;s own comment totals. No login or cookies required.&quot;,
+  &quot;properties&quot;: {
+    &quot;commentsMode&quot;: {
+      &quot;default&quot;: &quot;ALL&quot;,
+      &quot;description&quot;: &quot;Which comment view to scrape: MOST_RELEVANT (Facebook&#x27;s ranked view), NEWEST (all comments, newest first), or ALL (Facebook&#x27;s unfiltered ranked view, including comments its ranked view may hide).&quot;,
+      &quot;enum&quot;: [
+        &quot;ALL&quot;,
+        &quot;NEWEST&quot;,
+        &quot;MOST_RELEVANT&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All comments (Facebook&#x27;s unfiltered view)&quot;,
+        &quot;Newest first&quot;,
+        &quot;Most relevant (Facebook&#x27;s ranked view)&quot;
+      ],
+      &quot;prefill&quot;: &quot;MOST_RELEVANT&quot;,
+      &quot;title&quot;: &quot;Comment ordering&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;includeNestedComments&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;If true, also scrape reply rows under top-level comments (with parent/reply metadata). If false, only top-level comments are collected (faster).&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Include replies&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 100,
+      &quot;description&quot;: &quot;Maximum number of comment rows (including replies) to collect per URL. The run also stops when Facebook has no more comments or replies to serve.&quot;,
+      &quot;maximum&quot;: 10000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 5,
+      &quot;sectionCaption&quot;: &quot;Limits&quot;,
+      &quot;title&quot;: &quot;Max comments per URL&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxReplyDepth&quot;: {
+      &quot;default&quot;: 1,
+      &quot;description&quot;: &quot;How deep into reply threads to collect: 1 = direct replies to top-level comments only, 2 or more = also include deeper nested replies. Facebook serves reply threads with up to two nesting levels to anonymous visitors.&quot;,
+      &quot;maximum&quot;: 5,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 1,
+      &quot;title&quot;: &quot;Max reply nesting depth&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;onlyCommentsNewerThan&quot;: {
+      &quot;description&quot;: &quot;Limit results to comments posted after this date. Accepts YYYY-MM-DD, a full ISO 8601 timestamp (e.g. 2024-06-15T12:00:00Z), or a relative value like &#x27;1 day&#x27;, &#x27;2 weeks&#x27;, &#x27;3 months&#x27;, &#x27;1 year&#x27;. When set, comments are fetched newest-first so the filter can stop as soon as an older comment is reached. Leave blank to disable date filtering.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Only comments newer than&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;startUrls&quot;: {
+      &quot;description&quot;: &quot;Facebook post, photo, reel, video, Watch, or public group post URLs (one or more). Comment permalinks (URLs containing ?comment_id=) are accepted and resolved to their post; legacy story.php, permalink.php and share links are normalized automatically. Most public reels and videos are supported; a minority restricted by Facebook return no thread and are reported.&quot;,
+      &quot;editor&quot;: &quot;requestListSources&quot;,
+      &quot;prefill&quot;: [
+        {
+          &quot;url&quot;: &quot;https://www.facebook.com/NASA/posts/pfbid025kwyoBjhFGUC22fC4Sies56D5xvd65ZHR5PYjHhc7XSzqGsxuWq2uDVriZNxWbeol&quot;
+        }
+      ],
+      &quot;sectionCaption&quot;: &quot;Input&quot;,
+      &quot;sectionDescription&quot;: &quot;Provide one or more public Facebook URLs to scrape comments from.&quot;,
+      &quot;title&quot;: &quot;Facebook URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;startUrls&quot;
+  ],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Facebook Comment Thread Extractor&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>comments</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped Facebook comments</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;One record per Facebook comment or reply: text, author details, timestamp, per-reaction-type counts, reply/thread context, attachment and mention data, plus the parent post&#x27;s name, text and comment totals.&quot;,
+  &quot;properties&quot;: {
+    &quot;comments&quot;: {
+      &quot;description&quot;: &quot;Dataset containing all scraped Facebook comments&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Comments Data&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Facebook Post &amp; Group Comment Thread Extractor Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;title&quot;: &quot;Facebook Comments Data&quot;,
+  &quot;views&quot;: {
+    &quot;detailed&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;commentId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Comment ID&quot;
+          },
+          &quot;commentUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Comment URL&quot;
+          },
+          &quot;commentsCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Replies&quot;
+          },
+          &quot;date&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Date&quot;
+          },
+          &quot;facebookUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Story URL&quot;
+          },
+          &quot;id&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Relay ID&quot;
+          },
+          &quot;inputUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Input URL&quot;
+          },
+          &quot;likesCount&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Likes&quot;
+          },
+          &quot;profileId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Profile ID&quot;
+          },
+          &quot;profileName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Author&quot;
+          },
+          &quot;text&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Comment&quot;
+          },
+          &quot;threadingDepth&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Depth&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Full Comment Details&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;profileName&quot;,
+          &quot;profileId&quot;,
+          &quot;text&quot;,
+          &quot;date&quot;,
+          &quot;likesCount&quot;,
+          &quot;commentsCount&quot;,
+          &quot;threadingDepth&quot;,
+          &quot;commentId&quot;,
+          &quot;id&quot;,
+          &quot;facebookUrl&quot;,
+          &quot;commentUrl&quot;,
+          &quot;inputUrl&quot;
+        ]
+      }
+    },
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;commentUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;URL&quot;
+          },
+          &quot;commentsCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Replies&quot;
+          },
+          &quot;date&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Date&quot;
+          },
+          &quot;likesCount&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Likes&quot;
+          },
+          &quot;profileName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Author&quot;
+          },
+          &quot;text&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Comment&quot;
+          },
+          &quot;threadingDepth&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Depth&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Comments Overview&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;profileName&quot;,
+          &quot;text&quot;,
+          &quot;date&quot;,
+          &quot;likesCount&quot;,
+          &quot;commentsCount&quot;,
+          &quot;threadingDepth&quot;,
+          &quot;commentUrl&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-facebook-post-group-comment-thread-extractor">Facebook Post &amp; Group Comment Thread Extractor</h2>
+<p>Get public comments and full reply threads from Facebook posts, photos, and public group posts. Returns comment text, author details, per-reaction-type counts, timestamps, attachment and mention data, plus the post's own comment totals — no login or cookies required.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li>Scrapes comments from public Facebook posts, photos, reels, videos, and public group posts, with full pagination (thousands of comments per post when Facebook serves them)</li>
+<li>Reels and videos are followed through Facebook's canonical video permalink, with a strict check that the returned thread belongs to the requested video</li>
+<li>Follows reply threads and includes nested replies (direct replies plus deeper nesting when Facebook returns it)</li>
+<li>Three comment orderings: Facebook's ranked view, all comments, or newest first</li>
+<li>Captures author details (name, profile picture, profile URL, ID), reaction totals and a per-reaction-type breakdown</li>
+<li>Surfaces the parent post's context on every row: page name, post text, Facebook's total comment count, and the count visible to anonymous visitors</li>
+<li>Filters results to comments posted after a given date</li>
+<li><code>reactionBreakdown</code>, <code>attachmentType</code>, <code>hashtags</code>, <code>mentions</code>, <code>groupCommentInfo</code> and similar optional fields are only added when Facebook's data carries them</li>
+</ul>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>startUrls</code></td>
+<td>array</td>
+<td>–</td>
+<td>Required. Facebook post, photo, or public group post URLs. Comment permalinks (<code>?comment_id=</code>) are resolved to their post; legacy <code>story.php</code>, <code>permalink.php</code> and share links are normalized automatically</td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>integer</td>
+<td><code>100</code></td>
+<td>Maximum number of comment rows (including replies) per URL; 1–10,000</td>
+</tr>
+<tr>
+<td><code>onlyCommentsNewerThan</code></td>
+<td>string</td>
+<td>–</td>
+<td>Date filter: <code>YYYY-MM-DD</code>, full ISO 8601, or relative (<code>1 day</code>, <code>2 weeks</code>, <code>3 months</code>, <code>1 year</code>). Comments are fetched newest-first so pagination stops early</td>
+</tr>
+<tr>
+<td><code>commentsMode</code></td>
+<td>string</td>
+<td><code>ALL</code></td>
+<td>Comment ordering: <code>ALL</code> (Facebook's unfiltered view), <code>NEWEST</code> (newest first), or <code>MOST_RELEVANT</code> (Facebook's ranked view)</td>
+</tr>
+<tr>
+<td><code>includeNestedComments</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Also collect reply rows under top-level comments (with parent/reply metadata). Turn off for faster, top-level-only runs</td>
+</tr>
+<tr>
+<td><code>maxReplyDepth</code></td>
+<td>integer</td>
+<td><code>1</code></td>
+<td>Reply nesting depth to collect: <code>1</code> = direct replies only, <code>2</code>+ also includes deeper nested replies; 1–5</td>
+</tr>
+</tbody>
+</table></div>
+<p>At least one URL in <code>startUrls</code> is required. Provide URLs as plain strings, <code>{ &quot;url&quot;: &quot;...&quot; }</code> objects, or several URLs separated by spaces/newlines in one string.</p>
+<h3 id="readme-supported-url-formats">Supported URL formats</h3>
+<ul>
+<li><strong>Posts</strong>: <code>https://www.facebook.com/PageName/posts/1234567890</code></li>
+<li><strong>Posts (pfbid)</strong>: <code>https://www.facebook.com/PageName/posts/pfbid0...</code></li>
+<li><strong>Legacy permalinks</strong>: <code>story.php?story_fbid=...&amp;id=...</code>, <code>permalink.php?...</code> (normalized automatically)</li>
+<li><strong>Photos</strong>: <code>https://www.facebook.com/photo?fbid=1234567890</code>, <code>photo.php?fbid=...</code>, <code>PageName/photos/...</code></li>
+<li><strong>Reels</strong>: <code>https://www.facebook.com/reel/1234567890</code> (resolved through Facebook's video permalink)</li>
+<li><strong>Videos</strong>: <code>https://www.facebook.com/PageName/videos/1234567890</code>, <code>https://www.facebook.com/watch?v=1234567890</code></li>
+<li><strong>Public group posts</strong>: <code>https://www.facebook.com/groups/groupname/permalink/1234567890/</code>, <code>groups/&lt;id&gt;/posts/&lt;id&gt;</code></li>
+<li><strong>Comment permalinks</strong>: any post URL with <code>?comment_id=...</code> — the parent post's thread is returned</li>
+<li><strong>Share links</strong>: <code>https://www.facebook.com/share/p/...</code> (resolved through Facebook's redirect)</li>
+<li><strong>Mobile URLs</strong>: <code>m.facebook.com/...</code> links are normalized to <code>www</code></li>
+</ul>
+<p>Some individual videos are restricted by Facebook and do not expose their comment thread to anonymous visitors; the actor reports that per video instead of guessing (see Limitations).</p>
+<h3 id="readme-example-input">Example input</h3>
+<pre><code class="language-json">{
+  &quot;startUrls&quot;: [
+    { &quot;url&quot;: &quot;https://www.facebook.com/NASA/posts/1234567890&quot; },
+    { &quot;url&quot;: &quot;https://www.facebook.com/groups/pythondevelopers/posts/28449935087979081/&quot; }
+  ],
+  &quot;maxItems&quot;: 500,
+  &quot;commentsMode&quot;: &quot;NEWEST&quot;,
+  &quot;includeNestedComments&quot;: true,
+  &quot;maxReplyDepth&quot;: 2,
+  &quot;onlyCommentsNewerThan&quot;: &quot;3 months&quot;
+}
+</code></pre>
+<h2 id="readme-output">Output</h2>
+<p>Each dataset row is one comment or reply.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>facebookUrl</code></td>
+<td>string</td>
+<td>URL of the post the comment belongs to</td>
+</tr>
+<tr>
+<td><code>commentUrl</code></td>
+<td>string</td>
+<td>Direct permalink to the comment</td>
+</tr>
+<tr>
+<td><code>commentId</code></td>
+<td>string</td>
+<td>Numeric (legacy) comment ID</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>string</td>
+<td>Internal relay ID</td>
+</tr>
+<tr>
+<td><code>feedbackId</code></td>
+<td>string</td>
+<td>Feedback ID for the comment</td>
+</tr>
+<tr>
+<td><code>date</code></td>
+<td>string</td>
+<td>Comment timestamp (ISO 8601, UTC)</td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td>string</td>
+<td>Full comment text; <code>[Attachment]</code> for media-only comments</td>
+</tr>
+<tr>
+<td><code>profilePicture</code></td>
+<td>string</td>
+<td>Author's profile picture URL</td>
+</tr>
+<tr>
+<td><code>profileId</code></td>
+<td>string</td>
+<td>Author's numeric or pfbid profile ID</td>
+</tr>
+<tr>
+<td><code>profileName</code></td>
+<td>string</td>
+<td>Author's display name</td>
+</tr>
+<tr>
+<td><code>profileUrl</code></td>
+<td>string</td>
+<td>Author's profile URL (when Facebook exposes one)</td>
+</tr>
+<tr>
+<td><code>likesCount</code></td>
+<td>integer</td>
+<td>Total reactions on the comment</td>
+</tr>
+<tr>
+<td><code>reactionBreakdown</code></td>
+<td>object</td>
+<td>Per-reaction-type counts (<code>like</code>, <code>love</code>, <code>care</code>, <code>haha</code>, <code>wow</code>, <code>sad</code>, <code>angry</code>, <code>other</code>); only reaction types with a non-zero count are included</td>
+</tr>
+<tr>
+<td><code>threadingDepth</code></td>
+<td>integer</td>
+<td><code>0</code> = top-level comment, <code>1</code>+ = reply depth</td>
+</tr>
+<tr>
+<td><code>commentsCount</code></td>
+<td>integer</td>
+<td>Number of replies (0 for replies themselves)</td>
+</tr>
+<tr>
+<td><code>replyToCommentId</code></td>
+<td>string</td>
+<td>Parent comment's ID; for deep replies where Facebook withholds the direct parent, the thread's top-level comment ID</td>
+</tr>
+<tr>
+<td><code>directParentCommentId</code></td>
+<td>string</td>
+<td>Facebook's direct parent pointer, when the response includes it</td>
+</tr>
+<tr>
+<td><code>facebookId</code></td>
+<td>string</td>
+<td>Numeric story/post ID</td>
+</tr>
+<tr>
+<td><code>inputUrl</code></td>
+<td>string</td>
+<td>The URL exactly as provided in the input</td>
+</tr>
+<tr>
+<td><code>postTitle</code></td>
+<td>string</td>
+<td>Page name that published the post (kept for integrations)</td>
+</tr>
+<tr>
+<td><code>pageName</code></td>
+<td>string</td>
+<td>Page name that published the post</td>
+</tr>
+<tr>
+<td><code>postText</code></td>
+<td>string</td>
+<td>The post's own text (when available)</td>
+</tr>
+<tr>
+<td><code>postCommentsCount</code></td>
+<td>integer</td>
+<td>Facebook's total comment count for the post</td>
+</tr>
+<tr>
+<td><code>postVisibleCommentsCount</code></td>
+<td>integer</td>
+<td>Comments Facebook serves to anonymous visitors for the selected ordering</td>
+</tr>
+<tr>
+<td><code>gender</code></td>
+<td>string</td>
+<td>Author's gender, when Facebook exposes it</td>
+</tr>
+<tr>
+<td><code>spamDisplayMode</code></td>
+<td>string</td>
+<td>Facebook's own spam classification for the comment</td>
+</tr>
+<tr>
+<td><code>isDisabled</code></td>
+<td>boolean</td>
+<td>Whether the comment was hidden/removed by moderation</td>
+</tr>
+<tr>
+<td><code>isHiddenByViewer</code></td>
+<td>boolean</td>
+<td>Whether Facebook hides the comment from anonymous viewers</td>
+</tr>
+<tr>
+<td><code>attachmentType</code></td>
+<td>string</td>
+<td><code>gif</code>, <code>sticker</code>, <code>image</code>, <code>video</code> or <code>attachment</code> for media comments</td>
+</tr>
+<tr>
+<td><code>attachmentUrl</code></td>
+<td>string</td>
+<td>Media URL for attachment comments — rehosted into Apify's key-value store so it does not expire</td>
+</tr>
+<tr>
+<td><code>attachmentUrlOriginal</code></td>
+<td>string</td>
+<td>Original signed Facebook CDN URL of the attachment (expires after a few days)</td>
+</tr>
+<tr>
+<td><code>attachmentUrlExpiresAt</code></td>
+<td>string</td>
+<td>Expiry time of the original signed attachment URL (ISO 8601)</td>
+</tr>
+<tr>
+<td><code>hashtags</code></td>
+<td>array</td>
+<td>Hashtags used in the comment (without <code>#</code>)</td>
+</tr>
+<tr>
+<td><code>mentions</code></td>
+<td>array</td>
+<td>Profiles mentioned in the comment (without <code>@</code>)</td>
+</tr>
+<tr>
+<td><code>groupCommentInfo</code></td>
+<td>object</td>
+<td>Group posts only: <code>groupId</code>, <code>isAuthorAnonymous</code>, <code>isAuthorNickname</code>, <code>isAuthorWithMemberProfile</code></td>
+</tr>
+<tr>
+<td><code>groupId</code></td>
+<td>string</td>
+<td>Group ID for group-post comments</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-example-output">Example output</h3>
+<pre><code class="language-json">{
+  &quot;facebookUrl&quot;: &quot;https://www.facebook.com/NASA/posts/pfbid025kwyoB...&quot;,
+  &quot;commentUrl&quot;: &quot;https://www.facebook.com/NASA/posts/pfbid02BnSBZiZ...?comment_id=809453025548580&quot;,
+  &quot;commentId&quot;: &quot;809453025548580&quot;,
+  &quot;id&quot;: &quot;Y29tbWVudDoxNDg3MDE3OTEyNzkzNTgwXzgwOTQ1MzAyNTU0ODU4MA==&quot;,
+  &quot;feedbackId&quot;: &quot;ZmVlZGJhY2s6MTQ4NzAxNzkxMjc5MzU4MF84MDk0NTMwMjU1NDg1ODA=&quot;,
+  &quot;date&quot;: &quot;2026-03-26T23:31:17.000Z&quot;,
+  &quot;text&quot;: &quot;Ah I remember the moon landing of 1969 on the eve of my 9th birthday!&quot;,
+  &quot;profileId&quot;: &quot;pfbid0246xYyRVsKr1v7nDryWNgA4iynY2GKcEVzuVzx2knUikMNEzUNN5RtWsiX945JRt4l&quot;,
+  &quot;profileName&quot;: &quot;Gwen Weidell&quot;,
+  &quot;profileUrl&quot;: &quot;https://www.facebook.com/gwen.weidell.9&quot;,
+  &quot;likesCount&quot;: 69,
+  &quot;reactionBreakdown&quot;: { &quot;like&quot;: 54, &quot;haha&quot;: 9, &quot;love&quot;: 4, &quot;care&quot;: 1, &quot;wow&quot;: 1 },
+  &quot;threadingDepth&quot;: 0,
+  &quot;commentsCount&quot;: 31,
+  &quot;facebookId&quot;: &quot;1487017912793580&quot;,
+  &quot;inputUrl&quot;: &quot;https://www.facebook.com/NASA/posts/pfbid025kwyoB...&quot;,
+  &quot;postTitle&quot;: &quot;NASA - National Aeronautics and Space Administration&quot;,
+  &quot;pageName&quot;: &quot;NASA - National Aeronautics and Space Administration&quot;,
+  &quot;postText&quot;: &quot;Our Artemis II crew's journey around the Moon is on the horizon...&quot;,
+  &quot;postCommentsCount&quot;: 1083,
+  &quot;postVisibleCommentsCount&quot;: 813,
+  &quot;gender&quot;: &quot;FEMALE&quot;,
+  &quot;spamDisplayMode&quot;: &quot;none&quot;,
+  &quot;isDisabled&quot;: false,
+  &quot;isHiddenByViewer&quot;: false
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>Brand monitoring</strong> — track what people say about your brand across public posts</li>
+<li><strong>Market research</strong> — analyze audience sentiment and topics at scale (pipe <code>text</code> into your own NLP/LLM step)</li>
+<li><strong>Community insights</strong> — understand how audiences react to news, announcements, or campaigns</li>
+<li><strong>Competitor analysis</strong> — monitor comment threads on competitor pages and public groups</li>
+<li><strong>Lead generation</strong> — identify engaged users from comment activity</li>
+<li><strong>Moderation triage</strong> — use Facebook's own spam/disabled/hidden signals plus reply structure to prioritize review</li>
+</ul>
+<h2 id="readme-tips-for-best-results">Tips for best results</h2>
+<ol>
+<li><strong>Set <code>maxItems</code> per URL</strong> — it caps runtime and dataset size; the actor also stops on its own when Facebook runs out of comments</li>
+<li><strong>Use <code>NEWEST</code> for fresh-comment monitoring</strong> — with <code>onlyCommentsNewerThan</code>, pagination stops as soon as an older comment appears, saving requests</li>
+<li><strong>Keep <code>includeNestedComments</code> on</strong> for full threads; turn it off for fast top-level-only exports</li>
+<li><strong>Test with 1–2 URLs first</strong>, then scale up</li>
+<li><strong>Public content only</strong> — posts, photos and groups must be visible without login</li>
+</ol>
+<h2 id="readme-limitations">Limitations</h2>
+<ul>
+<li><strong>Some videos are restricted per video</strong>: Facebook serves reel and video comment threads anonymously for most public videos, but a minority return no thread at all; those are reported as &quot;not served to anonymous visitors&quot; instead of returning unrelated content (every returned thread is verified against the requested video id).</li>
+<li><strong>Anonymous visibility ceiling</strong>: Facebook serves only part of a post's comments to visitors without a session (for example, a post reporting 1,083 comments served 813 to anonymous viewers). The dataset reports what Facebook actually served; <code>postCommentsCount</code> vs <code>postVisibleCommentsCount</code> shows the difference, and the run status message notes it.</li>
+<li><strong>Some photo pages are login-walled from cloud networks</strong>: photo URLs return the photo's own comment thread when it is a standalone photo. When the photo belongs to a post and Facebook blocks the anonymous photo viewer, the actor reports that a logged-in session would be required — paste the post URL that contains the photo to scrape its comments.</li>
+<li>Some authors have no public profile URL; those rows simply omit <code>profileUrl</code>.</li>
+<li>Attachment media (<code>attachmentUrl</code>) is rehosted so it does not expire; original signed URLs stay in <code>attachmentUrlOriginal</code>. Profile pictures are Facebook CDN links that expire after a few days (per-row avatars are not rehosted — see FAQ).</li>
+<li>Private, friends-only, and restricted content cannot be accessed.</li>
+<li>Occasionally Facebook changes its internal comment API; the actor discovers the current API identifiers at runtime and falls back to the last known ones, but comment ordering and reply visibility are always Facebook's decision.</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Q: Do I need a Facebook account or cookies?</strong>
+A: No. The actor reads public content without any login. Nothing in the input asks for credentials.</p>
+<p><strong>Q: Do I need to configure a proxy?</strong>
+A: No. The actor picks its route automatically, starting with a direct connection and escalating only when Facebook blocks it. There is no proxy input.</p>
+<p><strong>Q: Why are some comments missing?</strong>
+A: Facebook shows anonymous visitors a filtered view of large threads (&quot;Most relevant&quot; ordering may hide some comments) and withholds some replies. The actor reports what Facebook serves and never fabricates rows.</p>
+<p><strong>Q: Can I scrape comments from Reels or videos?</strong>
+A: Yes for most public reels and videos — they are followed through Facebook's own canonical video permalink and the returned thread is verified to match the requested video. A minority of videos are restricted by Facebook and return no thread to anonymous visitors; those are reported clearly instead of returning unrelated comments.</p>
+<p><strong>Q: I passed a photo URL and got 0 results. Why?</strong>
+A: Facebook serves some photo pages only to logged-in sessions (this depends on the network the actor runs from). When that happens the actor says so; paste the post URL that contains the photo instead — post URLs are always supported.</p>
+<p><strong>Q: How many comments can I scrape per post?</strong>
+A: Up to <code>maxItems</code> (10,000 by default max), and often Facebook's own visibility limit comes first. Exploding threads of thousands of comments are paginated 10 at a time until <code>maxItems</code> or Facebook's last page.</p>
+<p><strong>Q: What does <code>threadingDepth</code> mean?</strong>
+A: <code>0</code> is a top-level comment, <code>1</code> is a direct reply, <code>2</code>+ is a deeper reply. Use <code>maxReplyDepth</code> to control how deep the actor collects.</p>
+<p><strong>Q: Why are profile picture URLs temporary?</strong>
+A: They are signed Facebook CDN links that expire after a few days. Rehosting every row's avatar would dominate run bandwidth, so the actor keeps the CDN link for profile pictures while attachment media (rarer) is rehosted permanently.</p>
+<p><strong>Q: Is this affiliated with Facebook or Meta?</strong>
+A: No. This is an independent, third-party actor that reads publicly accessible comments; it is not affiliated with, endorsed by, or operated by Meta Platforms, Inc.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/gCko1ssooveQ4r5cK/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>a6Lt5hJbeDo9CracC</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

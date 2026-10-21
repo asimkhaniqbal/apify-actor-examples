@@ -1,0 +1,296 @@
+{
+  "properties": {
+    "channelUrls": {
+      "description": "YouTube channel URLs, handles (@username), or channel IDs (UCxxx). Accepts any format.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "prefill": [
+        "https://www.youtube.com/@Apify"
+      ],
+      "title": "Channel URLs",
+      "type": "array"
+    },
+    "includeAbout": {
+      "default": true,
+      "description": "Extract total views, join date, location, country, and external links from the channel About page.",
+      "prefill": true,
+      "title": "Include About Page Data",
+      "type": "boolean"
+    },
+    "includeCourses": {
+      "default": false,
+      "description": "Scrape the channel Courses tab and include course playlists (when the channel has one).",
+      "prefill": false,
+      "title": "Include Courses",
+      "type": "boolean"
+    },
+    "includeExactMetrics": {
+      "default": true,
+      "description": "Also fetch each video's exact view and like counts, duration, publish date, category, and description. Turn off for faster, cheaper runs with listing-page values only.",
+      "prefill": true,
+      "title": "Fetch Exact Video Metrics",
+      "type": "boolean"
+    },
+    "includeLiveVideos": {
+      "default": false,
+      "description": "Scrape the channel Live/Streams tab and include live, upcoming, and past streams.",
+      "prefill": false,
+      "title": "Include Live/Stream Videos",
+      "type": "boolean"
+    },
+    "includeMembersOnly": {
+      "default": false,
+      "description": "Also list members-only videos (titles and public metadata) when YouTube offers the Members-only filter for this channel. Rows carry isMembersOnly and are added in addition to maxVideos. Playback still requires the membership.",
+      "prefill": false,
+      "title": "Include Members-Only Videos",
+      "type": "boolean"
+    },
+    "includePlaylists": {
+      "default": false,
+      "description": "Scrape the channel Playlists tab and include playlist metadata in the output.",
+      "prefill": false,
+      "title": "Include Channel Playlists",
+      "type": "boolean"
+    },
+    "includePodcasts": {
+      "default": false,
+      "description": "Scrape the channel Podcasts tab and include podcast shows (when the channel has one).",
+      "prefill": false,
+      "title": "Include Podcast Shows",
+      "type": "boolean"
+    },
+    "includeReleases": {
+      "default": false,
+      "description": "Scrape the channel Releases tab and include release playlists (when the channel has one).",
+      "prefill": false,
+      "title": "Include Music Releases",
+      "type": "boolean"
+    },
+    "includeShorts": {
+      "default": false,
+      "description": "Scrape the channel Shorts tab and include Shorts in the output.",
+      "prefill": false,
+      "title": "Include Channel Shorts",
+      "type": "boolean"
+    },
+    "language": {
+      "default": "en",
+      "description": "Language for YouTube's interface text (relative dates like \"2 days ago\"). Titles and descriptions stay in the creator's own language.",
+      "editor": "select",
+      "enum": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "id",
+        "it",
+        "ja",
+        "ko",
+        "nl",
+        "pl",
+        "pt",
+        "ru",
+        "th",
+        "tr",
+        "vi"
+      ],
+      "enumTitles": [
+        "English",
+        "Arabic",
+        "German",
+        "Spanish",
+        "French",
+        "Hindi",
+        "Indonesian",
+        "Italian",
+        "Japanese",
+        "Korean",
+        "Dutch",
+        "Polish",
+        "Portuguese",
+        "Russian",
+        "Thai",
+        "Turkish",
+        "Vietnamese"
+      ],
+      "title": "Language",
+      "type": "string"
+    },
+    "market": {
+      "default": "US",
+      "description": "Country used for regional content availability and localized results (YouTube gl parameter).",
+      "editor": "select",
+      "enum": [
+        "US",
+        "GB",
+        "CA",
+        "AU",
+        "DE",
+        "FR",
+        "JP",
+        "KR",
+        "BR",
+        "IN",
+        "MX",
+        "IT",
+        "ES",
+        "NL",
+        "PL",
+        "RU",
+        "SE",
+        "NO",
+        "DK",
+        "FI",
+        "ZA",
+        "SG",
+        "HK",
+        "TW",
+        "ID",
+        "MY",
+        "TH",
+        "PH",
+        "AR",
+        "CO",
+        "CL"
+      ],
+      "enumTitles": [
+        "United States",
+        "United Kingdom",
+        "Canada",
+        "Australia",
+        "Germany",
+        "France",
+        "Japan",
+        "South Korea",
+        "Brazil",
+        "India",
+        "Mexico",
+        "Italy",
+        "Spain",
+        "Netherlands",
+        "Poland",
+        "Russia",
+        "Sweden",
+        "Norway",
+        "Denmark",
+        "Finland",
+        "South Africa",
+        "Singapore",
+        "Hong Kong",
+        "Taiwan",
+        "Indonesia",
+        "Malaysia",
+        "Thailand",
+        "Philippines",
+        "Argentina",
+        "Colombia",
+        "Chile"
+      ],
+      "title": "Market / Region",
+      "type": "string"
+    },
+    "maxCourses": {
+      "default": 50,
+      "description": "Maximum number of courses to return (when includeCourses is enabled).",
+      "maximum": 500,
+      "minimum": 1,
+      "title": "Max Courses",
+      "type": "integer"
+    },
+    "maxLiveVideos": {
+      "default": 20,
+      "description": "Maximum live/stream videos to return (when includeLiveVideos is enabled).",
+      "maximum": 500,
+      "minimum": 1,
+      "title": "Max Live Videos",
+      "type": "integer"
+    },
+    "maxPlaylists": {
+      "default": 20,
+      "description": "Maximum number of playlists to scrape (when includePlaylists is enabled).",
+      "maximum": 500,
+      "minimum": 1,
+      "title": "Max Playlists",
+      "type": "integer"
+    },
+    "maxPodcasts": {
+      "default": 50,
+      "description": "Maximum number of podcast shows to return (when includePodcasts is enabled).",
+      "maximum": 500,
+      "minimum": 1,
+      "title": "Max Podcast Shows",
+      "type": "integer"
+    },
+    "maxReleases": {
+      "default": 50,
+      "description": "Maximum number of releases to return (when includeReleases is enabled).",
+      "maximum": 500,
+      "minimum": 1,
+      "title": "Max Releases",
+      "type": "integer"
+    },
+    "maxShorts": {
+      "default": 20,
+      "description": "Maximum number of Shorts to return (when includeShorts is enabled).",
+      "maximum": 2000,
+      "minimum": 1,
+      "title": "Max Shorts",
+      "type": "integer"
+    },
+    "maxVideos": {
+      "default": 50,
+      "description": "Maximum number of videos to scrape per channel. Set to 0 to get only channel info without videos.",
+      "editor": "number",
+      "maximum": 10000,
+      "minimum": 0,
+      "prefill": 3,
+      "title": "Max Videos Per Channel",
+      "type": "integer"
+    },
+    "sortShortsBy": {
+      "default": "newest",
+      "description": "How to sort the channel's Shorts listing (when includeShorts is enabled). Falls back to newest-first when the channel offers no Shorts sort.",
+      "editor": "select",
+      "enum": [
+        "newest",
+        "popular",
+        "oldest"
+      ],
+      "enumTitles": [
+        "Newest first",
+        "Most popular",
+        "Oldest first"
+      ],
+      "title": "Sort Shorts By",
+      "type": "string"
+    },
+    "sortVideosBy": {
+      "default": "newest",
+      "description": "How to sort the channel's video listings. If YouTube does not offer the chosen sort for a channel, newest-first is used.",
+      "editor": "select",
+      "enum": [
+        "newest",
+        "popular",
+        "oldest"
+      ],
+      "enumTitles": [
+        "Newest first",
+        "Most popular",
+        "Oldest first"
+      ],
+      "title": "Sort Videos By",
+      "type": "string"
+    }
+  },
+  "required": [
+    "channelUrls"
+  ],
+  "schemaVersion": 1,
+  "title": "YouTube Channel Scraper Input",
+  "type": "object"
+}
