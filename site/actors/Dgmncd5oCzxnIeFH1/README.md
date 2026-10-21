@@ -1,0 +1,110 @@
+# TripAdvisor Guest Review & Rating Extractor
+
+Pull reviews off a TripAdvisor hotel, restaurant, or attraction page — review text, star rating, reviewer details, and any owner reply — along with the place's own overall rating and address so each review arrives with context already attached.
+
+## What this actor does
+
+- Scrapes reviews from one or more TripAdvisor place pages (hotels, restaurants, attractions, or vacation rentals) in a single run
+- Pages through the reviews in the order TripAdvisor shows them until `maxReviews` is reached, a page has fewer than 10 reviews, or the next page can't be opened
+- Attaches place-level metadata — name, category, overall rating, total review count, and address — to every review from that place
+- Captures the reviewer's name, home location, contribution count, and how many people found the review helpful
+- Includes the property's or business's reply to a review when one was posted
+- Every record has the same columns; values TripAdvisor doesn't show come back as empty strings
+
+## Output per review
+
+All values are text, including ratings and counts.
+
+- `placeName`, `placeUrl` — the place reviewed and its TripAdvisor page URL
+- `placeCategory` — the place type read from the URL: `hotel`, `restaurant`, `attraction`, `vacation_rental`, or `unknown`
+- `placeRating`, `placeReviewCount` — the place's overall rating and total review count at scrape time
+- `placeAddress` — the place's full address
+- `reviewId` — an identifier built by the actor from the place's location ID and the review's position in this run (e.g. `675616_0`, `675616_1`); it is not TripAdvisor's own review ID and can point to a different review in a later run
+- `reviewTitle`, `reviewText` — the review headline and full body
+- `reviewRating` — the star rating the reviewer gave (1–5)
+- `reviewDate` — when the review was published, as shown on the page
+- `travelDate` — when the reviewer's stay or visit took place, as shown on the page
+- `tripType` — the trip type the reviewer selected, e.g. `Couples`, `Family`, `Business`
+- `reviewerName`, `reviewerLocation`, `reviewerContributions` — the reviewer's display name, home location, and total number of TripAdvisor contributions
+- `helpfulVotes` — how many people marked the review helpful
+- `ownerResponse`, `ownerResponseDate` — the business's reply text and date, when one exists
+- `reviewUrl` — currently the place page URL you supplied, not a link to the individual review
+- `reviewLanguage` — currently always `en`; the actor does not detect the review's actual language
+- `scrapeTimestamp` — when the actor started on that place
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `startUrls` | array of strings | – | TripAdvisor place URLs to scrape reviews from. Required. |
+| `maxReviews` | integer | `100` | Maximum reviews to extract per place (1–1000). TripAdvisor shows 10 reviews per page. |
+| `reviewsSort` | string | `recent` | `recent` or `relevance`. The current version does not apply this setting: reviews are collected in the order the place page shows them. |
+| `proxyConfiguration` | object | – | Proxy settings. Left empty, the actor uses Apify Residential proxy in the US; with Apify Proxy enabled and no group or country chosen, it also defaults to Residential and US. |
+
+## Example: first reviews from a single hotel
+
+```json
+{
+  "startUrls": ["https://www.tripadvisor.com/Hotel_Review-g60763-d675616-Reviews-The_Plaza_New_York-New_York_City_New_York.html"],
+  "maxReviews": 20
+}
+```
+
+## Example: multiple places with a residential proxy
+
+```json
+{
+  "startUrls": [
+    "https://www.tripadvisor.com/Hotel_Review-g60763-d675616-Reviews-The_Plaza_New_York-New_York_City_New_York.html",
+    "https://www.tripadvisor.com/Restaurant_Review-g60763-d457808-Reviews-Daniel-New_York_City_New_York.html"
+  ],
+  "maxReviews": 50,
+  "proxyConfiguration": {
+    "useApifyProxy": true,
+    "apifyProxyGroups": ["RESIDENTIAL"]
+  }
+}
+```
+
+## Example: a large batch from an attraction
+
+```json
+{
+  "startUrls": ["https://www.tripadvisor.com/Attraction_Review-g60763-d104365-Reviews-Empire_State_Building-New_York_City_New_York.html"],
+  "maxReviews": 500
+}
+```
+
+## Use cases
+
+- **Reputation monitoring** — keep a running log of what guests write about your hotel or restaurant
+- **Competitive benchmarking** — compare review sentiment and ratings against nearby competitors
+- **Guest experience research** — mine review text for recurring praise or complaints by trip type
+- **Response auditing** — review which guest complaints did or didn't get an owner reply
+- **Travel content research** — gather real guest quotes and ratings for a destination guide or roundup
+
+## FAQ
+
+**How many reviews can I get per place?**
+Up to `maxReviews`, capped at 1000. TripAdvisor shows 10 reviews per page, so collecting 100 reviews means working through 10 pages; the run moves on to the next place early if a page can't be opened. If TripAdvisor blocks every attempt to open a place, that place returns no reviews.
+
+**Do I need a TripAdvisor account?**
+No. The actor reads TripAdvisor's publicly accessible review pages; no login or API key is needed.
+
+**Do I need a proxy?**
+You don't have to configure one: if `proxyConfiguration` is empty, the actor uses Apify Residential proxy in the US, because TripAdvisor tends to block review pages loaded from datacenter IPs.
+
+**What place types are supported?**
+Hotels, restaurants, attractions, and vacation rentals — any TripAdvisor page with a review section.
+
+**Which URL format should I use?**
+A standard TripAdvisor place page URL containing `-Reviews-` in the path, copied directly from your browser.
+
+**Why are `ownerResponse` and `ownerResponseDate` sometimes empty?**
+Most reviews never receive an owner or management reply; when there isn't one, those fields come back as empty strings.
+
+**Can I sort reviews before they're collected?**
+Not at the moment. `reviewsSort` is accepted but not applied, so reviews arrive in the place page's default order. Sort the dataset by `reviewDate` afterwards if you need a specific order.
+
+**Is this affiliated with TripAdvisor?**
+No. This is an independent, third-party actor that reads TripAdvisor's publicly accessible review pages; it is not affiliated with or endorsed by TripAdvisor.

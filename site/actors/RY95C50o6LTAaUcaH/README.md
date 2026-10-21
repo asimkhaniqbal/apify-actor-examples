@@ -1,90 +1,131 @@
 # Google Ads Transparency Creative Lookup by Domain
 
-Scrape live and recent ads shown through Google — search by landing-page domain or exact advertiser ID. Get ad format, preview creative, advertiser identity, and first/last shown dates from the public [Ads Transparency Center](https://adstransparency.google.com). No login, no API key, no cookies.
+Research the ads a company runs through Google without a Google Ads account. Search the public [Ads Transparency Center](https://adstransparency.google.com) by landing-page domain, brand name, exact advertiser ID, or pasted URL, and export creatives with run dates, destination domains, variants, per-country activity, EU impression ranges, audience targeting, and verified advertiser identity. No login, no API key, no cookies.
 
 ## What this actor does
 
-- **Two modes:** `byQuery` (landing-page domain — most reliable) and `byAdvertiserId` (one or more exact IDs)
-- **Filters:** region/market (89 to choose from), ad format (text/image/video), platform (Search/Maps/Shopping/Play/YouTube), last-shown date range
-- **One page per run:** each run reads a single page of up to `maxItems` (at most 100) creatives; format and date filters are then applied to that page
-- **Preview assets:** static thumbnail image URL (and dimensions) when available, and/or a live preview script URL
-- **Empty fields are omitted**
+- **Search by domain, brand, advertiser ID, or URL** in one batch — paste `nike.com`, `Nike`, `AR16735076323512287233`, or a Transparency Center link
+- **Full result sets, not the first page** — follows Google's continuation cursor to the end of the result set or your chosen limit
+- **Ad details on demand** — every creative variation, per-country run dates, EU impression ranges by country and platform, audience-selection categories, and advertiser country, legal name (when published), and verification
+- **Ad-check mode** — turn a domain or brand into one row per advertiser found, with verification status and, for exact advertiser-ID lookups, Google's approximate ad-count range
+- **Filters:** 249 countries plus Anywhere, text/image/video, Search/Maps/Shopping/Play/YouTube, and a shown-during date window
+- **Empty fields are omitted** — no nulls or placeholder strings
 
 ## Output per ad
 
-- `advertiserId`, `advertiserName`
-- `creativeId`, `creativeUrl` — deep link to the ad's page on Ads Transparency Center (with your `region`)
-- `advertiserUrl` — deep link to the advertiser's page
-- `format` — `Text`, `Image`, or `Video`
-- `previewImageUrl`, `previewWidth`, `previewHeight` — static thumbnail and its size, when Google stores one
-- `previewContentUrl` — live preview script URL, when Google stores one
-- `firstShownAt`, `lastShownAt` — ISO-8601 UTC
-- `firstShownTimestamp`, `lastShownTimestamp` — Unix epoch seconds
-- `region` — the region code you selected
+- `advertiserId`, `advertiserName`, `advertiserCountry`, `advertiserLegalName`, `advertiserVerified`
+- `creativeId`, `format` — `Text`, `Image`, or `Video`
+- `firstShownAt`, `lastShownAt` — Google's search-index first/last activity in ISO-8601 UTC, plus epoch timestamps; per-country dates are in `regions[]`. Direct creative URLs omit `firstShownAt` because the detail endpoint has no first-shown date
+- `daysShown` — Google's count of days the creative has been active (omitted for direct creative URLs)
+- `destinationDomain`, `destinationUrl` — where the ad clicks through to, when Google exposes it
+- `headline`, `description`, `callToAction` — when the creative stores readable copy
+- `youtubeVideoId`, `youtubeUrl`, `videoThumbnailUrl` — for video creatives
+- `previewImageUrl`, `previewWidth`, `previewHeight`, `previewContentUrl` — static image or rendered preview
+- `variationCount`, `variations[]` — every image/content variation Google returns
+- `regions[]` — per-country last-shown dates for every ad, plus first-shown dates, impression ranges, and platform breakdown where Google publishes them (mostly EU/EEA and Turkey)
+- `impressionsLow`, `impressionsHigh`, `platformsShown` — Google's EU/EEA totals; Turkey and other per-country figures are in `regions[]`. Google sometimes omits a bound, so each bound is returned only when published
+- `audienceSelection` — demographics, geographic locations, contextual signals, customer lists, and topics, each marked included/excluded
+- `creativeUrl`, `advertiserUrl`, `region`, `searchTerm`, `matchedVia`
 - `recordType: "ad"`, `scrapedAt`
+
+## Output per advertiser (mode = `advertisers`)
+
+- `advertiserId`, `advertiserName`, `advertiserCountry`, `advertiserLegalName`, `advertiserVerified`
+- `approxAdCountLow`, `approxAdCountHigh` — Google's stated range for exact advertiser-ID lookups; omitted for domain/brand ad-check scans, which inspect up to 500 ads
+- `scannedAds` — how many ads were inspected to find the advertisers in domain/brand ad-check mode; omitted for exact advertiser-ID lookups
+- `matchedTerm`, `matchedVia`, `matchedDomain`
+- `advertiserUrl`, `region`, `recordType: "advertiser"`, `scrapedAt`
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `byQuery` | `byQuery` / `byAdvertiserId` |
-| `query` | string | `nike.com` | Landing-page domain (mode=byQuery). The upstream search endpoint reliably matches domains (e.g. `nike.com`) — free-text advertiser names (e.g. `Nike`) frequently return zero results, so a domain is strongly recommended. Use `mode=byAdvertiserId` for a name-independent, always-stable lookup once you have an `advertiserId`. |
-| `advertiserIds` | array | `[]` | Exact advertiser IDs, e.g. `AR16735076323512287233` (mode=byAdvertiserId). All IDs are looked up together, so `maxItems` is shared across them |
-| `region` | string | `US` | Market to search; it is sent with the lookup and written on every record |
-| `adFormat` | string | `""` (all formats) | `TEXT` / `IMAGE` / `VIDEO` |
-| `platform` | string | `""` (all platforms) | `SEARCH` / `MAPS` / `SHOPPING` / `PLAY` / `YOUTUBE` |
-| `dateFrom` | string | – | Only ads last shown on/after this date (`YYYY-MM-DD`) |
-| `dateTo` | string | – | Only ads last shown on/before this date (`YYYY-MM-DD`) |
-| `maxItems` | int | `40` | Number of creatives requested (1–100); filters can leave fewer |
-| `proxyConfiguration` | object | `{"useApifyProxy": true}` | Apify Proxy settings; requests that get temporarily blocked are retried through a fresh proxy IP |
+| `mode` | string | `search` | `search` for ad records; `advertisers` for one row per advertiser |
+| `searchTerms` | array | – | Domains, brand names, advertiser IDs, or Transparency Center URLs |
+| `region` | string | `US` | Country code or `ANYWHERE` |
+| `adFormat` | string | `ALL` | `ALL`, `TEXT`, `IMAGE`, `VIDEO` |
+| `platform` | string | `ALL` | `ALL`, `SEARCH`, `MAPS`, `SHOPPING`, `PLAY`, `YOUTUBE` |
+| `dateFrom` | string | – | Start of the shown-during window (`YYYY-MM-DD`) |
+| `dateTo` | string | – | End of the shown-during window (`YYYY-MM-DD`); an ad qualifies if it ran at any point in the window, so ads still running after this date are not excluded |
+| `maxItems` | integer | `100` | Total records to return (1–100,000) |
+| `maxItemsPerTerm` | integer | `0` | Per-term cap; 0 = no per-term cap |
+| `includeDetails` | boolean | `true` | Fetch variants, per-country reach, EU impressions, targeting, advertiser identity, and available copy |
 
 ### Example: recent ads for a domain
 
 ```json
 {
-  "mode": "byQuery",
-  "query": "nike.com",
+  "mode": "search",
+  "searchTerms": ["nike.com"],
   "region": "US",
-  "maxItems": 40
+  "maxItems": 100,
+  "includeDetails": true
 }
 ```
 
-### Example: video ads only, by exact advertiser ID
+### Example: brand ads in Germany, video only
 
 ```json
 {
-  "mode": "byAdvertiserId",
-  "advertiserIds": ["AR16735076323512287233"],
+  "mode": "search",
+  "searchTerms": ["Zalando"],
+  "region": "DE",
   "adFormat": "VIDEO",
+  "dateFrom": "2026-01-01",
   "maxItems": 50
+}
+```
+
+### Example: exact advertiser IDs across every region
+
+```json
+{
+  "mode": "search",
+  "searchTerms": ["AR16735076323512287233", "AR15589870916631265281"],
+  "region": "ANYWHERE",
+  "maxItemsPerTerm": 200,
+  "maxItems": 500
+}
+```
+
+### Example: ad-check a list of competitors
+
+```json
+{
+  "mode": "advertisers",
+  "searchTerms": ["nike.com", "adidas.com", "hellofresh.com"],
+  "region": "US",
+  "maxItems": 30
 }
 ```
 
 ## Use cases
 
-- **Competitive intelligence** — see what ad creatives a competitor is running right now
-- **Ad compliance monitoring** — audit an advertiser's messaging and formats
-- **Creative research** — collect a swipe file of live ad copy and imagery by niche
-- **Brand safety** — verify what ads are (and aren't) associated with a domain
+- **Competitive creative research** — collect a swipe file of live and recent ads, with run dates and destination pages
+- **Ad-check and lead generation** — find which advertisers send clicks to a domain, with legal names and verification badges
+- **EU reach analysis** — compare impression ranges by country and platform for DSA-covered ads
+- **Campaign longevity** — use `daysShown` and `lastShownAt` to separate long-running winners from short tests
+- **Brand safety and compliance** — verify who is paying for ads that point at your domain
+- **Market expansion** — compare a brand's creative set across countries
 
 ## FAQ
 
-**Is this the official Google Ads API?**  No. It reads the same public search results you get on adstransparency.google.com, without needing a Google Ads account or developer access.
+**Is this the official Google Ads API?** No. It reads the public Ads Transparency Center, the same data any visitor can browse, without a Google Ads account, developer project, or API key.
 
-**Do I need a Google account or API key?**  No. The Ads Transparency Center is a public tool; no login is required to browse or search it.
+**Do I need to paste a domain, a brand name, or an advertiser ID?** Any of the three works. Brand names are resolved to the brand's website first because Google's advertiser-name lookup often leads with small regional accounts that share the name. Use an exact `AR...` ID when you need one specific account.
 
-**Why is `maxItems` capped at 100?**  The Transparency Center returns at most 100 creatives per lookup, and the actor doesn't page beyond that first batch. Larger advertisers therefore can't be fully listed in one run.
+**Why does one domain return ads from several advertisers?** A domain search returns every ad that points at that domain, including partners, resellers, and agencies. Use `mode=advertisers` to see the accounts involved, or search an `AR...` ID to isolate one account.
 
-**Some ads have `previewImageUrl` and others have `previewContentUrl` — why?**  It depends on how Google stores the creative: some come with a static thumbnail image, others only with a script that renders the ad live, and some with both. The actor passes on whichever Google provides.
+**Why are headline, description, or CTA missing on some ads?** Google stores many search text ads only as a picture of the ad. The actor returns readable copy when Google exposes it, and omits the field when the creative has no machine-readable text.
 
-**Does `region` actually filter results?**  It's passed to the upstream API the same way the website's region selector does. For some advertisers the set of ads returned does not change much across regions, since global advertisers run largely the same catalog everywhere — this mirrors what you'd see switching regions on the website itself.
+**Why are impressions missing for some ads?** Google publishes impression ranges for some ads shown in the EU/EEA and Turkey, after a delay. Coverage is partial and varies by market and ad: some ads have run dates but no impression figures even after three months. Per-country figures are in `regions[]`; the top-level totals cover the EU/EEA only.
 
-**How do I find an advertiser ID?**  Run `mode=byQuery` first with the advertiser's domain — the `advertiserId` field in the results is reusable as input to `mode=byAdvertiserId` for a stable, unambiguous lookup. You can also copy it from an `adstransparency.google.com/advertiser/AR...` URL.
+**What does `advertiserVerified` mean?** It reflects Google's advertiser identity verification badge and is returned whenever the advertiser lookup succeeds. `false` means Google shows the advertiser as not verified.
 
-**What if nothing comes back?**  The run ends with an empty dataset and a status message explaining why: no ads matched, the filters removed everything, or Google kept blocking the lookup after several retries (try again shortly).
+**Why is `destinationUrl` sometimes missing?** Google does not expose a landing URL on every creative. `destinationDomain` comes from the search result when you search by domain; the full URL is added when the creative preview contains it.
 
-**How fresh is the data?**  Each run reads what the Ads Transparency Center shows at that moment; `lastShownAt` tells you when Google last recorded each ad running.
+**Can I search all countries at once?** Yes — set `region` to `ANYWHERE`. Per-ad `regions[]` then shows where each creative ran, with EU impression data where Google publishes it.
 
-**Why does `dateTo` (an older cutoff) sometimes return 0 results for popular advertisers?**  Because only one page of up to 100 creatives is fetched (see above), and for an advertiser running continuous campaigns that page is usually filled with creatives whose `lastShownAt` is very recent. A `dateTo` cutoff further in the past than that will correctly exclude all of them — that's not a bug, it means none of the currently-fetchable creatives are that stale. `dateTo` is most useful for advertisers whose campaigns have genuinely paused/ended, or combined with `dateFrom` for a recent window (e.g. "last shown in the past week").
+**Does the actor include age-restricted ads?** No. Google requires a signed-in account to show age-restricted creatives, and this actor never uses cookies or logins.
 
-**Is this affiliated with Google?**  No. It is an independent tool that reads the public Ads Transparency Center and is not run or endorsed by Google.
+**Is this affiliated with Google?** No. It is an independent tool that reads public transparency data and is not endorsed by Google.

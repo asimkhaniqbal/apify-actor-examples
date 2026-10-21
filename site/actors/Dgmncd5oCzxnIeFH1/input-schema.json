@@ -1,0 +1,55 @@
+{
+  "description": "Extract reviews from TripAdvisor place pages. Provide direct URLs to hotels, restaurants, or attractions.",
+  "properties": {
+    "maxReviews": {
+      "default": 100,
+      "description": "Maximum number of reviews to extract per place. TripAdvisor shows 10 reviews per page.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 100,
+      "title": "Maximum Reviews per Place",
+      "type": "integer"
+    },
+    "proxyConfiguration": {
+      "description": "Proxy settings. Residential proxy recommended for best results with TripAdvisor's anti-bot protection.",
+      "editor": "proxy",
+      "sectionCaption": "Proxy",
+      "sectionDescription": "Residential proxy is recommended for reliable review extraction.",
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "reviewsSort": {
+      "default": "recent",
+      "description": "How to sort reviews before extraction.",
+      "editor": "select",
+      "enum": [
+        "recent",
+        "relevance"
+      ],
+      "enumTitles": [
+        "Most Recent",
+        "Most Relevant"
+      ],
+      "title": "Sort Reviews By",
+      "type": "string"
+    },
+    "startUrls": {
+      "description": "TripAdvisor place URLs to scrape reviews from. Supports Hotel_Review, Restaurant_Review, and Attraction_Review pages.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "https://www.tripadvisor.com/Hotel_Review-g60763-d675616-Reviews-The_Plaza_New_York-New_York_City_New_York.html"
+      ],
+      "title": "Place URLs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "startUrls"
+  ],
+  "schemaVersion": 1,
+  "title": "TripAdvisor Reviews Scraper Input",
+  "type": "object"
+}

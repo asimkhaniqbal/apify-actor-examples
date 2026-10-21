@@ -1,0 +1,145 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "description": "TripAdvisor guest reviews with rating, reviewer details, trip type, and owner replies, enriched with place metadata.",
+  "properties": {
+    "helpfulVotes": {
+      "description": "Number of helpful votes on the review",
+      "template": "{{helpfulVotes}}",
+      "title": "Helpful Votes",
+      "type": "string"
+    },
+    "ownerResponse": {
+      "description": "Owner/management response text",
+      "template": "{{ownerResponse}}",
+      "title": "Owner Response",
+      "type": "string"
+    },
+    "ownerResponseDate": {
+      "description": "Owner response date",
+      "template": "{{ownerResponseDate}}",
+      "title": "Owner Response Date",
+      "type": "string"
+    },
+    "placeAddress": {
+      "description": "Full place address",
+      "template": "{{placeAddress}}",
+      "title": "Place Address",
+      "type": "string"
+    },
+    "placeCategory": {
+      "description": "Place type (hotel, restaurant, attraction, vacation_rental)",
+      "template": "{{placeCategory}}",
+      "title": "Place Category",
+      "type": "string"
+    },
+    "placeName": {
+      "description": "Name of the place",
+      "template": "{{placeName}}",
+      "title": "Place Name",
+      "type": "string"
+    },
+    "placeRating": {
+      "description": "Overall place rating (0-5)",
+      "template": "{{placeRating}}",
+      "title": "Place Rating",
+      "type": "string"
+    },
+    "placeReviewCount": {
+      "description": "Total number of reviews for the place",
+      "template": "{{placeReviewCount}}",
+      "title": "Place Review Count",
+      "type": "string"
+    },
+    "placeUrl": {
+      "description": "TripAdvisor place page URL",
+      "template": "{{placeUrl}}",
+      "title": "Place URL",
+      "type": "string"
+    },
+    "reviewDate": {
+      "description": "Review publication date",
+      "template": "{{reviewDate}}",
+      "title": "Review Date",
+      "type": "string"
+    },
+    "reviewId": {
+      "description": "Unique review identifier",
+      "template": "{{reviewId}}",
+      "title": "Review ID",
+      "type": "string"
+    },
+    "reviewLanguage": {
+      "description": "Always 'en' — the actor does not detect the review's actual language",
+      "template": "{{reviewLanguage}}",
+      "title": "Review Language",
+      "type": "string"
+    },
+    "reviewRating": {
+      "description": "Review rating (1-5)",
+      "template": "{{reviewRating}}",
+      "title": "Review Rating",
+      "type": "string"
+    },
+    "reviewText": {
+      "description": "Full review text",
+      "template": "{{reviewText}}",
+      "title": "Review Text",
+      "type": "string"
+    },
+    "reviewTitle": {
+      "description": "Review title/headline",
+      "template": "{{reviewTitle}}",
+      "title": "Review Title",
+      "type": "string"
+    },
+    "reviewUrl": {
+      "description": "Direct link to the review",
+      "template": "{{reviewUrl}}",
+      "title": "Review URL",
+      "type": "string"
+    },
+    "reviewerContributions": {
+      "description": "Number of reviewer contributions",
+      "template": "{{reviewerContributions}}",
+      "title": "Reviewer Contributions",
+      "type": "string"
+    },
+    "reviewerLocation": {
+      "description": "Reviewer home location",
+      "template": "{{reviewerLocation}}",
+      "title": "Reviewer Location",
+      "type": "string"
+    },
+    "reviewerName": {
+      "description": "Reviewer display name",
+      "template": "{{reviewerName}}",
+      "title": "Reviewer Name",
+      "type": "string"
+    },
+    "scrapeTimestamp": {
+      "description": "ISO timestamp of when the data was scraped",
+      "template": "{{scrapeTimestamp}}",
+      "title": "Scrape Timestamp",
+      "type": "string"
+    },
+    "travelDate": {
+      "description": "Date of travel/visit",
+      "template": "{{travelDate}}",
+      "title": "Travel Date",
+      "type": "string"
+    },
+    "tripType": {
+      "description": "Trip type (Business, Couples, Family, etc.)",
+      "template": "{{tripType}}",
+      "title": "Trip Type",
+      "type": "string"
+    }
+  },
+  "required": [
+    "placeName",
+    "reviewId",
+    "scrapeTimestamp"
+  ],
+  "title": "TripAdvisor Guest Review & Rating Extractor Output",
+  "type": "object"
+}
