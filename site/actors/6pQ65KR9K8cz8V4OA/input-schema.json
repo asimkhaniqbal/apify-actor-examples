@@ -1,42 +1,63 @@
 {
-  "description": "Extract transcripts/subtitles from TikTok videos. Returns one row per language per video.",
+  "description": "Extract TikTok subtitles and transcripts as timestamped segments and plain text. One row per language per video.",
   "properties": {
+    "includeAllTranslations": {
+      "default": false,
+      "description": "Best-effort: request TikTok's machine translation for every supported target language. Coverage varies by video and this adds up to 20 extra requests per video.",
+      "prefill": false,
+      "title": "Include All Translations",
+      "type": "boolean"
+    },
+    "includeSrt": {
+      "default": false,
+      "description": "Include generated SRT subtitles in each transcript row.",
+      "prefill": false,
+      "title": "Include SRT",
+      "type": "boolean"
+    },
+    "includeVtt": {
+      "default": false,
+      "description": "Include the original or generated WebVTT text in each transcript row.",
+      "prefill": false,
+      "title": "Include WebVTT",
+      "type": "boolean"
+    },
     "languages": {
-      "description": "Optional list of language codes to include (e.g. [\"en\", \"en-US\", \"eng-US\"]). When set, only subtitle rows whose languageCode starts with one of these values are returned. Leave empty to return all available languages.",
+      "description": "Optional language filter. Accepts TikTok codes (eng-US, spa-ES) and ISO/English aliases (en, English, es, Spanish). Listed languages missing from the video are requested as best-effort TikTok translations. Leave empty for every track on the default page.",
       "editor": "stringList",
       "items": {
         "type": "string"
       },
       "prefill": [],
-      "title": "Language Filter",
+      "title": "Languages",
       "type": "array"
     },
     "postIds": {
-      "description": "Numeric TikTok post IDs as strings (alternative to postUrls).",
+      "description": "Numeric TikTok video IDs as strings, as an alternative to postUrls.",
       "editor": "stringList",
       "items": {
         "type": "string"
       },
-      "title": "Post IDs",
+      "title": "Video IDs",
       "type": "array"
     },
     "postUrls": {
-      "description": "TikTok video URLs to extract transcripts from (e.g. https://www.tiktok.com/@user/video/123). Accepts full URLs, short URLs, and bare numeric IDs.",
+      "description": "TikTok video URLs to process. Full video URLs, @user/photo URLs, short share links, and bare numeric IDs are accepted. Duplicate IDs are processed once.",
       "editor": "stringList",
       "items": {
         "type": "string"
       },
       "prefill": [
-        "https://www.tiktok.com/@natgeo/video/7637581966396656909"
+        "https://www.tiktok.com/@asapscience/video/7642449638045256978"
       ],
-      "title": "Post URLs",
+      "title": "Video URLs",
       "type": "array"
     },
     "useWhisperFallback": {
       "default": false,
-      "description": "When enabled, uses Whisper speech-to-text to generate transcripts for videos without native subtitles. Disabled by default because it adds significant processing time (video download + ASR). Only available if faster-whisper is installed.",
+      "description": "Transcribe videos with no native captions using local Whisper. Slower and opt-in; detected language is best-effort, especially on short clips.",
       "prefill": false,
-      "title": "Use Whisper ASR Fallback",
+      "title": "Use Whisper Fallback",
       "type": "boolean"
     }
   },
