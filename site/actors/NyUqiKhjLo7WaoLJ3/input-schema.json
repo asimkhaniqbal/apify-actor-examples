@@ -1,0 +1,119 @@
+{
+  "properties": {
+    "country": {
+      "default": "es",
+      "description": "Idealista country: Spain, Portugal, or Italy.",
+      "editor": "select",
+      "enum": [
+        "es",
+        "pt",
+        "it"
+      ],
+      "enumTitles": [
+        "Spain",
+        "Portugal",
+        "Italy"
+      ],
+      "prefill": "es",
+      "title": "Country",
+      "type": "string"
+    },
+    "location": {
+      "default": "madrid-madrid",
+      "description": "City or area to search. Use the location slug from Idealista URLs. Spain: 'madrid-madrid', 'barcelona-barcelona', 'marbella-malaga'. Italy: 'roma-roma', 'milano-milano'. Portugal: 'lisboa', 'porto'. You can also paste a full Idealista search URL.",
+      "editor": "textfield",
+      "prefill": "madrid-madrid",
+      "sectionCaption": "Search Settings",
+      "title": "Location",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 100,
+      "description": "Maximum number of property listings to scrape. Leave empty for all available results (up to 1,800 per search).",
+      "maximum": 1800,
+      "minimum": 1,
+      "prefill": 5,
+      "sectionCaption": "Limits",
+      "title": "Maximum Properties",
+      "type": "integer"
+    },
+    "operation": {
+      "default": "sale",
+      "description": "Type of listing: properties for sale or for rent.",
+      "editor": "select",
+      "enum": [
+        "sale",
+        "rent"
+      ],
+      "enumTitles": [
+        "For Sale",
+        "For Rent"
+      ],
+      "prefill": "sale",
+      "title": "Operation",
+      "type": "string"
+    },
+    "propertyType": {
+      "default": "homes",
+      "description": "Type of property to search for.",
+      "editor": "select",
+      "enum": [
+        "homes",
+        "newDevelopments",
+        "offices",
+        "premises",
+        "garages",
+        "lands",
+        "storageRooms",
+        "buildings",
+        "bedrooms"
+      ],
+      "enumTitles": [
+        "Homes",
+        "New Developments",
+        "Offices",
+        "Premises",
+        "Garages",
+        "Lands",
+        "Storage Rooms",
+        "Buildings",
+        "Bedrooms"
+      ],
+      "prefill": "homes",
+      "title": "Property Type",
+      "type": "string"
+    },
+    "proxyConfiguration": {
+      "default": {
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "description": "Apify Proxy is recommended. The actor uses a mirror-first fetch path and falls back to proxied requests when the mirror blocks direct cloud traffic.",
+      "editor": "proxy",
+      "prefill": {
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "sectionCaption": "Proxy",
+      "sectionDescription": "Keep the default proxy settings for best cloud reliability.",
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "startUrls": {
+      "description": "Direct Idealista search result page URLs (e.g. https://www.idealista.com/venta-viviendas/madrid-madrid/). When provided, these override the location/operation/propertyType fields. Individual property/listing detail page URLs are not supported yet and will be skipped.",
+      "editor": "requestListSources",
+      "sectionCaption": "Direct URLs (Optional)",
+      "sectionDescription": "Optionally provide Idealista search result page URLs directly instead of using the search fields above.",
+      "title": "Direct URLs",
+      "type": "array"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "Idealista Scraper Input",
+  "type": "object"
+}
