@@ -7,27 +7,47 @@
         "properties": {
           "helpfulVotes": {
             "format": "text",
-            "label": "Votes"
+            "label": "Helpful"
           },
           "ownerResponse": {
             "format": "text",
-            "label": "Response"
+            "label": "Owner response"
+          },
+          "placeCategory": {
+            "format": "text",
+            "label": "Type"
           },
           "placeName": {
             "format": "text",
             "label": "Place"
           },
+          "placePriceRange": {
+            "format": "text",
+            "label": "Price range"
+          },
+          "placeRanking": {
+            "format": "text",
+            "label": "Ranking"
+          },
+          "placeRating": {
+            "format": "text",
+            "label": "Place rating"
+          },
+          "placeReviewCount": {
+            "format": "text",
+            "label": "Place reviews"
+          },
           "reviewDate": {
             "format": "text",
-            "label": "Date"
+            "label": "Published"
           },
           "reviewRating": {
             "format": "text",
             "label": "Rating"
           },
-          "reviewText": {
-            "format": "text",
-            "label": "Review"
+          "reviewSubratings": {
+            "format": "object",
+            "label": "Subratings"
           },
           "reviewTitle": {
             "format": "text",
@@ -35,7 +55,7 @@
           },
           "reviewUrl": {
             "format": "link",
-            "label": "URL"
+            "label": "Review URL"
           },
           "reviewerName": {
             "format": "text",
@@ -43,7 +63,11 @@
           },
           "travelDate": {
             "format": "text",
-            "label": "Travel Date"
+            "label": "Visited"
+          },
+          "tripType": {
+            "format": "text",
+            "label": "Trip type"
           }
         }
       },
@@ -51,14 +75,21 @@
       "transformation": {
         "fields": [
           "placeName",
+          "placeCategory",
+          "placeRating",
+          "placeReviewCount",
           "reviewTitle",
+          "position",
           "reviewRating",
-          "reviewText",
           "reviewDate",
           "travelDate",
+          "tripType",
           "reviewerName",
           "helpfulVotes",
           "ownerResponse",
+          "reviewSubratings",
+          "placeRanking",
+          "placePriceRange",
           "reviewUrl"
         ]
       }

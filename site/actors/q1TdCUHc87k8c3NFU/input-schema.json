@@ -1,0 +1,227 @@
+{
+  "description": "Scrape YouTube search results without cookies. Supports sort order, upload date, content type, duration, and video features. Video-only filters are automatically ignored for channel and playlist results so valid entity searches still return data.",
+  "properties": {
+    "duration": {
+      "default": "",
+      "description": "Filter video results by duration. Leave empty for any duration. This is ignored for channel and playlist results.",
+      "editor": "select",
+      "enum": [
+        "",
+        "short",
+        "medium",
+        "long"
+      ],
+      "enumTitles": [
+        "Any duration",
+        "Under 4 minutes",
+        "4-20 minutes",
+        "Over 20 minutes"
+      ],
+      "title": "Duration",
+      "type": "string"
+    },
+    "features": {
+      "default": [],
+      "description": "Filter video results by features. Select multiple or leave empty for no feature filter. This is ignored for channel and playlist results.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "hd",
+          "subtitles",
+          "cc",
+          "creative_commons",
+          "live",
+          "4k",
+          "hdr",
+          "360",
+          "vr180",
+          "location",
+          "purchased",
+          "3d"
+        ],
+        "enumTitles": [
+          "HD",
+          "Subtitles",
+          "Closed captions",
+          "Creative Commons",
+          "Live",
+          "4K",
+          "HDR",
+          "360°",
+          "VR180",
+          "Location",
+          "Purchased",
+          "3D"
+        ],
+        "type": "string"
+      },
+      "title": "Features",
+      "type": "array"
+    },
+    "market": {
+      "default": "US",
+      "description": "Country/region for localized results (sets gl and hl URL parameters).",
+      "editor": "select",
+      "enum": [
+        "US",
+        "GB",
+        "CA",
+        "AU",
+        "DE",
+        "FR",
+        "JP",
+        "KR",
+        "BR",
+        "IN",
+        "MX",
+        "IT",
+        "ES",
+        "NL",
+        "PL",
+        "RU",
+        "SE",
+        "NO",
+        "DK",
+        "FI",
+        "ZA",
+        "SG",
+        "HK",
+        "TW",
+        "ID",
+        "MY",
+        "TH",
+        "PH",
+        "AR",
+        "CO",
+        "CL"
+      ],
+      "enumTitles": [
+        "United States",
+        "United Kingdom",
+        "Canada",
+        "Australia",
+        "Germany",
+        "France",
+        "Japan",
+        "South Korea",
+        "Brazil",
+        "India",
+        "Mexico",
+        "Italy",
+        "Spain",
+        "Netherlands",
+        "Poland",
+        "Russia",
+        "Sweden",
+        "Norway",
+        "Denmark",
+        "Finland",
+        "South Africa",
+        "Singapore",
+        "Hong Kong",
+        "Taiwan",
+        "Indonesia",
+        "Malaysia",
+        "Thailand",
+        "Philippines",
+        "Argentina",
+        "Colombia",
+        "Chile"
+      ],
+      "title": "Market / Region",
+      "type": "string"
+    },
+    "maxResults": {
+      "default": 20,
+      "description": "Maximum number of results to return per search query. YouTube typically returns ~20 results per page.",
+      "maximum": 1000,
+      "minimum": 1,
+      "title": "Max Results Per Query",
+      "type": "integer"
+    },
+    "searchQueries": {
+      "description": "List of YouTube search queries. Each query will be searched separately and results combined in the output.",
+      "editor": "stringList",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "prefill": [
+        "apify web scraping",
+        "python tutorial"
+      ],
+      "title": "Search Queries",
+      "type": "array"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "How to sort search results.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "upload_date",
+        "view_count",
+        "rating"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Upload Date",
+        "View Count",
+        "Rating"
+      ],
+      "title": "Sort By",
+      "type": "string"
+    },
+    "type": {
+      "default": "",
+      "description": "Filter by content type. Shorts are collected from YouTube's Shorts result shelves; for any short-duration video, use the Duration filter.",
+      "editor": "select",
+      "enum": [
+        "",
+        "video",
+        "channel",
+        "playlist",
+        "short"
+      ],
+      "enumTitles": [
+        "All",
+        "Video",
+        "Channel",
+        "Playlist",
+        "Shorts"
+      ],
+      "title": "Result Type",
+      "type": "string"
+    },
+    "uploadDate": {
+      "default": "",
+      "description": "Filter video results by upload date. Leave empty for no date filter. This is ignored for channel and playlist results because YouTube does not expose it for those entity types.",
+      "editor": "select",
+      "enum": [
+        "",
+        "last_hour",
+        "today",
+        "this_week",
+        "this_month",
+        "this_year"
+      ],
+      "enumTitles": [
+        "Any time",
+        "Last hour",
+        "Today",
+        "This week",
+        "This month",
+        "This year"
+      ],
+      "title": "Upload Date",
+      "type": "string"
+    }
+  },
+  "required": [
+    "searchQueries"
+  ],
+  "schemaVersion": 1,
+  "title": "YouTube Search Scraper Input",
+  "type": "object"
+}

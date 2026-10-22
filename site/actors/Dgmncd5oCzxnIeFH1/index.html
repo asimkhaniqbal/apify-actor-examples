@@ -1,40 +1,186 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-9EPPLCXIQqNOBPnFRRh0Z5UMjV4ez6GGkU742Bcm1bY=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>TripAdvisor Guest Review &amp; Rating Extractor | Vexaloom Labs</title><meta name="description" content="Scrape guest reviews from any TripAdvisor hotel, restaurant, or attraction page, with rating, reviewer details, trip type, and owner replies, enriched with the place&#x27;s own overall "><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/"><meta property="og:title" content="TripAdvisor Guest Review &amp; Rating Extractor | Vexaloom Labs"><meta property="og:description" content="Scrape guest reviews from any TripAdvisor hotel, restaurant, or attraction page, with rating, reviewer details, trip type, and owner replies, enriched with the place&#x27;s own overall "><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/#webpage","name":"TripAdvisor Guest Review & Rating Extractor","description":"Scrape guest reviews from any TripAdvisor hotel, restaurant, or attraction page, with rating, reviewer details, trip type, and owner replies, enriched with the place's own overall rating and address.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/#article","headline":"TripAdvisor Guest Review & Rating Extractor","name":"TripAdvisor Guest Review & Rating Extractor","description":"Scrape guest reviews from any TripAdvisor hotel, restaurant, or attraction page, with rating, reviewer details, trip type, and owner replies, enriched with the place's own overall rating and address.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"TripAdvisor Guest Review & Rating Extractor","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>TripAdvisor Guest Review &amp; Rating Extractor</span></div><section id="overview"><h1 class="doc-title">TripAdvisor Guest Review &amp; Rating Extractor</h1><p class="lede">Scrape guest reviews from any TripAdvisor hotel, restaurant, or attraction page, with rating, reviewer details, trip type, and owner replies, enriched with the place&#x27;s own overall rating and address.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/tripadvisor-guest-review-and-rating-extractor">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/Dgmncd5oCzxnIeFH1/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>startUrls</code></td><td>array</td><td>required</td><td>TripAdvisor place URLs to scrape reviews from. Supports Hotel_Review, Restaurant_Review, and Attraction_Review pages.</td></tr><tr><td><code>maxReviews</code></td><td>integer</td><td>optional</td><td>Maximum number of reviews to extract per place. TripAdvisor shows 10 reviews per page.</td></tr><tr><td><code>reviewsSort</code></td><td>string</td><td>optional</td><td>How to sort reviews before extraction.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>startUrls</code></td><td>array</td><td>required</td><td>TripAdvisor place URLs to scrape reviews from. Supports Hotel_Review, Restaurant_Review, and Attraction_Review pages.</td></tr><tr><td><code>maxReviews</code></td><td>integer</td><td>optional</td><td>Maximum number of reviews to extract per place. TripAdvisor shows 10 reviews per page.</td></tr><tr><td><code>reviewsSort</code></td><td>string</td><td>optional</td><td>How to sort reviews before extraction.</td></tr><tr><td><code>proxyConfiguration</code></td><td>object</td><td>optional</td><td>Proxy settings. Residential proxy recommended for best results with TripAdvisor&#x27;s anti-bot protection.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;description&quot;: &quot;Extract reviews from TripAdvisor place pages. Provide direct URLs to hotels, restaurants, or attractions.&quot;,
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-9EPPLCXIQqNOBPnFRRh0Z5UMjV4ez6GGkU742Bcm1bY=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>TripAdvisor Guest Review &amp; Rating Extractor | Vexaloom Labs</title><meta name="description" content="Scrape guest reviews from any TripAdvisor hotel, restaurant, or attraction page, with rating, reviewer details, trip type, and owner replies, enriched with the place&#x27;s own overall "><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/"><meta property="og:title" content="TripAdvisor Guest Review &amp; Rating Extractor | Vexaloom Labs"><meta property="og:description" content="Scrape guest reviews from any TripAdvisor hotel, restaurant, or attraction page, with rating, reviewer details, trip type, and owner replies, enriched with the place&#x27;s own overall "><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/#webpage","name":"TripAdvisor Guest Review & Rating Extractor","description":"Scrape guest reviews from any TripAdvisor hotel, restaurant, or attraction page, with rating, reviewer details, trip type, and owner replies, enriched with the place's own overall rating and address.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/#article","headline":"TripAdvisor Guest Review & Rating Extractor","name":"TripAdvisor Guest Review & Rating Extractor","description":"Scrape guest reviews from any TripAdvisor hotel, restaurant, or attraction page, with rating, reviewer details, trip type, and owner replies, enriched with the place's own overall rating and address.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"TripAdvisor Guest Review & Rating Extractor","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Dgmncd5oCzxnIeFH1/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>TripAdvisor Guest Review &amp; Rating Extractor</span></div><section id="overview"><h1 class="doc-title">TripAdvisor Guest Review &amp; Rating Extractor</h1><p class="lede">Scrape guest reviews from any TripAdvisor hotel, restaurant, or attraction page, with rating, reviewer details, trip type, and owner replies, enriched with the place&#x27;s own overall rating and address.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/tripadvisor-guest-review-and-rating-extractor">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/Dgmncd5oCzxnIeFH1/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>startUrls</code></td><td>array</td><td>required</td><td>TripAdvisor place URLs or numeric location IDs. Hotel, restaurant, attraction, activity/tour, single-review and country-domain links are supported.</td></tr><tr><td><code>maxReviews</code></td><td>integer</td><td>optional</td><td>Maximum number of reviews to collect from each place. The run also stops when the source runs out.</td></tr><tr><td><code>sortBy</code></td><td>string</td><td>optional</td><td>Order in which reviews are collected. &#x27;detailed&#x27; prioritizes longer reviews; &#x27;insightful&#x27; is accepted but currently returns the same order as &#x27;most recent&#x27; on tested places.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>startUrls</code></td><td>array</td><td>required</td><td>TripAdvisor place URLs or numeric location IDs. Hotel, restaurant, attraction, activity/tour, single-review and country-domain links are supported.</td></tr><tr><td><code>maxReviews</code></td><td>integer</td><td>optional</td><td>Maximum number of reviews to collect from each place. The run also stops when the source runs out.</td></tr><tr><td><code>sortBy</code></td><td>string</td><td>optional</td><td>Order in which reviews are collected. &#x27;detailed&#x27; prioritizes longer reviews; &#x27;insightful&#x27; is accepted but currently returns the same order as &#x27;most recent&#x27; on tested places.</td></tr><tr><td><code>ratingFilter</code></td><td>array</td><td>optional</td><td>Only collect reviews with these star ratings. Leave empty for all ratings.</td></tr><tr><td><code>tripTypeFilter</code></td><td>array</td><td>optional</td><td>Only collect reviews from these traveler types. Leave empty for all trip types.</td></tr><tr><td><code>monthFilter</code></td><td>array</td><td>optional</td><td>Only collect reviews published in these months. TripAdvisor applies this to the review submission month; the visit month is reported in travelDate. Leave empty for all months.</td></tr><tr><td><code>reviewLanguage</code></td><td>array</td><td>optional</td><td>Only collect reviews available in these languages. TripAdvisor may show a machine translation; the language each review was written in is always reported.</td></tr><tr><td><code>keyword</code></td><td>string</td><td>optional</td><td>Only collect reviews containing this text. Leave empty for all reviews.</td></tr><tr><td><code>publishedAfter</code></td><td>string</td><td>optional</td><td>Keep reviews published on or after this date (YYYY-MM-DD). Useful for scheduled incremental runs. Leave empty for all dates.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Extract guest reviews from TripAdvisor hotels, restaurants, attractions and tours by URL or location ID.&quot;,
   &quot;properties&quot;: {
+    &quot;keyword&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Only collect reviews containing this text. Leave empty for all reviews.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Keyword&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
     &quot;maxReviews&quot;: {
       &quot;default&quot;: 100,
-      &quot;description&quot;: &quot;Maximum number of reviews to extract per place. TripAdvisor shows 10 reviews per page.&quot;,
-      &quot;maximum&quot;: 1000,
+      &quot;description&quot;: &quot;Maximum number of reviews to collect from each place. The run also stops when the source runs out.&quot;,
+      &quot;maximum&quot;: 10000,
       &quot;minimum&quot;: 1,
-      &quot;prefill&quot;: 100,
-      &quot;title&quot;: &quot;Maximum Reviews per Place&quot;,
+      &quot;prefill&quot;: 5,
+      &quot;title&quot;: &quot;Maximum reviews per place&quot;,
       &quot;type&quot;: &quot;integer&quot;
     },
-    &quot;proxyConfiguration&quot;: {
-      &quot;description&quot;: &quot;Proxy settings. Residential proxy recommended for best results with TripAdvisor&#x27;s anti-bot protection.&quot;,
-      &quot;editor&quot;: &quot;proxy&quot;,
-      &quot;sectionCaption&quot;: &quot;Proxy&quot;,
-      &quot;sectionDescription&quot;: &quot;Residential proxy is recommended for reliable review extraction.&quot;,
-      &quot;title&quot;: &quot;Proxy Configuration&quot;,
-      &quot;type&quot;: &quot;object&quot;
+    &quot;monthFilter&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Only collect reviews published in these months. TripAdvisor applies this to the review submission month; the visit month is reported in travelDate. Leave empty for all months.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;items&quot;: {
+        &quot;enum&quot;: [
+          &quot;january&quot;,
+          &quot;february&quot;,
+          &quot;march&quot;,
+          &quot;april&quot;,
+          &quot;may&quot;,
+          &quot;june&quot;,
+          &quot;july&quot;,
+          &quot;august&quot;,
+          &quot;september&quot;,
+          &quot;october&quot;,
+          &quot;november&quot;,
+          &quot;december&quot;
+        ],
+        &quot;enumTitles&quot;: [
+          &quot;January&quot;,
+          &quot;February&quot;,
+          &quot;March&quot;,
+          &quot;April&quot;,
+          &quot;May&quot;,
+          &quot;June&quot;,
+          &quot;July&quot;,
+          &quot;August&quot;,
+          &quot;September&quot;,
+          &quot;October&quot;,
+          &quot;November&quot;,
+          &quot;December&quot;
+        ],
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Months published&quot;,
+      &quot;type&quot;: &quot;array&quot;
     },
-    &quot;reviewsSort&quot;: {
-      &quot;default&quot;: &quot;recent&quot;,
-      &quot;description&quot;: &quot;How to sort reviews before extraction.&quot;,
+    &quot;publishedAfter&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Keep reviews published on or after this date (YYYY-MM-DD). Useful for scheduled incremental runs. Leave empty for all dates.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Published after&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;ratingFilter&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Only collect reviews with these star ratings. Leave empty for all ratings.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;items&quot;: {
+        &quot;enum&quot;: [
+          &quot;1&quot;,
+          &quot;2&quot;,
+          &quot;3&quot;,
+          &quot;4&quot;,
+          &quot;5&quot;
+        ],
+        &quot;enumTitles&quot;: [
+          &quot;1 star&quot;,
+          &quot;2 stars&quot;,
+          &quot;3 stars&quot;,
+          &quot;4 stars&quot;,
+          &quot;5 stars&quot;
+        ],
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Star ratings&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;reviewLanguage&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Only collect reviews available in these languages. TripAdvisor may show a machine translation; the language each review was written in is always reported.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;items&quot;: {
+        &quot;enum&quot;: [
+          &quot;en&quot;,
+          &quot;es&quot;,
+          &quot;fr&quot;,
+          &quot;de&quot;,
+          &quot;it&quot;,
+          &quot;pt&quot;,
+          &quot;nl&quot;,
+          &quot;ru&quot;,
+          &quot;ja&quot;,
+          &quot;zhCN&quot;,
+          &quot;zhTW&quot;,
+          &quot;ko&quot;,
+          &quot;ar&quot;,
+          &quot;tr&quot;,
+          &quot;pl&quot;,
+          &quot;sv&quot;,
+          &quot;da&quot;,
+          &quot;no&quot;,
+          &quot;fi&quot;,
+          &quot;el&quot;,
+          &quot;he&quot;,
+          &quot;th&quot;,
+          &quot;vi&quot;,
+          &quot;id&quot;,
+          &quot;cs&quot;,
+          &quot;hu&quot;,
+          &quot;sk&quot;,
+          &quot;sr&quot;
+        ],
+        &quot;enumTitles&quot;: [
+          &quot;English&quot;,
+          &quot;Spanish&quot;,
+          &quot;French&quot;,
+          &quot;German&quot;,
+          &quot;Italian&quot;,
+          &quot;Portuguese&quot;,
+          &quot;Dutch&quot;,
+          &quot;Russian&quot;,
+          &quot;Japanese&quot;,
+          &quot;Chinese (Simplified)&quot;,
+          &quot;Chinese (Traditional)&quot;,
+          &quot;Korean&quot;,
+          &quot;Arabic&quot;,
+          &quot;Turkish&quot;,
+          &quot;Polish&quot;,
+          &quot;Swedish&quot;,
+          &quot;Danish&quot;,
+          &quot;Norwegian&quot;,
+          &quot;Finnish&quot;,
+          &quot;Greek&quot;,
+          &quot;Hebrew&quot;,
+          &quot;Thai&quot;,
+          &quot;Vietnamese&quot;,
+          &quot;Indonesian&quot;,
+          &quot;Czech&quot;,
+          &quot;Hungarian&quot;,
+          &quot;Slovak&quot;,
+          &quot;Serbian&quot;
+        ],
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Review languages&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;sortBy&quot;: {
+      &quot;default&quot;: &quot;mostRecent&quot;,
+      &quot;description&quot;: &quot;Order in which reviews are collected. &#x27;detailed&#x27; prioritizes longer reviews; &#x27;insightful&#x27; is accepted but currently returns the same order as &#x27;most recent&#x27; on tested places.&quot;,
       &quot;editor&quot;: &quot;select&quot;,
       &quot;enum&quot;: [
-        &quot;recent&quot;,
-        &quot;relevance&quot;
+        &quot;mostRecent&quot;,
+        &quot;detailed&quot;,
+        &quot;insightful&quot;
       ],
       &quot;enumTitles&quot;: [
-        &quot;Most Recent&quot;,
-        &quot;Most Relevant&quot;
+        &quot;Most recent&quot;,
+        &quot;Most detailed&quot;,
+        &quot;Most insightful&quot;
       ],
-      &quot;title&quot;: &quot;Sort Reviews By&quot;,
+      &quot;prefill&quot;: &quot;mostRecent&quot;,
+      &quot;title&quot;: &quot;Sort reviews by&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;startUrls&quot;: {
-      &quot;description&quot;: &quot;TripAdvisor place URLs to scrape reviews from. Supports Hotel_Review, Restaurant_Review, and Attraction_Review pages.&quot;,
+      &quot;description&quot;: &quot;TripAdvisor place URLs or numeric location IDs. Hotel, restaurant, attraction, activity/tour, single-review and country-domain links are supported.&quot;,
       &quot;editor&quot;: &quot;stringList&quot;,
       &quot;items&quot;: {
         &quot;type&quot;: &quot;string&quot;
@@ -42,7 +188,32 @@
       &quot;prefill&quot;: [
         &quot;https://www.tripadvisor.com/Hotel_Review-g60763-d675616-Reviews-The_Plaza_New_York-New_York_City_New_York.html&quot;
       ],
-      &quot;title&quot;: &quot;Place URLs&quot;,
+      &quot;title&quot;: &quot;Place URLs or IDs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;tripTypeFilter&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Only collect reviews from these traveler types. Leave empty for all trip types.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;items&quot;: {
+        &quot;enum&quot;: [
+          &quot;solo&quot;,
+          &quot;couples&quot;,
+          &quot;family&quot;,
+          &quot;friends&quot;,
+          &quot;business&quot;
+        ],
+        &quot;enumTitles&quot;: [
+          &quot;Solo&quot;,
+          &quot;Couples&quot;,
+          &quot;Family&quot;,
+          &quot;Friends&quot;,
+          &quot;Business&quot;
+        ],
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Trip types&quot;,
       &quot;type&quot;: &quot;array&quot;
     }
   },
@@ -53,150 +224,18 @@
   &quot;title&quot;: &quot;TripAdvisor Reviews Scraper Input&quot;,
   &quot;type&quot;: &quot;object&quot;
 }
-</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>placeName</code></td><td>string</td><td>required</td><td>Name of the place</td></tr><tr><td><code>placeUrl</code></td><td>string</td><td>optional</td><td>TripAdvisor place page URL</td></tr><tr><td><code>placeCategory</code></td><td>string</td><td>optional</td><td>Place type (hotel, restaurant, attraction, vacation_rental)</td></tr><tr><td><code>placeRating</code></td><td>string</td><td>optional</td><td>Overall place rating (0-5)</td></tr><tr><td><code>placeReviewCount</code></td><td>string</td><td>optional</td><td>Total number of reviews for the place</td></tr><tr><td><code>placeAddress</code></td><td>string</td><td>optional</td><td>Full place address</td></tr><tr><td><code>reviewId</code></td><td>string</td><td>required</td><td>Unique review identifier</td></tr><tr><td><code>reviewTitle</code></td><td>string</td><td>optional</td><td>Review title/headline</td></tr><tr><td><code>reviewText</code></td><td>string</td><td>optional</td><td>Full review text</td></tr><tr><td><code>reviewRating</code></td><td>string</td><td>optional</td><td>Review rating (1-5)</td></tr><tr><td><code>reviewDate</code></td><td>string</td><td>optional</td><td>Review publication date</td></tr><tr><td><code>travelDate</code></td><td>string</td><td>optional</td><td>Date of travel/visit</td></tr><tr><td><code>tripType</code></td><td>string</td><td>optional</td><td>Trip type (Business, Couples, Family, etc.)</td></tr><tr><td><code>reviewerName</code></td><td>string</td><td>optional</td><td>Reviewer display name</td></tr><tr><td><code>reviewerLocation</code></td><td>string</td><td>optional</td><td>Reviewer home location</td></tr><tr><td><code>reviewerContributions</code></td><td>string</td><td>optional</td><td>Number of reviewer contributions</td></tr><tr><td><code>helpfulVotes</code></td><td>string</td><td>optional</td><td>Number of helpful votes on the review</td></tr><tr><td><code>ownerResponse</code></td><td>string</td><td>optional</td><td>Owner/management response text</td></tr><tr><td><code>ownerResponseDate</code></td><td>string</td><td>optional</td><td>Owner response date</td></tr><tr><td><code>reviewUrl</code></td><td>string</td><td>optional</td><td>Direct link to the review</td></tr><tr><td><code>reviewLanguage</code></td><td>string</td><td>optional</td><td>Always &#x27;en&#x27; — the actor does not detect the review&#x27;s actual language</td></tr><tr><td><code>scrapeTimestamp</code></td><td>string</td><td>required</td><td>ISO timestamp of when the data was scraped</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>reviews</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped TripAdvisor reviews.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
   &quot;actorOutputSchemaVersion&quot;: 1,
-  &quot;description&quot;: &quot;TripAdvisor guest reviews with rating, reviewer details, trip type, and owner replies, enriched with place metadata.&quot;,
+  &quot;description&quot;: &quot;Guest reviews with ratings, dates, traveler context, reviewer details, photos, owner responses and place metadata.&quot;,
   &quot;properties&quot;: {
-    &quot;helpfulVotes&quot;: {
-      &quot;description&quot;: &quot;Number of helpful votes on the review&quot;,
-      &quot;template&quot;: &quot;{{helpfulVotes}}&quot;,
-      &quot;title&quot;: &quot;Helpful Votes&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;ownerResponse&quot;: {
-      &quot;description&quot;: &quot;Owner/management response text&quot;,
-      &quot;template&quot;: &quot;{{ownerResponse}}&quot;,
-      &quot;title&quot;: &quot;Owner Response&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;ownerResponseDate&quot;: {
-      &quot;description&quot;: &quot;Owner response date&quot;,
-      &quot;template&quot;: &quot;{{ownerResponseDate}}&quot;,
-      &quot;title&quot;: &quot;Owner Response Date&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;placeAddress&quot;: {
-      &quot;description&quot;: &quot;Full place address&quot;,
-      &quot;template&quot;: &quot;{{placeAddress}}&quot;,
-      &quot;title&quot;: &quot;Place Address&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;placeCategory&quot;: {
-      &quot;description&quot;: &quot;Place type (hotel, restaurant, attraction, vacation_rental)&quot;,
-      &quot;template&quot;: &quot;{{placeCategory}}&quot;,
-      &quot;title&quot;: &quot;Place Category&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;placeName&quot;: {
-      &quot;description&quot;: &quot;Name of the place&quot;,
-      &quot;template&quot;: &quot;{{placeName}}&quot;,
-      &quot;title&quot;: &quot;Place Name&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;placeRating&quot;: {
-      &quot;description&quot;: &quot;Overall place rating (0-5)&quot;,
-      &quot;template&quot;: &quot;{{placeRating}}&quot;,
-      &quot;title&quot;: &quot;Place Rating&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;placeReviewCount&quot;: {
-      &quot;description&quot;: &quot;Total number of reviews for the place&quot;,
-      &quot;template&quot;: &quot;{{placeReviewCount}}&quot;,
-      &quot;title&quot;: &quot;Place Review Count&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;placeUrl&quot;: {
-      &quot;description&quot;: &quot;TripAdvisor place page URL&quot;,
-      &quot;template&quot;: &quot;{{placeUrl}}&quot;,
-      &quot;title&quot;: &quot;Place URL&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;reviewDate&quot;: {
-      &quot;description&quot;: &quot;Review publication date&quot;,
-      &quot;template&quot;: &quot;{{reviewDate}}&quot;,
-      &quot;title&quot;: &quot;Review Date&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;reviewId&quot;: {
-      &quot;description&quot;: &quot;Unique review identifier&quot;,
-      &quot;template&quot;: &quot;{{reviewId}}&quot;,
-      &quot;title&quot;: &quot;Review ID&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;reviewLanguage&quot;: {
-      &quot;description&quot;: &quot;Always &#x27;en&#x27; — the actor does not detect the review&#x27;s actual language&quot;,
-      &quot;template&quot;: &quot;{{reviewLanguage}}&quot;,
-      &quot;title&quot;: &quot;Review Language&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;reviewRating&quot;: {
-      &quot;description&quot;: &quot;Review rating (1-5)&quot;,
-      &quot;template&quot;: &quot;{{reviewRating}}&quot;,
-      &quot;title&quot;: &quot;Review Rating&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;reviewText&quot;: {
-      &quot;description&quot;: &quot;Full review text&quot;,
-      &quot;template&quot;: &quot;{{reviewText}}&quot;,
-      &quot;title&quot;: &quot;Review Text&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;reviewTitle&quot;: {
-      &quot;description&quot;: &quot;Review title/headline&quot;,
-      &quot;template&quot;: &quot;{{reviewTitle}}&quot;,
-      &quot;title&quot;: &quot;Review Title&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;reviewUrl&quot;: {
-      &quot;description&quot;: &quot;Direct link to the review&quot;,
-      &quot;template&quot;: &quot;{{reviewUrl}}&quot;,
-      &quot;title&quot;: &quot;Review URL&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;reviewerContributions&quot;: {
-      &quot;description&quot;: &quot;Number of reviewer contributions&quot;,
-      &quot;template&quot;: &quot;{{reviewerContributions}}&quot;,
-      &quot;title&quot;: &quot;Reviewer Contributions&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;reviewerLocation&quot;: {
-      &quot;description&quot;: &quot;Reviewer home location&quot;,
-      &quot;template&quot;: &quot;{{reviewerLocation}}&quot;,
-      &quot;title&quot;: &quot;Reviewer Location&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;reviewerName&quot;: {
-      &quot;description&quot;: &quot;Reviewer display name&quot;,
-      &quot;template&quot;: &quot;{{reviewerName}}&quot;,
-      &quot;title&quot;: &quot;Reviewer Name&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;scrapeTimestamp&quot;: {
-      &quot;description&quot;: &quot;ISO timestamp of when the data was scraped&quot;,
-      &quot;template&quot;: &quot;{{scrapeTimestamp}}&quot;,
-      &quot;title&quot;: &quot;Scrape Timestamp&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;travelDate&quot;: {
-      &quot;description&quot;: &quot;Date of travel/visit&quot;,
-      &quot;template&quot;: &quot;{{travelDate}}&quot;,
-      &quot;title&quot;: &quot;Travel Date&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;tripType&quot;: {
-      &quot;description&quot;: &quot;Trip type (Business, Couples, Family, etc.)&quot;,
-      &quot;template&quot;: &quot;{{tripType}}&quot;,
-      &quot;title&quot;: &quot;Trip Type&quot;,
+    &quot;reviews&quot;: {
+      &quot;description&quot;: &quot;Dataset containing all scraped TripAdvisor reviews.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Reviews&quot;,
       &quot;type&quot;: &quot;string&quot;
     }
   },
-  &quot;required&quot;: [
-    &quot;placeName&quot;,
-    &quot;reviewId&quot;,
-    &quot;scrapeTimestamp&quot;
-  ],
-  &quot;title&quot;: &quot;TripAdvisor Guest Review &amp; Rating Extractor Output&quot;,
-  &quot;type&quot;: &quot;object&quot;
+  &quot;title&quot;: &quot;TripAdvisor Guest Reviews Output&quot;
 }
 </code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
   &quot;actorSpecification&quot;: 1,
@@ -207,27 +246,47 @@
         &quot;properties&quot;: {
           &quot;helpfulVotes&quot;: {
             &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Votes&quot;
+            &quot;label&quot;: &quot;Helpful&quot;
           },
           &quot;ownerResponse&quot;: {
             &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Response&quot;
+            &quot;label&quot;: &quot;Owner response&quot;
+          },
+          &quot;placeCategory&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Type&quot;
           },
           &quot;placeName&quot;: {
             &quot;format&quot;: &quot;text&quot;,
             &quot;label&quot;: &quot;Place&quot;
           },
+          &quot;placePriceRange&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Price range&quot;
+          },
+          &quot;placeRanking&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Ranking&quot;
+          },
+          &quot;placeRating&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Place rating&quot;
+          },
+          &quot;placeReviewCount&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Place reviews&quot;
+          },
           &quot;reviewDate&quot;: {
             &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Date&quot;
+            &quot;label&quot;: &quot;Published&quot;
           },
           &quot;reviewRating&quot;: {
             &quot;format&quot;: &quot;text&quot;,
             &quot;label&quot;: &quot;Rating&quot;
           },
-          &quot;reviewText&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Review&quot;
+          &quot;reviewSubratings&quot;: {
+            &quot;format&quot;: &quot;object&quot;,
+            &quot;label&quot;: &quot;Subratings&quot;
           },
           &quot;reviewTitle&quot;: {
             &quot;format&quot;: &quot;text&quot;,
@@ -235,7 +294,7 @@
           },
           &quot;reviewUrl&quot;: {
             &quot;format&quot;: &quot;link&quot;,
-            &quot;label&quot;: &quot;URL&quot;
+            &quot;label&quot;: &quot;Review URL&quot;
           },
           &quot;reviewerName&quot;: {
             &quot;format&quot;: &quot;text&quot;,
@@ -243,7 +302,11 @@
           },
           &quot;travelDate&quot;: {
             &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Travel Date&quot;
+            &quot;label&quot;: &quot;Visited&quot;
+          },
+          &quot;tripType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Trip type&quot;
           }
         }
       },
@@ -251,14 +314,21 @@
       &quot;transformation&quot;: {
         &quot;fields&quot;: [
           &quot;placeName&quot;,
+          &quot;placeCategory&quot;,
+          &quot;placeRating&quot;,
+          &quot;placeReviewCount&quot;,
           &quot;reviewTitle&quot;,
+          &quot;position&quot;,
           &quot;reviewRating&quot;,
-          &quot;reviewText&quot;,
           &quot;reviewDate&quot;,
           &quot;travelDate&quot;,
+          &quot;tripType&quot;,
           &quot;reviewerName&quot;,
           &quot;helpfulVotes&quot;,
           &quot;ownerResponse&quot;,
+          &quot;reviewSubratings&quot;,
+          &quot;placeRanking&quot;,
+          &quot;placePriceRange&quot;,
           &quot;reviewUrl&quot;
         ]
       }
@@ -266,35 +336,43 @@
   }
 }
 </code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-tripadvisor-guest-review-rating-extractor">TripAdvisor Guest Review &amp; Rating Extractor</h2>
-<p>Pull reviews off a TripAdvisor hotel, restaurant, or attraction page — review text, star rating, reviewer details, and any owner reply — along with the place's own overall rating and address so each review arrives with context already attached.</p>
+<p>Collect guest reviews from TripAdvisor hotels, restaurants, attractions and tours. Get the full review text, star and category ratings, trip context, reviewer history, photos and owner replies, plus each place's ranking, price range, rating breakdown and key amenities.</p>
 <h2 id="readme-what-this-actor-does">What this actor does</h2>
 <ul>
-<li>Scrapes reviews from one or more TripAdvisor place pages (hotels, restaurants, attractions, or vacation rentals) in a single run</li>
-<li>Pages through the reviews in the order TripAdvisor shows them until <code>maxReviews</code> is reached, a page has fewer than 10 reviews, or the next page can't be opened</li>
-<li>Attaches place-level metadata — name, category, overall rating, total review count, and address — to every review from that place</li>
-<li>Captures the reviewer's name, home location, contribution count, and how many people found the review helpful</li>
-<li>Includes the property's or business's reply to a review when one was posted</li>
-<li>Every record has the same columns; values TripAdvisor doesn't show come back as empty strings</li>
+<li>Collects reviews from one or more TripAdvisor places in a single run, using place URLs or numeric location IDs</li>
+<li>Supports hotels, restaurants, attractions and activity/tour pages, including links from any country's TripAdvisor site</li>
+<li>Filters by star rating, traveler type, publication month, language and review keyword</li>
+<li>Adds exact publish dates, visit dates, reviewer profile details, photos, per-review subratings and owner responses</li>
+<li>Attaches place-level ranking, price range, hotel class, rating breakdown and key amenities to every review</li>
+<li>Omits fields the source does not provide instead of writing empty strings</li>
 </ul>
 <h2 id="readme-output-per-review">Output per review</h2>
-<p>All values are text, including ratings and counts.</p>
+<h3 id="readme-place-fields">Place fields</h3>
 <ul>
-<li><code>placeName</code>, <code>placeUrl</code> — the place reviewed and its TripAdvisor page URL</li>
-<li><code>placeCategory</code> — the place type read from the URL: <code>hotel</code>, <code>restaurant</code>, <code>attraction</code>, <code>vacation_rental</code>, or <code>unknown</code></li>
-<li><code>placeRating</code>, <code>placeReviewCount</code> — the place's overall rating and total review count at scrape time</li>
-<li><code>placeAddress</code> — the place's full address</li>
-<li><code>reviewId</code> — an identifier built by the actor from the place's location ID and the review's position in this run (e.g. <code>675616_0</code>, <code>675616_1</code>); it is not TripAdvisor's own review ID and can point to a different review in a later run</li>
-<li><code>reviewTitle</code>, <code>reviewText</code> — the review headline and full body</li>
-<li><code>reviewRating</code> — the star rating the reviewer gave (1–5)</li>
-<li><code>reviewDate</code> — when the review was published, as shown on the page</li>
-<li><code>travelDate</code> — when the reviewer's stay or visit took place, as shown on the page</li>
-<li><code>tripType</code> — the trip type the reviewer selected, e.g. <code>Couples</code>, <code>Family</code>, <code>Business</code></li>
-<li><code>reviewerName</code>, <code>reviewerLocation</code>, <code>reviewerContributions</code> — the reviewer's display name, home location, and total number of TripAdvisor contributions</li>
-<li><code>helpfulVotes</code> — how many people marked the review helpful</li>
-<li><code>ownerResponse</code>, <code>ownerResponseDate</code> — the business's reply text and date, when one exists</li>
-<li><code>reviewUrl</code> — currently the place page URL you supplied, not a link to the individual review</li>
-<li><code>reviewLanguage</code> — currently always <code>en</code>; the actor does not detect the review's actual language</li>
-<li><code>scrapeTimestamp</code> — when the actor started on that place</li>
+<li><code>placeName</code>, <code>placeId</code>, <code>placeUrl</code>, <code>placeCategory</code> — the reviewed place, its TripAdvisor ID, page URL and type (<code>hotel</code>, <code>restaurant</code>, <code>attraction</code>, <code>activity</code>)</li>
+<li><code>placeRating</code>, <code>placeReviewCount</code> — overall rating and total review count</li>
+<li><code>placeAddress</code>, <code>placeCity</code>, <code>placeCountry</code>, <code>placeLatitude</code>, <code>placeLongitude</code> — location details</li>
+<li><code>placeRanking</code>, <code>placeRankingPosition</code>, <code>placeRankingCount</code> — ranking string and its numeric parts</li>
+<li><code>placePriceRange</code>, <code>placePriceLevel</code>, <code>placeHotelClass</code> — price and class details when shown</li>
+<li><code>placeRatingBreakdown</code> — counts for <code>excellent</code>, <code>veryGood</code>, <code>average</code>, <code>poor</code> and <code>terrible</code></li>
+<li><code>placeAmenities</code> — key amenities shown for the place</li>
+</ul>
+<h3 id="readme-review-fields">Review fields</h3>
+<ul>
+<li><code>reviewId</code>, <code>reviewTitle</code>, <code>reviewText</code>, <code>reviewRating</code> — the review itself; <code>reviewId</code> is TripAdvisor's review ID</li>
+<li><code>reviewDate</code>, <code>reviewPublishedAt</code> — published date in readable and ISO form</li>
+<li><code>travelDate</code>, <code>travelDateIso</code>, <code>tripType</code> — when the reviewer traveled and with whom</li>
+<li><code>reviewerName</code>, <code>reviewerLocation</code>, <code>reviewerContributions</code>, <code>reviewerUsername</code>, <code>reviewerProfileUrl</code> — reviewer details</li>
+<li><code>helpfulVotes</code> — helpful-vote count</li>
+<li><code>reviewPhotos</code>, <code>reviewPhotoCount</code> — review photo URLs and total photo count</li>
+<li><code>ownerResponse</code>, <code>ownerResponseDate</code>, <code>ownerResponseAt</code>, <code>ownerResponseRole</code>, <code>ownerResponseAuthor</code> — management reply details</li>
+<li><code>reviewSubratings</code> — category scores such as <code>value</code>, <code>rooms</code>, <code>service</code>, <code>cleanliness</code> or <code>food</code></li>
+<li><code>reviewTip</code> — a short reviewer tip when one is attached</li>
+<li><code>isHighlighted</code>, <code>hasSafetyAlert</code> — flags shown by TripAdvisor when present</li>
+<li><code>reviewLanguage</code>, <code>displayLanguage</code>, <code>isTranslated</code> — the language the review was written in, the language shown, and whether it was machine translated</li>
+<li><code>reviewUrl</code> — direct link to the review</li>
+<li><code>position</code> — the review's position in this run's collection order for that place</li>
+<li><code>scrapeTimestamp</code> — when the run collected the record</li>
 </ul>
 <h2 id="readme-input">Input</h2>
 <div class="table-wrap"><table>
@@ -309,78 +387,127 @@
 <tbody>
 <tr>
 <td><code>startUrls</code></td>
-<td>array of strings</td>
+<td>array</td>
 <td>–</td>
-<td>TripAdvisor place URLs to scrape reviews from. Required.</td>
+<td>TripAdvisor place URLs or numeric location IDs. Required. Supports hotel, restaurant, attraction, activity/tour, single-review and country-domain links.</td>
 </tr>
 <tr>
 <td><code>maxReviews</code></td>
 <td>integer</td>
 <td><code>100</code></td>
-<td>Maximum reviews to extract per place (1–1000). TripAdvisor shows 10 reviews per page.</td>
+<td>Maximum reviews per place (1–10,000). The run also stops when the source runs out.</td>
 </tr>
 <tr>
-<td><code>reviewsSort</code></td>
+<td><code>sortBy</code></td>
 <td>string</td>
-<td><code>recent</code></td>
-<td><code>recent</code> or <code>relevance</code>. The current version does not apply this setting: reviews are collected in the order the place page shows them.</td>
+<td><code>mostRecent</code></td>
+<td><code>mostRecent</code>, <code>detailed</code> or <code>insightful</code>. <code>detailed</code> prioritizes longer reviews; <code>insightful</code> is accepted but currently returns the same order as <code>mostRecent</code> on tested places.</td>
 </tr>
 <tr>
-<td><code>proxyConfiguration</code></td>
-<td>object</td>
+<td><code>ratingFilter</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Keep only these star ratings (1–5). Empty means all ratings.</td>
+</tr>
+<tr>
+<td><code>tripTypeFilter</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Keep only these traveler types: <code>solo</code>, <code>couples</code>, <code>family</code>, <code>friends</code>, <code>business</code>.</td>
+</tr>
+<tr>
+<td><code>monthFilter</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Keep only reviews published in these months. TripAdvisor applies this to the review submission month; the visit month is reported in <code>travelDate</code>. Empty means all months.</td>
+</tr>
+<tr>
+<td><code>reviewLanguage</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Keep reviews available in these languages. The original language and translation flag are always reported.</td>
+</tr>
+<tr>
+<td><code>keyword</code></td>
+<td>string</td>
 <td>–</td>
-<td>Proxy settings. Left empty, the actor uses Apify Residential proxy in the US; with Apify Proxy enabled and no group or country chosen, it also defaults to Residential and US.</td>
+<td>Keep only reviews containing this text.</td>
+</tr>
+<tr>
+<td><code>publishedAfter</code></td>
+<td>string</td>
+<td>–</td>
+<td>Keep reviews published on or after this date (<code>YYYY-MM-DD</code>). Useful for scheduled incremental runs.</td>
 </tr>
 </tbody>
 </table></div>
-<h2 id="readme-example-first-reviews-from-a-single-hotel">Example: first reviews from a single hotel</h2>
+<h2 id="readme-example-recent-reviews-from-a-hotel">Example: recent reviews from a hotel</h2>
 <pre><code class="language-json">{
-  &quot;startUrls&quot;: [&quot;https://www.tripadvisor.com/Hotel_Review-g60763-d675616-Reviews-The_Plaza_New_York-New_York_City_New_York.html&quot;],
-  &quot;maxReviews&quot;: 20
+  &quot;startUrls&quot;: [
+    &quot;https://www.tripadvisor.com/Hotel_Review-g60763-d675616-Reviews-The_Plaza_New_York-New_York_City_New_York.html&quot;
+  ],
+  &quot;maxReviews&quot;: 50,
+  &quot;sortBy&quot;: &quot;mostRecent&quot;
 }
 </code></pre>
-<h2 id="readme-example-multiple-places-with-a-residential-proxy">Example: multiple places with a residential proxy</h2>
+<h2 id="readme-example-five-star-family-reviews-about-breakfast">Example: five-star family reviews about breakfast</h2>
 <pre><code class="language-json">{
   &quot;startUrls&quot;: [
     &quot;https://www.tripadvisor.com/Hotel_Review-g60763-d675616-Reviews-The_Plaza_New_York-New_York_City_New_York.html&quot;,
     &quot;https://www.tripadvisor.com/Restaurant_Review-g60763-d457808-Reviews-Daniel-New_York_City_New_York.html&quot;
   ],
-  &quot;maxReviews&quot;: 50,
-  &quot;proxyConfiguration&quot;: {
-    &quot;useApifyProxy&quot;: true,
-    &quot;apifyProxyGroups&quot;: [&quot;RESIDENTIAL&quot;]
-  }
+  &quot;maxReviews&quot;: 200,
+  &quot;ratingFilter&quot;: [&quot;5&quot;],
+  &quot;tripTypeFilter&quot;: [&quot;family&quot;],
+  &quot;keyword&quot;: &quot;breakfast&quot;
 }
 </code></pre>
-<h2 id="readme-example-a-large-batch-from-an-attraction">Example: a large batch from an attraction</h2>
+<h2 id="readme-example-a-scheduled-incremental-run">Example: a scheduled incremental run</h2>
 <pre><code class="language-json">{
-  &quot;startUrls&quot;: [&quot;https://www.tripadvisor.com/Attraction_Review-g60763-d104365-Reviews-Empire_State_Building-New_York_City_New_York.html&quot;],
-  &quot;maxReviews&quot;: 500
+  &quot;startUrls&quot;: [
+    &quot;https://www.tripadvisor.com/Attraction_Review-g60763-d104365-Reviews-Empire_State_Building-New_York_City_New_York.html&quot;
+  ],
+  &quot;maxReviews&quot;: 100,
+  &quot;publishedAfter&quot;: &quot;2026-10-01&quot;
+}
+</code></pre>
+<h2 id="readme-example-hotels-restaurants-attractions-and-a-tour">Example: hotels, restaurants, attractions and a tour</h2>
+<pre><code class="language-json">{
+  &quot;startUrls&quot;: [
+    &quot;675616&quot;,
+    &quot;https://www.tripadvisor.com/Restaurant_Review-g60763-d457808-Reviews-Daniel-New_York_City_New_York.html&quot;,
+    &quot;https://www.tripadvisor.com/Attraction_Review-g60763-d104365-Reviews-Empire_State_Building-New_York_City_New_York.html&quot;,
+    &quot;https://www.tripadvisor.com/AttractionProductReview-g293916-d12565966-Bangkok_Midnight_Food_Tuk_Tuk_Tour-Bangkok.html&quot;
+  ],
+  &quot;maxReviews&quot;: 40
 }
 </code></pre>
 <h2 id="readme-use-cases">Use cases</h2>
 <ul>
-<li><strong>Reputation monitoring</strong> — keep a running log of what guests write about your hotel or restaurant</li>
-<li><strong>Competitive benchmarking</strong> — compare review sentiment and ratings against nearby competitors</li>
-<li><strong>Guest experience research</strong> — mine review text for recurring praise or complaints by trip type</li>
-<li><strong>Response auditing</strong> — review which guest complaints did or didn't get an owner reply</li>
-<li><strong>Travel content research</strong> — gather real guest quotes and ratings for a destination guide or roundup</li>
+<li><strong>Reputation monitoring</strong> — keep a daily or weekly feed of new guest reviews and owner replies for your properties</li>
+<li><strong>Competitive benchmarking</strong> — compare ratings, complaint themes and response rates across nearby hotels or restaurants</li>
+<li><strong>Guest-experience research</strong> — study reviews by trip type, month or language for product and service decisions</li>
+<li><strong>Response auditing</strong> — identify reviews without an owner reply and measure response coverage</li>
+<li><strong>Travel content</strong> — collect real guest quotes, photos and ratings for destination pages and newsletters</li>
+<li><strong>Data enrichment</strong> — attach place ranking, price range and rating breakdown to an existing review dataset</li>
 </ul>
 <h2 id="readme-faq">FAQ</h2>
-<p><strong>How many reviews can I get per place?</strong>
-Up to <code>maxReviews</code>, capped at 1000. TripAdvisor shows 10 reviews per page, so collecting 100 reviews means working through 10 pages; the run moves on to the next place early if a page can't be opened. If TripAdvisor blocks every attempt to open a place, that place returns no reviews.</p>
-<p><strong>Do I need a TripAdvisor account?</strong>
-No. The actor reads TripAdvisor's publicly accessible review pages; no login or API key is needed.</p>
-<p><strong>Do I need a proxy?</strong>
-You don't have to configure one: if <code>proxyConfiguration</code> is empty, the actor uses Apify Residential proxy in the US, because TripAdvisor tends to block review pages loaded from datacenter IPs.</p>
-<p><strong>What place types are supported?</strong>
-Hotels, restaurants, attractions, and vacation rentals — any TripAdvisor page with a review section.</p>
-<p><strong>Which URL format should I use?</strong>
-A standard TripAdvisor place page URL containing <code>-Reviews-</code> in the path, copied directly from your browser.</p>
-<p><strong>Why are <code>ownerResponse</code> and <code>ownerResponseDate</code> sometimes empty?</strong>
-Most reviews never receive an owner or management reply; when there isn't one, those fields come back as empty strings.</p>
-<p><strong>Can I sort reviews before they're collected?</strong>
-Not at the moment. <code>reviewsSort</code> is accepted but not applied, so reviews arrive in the place page's default order. Sort the dataset by <code>reviewDate</code> afterwards if you need a specific order.</p>
+<p><strong>Which TripAdvisor place types are supported?</strong>
+Hotels, restaurants, attractions and activity/tour products. You can paste a place page URL, a single-review URL, a link from any TripAdvisor country site, or a bare numeric location ID.</p>
+<p><strong>Do I need a TripAdvisor account, cookies or an API key?</strong>
+No. The actor reads publicly available review data and needs no login, user cookies or API key. It generates an anonymous session cookie at runtime.</p>
+<p><strong>How many reviews can I collect?</strong>
+Up to <code>maxReviews</code> per place. The run stops early when the place has no more reviews. Very large listings can return incomplete results after roughly 6,000 reviews per place because of TripAdvisor's deep-pagination behaviour; when that happens the run finishes with an honest partial-count message instead of failing.</p>
+<p><strong>Why are some fields missing from a record?</strong>
+TripAdvisor does not show every field for every review. Reviewer location, photos, owner replies, subratings and tips are conditional, so they are omitted when absent. Counts such as <code>helpfulVotes</code> and <code>reviewPhotoCount</code> are still included when they are zero.</p>
+<p><strong>What is the difference between <code>reviewLanguage</code> and <code>displayLanguage</code>?</strong>
+<code>reviewLanguage</code> is the language the reviewer wrote in. <code>displayLanguage</code> is the language TripAdvisor returned the text in. When <code>isTranslated</code> is true, the text you receive was machine translated, and <code>reviewLanguage</code> still tells you the original language.</p>
+<p><strong>Why do activity/tour rows have fewer place fields?</strong>
+Activity product pages do not expose the same address, ranking, price range or amenity data as hotels, restaurants and attractions. Those records still include the product name, review count, review fields and review URL.</p>
+<p><strong>Can I use this for scheduled incremental runs?</strong>
+Yes. Set <code>publishedAfter</code> to a recent date and schedule the actor. With the default most-recent sort it stops once it reaches older reviews.</p>
+<p><strong>Are owner responses included?</strong>
+Yes, when the business posted one. The response text, date, responder role and responder name are included.</p>
 <p><strong>Is this affiliated with TripAdvisor?</strong>
-No. This is an independent, third-party actor that reads TripAdvisor's publicly accessible review pages; it is not affiliated with or endorsed by TripAdvisor.</p>
-</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/Dgmncd5oCzxnIeFH1/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>AMvwQaT9SUdak5Jd1</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
+No. This is an independent, third-party actor that reads publicly available TripAdvisor review data. It is not affiliated with or endorsed by TripAdvisor.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/Dgmncd5oCzxnIeFH1/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>ZjovOOA8WlEoaTuGe</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

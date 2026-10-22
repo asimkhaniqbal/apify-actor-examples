@@ -1,40 +1,186 @@
 {
-  "description": "Extract reviews from TripAdvisor place pages. Provide direct URLs to hotels, restaurants, or attractions.",
+  "description": "Extract guest reviews from TripAdvisor hotels, restaurants, attractions and tours by URL or location ID.",
   "properties": {
+    "keyword": {
+      "default": "",
+      "description": "Only collect reviews containing this text. Leave empty for all reviews.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Keyword",
+      "type": "string"
+    },
     "maxReviews": {
       "default": 100,
-      "description": "Maximum number of reviews to extract per place. TripAdvisor shows 10 reviews per page.",
-      "maximum": 1000,
+      "description": "Maximum number of reviews to collect from each place. The run also stops when the source runs out.",
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 100,
-      "title": "Maximum Reviews per Place",
+      "prefill": 5,
+      "title": "Maximum reviews per place",
       "type": "integer"
     },
-    "proxyConfiguration": {
-      "description": "Proxy settings. Residential proxy recommended for best results with TripAdvisor's anti-bot protection.",
-      "editor": "proxy",
-      "sectionCaption": "Proxy",
-      "sectionDescription": "Residential proxy is recommended for reliable review extraction.",
-      "title": "Proxy Configuration",
-      "type": "object"
+    "monthFilter": {
+      "default": [],
+      "description": "Only collect reviews published in these months. TripAdvisor applies this to the review submission month; the visit month is reported in travelDate. Leave empty for all months.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "january",
+          "february",
+          "march",
+          "april",
+          "may",
+          "june",
+          "july",
+          "august",
+          "september",
+          "october",
+          "november",
+          "december"
+        ],
+        "enumTitles": [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Months published",
+      "type": "array"
     },
-    "reviewsSort": {
-      "default": "recent",
-      "description": "How to sort reviews before extraction.",
+    "publishedAfter": {
+      "default": "",
+      "description": "Keep reviews published on or after this date (YYYY-MM-DD). Useful for scheduled incremental runs. Leave empty for all dates.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Published after",
+      "type": "string"
+    },
+    "ratingFilter": {
+      "default": [],
+      "description": "Only collect reviews with these star ratings. Leave empty for all ratings.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "enumTitles": [
+          "1 star",
+          "2 stars",
+          "3 stars",
+          "4 stars",
+          "5 stars"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Star ratings",
+      "type": "array"
+    },
+    "reviewLanguage": {
+      "default": [],
+      "description": "Only collect reviews available in these languages. TripAdvisor may show a machine translation; the language each review was written in is always reported.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "en",
+          "es",
+          "fr",
+          "de",
+          "it",
+          "pt",
+          "nl",
+          "ru",
+          "ja",
+          "zhCN",
+          "zhTW",
+          "ko",
+          "ar",
+          "tr",
+          "pl",
+          "sv",
+          "da",
+          "no",
+          "fi",
+          "el",
+          "he",
+          "th",
+          "vi",
+          "id",
+          "cs",
+          "hu",
+          "sk",
+          "sr"
+        ],
+        "enumTitles": [
+          "English",
+          "Spanish",
+          "French",
+          "German",
+          "Italian",
+          "Portuguese",
+          "Dutch",
+          "Russian",
+          "Japanese",
+          "Chinese (Simplified)",
+          "Chinese (Traditional)",
+          "Korean",
+          "Arabic",
+          "Turkish",
+          "Polish",
+          "Swedish",
+          "Danish",
+          "Norwegian",
+          "Finnish",
+          "Greek",
+          "Hebrew",
+          "Thai",
+          "Vietnamese",
+          "Indonesian",
+          "Czech",
+          "Hungarian",
+          "Slovak",
+          "Serbian"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Review languages",
+      "type": "array"
+    },
+    "sortBy": {
+      "default": "mostRecent",
+      "description": "Order in which reviews are collected. 'detailed' prioritizes longer reviews; 'insightful' is accepted but currently returns the same order as 'most recent' on tested places.",
       "editor": "select",
       "enum": [
-        "recent",
-        "relevance"
+        "mostRecent",
+        "detailed",
+        "insightful"
       ],
       "enumTitles": [
-        "Most Recent",
-        "Most Relevant"
+        "Most recent",
+        "Most detailed",
+        "Most insightful"
       ],
-      "title": "Sort Reviews By",
+      "prefill": "mostRecent",
+      "title": "Sort reviews by",
       "type": "string"
     },
     "startUrls": {
-      "description": "TripAdvisor place URLs to scrape reviews from. Supports Hotel_Review, Restaurant_Review, and Attraction_Review pages.",
+      "description": "TripAdvisor place URLs or numeric location IDs. Hotel, restaurant, attraction, activity/tour, single-review and country-domain links are supported.",
       "editor": "stringList",
       "items": {
         "type": "string"
@@ -42,7 +188,32 @@
       "prefill": [
         "https://www.tripadvisor.com/Hotel_Review-g60763-d675616-Reviews-The_Plaza_New_York-New_York_City_New_York.html"
       ],
-      "title": "Place URLs",
+      "title": "Place URLs or IDs",
+      "type": "array"
+    },
+    "tripTypeFilter": {
+      "default": [],
+      "description": "Only collect reviews from these traveler types. Leave empty for all trip types.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "solo",
+          "couples",
+          "family",
+          "friends",
+          "business"
+        ],
+        "enumTitles": [
+          "Solo",
+          "Couples",
+          "Family",
+          "Friends",
+          "Business"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Trip types",
       "type": "array"
     }
   },
