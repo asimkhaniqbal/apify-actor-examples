@@ -1,9 +1,9 @@
 {
-  "description": "Scrape YouTube search results without cookies. Supports sort order, upload date, content type, duration, and video features. Video-only filters are automatically ignored for channel and playlist results so valid entity searches still return data.",
+  "description": "Search YouTube by keyword for videos, Shorts, channels, playlists, or movies. Filter by upload date, duration, sort order, features, market, and language. Optional video details add exact publish dates, views, likes, categories, and tags.",
   "properties": {
     "duration": {
       "default": "",
-      "description": "Filter video results by duration. Leave empty for any duration. This is ignored for channel and playlist results.",
+      "description": "Filter videos by length. Applies to video and Shorts searches.",
       "editor": "select",
       "enum": [
         "",
@@ -13,54 +13,137 @@
       ],
       "enumTitles": [
         "Any duration",
-        "Under 4 minutes",
-        "4-20 minutes",
+        "Under 3 minutes",
+        "3 to 20 minutes",
         "Over 20 minutes"
       ],
+      "prefill": "",
       "title": "Duration",
       "type": "string"
     },
     "features": {
       "default": [],
-      "description": "Filter video results by features. Select multiple or leave empty for no feature filter. This is ignored for channel and playlist results.",
+      "description": "Filter videos by features. Multiple selections are combined. Legacy aliases cc, location, and purchased are accepted for saved tasks; cc maps to subtitles and the other two are ignored with a warning.",
       "editor": "select",
       "items": {
-        "enum": [
+        "enumSuggestedValues": [
           "hd",
           "subtitles",
-          "cc",
           "creative_commons",
           "live",
           "4k",
           "hdr",
           "360",
           "vr180",
-          "location",
-          "purchased",
           "3d"
         ],
         "enumTitles": [
           "HD",
-          "Subtitles",
-          "Closed captions",
+          "Subtitles/CC",
           "Creative Commons",
           "Live",
           "4K",
           "HDR",
-          "360°",
+          "360 degrees",
           "VR180",
-          "Location",
-          "Purchased",
           "3D"
         ],
         "type": "string"
       },
-      "title": "Features",
+      "prefill": [],
+      "title": "Video Features",
       "type": "array"
+    },
+    "includeVideoDetails": {
+      "default": false,
+      "description": "Fetch each video's public detail payload to add exact publish date, views, likes, category, tags, and full description. Adds one request per video and makes runs slower.",
+      "prefill": false,
+      "title": "Include Video Details",
+      "type": "boolean"
+    },
+    "language": {
+      "default": "auto",
+      "description": "Language for YouTube labels and search text (hl). Auto follows the selected market.",
+      "editor": "select",
+      "enum": [
+        "auto",
+        "ar",
+        "bn",
+        "cs",
+        "da",
+        "de",
+        "el",
+        "en",
+        "es",
+        "fa",
+        "fi",
+        "fr",
+        "he",
+        "hi",
+        "hu",
+        "id",
+        "it",
+        "ja",
+        "ko",
+        "ms",
+        "nl",
+        "no",
+        "pl",
+        "pt",
+        "ro",
+        "ru",
+        "sv",
+        "th",
+        "tr",
+        "uk",
+        "ur",
+        "vi",
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "enumTitles": [
+        "Auto (from market)",
+        "Arabic",
+        "Bengali",
+        "Czech",
+        "Danish",
+        "German",
+        "Greek",
+        "English",
+        "Spanish",
+        "Persian",
+        "Finnish",
+        "French",
+        "Hebrew",
+        "Hindi",
+        "Hungarian",
+        "Indonesian",
+        "Italian",
+        "Japanese",
+        "Korean",
+        "Malay",
+        "Dutch",
+        "Norwegian",
+        "Polish",
+        "Portuguese",
+        "Romanian",
+        "Russian",
+        "Swedish",
+        "Thai",
+        "Turkish",
+        "Ukrainian",
+        "Urdu",
+        "Vietnamese",
+        "Chinese (Simplified)",
+        "Chinese (Traditional)"
+      ],
+      "prefill": "auto",
+      "title": "Interface Language",
+      "type": "string"
     },
     "market": {
       "default": "US",
-      "description": "Country/region for localized results (sets gl and hl URL parameters).",
+      "description": "Country used for YouTube's search context (gl). Results and labels follow this market.",
       "editor": "select",
       "enum": [
         "US",
@@ -128,19 +211,28 @@
         "Colombia",
         "Chile"
       ],
-      "title": "Market / Region",
+      "prefill": "US",
+      "title": "Market",
       "type": "string"
     },
     "maxResults": {
       "default": 20,
-      "description": "Maximum number of results to return per search query. YouTube typically returns ~20 results per page.",
+      "description": "Maximum number of results per query. YouTube may serve fewer rows for a given query, entity type, session, or IP; the run reports the requested and actual counts and whether the result pool was exhausted.",
       "maximum": 1000,
       "minimum": 1,
+      "prefill": 3,
       "title": "Max Results Per Query",
       "type": "integer"
     },
+    "scrapeAllResults": {
+      "default": false,
+      "description": "Keep loading pages until YouTube stops offering results. This ignores Max Results Per Query and can take longer on broad searches.",
+      "prefill": false,
+      "title": "Scrape All Available Results",
+      "type": "boolean"
+    },
     "searchQueries": {
-      "description": "List of YouTube search queries. Each query will be searched separately and results combined in the output.",
+      "description": "One or more YouTube search terms. Each query is scraped separately and its results are combined in the dataset.",
       "editor": "stringList",
       "items": {
         "minLength": 1,
@@ -148,55 +240,54 @@
       },
       "minItems": 1,
       "prefill": [
-        "apify web scraping",
-        "python tutorial"
+        "apify"
       ],
       "title": "Search Queries",
       "type": "array"
     },
     "sortBy": {
       "default": "relevance",
-      "description": "How to sort search results.",
+      "description": "Order of the search results. YouTube currently supports relevance and popularity (view count). Legacy values upload_date and rating are accepted for saved tasks and mapped to relevance with a warning.",
       "editor": "select",
-      "enum": [
+      "enumSuggestedValues": [
         "relevance",
-        "upload_date",
-        "view_count",
-        "rating"
+        "view_count"
       ],
       "enumTitles": [
         "Relevance",
-        "Upload Date",
-        "View Count",
-        "Rating"
+        "View count (popularity)"
       ],
+      "prefill": "relevance",
       "title": "Sort By",
       "type": "string"
     },
     "type": {
       "default": "",
-      "description": "Filter by content type. Shorts are collected from YouTube's Shorts result shelves; for any short-duration video, use the Duration filter.",
+      "description": "Restrict results to one entity type. Legacy plural value shorts is accepted and mapped to Shorts.",
       "editor": "select",
-      "enum": [
+      "enumSuggestedValues": [
         "",
         "video",
+        "short",
         "channel",
         "playlist",
-        "short"
+        "movie"
       ],
       "enumTitles": [
         "All",
-        "Video",
-        "Channel",
-        "Playlist",
-        "Shorts"
+        "Videos",
+        "Shorts",
+        "Channels",
+        "Playlists",
+        "Movies"
       ],
+      "prefill": "video",
       "title": "Result Type",
       "type": "string"
     },
     "uploadDate": {
       "default": "",
-      "description": "Filter video results by upload date. Leave empty for no date filter. This is ignored for channel and playlist results because YouTube does not expose it for those entity types.",
+      "description": "Only return results uploaded in the selected period. Applies to videos and Shorts.",
       "editor": "select",
       "enum": [
         "",
@@ -214,6 +305,7 @@
         "This month",
         "This year"
       ],
+      "prefill": "",
       "title": "Upload Date",
       "type": "string"
     }

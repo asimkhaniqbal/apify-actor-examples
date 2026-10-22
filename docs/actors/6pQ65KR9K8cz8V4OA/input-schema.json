@@ -1,0 +1,47 @@
+{
+  "description": "Extract transcripts/subtitles from TikTok videos. Returns one row per language per video.",
+  "properties": {
+    "languages": {
+      "description": "Optional list of language codes to include (e.g. [\"en\", \"en-US\", \"eng-US\"]). When set, only subtitle rows whose languageCode starts with one of these values are returned. Leave empty to return all available languages.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Language Filter",
+      "type": "array"
+    },
+    "postIds": {
+      "description": "Numeric TikTok post IDs as strings (alternative to postUrls).",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Post IDs",
+      "type": "array"
+    },
+    "postUrls": {
+      "description": "TikTok video URLs to extract transcripts from (e.g. https://www.tiktok.com/@user/video/123). Accepts full URLs, short URLs, and bare numeric IDs.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "https://www.tiktok.com/@natgeo/video/7637581966396656909"
+      ],
+      "title": "Post URLs",
+      "type": "array"
+    },
+    "useWhisperFallback": {
+      "default": false,
+      "description": "When enabled, uses Whisper speech-to-text to generate transcripts for videos without native subtitles. Disabled by default because it adds significant processing time (video download + ASR). Only available if faster-whisper is installed.",
+      "prefill": false,
+      "title": "Use Whisper ASR Fallback",
+      "type": "boolean"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "TikTok Transcript Scraper Input",
+  "type": "object"
+}

@@ -1,0 +1,167 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "caption": {
+      "description": "Post caption/description",
+      "title": "Caption",
+      "type": "string"
+    },
+    "createdAt": {
+      "description": "Post creation time (ISO 8601 UTC)",
+      "title": "Created At",
+      "type": "string"
+    },
+    "displayName": {
+      "description": "Author's display name",
+      "title": "Display Name",
+      "type": "string"
+    },
+    "duration": {
+      "description": "Video duration in seconds",
+      "title": "Duration",
+      "type": "integer"
+    },
+    "languageCode": {
+      "description": "Subtitle language code (e.g. eng-US, spa, por)",
+      "title": "Language Code",
+      "type": "string"
+    },
+    "languageId": {
+      "description": "TikTok internal language ID",
+      "title": "Language ID",
+      "type": "string"
+    },
+    "postId": {
+      "description": "Unique TikTok post ID",
+      "title": "Post ID",
+      "type": "string"
+    },
+    "postUrl": {
+      "description": "Full URL to the TikTok post",
+      "title": "Post URL",
+      "type": "string"
+    },
+    "segmentCount": {
+      "description": "Number of subtitle segments",
+      "title": "Segment Count",
+      "type": "integer"
+    },
+    "segments": {
+      "description": "Timestamped subtitle segments",
+      "items": {
+        "properties": {
+          "end": {
+            "description": "Segment end time (seconds)",
+            "type": "number"
+          },
+          "start": {
+            "description": "Segment start time (seconds)",
+            "type": "number"
+          },
+          "text": {
+            "description": "Segment text",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "title": "Segments",
+      "type": "array"
+    },
+    "source": {
+      "description": "Subtitle source: ASR (auto speech recognition), MT (machine translation), or raw code",
+      "title": "Source",
+      "type": "string"
+    },
+    "subtitleFormat": {
+      "description": "Subtitle format: webvtt (TikTok subtitles) or whisper_asr (Whisper fallback)",
+      "title": "Subtitle Format",
+      "type": "string"
+    },
+    "subtitleUrl": {
+      "description": "Direct URL to the WebVTT subtitle file (expires)",
+      "title": "Subtitle URL",
+      "type": "string"
+    },
+    "subtitleUrlExpiresAt": {
+      "description": "Expiry of subtitleUrl (ISO 8601 UTC)",
+      "title": "Subtitle URL Expires At",
+      "type": "string"
+    },
+    "transcript": {
+      "description": "Full transcript as plain text (all segments joined)",
+      "title": "Transcript",
+      "type": "string"
+    },
+    "transcriptDuration": {
+      "description": "Duration covered by transcript segments (seconds)",
+      "title": "Transcript Duration",
+      "type": "number"
+    },
+    "username": {
+      "description": "Author's TikTok username",
+      "title": "Username",
+      "type": "string"
+    },
+    "variant": {
+      "description": "TikTok subtitle variant",
+      "title": "Variant",
+      "type": "string"
+    },
+    "version": {
+      "description": "TikTok subtitle version string",
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "title": "TikTok Transcripts",
+  "views": {
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "duration": {
+            "format": "number",
+            "label": "Duration (s)"
+          },
+          "languageCode": {
+            "format": "text",
+            "label": "Language"
+          },
+          "postUrl": {
+            "format": "link",
+            "label": "Post URL"
+          },
+          "segmentCount": {
+            "format": "number",
+            "label": "Segments"
+          },
+          "source": {
+            "format": "text",
+            "label": "Source"
+          },
+          "transcript": {
+            "format": "text",
+            "label": "Transcript"
+          },
+          "username": {
+            "format": "text",
+            "label": "Username"
+          }
+        }
+      },
+      "title": "Transcripts",
+      "transformation": {
+        "fields": [
+          "username",
+          "languageCode",
+          "source",
+          "segmentCount",
+          "duration",
+          "transcript",
+          "postUrl"
+        ]
+      }
+    }
+  }
+}

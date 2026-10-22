@@ -1,143 +1,57 @@
 # YouTube Search Results & Entity Type Scraper
 
-Scrape YouTube search results without needing cookies or a YouTube account. Get video metadata, channel profiles, and playlists from any search query, narrowed with YouTube's own sort, upload-date, duration and feature filters.
+Search YouTube without cookies or API keys and get structured rows for videos, Shorts, channels, playlists, and movies. Use YouTube's own filters, follow pagination, and optionally enrich every video with exact views and likes, dates when YouTube exposes them, and categories or tags when available.
 
 ## What this actor does
 
-- **All result types:** videos, Shorts, channels, and playlists
-- **Filters:** upload date, duration, sort order, and result type
-- **Market aware:** localized results per country and language
-- **Bulk queries:** multiple search phrases per run
-- **Empty fields are omitted** — records only contain values that are actually populated.
-
-## Output
-
-Every result row carries `type` (`video`, `short`, `channel` or `playlist`), `position` (1-based rank within the query), `searchQuery` and `scrapedAt`. When YouTube exposes its own result estimate for the query, `estimatedResults` is added to every row of that query.
-
-### Video results
-
-YouTube renders video cards in two layouts. Classic cards carry the full field set below; newer compact cards carry only `videoId`, `title`, `url`, `channelName`, `viewCount`/`viewCountText`, `publishedTimeText`, `durationText`, `durationSeconds`, `thumbnails` (URL only) and `isLive` (only when live).
-
-| Field | Example |
-|-------|---------|
-| videoId | `"dQw4w9WgXcQ"` |
-| title | `"Never Gonna Give You Up"` |
-| url | `"https://www.youtube.com/watch?v=dQw4w9WgXcQ"` |
-| description | `"The official video for..."` (snippet shown on the result card) |
-| channelName | `"Rick Astley"` |
-| channelUrl | `"https://www.youtube.com/@RickAstley"` |
-| channelId | `"UCuAXFkgsw1L7..."` |
-| channelHandle | `"@RickAstley"` (only when the byline links to a handle) |
-| channelVerified | `true` when the uploader has a verified badge |
-| viewCount | `1617432069` (only when the card shows an unabbreviated count) |
-| viewCountText | `"1,617,432,069 views"` or `"1.6B views"` (card label, verbatim; abbreviated labels never become integers) |
-| publishedTimeText | `"15 years ago"` |
-| duration | `"3:33"` (classic cards) |
-| durationText | `"3:33"` (compact cards) |
-| durationSeconds | `213` |
-| thumbnails | Array of `{url, width, height}` |
-| richThumbnailUrl | Animated preview URL when available |
-| badges | `["CC", "4K"]` |
-| isLive | `false` |
-
-### Shorts results
-
-Shorts cards on search pages expose no channel, duration or date, so those fields are not included.
-
-| Field | Example |
-|-------|---------|
-| videoId | `"abc123"` |
-| title | `"A short example"` |
-| url | `"https://www.youtube.com/shorts/abc123"` |
-| viewCount | only when the card shows an unabbreviated count |
-| viewCountText | `"1.2M views"` (card label, verbatim) |
-| thumbnails | Array of `{url, width, height}` |
-| isShort | `true` |
-
-### Channel results
-
-| Field | Example |
-|-------|---------|
-| channelId | `"UCxxxxxx"` |
-| channelName | `"Python Programmer"` |
-| channelUrl | `"https://www.youtube.com/@gilesmcmullen"` |
-| handle | `"@gilesmcmullen"` |
-| description | `"Hi I'm Giles..."` |
-| subscriberCount | `782000` (expanded from the rounded label, so approximate) |
-| subscriberCountText | `"782K subscribers"` |
-| videoCountText | `"500 videos"` |
-| thumbnails | Array of `{url, width, height}` |
-| isVerified | `true` / `false` |
-
-### Playlist results
-
-| Field | Example |
-|-------|---------|
-| playlistId | `"PLxxxxxxx"` |
-| title | `"Python Full Course"` |
-| url | `"https://www.youtube.com/playlist?list=PLxxxxxxx"` |
-| channelName | `"CodeWithHarry"` |
-| ownerName | `"CodeWithHarry"` (same value as channelName; newer playlist cards only) |
-| channelUrl | `"https://www.youtube.com/@CodeWithHarry"` |
-| channelId | `"UCxxxxxx"` |
-| firstVideoId | `"dQw4w9WgXcQ"` (newer playlist cards only) |
-| videoCount | `100` |
-| videoCountText | `"100 lessons"` |
-| thumbnails | Array of `{url, width, height}` |
-
-### Status rows
-
-A query that yields nothing (no matching results, or the search page could not be loaded) produces one status row instead of results: `recordType: "status"`, `status: "no_results"`, `query`, `market`, `resultType`, `appliedFilters` (`sortBy`, `uploadDate`, `duration`, `features`) and `resultCount: 0`. A query that raises an unexpected error produces `status: "query_failed"` with `query`, `market`, `error` and `resultCount: 0`. Filter these rows out by `recordType` if you only want results.
+- **Five result types:** videos, Shorts, channels, playlists, and movies.
+- **All-result mode:** mix the entity types in YouTube's own order.
+- **Server-side filters:** upload date, duration, sort order, video features, market, and interface language.
+- **Pagination:** follow continuation tokens until your limit or YouTube's own ceiling.
+- **Optional details:** one detail request per video (plus fallback calls when needed) adds exact views and likes, dates when exposed, tags, and the full description.
+- **Bulk queries:** run several searches in one job.
+- **Cookieless:** public search data only. No login, no browser, no proxy setup.
+- **Omit-empty output:** a row only contains values that are actually available.
 
 ## Input
 
 | Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `searchQueries` | array | — | One or more YouTube search terms (required). |
-| `maxResults` | integer | `20` | Results per query (1–1000). |
-| `sortBy` | string | `relevance` | `relevance`, `upload_date`, `view_count`, or `rating`. |
-| `uploadDate` | string | — | `last_hour`, `today`, `this_week`, `this_month`, or `this_year`. |
-| `type` | string | — | `video`, `short`, `channel`, or `playlist`. Shorts are collected from search result shelves. |
-| `duration` | string | — | `short` (under 4 min), `medium` (4–20 min), or `long` (over 20 min). |
-| `features` | array | `[]` | HD, Subtitles, Closed captions, Creative Commons, Live, 4K, HDR, 360, VR180, Location, Purchased, or 3D. Subtitles and Closed captions apply the same YouTube filter. |
-| `market` | string | `US` | One of 31 countries/regions; sets YouTube's country and interface language for the search. |
-
-### Example input
-
-```json
-{
-  "searchQueries": ["web scraping tutorial", "python automation"],
-  "maxResults": 30,
-  "sortBy": "view_count",
-  "uploadDate": "this_year",
-  "type": "video"
-}
-```
-
-## Examples
+|---|---|---|---|
+| `searchQueries` | array | — | One or more YouTube search terms. Duplicate terms are removed. |
+| `maxResults` | integer | `20` | Results per query (1-1000). YouTube caps each entity type below 1000. |
+| `scrapeAllResults` | boolean | `false` | Follow pages until YouTube stops returning results, ignoring `maxResults`. |
+| `sortBy` | string | `relevance` | `relevance` or `view_count`. YouTube no longer supports date or rating sorting. |
+| `uploadDate` | string | any | `last_hour`, `today`, `this_week`, `this_month`, or `this_year`. |
+| `type` | string | all | `video`, `short`, `channel`, `playlist`, or `movie`. |
+| `duration` | string | any | `short` (under 3 min), `medium` (3-20 min), or `long` (over 20 min). |
+| `features` | array | `[]` | `hd`, `subtitles`, `creative_commons`, `live`, `4k`, `hdr`, `360`, `vr180`, `3d`. Multiple values are combined. |
+| `market` | string | `US` | Country used for YouTube's search context. 31 markets are available. |
+| `language` | string | `auto` | Interface language. `auto` follows the market. |
+| `includeVideoDetails` | boolean | `false` | Fetch each video's detail payload for exact views, likes, and duration, plus dates, category, tags, and the full description when YouTube exposes them. |
 
 ### Example: video search
 
 ```json
 {
-  "searchQueries": ["web scraping tutorial"],
+  "searchQueries": ["web scraping tutorial", "python automation"],
   "maxResults": 50,
-  "type": "video"
+  "type": "video",
+  "sortBy": "view_count",
+  "uploadDate": "this_year"
 }
 ```
 
-### Example: recent Shorts
+### Example: Shorts
 
 ```json
 {
   "searchQueries": ["lofi beats"],
   "type": "short",
-  "uploadDate": "this_week",
-  "sortBy": "view_count"
+  "maxResults": 100
 }
 ```
 
-### Example: channels only
+### Example: channels
 
 ```json
 {
@@ -147,39 +61,150 @@ A query that yields nothing (no matching results, or the search page could not b
 }
 ```
 
-## Use cases
+### Example: exact video details
 
+```json
+{
+  "searchQueries": ["apify"],
+  "type": "video",
+  "maxResults": 20,
+  "includeVideoDetails": true
+}
+```
 
-- **Market research** — find top-performing videos in any niche by view count or upload date
-- **SEO analysis** — track which channels rank for specific keywords
-- **Competitor monitoring** — see what your competitors are posting and how videos perform
-- **Content ideation** — find trending topics by sorting by view count
-- **Influencer discovery** — use channel search to find YouTubers in any niche
-- **Academic research** — systematic collection of videos for corpus building
+## Output
 
-## FAQ
+Every result row has `type`, `position` (1-based within the query), `searchQuery`, and `scrapedAt`. When YouTube exposes an estimate for the query, `estimatedResults` is added to each row.
 
-**Which result types can I request?**
+### Video and movie rows
 
-Videos, Shorts, channels, and playlists — set the `type` field.
+| Field | Example |
+|---|---|
+| videoId | `"dQw4w9WgXcQ"` |
+| title | `"Never Gonna Give You Up"` |
+| url | `"https://www.youtube.com/watch?v=dQw4w9WgXcQ"` |
+| description | result-card snippet |
+| channelName | `"Rick Astley"` |
+| channelId | `"UCuAXFkgsw1L7..."` |
+| channelUrl | `"https://www.youtube.com/@RickAstley"` |
+| channelHandle | `"@RickAstley"` when the byline links to a handle |
+| channelVerified | `true` when the uploader has a verified badge |
+| viewCount | exact integer when the card or details provide one |
+| viewCountText | `"1.6B views"` or `"42,963 views"` (verbatim) |
+| publishedTimeText | `"2 years ago"` |
+| publishedAt | ISO 8601 UTC timestamp when a full time is exposed (`includeVideoDetails` only) |
+| likeCount | exact integer (`includeVideoDetails` only) |
+| category | `"Science & Technology"` when exposed (`includeVideoDetails` only) |
+| tags | array of video keywords when exposed (`includeVideoDetails` only) |
+| fullDescription | full description text (`includeVideoDetails` only) |
+| duration | `"3:33"` |
+| durationSeconds | `213` |
+| thumbnails | array of `{url, width, height}` |
+| richThumbnailUrl | animated preview URL when available |
+| badges | result-card badges such as `["CC", "4K"]` |
+| isLive | `true` for a live broadcast |
+| isUpcoming | `true` for a scheduled premiere or live event |
+| scheduledStartTime | ISO 8601 start time for upcoming videos (`includeVideoDetails` only) |
+| concurrentViewers | current viewer count on a live card |
 
-**Which filters are supported?**
+### Channel rows
 
-Upload date, duration, sort order (relevance, date, views, rating), and market.
+| Field | Example |
+|---|---|
+| channelId | `"UCxxxxxx"` |
+| channelName | `"Python Programmer"` |
+| channelUrl | `"https://www.youtube.com/@gilesmcmullen"` |
+| handle | `"@gilesmcmullen"` |
+| channelHandle | same handle, for consistency with video rows |
+| description | search-card snippet |
+| subscriberCount | approximate integer from YouTube's rounded label |
+| subscriberCountText | `"782K subscribers"` |
+| videoCount / videoCountText | only when YouTube shows a video count on the card |
+| thumbnails | array of avatar images |
+| isVerified | true or false |
 
-**Why do result counts vary between runs?**
+### Playlist and course rows
 
-YouTube's search results are personalized and change over time; the actor returns the public results for the requested market.
+| Field | Example |
+|---|---|
+| playlistId | `"PLxxxxxxx"` |
+| title | `"Python Full Course"` |
+| url | `"https://www.youtube.com/playlist?list=PLxxxxxxx"` |
+| channelName | `"CodeWithHarry"` |
+| channelId | `"UCxxxxxx"` |
+| channelUrl | `"https://www.youtube.com/@CodeWithHarry"` |
+| channelHandle | `"@CodeWithHarry"` |
+| videoCount / videoCountText | `100` / `"100 lessons"` when available |
+| firstVideoId | first video shown on the card |
+| thumbnails | array of playlist thumbnails |
 
-**Do I need cookies?**
+### Shorts rows
 
-No. The actor reads public search results.
+| Field | Example |
+|---|---|
+| videoId | `"abc123"` |
+| title | `"A short example"` |
+| url | `"https://www.youtube.com/shorts/abc123"` |
+| viewCount | exact integer only when YouTube shows an unabridged count |
+| viewCountText | `"1.2M views"` (verbatim) |
+| thumbnails | vertical thumbnails |
+| badge | card badge when present |
+| isShort | `true` |
+
+With `includeVideoDetails`, Shorts also gain `channelName`, `channelId`, `channelUrl`, `channelHandle`, `publishedAt`, `likeCount`, `durationSeconds`, `category`, and `tags`.
+
+### Status rows
+
+A typed query with no results produces one status row: `recordType: "status"`, `status: "no_results"`, `query`, `market`, `resultType`, `appliedFilters`, and `resultCount: 0`. A failed query produces `status: "query_failed"` with an `error` string.
+
+## How row limits work
+
+YouTube serves a variable number of results for the same query. There is no fixed ceiling: the same `news` query returned 343-373 videos, 14-24 Shorts, 601-685 mixed rows, 134-367 channels, 357-461 playlists, and 204 movies on different runs and IPs. Set `scrapeAllResults` to follow pages until YouTube stops offering results, or use `maxResults` for a smaller slice. When the requested count is not reached, the status message reports the requested and actual counts and whether the query pool was exhausted, stopped after repeated empty pages, or lost its continuation. It does not claim a fixed ceiling.
 
 ## Limitations
 
+- **Date and rating sorts are not available.** YouTube removed them; the UI suggests only relevance and view count. Saved tasks that still send `sortBy: "upload_date"` or `"rating"` are accepted and mapped to relevance with a warning.
+- **Subscriber counts are rounded.** YouTube only publishes display labels for search results, so `subscriberCount` is an approximation and `subscriberCountText` is the verbatim label. Localized labels are parsed, including Japanese `チャンネル登録者数 184万人` and Korean `구독자 8.65만명`.
+- **Some exact fields need a full player response.** On datacenter IPs YouTube can return a reduced response. Exact views, likes, and duration normally resolve, but `publishedAt` can be date-only or absent and `category`/`tags` can be omitted. The actor never fills these with zero or a placeholder.
+- **Live view counts are a live counter.** For an active stream, the detail `viewCount` follows the current live counter and is not comparable to lifetime views. Use `concurrentViewers` on the card for the live audience.
+- **Shorts can stop early.** Repeated empty continuation pages can end a Shorts run before the requested count. The run succeeds and the status message reports the requested and actual counts.
+- **No comment counts.** Comments are handled by the dedicated YouTube comments actor.
+- **Shorts cards are sparse.** Without `includeVideoDetails`, YouTube does not expose channel, date, duration, or exact views on a Shorts card.
+- **Movies are YouTube's "Movies" filter.** It returns movie-catalog videos; some are full films, some are clips or episodes.
+- **Results vary between runs.** YouTube personalizes and re-ranks search results over time.
+- **Detail fields can be withheld.** On some datacenter IPs YouTube returns a limited player response. The actor tries a second player client and the watch-next payload; fields that remain unavailable (`viewCount`, `category`, `tags`, `publishedAt`) are omitted, never filled with zero or a placeholder.
+- **Location and Purchased filters are not offered.** They return no cookieless results. Saved tasks that send `features: ["location"]`, `["purchased"]`, or `["cc"]` are accepted: `cc` maps to subtitles, the other two are ignored with a warning.
 
-- YouTube returns roughly 20 results per page; the actor keeps loading further pages until `maxResults` is reached or YouTube stops offering more.
-- For `maxResults` above 100 with a sort other than upload date, if the chosen sort runs out early the actor tops up the query with extra (deduplicated) results from YouTube's newest-first ordering, so rows past that point are not in your chosen sort order.
-- Some filters may return fewer results than requested if YouTube doesn't have enough matching content.
-- Upload date, duration, and video-feature filters apply to video/Short results. If `type` is `channel` or `playlist`, the actor ignores those video-only filters and logs the adjustment so the entity search remains useful instead of returning an empty page.
-- No authentication or cookies are required — the scraper works with publicly available search results only.
+## FAQ
+
+**Do I need cookies or a YouTube API key?**
+
+No. The actor reads public search results with no credentials.
+
+**Which result types can I request?**
+
+Videos, Shorts, channels, playlists, and movies. Leave `type` empty for mixed results. Saved tasks that send the plural `shorts` are mapped to the Shorts type.
+
+**Why did I get fewer rows than `maxResults`?**
+
+YouTube serves a variable number of rows and there is no fixed ceiling. The status message reports the requested and actual counts and whether the query pool was exhausted or stopped after repeated empty pages. Some Shorts searches can stop early; the same shortfall message applies.
+
+**What does `includeVideoDetails` add?**
+
+Exact views, likes, and duration, plus publish date, category, tags, full description, and upcoming/live state when YouTube exposes them. It costs one or more requests per video and makes the run slower.
+
+**Why is `viewCount` missing on some rows?**
+
+YouTube shows rounded labels such as `1.6B views` on many cards. The actor keeps `viewCountText` but does not turn a rounded label into a fake exact number. Enable `includeVideoDetails` for exact views.
+
+**Why is a channel's subscriber count approximate?**
+
+Search cards only show rounded labels such as `782K subscribers`.
+
+**Are Shorts supported without details?**
+
+Yes. Title, URL, views text, and thumbnails are available. Channel, date, duration, and exact views require `includeVideoDetails`.
+
+**Can I run several searches at once?**
+
+Yes. Add them to `searchQueries`; each query gets its own `position` sequence and `searchQuery` value.
