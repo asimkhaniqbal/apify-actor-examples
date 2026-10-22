@@ -4,149 +4,164 @@
 
 # AliExpress Multi-Region Search, Store & Review Scraper
 
-Pull products, store profiles, and customer reviews from AliExpress across 18 regional storefronts and 42 currencies, by keyword search, numeric ID, or a pasted AliExpress URL. No AliExpress login or cookies are needed.
+Collect AliExpress search results, customer reviews, and basic product or store lookups for 19 shopper regions. Prices, currency, and review language follow the region you choose. No AliExpress login, cookies, or manual proxy setup is required.
 
 ## What this actor does
 
-- Searches AliExpress by keyword and returns up to 60 product cards per page, with price, discount, rating, and order-count data
-- Fetches product detail, store profile, or customer review records by numeric ID, or auto-detects the right mode from a pasted AliExpress URL
-- Supports 18 regional storefronts, 42 currency codes, and 18 UI languages, plus sort order, price range, rating, and ship-from/ship-to filters for keyword searches
-- With `autoEscalateOnBlock` on (the default), switches to Apify's residential proxy mid-run if AliExpress blocks or rate-limits a request
-- Empty fields are omitted from every record
+- Searches AliExpress by keyword and returns product cards (up to 60 per page before gift filtering), with price, original price, discount, rating, sold count, images, selling points, category, and ship-from country
+- Supports 19 shopper regions and 42 currencies, with sort, price range, rating, ship-from, free-shipping, Choice, and 4-star filters
+- Flags sponsored cards and $0.00 welcome-gift cards so you can keep or drop them
+- Collects customer reviews page by page, including original text, translated text, rating, buyer country, photos, variant, shipping method, and follow-up reviews
+- Looks up a product by ID or URL for its title, main image, canonical URL, and availability status
+- Looks up a store by ID or URL for its store name, canonical store ID, seller ID, and description
+- Omits empty fields from every record; dates are ISO when present and image URLs are absolute
 
-## Output: per product (`mode=search`)
+## Modes and output
 
-- `productId`, `title`, `productUrl`, `imageUrl`
-- `salePrice` — `{amount, currencyCode, formatted, discountPercent}`
-- `originalPrice` — `{amount, currencyCode, formatted}`, present when the item is discounted
-- `discountPercent`, `currencyCode`
-- `rating` — star rating out of 5
-- `ordersText`, `ordersCount` — e.g. `"5,000+ sold"` and its parsed number
-- `sellingPoints[]` — promo lines shown on the card (e.g. free shipping threshold)
-- `listedAt`, `productType`, `itemType`, `shipFromCountry`, `region`
-- `recordType` (`product`), `siteName`, `scrapedAt`
-- `reviews[]` — attached review objects (same fields as the review record below), only when `enrichReviews` is on and `maxReviewsPerProduct` is above 0
+### Keyword search (`mode=search`)
 
-## Output: per product (`mode=byProduct` or `byUrl` on an item link)
+One record per product card:
 
-- `productId`, `productUrl`, `canonicalUrl`, `title`, `imageUrl`, `description`
-- `salePrice` — `{amount, currencyCode}`, `currencyCode`
-- `rating`, `ratingCount` — from the page's structured product data, when present
-- `storeId`, `storeUrl`, `sellerAdminSeq`
-- `region`, `recordType` (`product`), `siteName`, `scrapedAt`
-- `reviews[]` — attached review objects (same fields as the review record below), only when `enrichReviews` is on and `maxReviewsPerProduct` is above 0
+`productId`, `title`, `productUrl`, `imageUrl`, `imageUrls[]`, `salePrice{amount,currencyCode,formatted,discountPercent}`, `originalPrice{amount,currencyCode,formatted}`, `discountPercent`, `currencyCode`, `rating`, `ordersText`, `ordersCount`, `sellingPoints[]`, `listedAt`, `productType`, `itemType`, `shipFromCountry`, `categoryId`, `isChoice`, `isSponsored`, `isWelcomeGift`, `region`, `sourceUrl`, `recordType`, `siteName`, `scrapedAt`.
 
-If a product page can't be loaded, the record still appears but carries only `productId`, `productUrl`, `region`, `recordType`, `siteName` and `scrapedAt` (plus any reviews).
-## Output: per store (`mode=byStore` or `byUrl` on a store link)
+`salePrice.amount` is the lowest price shown for the listing on the search card, not a selected variant's price.
 
-- `storeId`, `storeUrl`, `storeName`, `storeLogoUrl`
-- `sellerId`, `storeNumber`, `openedAt`, `positiveFeedbackRate`
-- `region`, `recordType` (`store`), `siteName`, `scrapedAt`
+### Product lookup (`mode=byProduct`, or an item URL in `mode=byUrl`)
 
-## Output: per review (`mode=byReviews` or `byUrl` on a feedback link)
+One record per requested product:
 
-- `productId`, `reviewId`, `rating` (1–5)
-- `reviewText` (AliExpress's translated text when it provides one, otherwise the original), `reviewerName`, `reviewerCountry`, `reviewerHeadUrl`
-- `reviewedAt`, `skuInfo`
-- `imageUrls[]`, `helpfulCount`
-- `recordType` (`review`), `siteName`, `scrapedAt`
+`productId`, `productUrl`, `canonicalUrl`, `title`, `imageUrl`, `status` (`ok`, `not_found`, or `blocked`), `region`, `recordType`, `siteName`, `scrapedAt`.
+
+With `includeReviews` enabled, a `reviews[]` array is attached. This mode is a title/image/existence lookup: AliExpress loads price, rating, variants, specifications, shipping, and seller statistics through a separate anti-bot API that this actor does not promise. Use keyword search for card price and rating.
+
+### Store lookup (`mode=byStore`, or a store URL in `mode=byUrl`)
+
+One record per requested store:
+
+`storeId` (canonical), `storeNumber`, `storeName`, `storeUrl`, `storeDescription`, `sellerId`, `status`, `region`, `recordType`, `siteName`, `scrapedAt`.
+
+AliExpress's store statistics API (positive-feedback rate, opening date, 180-day sales, followers) is not publicly reachable without the same protected API. Those fields are deliberately not advertised.
+
+### Reviews (`mode=byReviews`, a product ID list, or a review URL in `mode=byUrl`)
+
+One record per review:
+
+`productId`, `productRating`, `productReviewCount`, `reviewId`, `rating` (1–5), `reviewText`, `reviewTextTranslated`, `translationLanguage`, `reviewerName`, `reviewerCountry`, `reviewerHeadUrl`, `reviewedAt`, `skuInfo`, `imageUrls[]`, `helpfulCount`, `logistics`, `isFollowUp`, `followUpText`, `followUpDate`, `recordType`, `siteName`, `scrapedAt`.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `search` | `search`, `byProduct`, `byStore`, `byReviews`, or `byUrl` (auto-detects from the URL) |
-| `searchQuery` | string | – | Free-text query (mode=search) |
-| `productIds` | array | – | Numeric product IDs (mode=byProduct or byReviews) |
-| `storeIds` | array | – | Numeric store IDs (mode=byStore) |
-| `urls` | array | – | AliExpress search, item, store, or feedback URLs (mode=byUrl) |
-| `region` | string | `com` | Regional storefront, e.g. `com`, `us`, `de`, `ja` (for `byUrl`, the region comes from each URL's host instead) |
-| `currency` | string | `USD` | ISO-4217 currency code sent as a locale hint; AliExpress may still answer in another currency |
-| `language` | string | `en_US` | UI locale AliExpress should render text in |
-| `sortBy` | string | `default` | `default`, `orders_desc`, `newest`, `price_asc`, or `price_desc` (mode=search only) |
-| `priceMin` | integer | `0` | Minimum price in the selected currency (mode=search only); `0` disables the lower bound |
-| `priceMax` | integer | `0` | Maximum price (mode=search only); `0` disables the upper bound |
-| `ratingMin` | number | `0` | Minimum star rating (0–5, decimals allowed; mode=search only). Products with no rating are kept |
-| `shipFrom` | string | `""` (any) | ISO 3166-1 alpha-2 warehouse country (mode=search only) |
-| `shipTo` | string | `""` (any) | ISO 3166-1 alpha-2 destination country; filters keyword searches and is also sent as the delivery region on product and store pages |
-| `maxItems` | integer | `25` | Hard cap on emitted records (1–1000) |
-| `maxPages` | integer | `3` | Maximum search result pages to paginate through (1–60), for `search` and search URLs in `byUrl` |
-| `enrichReviews` | boolean | `false` | Attach up to `maxReviewsPerProduct` reviews to each product record |
-| `maxReviewsPerProduct` | integer | `0` | Review cap per product when `enrichReviews` is on (0 = no reviews attached). In `byReviews` mode, and for feedback URLs in `byUrl`, 0 means 20 reviews per product |
-| `useProxy` | boolean | `false` | Route requests through Apify proxy |
-| `autoEscalateOnBlock` | boolean | `true` | Switch to Apify residential proxy automatically if a request is blocked or rate-limited |
-| `proxyConfiguration` | object | `{"useApifyProxy": true, "apifyProxyGroups": []}` | Proxy settings, used when `useProxy` is enabled |
+| `mode` | string | `search` | `search`, `byProduct`, `byStore`, `byReviews`, or `byUrl` |
+| `searchQueries` | array | – | Keywords for `search`; one to 50 queries (the prefill example is `["phone case"]`) |
+| `productIds` | array | – | Product IDs or item URLs for `byProduct` / `byReviews` |
+| `storeIds` | array | – | Store IDs or store URLs for `byStore` |
+| `urls` | array | – | Any AliExpress search, item, store, or review URLs for `byUrl` |
+| `region` | string | `US` | Shopper country: `US`, `GB`, `DE`, `FR`, `ES`, `IT`, `NL`, `PT`, `PL`, `BR`, `MX`, `CA`, `AU`, `JP`, `KR`, `TR`, `SA`, `AE`, `IL`, or `GLOBAL` |
+| `currency` | string | region default | Optional ISO-4217 override, e.g. `USD`, `EUR`, `BRL` |
+| `language` | string | `en_US` | Storefront language and review translation language |
+| `sortBy` | string | `default` | `default`, `orders_desc`, `price_asc`, or `price_desc` |
+| `priceMin` / `priceMax` | number | `0` | Price bounds in the selected currency; `0` disables a bound |
+| `ratingMin` | number | `0` | Minimum stars from 0 to 5; unrated items are skipped when set |
+| `shipFrom` | string | any | Warehouse country code, e.g. `CN`, `US`, `ES` |
+| `freeShippingOnly` | boolean | `false` | Only items with free-shipping advertising |
+| `choiceOnly` | boolean | `false` | Only AliExpress Choice items |
+| `fourStarPlus` | boolean | `false` | Only items rated 4.0 or higher. AliExpress's own 4-star filter can include 3.x cards, so the actor enforces the 4.0 cutoff after the page is fetched |
+| `includeSponsored` | boolean | `true` | Include promoted cards, marked `isSponsored` |
+| `includeWelcomeGifts` | boolean | `false` | Include $0.00 new-shopper gift cards, marked `isWelcomeGift` |
+| `maxItems` | integer | `100` | Hard cap on emitted records (1–10,000) |
+| `maxPages` | integer | `3` | Pages per query (1–60; 60 cards per page) |
+| `includeReviews` | boolean | `false` | Attach reviews to product records |
+| `maxReviewsPerProduct` | integer | `20` | Review cap per product (0–200; 0 uses 20) |
+| `reviewFilter` | string | `all` | `all`, `withPhotos`, or `additional` |
+| `includeProductStats` | boolean | `true` | Add product average rating and review count to review rows |
 
-### Example: keyword search with filters
+### Example: search three regions
 
 ```json
 {
-    "mode": "search",
-    "searchQuery": "phone case",
-    "region": "com",
-    "currency": "USD",
-    "sortBy": "orders_desc",
-    "priceMax": 10,
-    "ratingMin": 4,
-    "shipFrom": "CN",
-    "maxItems": 50,
-    "maxPages": 2
+  "mode": "search",
+  "searchQueries": ["phone case", "wireless earbuds"],
+  "region": "ES",
+  "currency": "EUR",
+  "sortBy": "orders_desc",
+  "freeShippingOnly": true,
+  "maxItems": 200,
+  "maxPages": 3
 }
 ```
 
-### Example: enrich specific products with reviews
+### Example: collect translated reviews
 
 ```json
 {
-    "mode": "byProduct",
-    "productIds": ["1005010155028387"],
-    "enrichReviews": true,
-    "maxReviewsPerProduct": 20
+  "mode": "byReviews",
+  "productIds": ["1005010155028387", "1005012594256426"],
+  "language": "es_ES",
+  "maxReviewsPerProduct": 60,
+  "reviewFilter": "withPhotos",
+  "includeProductStats": true
 }
 ```
 
-### Example: resolve a pasted AliExpress URL
+### Example: resolve mixed URLs
 
 ```json
 {
-    "mode": "byUrl",
-    "urls": ["https://www.aliexpress.com/store/1101493050"]
+  "mode": "byUrl",
+  "urls": [
+    "https://www.aliexpress.com/item/1005010155028387.html",
+    "https://www.aliexpress.com/store/1101493050",
+    "https://www.aliexpress.com/w/wholesale-phone-case.html"
+  ]
 }
 ```
 
 ## Use cases
 
-- **Price tracking** — monitor sale price and discount percentage on a set of known products over time
-- **Market research** — search a product keyword across regions to compare pricing and order volume
-- **Seller due diligence** — pull a store's profile and positive-feedback rate before sourcing from it
-- **Voice-of-customer analysis** — collect review text and ratings for a product line
-- **Catalog building** — resolve a batch of AliExpress item/store/search URLs in one run via `byUrl`
+- Compare keyword pricing and sales signals across countries and currencies
+- Build a review corpus with translated text for sentiment analysis
+- Monitor a product line's card prices and discounts on a schedule
+- Resolve pasted AliExpress product or store links into structured records
+- Feed product-card and review data into spreadsheets, databases, or AI pipelines
+
+## Limits
+
+- **No full item-detail scraping.** AliExpress renders item price/rating/variants/specs/shipping/seller data through a protected client-side API. This actor returns an item's title, image, and canonical URL; it does not promise the rest.
+- **No store statistics.** The store profile API is behind the same protection, so store rating, positive-feedback rate, opening date, and 180-day sales are not returned.
+- **Search cap.** AliExpress serves 60 cards per page and stops at page 60, so one query exposes at most 3,600 raw cards (60 pages x 60). Cross-page dedupe and the default gift filter usually return fewer; a default US page produced roughly 30-45 rows in tests. Split broad searches by price, sort order, or narrower keywords for more coverage.
+- **Card price is a listing minimum.** It is the lowest price across variants shown on the card, not a selected SKU's price.
+- **Conditional fields.** Ratings, discounts, photos, avatars, and follow-ups are only present when the source has them. They are omitted, never filled with a placeholder.
+- **Review dates in non-English languages.** AliExpress localizes review month names (for example `ENE`, `FEV`, `ABR`). The current parser recognizes English month abbreviations, so some `reviewedAt` values are omitted when `language` is not `en_US` even though the source has a date. Use `language=en_US` when every review needs a date.
+- **The 4-star filter is enforced by the actor.** AliExpress's own 4-star filter can include 3.x cards (3.7-3.9 was observed); when `fourStarPlus` is on, the actor removes anything below 4.0.
+- **Review order.** The public review endpoint does not support a sort parameter; reviews are returned in AliExpress's default order.
+- **Welcome gifts.** Some US searches show $0.00 gift cards. They are excluded by default; enable `includeWelcomeGifts` to keep them with the `isWelcomeGift` flag.
 
 ## FAQ
 
 **Do I need an AliExpress account or cookies?**
-No. Every mode reads AliExpress's public pages and reviews without authentication.
+No. The actor reads public search, review, product, and store pages without logging in.
 
-**Do I need a proxy?**
-Not usually. The actor works from a standard IP for typical volumes. `autoEscalateOnBlock` is on by default and switches to Apify's residential proxy mid-run if AliExpress rate-limits a request; enable `useProxy` up front for sustained, high-volume scraping.
+**Do I need to configure a proxy?**
+No. AliExpress rate limits are handled automatically; there is nothing to configure.
 
-**Why does `byProduct` return fewer fields than `search`?**
-An AliExpress product page only carries a short summary when it's first opened — title, main image, and sometimes price, rating and store — and that summary is what the actor records. For the richest per-product fields (price, discount, orders, selling points), use `mode=search`.
+**Why does `byProduct` not return price, rating, or variants?**
+AliExpress loads those fields through a separate protected API that is not reliably reachable without a browser session. The actor returns the reliable part — title, image, canonical URL, and status — rather than pretending to have the rest. Use keyword search for card price and rating.
 
-**Why might `currencyCode` differ from the `currency` I requested?**
-AliExpress determines currency partly from the requesting IP's location. For deterministic currency, pair `currency` with `useProxy` and a residential proxy in a country that uses your target currency.
+**Why is there no store rating or follower count?**
+AliExpress serves store statistics from a protected profile API. Only the public store name, canonical ID, seller ID, and description are returned.
 
-**Can I scrape a category page?**
-AliExpress's category URLs redirect to the matching keyword search — pass the category name as `searchQuery` instead for the same results.
+**Why does the returned currency sometimes differ from what I picked?**
+The actor sets the shopper region and currency, and records the currency AliExpress actually returned. If you need a specific currency, set both `region` and `currency`.
 
-**How many results can one run return?**
-At most `maxItems` records in total (up to 1,000). Searches stop after `maxPages` result pages, so raise both for larger pulls. Reviews are collected page by page up to the per-product cap.
+**How many products can one search return?**
+Up to 60 cards per page and 60 pages per query (3,600 raw cards; fewer after gift filtering and cross-page dedupe). Use narrower keywords or price ranges to partition larger catalogs.
 
-**Do my filters apply to pasted search URLs?**
-No. In `byUrl` mode a search URL is re-run with its keyword only, in the storefront of its host; `sortBy`, price, rating and ship-from filters are not applied there. Feedback URLs return up to 20 reviews per product unless `maxReviewsPerProduct` is set.
+**Why are some reviews missing photos or translations?**
+Photos, avatars, and follow-ups are optional on AliExpress. Translation depends on the review language and the selected `language`; translated text is omitted when the source does not provide it. Review dates are normalized from localized month names (Spanish, Portuguese, French, German, Italian, Russian, and English).
 
-**Why did a run on a less common region return 0 records?**
-Some regional storefronts occasionally serve a search page with no product list, or block the request. When that happens the run finishes with 0 records and a status message explaining likely causes instead of failing. Retrying, or switching to the `com` storefront, usually helps.
+**Can I get more than 200 reviews for one product?**
+No in one pass; the review cap is 200 per product. Run multiple products or split the review set.
 
 **Is this affiliated with AliExpress?**
-No. This is an independent actor that reads AliExpress's public pages and is not operated or endorsed by AliExpress or Alibaba Group.
+No. This is an independent actor that reads public AliExpress pages and is not operated or endorsed by AliExpress or Alibaba Group.

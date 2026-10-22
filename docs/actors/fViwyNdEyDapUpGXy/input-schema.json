@@ -1,19 +1,20 @@
 {
-  "description": "Scrape AliExpress search results, products, stores and reviews across all major regional storefronts.",
+  "description": "Search AliExpress by keyword, look up products and stores, or collect customer reviews across major shopper regions.",
   "properties": {
-    "autoEscalateOnBlock": {
-      "default": true,
-      "description": "If a request is blocked or rate-limited, transparently switch to Apify residential proxy for retries.",
+    "choiceOnly": {
+      "default": false,
+      "description": "Only show AliExpress Choice items.",
       "editor": "checkbox",
-      "prefill": true,
-      "title": "Auto-escalate on block",
+      "prefill": false,
+      "title": "AliExpress Choice only",
       "type": "boolean"
     },
     "currency": {
-      "default": "USD",
-      "description": "ISO-4217 currency code. Sent via the aep_usuc_f locale cookie; AliExpress may override it with the proxy IP's local currency. Output currencyCode reflects the actual currency returned by AliExpress. For deterministic currency, pair with useProxy and a residential proxy in the target country.",
+      "default": "",
+      "description": "Optional ISO-4217 currency. Leave blank to use the region's usual currency. The currency actually returned is recorded in every record.",
       "editor": "select",
       "enum": [
+        "",
         "USD",
         "EUR",
         "GBP",
@@ -58,65 +59,106 @@
         "NGN"
       ],
       "enumTitles": [
-        "USD - US Dollar",
-        "EUR - Euro",
-        "GBP - Pound Sterling",
-        "JPY - Japanese Yen",
-        "CNY - Chinese Yuan",
-        "RUB - Russian Ruble",
-        "BRL - Brazilian Real",
-        "INR - Indian Rupee",
-        "AUD - Australian Dollar",
-        "CAD - Canadian Dollar",
-        "HKD - Hong Kong Dollar",
-        "TWD - Taiwan Dollar",
-        "KRW - South Korean Won",
-        "SGD - Singapore Dollar",
-        "MXN - Mexican Peso",
-        "ARS - Argentine Peso",
-        "CLP - Chilean Peso",
-        "COP - Colombian Peso",
-        "PEN - Peruvian Sol",
-        "UYU - Uruguayan Peso",
-        "ILS - Israeli Shekel",
-        "TRY - Turkish Lira",
-        "AED - UAE Dirham",
-        "SAR - Saudi Riyal",
-        "ZAR - South African Rand",
-        "PLN - Polish Zloty",
-        "CHF - Swiss Franc",
-        "SEK - Swedish Krona",
-        "NOK - Norwegian Krone",
-        "DKK - Danish Krone",
-        "CZK - Czech Koruna",
-        "HUF - Hungarian Forint",
-        "RON - Romanian Leu",
-        "THB - Thai Baht",
-        "VND - Vietnamese Dong",
-        "PHP - Philippine Peso",
-        "IDR - Indonesian Rupiah",
-        "MYR - Malaysian Ringgit",
-        "NZD - New Zealand Dollar",
-        "PKR - Pakistani Rupee",
-        "EGP - Egyptian Pound",
-        "NGN - Nigerian Naira"
+        "(use region currency)",
+        "USD",
+        "EUR",
+        "GBP",
+        "JPY",
+        "CNY",
+        "RUB",
+        "BRL",
+        "INR",
+        "AUD",
+        "CAD",
+        "HKD",
+        "TWD",
+        "KRW",
+        "SGD",
+        "MXN",
+        "ARS",
+        "CLP",
+        "COP",
+        "PEN",
+        "UYU",
+        "ILS",
+        "TRY",
+        "AED",
+        "SAR",
+        "ZAR",
+        "PLN",
+        "CHF",
+        "SEK",
+        "NOK",
+        "DKK",
+        "CZK",
+        "HUF",
+        "RON",
+        "THB",
+        "VND",
+        "PHP",
+        "IDR",
+        "MYR",
+        "NZD",
+        "PKR",
+        "EGP",
+        "NGN"
       ],
       "prefill": "USD",
-      "title": "Currency",
+      "title": "Currency override",
       "type": "string"
     },
-    "enrichReviews": {
+    "fourStarPlus": {
       "default": false,
-      "description": "If true, fetch up to maxReviewsPerProduct customer reviews for every product record.",
+      "description": "Only show items rated 4.0 or higher. The actor enforces the 4.0 threshold after AliExpress returns its filtered page.",
       "editor": "checkbox",
       "prefill": false,
-      "sectionCaption": "Enrichment",
-      "title": "Enrich with reviews",
+      "title": "4 stars and up only",
+      "type": "boolean"
+    },
+    "freeShippingOnly": {
+      "default": false,
+      "description": "Only show items advertised with free shipping.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Free shipping only",
+      "type": "boolean"
+    },
+    "includeProductStats": {
+      "default": true,
+      "description": "Add each product's average rating and total review count to review records.",
+      "editor": "checkbox",
+      "prefill": true,
+      "title": "Include review summary",
+      "type": "boolean"
+    },
+    "includeReviews": {
+      "default": false,
+      "description": "Fetch customer reviews for each product (slow and adds records to the product).",
+      "editor": "checkbox",
+      "prefill": false,
+      "sectionCaption": "Reviews",
+      "title": "Attach reviews",
+      "type": "boolean"
+    },
+    "includeSponsored": {
+      "default": true,
+      "description": "Include promoted product cards; they are marked isSponsored in the output.",
+      "editor": "checkbox",
+      "prefill": true,
+      "title": "Include sponsored results",
+      "type": "boolean"
+    },
+    "includeWelcomeGifts": {
+      "default": false,
+      "description": "Include $0.00 new-shopper gift cards; they are marked isWelcomeGift and have no normal price.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Include welcome-gift cards",
       "type": "boolean"
     },
     "language": {
       "default": "en_US",
-      "description": "Locale that AliExpress should render text in (b_locale cookie).",
+      "description": "Storefront language and the language used to translate review text.",
       "editor": "select",
       "enum": [
         "en_US",
@@ -159,43 +201,43 @@
         "Hebrew (Israel)"
       ],
       "prefill": "en_US",
-      "title": "UI language",
+      "title": "Language",
       "type": "string"
     },
     "maxItems": {
-      "default": 25,
-      "description": "Hard cap on emitted records.",
+      "default": 100,
+      "description": "Hard cap on records emitted by the run.",
       "editor": "number",
-      "maximum": 1000,
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 5,
+      "prefill": 3,
       "sectionCaption": "Limits",
       "title": "Max items",
       "type": "integer"
     },
     "maxPages": {
       "default": 3,
-      "description": "Maximum pagination pages per search query (60 items per page).",
+      "description": "Maximum result pages per query (60 products per page, up to 60 pages).",
       "editor": "number",
       "maximum": 60,
       "minimum": 1,
-      "prefill": 3,
+      "prefill": 1,
       "title": "Max search pages",
       "type": "integer"
     },
     "maxReviewsPerProduct": {
-      "default": 0,
-      "description": "Cap on how many reviews to keep per product (when enrichReviews=true, or in mode=byReviews). 0 disables.",
+      "default": 20,
+      "description": "Review cap per product when reviews are fetched. 0 uses the default of 20.",
       "editor": "number",
       "maximum": 200,
       "minimum": 0,
-      "prefill": 0,
+      "prefill": 20,
       "title": "Max reviews per product",
       "type": "integer"
     },
     "mode": {
       "default": "search",
-      "description": "What to scrape. search: text-query results. byProduct: product detail by ID. byStore: store profile by ID. byReviews: customer reviews for product IDs. byUrl: parse any AliExpress URL (search, item, store, or feedback).",
+      "description": "What to collect. search: keyword results. byProduct: product lookup by ID or URL. byStore: store lookup. byReviews: customer reviews. byUrl: auto-detect from pasted AliExpress links.",
       "editor": "select",
       "enum": [
         "search",
@@ -205,11 +247,11 @@
         "byUrl"
       ],
       "enumTitles": [
-        "Search (text query)",
-        "By product ID",
-        "By store ID",
-        "By reviews",
-        "By URL (auto-detect)"
+        "Search by keyword",
+        "Look up products",
+        "Look up stores",
+        "Collect reviews",
+        "Auto-detect from URLs"
       ],
       "prefill": "search",
       "sectionCaption": "Mode & Inputs",
@@ -218,51 +260,34 @@
     },
     "priceMax": {
       "default": 0,
-      "description": "Maximum price (in the selected currency). 0 disables the upper bound.",
-      "editor": "number",
+      "description": "Maximum price in the selected currency. 0 disables the upper bound.",
       "maximum": 1000000,
       "minimum": 0,
       "prefill": 0,
       "title": "Maximum price",
-      "type": "integer"
+      "type": "number"
     },
     "priceMin": {
       "default": 0,
-      "description": "Minimum price (in the selected currency). Records below this are excluded.",
-      "editor": "number",
+      "description": "Minimum price in the selected currency. 0 disables the lower bound.",
       "maximum": 1000000,
       "minimum": 0,
       "prefill": 0,
       "title": "Minimum price",
-      "type": "integer"
+      "type": "number"
     },
     "productIds": {
-      "description": "AliExpress numeric product IDs (e.g. 1005010155028387). Each ID becomes one fetch in byProduct, or one batch of reviews in byReviews.",
+      "description": "Numeric AliExpress product IDs or item URLs. Both 1005… and 3256… ID formats are accepted.",
       "editor": "stringList",
       "prefill": [
         "1005010155028387"
       ],
-      "title": "Product IDs (mode=byProduct or byReviews)",
+      "title": "Product IDs or URLs (mode=byProduct or byReviews)",
       "type": "array"
-    },
-    "proxyConfiguration": {
-      "default": {
-        "apifyProxyGroups": [],
-        "useApifyProxy": true
-      },
-      "description": "Apify proxy configuration. Used only when useProxy is enabled.",
-      "editor": "proxy",
-      "prefill": {
-        "apifyProxyGroups": [],
-        "useApifyProxy": true
-      },
-      "title": "Proxy configuration",
-      "type": "object"
     },
     "ratingMin": {
       "default": 0,
-      "description": "Minimum star rating (0–5, accepts decimals like 4.5). Records below are excluded; products with no rating are kept (the user opted into a filter, not into requiring the field).",
-      "editor": "number",
+      "description": "Minimum star rating from 0 to 5. Products without a rating are skipped when a threshold is set.",
       "maximum": 5,
       "minimum": 0,
       "prefill": 0,
@@ -270,64 +295,66 @@
       "type": "number"
     },
     "region": {
-      "default": "com",
-      "description": "AliExpress regional sub-domain to query. com is the global English storefront; us is the United States storefront; the rest are language-localized variants.",
+      "default": "US",
+      "description": "Country used for prices, availability and the storefront locale. Global leaves the region to the requesting IP.",
       "editor": "select",
-      "enum": [
-        "com",
-        "us",
-        "ru",
-        "es",
-        "fr",
-        "de",
-        "it",
-        "nl",
-        "pt",
-        "pl",
-        "ar",
-        "tr",
-        "ko",
-        "ja",
-        "vi",
-        "th",
-        "id",
-        "he"
+      "enumSuggestedValues": [
+        "US",
+        "GB",
+        "DE",
+        "FR",
+        "ES",
+        "IT",
+        "NL",
+        "PT",
+        "PL",
+        "BR",
+        "MX",
+        "CA",
+        "AU",
+        "JP",
+        "KR",
+        "TR",
+        "SA",
+        "AE",
+        "IL",
+        "GLOBAL"
       ],
-      "enumTitles": [
-        "Global (aliexpress.com)",
-        "United States (aliexpress.us)",
-        "Russia (aliexpress.com with ru locale)",
-        "Spain (es.aliexpress.com)",
-        "France (fr.aliexpress.com)",
-        "Germany (de.aliexpress.com)",
-        "Italy (it.aliexpress.com)",
-        "Netherlands (nl.aliexpress.com)",
-        "Portugal (pt.aliexpress.com)",
-        "Poland (pl.aliexpress.com)",
-        "Arabic (ar.aliexpress.com)",
-        "Turkey (tr.aliexpress.com)",
-        "Korea (ko.aliexpress.com)",
-        "Japan (ja.aliexpress.com)",
-        "Vietnam (vi.aliexpress.com)",
-        "Thailand (th.aliexpress.com)",
-        "Indonesia (id.aliexpress.com)",
-        "Hebrew (he.aliexpress.com)"
-      ],
-      "prefill": "com",
+      "prefill": "US",
       "sectionCaption": "Region & Locale",
-      "title": "Regional storefront",
+      "title": "Shopper region",
       "type": "string"
     },
-    "searchQuery": {
-      "description": "Free-text search query, e.g. \"phone case\", \"led strip\", \"running shoes\". Required when mode=search.",
-      "editor": "textfield",
-      "prefill": "phone case",
-      "title": "Search query (mode=search)",
+    "reviewFilter": {
+      "default": "all",
+      "description": "Which reviews to collect.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "withPhotos",
+        "additional"
+      ],
+      "enumTitles": [
+        "All reviews",
+        "With photos",
+        "With follow-up"
+      ],
+      "prefill": "all",
+      "title": "Review filter",
       "type": "string"
+    },
+    "searchQueries": {
+      "description": "One or more keywords, e.g. \"phone case\" or \"wireless earbuds\". Each query is scraped up to maxPages pages.",
+      "editor": "stringList",
+      "prefill": [
+        "phone case"
+      ],
+      "title": "Search queries (mode=search)",
+      "type": "array"
     },
     "shipFrom": {
       "default": "",
-      "description": "ISO 3166-1 alpha-2 country code of the warehouse the item ships from (CN by default).",
+      "description": "Only show items stocked in this country. Leave blank for any warehouse.",
       "editor": "select",
       "enum": [
         "",
@@ -359,46 +386,9 @@
         "PT"
       ],
       "enumTitles": [
-        "(any)",
-        "China (CN)",
-        "United States (US)",
-        "Russia (RU)",
-        "Spain (ES)",
-        "France (FR)",
-        "Germany (DE)",
-        "Italy (IT)",
-        "United Kingdom (GB)",
-        "Poland (PL)",
-        "Turkey (TR)",
-        "Brazil (BR)",
-        "Japan (JP)",
-        "Korea (KR)",
-        "Australia (AU)",
-        "Canada (CA)",
-        "Mexico (MX)",
-        "UAE (AE)",
-        "Saudi Arabia (SA)",
-        "Israel (IL)",
-        "Thailand (TH)",
-        "Vietnam (VN)",
-        "Indonesia (ID)",
-        "Malaysia (MY)",
-        "Netherlands (NL)",
-        "Belgium (BE)",
-        "Portugal (PT)"
-      ],
-      "prefill": "",
-      "title": "Ship from country",
-      "type": "string"
-    },
-    "shipTo": {
-      "default": "",
-      "description": "ISO 3166-1 alpha-2 country to ship to (also drives currency / locale defaults).",
-      "editor": "select",
-      "enum": [
-        "",
-        "US",
+        "(any warehouse)",
         "CN",
+        "US",
         "RU",
         "ES",
         "FR",
@@ -422,68 +412,22 @@
         "MY",
         "NL",
         "BE",
-        "PT",
-        "IN",
-        "PK",
-        "EG",
-        "ZA",
-        "NG"
-      ],
-      "enumTitles": [
-        "(any)",
-        "United States (US)",
-        "China (CN)",
-        "Russia (RU)",
-        "Spain (ES)",
-        "France (FR)",
-        "Germany (DE)",
-        "Italy (IT)",
-        "United Kingdom (GB)",
-        "Poland (PL)",
-        "Turkey (TR)",
-        "Brazil (BR)",
-        "Japan (JP)",
-        "Korea (KR)",
-        "Australia (AU)",
-        "Canada (CA)",
-        "Mexico (MX)",
-        "UAE (AE)",
-        "Saudi Arabia (SA)",
-        "Israel (IL)",
-        "Thailand (TH)",
-        "Vietnam (VN)",
-        "Indonesia (ID)",
-        "Malaysia (MY)",
-        "Netherlands (NL)",
-        "Belgium (BE)",
-        "Portugal (PT)",
-        "India (IN)",
-        "Pakistan (PK)",
-        "Egypt (EG)",
-        "South Africa (ZA)",
-        "Nigeria (NG)"
+        "PT"
       ],
       "prefill": "",
-      "title": "Ship to country",
+      "title": "Ship from country",
       "type": "string"
     },
     "sortBy": {
       "default": "default",
-      "description": "How AliExpress should sort the search results.",
+      "description": "How keyword results are ordered. AliExpress does not expose a newest sort.",
       "editor": "select",
-      "enum": [
+      "enumSuggestedValues": [
         "default",
         "orders_desc",
-        "newest",
         "price_asc",
-        "price_desc"
-      ],
-      "enumTitles": [
-        "Best match (default)",
-        "Most orders",
-        "Newest",
-        "Price: low to high",
-        "Price: high to low"
+        "price_desc",
+        "newest"
       ],
       "prefill": "default",
       "sectionCaption": "Filters",
@@ -491,33 +435,27 @@
       "type": "string"
     },
     "storeIds": {
-      "description": "AliExpress numeric store IDs from /store/{id} URLs.",
+      "description": "Numeric store IDs or /store/… URLs.",
       "editor": "stringList",
       "prefill": [
         "1101493050"
       ],
-      "title": "Store IDs (mode=byStore)",
+      "title": "Store IDs or URLs (mode=byStore)",
       "type": "array"
     },
     "urls": {
-      "description": "Any mix of AliExpress URLs: search (/wholesale or /w/...), product (/item/{id}.html), store (/store/{id}), or feedback (/pc/searchEvaluation.do?productId={id}). Region is auto-detected from the host.",
+      "description": "Any mix of search, item, store and review URLs. The mode is detected per URL.",
       "editor": "stringList",
       "prefill": [
         "https://www.aliexpress.com/item/1005010155028387.html"
       ],
-      "title": "URLs (mode=byUrl)",
+      "title": "AliExpress URLs (mode=byUrl)",
       "type": "array"
-    },
-    "useProxy": {
-      "default": false,
-      "description": "Route requests through Apify proxy. AliExpress is generally accessible without a proxy from datacenter IPs; enable only if you see frequent rate limits.",
-      "editor": "checkbox",
-      "prefill": false,
-      "sectionCaption": "Proxy & Anti-bot",
-      "title": "Use Apify proxy",
-      "type": "boolean"
     }
   },
+  "required": [
+    "mode"
+  ],
   "schemaVersion": 1,
   "title": "AliExpress Scraper Input",
   "type": "object"

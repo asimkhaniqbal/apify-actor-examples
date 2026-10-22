@@ -1,0 +1,243 @@
+{
+  "properties": {
+    "authors": {
+      "description": "Only keep comments written by these Reddit usernames (case-insensitive). Leave empty to keep comments from all authors.",
+      "editor": "stringList",
+      "example": [
+        "spez"
+      ],
+      "title": "Filter by comment author(s)",
+      "type": "array"
+    },
+    "commentContext": {
+      "default": 3,
+      "description": "How many levels of parent comments above the target comment to include when `focusOnTargetComment` is enabled (matches Reddit's own comment-permalink page). Ignored otherwise.",
+      "maximum": 8,
+      "minimum": 0,
+      "prefill": 3,
+      "title": "Ancestor context depth (mode = focusOnTargetComment)",
+      "type": "integer"
+    },
+    "commentSort": {
+      "default": "confidence",
+      "description": "How to sort the comment threads.",
+      "enum": [
+        "confidence",
+        "top",
+        "new",
+        "controversial",
+        "old",
+        "qa"
+      ],
+      "enumTitles": [
+        "Best (Confidence)",
+        "Top",
+        "New",
+        "Controversial",
+        "Old",
+        "Q&A"
+      ],
+      "prefill": "confidence",
+      "title": "Sort comments by",
+      "type": "string"
+    },
+    "controversialOnly": {
+      "default": false,
+      "description": "When enabled, only keep comments Reddit flags as controversial (near-even up/downvote split, i.e. `controversiality: 1`).",
+      "prefill": false,
+      "title": "Only controversial comments",
+      "type": "boolean"
+    },
+    "distinguishedFilter": {
+      "default": "any",
+      "description": "Restrict output to comments with a specific 'distinguished' badge (moderator/admin posting in an official capacity), or only regular (non-distinguished) comments. Leave as 'Any' to keep everyone.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "moderator",
+        "admin",
+        "none"
+      ],
+      "enumTitles": [
+        "Any (default)",
+        "Moderator only",
+        "Admin only",
+        "Regular users only (exclude mod/admin)"
+      ],
+      "prefill": "any",
+      "title": "Filter by distinguished status",
+      "type": "string"
+    },
+    "excludeAuthors": {
+      "description": "Drop comments written by these Reddit usernames (case-insensitive), e.g. bots like AutoModerator. Leave empty to keep comments from all authors. Applied after `authors` (an author listed in both is excluded).",
+      "editor": "stringList",
+      "example": [
+        "AutoModerator"
+      ],
+      "title": "Exclude comment author(s)",
+      "type": "array"
+    },
+    "excludeCollapsed": {
+      "default": false,
+      "description": "When enabled, comments Reddit collapses by default (low score or crowd control) are dropped.",
+      "prefill": false,
+      "title": "Exclude collapsed comments",
+      "type": "boolean"
+    },
+    "excludeDeletedRemoved": {
+      "default": false,
+      "description": "When enabled, comments whose body or author show as [deleted] or [removed] are dropped (no real content left to scrape).",
+      "prefill": false,
+      "title": "Exclude deleted/removed comments",
+      "type": "boolean"
+    },
+    "excludeKeywords": {
+      "description": "Drop comments whose body contains any of these keywords or phrases (case-insensitive substring match), e.g. spam/boilerplate phrases. Applied after `keywords` (a keyword listed in both still excludes the comment). Leave empty to keep all comments.",
+      "editor": "stringList",
+      "example": [
+        "I am a bot",
+        "check out my"
+      ],
+      "title": "Exclude keyword(s) in comment body",
+      "type": "array"
+    },
+    "excludeStickied": {
+      "default": false,
+      "description": "When enabled, moderator-pinned (stickied) comments — e.g. AutoModerator notices — are dropped.",
+      "prefill": false,
+      "title": "Exclude stickied comments",
+      "type": "boolean"
+    },
+    "focusOnTargetComment": {
+      "default": false,
+      "description": "When a `postUrls` item is a specific comment permalink (e.g. .../comments/1abc123/title/comment/xyz987/), only that comment plus its ancestor chain (see `commentContext`) is fetched instead of the full thread. Guarantees the target comment is captured even in huge threads where `maxComments` pagination might not reach it. Has no effect on plain post URLs.",
+      "prefill": false,
+      "title": "Focus on the specific comment in the URL",
+      "type": "boolean"
+    },
+    "includePost": {
+      "default": false,
+      "description": "When enabled, the parent post is emitted as the first record of each thread (full post data included).",
+      "prefill": false,
+      "title": "Include the parent post record",
+      "type": "boolean"
+    },
+    "keywords": {
+      "description": "Only keep comments whose body contains at least one of these keywords or phrases (case-insensitive substring match). Leave empty to keep all comments.",
+      "editor": "stringList",
+      "example": [
+        "thanks",
+        "great point"
+      ],
+      "title": "Filter by keyword(s) in comment body",
+      "type": "array"
+    },
+    "maxCommentLength": {
+      "description": "Only keep comments whose body text is at most this many characters long (Reddit's hard cap is 10,000 characters). Leave empty for no limit.",
+      "example": 2000,
+      "maximum": 10000,
+      "minimum": 0,
+      "title": "Maximum comment length (characters)",
+      "type": "integer"
+    },
+    "maxCommentScore": {
+      "description": "Only keep comments with a score (upvotes minus downvotes) at or below this value. Leave empty for no limit.",
+      "example": 1000,
+      "maximum": 1000000,
+      "minimum": -1000000,
+      "title": "Maximum comment score",
+      "type": "integer"
+    },
+    "maxComments": {
+      "default": 100,
+      "description": "Maximum number of comments to scrape from each post (including nested replies).",
+      "example": 100,
+      "maximum": 100000,
+      "minimum": 1,
+      "prefill": 30,
+      "title": "Maximum comments per post",
+      "type": "integer"
+    },
+    "maxDepth": {
+      "description": "Only keep comments nested at or above this depth (0 = top-level comments only, 1 = top-level + first-level replies, etc.). Leave empty for no limit.",
+      "example": 2,
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Maximum reply depth",
+      "type": "integer"
+    },
+    "minAwards": {
+      "description": "Only keep comments with at least this many total awards. Leave empty for no limit.",
+      "example": 1,
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Minimum total awards received",
+      "type": "integer"
+    },
+    "minCommentLength": {
+      "description": "Only keep comments whose body text is at least this many characters long. Useful for filtering out one-word/emoji-only noise when building NLP datasets. Leave empty for no limit.",
+      "example": 20,
+      "maximum": 10000,
+      "minimum": 0,
+      "title": "Minimum comment length (characters)",
+      "type": "integer"
+    },
+    "minCommentScore": {
+      "description": "Only keep comments with a score (upvotes minus downvotes) at or above this value. Leave empty for no limit.",
+      "example": 1,
+      "maximum": 1000000,
+      "minimum": -1000000,
+      "title": "Minimum comment score",
+      "type": "integer"
+    },
+    "minDepth": {
+      "description": "Only keep comments nested at or deeper than this depth (0 = keep everything, 1 = drop top-level comments and keep only replies, 2 = keep only replies-to-replies and deeper, etc.). Leave empty for no limit.",
+      "example": 1,
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Minimum reply depth",
+      "type": "integer"
+    },
+    "onlyOP": {
+      "default": false,
+      "description": "When enabled, only comments written by the post's original author are kept.",
+      "prefill": false,
+      "title": "Only original poster's comments",
+      "type": "boolean"
+    },
+    "postUrls": {
+      "description": "Post URLs, comment URLs, share links or bare post IDs. Accepted forms: full post URL (https://www.reddit.com/r/x/comments/1abc/title/), short URL (https://www.reddit.com/comments/1abc or with ?sort=top), comment URL (.../comments/1abc/title/comment/xyz/), mobile share link (https://www.reddit.com/r/x/s/token), bare post id (1abc123) or t3_1abc123.",
+      "editor": "stringList",
+      "example": [
+        "https://www.reddit.com/r/programming/comments/1vqukkf/nothing_like_a_monday_morning_github_outage/",
+        "https://www.reddit.com/comments/1tlh5aj"
+      ],
+      "minItems": 1,
+      "prefill": [
+        "https://www.reddit.com/r/programming/comments/1vqukkf/"
+      ],
+      "title": "Reddit Post URLs",
+      "type": "array"
+    },
+    "postedAfter": {
+      "description": "Only keep comments created on or after this date (UTC).",
+      "editor": "datepicker",
+      "example": "2025-01-01",
+      "title": "Comments created on or after (YYYY-MM-DD)",
+      "type": "string"
+    },
+    "postedBefore": {
+      "description": "Only keep comments created on or before this date (interpreted as the end of that day, UTC).",
+      "editor": "datepicker",
+      "example": "2025-12-31",
+      "title": "Comments created on or before (YYYY-MM-DD)",
+      "type": "string"
+    }
+  },
+  "required": [
+    "postUrls"
+  ],
+  "schemaVersion": 1,
+  "title": "Reddit Comment Scraper Input",
+  "type": "object"
+}
