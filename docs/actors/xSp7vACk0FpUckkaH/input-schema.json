@@ -1,0 +1,64 @@
+{
+  "description": "Scrape public Facebook events. Provide event URLs to extract event details including date, location, description, hosts, and more. No login or cookies required.",
+  "properties": {
+    "eventUrls": {
+      "description": "Facebook event URLs (e.g., https://www.facebook.com/events/123456789) or page event listing URLs (e.g., https://www.facebook.com/PageName/events). You can also provide bare event IDs.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "https://www.facebook.com/events/1855253805343101"
+      ],
+      "sectionCaption": "Input",
+      "sectionDescription": "Provide one or more Facebook event URLs, page event listing URLs, and/or a search query. At least one of Event URLs or Search query is required.",
+      "title": "Event URLs",
+      "type": "array"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of events to return from a page event listing or search query. Facebook's own page only serves ~8 results per request without further requests; if more are wanted, this actor automatically launches a short-lived browser session to fetch additional pages (only when needed — small requests stay fast and browser-free). Does not apply to specific Event URLs, which always fetch exactly that one event.",
+      "editor": "number",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 50,
+      "sectionCaption": "Options",
+      "title": "Max results (page/search)",
+      "type": "integer"
+    },
+    "monitorMode": {
+      "default": false,
+      "description": "When enabled, only pushes events not seen in a previous run of this actor for the same page/search target — useful for scheduled runs that watch a page or query for newly-posted events. Only applies to page event listings and search queries; a specific Event URL has no \"new event\" concept and is always fetched. State is remembered across separate runs of this actor.",
+      "editor": "checkbox",
+      "prefill": false,
+      "sectionCaption": "Options",
+      "title": "Monitor mode (only new events)",
+      "type": "boolean"
+    },
+    "proxyConfiguration": {
+      "description": "Optional proxy settings. May help if requests are blocked from datacenter IPs.",
+      "editor": "proxy",
+      "sectionCaption": "Proxy",
+      "sectionDescription": "Configure proxy if needed. Facebook event pages usually work without proxy.",
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "searchLocation": {
+      "description": "Scope the search to a city or place (e.g., \"Austin, TX\", \"Chicago\", \"New York\"). Combined with Search query for city-specific results (e.g. query \"food festival\" + location \"Chicago\" finds food festivals in Chicago). Can be used alone without a Search query to browse events by city.",
+      "editor": "textfield",
+      "sectionCaption": "Input",
+      "title": "Search location (city)",
+      "type": "string"
+    },
+    "searchQuery": {
+      "description": "Search Facebook's public events index by keyword (e.g., \"music festival\", \"tech conference\"). Returns full event details for the first batch of matching public events. Can be combined with Event URLs, or used on its own.",
+      "editor": "textfield",
+      "sectionCaption": "Input",
+      "title": "Search query",
+      "type": "string"
+    }
+  },
+  "schemaVersion": 1,
+  "title": "Facebook Events Scraper",
+  "type": "object"
+}
