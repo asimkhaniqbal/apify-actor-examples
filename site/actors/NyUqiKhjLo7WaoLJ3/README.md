@@ -1,220 +1,186 @@
 # Idealista Search Listings Price & Feature Scraper
 
-Pull property listings straight from Idealista's search-result pages across Spain, Italy, and Portugal. Point the actor at a city slug or one or more search URLs, and get back structured records with price, size, rooms, address, thumbnail photo, features, and the listing agency's name — for sale or rental, across eight property categories.
+Scrape **Idealista** property listings across Spain, Italy and Portugal. Search a city or area, paste your own Idealista search URLs, or look up individual properties, and get structured records with price, price-drop signals, size, rooms, bathrooms, coordinates, features, energy certificate, images, description and agency contact.
 
 ## What this actor does
 
-- Collects listings for **sale or rent** across homes, offices, premises, garages, land, storage rooms, buildings, and rooms
-- Covers **Spain** (idealista.com), **Italy** (idealista.it), and **Portugal** (idealista.pt)
-- Resolves a city/area slug (e.g. `madrid-madrid`) or a pasted Idealista search URL into the matching listings
-- Walks pagination automatically up to your configured maximum, capped at Idealista's own ~1,800-result search limit
-- Empty text and number fields are omitted from records; the yes/no feature flags are always present and are `false` when the card doesn't mention the feature
+- **Three modes:** search by location, paste search-result URLs, or fetch individual property URLs/IDs
+- **Three markets:** idealista.com (Spain), idealista.pt (Portugal), idealista.it (Italy)
+- **Rich listing data:** price and €/m², previous price and drop %, size, rooms, bathrooms, floor, condition, year built, energy rating, coordinates, gallery and full description
+- **Real filters:** operation, property type and subtype, price, size, rooms, bathrooms, condition, lift, terrace, pool, garden, garage, storage, air conditioning, balcony, new development, luxury, sea views, accessible, bank-owned, auction, private owners and price drops. Idealista applies filters as URL path segments; for two or more filters, use `startUrls` mode with a filtered Idealista URL that loads in your browser.
+- **Large searches:** walks every result page and, for unfiltered searches where you ask for more than Idealista's 1,800-result cap, splits the search by price buckets and removes duplicates
+- **No login, no cookies, no proxy setup** — the actor chooses a working connection automatically
 
 ## Output per listing
 
-Each record is a single property card from a search-results page (not the individual property detail page):
-
 - `propertyCode` — Idealista property ID
-- `url`, `sourceUrl` — listing page URL
-- `recordType` — always `listing`
-- `price`, `priceByArea`, `currency` — listing price, price per m² (price divided by size), and currency (EUR)
-- `size` — property size in m²
-- `rooms`, `bathrooms` — bedroom and bathroom counts
-- `floor` — floor level as shown on the card (e.g. `4ª planta exterior con ascensor`)
-- `exterior` — `true` when the card describes the property as exterior, otherwise `false`
-- `description` — listing description text from the search card
-- `address` — the card's headline, which names the property and its street/area (e.g. `Piso en Calle de Jorge Juan, Recoletos, Madrid`)
-- `municipality`, `district` — the last two comma-separated parts of that headline, so for some cards `district` holds a street name
-- `country` — `es`, `pt`, or `it`
-- `thumbnail` — primary listing photo URL
-- `numPhotos` — number of photos shown on the card's gallery counter (1 when only a thumbnail is visible)
-- `hasLift`, `hasSwimmingPool`, `hasTerrace`, `hasAirConditioning`, `hasBoxRoom`, `hasGarden` — `true` when the card's text mentions the feature (in Spanish, Italian, Portuguese or English), otherwise `false`
-- `hasParkingSpace` — object: `{ hasParkingSpace, isParkingSpaceIncludedInPrice }`; `hasParkingSpace` follows the card text, while `isParkingSpaceIncludedInPrice` is always `false` because search cards don't state it
-- `contactInfo` — object: `{ commercialName, agencyLogo }`, only when the card shows an agency (private sellers have none)
-- `propertyType`, `operation` — read from the search URL, or taken from your input when the URL doesn't reveal them (`homes`/`offices`/etc., `sale`/`rent`)
-- `newDevelopment`, `topPlus` — `true`/`false`: whether the card mentions a new development, and whether it is a highlighted (promoted) card
-- `scrapedAt` — ISO 8601 UTC timestamp of collection
+- `url`, `sourceUrl` — canonical listing URL and the search URL that produced it
+- `recordType` — `listing`
+- `price`, `priceByArea`, `currency` — current price, €/m² and currency
+- `previousPrice`, `priceDropAmount`, `priceDropPercent`, `hasPriceDrop`, `priceDrop` — price-cut fields when the listing shows a reduction
+- `size`, `constructedArea`, `usableArea`, `plotArea` — areas in m²
+- `rooms`, `bathrooms`
+- `floor`, `exterior`, `condition`, `yearBuilt`
+- `energyRating`, `energyConsumption`, `energyEmissions`, `energyCertification`
+- `communityFees` — monthly building fees when shown
+- `description` — full listing description when details are fetched
+- `address`, `street`, `neighborhood`, `district`, `municipality`, `province`, `country`
+- `latitude`, `longitude`, `addressVisibility`, `showAddress`
+- `images`, `numPhotos`, `multimedia`
+- `hasVideo`, `has3DTour`, `has360`, `hasStaging`, `hasPlan`
+- `hasLift`, `hasSwimmingPool`, `hasTerrace`, `hasAirConditioning`, `hasBoxRoom`, `hasGarden`, `hasParkingSpace`
+- `features` — advertised feature flags from the card or property page; `featureSource` says which
+- `contactInfo` — agency/owner name, logo, phone, reference, profile URL, user type and response time
+- `agency`, `phone`, `reference`
+- `propertyType`, `propertySubtype`, `operation`, `status`
+- `newDevelopment`, `externalReference`, `topPlus`, `isPriceDrop`, `isOffmarket`, `isFeatured`, `isExclusive`, `isBankOwned`, `isAuction`, `isTenanted`, `isOccupied`, `isNudaPropiedad`
+- `updatedAtText`, `updatedAt`, `scrapedAt`
 
-Fields that only exist on a property's own detail page — `province`, `latitude`, `longitude`, `multimedia`, `hasVideo`, `has3DTour`, `externalReference`, and similar — aren't available from search cards and are not included in this version's output.
-
-### Sample record
-
-```json
-{
-    "propertyCode": "107795847",
-    "url": "https://www.idealista.com/inmueble/107795847/",
-    "sourceUrl": "https://www.idealista.com/inmueble/107795847/",
-    "recordType": "listing",
-    "price": 1160000,
-    "priceByArea": 5321,
-    "currency": "EUR",
-    "size": 218,
-    "rooms": 3,
-    "bathrooms": 2,
-    "floor": "4ª planta exterior con ascensor",
-    "exterior": true,
-    "description": "Espectacular piso en venta en el barrio de Salamanca...",
-    "address": "Piso en Calle de Jorge Juan, Recoletos, Madrid",
-    "municipality": "Madrid",
-    "district": "Recoletos",
-    "country": "es",
-    "thumbnail": "https://img3.idealista.com/blur/WEB_LISTING/0/id.pro.es.image.master/...",
-    "numPhotos": 24,
-    "hasLift": true,
-    "hasSwimmingPool": false,
-    "hasTerrace": true,
-    "hasAirConditioning": true,
-    "hasBoxRoom": false,
-    "hasGarden": false,
-    "hasParkingSpace": {
-        "hasParkingSpace": true,
-        "isParkingSpaceIncludedInPrice": false
-    },
-    "contactInfo": {
-        "commercialName": "Engel & Völkers Madrid",
-        "agencyLogo": "https://img3.idealista.com/..."
-    },
-    "propertyType": "homes",
-    "operation": "sale",
-    "newDevelopment": false,
-    "topPlus": false,
-    "scrapedAt": "2026-06-23T10:00:00+00:00"
-}
-```
+Empty fields are omitted. A feature flag is present only when the source confirms it; it is never emitted as a guessed `false`.
 
 ## Input
 
-| Field | Type | Required | Default | Description |
-|-------|------|----------|---------|-------------|
-| `location` | string | Yes* | madrid-madrid | City or area slug from Idealista URLs (e.g., `madrid-madrid`, `barcelona-barcelona`, `lisboa`, `roma-roma`) |
-| `operation` | string | No | sale | Listing type: `sale` or `rent` |
-| `propertyType` | string | No | homes | Property type (see list below) |
-| `country` | string | No | es | Target country for `location`: `es` (Spain), `pt` (Portugal), `it` (Italy). For `startUrls` the country comes from the URL's domain |
-| `maxItems` | integer | No | 100 | Maximum listings to scrape (max 1,800 per search) |
-| `startUrls` | array | Yes* | — | Direct Idealista search URLs — when set, `location`, `operation` and `propertyType` are ignored (operation and type are read from each URL). Property detail URLs are skipped |
-| `proxyConfiguration` | object | No | `{"useApifyProxy": true, "apifyProxyGroups": ["RESIDENTIAL"]}` | Keep the default proxy settings for best cloud reliability |
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `mode` | string | – | `search` by location, `startUrls` for your own search URLs, `propertyUrls` for property URLs/IDs; inferred when omitted |
+| `location` | string | `madrid-madrid` | City/area slug or a full Idealista search URL (mode=search) |
+| `operation` | string | `sale` | `sale` or `rent` |
+| `propertyType` | string | `homes` | homes, newDevelopments, offices, premises, garages, lands, storageRooms, buildings, bedrooms |
+| `country` | string | `es` | `es`, `pt`, `it`; auto-detected from URLs |
+| `startUrls` | array | – | Idealista search URLs, filters and map-area URLs kept as-is (mode=startUrls) |
+| `propertyUrls` | array | – | Property URLs or numeric IDs (mode=propertyUrls) |
+| `propertySubtype` | string | `any` | any, flat, penthouse, duplex, studio, loft, chalet, independentHouse, semiDetached, terraced, villa, countryHouse, office, premises, garage, land, storageRoom, building, room |
+| `priceMin` | integer | – | Minimum price in EUR |
+| `priceMax` | integer | – | Maximum price in EUR |
+| `sizeMin` | integer | – | Minimum size in m² |
+| `sizeMax` | integer | – | Maximum size in m² |
+| `rooms` | string | `any` | any, 1, 2, 3, 4, 5+ |
+| `bathrooms` | string | `any` | any, 1, 2, 3+ |
+| `condition` | string | `any` | any, new, good, toRenovate |
+| `hasLift` | boolean | `false` | Only listings with a lift |
+| `hasTerrace` | boolean | `false` | Only listings with a terrace |
+| `hasPool` | boolean | `false` | Only listings with a pool |
+| `hasGarden` | boolean | `false` | Only listings with a garden |
+| `hasGarage` | boolean | `false` | Only listings with a garage/parking |
+| `hasStorageRoom` | boolean | `false` | Only listings with a storage room |
+| `hasAirConditioning` | boolean | `false` | Only listings with air conditioning |
+| `hasBalcony` | boolean | `false` | Only listings with a balcony |
+| `isNewDevelopment` | boolean | `false` | Only new developments |
+| `isBankOwned` | boolean | `false` | Only bank-owned listings |
+| `isAuction` | boolean | `false` | Only auction listings |
+| `isLuxury` | boolean | `false` | Only luxury listings |
+| `hasSeaViews` | boolean | `false` | Only listings advertised with sea views |
+| `isAccessible` | boolean | `false` | Only accessible homes |
+| `sortBy` | string | `relevance` | relevance, priceAsc, priceDesc, areaAsc, areaDesc, pricePerSqmAsc, pricePerSqmDesc |
+| `onlyPriceDrops` | boolean | `false` | Keep only reduced listings |
+| `minPriceDropPercent` | integer | – | Minimum price-drop percentage |
+| `onlyPrivateOwners` | boolean | `false` | Keep only private sellers |
+| `fetchDetails` | boolean | `false` | Visit each listing page for bathrooms, energy, year, condition, full description, gallery and phone |
+| `maxDetails` | integer | `100` | Maximum number of detail pages to fetch |
+| `maxItems` | integer | `100` | Maximum listings to save (1–10,000) |
+| `partitionLargeSearches` | boolean | `true` | Split searches above 1,800 results into price buckets |
 
-\* At least one of `location` or `startUrls` is required. `location` defaults to `madrid-madrid`, so a run with no input searches Madrid.
-
-### Property Types
-
-| Value | Description |
-|-------|-------------|
-| `homes` | Apartments, houses, villas |
-| `newDevelopments` | Currently runs the same search as `homes` (records come back with `propertyType: "homes"`); use `newDevelopment` on each record to spot new builds |
-| `offices` | Office spaces |
-| `premises` | Commercial premises / retail units |
-| `garages` | Garages and parking spaces |
-| `lands` | Plots and land |
-| `storageRooms` | Storage rooms (trasteros) |
-| `buildings` | Entire buildings |
-| `bedrooms` | Rooms in shared homes (mainly a rental category) |
-
-### Example: Madrid homes for sale
-
-```json
-{
-    "location": "madrid-madrid",
-    "operation": "sale",
-    "propertyType": "homes",
-    "country": "es",
-    "maxItems": 50
-}
-```
-
-### Example: Lisbon rentals by direct search URL
-
-```json
-{
-    "startUrls": [
-        { "url": "https://www.idealista.pt/arrendar-casas/lisboa/" }
-    ],
-    "maxItems": 100
-}
-```
-
-### Example: Rome commercial premises
+### Example: Madrid homes for sale with a pool
 
 ```json
 {
-    "location": "roma-roma",
-    "operation": "sale",
-    "propertyType": "premises",
-    "country": "it",
-    "maxItems": 30
+  "mode": "search",
+  "location": "madrid-madrid",
+  "operation": "sale",
+  "propertyType": "homes",
+  "country": "es",
+  "hasPool": true,
+  "priceMax": 600000,
+  "fetchDetails": true,
+  "maxItems": 50
 }
 ```
 
-### Location Slug Reference
+### Example: Lisbon rentals by search URL
 
-Find your slug by searching on Idealista and copying the location segment from the URL:
+```json
+{
+  "mode": "startUrls",
+  "startUrls": [
+    { "url": "https://www.idealista.pt/arrendar-casas/lisboa/" }
+  ],
+  "maxItems": 100
+}
+```
 
-| Country | Location | Slug |
-|---------|----------|------|
-| Spain | Madrid | `madrid-madrid` |
-| Spain | Barcelona | `barcelona-barcelona` |
-| Spain | Seville | `sevilla-sevilla` |
-| Spain | Valencia | `valencia-valencia` |
-| Spain | Marbella | `marbella-malaga` |
-| Spain | Málaga | `malaga-malaga` |
-| Portugal | Lisbon | `lisboa` |
-| Portugal | Porto | `porto` |
-| Portugal | Faro | `faro` |
-| Italy | Rome | `roma-roma` |
-| Italy | Milan | `milano-milano` |
-| Italy | Florence | `firenze-firenze` |
+### Example: Rome offices with details
 
-You can also paste a full Idealista URL directly into the `location` field, or use `startUrls` to scrape multiple search pages at once.
+```json
+{
+  "mode": "search",
+  "location": "roma-roma",
+  "operation": "sale",
+  "propertyType": "offices",
+  "country": "it",
+  "fetchDetails": true,
+  "maxItems": 30
+}
+```
 
-## When the run finds nothing
+### Example: look up specific properties
 
-If a run ends with 0 listings, the run's status message explains why and the dataset gets a single status record instead of staying empty — `recordType: "status"`, `_status` (`no_data` or `blocked`), `_reason`, a human-readable `_message`, and (except for missing input) `scrapedAt`:
-
-- **No listings came back** (`_status: "blocked"`, `_reason: "datadome_block"`) — none of the search pages returned listings. Usually Idealista blocked the requests (temporary; keep the default proxy settings and try again), but a wrong location slug ends the same way. Check the [Location Slug Reference](#location-slug-reference) table above — Italy requires Italian names (`roma-roma`, not `rome`), and Portugal uses Portuguese names (`lisboa`, not `lisbon`).
-- **No URLs to process** (`_status: "no_data"`, `_reason: "unsupported_detail_url"` or `"missing_input"`) — `startUrls` only contained individual property detail pages, which this actor doesn't scrape (search result pages only), or both `location` and `startUrls` were left empty.
-
-Check the run's Status Message in the Apify Console for the specific reason.
+```json
+{
+  "mode": "propertyUrls",
+  "propertyUrls": [
+    "https://www.idealista.com/inmueble/111379612/",
+    "https://www.idealista.it/immobile/37181412/"
+  ]
+}
+```
 
 ## Use cases
 
-- **Market analysis** — track property prices and trends across Spanish, Italian, and Portuguese cities
-- **Investment research** — compare prices per square meter across neighbourhoods and districts
-- **Competitive monitoring** — track competitor agency listings and pricing strategies
-- **Lead generation** — collect agency contact names for real estate outreach
-- **Portfolio management** — monitor listings in specific areas for property management firms
-- **Price alerts** — run on a schedule to detect new listings or price changes
+- **Market research** — compare asking prices and €/m² across cities, districts and property types
+- **Investment screening** — find reduced listings and compare them with the local market
+- **Lead generation** — collect agency names, phone numbers and references for real-estate outreach
+- **Portfolio monitoring** — schedule runs to track new listings, price cuts and removed properties
+- **Comparable sales** — pull a neighbourhood's listings with size, condition, year and energy rating
+- **Data enrichment** — add coordinates, features and images to an existing property database
+
+## Limitations
+
+- **1,800 results per search.** Idealista serves at most 60 pages of 30 listings. The actor partitions larger searches by price when you ask for more, but a single search URL cannot exceed the cap.
+- **Market protection can slow a run.** Italy, Spain and Portugal may challenge some requests; the actor retries and switches to a slower working connection when needed. A run can take longer on those days.
+- **Valid location slugs matter.** Portugal uses Portuguese names (`lisboa`, `porto`); Italy uses Italian names (`roma-roma`, `milano-milano`). A wrong slug returns no listings.
+- **Private sellers often hide their phone.** The phone field is included only when Idealista publishes it.
+- **No publication date.** Idealista does not expose a reliable published timestamp on public pages; the actor includes the “last updated” text/date when shown.
+- **Detail fields require `fetchDetails`.** Bathrooms, energy rating, year built, condition, full description, gallery and phone come from the property page.
+- **Agency email is not included.** Idealista publishes the agency phone/reference, not its email.
 
 ## FAQ
 
-**Do I need a login or cookies?**
-No. Idealista listings are publicly accessible — no account required.
+**Do I need an Idealista account or cookies?**
+No. The actor reads public listing pages and needs no login.
 
-**Why does the input include proxy settings?**
-Idealista actively blocks data-center traffic, so the proxy input is enabled by default to keep access to public search pages reliable.
+**Do I need to configure a proxy?**
+No. The actor chooses a working connection automatically. Just fill in the input and run.
 
 **Which countries are supported?**
-Spain (`idealista.com`), Portugal (`idealista.pt`), and Italy (`idealista.it`).
+Spain (`idealista.com`), Portugal (`idealista.pt`) and Italy (`idealista.it`). Country is auto-detected when you paste a URL.
 
-**What property types can I scrape?**
-Homes, offices, commercial premises, garages, plots/land, storage rooms, entire buildings, and rooms. The `newDevelopments` option currently returns the same listings as `homes`; filter on the `newDevelopment` flag instead.
+**How many listings can I get from one search?**
+Idealista serves at most 60 result pages of 30 listings (1,800) per search. For unfiltered searches, when you ask for more, the actor splits the search into price buckets, removes duplicates and keeps going. Filtered searches are capped at 1,800; use `startUrls` mode with a filtered URL that loads in your browser for full control.
 
-**How do I find the location slug?**
-Search on Idealista and look at the URL. For `idealista.com/venta-viviendas/madrid-madrid/`, the slug is `madrid-madrid`. For Portugal: `idealista.pt/comprar-casas/lisboa/` → `lisboa`. For Italy: `idealista.it/vendita-case/roma-roma/` → `roma-roma`.
+**Why are some fields missing?**
+Search cards do not show everything. Bathrooms, energy rating, year built, condition, full description and phone come from the property page; turn on `fetchDetails` to collect them. Private sellers often hide their phone, so that field is omitted for those listings.
 
-**Why are some fields missing from the output?**
-Text and number fields are omitted when the search card doesn't show them — `bathrooms`, `floor` or `contactInfo` are common gaps. The feature flags work differently: they're always present and read `false` when the card doesn't mention the feature, so `false` means "not advertised on the card" rather than "definitely absent".
+**Why does the first page sometimes take a minute?**
+Idealista can challenge requests in any of the three markets. When the fast path is unavailable, the actor prepares a slower working connection before loading the first page. Later pages reuse that connection and are much faster.
 
-**How many listings can I scrape?**
-Up to 1,800 per search query — Idealista's own cap on a single search. For large cities, split the search by district or neighbourhood to cover more ground.
+**Are the images hotlink-safe?**
+Yes. Image URLs are public CDN links and open without cookies or a referrer.
 
-**Does this actor visit individual property pages?**
-No. It reads the search-results pages only, so fields that live exclusively on a property's own detail page (exact coordinates, extra photos, 3D tours) aren't collected.
+**Why is there no published date?**
+Idealista does not expose a reliable publication timestamp on its public pages. The actor includes the “last updated” text and date when the page shows it, but does not invent a publication date.
 
 **Can I scrape multiple cities in one run?**
-Yes — use `startUrls` to provide multiple search page URLs (one per city or district). They're processed in sequence up to `maxItems` total.
-
-**What if the run finishes with 0 listings?**
-Check the dataset's status record and the run's Status Message. A `blocked` record means no search page returned listings — try again later, and double-check the location slug.
+Yes. Use `startUrls` with one search URL per city or district; they are processed in order up to `maxItems`.
 
 **Is this affiliated with Idealista?**
-No. This is an independent, third-party actor that reads Idealista's public search pages; it isn't affiliated with or endorsed by Idealista.
+No. This is an independent, third-party actor that reads publicly available Idealista pages. It is not affiliated with or endorsed by Idealista.

@@ -1,8 +1,75 @@
 {
-  "description": "Scrape public Facebook events. Provide event URLs to extract event details including date, location, description, hosts, and more. No login or cookies required.",
+  "description": "Scrape public Facebook event details, organizer Upcoming/Past listings, and keyword search with date, category and location filters. No login or cookies required.",
   "properties": {
+    "category": {
+      "default": "Any",
+      "description": "Optional server-side category filter for search queries. Categories are host-set, so some events have none.",
+      "editor": "select",
+      "enum": [
+        "Any",
+        "Art",
+        "Causes",
+        "Comedy",
+        "Crafts",
+        "Dance",
+        "Drinks",
+        "Film",
+        "Fitness",
+        "Food",
+        "Games",
+        "Gardening",
+        "Health",
+        "Home",
+        "Literature",
+        "Music",
+        "Networking",
+        "Other",
+        "Party",
+        "Religion",
+        "Shopping",
+        "Sports",
+        "Theatre",
+        "Wellness"
+      ],
+      "enumTitles": [
+        "Any category",
+        "Art",
+        "Causes",
+        "Comedy",
+        "Crafts",
+        "Dance",
+        "Drinks",
+        "Film",
+        "Fitness",
+        "Food",
+        "Games",
+        "Gardening",
+        "Health",
+        "Home",
+        "Literature",
+        "Music",
+        "Networking",
+        "Other",
+        "Party",
+        "Religion",
+        "Shopping",
+        "Sports",
+        "Theatre",
+        "Wellness"
+      ],
+      "sectionCaption": "Filters",
+      "title": "Category",
+      "type": "string"
+    },
+    "endDate": {
+      "description": "Optional search filter upper bound in YYYY-MM-DD format. Equal to Start date selects one day.",
+      "editor": "textfield",
+      "sectionCaption": "Filters",
+      "title": "End date",
+      "type": "string"
+    },
     "eventUrls": {
-      "description": "Facebook event URLs (e.g., https://www.facebook.com/events/123456789) or page event listing URLs (e.g., https://www.facebook.com/PageName/events). You can also provide bare event IDs.",
+      "description": "Facebook event URLs or IDs, organizer event pages (e.g. https://www.facebook.com/TED/events, /upcoming_hosted_events, /past_hosted_events), or an events search URL. Group event URLs are skipped because they require login.",
       "editor": "stringList",
       "items": {
         "type": "string"
@@ -11,50 +78,77 @@
         "https://www.facebook.com/events/1855253805343101"
       ],
       "sectionCaption": "Input",
-      "sectionDescription": "Provide one or more Facebook event URLs, page event listing URLs, and/or a search query. At least one of Event URLs or Search query is required.",
-      "title": "Event URLs",
+      "sectionDescription": "Add at least one event/page URL, search query, or search location.",
+      "title": "Event, organizer or search URLs",
       "type": "array"
+    },
+    "includeOccurrences": {
+      "default": false,
+      "description": "For recurring events, add every occurrence date and URL to the event record. Uses one extra request only when the event is recurring.",
+      "editor": "checkbox",
+      "prefill": false,
+      "sectionCaption": "Options",
+      "title": "Expand recurring event dates",
+      "type": "boolean"
+    },
+    "includePastEvents": {
+      "default": false,
+      "description": "For organizer pages, fetch the Past collection instead of Upcoming. Ignored for event URLs and search.",
+      "editor": "checkbox",
+      "prefill": false,
+      "sectionCaption": "Options",
+      "title": "Include past events (organizer pages)",
+      "type": "boolean"
+    },
+    "locationId": {
+      "description": "Optional Facebook place ID or /places/<id>/ URL for a location filter on search. Facebook's place scope can include nearby cities. Text-to-ID lookup requires login, which this actor does not use.",
+      "editor": "textfield",
+      "sectionCaption": "Filters",
+      "title": "Location ID (strict)",
+      "type": "string"
     },
     "maxItems": {
       "default": 50,
-      "description": "Maximum number of events to return from a page event listing or search query. Facebook's own page only serves ~8 results per request without further requests; if more are wanted, this actor automatically launches a short-lived browser session to fetch additional pages (only when needed — small requests stay fast and browser-free). Does not apply to specific Event URLs, which always fetch exactly that one event.",
+      "description": "Maximum events per organizer listing or search query. A direct event URL always returns its one event.",
       "editor": "number",
-      "maximum": 500,
+      "maximum": 1000,
       "minimum": 1,
       "prefill": 50,
       "sectionCaption": "Options",
-      "title": "Max results (page/search)",
+      "title": "Max results per target",
       "type": "integer"
     },
     "monitorMode": {
       "default": false,
-      "description": "When enabled, only pushes events not seen in a previous run of this actor for the same page/search target — useful for scheduled runs that watch a page or query for newly-posted events. Only applies to page event listings and search queries; a specific Event URL has no \"new event\" concept and is always fetched. State is remembered across separate runs of this actor.",
+      "description": "For organizer pages and searches, output only events not seen by an earlier run for the same target. The first run is a baseline. State is a named Apify store, is actor-wide (not per user), and is shared by all runs of this actor for the same target; clearing it or changing the target re-emits all events.",
       "editor": "checkbox",
       "prefill": false,
       "sectionCaption": "Options",
       "title": "Monitor mode (only new events)",
       "type": "boolean"
     },
-    "proxyConfiguration": {
-      "description": "Optional proxy settings. May help if requests are blocked from datacenter IPs.",
-      "editor": "proxy",
-      "sectionCaption": "Proxy",
-      "sectionDescription": "Configure proxy if needed. Facebook event pages usually work without proxy.",
-      "title": "Proxy Configuration",
-      "type": "object"
-    },
     "searchLocation": {
-      "description": "Scope the search to a city or place (e.g., \"Austin, TX\", \"Chicago\", \"New York\"). Combined with Search query for city-specific results (e.g. query \"food festival\" + location \"Chicago\" finds food festivals in Chicago). Can be used alone without a Search query to browse events by city.",
+      "description": "City or place text added to each search query (e.g. \"Chicago\"). This is a keyword hint, not a strict geographic filter; use Location ID for a strict filter.",
       "editor": "textfield",
       "sectionCaption": "Input",
-      "title": "Search location (city)",
+      "title": "Search location text",
       "type": "string"
     },
-    "searchQuery": {
-      "description": "Search Facebook's public events index by keyword (e.g., \"music festival\", \"tech conference\"). Returns full event details for the first batch of matching public events. Can be combined with Event URLs, or used on its own.",
-      "editor": "textfield",
+    "searchQueries": {
+      "description": "Keywords for Facebook's public events search (e.g. \"music festival\", \"tech conference\"). Each query is paginated up to Max results.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
       "sectionCaption": "Input",
-      "title": "Search query",
+      "title": "Search queries",
+      "type": "array"
+    },
+    "startDate": {
+      "description": "Optional search filter lower bound in YYYY-MM-DD format (e.g. 2026-12-01). Applies to search queries only.",
+      "editor": "textfield",
+      "sectionCaption": "Filters",
+      "title": "Start date",
       "type": "string"
     }
   },

@@ -4,116 +4,125 @@
 
 # Facebook Event Details & New-Event Monitor Scraper
 
-Pull full details from public Facebook events — by direct URL, from a page's event listing, or via keyword/city search — without logging in. Get venue coordinates, hosts, ticket links, and recurrence info whenever Facebook shows them, plus an optional monitor mode that only reports events you haven't seen in a previous run.
+Read public Facebook event pages, organizer event lists, and keyword search results without logging in. Get dates and time zones, venue and GPS when Facebook exposes them, hosts, ticket links and prices, recurring-series dates, and an optional only-new mode for scheduled runs.
 
 ## What this actor does
 
-- Fetches full event details from a direct event URL, a page's `/events` listing, or a bare event ID
-- Searches Facebook's public events index by keyword; a city in `searchLocation` is simply added to the search words
-- Automatically fetches pages beyond Facebook's own ~8-result batch when a listing or search needs more (best-effort)
-- Tracks previously-seen events per page/query across scheduled runs so Monitor mode can report only new ones
-- Empty fields are omitted from each record
+- **Event details by URL or ID:** name, description, start/end time, time zone, venue, coordinates, cover, hosts, creator, categories, tickets and online links.
+- **Organizer Upcoming and Past:** read `/PageName/events`, `/PageName/upcoming_hosted_events`, or `/PageName/past_hosted_events`; page through the whole list up to your limit instead of stopping at the first batch.
+- **Keyword search:** search Facebook's public events index and page through results. Optional date range, category, and location-ID filters (Facebook's place scope can include nearby cities).
+- **Recurring series:** optionally add every occurrence date and URL for recurring events.
+- **Monitor mode:** on a schedule, return only events not seen by an earlier run for the same organizer/search target. State is scoped to the Apify user who runs the actor, so separate users do not share history.
+- **Durable images:** cover and host photos are copied into Apify storage; the original signed URL is kept beside the stored one.
+
+Empty fields are omitted. The actor never fills a missing value with `null`, `0`, or a placeholder.
 
 ## Output per event
 
-- `event_id`, `name`, `description`, `url`
-- `start_timestamp`, `end_timestamp` — Unix timestamps
-- `start_date`, `end_date` — ISO 8601
-- `formatted_date` — Facebook's own human-readable date/time string
-- `timezone`
-- `is_online`, `is_canceled`, `is_past`, `is_sale_event`
-- `location_name`, `location_address`, `location_city`, `one_line_address`
-- `latitude`, `longitude`
-- `photo_url`, `photo_width`, `photo_height`, `photo_caption`, `video_url`
-- `hosts[]` — `{name, url, type, is_verified, profile_picture_url}`
-- `creator` — `{id, name, type}`, the event's original creator
-- `categories[]`
-- `ticket_url`, `description_links[]` — external ticket link and every URL Facebook recognized in the description
-- `online_type` — e.g. `MESSENGER_ROOM`, `THIRD_PARTY`
-- `users_responded` — combined going + interested count
-- `event_kind`, `rsvp_style`
-- `event_frequency`, `has_child_events`, `child_events_count` — recurrence signals for series events
-- `input_url` — the event or page URL you supplied, or for search results the Facebook events-search URL the actor built from your query
-- `scraped_at` — ISO 8601 timestamp of collection
-
-When an event found via a page listing or search can't be fetched in full (its detail page fails to load, shows a login wall, or can't be parsed), the actor pushes a minimal stub for it instead of skipping it: `event_id`, `name`, `url`, `formatted_date`, plus `is_canceled` (page listings) or `is_online` (searches), `input_url` and `scraped_at` — none of the venue, host, or media fields above. A direct event URL that fails produces no record.
+| Field | Description |
+|---|---|
+| `event_id`, `name`, `description`, `url` | Event identity and text. |
+| `start_timestamp`, `end_timestamp` | Unix timestamps when the source provides them. |
+| `start_date`, `end_date`, `formatted_date`, `timezone` | ISO dates, Facebook's own date sentence, and the event's time zone. |
+| `is_online`, `is_canceled`, `is_past`, `is_sale_event` | Present when Facebook carries the flag. `is_canceled` is also inferred from a cancellation word in the event name when the flag is absent. |
+| `event_kind`, `rsvp_style`, `event_frequency` | Visibility, RSVP style, recurring-series frequency. |
+| `has_child_events`, `child_events_count` | Recurrence signals. |
+| `occurrences[]` | When enabled: `{event_id,url,start_timestamp,end_timestamp,start_date,end_date}` for every series date. |
+| `parent_event_id` | Present when the returned event is one occurrence of a series. |
+| `location_name`, `location_address`, `location_city`, `location_city_id` | Venue text and city identifiers when exposed. |
+| `one_line_address` | Facebook's normalized full address when available. |
+| `latitude`, `longitude` | Venue GPS when the venue exposes coordinates. |
+| `venue_place_id`, `venue_place_type`, `venue_url`, `venue_is_user_specified_location` | Venue metadata. |
+| `photo_url`, `photo_url_original`, `photo_width`, `photo_height`, `photo_caption` | Stored cover image, its original signed URL, and dimensions/caption. |
+| `video_url`, `video_url_original` | Cover video and original URL when downloadable; the original is retained if it is too large to rehost. |
+| `hosts[]` | `{id,name,url,type,is_verified,profile_picture_url,profile_picture_url_original}`. |
+| `creator` | `{id,name,type}` when Facebook exposes the creator. |
+| `categories[]`, `category_urls[]` | Host-set categories and Facebook's category search links. |
+| `ticket_url`, `ticket_provider`, `ticket_price_text` | Ticket link, provider, and the price text Facebook shows. Structured price tiers are not public. |
+| `description_links[]` | External links Facebook recognized in the description. |
+| `online_type`, `online_url` | Online-event type and registration/live link when shown. |
+| `duration` | Facebook's duration text (e.g. `2 hr`). |
+| `users_responded` | Combined response count; omitted when Facebook does not expose it. |
+| `source_type` | `event_url`, `page_events`, `search`, or `occurrence`. |
+| `input_url`, `scraped_at` | The target that produced the row and collection time. |
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `eventUrls` | array | – | Facebook event URLs, page event-listing URLs, or bare event IDs |
-| `searchQuery` | string | – | Keyword search of Facebook's public events index (e.g. "music festival") |
-| `searchLocation` | string | – | City or place (e.g. "Chicago") appended to the search text; usable alone or with `searchQuery`. It is a keyword, not a strict geographic filter |
-| `monitorMode` | boolean | `false` | Only output events not seen in a previous run for the same page/query; direct event URLs are always fetched |
-| `maxItems` | integer | `50` | Max events per page listing and for the search (1–500); doesn't apply to a specific event URL |
-| `proxyConfiguration` | object | – | Optional proxy; most event pages work without one |
+| `eventUrls` | string list | – | Event URLs or IDs, organizer event pages, or an events search URL. The prefill contains one example event. |
+| `searchQueries` | string list | – | Keywords for event search. |
+| `searchLocation` | string | – | City/place text added to each query. This is a relevance hint, not a strict filter. |
+| `locationId` | string | – | Numeric Facebook place ID or `/places/<id>/` URL for a location filter. Facebook's place scope can include nearby cities. |
+| `startDate`, `endDate` | string | – | `YYYY-MM-DD` search range. |
+| `category` | select | Any | One of Facebook's event categories. |
+| `includePastEvents` | boolean | false | Organizer pages: read Past instead of Upcoming. |
+| `includeOccurrences` | boolean | false | Add every date of a recurring series. |
+| `maxItems` | integer | 50 | Per organizer listing or search query (1–1000). |
+| `monitorMode` | boolean | false | Only events not seen by a previous run for the same target. |
 
-At least one of `eventUrls`, `searchQuery`, or `searchLocation` is required. They can be combined in one run.
-
-### Example: specific events by URL
+### Examples
 
 ```json
 {
-    "eventUrls": [
-        "https://www.facebook.com/events/1855253805343101",
-        "https://www.facebook.com/events/1084489187170885"
-    ]
+  "eventUrls": ["https://www.facebook.com/events/1855253805343101"],
+  "includeOccurrences": true
 }
 ```
 
-### Example: city-scoped keyword search
-
 ```json
 {
-    "searchQuery": "food festival",
-    "searchLocation": "Chicago",
-    "maxItems": 100
+  "eventUrls": ["https://www.facebook.com/TED/upcoming_hosted_events"],
+  "maxItems": 100,
+  "monitorMode": true
 }
 ```
 
-### Example: scheduled monitoring of a page's events
-
 ```json
 {
-    "eventUrls": ["https://www.facebook.com/TED/events"],
-    "monitorMode": true
+  "searchQueries": ["food festival"],
+  "searchLocation": "Chicago",
+  "startDate": "2026-11-01",
+  "endDate": "2026-11-30",
+  "category": "Food",
+  "maxItems": 100
 }
 ```
 
 ## Use cases
 
-- **Event calendar sites** — pull venue, date, and ticket details to populate a listings page
-- **Scheduled monitoring** — run with `monitorMode` on a daily schedule to get alerted only about newly-posted events from a venue or organizer
-- **Location intelligence** — map events by `latitude`/`longitude` across a city or region
-- **Festival and conference research** — collect attendance signals and host info across similar events
-- **Competitive tracking** — watch a competitor's page events to see what they're promoting and when
+- Build a local what's-on calendar from venues and organizers.
+- Watch an organizer's page on a schedule and report only newly posted events.
+- Collect dates, venues, ticket links and host details for event directories.
+- Research recurring series across a city or category.
+- Map events that expose coordinates.
 
 ## FAQ
 
-**Is this affiliated with Facebook or Meta?**
-No. This is an independent actor that reads publicly available Facebook event pages and is not affiliated with Meta Platforms, Inc.
+**Do I need a Facebook login or cookies?** No. The actor reads only public pages. Group events, private events, and city-name typeahead require login and are not supported.
 
-**Do I need a Facebook login or cookies?**
-No. The actor only reads public event data and needs no authentication.
+**Why is a venue address or GPS missing?** Many Facebook events use free-text locations without coordinates. The actor returns what the event exposes and omits the rest; it never geocodes or invents a location.
 
-**Why was an event not returned?**
-It's likely private, deleted, or restricted to logged-in viewers — only public events are accessible.
+**Why did a search return fewer results than I asked for?** Facebook's public search index is relevance-ranked and changes between requests; categories are host-set and often empty. The actor retries a throttled first page and logs a warning when pagination stops short of your limit. Facebook can also end a deep result set early without an error; that can look like exhaustion, so a shortfall is not always flagged. It never fabricates rows to fill the gap.
 
-**Does this work for Facebook Group events?**
-No. Group events require login and aren't supported — only Pages and public event/search URLs are.
+**How does monitor mode decide what is new?** It stores the event IDs already reported for each organizer/search target in an Apify key-value store. State is scoped to the Apify user who runs the actor, so separate users do not share history for the same target. Runs without a user identity use a stable anonymous scope. The first run is a baseline; later runs omit seen IDs. Clearing the store, changing the target, or losing state causes a new baseline. There is no webhook; schedule the actor and read the dataset. Concurrent runs can race.
 
-**Why did a page or search return fewer than `maxItems`?**
-Facebook's own page serves roughly 8 results per request; fetching additional pages beyond that is best-effort and occasionally returns just the first batch. The run still completes normally either way — re-running usually gets the rest.
+**Can I get every date of a recurring event?** Yes when the event exposes child occurrences. Turn on `includeOccurrences`; the record gets an `occurrences[]` list. A one-off event has no list.
 
-**Can I get every date of a recurring event series?**
-Not from one event URL. Facebook returns `event_frequency`, `has_child_events`, and `child_events_count` as summary signals but doesn't expose sibling occurrence URLs to logged-out visitors — each occurrence must surface independently via search or a page listing.
+**Can I filter by city?** Use `locationId` with a numeric Facebook place ID or `/places/<id>/` URL. Facebook's place scope can include nearby cities, so treat it as best-effort, not an exact city boundary. Facebook's city text lookup needs login, so `searchLocation` is a keyword hint only.
 
-**Why is `users_responded` a single number instead of separate going/interested counts?**
-Facebook itself stopped exposing the split figures publicly; only the combined count remains available.
+**Can I get attendee lists or separate going/interested counts?** No. Facebook restricts attendee identities, and it no longer exposes separate going/interested figures to logged-out visitors. `users_responded` is the combined public count; there is no separate `interested` field.
 
-**How does Monitor mode decide what's "new"?**
-It remembers which events it already reported for a given page or search text across runs, and only outputs events it hasn't reported before for that same target. Changing the query or location wording starts a fresh history. A specific event URL is always fetched since there's no "new" concept for one fixed event.
+**Do group events work?** No. Facebook Groups require a logged-in session, so group event URLs are skipped with a warning.
 
-**Does `searchLocation` guarantee events in that city?**
-No. Facebook's public event search has no location filter, so the city name is added to your keywords (e.g. "food festival Chicago"). That usually surfaces local events, but check `location_city` if you need a strict match.
+**Are images permanent?** Cover and host images are copied into Apify storage and the original signed URL is kept in `*_original`. Facebook CDN originals expire after a few days.
+
+**Is this affiliated with Facebook or Meta?** No. This is an independent tool and is not affiliated with, endorsed by, or sponsored by Meta Platforms, Inc.
+
+## Limits
+
+- No group events, private events, guest lists, or split going/interested counts.
+- No true radius/nearby search; a location filter needs a Facebook place ID, and its scope can include nearby cities.
+- GPS and street addresses are conditional on what the venue exposes.
+- Ticket price is text only; structured price tiers are not public.
+- Search results are dynamic; a retry can still return fewer rows than requested.

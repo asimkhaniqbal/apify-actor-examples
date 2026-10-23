@@ -1,8 +1,75 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-Pq82YWtjnQfv2uAnG8nWoN/keGf1CfGfzLifg+/duwk=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Facebook Event Details &amp; New-Event Monitor Scraper | Vexaloom Labs</title><meta name="description" content="Fetch public Facebook event details by URL, page listing, or keyword/city search, with venue GPS, hosts, ticket links, and a monitor mode that reports only newly-posted events."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/"><meta property="og:title" content="Facebook Event Details &amp; New-Event Monitor Scraper | Vexaloom Labs"><meta property="og:description" content="Fetch public Facebook event details by URL, page listing, or keyword/city search, with venue GPS, hosts, ticket links, and a monitor mode that reports only newly-posted events."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/#webpage","name":"Facebook Event Details & New-Event Monitor Scraper","description":"Fetch public Facebook event details by URL, page listing, or keyword/city search, with venue GPS, hosts, ticket links, and a monitor mode that reports only newly-posted events.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/#article","headline":"Facebook Event Details & New-Event Monitor Scraper","name":"Facebook Event Details & New-Event Monitor Scraper","description":"Fetch public Facebook event details by URL, page listing, or keyword/city search, with venue GPS, hosts, ticket links, and a monitor mode that reports only newly-posted events.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Facebook Event Details & New-Event Monitor Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Facebook Event Details &amp; New-Event Monitor Scraper</span></div><section id="overview"><h1 class="doc-title">Facebook Event Details &amp; New-Event Monitor Scraper</h1><p class="lede">Fetch public Facebook event details by URL, page listing, or keyword/city search, with venue GPS, hosts, ticket links, and a monitor mode that reports only newly-posted events.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/facebook-event-details-and-new-event-monitor">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/xSp7vACk0FpUckkaH/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>eventUrls</code></td><td>array</td><td>optional</td><td>Facebook event URLs (e.g., https://www.facebook.com/events/123456789) or page event listing URLs (e.g., https://www.facebook.com/PageName/events). You can also provide bare event IDs.</td></tr><tr><td><code>searchQuery</code></td><td>string</td><td>optional</td><td>Search Facebook&#x27;s public events index by keyword (e.g., &quot;music festival&quot;, &quot;tech conference&quot;). Returns full event details for the first batch of matching public events. Can be combined with Event URLs, or used on its own.</td></tr><tr><td><code>searchLocation</code></td><td>string</td><td>optional</td><td>Scope the search to a city or place (e.g., &quot;Austin, TX&quot;, &quot;Chicago&quot;, &quot;New York&quot;). Combined with Search query for city-specific results (e.g. query &quot;food festival&quot; + location &quot;Chicago&quot; finds food festivals in Chicago). Can be used alone without a Search query to browse events by city.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>eventUrls</code></td><td>array</td><td>optional</td><td>Facebook event URLs (e.g., https://www.facebook.com/events/123456789) or page event listing URLs (e.g., https://www.facebook.com/PageName/events). You can also provide bare event IDs.</td></tr><tr><td><code>searchQuery</code></td><td>string</td><td>optional</td><td>Search Facebook&#x27;s public events index by keyword (e.g., &quot;music festival&quot;, &quot;tech conference&quot;). Returns full event details for the first batch of matching public events. Can be combined with Event URLs, or used on its own.</td></tr><tr><td><code>searchLocation</code></td><td>string</td><td>optional</td><td>Scope the search to a city or place (e.g., &quot;Austin, TX&quot;, &quot;Chicago&quot;, &quot;New York&quot;). Combined with Search query for city-specific results (e.g. query &quot;food festival&quot; + location &quot;Chicago&quot; finds food festivals in Chicago). Can be used alone without a Search query to browse events by city.</td></tr><tr><td><code>monitorMode</code></td><td>boolean</td><td>optional</td><td>When enabled, only pushes events not seen in a previous run of this actor for the same page/search target — useful for scheduled runs that watch a page or query for newly-posted events. Only applies to page event listings and search queries; a specific Event URL has no &quot;new event&quot; concept and is always fetched. State is remembered across separate runs of this actor.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of events to return from a page event listing or search query. Facebook&#x27;s own page only serves ~8 results per request without further requests; if more are wanted, this actor automatically launches a short-lived browser session to fetch additional pages (only when needed — small requests stay fast and browser-free). Does not apply to specific Event URLs, which always fetch exactly that one event.</td></tr><tr><td><code>proxyConfiguration</code></td><td>object</td><td>optional</td><td>Optional proxy settings. May help if requests are blocked from datacenter IPs.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;description&quot;: &quot;Scrape public Facebook events. Provide event URLs to extract event details including date, location, description, hosts, and more. No login or cookies required.&quot;,
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-Pq82YWtjnQfv2uAnG8nWoN/keGf1CfGfzLifg+/duwk=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Facebook Event Details &amp; New-Event Monitor Scraper | Vexaloom Labs</title><meta name="description" content="Fetch public Facebook event details by URL, page listing, or keyword/city search, with venue GPS, hosts, ticket links, and a monitor mode that reports only newly-posted events."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/"><meta property="og:title" content="Facebook Event Details &amp; New-Event Monitor Scraper | Vexaloom Labs"><meta property="og:description" content="Fetch public Facebook event details by URL, page listing, or keyword/city search, with venue GPS, hosts, ticket links, and a monitor mode that reports only newly-posted events."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/#webpage","name":"Facebook Event Details & New-Event Monitor Scraper","description":"Fetch public Facebook event details by URL, page listing, or keyword/city search, with venue GPS, hosts, ticket links, and a monitor mode that reports only newly-posted events.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/#article","headline":"Facebook Event Details & New-Event Monitor Scraper","name":"Facebook Event Details & New-Event Monitor Scraper","description":"Fetch public Facebook event details by URL, page listing, or keyword/city search, with venue GPS, hosts, ticket links, and a monitor mode that reports only newly-posted events.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Facebook Event Details & New-Event Monitor Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/xSp7vACk0FpUckkaH/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Facebook Event Details &amp; New-Event Monitor Scraper</span></div><section id="overview"><h1 class="doc-title">Facebook Event Details &amp; New-Event Monitor Scraper</h1><p class="lede">Fetch public Facebook event details by URL, page listing, or keyword/city search, with venue GPS, hosts, ticket links, and a monitor mode that reports only newly-posted events.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/facebook-event-details-and-new-event-monitor">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/xSp7vACk0FpUckkaH/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>eventUrls</code></td><td>array</td><td>optional</td><td>Facebook event URLs or IDs, organizer event pages (e.g. https://www.facebook.com/TED/events, /upcoming_hosted_events, /past_hosted_events), or an events search URL. Group event URLs are skipped because they require login.</td></tr><tr><td><code>searchQueries</code></td><td>array</td><td>optional</td><td>Keywords for Facebook&#x27;s public events search (e.g. &quot;music festival&quot;, &quot;tech conference&quot;). Each query is paginated up to Max results.</td></tr><tr><td><code>searchLocation</code></td><td>string</td><td>optional</td><td>City or place text added to each search query (e.g. &quot;Chicago&quot;). This is a keyword hint, not a strict geographic filter; use Location ID for a strict filter.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>eventUrls</code></td><td>array</td><td>optional</td><td>Facebook event URLs or IDs, organizer event pages (e.g. https://www.facebook.com/TED/events, /upcoming_hosted_events, /past_hosted_events), or an events search URL. Group event URLs are skipped because they require login.</td></tr><tr><td><code>searchQueries</code></td><td>array</td><td>optional</td><td>Keywords for Facebook&#x27;s public events search (e.g. &quot;music festival&quot;, &quot;tech conference&quot;). Each query is paginated up to Max results.</td></tr><tr><td><code>searchLocation</code></td><td>string</td><td>optional</td><td>City or place text added to each search query (e.g. &quot;Chicago&quot;). This is a keyword hint, not a strict geographic filter; use Location ID for a strict filter.</td></tr><tr><td><code>locationId</code></td><td>string</td><td>optional</td><td>Optional Facebook place ID or /places/&lt;id&gt;/ URL for a location filter on search. Facebook&#x27;s place scope can include nearby cities. Text-to-ID lookup requires login, which this actor does not use.</td></tr><tr><td><code>startDate</code></td><td>string</td><td>optional</td><td>Optional search filter lower bound in YYYY-MM-DD format (e.g. 2026-12-01). Applies to search queries only.</td></tr><tr><td><code>endDate</code></td><td>string</td><td>optional</td><td>Optional search filter upper bound in YYYY-MM-DD format. Equal to Start date selects one day.</td></tr><tr><td><code>category</code></td><td>string</td><td>optional</td><td>Optional server-side category filter for search queries. Categories are host-set, so some events have none.</td></tr><tr><td><code>includePastEvents</code></td><td>boolean</td><td>optional</td><td>For organizer pages, fetch the Past collection instead of Upcoming. Ignored for event URLs and search.</td></tr><tr><td><code>includeOccurrences</code></td><td>boolean</td><td>optional</td><td>For recurring events, add every occurrence date and URL to the event record. Uses one extra request only when the event is recurring.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum events per organizer listing or search query. A direct event URL always returns its one event.</td></tr><tr><td><code>monitorMode</code></td><td>boolean</td><td>optional</td><td>For organizer pages and searches, output only events not seen by an earlier run for the same target. The first run is a baseline. State is a named Apify store, is actor-wide (not per user), and is shared by all runs of this actor for the same target; clearing it or changing the target re-emits all events.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Scrape public Facebook event details, organizer Upcoming/Past listings, and keyword search with date, category and location filters. No login or cookies required.&quot;,
   &quot;properties&quot;: {
+    &quot;category&quot;: {
+      &quot;default&quot;: &quot;Any&quot;,
+      &quot;description&quot;: &quot;Optional server-side category filter for search queries. Categories are host-set, so some events have none.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;Any&quot;,
+        &quot;Art&quot;,
+        &quot;Causes&quot;,
+        &quot;Comedy&quot;,
+        &quot;Crafts&quot;,
+        &quot;Dance&quot;,
+        &quot;Drinks&quot;,
+        &quot;Film&quot;,
+        &quot;Fitness&quot;,
+        &quot;Food&quot;,
+        &quot;Games&quot;,
+        &quot;Gardening&quot;,
+        &quot;Health&quot;,
+        &quot;Home&quot;,
+        &quot;Literature&quot;,
+        &quot;Music&quot;,
+        &quot;Networking&quot;,
+        &quot;Other&quot;,
+        &quot;Party&quot;,
+        &quot;Religion&quot;,
+        &quot;Shopping&quot;,
+        &quot;Sports&quot;,
+        &quot;Theatre&quot;,
+        &quot;Wellness&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any category&quot;,
+        &quot;Art&quot;,
+        &quot;Causes&quot;,
+        &quot;Comedy&quot;,
+        &quot;Crafts&quot;,
+        &quot;Dance&quot;,
+        &quot;Drinks&quot;,
+        &quot;Film&quot;,
+        &quot;Fitness&quot;,
+        &quot;Food&quot;,
+        &quot;Games&quot;,
+        &quot;Gardening&quot;,
+        &quot;Health&quot;,
+        &quot;Home&quot;,
+        &quot;Literature&quot;,
+        &quot;Music&quot;,
+        &quot;Networking&quot;,
+        &quot;Other&quot;,
+        &quot;Party&quot;,
+        &quot;Religion&quot;,
+        &quot;Shopping&quot;,
+        &quot;Sports&quot;,
+        &quot;Theatre&quot;,
+        &quot;Wellness&quot;
+      ],
+      &quot;sectionCaption&quot;: &quot;Filters&quot;,
+      &quot;title&quot;: &quot;Category&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;endDate&quot;: {
+      &quot;description&quot;: &quot;Optional search filter upper bound in YYYY-MM-DD format. Equal to Start date selects one day.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;sectionCaption&quot;: &quot;Filters&quot;,
+      &quot;title&quot;: &quot;End date&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
     &quot;eventUrls&quot;: {
-      &quot;description&quot;: &quot;Facebook event URLs (e.g., https://www.facebook.com/events/123456789) or page event listing URLs (e.g., https://www.facebook.com/PageName/events). You can also provide bare event IDs.&quot;,
+      &quot;description&quot;: &quot;Facebook event URLs or IDs, organizer event pages (e.g. https://www.facebook.com/TED/events, /upcoming_hosted_events, /past_hosted_events), or an events search URL. Group event URLs are skipped because they require login.&quot;,
       &quot;editor&quot;: &quot;stringList&quot;,
       &quot;items&quot;: {
         &quot;type&quot;: &quot;string&quot;
@@ -11,50 +78,77 @@
         &quot;https://www.facebook.com/events/1855253805343101&quot;
       ],
       &quot;sectionCaption&quot;: &quot;Input&quot;,
-      &quot;sectionDescription&quot;: &quot;Provide one or more Facebook event URLs, page event listing URLs, and/or a search query. At least one of Event URLs or Search query is required.&quot;,
-      &quot;title&quot;: &quot;Event URLs&quot;,
+      &quot;sectionDescription&quot;: &quot;Add at least one event/page URL, search query, or search location.&quot;,
+      &quot;title&quot;: &quot;Event, organizer or search URLs&quot;,
       &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;includeOccurrences&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;For recurring events, add every occurrence date and URL to the event record. Uses one extra request only when the event is recurring.&quot;,
+      &quot;editor&quot;: &quot;checkbox&quot;,
+      &quot;prefill&quot;: false,
+      &quot;sectionCaption&quot;: &quot;Options&quot;,
+      &quot;title&quot;: &quot;Expand recurring event dates&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includePastEvents&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;For organizer pages, fetch the Past collection instead of Upcoming. Ignored for event URLs and search.&quot;,
+      &quot;editor&quot;: &quot;checkbox&quot;,
+      &quot;prefill&quot;: false,
+      &quot;sectionCaption&quot;: &quot;Options&quot;,
+      &quot;title&quot;: &quot;Include past events (organizer pages)&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;locationId&quot;: {
+      &quot;description&quot;: &quot;Optional Facebook place ID or /places/&lt;id&gt;/ URL for a location filter on search. Facebook&#x27;s place scope can include nearby cities. Text-to-ID lookup requires login, which this actor does not use.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;sectionCaption&quot;: &quot;Filters&quot;,
+      &quot;title&quot;: &quot;Location ID (strict)&quot;,
+      &quot;type&quot;: &quot;string&quot;
     },
     &quot;maxItems&quot;: {
       &quot;default&quot;: 50,
-      &quot;description&quot;: &quot;Maximum number of events to return from a page event listing or search query. Facebook&#x27;s own page only serves ~8 results per request without further requests; if more are wanted, this actor automatically launches a short-lived browser session to fetch additional pages (only when needed — small requests stay fast and browser-free). Does not apply to specific Event URLs, which always fetch exactly that one event.&quot;,
+      &quot;description&quot;: &quot;Maximum events per organizer listing or search query. A direct event URL always returns its one event.&quot;,
       &quot;editor&quot;: &quot;number&quot;,
-      &quot;maximum&quot;: 500,
+      &quot;maximum&quot;: 1000,
       &quot;minimum&quot;: 1,
       &quot;prefill&quot;: 50,
       &quot;sectionCaption&quot;: &quot;Options&quot;,
-      &quot;title&quot;: &quot;Max results (page/search)&quot;,
+      &quot;title&quot;: &quot;Max results per target&quot;,
       &quot;type&quot;: &quot;integer&quot;
     },
     &quot;monitorMode&quot;: {
       &quot;default&quot;: false,
-      &quot;description&quot;: &quot;When enabled, only pushes events not seen in a previous run of this actor for the same page/search target — useful for scheduled runs that watch a page or query for newly-posted events. Only applies to page event listings and search queries; a specific Event URL has no \&quot;new event\&quot; concept and is always fetched. State is remembered across separate runs of this actor.&quot;,
+      &quot;description&quot;: &quot;For organizer pages and searches, output only events not seen by an earlier run for the same target. The first run is a baseline. State is a named Apify store, is actor-wide (not per user), and is shared by all runs of this actor for the same target; clearing it or changing the target re-emits all events.&quot;,
       &quot;editor&quot;: &quot;checkbox&quot;,
       &quot;prefill&quot;: false,
       &quot;sectionCaption&quot;: &quot;Options&quot;,
       &quot;title&quot;: &quot;Monitor mode (only new events)&quot;,
       &quot;type&quot;: &quot;boolean&quot;
     },
-    &quot;proxyConfiguration&quot;: {
-      &quot;description&quot;: &quot;Optional proxy settings. May help if requests are blocked from datacenter IPs.&quot;,
-      &quot;editor&quot;: &quot;proxy&quot;,
-      &quot;sectionCaption&quot;: &quot;Proxy&quot;,
-      &quot;sectionDescription&quot;: &quot;Configure proxy if needed. Facebook event pages usually work without proxy.&quot;,
-      &quot;title&quot;: &quot;Proxy Configuration&quot;,
-      &quot;type&quot;: &quot;object&quot;
-    },
     &quot;searchLocation&quot;: {
-      &quot;description&quot;: &quot;Scope the search to a city or place (e.g., \&quot;Austin, TX\&quot;, \&quot;Chicago\&quot;, \&quot;New York\&quot;). Combined with Search query for city-specific results (e.g. query \&quot;food festival\&quot; + location \&quot;Chicago\&quot; finds food festivals in Chicago). Can be used alone without a Search query to browse events by city.&quot;,
+      &quot;description&quot;: &quot;City or place text added to each search query (e.g. \&quot;Chicago\&quot;). This is a keyword hint, not a strict geographic filter; use Location ID for a strict filter.&quot;,
       &quot;editor&quot;: &quot;textfield&quot;,
       &quot;sectionCaption&quot;: &quot;Input&quot;,
-      &quot;title&quot;: &quot;Search location (city)&quot;,
+      &quot;title&quot;: &quot;Search location text&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
-    &quot;searchQuery&quot;: {
-      &quot;description&quot;: &quot;Search Facebook&#x27;s public events index by keyword (e.g., \&quot;music festival\&quot;, \&quot;tech conference\&quot;). Returns full event details for the first batch of matching public events. Can be combined with Event URLs, or used on its own.&quot;,
-      &quot;editor&quot;: &quot;textfield&quot;,
+    &quot;searchQueries&quot;: {
+      &quot;description&quot;: &quot;Keywords for Facebook&#x27;s public events search (e.g. \&quot;music festival\&quot;, \&quot;tech conference\&quot;). Each query is paginated up to Max results.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
       &quot;sectionCaption&quot;: &quot;Input&quot;,
-      &quot;title&quot;: &quot;Search query&quot;,
+      &quot;title&quot;: &quot;Search queries&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;startDate&quot;: {
+      &quot;description&quot;: &quot;Optional search filter lower bound in YYYY-MM-DD format (e.g. 2026-12-01). Applies to search queries only.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;sectionCaption&quot;: &quot;Filters&quot;,
+      &quot;title&quot;: &quot;Start date&quot;,
       &quot;type&quot;: &quot;string&quot;
     }
   },
@@ -64,7 +158,7 @@
 }
 </code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>events</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped Facebook events</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
   &quot;actorOutputSchemaVersion&quot;: 1,
-  &quot;description&quot;: &quot;Public Facebook event records with venue GPS, hosts, ticket links, recurrence signals, and attendance counts.&quot;,
+  &quot;description&quot;: &quot;Public Facebook event records with dates, venue and GPS (when exposed), hosts, ticket data, recurring occurrences, online links and monitor-filtered results.&quot;,
   &quot;properties&quot;: {
     &quot;events&quot;: {
       &quot;description&quot;: &quot;Dataset containing all scraped Facebook events&quot;,
@@ -73,7 +167,7 @@
       &quot;type&quot;: &quot;string&quot;
     }
   },
-  &quot;title&quot;: &quot;Facebook Event Details &amp; New-Event Monitor Scraper Output&quot;
+  &quot;title&quot;: &quot;Facebook Event Details, Organizer Listings &amp; Search Output&quot;
 }
 </code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
   &quot;actorSpecification&quot;: 1,
@@ -91,17 +185,17 @@
             &quot;format&quot;: &quot;text&quot;,
             &quot;label&quot;: &quot;Date&quot;
           },
-          &quot;is_online&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Online&quot;
-          },
           &quot;location_name&quot;: {
             &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Location&quot;
+            &quot;label&quot;: &quot;Venue&quot;
           },
           &quot;name&quot;: {
             &quot;format&quot;: &quot;text&quot;,
             &quot;label&quot;: &quot;Event Name&quot;
+          },
+          &quot;ticket_price_text&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Tickets&quot;
           },
           &quot;url&quot;: {
             &quot;format&quot;: &quot;link&quot;,
@@ -120,7 +214,7 @@
           &quot;name&quot;,
           &quot;formatted_date&quot;,
           &quot;location_name&quot;,
-          &quot;is_online&quot;,
+          &quot;ticket_price_text&quot;,
           &quot;users_responded&quot;,
           &quot;url&quot;
         ]
@@ -129,38 +223,124 @@
   }
 }
 </code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-facebook-event-details-new-event-monitor-scraper">Facebook Event Details &amp; New-Event Monitor Scraper</h2>
-<p>Pull full details from public Facebook events — by direct URL, from a page's event listing, or via keyword/city search — without logging in. Get venue coordinates, hosts, ticket links, and recurrence info whenever Facebook shows them, plus an optional monitor mode that only reports events you haven't seen in a previous run.</p>
+<p>Read public Facebook event pages, organizer event lists, and keyword search results without logging in. Get dates and time zones, venue and GPS when Facebook exposes them, hosts, ticket links and prices, recurring-series dates, and an optional only-new mode for scheduled runs.</p>
 <h2 id="readme-what-this-actor-does">What this actor does</h2>
 <ul>
-<li>Fetches full event details from a direct event URL, a page's <code>/events</code> listing, or a bare event ID</li>
-<li>Searches Facebook's public events index by keyword; a city in <code>searchLocation</code> is simply added to the search words</li>
-<li>Automatically fetches pages beyond Facebook's own ~8-result batch when a listing or search needs more (best-effort)</li>
-<li>Tracks previously-seen events per page/query across scheduled runs so Monitor mode can report only new ones</li>
-<li>Empty fields are omitted from each record</li>
+<li><strong>Event details by URL or ID:</strong> name, description, start/end time, time zone, venue, coordinates, cover, hosts, creator, categories, tickets and online links.</li>
+<li><strong>Organizer Upcoming and Past:</strong> read <code>/PageName/events</code>, <code>/PageName/upcoming_hosted_events</code>, or <code>/PageName/past_hosted_events</code>; page through the whole list up to your limit instead of stopping at the first batch.</li>
+<li><strong>Keyword search:</strong> search Facebook's public events index and page through results. Optional date range, category, and location-ID filters (Facebook's place scope can include nearby cities).</li>
+<li><strong>Recurring series:</strong> optionally add every occurrence date and URL for recurring events.</li>
+<li><strong>Monitor mode:</strong> on a schedule, return only events not seen by an earlier run for the same organizer/search target. State is scoped to the Apify user who runs the actor, so separate users do not share history.</li>
+<li><strong>Durable images:</strong> cover and host photos are copied into Apify storage; the original signed URL is kept beside the stored one.</li>
 </ul>
+<p>Empty fields are omitted. The actor never fills a missing value with <code>null</code>, <code>0</code>, or a placeholder.</p>
 <h2 id="readme-output-per-event">Output per event</h2>
-<ul>
-<li><code>event_id</code>, <code>name</code>, <code>description</code>, <code>url</code></li>
-<li><code>start_timestamp</code>, <code>end_timestamp</code> — Unix timestamps</li>
-<li><code>start_date</code>, <code>end_date</code> — ISO 8601</li>
-<li><code>formatted_date</code> — Facebook's own human-readable date/time string</li>
-<li><code>timezone</code></li>
-<li><code>is_online</code>, <code>is_canceled</code>, <code>is_past</code>, <code>is_sale_event</code></li>
-<li><code>location_name</code>, <code>location_address</code>, <code>location_city</code>, <code>one_line_address</code></li>
-<li><code>latitude</code>, <code>longitude</code></li>
-<li><code>photo_url</code>, <code>photo_width</code>, <code>photo_height</code>, <code>photo_caption</code>, <code>video_url</code></li>
-<li><code>hosts[]</code> — <code>{name, url, type, is_verified, profile_picture_url}</code></li>
-<li><code>creator</code> — <code>{id, name, type}</code>, the event's original creator</li>
-<li><code>categories[]</code></li>
-<li><code>ticket_url</code>, <code>description_links[]</code> — external ticket link and every URL Facebook recognized in the description</li>
-<li><code>online_type</code> — e.g. <code>MESSENGER_ROOM</code>, <code>THIRD_PARTY</code></li>
-<li><code>users_responded</code> — combined going + interested count</li>
-<li><code>event_kind</code>, <code>rsvp_style</code></li>
-<li><code>event_frequency</code>, <code>has_child_events</code>, <code>child_events_count</code> — recurrence signals for series events</li>
-<li><code>input_url</code> — the event or page URL you supplied, or for search results the Facebook events-search URL the actor built from your query</li>
-<li><code>scraped_at</code> — ISO 8601 timestamp of collection</li>
-</ul>
-<p>When an event found via a page listing or search can't be fetched in full (its detail page fails to load, shows a login wall, or can't be parsed), the actor pushes a minimal stub for it instead of skipping it: <code>event_id</code>, <code>name</code>, <code>url</code>, <code>formatted_date</code>, plus <code>is_canceled</code> (page listings) or <code>is_online</code> (searches), <code>input_url</code> and <code>scraped_at</code> — none of the venue, host, or media fields above. A direct event URL that fails produces no record.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>event_id</code>, <code>name</code>, <code>description</code>, <code>url</code></td>
+<td>Event identity and text.</td>
+</tr>
+<tr>
+<td><code>start_timestamp</code>, <code>end_timestamp</code></td>
+<td>Unix timestamps when the source provides them.</td>
+</tr>
+<tr>
+<td><code>start_date</code>, <code>end_date</code>, <code>formatted_date</code>, <code>timezone</code></td>
+<td>ISO dates, Facebook's own date sentence, and the event's time zone.</td>
+</tr>
+<tr>
+<td><code>is_online</code>, <code>is_canceled</code>, <code>is_past</code>, <code>is_sale_event</code></td>
+<td>Present when Facebook carries the flag. <code>is_canceled</code> is also inferred from a cancellation word in the event name when the flag is absent.</td>
+</tr>
+<tr>
+<td><code>event_kind</code>, <code>rsvp_style</code>, <code>event_frequency</code></td>
+<td>Visibility, RSVP style, recurring-series frequency.</td>
+</tr>
+<tr>
+<td><code>has_child_events</code>, <code>child_events_count</code></td>
+<td>Recurrence signals.</td>
+</tr>
+<tr>
+<td><code>occurrences[]</code></td>
+<td>When enabled: <code>{event_id,url,start_timestamp,end_timestamp,start_date,end_date}</code> for every series date.</td>
+</tr>
+<tr>
+<td><code>parent_event_id</code></td>
+<td>Present when the returned event is one occurrence of a series.</td>
+</tr>
+<tr>
+<td><code>location_name</code>, <code>location_address</code>, <code>location_city</code>, <code>location_city_id</code></td>
+<td>Venue text and city identifiers when exposed.</td>
+</tr>
+<tr>
+<td><code>one_line_address</code></td>
+<td>Facebook's normalized full address when available.</td>
+</tr>
+<tr>
+<td><code>latitude</code>, <code>longitude</code></td>
+<td>Venue GPS when the venue exposes coordinates.</td>
+</tr>
+<tr>
+<td><code>venue_place_id</code>, <code>venue_place_type</code>, <code>venue_url</code>, <code>venue_is_user_specified_location</code></td>
+<td>Venue metadata.</td>
+</tr>
+<tr>
+<td><code>photo_url</code>, <code>photo_url_original</code>, <code>photo_width</code>, <code>photo_height</code>, <code>photo_caption</code></td>
+<td>Stored cover image, its original signed URL, and dimensions/caption.</td>
+</tr>
+<tr>
+<td><code>video_url</code>, <code>video_url_original</code></td>
+<td>Cover video and original URL when downloadable; the original is retained if it is too large to rehost.</td>
+</tr>
+<tr>
+<td><code>hosts[]</code></td>
+<td><code>{id,name,url,type,is_verified,profile_picture_url,profile_picture_url_original}</code>.</td>
+</tr>
+<tr>
+<td><code>creator</code></td>
+<td><code>{id,name,type}</code> when Facebook exposes the creator.</td>
+</tr>
+<tr>
+<td><code>categories[]</code>, <code>category_urls[]</code></td>
+<td>Host-set categories and Facebook's category search links.</td>
+</tr>
+<tr>
+<td><code>ticket_url</code>, <code>ticket_provider</code>, <code>ticket_price_text</code></td>
+<td>Ticket link, provider, and the price text Facebook shows. Structured price tiers are not public.</td>
+</tr>
+<tr>
+<td><code>description_links[]</code></td>
+<td>External links Facebook recognized in the description.</td>
+</tr>
+<tr>
+<td><code>online_type</code>, <code>online_url</code></td>
+<td>Online-event type and registration/live link when shown.</td>
+</tr>
+<tr>
+<td><code>duration</code></td>
+<td>Facebook's duration text (e.g. <code>2 hr</code>).</td>
+</tr>
+<tr>
+<td><code>users_responded</code></td>
+<td>Combined response count; omitted when Facebook does not expose it.</td>
+</tr>
+<tr>
+<td><code>source_type</code></td>
+<td><code>event_url</code>, <code>page_events</code>, <code>search</code>, or <code>occurrence</code>.</td>
+</tr>
+<tr>
+<td><code>input_url</code>, <code>scraped_at</code></td>
+<td>The target that produced the row and collection time.</td>
+</tr>
+</tbody>
+</table></div>
 <h2 id="readme-input">Input</h2>
 <div class="table-wrap"><table>
 <thead>
@@ -174,89 +354,112 @@
 <tbody>
 <tr>
 <td><code>eventUrls</code></td>
-<td>array</td>
+<td>string list</td>
 <td>–</td>
-<td>Facebook event URLs, page event-listing URLs, or bare event IDs</td>
+<td>Event URLs or IDs, organizer event pages, or an events search URL. The prefill contains one example event.</td>
 </tr>
 <tr>
-<td><code>searchQuery</code></td>
-<td>string</td>
+<td><code>searchQueries</code></td>
+<td>string list</td>
 <td>–</td>
-<td>Keyword search of Facebook's public events index (e.g. &quot;music festival&quot;)</td>
+<td>Keywords for event search.</td>
 </tr>
 <tr>
 <td><code>searchLocation</code></td>
 <td>string</td>
 <td>–</td>
-<td>City or place (e.g. &quot;Chicago&quot;) appended to the search text; usable alone or with <code>searchQuery</code>. It is a keyword, not a strict geographic filter</td>
+<td>City/place text added to each query. This is a relevance hint, not a strict filter.</td>
 </tr>
 <tr>
-<td><code>monitorMode</code></td>
+<td><code>locationId</code></td>
+<td>string</td>
+<td>–</td>
+<td>Numeric Facebook place ID or <code>/places/&lt;id&gt;/</code> URL for a location filter. Facebook's place scope can include nearby cities.</td>
+</tr>
+<tr>
+<td><code>startDate</code>, <code>endDate</code></td>
+<td>string</td>
+<td>–</td>
+<td><code>YYYY-MM-DD</code> search range.</td>
+</tr>
+<tr>
+<td><code>category</code></td>
+<td>select</td>
+<td>Any</td>
+<td>One of Facebook's event categories.</td>
+</tr>
+<tr>
+<td><code>includePastEvents</code></td>
 <td>boolean</td>
-<td><code>false</code></td>
-<td>Only output events not seen in a previous run for the same page/query; direct event URLs are always fetched</td>
+<td>false</td>
+<td>Organizer pages: read Past instead of Upcoming.</td>
+</tr>
+<tr>
+<td><code>includeOccurrences</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Add every date of a recurring series.</td>
 </tr>
 <tr>
 <td><code>maxItems</code></td>
 <td>integer</td>
-<td><code>50</code></td>
-<td>Max events per page listing and for the search (1–500); doesn't apply to a specific event URL</td>
+<td>50</td>
+<td>Per organizer listing or search query (1–1000).</td>
 </tr>
 <tr>
-<td><code>proxyConfiguration</code></td>
-<td>object</td>
-<td>–</td>
-<td>Optional proxy; most event pages work without one</td>
+<td><code>monitorMode</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Only events not seen by a previous run for the same target.</td>
 </tr>
 </tbody>
 </table></div>
-<p>At least one of <code>eventUrls</code>, <code>searchQuery</code>, or <code>searchLocation</code> is required. They can be combined in one run.</p>
-<h3 id="readme-example-specific-events-by-url">Example: specific events by URL</h3>
+<h3 id="readme-examples">Examples</h3>
 <pre><code class="language-json">{
-    &quot;eventUrls&quot;: [
-        &quot;https://www.facebook.com/events/1855253805343101&quot;,
-        &quot;https://www.facebook.com/events/1084489187170885&quot;
-    ]
+  &quot;eventUrls&quot;: [&quot;https://www.facebook.com/events/1855253805343101&quot;],
+  &quot;includeOccurrences&quot;: true
 }
 </code></pre>
-<h3 id="readme-example-city-scoped-keyword-search">Example: city-scoped keyword search</h3>
 <pre><code class="language-json">{
-    &quot;searchQuery&quot;: &quot;food festival&quot;,
-    &quot;searchLocation&quot;: &quot;Chicago&quot;,
-    &quot;maxItems&quot;: 100
+  &quot;eventUrls&quot;: [&quot;https://www.facebook.com/TED/upcoming_hosted_events&quot;],
+  &quot;maxItems&quot;: 100,
+  &quot;monitorMode&quot;: true
 }
 </code></pre>
-<h3 id="readme-example-scheduled-monitoring-of-a-page-s-events">Example: scheduled monitoring of a page's events</h3>
 <pre><code class="language-json">{
-    &quot;eventUrls&quot;: [&quot;https://www.facebook.com/TED/events&quot;],
-    &quot;monitorMode&quot;: true
+  &quot;searchQueries&quot;: [&quot;food festival&quot;],
+  &quot;searchLocation&quot;: &quot;Chicago&quot;,
+  &quot;startDate&quot;: &quot;2026-11-01&quot;,
+  &quot;endDate&quot;: &quot;2026-11-30&quot;,
+  &quot;category&quot;: &quot;Food&quot;,
+  &quot;maxItems&quot;: 100
 }
 </code></pre>
 <h2 id="readme-use-cases">Use cases</h2>
 <ul>
-<li><strong>Event calendar sites</strong> — pull venue, date, and ticket details to populate a listings page</li>
-<li><strong>Scheduled monitoring</strong> — run with <code>monitorMode</code> on a daily schedule to get alerted only about newly-posted events from a venue or organizer</li>
-<li><strong>Location intelligence</strong> — map events by <code>latitude</code>/<code>longitude</code> across a city or region</li>
-<li><strong>Festival and conference research</strong> — collect attendance signals and host info across similar events</li>
-<li><strong>Competitive tracking</strong> — watch a competitor's page events to see what they're promoting and when</li>
+<li>Build a local what's-on calendar from venues and organizers.</li>
+<li>Watch an organizer's page on a schedule and report only newly posted events.</li>
+<li>Collect dates, venues, ticket links and host details for event directories.</li>
+<li>Research recurring series across a city or category.</li>
+<li>Map events that expose coordinates.</li>
 </ul>
 <h2 id="readme-faq">FAQ</h2>
-<p><strong>Is this affiliated with Facebook or Meta?</strong>
-No. This is an independent actor that reads publicly available Facebook event pages and is not affiliated with Meta Platforms, Inc.</p>
-<p><strong>Do I need a Facebook login or cookies?</strong>
-No. The actor only reads public event data and needs no authentication.</p>
-<p><strong>Why was an event not returned?</strong>
-It's likely private, deleted, or restricted to logged-in viewers — only public events are accessible.</p>
-<p><strong>Does this work for Facebook Group events?</strong>
-No. Group events require login and aren't supported — only Pages and public event/search URLs are.</p>
-<p><strong>Why did a page or search return fewer than <code>maxItems</code>?</strong>
-Facebook's own page serves roughly 8 results per request; fetching additional pages beyond that is best-effort and occasionally returns just the first batch. The run still completes normally either way — re-running usually gets the rest.</p>
-<p><strong>Can I get every date of a recurring event series?</strong>
-Not from one event URL. Facebook returns <code>event_frequency</code>, <code>has_child_events</code>, and <code>child_events_count</code> as summary signals but doesn't expose sibling occurrence URLs to logged-out visitors — each occurrence must surface independently via search or a page listing.</p>
-<p><strong>Why is <code>users_responded</code> a single number instead of separate going/interested counts?</strong>
-Facebook itself stopped exposing the split figures publicly; only the combined count remains available.</p>
-<p><strong>How does Monitor mode decide what's &quot;new&quot;?</strong>
-It remembers which events it already reported for a given page or search text across runs, and only outputs events it hasn't reported before for that same target. Changing the query or location wording starts a fresh history. A specific event URL is always fetched since there's no &quot;new&quot; concept for one fixed event.</p>
-<p><strong>Does <code>searchLocation</code> guarantee events in that city?</strong>
-No. Facebook's public event search has no location filter, so the city name is added to your keywords (e.g. &quot;food festival Chicago&quot;). That usually surfaces local events, but check <code>location_city</code> if you need a strict match.</p>
-</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/xSp7vACk0FpUckkaH/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>aGT2vwGbMaAHx0PV4</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
+<p><strong>Do I need a Facebook login or cookies?</strong> No. The actor reads only public pages. Group events, private events, and city-name typeahead require login and are not supported.</p>
+<p><strong>Why is a venue address or GPS missing?</strong> Many Facebook events use free-text locations without coordinates. The actor returns what the event exposes and omits the rest; it never geocodes or invents a location.</p>
+<p><strong>Why did a search return fewer results than I asked for?</strong> Facebook's public search index is relevance-ranked and changes between requests; categories are host-set and often empty. The actor retries a throttled first page and logs a warning when pagination stops short of your limit. Facebook can also end a deep result set early without an error; that can look like exhaustion, so a shortfall is not always flagged. It never fabricates rows to fill the gap.</p>
+<p><strong>How does monitor mode decide what is new?</strong> It stores the event IDs already reported for each organizer/search target in an Apify key-value store. State is scoped to the Apify user who runs the actor, so separate users do not share history for the same target. Runs without a user identity use a stable anonymous scope. The first run is a baseline; later runs omit seen IDs. Clearing the store, changing the target, or losing state causes a new baseline. There is no webhook; schedule the actor and read the dataset. Concurrent runs can race.</p>
+<p><strong>Can I get every date of a recurring event?</strong> Yes when the event exposes child occurrences. Turn on <code>includeOccurrences</code>; the record gets an <code>occurrences[]</code> list. A one-off event has no list.</p>
+<p><strong>Can I filter by city?</strong> Use <code>locationId</code> with a numeric Facebook place ID or <code>/places/&lt;id&gt;/</code> URL. Facebook's place scope can include nearby cities, so treat it as best-effort, not an exact city boundary. Facebook's city text lookup needs login, so <code>searchLocation</code> is a keyword hint only.</p>
+<p><strong>Can I get attendee lists or separate going/interested counts?</strong> No. Facebook restricts attendee identities, and it no longer exposes separate going/interested figures to logged-out visitors. <code>users_responded</code> is the combined public count; there is no separate <code>interested</code> field.</p>
+<p><strong>Do group events work?</strong> No. Facebook Groups require a logged-in session, so group event URLs are skipped with a warning.</p>
+<p><strong>Are images permanent?</strong> Cover and host images are copied into Apify storage and the original signed URL is kept in <code>*_original</code>. Facebook CDN originals expire after a few days.</p>
+<p><strong>Is this affiliated with Facebook or Meta?</strong> No. This is an independent tool and is not affiliated with, endorsed by, or sponsored by Meta Platforms, Inc.</p>
+<h2 id="readme-limits">Limits</h2>
+<ul>
+<li>No group events, private events, guest lists, or split going/interested counts.</li>
+<li>No true radius/nearby search; a location filter needs a Facebook place ID, and its scope can include nearby cities.</li>
+<li>GPS and street addresses are conditional on what the venue exposes.</li>
+<li>Ticket price is text only; structured price tiers are not public.</li>
+<li>Search results are dynamic; a retry can still return fewer rows than requested.</li>
+</ul>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/xSp7vACk0FpUckkaH/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>k2U4MYmHDAlszwlFn</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

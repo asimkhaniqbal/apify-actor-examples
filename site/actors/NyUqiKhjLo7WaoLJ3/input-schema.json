@@ -1,8 +1,48 @@
 {
   "properties": {
+    "bathrooms": {
+      "default": "any",
+      "description": "Number of bathrooms.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "1",
+        "2",
+        "3+"
+      ],
+      "enumTitles": [
+        "Any",
+        "1",
+        "2",
+        "3 or more"
+      ],
+      "prefill": "any",
+      "title": "Bathrooms",
+      "type": "string"
+    },
+    "condition": {
+      "default": "any",
+      "description": "Property condition.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "new",
+        "good",
+        "toRenovate"
+      ],
+      "enumTitles": [
+        "Any",
+        "New build",
+        "Good condition",
+        "To renovate"
+      ],
+      "prefill": "any",
+      "title": "Condition",
+      "type": "string"
+    },
     "country": {
       "default": "es",
-      "description": "Idealista country: Spain, Portugal, or Italy.",
+      "description": "Idealista market: Spain, Portugal, or Italy. Auto-detected when you use URLs.",
       "editor": "select",
       "enum": [
         "es",
@@ -10,47 +50,271 @@
         "it"
       ],
       "enumTitles": [
-        "Spain",
-        "Portugal",
-        "Italy"
+        "Spain (idealista.com)",
+        "Portugal (idealista.pt)",
+        "Italy (idealista.it)"
       ],
-      "prefill": "es",
+      "prefill": "it",
       "title": "Country",
       "type": "string"
     },
+    "fetchDetails": {
+      "default": false,
+      "description": "Visit each listing's page to add bathrooms, energy rating, year built, condition, full description, gallery and agency phone. Slower and uses more requests.",
+      "prefill": false,
+      "title": "Fetch Details",
+      "type": "boolean"
+    },
+    "hasAirConditioning": {
+      "default": false,
+      "description": "Only listings with air conditioning.",
+      "prefill": false,
+      "title": "Has Air Conditioning",
+      "type": "boolean"
+    },
+    "hasBalcony": {
+      "default": false,
+      "description": "Only listings with a balcony.",
+      "prefill": false,
+      "title": "Has Balcony",
+      "type": "boolean"
+    },
+    "hasGarage": {
+      "default": false,
+      "description": "Only listings with a garage or parking space.",
+      "prefill": false,
+      "title": "Has Garage",
+      "type": "boolean"
+    },
+    "hasGarden": {
+      "default": false,
+      "description": "Only listings with a garden.",
+      "prefill": false,
+      "title": "Has Garden",
+      "type": "boolean"
+    },
+    "hasLift": {
+      "default": false,
+      "description": "Only listings with a lift.",
+      "prefill": false,
+      "title": "Has Lift",
+      "type": "boolean"
+    },
+    "hasPool": {
+      "default": false,
+      "description": "Only listings with a swimming pool.",
+      "prefill": false,
+      "title": "Has Pool",
+      "type": "boolean"
+    },
+    "hasSeaViews": {
+      "default": false,
+      "description": "Only listings advertised with sea views.",
+      "prefill": false,
+      "title": "Sea Views",
+      "type": "boolean"
+    },
+    "hasStorageRoom": {
+      "default": false,
+      "description": "Only listings with a storage room.",
+      "prefill": false,
+      "title": "Has Storage Room",
+      "type": "boolean"
+    },
+    "hasTerrace": {
+      "default": false,
+      "description": "Only listings with a terrace.",
+      "prefill": false,
+      "title": "Has Terrace",
+      "type": "boolean"
+    },
+    "isAccessible": {
+      "default": false,
+      "description": "Only accessible homes.",
+      "prefill": false,
+      "title": "Accessible",
+      "type": "boolean"
+    },
+    "isAuction": {
+      "default": false,
+      "description": "Only auction listings where the source marks them.",
+      "prefill": false,
+      "title": "Auction",
+      "type": "boolean"
+    },
+    "isBankOwned": {
+      "default": false,
+      "description": "Only bank-owned listings where the source marks them.",
+      "prefill": false,
+      "title": "Bank-Owned",
+      "type": "boolean"
+    },
+    "isLuxury": {
+      "default": false,
+      "description": "Only luxury listings.",
+      "prefill": false,
+      "title": "Luxury",
+      "type": "boolean"
+    },
+    "isNewDevelopment": {
+      "default": false,
+      "description": "Only new-development listings.",
+      "prefill": false,
+      "title": "New Development",
+      "type": "boolean"
+    },
     "location": {
       "default": "madrid-madrid",
-      "description": "City or area to search. Use the location slug from Idealista URLs. Spain: 'madrid-madrid', 'barcelona-barcelona', 'marbella-malaga'. Italy: 'roma-roma', 'milano-milano'. Portugal: 'lisboa', 'porto'. You can also paste a full Idealista search URL.",
+      "description": "City or area slug from an Idealista URL (e.g. madrid-madrid, barcelona-barcelona, lisboa, roma-roma). You can also paste a full Idealista search URL. Used in Search by location mode.",
       "editor": "textfield",
-      "prefill": "madrid-madrid",
-      "sectionCaption": "Search Settings",
+      "prefill": "roma-roma",
       "title": "Location",
       "type": "string"
     },
+    "maxDetails": {
+      "default": 100,
+      "description": "Maximum number of listing pages to enrich when Fetch Details is on.",
+      "maximum": 10000,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Maximum Detail Pages",
+      "type": "integer"
+    },
     "maxItems": {
       "default": 100,
-      "description": "Maximum number of property listings to scrape. Leave empty for all available results (up to 1,800 per search).",
-      "maximum": 1800,
+      "description": "Maximum number of listings to save.",
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 5,
+      "prefill": 3,
       "sectionCaption": "Limits",
-      "title": "Maximum Properties",
+      "title": "Maximum Listings",
       "type": "integer"
+    },
+    "minPriceDropPercent": {
+      "description": "Keep only listings reduced by at least this percentage. Implies price-drop filtering.",
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Minimum Price Drop (%)",
+      "type": "integer"
+    },
+    "mode": {
+      "description": "What to scrape: a location search, your own search URLs, or individual property URLs/IDs. Inferred from the supplied URLs when omitted.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "startUrls",
+        "propertyUrls"
+      ],
+      "enumTitles": [
+        "Search by location",
+        "Search URLs",
+        "Property URLs / IDs"
+      ],
+      "prefill": "search",
+      "sectionCaption": "Mode",
+      "title": "Mode",
+      "type": "string"
+    },
+    "onlyPriceDrops": {
+      "default": false,
+      "description": "Keep only listings whose price was reduced.",
+      "prefill": false,
+      "title": "Only Price Drops",
+      "type": "boolean"
+    },
+    "onlyPrivateOwners": {
+      "default": false,
+      "description": "Keep only private-seller listings.",
+      "prefill": false,
+      "title": "Only Private Owners",
+      "type": "boolean"
     },
     "operation": {
       "default": "sale",
-      "description": "Type of listing: properties for sale or for rent.",
+      "description": "Properties for sale or for rent.",
       "editor": "select",
       "enum": [
         "sale",
         "rent"
       ],
       "enumTitles": [
-        "For Sale",
-        "For Rent"
+        "For sale",
+        "For rent"
       ],
       "prefill": "sale",
       "title": "Operation",
+      "type": "string"
+    },
+    "partitionLargeSearches": {
+      "default": true,
+      "description": "When a search has more than 1,800 results and you ask for more, split it by price buckets so the 1,800-per-search cap is bypassed.",
+      "prefill": false,
+      "title": "Partition Large Searches",
+      "type": "boolean"
+    },
+    "priceMax": {
+      "description": "Drop listings more expensive than this price. Rounded to Idealista's nearest price bucket.",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Maximum Price (EUR)",
+      "type": "integer"
+    },
+    "priceMin": {
+      "description": "Drop listings cheaper than this price. Rounded to Idealista's nearest price bucket.",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Minimum Price (EUR)",
+      "type": "integer"
+    },
+    "propertySubtype": {
+      "default": "any",
+      "description": "Narrow homes to a subtype (flat, penthouse, duplex, villa, etc.).",
+      "editor": "select",
+      "enum": [
+        "any",
+        "flat",
+        "penthouse",
+        "duplex",
+        "studio",
+        "loft",
+        "chalet",
+        "independentHouse",
+        "semiDetached",
+        "terraced",
+        "villa",
+        "countryHouse",
+        "office",
+        "premises",
+        "garage",
+        "land",
+        "storageRoom",
+        "building",
+        "room"
+      ],
+      "enumTitles": [
+        "Any",
+        "Flat / apartment",
+        "Penthouse",
+        "Duplex",
+        "Studio",
+        "Loft",
+        "Chalet",
+        "Independent house",
+        "Semi-detached house",
+        "Terraced house",
+        "Villa",
+        "Country house",
+        "Office",
+        "Commercial premises",
+        "Garage",
+        "Land",
+        "Storage room",
+        "Building",
+        "Room"
+      ],
+      "prefill": "any",
+      "sectionCaption": "Filters",
+      "title": "Property Subtype",
       "type": "string"
     },
     "propertyType": {
@@ -70,50 +334,100 @@
       ],
       "enumTitles": [
         "Homes",
-        "New Developments",
+        "New developments",
         "Offices",
-        "Premises",
+        "Commercial premises",
         "Garages",
-        "Lands",
-        "Storage Rooms",
+        "Land",
+        "Storage rooms",
         "Buildings",
-        "Bedrooms"
+        "Rooms"
       ],
       "prefill": "homes",
       "title": "Property Type",
       "type": "string"
     },
-    "proxyConfiguration": {
-      "default": {
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
-        ],
-        "useApifyProxy": true
-      },
-      "description": "Apify Proxy is recommended. The actor uses a mirror-first fetch path and falls back to proxied requests when the mirror blocks direct cloud traffic.",
-      "editor": "proxy",
-      "prefill": {
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
-        ],
-        "useApifyProxy": true
-      },
-      "sectionCaption": "Proxy",
-      "sectionDescription": "Keep the default proxy settings for best cloud reliability.",
-      "title": "Proxy Configuration",
-      "type": "object"
+    "propertyUrls": {
+      "description": "Individual Idealista property URLs or numeric property IDs. Used in Property URLs / IDs mode.",
+      "editor": "stringList",
+      "title": "Property URLs or IDs",
+      "type": "array"
+    },
+    "rooms": {
+      "default": "any",
+      "description": "Number of rooms.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5+"
+      ],
+      "enumTitles": [
+        "Any",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5 or more"
+      ],
+      "prefill": "any",
+      "title": "Rooms",
+      "type": "string"
+    },
+    "sizeMax": {
+      "description": "Drop listings larger than this size. Rounded to Idealista's nearest size bucket.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Maximum Size (m²)",
+      "type": "integer"
+    },
+    "sizeMin": {
+      "description": "Drop listings smaller than this size. Rounded to Idealista's nearest size bucket.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Minimum Size (m²)",
+      "type": "integer"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Result order.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "priceAsc",
+        "priceDesc",
+        "areaAsc",
+        "areaDesc",
+        "pricePerSqmAsc",
+        "pricePerSqmDesc"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Price: low to high",
+        "Price: high to low",
+        "Size: small to large",
+        "Size: large to small",
+        "Price per m²: low to high",
+        "Price per m²: high to low"
+      ],
+      "prefill": "relevance",
+      "sectionCaption": "Output",
+      "title": "Sort By",
+      "type": "string"
     },
     "startUrls": {
-      "description": "Direct Idealista search result page URLs (e.g. https://www.idealista.com/venta-viviendas/madrid-madrid/). When provided, these override the location/operation/propertyType fields. Individual property/listing detail page URLs are not supported yet and will be skipped.",
+      "description": "Idealista search-result URLs to scrape (filters and map-area URLs are kept as-is). Used in Search URLs mode.",
       "editor": "requestListSources",
-      "sectionCaption": "Direct URLs (Optional)",
-      "sectionDescription": "Optionally provide Idealista search result page URLs directly instead of using the search fields above.",
-      "title": "Direct URLs",
+      "sectionCaption": "URLs",
+      "title": "Search URLs",
       "type": "array"
     }
   },
   "required": [],
   "schemaVersion": 1,
-  "title": "Idealista Scraper Input",
+  "title": "Idealista Search Listings Input",
   "type": "object"
 }
