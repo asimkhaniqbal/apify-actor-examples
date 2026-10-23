@@ -1,0 +1,91 @@
+# startup.jobs Category & Keyword Job Scraper
+
+Collect live job listings from **[startup.jobs](https://startup.jobs)**, a curated board of startup openings across engineering, design, marketing, sales, and more. Browse by category or filter by keyword, and get back each listing's title, company, work-mode and pay details, page text and link — no login or API key required.
+
+## What this actor does
+
+- Collects job listings across twelve categories: engineering, design, marketing, sales, product, operations, data, finance, HR, legal, customer success, and a dedicated remote category
+- Filters results by keyword across the job title, company, description, and tags (checked after each listing is opened)
+- Captures the listing's page text, employment type, and salary/compensation figure when shown
+- Returns the startup.jobs listing URL for every job
+- Empty fields are omitted from records
+
+## Output per job listing
+
+- `title` — job title
+- `company` — hiring company name
+- `url` — the job's page on startup.jobs (apply from there)
+- `location` — the first short label on the page mentioning remote, hybrid or onsite (e.g. `"Remote"`, `"Hybrid - Berlin"`); falls back to `"Remote"` when the page mentions remote work, so treat it as a work-mode hint rather than an exact address
+- `jobType` — first label mentioning an employment type (e.g. `"Full-time"`, `"Contract"`)
+- `salary` — first short label showing a $, € or £ amount, when present
+- `description` — the listing page's main text, whitespace-collapsed and cut at 3,000 characters (it can include a few surrounding page labels)
+- `tags` — up to 20 keywords from the page's metadata or tag badges
+- `scrapedAt` — ISO 8601 timestamp of collection
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `category` | string | `remote` | Job category: `all`, `engineering`, `design`, `marketing`, `sales`, `product`, `operations`, `data`, `finance`, `hr`, `legal`, `customer-success`, `remote` |
+| `keyword` | string | – | Filter by keyword (case-insensitive) in the job title, company, description, or tags |
+| `maxItems` | integer | `50` | Maximum number of listings to return (1–500). The actor reads at most 20 category pages, so a narrow keyword can return fewer |
+
+### Example: engineering jobs mentioning Python
+
+```json
+{
+  "category": "engineering",
+  "keyword": "python",
+  "maxItems": 100
+}
+```
+
+### Example: all remote jobs, no keyword filter
+
+```json
+{
+  "category": "remote",
+  "maxItems": 200
+}
+```
+
+### Example: sales roles mentioning SaaS
+
+```json
+{
+  "category": "sales",
+  "keyword": "SaaS",
+  "maxItems": 50
+}
+```
+
+## Use cases
+
+- **Job board aggregation** — pull startup-specific listings into your own job search tool or newsletter
+- **Recruiting and sourcing** — build a pipeline of startup openings in a specific function or stack
+- **Market research** — track which skills and technologies startups are hiring for right now
+- **Remote-work tracking** — monitor the remote category for fully-remote openings
+- **Compensation benchmarking** — collect salary ranges across a category to see typical pay bands
+
+## FAQ
+
+**Does this actor require login or an API key?**
+No. startup.jobs is fully public — no credentials of any kind are required.
+
+**How many jobs can I scrape?**
+Set `maxItems` up to 500 per run. The actor walks up to 20 pages of the chosen category and opens each listing, so with a keyword filter the result can stop short of `maxItems` once those pages are used up. Run again with a different category to cover more of the board. If nothing matches, the dataset stays empty and the status message says so.
+
+**Can I filter by multiple keywords at once?**
+The actor supports a single keyword per run. For multi-keyword filtering, run it multiple times with different `keyword` values.
+
+**What job types appear on startup.jobs?**
+Full-time, part-time, contract, and freelance roles across the twelve supported categories.
+
+**How fresh is the data?**
+Live — each run reads startup.jobs at request time, so results reflect the board's current state.
+
+**Why is `salary` sometimes missing?**
+Not every company publishes a compensation range on their listing; the field is only included when the page shows a $, € or £ amount. Pay in other currencies isn't picked up.
+
+**Is this affiliated with startup.jobs?**
+No. This is an independent, third-party actor that reads startup.jobs' public listings; it isn't affiliated with or endorsed by startup.jobs.

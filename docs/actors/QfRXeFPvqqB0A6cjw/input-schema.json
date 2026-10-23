@@ -1,171 +1,94 @@
 {
-  "description": "Scrape Shopee shop profiles, public shop product feeds, item detail pages and category listings across 6 Southeast Asian markets.",
+  "description": "Collect public Shopee shop profiles, item details, category trees and mall shops across eight markets.",
   "properties": {
-    "category": {
-      "description": "Curated Shopee top-level category. CatIDs are shared across the SEA domains.",
-      "editor": "select",
-      "enum": [
-        "11000979",
-        "11000538",
-        "11001724",
-        "11000587",
-        "11000168",
-        "11001155",
-        "11000345",
-        "11000824",
-        "11000003",
-        "11000764",
-        "11001440",
-        "11000690",
-        "11000710",
-        "11000910",
-        "11000745",
-        "11001273",
-        "11000616",
-        "11000781",
-        "11001378",
-        "11001085",
-        "11000799",
-        "11001100",
-        "11133422",
-        "11032871",
-        "11001536",
-        "11059301"
-      ],
-      "enumTitles": [
-        "Mobile & Accessories",
-        "Women Clothes",
-        "Watches",
-        "Men Clothes",
-        "Health & Beauty",
-        "Home & Living",
-        "Baby & Toys",
-        "Home Appliances",
-        "Groceries & Pets",
-        "Women Shoes",
-        "Automotive",
-        "Fashion Accessories",
-        "Women's Bags",
-        "Computer & Accessories",
-        "Men's Bags & Wallets",
-        "Sports & Outdoor",
-        "Muslim Fashion",
-        "Men Shoes",
-        "Games, Books & Hobbies",
-        "Gaming & Consoles",
-        "Travel & Luggage",
-        "Cameras & Drones",
-        "Baby & Kids Fashion",
-        "Others",
-        "Tickets & Vouchers",
-        "ShopeePay Near Me"
-      ],
-      "title": "Category (mode=browseByCategory)",
-      "type": "string"
-    },
-    "containsKeyword": {
-      "description": "Only keep items whose title contains this text (case-insensitive).",
+    "categoryId": {
+      "description": "Numeric category ID from categoryTree mode, or a category name. Leave blank for the whole tree (mode=categoryTree).",
       "editor": "textfield",
-      "title": "Keyword in title",
+      "title": "Category ID or name",
       "type": "string"
     },
-    "domain": {
-      "default": "MY",
-      "description": "Shopee market to scrape.",
+    "includeChildren": {
+      "default": true,
+      "description": "Include child categories (mode=categoryTree). When categoryId is blank, false returns only top-level categories.",
+      "prefill": false,
+      "title": "Include child categories",
+      "type": "boolean"
+    },
+    "includeFeaturedItem": {
+      "default": true,
+      "description": "Add the featured product card published on the shop page; on itemByUrl, merge it when the item matches.",
+      "prefill": false,
+      "title": "Include featured product",
+      "type": "boolean"
+    },
+    "includeShopCategories": {
+      "default": false,
+      "description": "Add the shop's own category list to the shop record (mode=shopProfile).",
+      "prefill": false,
+      "title": "Include shop categories",
+      "type": "boolean"
+    },
+    "itemUrl": {
+      "description": "Full item URL, -i.<shopid>.<itemid>, shopid.itemid, or /product/<shopid>/<itemid> (mode=itemByUrl).",
+      "editor": "textfield",
+      "title": "Item URL",
+      "type": "string"
+    },
+    "market": {
+      "description": "Shopee market. Used for categoryTree, mallShops and bare IDs; a full URL keeps its own market.",
       "editor": "select",
       "enum": [
         "MY",
         "SG",
-        "TH",
         "PH",
+        "TH",
         "VN",
-        "ID"
+        "ID",
+        "BR",
+        "TW"
       ],
       "enumTitles": [
         "Malaysia (shopee.com.my)",
         "Singapore (shopee.sg)",
-        "Thailand (shopee.co.th)",
         "Philippines (shopee.ph)",
+        "Thailand (shopee.co.th)",
         "Vietnam (shopee.vn)",
-        "Indonesia (shopee.co.id)"
+        "Indonesia (shopee.co.id)",
+        "Brazil (shopee.com.br)",
+        "Taiwan (shopee.tw)"
       ],
       "prefill": "MY",
-      "title": "Country / domain",
-      "type": "string"
-    },
-    "itemUrl": {
-      "description": "Full Shopee item page URL, e.g. `https://shopee.com.my/{slug}-i.{shopid}.{itemid}`.",
-      "editor": "textfield",
-      "title": "Item URL (mode=itemByUrl)",
+      "title": "Market",
       "type": "string"
     },
     "maxItems": {
       "default": 50,
-      "description": "Hard cap on emitted records.",
+      "description": "Hard cap on emitted records. Use 500 for a complete category tree.",
       "maximum": 500,
       "minimum": 1,
-      "prefill": 20,
-      "title": "Max items",
+      "prefill": 1,
+      "title": "Max records",
       "type": "integer"
-    },
-    "maxPrice": {
-      "description": "Drop items priced above this (in local currency units).",
-      "maximum": 10000000,
-      "minimum": 0,
-      "title": "Max price",
-      "type": "integer"
-    },
-    "minPrice": {
-      "description": "Drop items priced below this (in local currency units).",
-      "maximum": 10000000,
-      "minimum": 0,
-      "title": "Min price",
-      "type": "integer"
-    },
-    "minRating": {
-      "default": 0,
-      "description": "Only keep items with an average rating at or above this (0–5).",
-      "maximum": 5,
-      "minimum": 0,
-      "prefill": 0,
-      "title": "Min item rating",
-      "type": "number"
     },
     "mode": {
-      "default": "shopProducts",
-      "description": "What to fetch.",
+      "default": "shopProfile",
+      "description": "What to collect.",
       "editor": "select",
-      "enum": [
-        "shopProducts",
+      "enumSuggestedValues": [
+        "shopProfile",
         "itemByUrl",
-        "browseByCategory",
-        "shopProfile"
-      ],
-      "enumTitles": [
-        "Shop profile + products (by shop URL/username)",
-        "Item detail (by item URL)",
-        "Browse by category",
-        "Shop profile only"
+        "categoryTree",
+        "mallShops"
       ],
       "prefill": "shopProfile",
       "title": "Mode",
       "type": "string"
     },
-    "proxyConfiguration": {
-      "description": "Optional Apify proxy. Engaged automatically only when the source blocks direct requests (403/429).",
-      "editor": "proxy",
-      "prefill": {
-        "useApifyProxy": false
-      },
-      "title": "Proxy configuration",
-      "type": "object"
-    },
     "shopUrl": {
-      "default": "appleflagship.store",
-      "description": "Shop username or full shop page URL, e.g. `appleflagship.store` or `https://shopee.com.my/appleflagship.store`.",
+      "description": "Shop username, numeric shop ID, /shop/<id> path, or full Shopee shop URL (mode=shopProfile).",
       "editor": "textfield",
-      "prefill": "appleflagship.store",
-      "title": "Shop URL or username (mode=shopProducts / shopProfile)",
+      "prefill": "watsons.my",
+      "title": "Shop URL or username",
       "type": "string"
     }
   },

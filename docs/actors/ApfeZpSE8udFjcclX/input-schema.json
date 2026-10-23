@@ -1,0 +1,64 @@
+{
+  "description": "Scrape job listings from startup.jobs — 40,000+ startup job opportunities worldwide.",
+  "properties": {
+    "category": {
+      "default": "remote",
+      "description": "Filter jobs by category.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "engineering",
+        "design",
+        "marketing",
+        "sales",
+        "product",
+        "operations",
+        "data",
+        "finance",
+        "hr",
+        "legal",
+        "customer-success",
+        "remote"
+      ],
+      "enumTitles": [
+        "All Categories",
+        "Engineering",
+        "Design",
+        "Marketing",
+        "Sales",
+        "Product",
+        "Operations",
+        "Data & Analytics",
+        "Finance & Accounting",
+        "Human Resources",
+        "Legal",
+        "Customer Success",
+        "Remote Jobs"
+      ],
+      "prefill": "remote",
+      "title": "Job Category",
+      "type": "string"
+    },
+    "keyword": {
+      "description": "Filter job titles and descriptions by keyword (e.g. 'python', 'react', 'growth').",
+      "editor": "textfield",
+      "title": "Search keyword",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of job listings to return.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max items",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "category"
+  ],
+  "schemaVersion": 1,
+  "title": "Startup Jobs Scraper Input",
+  "type": "object"
+}

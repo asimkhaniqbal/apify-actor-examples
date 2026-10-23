@@ -1,149 +1,158 @@
 # Shopee Shop Profile, Item & Category Scraper
 
-Pull public storefront data from **Shopee** across six Southeast Asian markets — Malaysia, Singapore, Thailand, the Philippines, Vietnam, and Indonesia. Get shop profiles (ratings, followers, response time), a shop's product feed, full item detail pages (prices, discounts, ratings, sold counts, stock, variations, images, category paths), and curated category listings. No login or cookies required.
+Collect public **Shopee** data across Malaysia, Singapore, the Philippines, Thailand, Vietnam, Indonesia, Brazil and Taiwan. Get shop profiles with ratings, followers and response metrics; item pages with descriptions, images, variants and specifications; complete category trees; and mall-shop directories. No login, cookies or proxy setup required. Shop profiles and category trees work in all eight markets; mall-shop directories work in seven (Indonesia returns none); item detail works in seven because Taiwan's item pages are not public.
 
 ## What this actor does
 
-- **Four modes:** `shopProducts` (shop profile + product feed), `itemByUrl` (full item detail), `browseByCategory` (curated categories), `shopProfile` (shop profile only)
-- **6 markets:** `MY` / `SG` / `TH` / `PH` / `VN` / `ID` domains with correct local currencies (MYR, SGD, THB, PHP, VND, IDR)
-- **Shop profiles:** name, rating, followers, item count, response time, official/verified badges, description, account age
-- **Item details:** price range, original price, discount %, sold & 30-day sold, stock, ratings, likes, variations, images, category path, listing date
-- **Filters:** min/max price, minimum rating, keyword in title — applied to the item lists of `shopProducts` and `browseByCategory`
-- **Anti-bot resilience:** when Shopee blocks an item feed, the mode still emits its public record (shop profile or category) instead of failing; if the very first request is blocked and you supplied a proxy, the actor retries once through it
+- **Four modes:** `shopProfile` (shop page), `itemByUrl` (item page), `categoryTree` (full taxonomy), `mallShops` (mall directory)
+- **Eight markets:** MY / SG / PH / TH / VN / ID / BR / TW, with the correct local currency. Item detail is available in MY / SG / PH / TH / VN / ID / BR; TW item pages are not public.
+- **Shop profiles:** rating, rating counts, followers, item count, response rate and time, joined date, official/verified badges, description, cover image, optional shop categories
+- **Item details:** title, description, brand, category path, images, option groups, attributes, per-model stock, condition, shipping flags
+- **Featured product card:** the one product Shopee publishes on a shop page, with its public price, original price, discount, rating, sold count, stock and likes
+- **Category trees:** every top-level and child category for the selected market, with IDs, paths and child counts
+- **Mall shops:** the shops listed in a market's mall directory, enriched with their public profiles
 - **Empty fields are omitted**
 
-## Output
+## Output per shop (`recordType: "shop"`)
 
-### Per shop (`recordType: "shop"`)
-
-- `shopId`, `userid` (shop owner's numeric user ID), `shopName`, `username`, `country`
-- `ratingStar`, `rating_good`, `rating_bad`, `rating_normal` (rating-tier counts; kept in Shopee's own snake_case)
-- `followerCount`, `itemCount`, `responseTimeSeconds`
-- `createdTimestamp`, `lastActiveTimestamp`, `cancellationRate`
-- `isOfficialShop`, `isShopeeVerified`, `isPreferredPlusSeller`, `showOfficialShopLabel`
-- `hasFlashSale`, `hasInShopFlashSale`, `hasBrandSale`, `hasJoinedMembership`
-- `showLiveTab`, `isSemiInactive`, `vacation`, `isFollowed`, `status`
-- `description`, `sourceUrl`, `scrapedAt`, `recordType`
-
-### Per item (`recordType: "item"`)
-
-Items from a shop feed or a category feed carry:
-
-- `itemId`, `shopId`, `title`
-- `shopName`, `shopUsername` — only on items from a shop feed (`shopProducts`)
-- `price`, `priceMin`, `priceMax`, `priceOriginal`, `discountPercent`, `currency`
-- `sold` (historical sold), `soldLast30Days`, `stock`
-- `ratingStar`, `ratingCount`, `likeCount`
-- `categoryId`, `category` (name, for the curated top-level categories), `location`, `listedTimestamp`
-- `images[]`, `imageCover` (Shopee image URLs)
+- `shopId`, `userid`, `shopName`, `username`, `country`, `market`, `currency`
+- `ratingStar`, `ratingCount`, `rating_good`, `rating_normal`, `rating_bad`
+- `followerCount`, `itemCount`, `responseRate`, `responseTimeSeconds`
+- `createdTimestamp`, `joinedAt`, `lastActiveTimestamp`, `lastActiveAt`, `cancellationRate`
+- `isOfficialShop`, `isShopeeVerified`, `isPreferredPlusSeller`, `showOfficialShopLabel`, `isShopeeChoiceShop`, `vacation`, `isFollowed`
+- `description`, `coverImage`
+- `shopCategories[]` — `categoryId`, `name`, `itemCount` (when requested)
+- `featuredItemId` — the featured product, when one is published
+- `warnings[]` — per-row note when the featured card was requested but unavailable
 - `sourceUrl`, `scrapedAt`, `recordType`
 
-An item fetched with `itemByUrl` has the same fields (without `shopName`/`shopUsername`) plus:
+## Output per item (`recordType: "item"`)
 
-- `description`, `categoryPath` (e.g. `Electronics > Audio`), `itemStatus`
-- `variations[]` (e.g. `Colour: Red, Blue, Green`; up to 10 option groups)
-- `attributeIds[]` — Shopee's numeric attribute IDs for the item (up to 20)
+- `itemId`, `shopId`, `title`, `shopName`, `shopUsername`
+- `price`, `priceMin`, `priceMax`, `priceOriginal`, `discountPercent`, `currency` — **featured product only**
+- `sold`, `soldLast30Days`, `stock`, `ratingStar`, `ratingCount`, `likeCount` — **featured product only**
+- `categoryId`, `category`, `categoryPath`, `categories[]`, `location`
+- `listedTimestamp`, `listedAt`, `images[]`, `imageCover`
+- `description`, `itemStatus`, `brand`, `brandId`, `condition`
+- `variations[]` — legacy text form, e.g. `Colour: Red, Blue`
+- `variationGroups[]` — `name`, `options[]`
+- `attributes[]` — `id`, `name`, `value`
+- `variants[]` — `modelId`, `name`, `stock`; plus `modelCount`
+- `isPreOrder`, `isFreeShipping`, `isServiceByShopee`, `isOfficialShop`
+- `featured` — `true` when the price/rating/sold/stock fields come from the shop's featured card
+- `status` — `item_page_unavailable` when only the featured card could be returned
+- `warnings[]` — per-row note explaining a card fallback or an unavailable featured card
+- `sourceUrl`, `scrapedAt`, `recordType`
 
-### Per category (`recordType: "category"`)
+## Output per category (`recordType: "category"`)
 
-- `categoryId`, `category`, `sourceUrl`, `scrapedAt`, `recordType`
+- `categoryId`, `category`, `categoryName`, `displayName`
+- `parentCategoryId`, `level`, `path`, `childCount`
+- `imageUrl`, `market`, `currency`, `sourceUrl`
+- `scrapedAt`, `recordType`
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `shopProducts` | `shopProducts` / `itemByUrl` / `browseByCategory` / `shopProfile` |
-| `shopUrl` | string | `appleflagship.store` | Shop username or page URL (mode=shopProducts/shopProfile) |
-| `itemUrl` | string | – | Item page URL (mode=itemByUrl) |
-| `category` | string | – | Curated Shopee category (26 options, mode=browseByCategory) |
-| `domain` | string | `MY` | `MY` / `SG` / `TH` / `PH` / `VN` / `ID` |
-| `minPrice` | int | – | Drop items below this (local currency); feed modes only |
-| `maxPrice` | int | – | Drop items above this (local currency); feed modes only |
-| `minRating` | number | `0` | Keep items rated at least this (0–5); unrated items are kept. Feed modes only |
-| `containsKeyword` | string | – | Keep items whose title contains this text (case-insensitive); feed modes only |
-| `maxItems` | int | `50` | Hard cap on all records, including the shop or category record (1–500) |
-| `proxyConfiguration` | object | – | Optional Apify proxy, used for one retry when the first request of the run is blocked |
+| `mode` | string | `shopProfile` | `shopProfile` / `itemByUrl` / `categoryTree` / `mallShops` |
+| `market` | string | – | `MY` / `SG` / `PH` / `TH` / `VN` / `ID` / `BR` / `TW` (prefill `MY`) |
+| `shopUrl` | string | – | Shop username, numeric ID, `/shop/<id>` path or full URL (mode=shopProfile; prefill `watsons.my`) |
+| `itemUrl` | string | – | Full item URL, `-i.<shopid>.<itemid>`, `shopid.itemid` or `/product/<shopid>/<itemid>` (mode=itemByUrl) |
+| `categoryId` | string | – | Category ID or name; blank = whole tree (mode=categoryTree) |
+| `includeChildren` | boolean | `true` | Include child categories; when `categoryId` is blank, false returns only top-level categories |
+| `includeShopCategories` | boolean | `false` | Add the shop's own category list (mode=shopProfile) |
+| `includeFeaturedItem` | boolean | `true` | Add the featured product card; on itemByUrl, merge it when the item matches. Also enables the shop-page mirror that supplies `cancellationRate` and `showOfficialShopLabel` |
+| `maxItems` | integer | `50` | Hard cap on emitted records (1–500). Use 500 for a full category tree |
 
-With no input changes, the actor runs `shopProducts` for the `appleflagship.store` shop on the Malaysian site, because those are the schema defaults.
+Legacy values `shopProducts` and `browseByCategory` are still accepted and mapped to the current modes; legacy `domain`, `shopUsername`, and `category` inputs are also mapped.
 
-### Example: shop products (Malaysia)
-
-```json
-{
-  "mode": "shopProducts",
-  "shopUrl": "appleflagship.store",
-  "domain": "MY",
-  "maxItems": 30
-}
-```
-
-### Example: shop profile only
+### Example: shop profile in Malaysia
 
 ```json
 {
   "mode": "shopProfile",
-  "shopUrl": "https://shopee.sg/sony.os",
-  "domain": "SG"
+  "market": "MY",
+  "shopUrl": "watsons.my",
+  "includeShopCategories": true,
+  "includeFeaturedItem": true,
+  "maxItems": 20
 }
 ```
 
-### Example: item detail by URL
+### Example: item detail in Singapore
 
 ```json
 {
   "mode": "itemByUrl",
-  "itemUrl": "https://shopee.com.my/extended-waterproof-gloves--i.169104911.6601357248",
-  "domain": "MY"
+  "itemUrl": "https://shopee.sg/product/15235546/26306526891",
+  "includeFeaturedItem": true,
+  "maxItems": 5
 }
 ```
 
-### Example: category browse with filters
+### Example: full category tree in Indonesia
 
 ```json
 {
-  "mode": "browseByCategory",
-  "category": "Mobile & Accessories",
-  "domain": "MY",
-  "minPrice": 50,
-  "maxPrice": 2000,
-  "minRating": 4.5,
-  "containsKeyword": "samsung",
-  "maxItems": 40
+  "mode": "categoryTree",
+  "market": "ID",
+  "maxItems": 500
+}
+```
+
+### Example: mall shops in the Philippines
+
+```json
+{
+  "mode": "mallShops",
+  "market": "PH",
+  "maxItems": 10
 }
 ```
 
 ## Use cases
 
-- **Marketplace monitoring** — track shops, products, prices and discounts across SEA markets
-- **Brand intelligence** — follower growth, rating trends and item counts for official stores
-- **Competitor pricing** — price ranges, original prices and discount patterns per category
-- **Product research** — ratings, sold counts and stock for demand estimation
-- **Localized data pipelines** — currency-aware (MYR/SGD/THB/PHP/VND/IDR) e-commerce datasets
+- **Seller intelligence** — compare shop ratings, follower counts, response times and official badges across markets
+- **Catalogue enrichment** — add descriptions, images, attributes and option groups to an existing product list
+- **Category mapping** — build a local category taxonomy with IDs and parent paths for each Shopee market
+- **Marketplace monitoring** — track the featured product's public price, discount, rating and sold count over time
+- **Mall discovery** — collect the shops promoted in a market's mall directory for outreach or benchmarking
+- **Multi-market research** — run the same shop or item across eight catalogues with the correct currencies
 
 ## FAQ
 
-**What is the data source?** Shopee (shopee.com.my / .sg / .co.th / .ph / .vn / .co.id). This actor is a third-party tool and is not affiliated with or endorsed by Shopee.
+**What is the data source?** Public Shopee shop and item pages, and Shopee's public category and mall-directory endpoints. This actor is a third-party tool and is not affiliated with or endorsed by Shopee.
 
-**Why can't I scrape keyword search results?** Shopee gates keyword search behind a login wall for automated access. This actor deliberately avoids search and uses the public storefront surfaces instead — shop profiles, shop product feeds, item pages and category browse.
+**Do I need an account, cookies or a proxy?** No. The actor reads public pages and requires no login, cookies or proxy configuration.
 
-**Why did I get only a shop profile (or category) record and no items?** Shopee intermittently blocks its item feeds for automated visitors. The actor emits the public shop or category record first, then attempts the feed; if the feed is blocked, the run ends with just that record. Running again later, or with a proxy located in the target market, often gets the items. (The proxy input is only tried automatically when the shop profile, category list or item itself is blocked.)
+**Why can't I search by keyword or list every item in a category?** Shopee gates keyword search and category item listings behind a login/anti-bot wall for automated visitors. This actor deliberately uses the public shop, item and category surfaces instead.
 
-**Do I need an account or cookies?** No. Everything this actor reads is public.
+**Why are price, rating, sold count or stock missing on some items?** Shopee hides those fields from logged-out visitors on most item pages. They are included when the item is the shop's featured product, whose public card carries them. The `featured` field tells you which records have them. The public card comes from a translation mirror that can rate-limit (HTTP 429); in that case the shop record is still returned but the card is omitted.
 
-**What currency are prices in?** The market's local currency: MYR (MY), SGD (SG), THB (TH), PHP (PH), VND (VN), IDR (ID).
+**What is the featured product?** It is the single product card Shopee publishes on a shop page. It usually changes over time; it is not a substitute for a full catalogue.
 
-**What are `priceMin`/`priceMax` vs `price`?** Shopee items can show a price range (e.g. size-based). The range is kept in `priceMin`/`priceMax`; `price` is the displayed card price (range minimum when they differ).
+**Which markets are supported?** Malaysia, Singapore, the Philippines, Thailand, Vietnam, Indonesia, Brazil and Taiwan. The market is inferred from a full URL; otherwise the `market` input is used. Item detail is currently public in all markets except Taiwan, where the item page returns no data; `itemByUrl` can then return only the shop's featured card when `includeFeaturedItem` is on.
 
-**Why are some fields missing?** Empty fields are omitted by design — e.g. items without a discount have no `priceOriginal`/`discountPercent`, unrated items have no `ratingStar`, and `description`, `variations` and `categoryPath` only come with `itemByUrl`.
+**What does `cancellationRate` mean?** It is Shopee's public seller cancellation metric, reported as a percentage as published. It is omitted when Shopee does not expose it.
 
-**What happens when nothing can be fetched?** The dataset stays empty and the run's status message explains why (shop not found, invalid item URL, or a block).
+**Why are some fields missing?** Empty fields are omitted by design. Descriptions, brands, attributes and shop categories are not published for every shop or item.
 
-**How fresh is the data?** Live — shop profiles, items and categories are fetched at run time.
+**How fresh is the data?** Live — every run fetches the current public pages.
+
+**Can I get a shop's complete catalogue?** No. Shopee's public shop page exposes the profile and at most a featured product; the full item feed requires login. Use `itemByUrl` for specific items.
 
 ## Limitations
 
-- Shopee occasionally blocks product-feed requests from data-center IPs. When that happens the mode still returns its public record (the shop profile, or the category record) instead of failing.
-- Shop and item data can be gated by the requesting IP's region — a non-local IP may only see the `MY` market reliably. Use a proxy located in the target market for the other five domains.
-- Prices are in the market's local currency (MYR/SGD/THB/PHP/VND/IDR). Range-priced items keep `priceMin`/`priceMax` separate from the single `price` shown on the card.
-- Category IDs are shared across Shopee's six domains; the 26 curated categories are top-level ones.
-- Each feed is read in pages of 24 items, for at most 40 pages.
+- Keyword search, category item listings and full shop item feeds are not public; they are not supported.
+- Item price, rating, sold count and stock are only available for a shop's featured product.
+- Taiwan item pages are not public: the page returns an empty item payload (Shopee error `90309999`). `itemByUrl` therefore returns no item detail in TW; with `includeFeaturedItem` on, it can return only the featured card. Shop profiles, category trees and mall shops still work in TW.
+- The translation mirror that supplies the featured card can return HTTP 429. The actor backs off and keeps the shop record, but the card may be missing for that run; `featured` is absent on those item records.
+- `cancellationRate` and `showOfficialShopLabel` come from the same shop-page mirror as the featured card. They are omitted when `includeFeaturedItem` is off or the mirror is rate-limited.
+- Mall-shop directories are available for most markets; Indonesia currently returns none, while shop and item URLs still work.
+- Item descriptions, brands and attributes are published for most but not all items; missing values are omitted.
+- `maxItems` caps emitted records at 500; a full category tree can be collected with `maxItems: 500`.
+- On Taiwan, some item pages do not expose a usable payload. When the item is the shop's featured product, the actor returns that card with `status: "item_page_unavailable"` and a warning instead of an empty row.
+- If the featured card is temporarily rate-limited after three attempts, the shop row is still returned with a `warnings[]` entry instead of being dropped.
+- Reviews, seller contact details and per-variant prices are not part of this actor.
+- Old saved tasks that send the retired `mode` values `shopProducts` or `browseByCategory` are rejected by input validation before the actor starts; use `shopProfile` or `categoryTree` instead. Legacy `minPrice`, `maxPrice`, `minRating` and `containsKeyword` still apply to the featured card, and `proxyConfiguration` is ignored. The schema also supplies `market` and `shopUrl` defaults, so old tasks that relied only on legacy `domain` or `shopUsername` should set `market` and `shopUrl` explicitly.
