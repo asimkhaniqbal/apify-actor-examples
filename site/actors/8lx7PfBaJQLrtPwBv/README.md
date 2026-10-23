@@ -1,0 +1,122 @@
+# Google Flights Fare & Itinerary Filter Scraper
+
+Search Google Flights for a route and dates, and get back one structured record per flight option — price, airline, departure/arrival times, duration, and stop count. Covers one-way and round-trip across four cabin classes, with airline, stop, duration and price filters applied to the options found.
+
+## What this actor does
+
+- Searches Google Flights for a given origin, destination, dates, and cabin class
+- Returns the flight options listed on the Google Flights results page (after expanding the list a few times), one record each, up to `maxResults`
+- Filters results by airline allow/block list, stop count, total duration, and price range
+- Flags fares at or below a price threshold you set, for alerting
+- Supports one-way and round-trip, with passenger counts for adults, children, and infants
+- Empty fields are omitted from records
+
+## Output per flight option
+
+- `price` (whole number as displayed), `currency` (taken from the price's currency symbol or code, otherwise your `currency` input). For round trips Google shows the round-trip fare on the outbound options
+- `airline` (display name, matched against a list of about 50 major carriers or an "operated by" label), `airlineCode` (IATA, when the name is in the actor's lookup)
+- `flightNumber` — best-effort pattern match on the row text; treat it as a hint, not a verified flight number
+- `departureAirport` (IATA), `departureTime` (as shown, e.g. `8:30 PM`) — the airport falls back to your `originAirport` when the row doesn't name one
+- `arrivalAirport` (IATA), `arrivalTime` — the airport falls back to your `destinationAirport`
+- `durationMinutes`, `pricePerHour` (price ÷ hours, when both are known)
+- `stops`
+- `cabin`, `outboundDate`, `returnDate` (echoed from input; `returnDate` only on round trips)
+- `priceBelowThreshold` — only when `priceAlertThresholdUsd` is set and `currency` is `USD`
+- `recordType: "flight"`, `scrapedAt`
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `originAirport` | string | `JFK` | Origin IATA (3 letters) |
+| `destinationAirport` | string | `LHR` | Destination IATA |
+| `outboundDate` | string | – | Departure date `YYYY-MM-DD`; defaults to 30 days from today when left empty or invalid |
+| `returnDate` | string | – | Return date — empty for one-way |
+| `adults` | int | `1` | Adult passengers (1–9) |
+| `children` | int | `0` | Child passengers (0–9) |
+| `infants` | int | `0` | Infant passengers (0–9) |
+| `cabinClass` | enum | `economy` | `economy` / `premium_economy` / `business` / `first` |
+| `currency` | enum | `USD` | Currency Google Flights is asked to display (19 options) |
+| `language` | enum | `en` | Google Flights UI language (20 options). English gives the most reliable parsing |
+| `country` | enum | `US` | Country (16 options) used for regional pricing and availability |
+| `maxStops` | enum | `any` | `any` / `nonstop` / `one_stop` / `two_or_fewer` |
+| `airlines` | array | `[]` | IATA airline allowlist (e.g. `["UA","DL"]`). Options whose airline can't be identified are dropped when this is set |
+| `excludeAirlines` | array | `[]` | IATA airline blocklist. Options whose airline can't be identified are kept |
+| `maxResults` | int | `50` | Hard cap on emitted records (1–200) |
+| `minPrice` | int | – | Drop flights below this price (in chosen `currency`); options without a price are kept |
+| `maxPrice` | int | – | Drop flights above this price |
+| `directOnly` | bool | `false` | Alias for `maxStops=nonstop` |
+| `maxLayoverMinutes` | int | – | Accepted, but layover lengths aren't extracted yet, so this currently filters nothing |
+| `maxDurationMinutes` | int | – | Drop flights longer than this many minutes; options without a parsed duration are kept |
+| `excludeBasicEconomy` | bool | `false` | Accepted, but fare brands aren't extracted yet, so this currently drops nothing |
+| `priceAlertThresholdUsd` | number | – | Adds `priceBelowThreshold` (`true` at or below this price, `false` above) to USD-priced options |
+| `useApifyProxy` | bool | `true` | Route through Apify residential proxy (recommended); if the page can't load through it, the actor retries without a proxy |
+
+### Example: cheapest round-trip JFK → LHR
+
+```json
+{
+  "originAirport": "JFK",
+  "destinationAirport": "LHR",
+  "outboundDate": "2026-06-15",
+  "returnDate": "2026-06-22",
+  "cabinClass": "economy",
+  "directOnly": true,
+  "maxResults": 25
+}
+```
+
+### Example: business-class SFO → HND with airline allowlist and duration cap
+
+```json
+{
+  "originAirport": "SFO",
+  "destinationAirport": "HND",
+  "outboundDate": "2026-09-10",
+  "returnDate": "2026-09-25",
+  "cabinClass": "business",
+  "airlines": ["NH", "JL", "UA"],
+  "maxDurationMinutes": 900
+}
+```
+
+### Example: one-way budget search with price alert
+
+```json
+{
+  "originAirport": "LAX",
+  "destinationAirport": "MEX",
+  "outboundDate": "2026-04-30",
+  "cabinClass": "economy",
+  "maxResults": 50,
+  "priceAlertThresholdUsd": 200
+}
+```
+
+## Use cases
+
+- **Travel-deal alerts** — daily run with `priceAlertThresholdUsd`, push the matched flights to Slack
+- **Corporate travel benchmarking** — weekly export of business-class prices on key routes
+- **Price-tracking dashboards** — feed each flight option into a time-series store
+- **Itinerary planning** — combine fare data with a hotel scraper for end-to-end trip cost
+- **Route analysis** — compare price-per-hour and stop patterns across competing airlines on the same route
+
+## FAQ
+
+**Does it require a login or cookies?**  No.
+
+**Why does it need a residential proxy?**  Google rate-limits data-center traffic aggressively on Flights search pages, so the proxy input is enabled by default to keep searches reliable.
+
+**Why are `airline` or `airlineCode` sometimes missing?**  The airline is recognised from a fixed list of about 50 major carriers (plus any "operated by" label), and the code from a smaller lookup of roughly 40 names. Smaller or regional carriers may come through without a name or code; on itineraries that mix carriers, the first recognised name is used.
+
+**Why does the run sometimes return 0 flights?**  Either the route has no flights on those dates, every flight was filtered out by your price/stop/duration/airline filters, or Google temporarily blocked the search. The dataset stays empty and the run's status message tells you which.
+
+**Are multi-city itineraries supported?**  Not currently. Run separate searches for each origin/destination/date pair you need.
+
+**Can I get a direct booking link?**  Not currently. Google Flights routes booking through a separate airline or travel-agency selector that this actor doesn't follow. The actor returns the price, airline, duration, and stops you need to decide where to book.
+
+**Do `maxLayoverMinutes` and `excludeBasicEconomy` work?**  Not yet. Both are accepted, but the actor doesn't currently read layover lengths or fare brands (Basic / Light / Saver) from the results, so neither removes any options. Use `maxDurationMinutes` and `maxStops` to rule out long connections.
+
+**Is the price guaranteed?**  No. Google Flights prices are advisory; the actual price is set by the airline or travel agency at booking time. The actor captures the displayed price at scrape time.
+
+**Is this affiliated with Google?**  No. This is an independent, third-party actor that reads Google Flights' public search results; it isn't affiliated with or endorsed by Google.

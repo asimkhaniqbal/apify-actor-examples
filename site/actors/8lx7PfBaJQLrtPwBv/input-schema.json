@@ -1,0 +1,273 @@
+{
+  "description": "Search Google Flights for one-way or round-trip flights and emit one record per flight option.",
+  "properties": {
+    "adults": {
+      "default": 1,
+      "description": "Number of adult passengers (1-9).",
+      "maximum": 9,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Adults",
+      "type": "integer"
+    },
+    "airlines": {
+      "default": [],
+      "description": "Two-letter IATA airline codes — e.g. `[\"UA\",\"DL\"]`. Empty = all airlines.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Airlines allowlist (IATA)",
+      "type": "array"
+    },
+    "cabinClass": {
+      "default": "economy",
+      "description": "Cabin to search.",
+      "editor": "select",
+      "enum": [
+        "economy",
+        "premium_economy",
+        "business",
+        "first"
+      ],
+      "enumTitles": [
+        "Economy",
+        "Premium Economy",
+        "Business",
+        "First"
+      ],
+      "prefill": "economy",
+      "title": "Cabin class",
+      "type": "string"
+    },
+    "children": {
+      "default": 0,
+      "description": "Number of child passengers (0-9).",
+      "maximum": 9,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Children",
+      "type": "integer"
+    },
+    "country": {
+      "default": "US",
+      "description": "Country code passed to Google Flights for regional pricing/availability.",
+      "editor": "select",
+      "enum": [
+        "US",
+        "GB",
+        "CA",
+        "AU",
+        "IE",
+        "DE",
+        "FR",
+        "IT",
+        "ES",
+        "NL",
+        "JP",
+        "KR",
+        "SG",
+        "IN",
+        "BR",
+        "MX"
+      ],
+      "prefill": "US",
+      "title": "Country (gl param)",
+      "type": "string"
+    },
+    "currency": {
+      "default": "USD",
+      "description": "Currency code Google Flights should display (USD/EUR/GBP/...). The actor parses the displayed price using this currency.",
+      "editor": "select",
+      "enum": [
+        "USD",
+        "EUR",
+        "GBP",
+        "CAD",
+        "AUD",
+        "JPY",
+        "INR",
+        "BRL",
+        "CNY",
+        "CHF",
+        "HKD",
+        "MXN",
+        "NOK",
+        "NZD",
+        "SEK",
+        "SGD",
+        "ZAR",
+        "AED",
+        "KRW"
+      ],
+      "prefill": "USD",
+      "title": "Currency (display)",
+      "type": "string"
+    },
+    "destinationAirport": {
+      "default": "LHR",
+      "description": "Three-letter IATA airport code.",
+      "editor": "textfield",
+      "prefill": "LHR",
+      "title": "Destination airport (IATA)",
+      "type": "string"
+    },
+    "directOnly": {
+      "default": false,
+      "description": "Alias for `maxStops=nonstop`. When true, drops connecting flights.",
+      "prefill": false,
+      "title": "Direct flights only",
+      "type": "boolean"
+    },
+    "excludeAirlines": {
+      "default": [],
+      "description": "Two-letter IATA airline codes to exclude.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Airlines blocklist (IATA)",
+      "type": "array"
+    },
+    "excludeBasicEconomy": {
+      "default": false,
+      "description": "Drop flights labelled `Basic Economy` / `Light` / `Saver`.",
+      "prefill": false,
+      "title": "Exclude basic economy",
+      "type": "boolean"
+    },
+    "infants": {
+      "default": 0,
+      "description": "Number of infant passengers (0-9).",
+      "maximum": 9,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Infants",
+      "type": "integer"
+    },
+    "language": {
+      "default": "en",
+      "description": "Google Flights UI language.",
+      "editor": "select",
+      "enum": [
+        "en",
+        "es",
+        "fr",
+        "de",
+        "it",
+        "pt",
+        "ja",
+        "ko",
+        "zh-CN",
+        "zh-TW",
+        "ar",
+        "ru",
+        "hi",
+        "tr",
+        "nl",
+        "pl",
+        "sv",
+        "da",
+        "fi",
+        "no"
+      ],
+      "prefill": "en",
+      "title": "Language",
+      "type": "string"
+    },
+    "maxDurationMinutes": {
+      "description": "Drop flights whose total duration exceeds this many minutes.",
+      "maximum": 4320,
+      "minimum": 30,
+      "title": "Max total duration minutes",
+      "type": "integer"
+    },
+    "maxLayoverMinutes": {
+      "description": "Drop connecting flights with a layover longer than this. Ignored on nonstop searches.",
+      "maximum": 2880,
+      "minimum": 0,
+      "title": "Max layover minutes",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Drop flights above this price (in the chosen `currency`).",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Max price",
+      "type": "integer"
+    },
+    "maxResults": {
+      "default": 50,
+      "description": "Hard cap on emitted flight options.",
+      "maximum": 200,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max results",
+      "type": "integer"
+    },
+    "maxStops": {
+      "default": "any",
+      "description": "Maximum stops on a single leg.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "nonstop",
+        "one_stop",
+        "two_or_fewer"
+      ],
+      "enumTitles": [
+        "Any",
+        "Nonstop",
+        "One stop or fewer",
+        "Two stops or fewer"
+      ],
+      "prefill": "any",
+      "title": "Max stops",
+      "type": "string"
+    },
+    "minPrice": {
+      "description": "Drop flights below this price (in the chosen `currency`).",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Min price",
+      "type": "integer"
+    },
+    "originAirport": {
+      "default": "JFK",
+      "description": "Three-letter IATA airport code, e.g. `JFK`, `LHR`, `SFO`.",
+      "editor": "textfield",
+      "prefill": "JFK",
+      "title": "Origin airport (IATA)",
+      "type": "string"
+    },
+    "outboundDate": {
+      "description": "Outbound (departure) date. Defaults to 30 days from today when empty.",
+      "editor": "textfield",
+      "title": "Outbound date (YYYY-MM-DD)",
+      "type": "string"
+    },
+    "priceAlertThresholdUsd": {
+      "description": "When set, flights at or below this price get an extra `priceBelowThreshold: true` field.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Price alert threshold USD",
+      "type": "number"
+    },
+    "returnDate": {
+      "description": "Set for round-trip search. Empty for one-way.",
+      "editor": "textfield",
+      "title": "Return date (YYYY-MM-DD, optional)",
+      "type": "string"
+    },
+    "useApifyProxy": {
+      "default": true,
+      "description": "Route through Apify's residential pool. Strongly recommended — Google Flights rate-limits cloud datacenter IPs aggressively.",
+      "prefill": true,
+      "title": "Use Apify residential proxy",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "originAirport",
+    "destinationAirport"
+  ],
+  "schemaVersion": 1,
+  "title": "Google Flights Scraper Input",
+  "type": "object"
+}
