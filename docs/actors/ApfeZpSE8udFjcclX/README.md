@@ -4,35 +4,57 @@
 
 # startup.jobs Category & Keyword Job Scraper
 
-Collect live job listings from **[startup.jobs](https://startup.jobs)**, a curated board of startup openings across engineering, design, marketing, sales, and more. Browse by category or filter by keyword, and get back each listing's title, company, work-mode and pay details, page text and link — no login or API key required.
+Scrape live job listings from **[startup.jobs](https://startup.jobs)** by category, role, keyword, company, location, salary, experience and work mode. Each row includes the full job description, company logo, workplace type and posting date, plus structured salary, company website and tags whenever the listing publishes them. No login, cookies or API key required.
 
 ## What this actor does
 
-- Collects job listings across twelve categories: engineering, design, marketing, sales, product, operations, data, finance, HR, legal, customer success, and a dedicated remote category
-- Filters results by keyword across the job title, company, description, and tags (checked after each listing is opened)
-- Captures the listing's page text, employment type, and salary/compensation figure when shown
-- Returns the startup.jobs listing URL for every job
+- Searches live startup.jobs listings by category, 65-role taxonomy, keyword or company (up to 500 matches per query)
+- Filters by remote/hybrid/on-site, full-time/part-time/contract/internship, experience range, minimum or maximum salary, and posting age
+- Collects full plain-text descriptions, structured salary ranges (currency and interval), company logo/website, tags and posted dates
+- Validates each listing against the live source and skips closed, removed or temporarily unavailable jobs
 - Empty fields are omitted from records
 
-## Output per job listing
+## Output per job
 
-- `title` — job title
-- `company` — hiring company name
-- `url` — the job's page on startup.jobs (apply from there)
-- `location` — the first short label on the page mentioning remote, hybrid or onsite (e.g. `"Remote"`, `"Hybrid - Berlin"`); falls back to `"Remote"` when the page mentions remote work, so treat it as a work-mode hint rather than an exact address
-- `jobType` — first label mentioning an employment type (e.g. `"Full-time"`, `"Contract"`)
-- `salary` — first short label showing a $, € or £ amount, when present
-- `description` — the listing page's main text, whitespace-collapsed and cut at 3,000 characters (it can include a few surrounding page labels)
-- `tags` — up to 20 keywords from the page's metadata or tag badges
-- `scrapedAt` — ISO 8601 timestamp of collection
+- `id` - startup.jobs job ID
+- `title` - job title
+- `company` - hiring company name
+- `companySlug` - company page slug
+- `companyLogoUrl` - company logo image URL
+- `companyWebsiteUrl` - company website, when published
+- `location` - display location (for example `London, United Kingdom` or `United States`)
+- `city`, `state`, `country`, `countryCode` - structured location parts
+- `workplaceType` - `remote`, `hybrid` or `on-site`
+- `employmentType` - `full-time`, `part-time`, `contractor` or `internship`
+- `jobType` - human-readable employment label (for example `Full-time`)
+- `experienceLevel` - `0-1`, `1-3`, `3-6` or `6+`, when published
+- `salary` - formatted salary range and interval, when published
+- `salaryMin`, `salaryMax` - published salary bounds
+- `salaryCurrency`, `salaryInterval` - currency code and pay period
+- `salaryMinUsd`, `salaryMaxUsd` - USD-converted values from the listing; `salaryInterval` gives the pay period (hourly values are not annualised)
+- `hasSalary` - whether the listing publishes pay
+- `tags` - role, skill and seniority tags, when published
+- `description` - full plain-text job description
+- `postedAt` - original posting date and time (ISO 8601)
+- `url` - the job page on startup.jobs, where you can apply
+- `recordType`, `source`, `scrapedAt` - record metadata
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `category` | string | `remote` | Job category: `all`, `engineering`, `design`, `marketing`, `sales`, `product`, `operations`, `data`, `finance`, `hr`, `legal`, `customer-success`, `remote` |
-| `keyword` | string | – | Filter by keyword (case-insensitive) in the job title, company, description, or tags |
-| `maxItems` | integer | `50` | Maximum number of listings to return (1–500). The actor reads at most 20 category pages, so a narrow keyword can return fewer |
+| `category` | string | `remote` | `all`, `engineering`, `design`, `marketing`, `sales`, `product`, `operations`, `data`, `finance`, `hr`, `legal`, `customer-success` or `remote` |
+| `role` | string | - | Specific role from the startup.jobs taxonomy; when set, `category` is ignored |
+| `keyword` | string | - | Matches job titles, company names and tags (not full description text) |
+| `company` | string | - | Company name, slug or startup.jobs company URL |
+| `location` | string | - | City/country name or startup.jobs location URL; `Remote` is accepted |
+| `workplaceType` | string | - | `remote`, `hybrid` or `on-site` |
+| `employmentType` | string | - | `full-time`, `part-time`, `contractor` or `internship` |
+| `experienceLevel` | string | - | `0-1`, `1-3`, `3-6` or `6+` |
+| `minSalaryUsd` | integer | - | Only jobs whose published maximum salary is at least this amount (USD); jobs without pay are excluded |
+| `maxSalaryUsd` | integer | - | Only jobs whose published minimum salary is at most this amount (USD) |
+| `postedWithin` | string | - | `1`, `7`, `30` or `90` days |
+| `maxItems` | integer | `50` | Maximum number of jobs to return (1-500) |
 
 ### Example: engineering jobs mentioning Python
 
@@ -40,56 +62,81 @@ Collect live job listings from **[startup.jobs](https://startup.jobs)**, a curat
 {
   "category": "engineering",
   "keyword": "python",
+  "workplaceType": "remote",
   "maxItems": 100
 }
 ```
 
-### Example: all remote jobs, no keyword filter
+### Example: design roles in London
 
 ```json
 {
-  "category": "remote",
-  "maxItems": 200
+  "category": "design",
+  "location": "London",
+  "maxItems": 50
 }
 ```
 
-### Example: sales roles mentioning SaaS
+### Example: well-paid product roles posted this week
 
 ```json
 {
-  "category": "sales",
-  "keyword": "SaaS",
+  "category": "product",
+  "minSalaryUsd": 120000,
+  "postedWithin": "7",
   "maxItems": 50
+}
+```
+
+### Example: everything at one company
+
+```json
+{
+  "company": "stripe",
+  "maxItems": 100
 }
 ```
 
 ## Use cases
 
-- **Job board aggregation** — pull startup-specific listings into your own job search tool or newsletter
-- **Recruiting and sourcing** — build a pipeline of startup openings in a specific function or stack
-- **Market research** — track which skills and technologies startups are hiring for right now
-- **Remote-work tracking** — monitor the remote category for fully-remote openings
-- **Compensation benchmarking** — collect salary ranges across a category to see typical pay bands
+- **Recruiting and sourcing** - build a fresh pipeline of startup openings by role, location and pay
+- **Job-board aggregation** - feed startup-specific listings into your own search product or newsletter
+- **Compensation research** - compare published salary ranges across roles, companies and markets
+- **Remote-work tracking** - monitor remote, hybrid or on-site startup hiring
+- **Market intelligence** - follow which roles and skills startups are hiring for right now
+
+## Cost and runtime
+
+A warm 2-row prefill finishes in a few seconds; a cold run adds one ~32 s connection setup. A recent-heavy 50-row run measured about **$0.084** because 47 of the 50 newest jobs needed a detail-page fallback, while a 500-row keyword slice measured about **$0.146** and **39 minutes** (492 rows). A 500-row all/remote slice is projected at roughly **$0.86-0.88** because nearly every one of the first 500 hits is recent and needs that fallback; older or narrower slices need fewer fallbacks. Closed or temporarily unavailable listings are skipped, so a run can return fewer rows than requested; each skipped candidate gets one bounded re-check, so stale-heavy slices can take longer.
 
 ## FAQ
 
-**Does this actor require login or an API key?**
-No. startup.jobs is fully public — no credentials of any kind are required.
+**Does this actor require login, cookies or an API key?**
+No. It reads publicly visible startup.jobs listings and needs no account or credential.
 
-**How many jobs can I scrape?**
-Set `maxItems` up to 500 per run. The actor walks up to 20 pages of the chosen category and opens each listing, so with a keyword filter the result can stop short of `maxItems` once those pages are used up. Run again with a different category to cover more of the board. If nothing matches, the dataset stays empty and the status message says so.
+**What does the keyword search match?**
+Job titles, company names and tags, matching the site's own search index. It does not scan the full description text.
 
-**Can I filter by multiple keywords at once?**
-The actor supports a single keyword per run. For multi-keyword filtering, run it multiple times with different `keyword` values.
+**Why is salary missing on some jobs?**
+Only some employers publish pay. `hasSalary` says whether the listing includes it; jobs with no published salary are omitted from salary fields.
 
-**What job types appear on startup.jobs?**
-Full-time, part-time, contract, and freelance roles across the twelve supported categories.
+**Why are some jobs skipped?**
+startup.jobs can keep closed or stale listings in its search index for a while, and individual source requests can fail. The actor checks each candidate against the live source and skips listings that are closed or temporarily unavailable.
+
+**How many jobs can I get in one run?**
+Up to 500. The site's search exposes at most 500 matches per query, so use narrower filters to reach different slices of the board.
+
+**Why is `applyUrl` not included?**
+The employer application link is protected by the site's apply flow. The `url` field opens the job page, where you can apply.
+
+**Does the output include equity?**
+startup.jobs does not publish structured equity data, so equity is not a separate field. Equity mentions may appear inside the description.
 
 **How fresh is the data?**
-Live — each run reads startup.jobs at request time, so results reflect the board's current state.
-
-**Why is `salary` sometimes missing?**
-Not every company publishes a compensation range on their listing; the field is only included when the page shows a $, € or £ amount. Pay in other currencies isn't picked up.
+Live. Each run reads startup.jobs at request time; posting dates reflect the original publication date.
 
 **Is this affiliated with startup.jobs?**
-No. This is an independent, third-party actor that reads startup.jobs' public listings; it isn't affiliated with or endorsed by startup.jobs.
+No. This is an independent, third-party actor that reads startup.jobs' public listings.
+
+**Do I need to set up a proxy?**
+No. The actor chooses a working connection to startup.jobs automatically. Just fill in the input and run it.

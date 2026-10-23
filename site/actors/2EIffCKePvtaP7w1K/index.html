@@ -1,0 +1,346 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-6jmtm+2OLXAnXO+PuWIHHCH2aLy1/FxvMwxsC5C6Uig=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Facebook Page Photo Gallery &amp; Engagement Scraper | Vexaloom Labs</title><meta name="description" content="Collect photos from public Facebook pages, profiles, and albums with full-resolution image URLs, alt text, captions, reaction breakdowns, share and comment counts, and tagged peopl"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/2EIffCKePvtaP7w1K/"><meta property="og:title" content="Facebook Page Photo Gallery &amp; Engagement Scraper | Vexaloom Labs"><meta property="og:description" content="Collect photos from public Facebook pages, profiles, and albums with full-resolution image URLs, alt text, captions, reaction breakdowns, share and comment counts, and tagged peopl"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/2EIffCKePvtaP7w1K/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2EIffCKePvtaP7w1K/#webpage","name":"Facebook Page Photo Gallery & Engagement Scraper","description":"Collect photos from public Facebook pages, profiles, and albums with full-resolution image URLs, alt text, captions, reaction breakdowns, share and comment counts, and tagged people.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2EIffCKePvtaP7w1K/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2EIffCKePvtaP7w1K/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2EIffCKePvtaP7w1K/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2EIffCKePvtaP7w1K/#article","headline":"Facebook Page Photo Gallery & Engagement Scraper","name":"Facebook Page Photo Gallery & Engagement Scraper","description":"Collect photos from public Facebook pages, profiles, and albums with full-resolution image URLs, alt text, captions, reaction breakdowns, share and comment counts, and tagged people.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2EIffCKePvtaP7w1K/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2EIffCKePvtaP7w1K/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2EIffCKePvtaP7w1K/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Facebook Page Photo Gallery & Engagement Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2EIffCKePvtaP7w1K/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Facebook Page Photo Gallery &amp; Engagement Scraper</span></div><section id="overview"><h1 class="doc-title">Facebook Page Photo Gallery &amp; Engagement Scraper</h1><p class="lede">Collect photos from public Facebook pages, profiles, and albums with full-resolution image URLs, alt text, captions, reaction breakdowns, share and comment counts, and tagged people.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/facebook-page-photo-gallery-and-engagement-scraper">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/2EIffCKePvtaP7w1K/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>startUrls</code></td><td>array</td><td>required</td><td>URLs of Facebook pages, profiles, albums, or individual photos to scrape. Supported formats: page URL (e.g., https://www.facebook.com/humansofnewyork), photos section URL (e.g., https://www.facebook.com/humansofnewyork/photos), individual photo URL (e.g., https://www.facebook.com/photo/?fbid=123456), or album URL.</td></tr><tr><td><code>resultsLimit</code></td><td>integer</td><td>optional</td><td>Maximum number of photos to scrape. If not set, as many photos as possible are returned — typically dozens to around a hundred per Start URL, depending on how much Facebook loads for that page. This is a global cap across all Start URLs combined, not per URL — if an early URL alone reaches this limit, later URLs in the list won&#x27;t be processed. To collect more photos overall, provide multiple album/set URLs or run the actor multiple times.</td></tr><tr><td><code>newerThan</code></td><td>string</td><td>optional</td><td>Only include photos posted on or after this date (YYYY-MM-DD). Photos whose date couldn&#x27;t be determined are always included. Leave empty for no lower bound.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>startUrls</code></td><td>array</td><td>required</td><td>URLs of Facebook pages, profiles, albums, or individual photos to scrape. Supported formats: page URL (e.g., https://www.facebook.com/humansofnewyork), photos section URL (e.g., https://www.facebook.com/humansofnewyork/photos), individual photo URL (e.g., https://www.facebook.com/photo/?fbid=123456), or album URL.</td></tr><tr><td><code>resultsLimit</code></td><td>integer</td><td>optional</td><td>Maximum number of photos to scrape. If not set, as many photos as possible are returned — typically dozens to around a hundred per Start URL, depending on how much Facebook loads for that page. This is a global cap across all Start URLs combined, not per URL — if an early URL alone reaches this limit, later URLs in the list won&#x27;t be processed. To collect more photos overall, provide multiple album/set URLs or run the actor multiple times.</td></tr><tr><td><code>newerThan</code></td><td>string</td><td>optional</td><td>Only include photos posted on or after this date (YYYY-MM-DD). Photos whose date couldn&#x27;t be determined are always included. Leave empty for no lower bound.</td></tr><tr><td><code>olderThan</code></td><td>string</td><td>optional</td><td>Only include photos posted on or before this date (YYYY-MM-DD). Photos whose date couldn&#x27;t be determined are always included. Leave empty for no upper bound.</td></tr><tr><td><code>proxyConfiguration</code></td><td>object</td><td>optional</td><td>Proxy configuration. Residential proxy is required and used by default: individual Facebook photo pages (the source of caption, timestamp, likes, comments, reactions, share count, and tagged people) return a login wall to datacenter/AUTO-tier IPs, so this actor defaults to the RESIDENTIAL proxy group for reliable results. Photo grid data (image URLs, alt text, author info) works without any proxy.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Configure the Facebook Photos Scraper to extract photo data from Facebook pages, profiles, albums, or individual photos.&quot;,
+  &quot;properties&quot;: {
+    &quot;newerThan&quot;: {
+      &quot;description&quot;: &quot;Only include photos posted on or after this date (YYYY-MM-DD). Photos whose date couldn&#x27;t be determined are always included. Leave empty for no lower bound.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Only photos newer than&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;olderThan&quot;: {
+      &quot;description&quot;: &quot;Only include photos posted on or before this date (YYYY-MM-DD). Photos whose date couldn&#x27;t be determined are always included. Leave empty for no upper bound.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Only photos older than&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;proxyConfiguration&quot;: {
+      &quot;description&quot;: &quot;Proxy configuration. Residential proxy is required and used by default: individual Facebook photo pages (the source of caption, timestamp, likes, comments, reactions, share count, and tagged people) return a login wall to datacenter/AUTO-tier IPs, so this actor defaults to the RESIDENTIAL proxy group for reliable results. Photo grid data (image URLs, alt text, author info) works without any proxy.&quot;,
+      &quot;editor&quot;: &quot;proxy&quot;,
+      &quot;prefill&quot;: {
+        &quot;apifyProxyGroups&quot;: [
+          &quot;RESIDENTIAL&quot;
+        ],
+        &quot;useApifyProxy&quot;: true
+      },
+      &quot;title&quot;: &quot;Proxy Configuration&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;resultsLimit&quot;: {
+      &quot;description&quot;: &quot;Maximum number of photos to scrape. If not set, as many photos as possible are returned — typically dozens to around a hundred per Start URL, depending on how much Facebook loads for that page. This is a global cap across all Start URLs combined, not per URL — if an early URL alone reaches this limit, later URLs in the list won&#x27;t be processed. To collect more photos overall, provide multiple album/set URLs or run the actor multiple times.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 5,
+      &quot;title&quot;: &quot;Maximum number of results&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;startUrls&quot;: {
+      &quot;description&quot;: &quot;URLs of Facebook pages, profiles, albums, or individual photos to scrape. Supported formats: page URL (e.g., https://www.facebook.com/humansofnewyork), photos section URL (e.g., https://www.facebook.com/humansofnewyork/photos), individual photo URL (e.g., https://www.facebook.com/photo/?fbid=123456), or album URL.&quot;,
+      &quot;editor&quot;: &quot;requestListSources&quot;,
+      &quot;items&quot;: {
+        &quot;properties&quot;: {
+          &quot;url&quot;: {
+            &quot;description&quot;: &quot;URL of a Facebook page, profile, album, or individual photo to scrape.&quot;,
+            &quot;title&quot;: &quot;URL of a web page&quot;,
+            &quot;type&quot;: &quot;string&quot;
+          }
+        },
+        &quot;required&quot;: [
+          &quot;url&quot;
+        ],
+        &quot;type&quot;: &quot;object&quot;
+      },
+      &quot;prefill&quot;: [
+        {
+          &quot;url&quot;: &quot;https://www.facebook.com/humansofnewyork/photos&quot;
+        }
+      ],
+      &quot;title&quot;: &quot;Facebook URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;startUrls&quot;
+  ],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Facebook Photos Scraper Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>photos</code></td><td>string</td><td>optional</td><td>Dataset containing scraped Facebook photos with metadata including image URLs, captions, alt text, engagement metrics, and more.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Dataset of Facebook photo records with image URLs, alt text, captions, and per-photo engagement metrics.&quot;,
+  &quot;properties&quot;: {
+    &quot;photos&quot;: {
+      &quot;description&quot;: &quot;Dataset containing scraped Facebook photos with metadata including image URLs, captions, alt text, engagement metrics, and more.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Facebook Photo Data&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Facebook Page Photo Gallery &amp; Engagement Scraper Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;title&quot;: &quot;Facebook Photos Data&quot;,
+  &quot;views&quot;: {
+    &quot;detailed&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;altText&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Alt Text (OCR)&quot;
+          },
+          &quot;authorName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Author&quot;
+          },
+          &quot;authorUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Author URL&quot;
+          },
+          &quot;caption&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Caption&quot;
+          },
+          &quot;commentsCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Comments&quot;
+          },
+          &quot;imageUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Image URL&quot;
+          },
+          &quot;inputUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Input URL&quot;
+          },
+          &quot;likesCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Likes&quot;
+          },
+          &quot;photoId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Photo ID&quot;
+          },
+          &quot;photoUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Photo URL&quot;
+          },
+          &quot;reactionsByType&quot;: {
+            &quot;format&quot;: &quot;object&quot;,
+            &quot;label&quot;: &quot;Reactions by Type&quot;
+          },
+          &quot;reactionsTotal&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Total Reactions&quot;
+          },
+          &quot;scrapedAt&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Scraped At&quot;
+          },
+          &quot;shareCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Shares&quot;
+          },
+          &quot;taggedPeople&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Tagged People&quot;
+          },
+          &quot;timestamp&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Timestamp&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Detailed&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;photoId&quot;,
+          &quot;photoUrl&quot;,
+          &quot;imageUrl&quot;,
+          &quot;caption&quot;,
+          &quot;altText&quot;,
+          &quot;timestamp&quot;,
+          &quot;likesCount&quot;,
+          &quot;commentsCount&quot;,
+          &quot;reactionsByType&quot;,
+          &quot;reactionsTotal&quot;,
+          &quot;shareCount&quot;,
+          &quot;taggedPeople&quot;,
+          &quot;authorName&quot;,
+          &quot;authorUrl&quot;,
+          &quot;inputUrl&quot;,
+          &quot;scrapedAt&quot;
+        ]
+      }
+    },
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;authorName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Author&quot;
+          },
+          &quot;caption&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Caption&quot;
+          },
+          &quot;imageUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Image URL&quot;
+          },
+          &quot;likesCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Likes&quot;
+          },
+          &quot;photoId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Photo ID&quot;
+          },
+          &quot;photoUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Photo URL&quot;
+          },
+          &quot;timestamp&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Timestamp&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Overview&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;photoId&quot;,
+          &quot;photoUrl&quot;,
+          &quot;imageUrl&quot;,
+          &quot;caption&quot;,
+          &quot;authorName&quot;,
+          &quot;timestamp&quot;,
+          &quot;likesCount&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-facebook-page-photo-gallery-engagement-scraper">Facebook Page Photo Gallery &amp; Engagement Scraper</h2>
+<p>Collect publicly posted photos from Facebook pages, profiles, and albums — full-resolution image URLs, Facebook's own alt-text descriptions, captions, and per-photo engagement including reactions, comments, shares, and tagged people. No login or cookies required.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li>Scrapes photos from a page's photo grid, a specific album, or an individual photo URL</li>
+<li>Returns the photo ID, photo URL, full-resolution image URL, and Facebook's alt-text description whenever Facebook provides them</li>
+<li>Adds the author name/URL when the photo grid or the photo's own page shows them</li>
+<li>Adds caption, timestamp, reactions (by type and total), comment count, share count, and tagged people when Facebook renders that detail for the photo</li>
+<li>Filters results to a date range with <code>newerThan</code>/<code>olderThan</code>, applied after collection</li>
+<li>Only includes fields that actually have data — a photo without a caption simply has no <code>caption</code> key, and zero counts (e.g. no shares) are left out too</li>
+</ul>
+<h2 id="readme-output-per-photo">Output per photo</h2>
+<ul>
+<li><code>photoId</code> — unique Facebook photo identifier</li>
+<li><code>photoUrl</code> — direct link to the photo on Facebook</li>
+<li><code>imageUrl</code> — full-resolution image file URL from Facebook's CDN</li>
+<li><code>altText</code> — Facebook's auto-generated image description</li>
+<li><code>authorName</code>, <code>authorUrl</code> — the page or profile that posted the photo</li>
+<li><code>caption</code> — photo description/caption text</li>
+<li><code>timestamp</code> — when the photo was uploaded (ISO 8601)</li>
+<li><code>likesCount</code>, <code>commentsCount</code> — like and comment totals as Facebook reports them</li>
+<li><code>reactionsByType</code> — breakdown of reactions (<code>LIKE</code>, <code>LOVE</code>, <code>CARE</code>, <code>HAHA</code>, <code>WOW</code>, <code>SAD</code>, <code>ANGRY</code>) by count</li>
+<li><code>reactionsTotal</code> — total reaction count across all types</li>
+<li><code>shareCount</code> — number of times the photo was shared</li>
+<li><code>taggedPeople</code> — array of people tagged in the photo, each with <code>name</code>, <code>url</code>, <code>id</code>, <code>type</code></li>
+<li><code>inputUrl</code> — the Start URL that discovered this photo</li>
+<li><code>scrapedAt</code> — ISO 8601 timestamp of collection</li>
+</ul>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>startUrls</code></td>
+<td>array</td>
+<td>–</td>
+<td><strong>Required.</strong> Facebook page, profile, album, or individual photo URLs to scrape</td>
+</tr>
+<tr>
+<td><code>resultsLimit</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Maximum number of photos to scrape, shared across all Start URLs combined. Leave empty to collect as many as the page loads (at most 1,000 per URL). The date filter runs afterwards, so it can leave fewer</td>
+</tr>
+<tr>
+<td><code>newerThan</code></td>
+<td>string</td>
+<td>–</td>
+<td>Only include photos posted on or after this date (<code>YYYY-MM-DD</code>)</td>
+</tr>
+<tr>
+<td><code>olderThan</code></td>
+<td>string</td>
+<td>–</td>
+<td>Only include photos posted on or before this date (<code>YYYY-MM-DD</code>)</td>
+</tr>
+<tr>
+<td><code>proxyConfiguration</code></td>
+<td>object</td>
+<td>–</td>
+<td>Proxy configuration. The input is prefilled with the residential group, and when left empty the actor uses a residential proxy anyway, because per-photo detail pages require it</td>
+</tr>
+</tbody>
+</table></div>
+<p>Photos whose posting date can't be determined are always included regardless of <code>newerThan</code>/<code>olderThan</code>.</p>
+<h3 id="readme-example-a-page-s-photo-grid">Example: a page's photo grid</h3>
+<pre><code class="language-json">{
+  &quot;startUrls&quot;: [{ &quot;url&quot;: &quot;https://www.facebook.com/humansofnewyork/photos&quot; }],
+  &quot;resultsLimit&quot;: 10
+}
+</code></pre>
+<h3 id="readme-example-filtered-to-a-date-range">Example: filtered to a date range</h3>
+<pre><code class="language-json">{
+  &quot;startUrls&quot;: [{ &quot;url&quot;: &quot;https://www.facebook.com/humansofnewyork/photos&quot; }],
+  &quot;resultsLimit&quot;: 50,
+  &quot;newerThan&quot;: &quot;2024-01-01&quot;,
+  &quot;olderThan&quot;: &quot;2024-12-31&quot;
+}
+</code></pre>
+<h3 id="readme-example-a-single-photo-url">Example: a single photo URL</h3>
+<pre><code class="language-json">{
+  &quot;startUrls&quot;: [{ &quot;url&quot;: &quot;https://www.facebook.com/photo/?fbid=1547667900257527&quot; }]
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>Brand asset archiving</strong> — collect a page's photo history with full-resolution URLs</li>
+<li><strong>Engagement analysis</strong> — compare reaction breakdowns and share counts across a page's photos</li>
+<li><strong>Content moderation research</strong> — review tagged people and captions across an album</li>
+<li><strong>Accessibility auditing</strong> — check alt-text coverage across a page's images</li>
+<li><strong>Competitive monitoring</strong> — track a competitor's photo posting cadence and engagement over time</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Can I scrape photos without a Facebook account?</strong>
+Yes. The actor requires no login, cookies, or API keys — only publicly visible content is read.</p>
+<p><strong>Why are caption and engagement fields sometimes missing?</strong>
+Those fields are only present when Facebook includes them in the public page data for that specific photo. Some photos genuinely have no caption, comments, reactions, or shares.</p>
+<p><strong>Why don't I see a label for every reaction type?</strong>
+The actor maps Facebook's reaction IDs to labels (<code>LIKE</code>, <code>LOVE</code>, <code>CARE</code>, <code>HAHA</code>, <code>WOW</code>, <code>SAD</code>, <code>ANGRY</code>) using a known mapping. An unrecognized reaction ID ships as its raw numeric string instead of a guessed label, so <code>reactionsByType</code> stays accurate.</p>
+<p><strong>Can I scrape private profiles or albums?</strong>
+No. Only publicly accessible Facebook content is supported.</p>
+<p><strong>How many photos will I get from one Start URL?</strong>
+A single page, profile, or album URL typically surfaces on the order of dozens to around a hundred photos per run, depending on how much Facebook loads for that view. For larger collections, list multiple album/set URLs in <code>startUrls</code> or run the actor multiple times.</p>
+<p><strong>Why does <code>resultsLimit</code> apply across all my Start URLs instead of per URL?</strong>
+It's a shared cap: if an early URL alone reaches the limit, later URLs in the list won't be processed. Set it generously, or run each source as a separate call, if you need every URL covered.</p>
+<p><strong>Why is a residential proxy used by default?</strong>
+Photo grid fields (<code>photoId</code>, <code>imageUrl</code>, <code>authorName</code>, <code>authorUrl</code>, <code>altText</code>) work without any proxy, but Facebook serves a login wall on individual photo detail pages to non-residential IPs — the fields that come from there (<code>caption</code>, <code>timestamp</code>, reactions, <code>shareCount</code>, <code>taggedPeople</code>) need a residential proxy to come through reliably.</p>
+<p><strong>Can I filter photos by date?</strong>
+Yes. Use <code>newerThan</code>/<code>olderThan</code> (format <code>YYYY-MM-DD</code>); photos whose date couldn't be determined are always included regardless of the filter. The filter is applied after <code>resultsLimit</code> photos have been collected, so a narrow date range can return fewer photos than the limit — raise <code>resultsLimit</code> to compensate. An invalid date is ignored.</p>
+<p><strong>Is this affiliated with Facebook?</strong>
+No. This is an independent, third-party actor that reads Facebook's public pages; it isn't affiliated with or endorsed by Meta.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/2EIffCKePvtaP7w1K/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>dezre9tRuoAgCI0om</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

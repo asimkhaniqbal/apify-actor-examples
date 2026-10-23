@@ -1,0 +1,69 @@
+{
+  "description": "Configure the Facebook Photos Scraper to extract photo data from Facebook pages, profiles, albums, or individual photos.",
+  "properties": {
+    "newerThan": {
+      "description": "Only include photos posted on or after this date (YYYY-MM-DD). Photos whose date couldn't be determined are always included. Leave empty for no lower bound.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Only photos newer than",
+      "type": "string"
+    },
+    "olderThan": {
+      "description": "Only include photos posted on or before this date (YYYY-MM-DD). Photos whose date couldn't be determined are always included. Leave empty for no upper bound.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Only photos older than",
+      "type": "string"
+    },
+    "proxyConfiguration": {
+      "description": "Proxy configuration. Residential proxy is required and used by default: individual Facebook photo pages (the source of caption, timestamp, likes, comments, reactions, share count, and tagged people) return a login wall to datacenter/AUTO-tier IPs, so this actor defaults to the RESIDENTIAL proxy group for reliable results. Photo grid data (image URLs, alt text, author info) works without any proxy.",
+      "editor": "proxy",
+      "prefill": {
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "resultsLimit": {
+      "description": "Maximum number of photos to scrape. If not set, as many photos as possible are returned — typically dozens to around a hundred per Start URL, depending on how much Facebook loads for that page. This is a global cap across all Start URLs combined, not per URL — if an early URL alone reaches this limit, later URLs in the list won't be processed. To collect more photos overall, provide multiple album/set URLs or run the actor multiple times.",
+      "editor": "number",
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Maximum number of results",
+      "type": "integer"
+    },
+    "startUrls": {
+      "description": "URLs of Facebook pages, profiles, albums, or individual photos to scrape. Supported formats: page URL (e.g., https://www.facebook.com/humansofnewyork), photos section URL (e.g., https://www.facebook.com/humansofnewyork/photos), individual photo URL (e.g., https://www.facebook.com/photo/?fbid=123456), or album URL.",
+      "editor": "requestListSources",
+      "items": {
+        "properties": {
+          "url": {
+            "description": "URL of a Facebook page, profile, album, or individual photo to scrape.",
+            "title": "URL of a web page",
+            "type": "string"
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "type": "object"
+      },
+      "prefill": [
+        {
+          "url": "https://www.facebook.com/humansofnewyork/photos"
+        }
+      ],
+      "title": "Facebook URLs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "startUrls"
+  ],
+  "schemaVersion": 1,
+  "title": "Facebook Photos Scraper Input",
+  "type": "object"
+}
