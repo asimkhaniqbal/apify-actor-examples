@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-1PyIDgQA87j2ETe2SeSfLKBARs6muqM2yPOipG/uYuw=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Reddit Comment Thread Scraper with Score &amp; Keyword Filters | Vexaloom Labs</title><meta name="description" content="Scrape Reddit comment threads, nested replies included, with author, score, depth, and moderation flags, filtered by date, score, author, or keyword. Optional parent post record. N"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/"><meta property="og:title" content="Reddit Comment Thread Scraper with Score &amp; Keyword Filters | Vexaloom Labs"><meta property="og:description" content="Scrape Reddit comment threads, nested replies included, with author, score, depth, and moderation flags, filtered by date, score, author, or keyword. Optional parent post record. N"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/#webpage","name":"Reddit Comment Thread Scraper with Score & Keyword Filters","description":"Scrape Reddit comment threads, nested replies included, with author, score, depth, and moderation flags, filtered by date, score, author, or keyword. Optional parent post record. No API key or login.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/#article","headline":"Reddit Comment Thread Scraper with Score & Keyword Filters","name":"Reddit Comment Thread Scraper with Score & Keyword Filters","description":"Scrape Reddit comment threads, nested replies included, with author, score, depth, and moderation flags, filtered by date, score, author, or keyword. Optional parent post record. No API key or login.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Reddit Comment Thread Scraper with Score & Keyword Filters","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Reddit Comment Thread Scraper with Score &amp; Keyword Filters</span></div><section id="overview"><h1 class="doc-title">Reddit Comment Thread Scraper with Score &amp; Keyword Filters</h1><p class="lede">Scrape Reddit comment threads, nested replies included, with author, score, depth, and moderation flags, filtered by date, score, author, or keyword. Optional parent post record. No API key or login.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/reddit-comment-thread-scraper-with-score">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/hzfhxZwMsIQ2crhb4/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>postUrls</code></td><td>array</td><td>required</td><td>Post URLs, comment URLs, share links or bare post IDs. Accepted forms: full post URL (https://www.reddit.com/r/x/comments/1abc/title/), short URL (https://www.reddit.com/comments/1abc or with ?sort=top), comment URL (.../comments/1abc/title/comment/xyz/), mobile share link (https://www.reddit.com/r/x/s/token), bare post id (1abc123) or t3_1abc123.</td></tr><tr><td><code>maxComments</code></td><td>integer</td><td>optional</td><td>Maximum number of comments to scrape from each post (including nested replies).</td></tr><tr><td><code>commentSort</code></td><td>string</td><td>optional</td><td>How to sort the comment threads.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>postUrls</code></td><td>array</td><td>required</td><td>Post URLs, comment URLs, share links or bare post IDs. Accepted forms: full post URL (https://www.reddit.com/r/x/comments/1abc/title/), short URL (https://www.reddit.com/comments/1abc or with ?sort=top), comment URL (.../comments/1abc/title/comment/xyz/), mobile share link (https://www.reddit.com/r/x/s/token), bare post id (1abc123) or t3_1abc123.</td></tr><tr><td><code>maxComments</code></td><td>integer</td><td>optional</td><td>Maximum number of comments to scrape from each post (including nested replies).</td></tr><tr><td><code>commentSort</code></td><td>string</td><td>optional</td><td>How to sort the comment threads.</td></tr><tr><td><code>includePost</code></td><td>boolean</td><td>optional</td><td>When enabled, the parent post is emitted as the first record of each thread (full post data included).</td></tr><tr><td><code>postedAfter</code></td><td>string</td><td>optional</td><td>Only keep comments created on or after this date (UTC).</td></tr><tr><td><code>postedBefore</code></td><td>string</td><td>optional</td><td>Only keep comments created on or before this date (interpreted as the end of that day, UTC).</td></tr><tr><td><code>minDepth</code></td><td>integer</td><td>optional</td><td>Only keep comments nested at or deeper than this depth (0 = keep everything, 1 = drop top-level comments and keep only replies, 2 = keep only replies-to-replies and deeper, etc.). Leave empty for no limit.</td></tr><tr><td><code>maxDepth</code></td><td>integer</td><td>optional</td><td>Only keep comments nested at or above this depth (0 = top-level comments only, 1 = top-level + first-level replies, etc.). Leave empty for no limit.</td></tr><tr><td><code>minCommentScore</code></td><td>integer</td><td>optional</td><td>Only keep comments with a score (upvotes minus downvotes) at or above this value. Leave empty for no limit.</td></tr><tr><td><code>maxCommentScore</code></td><td>integer</td><td>optional</td><td>Only keep comments with a score (upvotes minus downvotes) at or below this value. Leave empty for no limit.</td></tr><tr><td><code>onlyOP</code></td><td>boolean</td><td>optional</td><td>When enabled, only comments written by the post&#x27;s original author are kept.</td></tr><tr><td><code>excludeDeletedRemoved</code></td><td>boolean</td><td>optional</td><td>When enabled, comments whose body or author show as [deleted] or [removed] are dropped (no real content left to scrape).</td></tr><tr><td><code>excludeStickied</code></td><td>boolean</td><td>optional</td><td>When enabled, moderator-pinned (stickied) comments — e.g. AutoModerator notices — are dropped.</td></tr><tr><td><code>excludeCollapsed</code></td><td>boolean</td><td>optional</td><td>When enabled, comments Reddit collapses by default (low score or crowd control) are dropped.</td></tr><tr><td><code>distinguishedFilter</code></td><td>string</td><td>optional</td><td>Restrict output to comments with a specific &#x27;distinguished&#x27; badge (moderator/admin posting in an official capacity), or only regular (non-distinguished) comments. Leave as &#x27;Any&#x27; to keep everyone.</td></tr><tr><td><code>authors</code></td><td>array</td><td>optional</td><td>Only keep comments written by these Reddit usernames (case-insensitive). Leave empty to keep comments from all authors.</td></tr><tr><td><code>excludeAuthors</code></td><td>array</td><td>optional</td><td>Drop comments written by these Reddit usernames (case-insensitive), e.g. bots like AutoModerator. Leave empty to keep comments from all authors. Applied after `authors` (an author listed in both is excluded).</td></tr><tr><td><code>keywords</code></td><td>array</td><td>optional</td><td>Only keep comments whose body contains at least one of these keywords or phrases (case-insensitive substring match). Leave empty to keep all comments.</td></tr><tr><td><code>excludeKeywords</code></td><td>array</td><td>optional</td><td>Drop comments whose body contains any of these keywords or phrases (case-insensitive substring match), e.g. spam/boilerplate phrases. Applied after `keywords` (a keyword listed in both still excludes the comment). Leave empty to keep all comments.</td></tr><tr><td><code>minAwards</code></td><td>integer</td><td>optional</td><td>Only keep comments with at least this many total awards. Leave empty for no limit.</td></tr><tr><td><code>minCommentLength</code></td><td>integer</td><td>optional</td><td>Only keep comments whose body text is at least this many characters long. Useful for filtering out one-word/emoji-only noise when building NLP datasets. Leave empty for no limit.</td></tr><tr><td><code>maxCommentLength</code></td><td>integer</td><td>optional</td><td>Only keep comments whose body text is at most this many characters long (Reddit&#x27;s hard cap is 10,000 characters). Leave empty for no limit.</td></tr><tr><td><code>controversialOnly</code></td><td>boolean</td><td>optional</td><td>When enabled, only keep comments Reddit flags as controversial (near-even up/downvote split, i.e. `controversiality: 1`).</td></tr><tr><td><code>focusOnTargetComment</code></td><td>boolean</td><td>optional</td><td>When a `postUrls` item is a specific comment permalink (e.g. .../comments/1abc123/title/comment/xyz987/), only that comment plus its ancestor chain (see `commentContext`) is fetched instead of the full thread. Guarantees the target comment is captured even in huge threads where `maxComments` pagination might not reach it. Has no effect on plain post URLs.</td></tr><tr><td><code>commentContext</code></td><td>integer</td><td>optional</td><td>How many levels of parent comments above the target comment to include when `focusOnTargetComment` is enabled (matches Reddit&#x27;s own comment-permalink page). Ignored otherwise.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-1PyIDgQA87j2ETe2SeSfLKBARs6muqM2yPOipG/uYuw=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Reddit Comment Thread Scraper with Score &amp; Keyword Filters | Vexaloom Labs</title><meta name="description" content="Scrape Reddit comment threads, nested replies included, with author, score, depth, and moderation flags, filtered by date, score, author, or keyword. Optional parent post record. N"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/"><meta property="og:title" content="Reddit Comment Thread Scraper with Score &amp; Keyword Filters | Vexaloom Labs"><meta property="og:description" content="Scrape Reddit comment threads, nested replies included, with author, score, depth, and moderation flags, filtered by date, score, author, or keyword. Optional parent post record. N"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/#webpage","name":"Reddit Comment Thread Scraper with Score & Keyword Filters","description":"Scrape Reddit comment threads, nested replies included, with author, score, depth, and moderation flags, filtered by date, score, author, or keyword. Optional parent post record. No API key or login.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/#article","headline":"Reddit Comment Thread Scraper with Score & Keyword Filters","name":"Reddit Comment Thread Scraper with Score & Keyword Filters","description":"Scrape Reddit comment threads, nested replies included, with author, score, depth, and moderation flags, filtered by date, score, author, or keyword. Optional parent post record. No API key or login.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Reddit Comment Thread Scraper with Score & Keyword Filters","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/hzfhxZwMsIQ2crhb4/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Reddit Comment Thread Scraper with Score &amp; Keyword Filters</span></div><section id="overview"><h1 class="doc-title">Reddit Comment Thread Scraper with Score &amp; Keyword Filters</h1><p class="lede">Scrape Reddit comment threads, nested replies included, with author, score, depth, and moderation flags, filtered by date, score, author, or keyword. Optional parent post record. No API key or login.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/reddit-comment-thread-scraper-with-score">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/hzfhxZwMsIQ2crhb4/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>postUrls</code></td><td>array</td><td>required</td><td>Post URLs, comment URLs, share links or bare post IDs. Accepted forms: full post URL (https://www.reddit.com/r/x/comments/1abc/title/), short URL (https://www.reddit.com/comments/1abc or with ?sort=top), comment URL (.../comments/1abc/title/comment/xyz/), mobile share link (https://www.reddit.com/r/x/s/token), bare post id (1abc123) or t3_1abc123.</td></tr><tr><td><code>maxComments</code></td><td>integer</td><td>optional</td><td>Maximum number of comments to scrape from each post (including nested replies).</td></tr><tr><td><code>commentSort</code></td><td>string</td><td>optional</td><td>How to sort the comment threads.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>postUrls</code></td><td>array</td><td>required</td><td>Post URLs, comment URLs, share links or bare post IDs. Accepted forms: full post URL (https://www.reddit.com/r/x/comments/1abc/title/), short URL (https://www.reddit.com/comments/1abc or with ?sort=top), comment URL (.../comments/1abc/title/comment/xyz/), mobile share link (https://www.reddit.com/r/x/s/token), bare post id (1abc123) or t3_1abc123.</td></tr><tr><td><code>maxComments</code></td><td>integer</td><td>optional</td><td>Maximum number of comments to scrape from each post (including nested replies).</td></tr><tr><td><code>commentSort</code></td><td>string</td><td>optional</td><td>How to sort the comment threads.</td></tr><tr><td><code>includePost</code></td><td>boolean</td><td>optional</td><td>When enabled, the parent post metadata is emitted as the first record of each thread.</td></tr><tr><td><code>postedAfter</code></td><td>string</td><td>optional</td><td>Only keep comments created on or after this date (UTC).</td></tr><tr><td><code>postedBefore</code></td><td>string</td><td>optional</td><td>Only keep comments created on or before this date (interpreted as the end of that day, UTC).</td></tr><tr><td><code>minDepth</code></td><td>integer</td><td>optional</td><td>Only keep comments nested at or deeper than this depth (0 = keep everything, 1 = drop top-level comments and keep only replies, 2 = keep only replies-to-replies and deeper, etc.). Leave empty for no limit.</td></tr><tr><td><code>maxDepth</code></td><td>integer</td><td>optional</td><td>Only keep comments nested at or above this depth (0 = top-level comments only, 1 = top-level + first-level replies, etc.). Leave empty for no limit.</td></tr><tr><td><code>minCommentScore</code></td><td>integer</td><td>optional</td><td>Only keep comments with a score (upvotes minus downvotes) at or above this value. Leave empty for no limit.</td></tr><tr><td><code>maxCommentScore</code></td><td>integer</td><td>optional</td><td>Only keep comments with a score (upvotes minus downvotes) at or below this value. Leave empty for no limit.</td></tr><tr><td><code>onlyOP</code></td><td>boolean</td><td>optional</td><td>When enabled, only comments written by the post&#x27;s original author are kept.</td></tr><tr><td><code>excludeDeletedRemoved</code></td><td>boolean</td><td>optional</td><td>When enabled, comments that Reddit marks as deleted or author-deleted are dropped (no real content left to scrape).</td></tr><tr><td><code>excludeCollapsed</code></td><td>boolean</td><td>optional</td><td>When enabled, comments Reddit collapses by default (low score or crowd control) are dropped.</td></tr><tr><td><code>authors</code></td><td>array</td><td>optional</td><td>Only keep comments written by these Reddit usernames (case-insensitive). Leave empty to keep comments from all authors.</td></tr><tr><td><code>excludeAuthors</code></td><td>array</td><td>optional</td><td>Drop comments written by these Reddit usernames (case-insensitive), e.g. bots like AutoModerator. Leave empty to keep comments from all authors. Applied after `authors` (an author listed in both is excluded).</td></tr><tr><td><code>keywords</code></td><td>array</td><td>optional</td><td>Only keep comments whose body contains at least one of these keywords or phrases (case-insensitive substring match). Leave empty to keep all comments.</td></tr><tr><td><code>excludeKeywords</code></td><td>array</td><td>optional</td><td>Drop comments whose body contains any of these keywords or phrases (case-insensitive substring match), e.g. spam/boilerplate phrases. Applied after `keywords` (a keyword listed in both still excludes the comment). Leave empty to keep all comments.</td></tr><tr><td><code>minAwards</code></td><td>integer</td><td>optional</td><td>Only keep comments with at least this many total awards. Leave empty for no limit.</td></tr><tr><td><code>minCommentLength</code></td><td>integer</td><td>optional</td><td>Only keep comments whose body text is at least this many characters long. Useful for filtering out one-word/emoji-only noise when building NLP datasets. Leave empty for no limit.</td></tr><tr><td><code>maxCommentLength</code></td><td>integer</td><td>optional</td><td>Only keep comments whose body text is at most this many characters long (Reddit&#x27;s hard cap is 10,000 characters). Leave empty for no limit.</td></tr><tr><td><code>focusOnTargetComment</code></td><td>boolean</td><td>optional</td><td>When a `postUrls` item is a specific comment permalink, return that comment plus its ancestor chain (see `commentContext`). Works for deeply nested targets; the target must still be publicly visible. Has no effect on plain post URLs.</td></tr><tr><td><code>commentContext</code></td><td>integer</td><td>optional</td><td>How many levels of parent comments above the target comment to include when `focusOnTargetComment` is enabled (matches Reddit&#x27;s own comment-permalink page). Ignored otherwise.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
   &quot;properties&quot;: {
     &quot;authors&quot;: {
       &quot;description&quot;: &quot;Only keep comments written by these Reddit usernames (case-insensitive). Leave empty to keep comments from all authors.&quot;,
@@ -41,33 +41,6 @@
       &quot;title&quot;: &quot;Sort comments by&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
-    &quot;controversialOnly&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;When enabled, only keep comments Reddit flags as controversial (near-even up/downvote split, i.e. `controversiality: 1`).&quot;,
-      &quot;prefill&quot;: false,
-      &quot;title&quot;: &quot;Only controversial comments&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;distinguishedFilter&quot;: {
-      &quot;default&quot;: &quot;any&quot;,
-      &quot;description&quot;: &quot;Restrict output to comments with a specific &#x27;distinguished&#x27; badge (moderator/admin posting in an official capacity), or only regular (non-distinguished) comments. Leave as &#x27;Any&#x27; to keep everyone.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;any&quot;,
-        &quot;moderator&quot;,
-        &quot;admin&quot;,
-        &quot;none&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Any (default)&quot;,
-        &quot;Moderator only&quot;,
-        &quot;Admin only&quot;,
-        &quot;Regular users only (exclude mod/admin)&quot;
-      ],
-      &quot;prefill&quot;: &quot;any&quot;,
-      &quot;title&quot;: &quot;Filter by distinguished status&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
     &quot;excludeAuthors&quot;: {
       &quot;description&quot;: &quot;Drop comments written by these Reddit usernames (case-insensitive), e.g. bots like AutoModerator. Leave empty to keep comments from all authors. Applied after `authors` (an author listed in both is excluded).&quot;,
       &quot;editor&quot;: &quot;stringList&quot;,
@@ -86,7 +59,7 @@
     },
     &quot;excludeDeletedRemoved&quot;: {
       &quot;default&quot;: false,
-      &quot;description&quot;: &quot;When enabled, comments whose body or author show as [deleted] or [removed] are dropped (no real content left to scrape).&quot;,
+      &quot;description&quot;: &quot;When enabled, comments that Reddit marks as deleted or author-deleted are dropped (no real content left to scrape).&quot;,
       &quot;prefill&quot;: false,
       &quot;title&quot;: &quot;Exclude deleted/removed comments&quot;,
       &quot;type&quot;: &quot;boolean&quot;
@@ -101,23 +74,16 @@
       &quot;title&quot;: &quot;Exclude keyword(s) in comment body&quot;,
       &quot;type&quot;: &quot;array&quot;
     },
-    &quot;excludeStickied&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;When enabled, moderator-pinned (stickied) comments — e.g. AutoModerator notices — are dropped.&quot;,
-      &quot;prefill&quot;: false,
-      &quot;title&quot;: &quot;Exclude stickied comments&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
     &quot;focusOnTargetComment&quot;: {
       &quot;default&quot;: false,
-      &quot;description&quot;: &quot;When a `postUrls` item is a specific comment permalink (e.g. .../comments/1abc123/title/comment/xyz987/), only that comment plus its ancestor chain (see `commentContext`) is fetched instead of the full thread. Guarantees the target comment is captured even in huge threads where `maxComments` pagination might not reach it. Has no effect on plain post URLs.&quot;,
+      &quot;description&quot;: &quot;When a `postUrls` item is a specific comment permalink, return that comment plus its ancestor chain (see `commentContext`). Works for deeply nested targets; the target must still be publicly visible. Has no effect on plain post URLs.&quot;,
       &quot;prefill&quot;: false,
       &quot;title&quot;: &quot;Focus on the specific comment in the URL&quot;,
       &quot;type&quot;: &quot;boolean&quot;
     },
     &quot;includePost&quot;: {
       &quot;default&quot;: false,
-      &quot;description&quot;: &quot;When enabled, the parent post is emitted as the first record of each thread (full post data included).&quot;,
+      &quot;description&quot;: &quot;When enabled, the parent post metadata is emitted as the first record of each thread.&quot;,
       &quot;prefill&quot;: false,
       &quot;title&quot;: &quot;Include the parent post record&quot;,
       &quot;type&quot;: &quot;boolean&quot;
@@ -243,7 +209,7 @@
 }
 </code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>commentAndPostRecords</code></td><td>string</td><td>optional</td><td>Dataset containing one record per comment, plus the parent post record when &#x27;Include post&#x27; is on. Records are distinguished by the `dataType` field (`comment` or `post`).</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
   &quot;actorOutputSchemaVersion&quot;: 1,
-  &quot;description&quot;: &quot;Reddit comment threads, nested replies included, with author, flair, score, depth, and parent relationships, plus an optional parent post record.&quot;,
+  &quot;description&quot;: &quot;Reddit comment threads, nested replies included, with author, score, depth, tree path, edited/deleted flags, and parent relationships, plus an optional parent post record.&quot;,
   &quot;properties&quot;: {
     &quot;commentAndPostRecords&quot;: {
       &quot;description&quot;: &quot;Dataset containing one record per comment, plus the parent post record when &#x27;Include post&#x27; is on. Records are distinguished by the `dataType` field (`comment` or `post`).&quot;,
@@ -279,108 +245,64 @@
   }
 }
 </code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-reddit-comment-thread-scraper-with-score-keyword-filters">Reddit Comment Thread Scraper with Score &amp; Keyword Filters</h2>
-<p>Scrape <strong>Reddit comment threads in depth</strong> — top-level comments and nested replies, including the ones Reddit hides behind &quot;load more&quot; links, up to the comment limit you set. Paste one or more post URLs (or a specific comment permalink) and get back structured comment data with author, votes, timestamps, moderation flags, and thread position, optionally alongside the full parent post record. No Reddit API key or login required.</p>
+<p>Export Reddit comment threads — top-level comments and nested replies, including branches hidden behind &quot;load more replies&quot; and &quot;continue this thread&quot; — as flat, structured rows. Paste post links (or comment links), choose a sort, and get author, text, score, timestamps, reply depth, parent relationships, and moderation/deletion flags. No Reddit account, API key, or login required.</p>
 <h2 id="readme-what-this-actor-does">What this actor does</h2>
 <ul>
-<li><strong>Deep thread resolution</strong> — walks top-level comments and nested replies, including replies hidden behind Reddit's &quot;load more&quot; placeholders, until <code>maxComments</code> (default 100) is reached or the thread runs out</li>
-<li><strong>6 comment sort modes</strong> — Best, Top, New, Controversial, Old, Q&amp;A, matching Reddit's own UI</li>
-<li><strong>Rich filtering</strong> — date windows, reply-depth range, score thresholds, author allow/deny lists, keyword include/exclude, comment length bounds, controversial-only, and more; filters apply to comments only, and <code>maxComments</code> counts the comments that pass them</li>
-<li><strong>Optional parent post record</strong> — full post metadata (title, score, media, embeds) emitted first when enabled</li>
-<li><strong>Flexible URL input</strong> — accepts post URLs, comment permalinks, share links, <code>redd.it</code> short links, or bare post IDs</li>
-<li><strong>Empty fields are omitted</strong> — a field only appears on a record when Reddit actually returned a value for it</li>
+<li><strong>Full thread reconstruction</strong> — follows Reddit's own nested reply loaders and continue-thread pages until <code>maxComments</code> is reached or Reddit stops serving comments to logged-out readers</li>
+<li><strong>6 comment sorts</strong> — Best, Top, New, Controversial, Old, and Q&amp;A, matching Reddit's UI</li>
+<li><strong>Comment permalink focus</strong> — paste a comment permalink with <code>focusOnTargetComment</code> enabled to get that comment plus its ancestor chain, including deeply nested targets</li>
+<li><strong>Rich client-side filtering</strong> — date window, reply-depth range, score range, author allow/deny, keyword include/exclude, length bounds, award count, OP-only, deleted/removed, collapsed</li>
+<li><strong>Optional parent post record</strong> — title, author, score, ratio, timestamp, subreddit, and text/link metadata when <code>includePost</code> is on</li>
+<li><strong>Flexible URL input</strong> — post URLs, comment permalinks, share links, <code>redd.it</code> short links, bare post IDs</li>
+<li><strong>Omit-empty output</strong> — a field appears only when Reddit actually exposes a value for it</li>
 </ul>
 <h2 id="readme-output-per-comment">Output per comment</h2>
 <ul>
-<li><code>dataType</code> — always <code>&quot;comment&quot;</code> for these records</li>
-<li><code>comment_id</code> — comment identifier without the <code>t1_</code> prefix</li>
-<li><code>comment_name</code> — full comment name in Reddit's format (<code>t1_...</code>)</li>
-<li><code>post_id</code>, <code>post_url</code>, <code>post_title</code> — identifiers and title of the parent post this comment belongs to</li>
-<li><code>link_id</code> — fullname of the parent post (<code>t3_...</code>)</li>
-<li><code>permalink</code> — direct link to the comment on reddit.com</li>
-<li><code>author</code> — commenter's username (<code>[deleted]</code> if the account was deleted)</li>
-<li><code>author_id</code> — commenter's fullname (<code>t2_...</code>); absent when the author is deleted</li>
-<li><code>author_is_blocked</code> — whether the author has blocked the scraper's account</li>
-<li><code>author_flair</code>, <code>author_flair_css_class</code>, <code>author_flair_template_id</code>, <code>author_flair_type</code>, <code>author_flair_text_color</code>, <code>author_flair_background_color</code>, <code>author_flair_richtext</code> — the author's community flair, when they have one</li>
-<li><code>author_premium</code>, <code>author_patreon_flair</code> — whether the author has Reddit Premium / a Patreon badge in this community</li>
-<li><code>body</code> — comment text as markdown</li>
-<li><code>body_html</code> — comment text rendered as Reddit HTML</li>
-<li><code>score</code> — net score (upvotes minus downvotes)</li>
-<li><code>ups</code>, <code>downs</code> — raw upvote / downvote counts</li>
-<li><code>score_hidden</code> — whether the score is currently hidden by the community</li>
-<li><code>controversiality</code> — <code>1</code> when the up/down split is near-even, else <code>0</code></li>
-<li><code>subreddit</code>, <code>subreddit_prefixed</code>, <code>subreddit_id</code>, <code>subreddit_type</code> — the community the comment belongs to</li>
-<li><code>created_utc</code>, <code>created_at</code> — when the comment was posted (Unix epoch and ISO-8601)</li>
-<li><code>edited</code>, <code>edited_at</code> — whether and when the comment was last edited</li>
-<li><code>depth</code> — nesting level, <code>0</code> = top-level comment</li>
-<li><code>parent_id</code> — fullname of the direct parent (<code>t3_...</code> for a post, <code>t1_...</code> for another comment)</li>
-<li><code>parent_kind</code> — <code>post</code> if it's a top-level reply to the post, <code>comment</code> if it's a reply to another comment</li>
-<li><code>is_op</code> — whether the commenter is also the post's original author</li>
-<li><code>is_stickied</code> — whether the comment is pinned by moderators</li>
-<li><code>is_locked</code> — whether the comment thread is locked</li>
-<li><code>archived</code> — whether the comment is archived (voting/commenting closed)</li>
-<li><code>distinguished</code> — <code>moderator</code> or <code>admin</code> when the author posted in an official capacity</li>
-<li><code>collapsed</code> — whether Reddit collapses the comment by default</li>
-<li><code>collapsed_reason</code>, <code>collapsed_reason_code</code> — human-readable and machine-readable reason for the collapse</li>
-<li><code>collapsed_because_crowd_control</code> — whether the collapse was caused by crowd control</li>
-<li><code>can_gild</code> — whether the comment could receive legacy awards</li>
-<li><code>comment_type</code> — optional type marker (e.g. <code>live</code>); absent on regular comments</li>
-<li><code>unrepliable_reason</code> — why the comment can't be replied to, when that's the case</li>
-<li><code>no_follow</code> — whether the comment is tagged nofollow for search engines</li>
-<li><code>send_replies</code> — whether the author receives reply notifications for this comment</li>
-<li><code>gilded</code> — number of legacy (gold-style) awards received</li>
-<li><code>total_awards_received</code> — total award count</li>
-<li><code>awards</code> — award breakdown (name, count, coin price, icon URL); omitted when there are no awards</li>
-<li><code>removed_by_category</code> — who removed the comment, when removed: <code>moderator</code>, <code>automod_filtered</code>, <code>reddit</code>, <code>author</code>/<code>deleted</code></li>
-<li><code>crawled_at</code> — when the actor fetched this record (ISO-8601)</li>
-<li><code>source</code> — always <code>json</code></li>
+<li><code>dataType</code> — <code>&quot;comment&quot;</code></li>
+<li><code>comment_id</code>, <code>comment_name</code> — bare id and Reddit fullname (<code>t1_...</code>)</li>
+<li><code>post_id</code>, <code>post_url</code>, <code>post_title</code>, <code>link_id</code> — parent thread context</li>
+<li><code>permalink</code> — direct comment link</li>
+<li><code>author</code> — username (<code>[deleted]</code> when the account is gone)</li>
+<li><code>avatarUrl</code> — author avatar image, when available</li>
+<li><code>body</code> — comment text as readable plain text (block breaks preserved)</li>
+<li><code>body_html</code> — comment HTML from Reddit's renderer</li>
+<li><code>score</code> — net score (upvotes minus downvotes) at crawl time</li>
+<li><code>created_utc</code>, <code>created_at</code> — posted time (epoch and ISO-8601 UTC)</li>
+<li><code>edited</code>, <code>edited_at</code> — whether and when the comment was edited</li>
+<li><code>depth</code> — nesting level, <code>0</code> = top-level reply to the post</li>
+<li><code>position</code> — the comment's position among its siblings</li>
+<li><code>parentPositions</code> — the position path from the thread root. The prefix can be incomplete for branches reached through a &quot;continue this thread&quot; page; use <code>parent_id</code> for exact parentage</li>
+<li><code>parent_id</code>, <code>parent_kind</code> — direct parent fullname (<code>t3_...</code> for top-level or <code>t1_...</code> for a reply) and kind</li>
+<li><code>is_op</code> — author is the post's original poster</li>
+<li><code>collapsed</code> — Reddit collapses the comment by default</li>
+<li><code>isCommentDeleted</code>, <code>isAuthorDeleted</code> — comment content / author account was deleted</li>
+<li><code>contentType</code> — <code>text</code>, <code>image</code>, or <code>giphy</code></li>
+<li><code>isHighlighted</code>, <code>hasPaidAward</code> — Reddit highlight/paid-award markers when present</li>
+<li><code>total_awards_received</code> — total award count (0 when none)</li>
+<li><code>subreddit</code>, <code>subreddit_prefixed</code>, <code>subreddit_id</code> — community context</li>
+<li><code>crawled_at</code> — when this record was fetched (ISO-8601)</li>
+<li><code>source</code> — <code>&quot;html&quot;</code></li>
 </ul>
-<p>Deleted/removed comments keep their <code>[deleted]</code>/<code>[removed]</code> markers in <code>body</code> so removals stay auditable.</p>
+<p>A rare deleted-comment placeholder that Reddit no longer gives an id for has no <code>comment_id</code>; its <code>isCommentDeleted</code>/<code>isAuthorDeleted</code> flags and position path still identify it. Its <code>parent_id</code> falls back to the post, so use the position path for its place in the tree.</p>
+<p>Fields Reddit does not expose to logged-out readers are omitted: comment <code>author_id</code>, author flair fields, <code>ups</code>/<code>downs</code>, <code>score_hidden</code>, <code>controversiality</code>, <code>distinguished</code>, comment-level <code>stickied</code>/<code>locked</code>/<code>archived</code>, <code>collapsed_reason*</code>, legacy <code>gilded</code>, the award breakdown, and <code>removed_by_category</code>. See <strong>Limitations</strong> below.</p>
 <h2 id="readme-output-per-post">Output per post</h2>
-<p>Emitted once per post (duplicate URLs for the same post are merged), as the first record of that thread, when <code>includePost</code> is enabled. The comment filters don't apply to it.</p>
+<p>Emitted once per post as the first record when <code>includePost</code> is on. Comment filters do not apply to it.</p>
 <ul>
-<li><code>dataType</code> — always <code>&quot;post&quot;</code> for these records</li>
-<li><code>post_id</code>, <code>post_name</code> — bare id and full Reddit name (<code>t3_...</code>) of the post</li>
-<li><code>title</code> — post title</li>
-<li><code>content</code>, <code>content_html</code> — self-post body as markdown / Reddit HTML (text posts only)</li>
-<li><code>content_url</code> — external destination URL for link posts</li>
-<li><code>url</code>, <code>permalink</code> — canonical reddit.com link to the post</li>
-<li><code>url_overridden_by_dest</code> — Reddit's resolved destination URL, when it differs from <code>content_url</code></li>
-<li><code>domain</code> — <code>self.&lt;subreddit&gt;</code> for text posts, otherwise the linked domain</li>
-<li><code>post_hint</code> — Reddit's own content hint (<code>self</code>, <code>link</code>, <code>image</code>, <code>hosted:video</code>, …)</li>
-<li><code>is_self</code> — whether the post is a text post</li>
-<li><code>post_type</code> — <code>self</code>, <code>link</code>, <code>image</code>, <code>video</code>, <code>gallery</code>, or <code>poll</code></li>
-<li><code>media_type</code> — <code>text</code>, <code>link</code>, <code>image</code>, <code>video</code>, <code>gallery</code>, or <code>embed</code></li>
-<li><code>has_media</code> — whether the post carries image/video/gallery/poll/embed media</li>
-<li><code>author</code>, <code>author_id</code> — the poster's username and fullname</li>
-<li><code>author_flair</code>, <code>author_flair_css_class</code>, <code>author_flair_template_id</code>, <code>author_flair_type</code>, <code>author_flair_text_color</code>, <code>author_flair_background_color</code>, <code>author_flair_richtext</code> — the poster's community flair, when they have one</li>
-<li><code>author_premium</code>, <code>author_is_blocked</code>, <code>author_patreon_flair</code> — poster's premium status, block status, and Patreon badge</li>
-<li><code>subreddit</code>, <code>subreddit_prefixed</code>, <code>subreddit_id</code>, <code>subreddit_subscribers</code>, <code>subreddit_type</code> — the community the post belongs to</li>
-<li><code>score</code>, <code>ups</code>, <code>downs</code>, <code>upvote_ratio</code> — vote totals and the up/down ratio</li>
-<li><code>num_comments</code> — total comment count on the post at crawl time</li>
-<li><code>num_crossposts</code>, <code>num_duplicates</code> — how often the post was crossposted, and how many other posts link the same destination (link posts only)</li>
-<li><code>link_flair</code>, <code>link_flair_css_class</code>, <code>link_flair_richtext</code>, <code>link_flair_background_color</code>, <code>link_flair_text_color</code>, <code>link_flair_type</code> — the post's own flair, when set</li>
-<li><code>thumbnail_url</code>, <code>thumbnail_width</code>, <code>thumbnail_height</code> — thumbnail image and dimensions, when a real thumbnail exists</li>
-<li><code>created_utc</code>, <code>created_at</code> — when the post was submitted (Unix epoch and ISO-8601)</li>
-<li><code>edited</code>, <code>edited_at</code> — whether and when the post was last edited</li>
-<li><code>is_stickied</code>, <code>is_pinned</code> — whether the post is pinned by moderators / on the subreddit</li>
-<li><code>is_locked</code>, <code>is_archived</code> — whether commenting/voting is closed</li>
-<li><code>is_nsfw</code>, <code>is_spoiler</code> — content warnings</li>
-<li><code>is_original_content</code> — whether the post is flagged OC</li>
-<li><code>is_crosspost</code>, <code>crosspost_parent_id</code> — whether this is a crosspost, and the original post's id</li>
-<li><code>is_crosspostable</code>, <code>is_meta</code>, <code>is_robot_indexable</code>, <code>is_reddit_media_domain</code>, <code>media_only</code>, <code>quarantine</code> — additional Reddit-assigned post attributes</li>
-<li><code>no_follow</code>, <code>send_replies</code>, <code>allow_live_comments</code>, <code>contest_mode</code>, <code>hide_score</code>, <code>suggested_sort</code>, <code>content_categories</code> — post configuration flags Reddit reports</li>
-<li><code>hidden</code> — whether the post is hidden</li>
-<li><code>images</code> — image URLs from the post preview</li>
-<li><code>gallery_images</code>, <code>gallery_count</code> — full-resolution gallery image URLs and item count (gallery posts)</li>
-<li><code>video_url</code> — direct video file URL (video posts)</li>
-<li><code>poll_data</code> — poll options and vote totals (poll posts)</li>
-<li><code>embed_type</code>, <code>embed_provider</code>, <code>embed_title</code>, <code>embed_author_name</code>, <code>embed_author_url</code>, <code>embed_thumbnail_url</code>, <code>embed_html</code> — auto-embed data for link posts Reddit embeds from YouTube, Imgur, Gfycat, Twitch, etc.; omitted when the post has no external embed</li>
-<li><code>gilded</code>, <code>total_awards_received</code>, <code>awards</code> — legacy and modern award counts, plus the award breakdown</li>
-<li><code>removed_by_category</code> — who removed the post, when removed</li>
-<li><code>distinguished</code> — <code>moderator</code> or <code>admin</code> when the poster acted in an official capacity</li>
-<li><code>crawled_at</code> — when the actor fetched this record (ISO-8601)</li>
-<li><code>source</code> — always <code>json</code></li>
+<li><code>dataType</code> — <code>&quot;post&quot;</code></li>
+<li><code>post_id</code>, <code>post_name</code>, <code>title</code>, <code>author</code>, <code>author_id</code></li>
+<li><code>subreddit</code>, <code>subreddit_prefixed</code>, <code>subreddit_id</code></li>
+<li><code>url</code>, <code>permalink</code> — canonical reddit.com link</li>
+<li><code>content_url</code> — external destination for link posts</li>
+<li><code>domain</code>, <code>post_type</code>, <code>is_self</code></li>
+<li><code>content</code>, <code>content_html</code> — self-post body</li>
+<li><code>score</code>, <code>upvote_ratio</code>, <code>num_comments</code></li>
+<li><code>created_utc</code>, <code>created_at</code></li>
+<li><code>language</code></li>
+<li><code>is_nsfw</code>, <code>is_stickied</code>, <code>is_locked</code></li>
+<li><code>total_awards_received</code></li>
+<li><code>crawled_at</code>, <code>source</code></li>
 </ul>
+<p>Post fields that require Reddit's legacy API data (flair, media/gallery URLs, poll data, crosspost counts, removal category, ups/downs, edited timestamp) are not available to logged-out readers and are omitted.</p>
 <h2 id="readme-input">Input</h2>
 <div class="table-wrap"><table>
 <thead>
@@ -396,13 +318,13 @@
 <td><code>postUrls</code></td>
 <td>array</td>
 <td>– (required)</td>
-<td>Post URLs, comment URLs, share links, <code>redd.it</code> short links, or bare post IDs — see accepted forms below</td>
+<td>Post URLs, comment URLs, share links, <code>redd.it</code> short links, or bare post IDs</td>
 </tr>
 <tr>
 <td><code>maxComments</code></td>
 <td>integer</td>
 <td><code>100</code></td>
-<td>Maximum comments to scrape per post, including nested replies (1–100,000)</td>
+<td>Maximum comments to keep per post, after filters (1–100,000)</td>
 </tr>
 <tr>
 <td><code>commentSort</code></td>
@@ -414,61 +336,55 @@
 <td><code>includePost</code></td>
 <td>boolean</td>
 <td><code>false</code></td>
-<td>Emit the parent post as a separate first record of each thread</td>
+<td>Emit the parent post as the first record of each thread</td>
 </tr>
 <tr>
 <td><code>postedAfter</code></td>
 <td>date</td>
 <td>–</td>
-<td>Only keep comments created on/after this date (UTC)</td>
+<td>Keep comments created on/after this date (UTC)</td>
 </tr>
 <tr>
 <td><code>postedBefore</code></td>
 <td>date</td>
 <td>–</td>
-<td>Only keep comments created on/before this date (UTC; a bare date means end of that day)</td>
+<td>Keep comments created on/before this date (UTC; a bare date means end of day)</td>
 </tr>
 <tr>
 <td><code>minDepth</code></td>
 <td>integer</td>
 <td>–</td>
-<td>Only keep comments at or deeper than this nesting level (0–100)</td>
+<td>Keep comments at or deeper than this nesting level (0–100)</td>
 </tr>
 <tr>
 <td><code>maxDepth</code></td>
 <td>integer</td>
 <td>–</td>
-<td>Only keep comments at or above this nesting level (0–100)</td>
+<td>Keep comments at or above this nesting level (0–100)</td>
 </tr>
 <tr>
 <td><code>minCommentScore</code></td>
 <td>integer</td>
 <td>–</td>
-<td>Only keep comments with score ≥ this value</td>
+<td>Keep comments with score ≥ this value</td>
 </tr>
 <tr>
 <td><code>maxCommentScore</code></td>
 <td>integer</td>
 <td>–</td>
-<td>Only keep comments with score ≤ this value</td>
+<td>Keep comments with score ≤ this value</td>
 </tr>
 <tr>
 <td><code>onlyOP</code></td>
 <td>boolean</td>
 <td><code>false</code></td>
-<td>Keep only the original poster's own comments</td>
+<td>Keep only the original poster's comments</td>
 </tr>
 <tr>
 <td><code>excludeDeletedRemoved</code></td>
 <td>boolean</td>
 <td><code>false</code></td>
-<td>Drop comments whose body/author shows as <code>[deleted]</code>/<code>[removed]</code></td>
-</tr>
-<tr>
-<td><code>excludeStickied</code></td>
-<td>boolean</td>
-<td><code>false</code></td>
-<td>Drop moderator-pinned comments (e.g. AutoModerator notices)</td>
+<td>Drop comments Reddit marks deleted or author-deleted</td>
 </tr>
 <tr>
 <td><code>excludeCollapsed</code></td>
@@ -477,70 +393,58 @@
 <td>Drop comments Reddit collapses by default</td>
 </tr>
 <tr>
-<td><code>distinguishedFilter</code></td>
-<td>select</td>
-<td><code>any</code></td>
-<td><code>any</code>, <code>moderator</code> (mod comments only), <code>admin</code> (admin comments only), <code>none</code> (regular users only)</td>
-</tr>
-<tr>
 <td><code>authors</code></td>
 <td>array</td>
 <td>–</td>
-<td>Only keep comments from these usernames (case-insensitive)</td>
+<td>Keep only these usernames (case-insensitive)</td>
 </tr>
 <tr>
 <td><code>excludeAuthors</code></td>
 <td>array</td>
 <td>–</td>
-<td>Drop comments from these usernames (case-insensitive), e.g. bots</td>
+<td>Drop these usernames (case-insensitive), e.g. bots</td>
 </tr>
 <tr>
 <td><code>keywords</code></td>
 <td>array</td>
 <td>–</td>
-<td>Only keep comments containing at least one of these keywords/phrases</td>
+<td>Keep comments containing at least one keyword/phrase</td>
 </tr>
 <tr>
 <td><code>excludeKeywords</code></td>
 <td>array</td>
 <td>–</td>
-<td>Drop comments containing any of these keywords/phrases</td>
+<td>Drop comments containing any keyword/phrase</td>
 </tr>
 <tr>
 <td><code>minAwards</code></td>
 <td>integer</td>
 <td>–</td>
-<td>Only keep comments with at least this many total awards</td>
+<td>Keep comments with at least this many total awards</td>
 </tr>
 <tr>
 <td><code>minCommentLength</code></td>
 <td>integer</td>
 <td>–</td>
-<td>Only keep comments whose body is at least this many characters (0–10,000)</td>
+<td>Minimum body length in characters (0–10,000)</td>
 </tr>
 <tr>
 <td><code>maxCommentLength</code></td>
 <td>integer</td>
 <td>–</td>
-<td>Only keep comments whose body is at most this many characters (0–10,000)</td>
-</tr>
-<tr>
-<td><code>controversialOnly</code></td>
-<td>boolean</td>
-<td><code>false</code></td>
-<td>Keep only comments Reddit flags as controversial (near-even up/downvote split)</td>
+<td>Maximum body length in characters (0–10,000)</td>
 </tr>
 <tr>
 <td><code>focusOnTargetComment</code></td>
 <td>boolean</td>
 <td><code>false</code></td>
-<td>When a <code>postUrls</code> item is a specific comment permalink, fetch only that comment plus its ancestor chain instead of the whole thread</td>
+<td>For a comment permalink, return the target plus its ancestor chain. Works for deeply nested targets; the target must still be publicly visible</td>
 </tr>
 <tr>
 <td><code>commentContext</code></td>
 <td>integer</td>
 <td><code>3</code></td>
-<td>Ancestor levels to include above the target comment (0–8; used only with <code>focusOnTargetComment</code>)</td>
+<td>Ancestor levels above the target comment when Reddit returns the focus view (0–8)</td>
 </tr>
 </tbody>
 </table></div>
@@ -555,6 +459,7 @@
 <li><code>old.reddit.com</code> URLs also work</li>
 </ul>
 <p>Malformed items (empty strings, garbage URLs, non-strings) are skipped without failing the run.</p>
+<p><strong>Removed inputs:</strong> <code>distinguishedFilter</code>, <code>controversialOnly</code>, and <code>excludeStickied</code> were removed because Reddit no longer exposes those markers to logged-out readers. Old saved tasks that still send them keep running; the actor logs one warning and ignores them.</p>
 <h3 id="readme-example-scrape-a-whole-thread-sorted-by-top">Example: scrape a whole thread sorted by Top</h3>
 <pre><code class="language-json">{
   &quot;postUrls&quot;: [&quot;https://www.reddit.com/r/technology/comments/1abc123/some_title/&quot;],
@@ -569,11 +474,10 @@
   &quot;maxComments&quot;: 1000,
   &quot;postedAfter&quot;: &quot;2026-06-01&quot;,
   &quot;minCommentScore&quot;: 5,
-  &quot;excludeDeletedRemoved&quot;: true,
-  &quot;excludeStickied&quot;: true
+  &quot;excludeDeletedRemoved&quot;: true
 }
 </code></pre>
-<h3 id="readme-example-nlp-dataset-clean-filtered-comment-bodies">Example: NLP dataset — clean, filtered comment bodies</h3>
+<h3 id="readme-example-nlp-dataset-clean-comment-bodies">Example: NLP dataset — clean comment bodies</h3>
 <pre><code class="language-json">{
   &quot;postUrls&quot;: [
     &quot;https://www.reddit.com/r/AskReddit/comments/1abc123/some_title/&quot;,
@@ -583,8 +487,7 @@
   &quot;excludeDeletedRemoved&quot;: true,
   &quot;excludeAuthors&quot;: [&quot;AutoModerator&quot;],
   &quot;minCommentLength&quot;: 20,
-  &quot;excludeKeywords&quot;: [&quot;I am a bot&quot;],
-  &quot;includePost&quot;: false
+  &quot;excludeKeywords&quot;: [&quot;I am a bot&quot;]
 }
 </code></pre>
 <h3 id="readme-example-jump-straight-to-one-comment">Example: jump straight to one comment</h3>
@@ -596,24 +499,42 @@
 </code></pre>
 <h2 id="readme-use-cases">Use cases</h2>
 <ul>
-<li><strong>Sentiment &amp; NLP datasets</strong> — build large, labeled corpora from real Reddit discussions</li>
-<li><strong>Market &amp; product research</strong> — see what customers actually say about a product or brand in the replies</li>
-<li><strong>Community &amp; moderation analysis</strong> — study conversation structure, controversy, and OP engagement in a subreddit</li>
-<li><strong>Launch monitoring</strong> — track reaction to announcements across subreddits with scheduled runs</li>
-<li><strong>Academic &amp; social research</strong> — export full, structured discussion threads for analysis</li>
-<li><strong>Customer support mining</strong> — surface recurring complaints or questions buried in comment threads</li>
+<li><strong>Sentiment &amp; NLP datasets</strong> — build large, structured corpora from real discussions</li>
+<li><strong>Market &amp; product research</strong> — read what customers say in the replies, not just the top comment</li>
+<li><strong>Community &amp; moderation analysis</strong> — study conversation depth, controversy, and OP engagement</li>
+<li><strong>Launch monitoring</strong> — track reaction to announcements across subreddits on a schedule</li>
+<li><strong>Academic &amp; social research</strong> — export discussion trees for network and discourse analysis</li>
+<li><strong>Support mining</strong> — surface recurring complaints buried deep in a thread</li>
 </ul>
 <h2 id="readme-faq">FAQ</h2>
 <p><strong>Do I need a Reddit account, API key, or login?</strong>
-No. The actor reads Reddit's public web data; no authentication is required.</p>
-<p><strong>Does it really capture the whole thread, including deeply nested replies, and why might the count differ from <code>num_comments</code>?</strong>
-Up to <code>maxComments</code>, yes — the default of 100 only covers part of a busy thread, so raise it (up to 100,000) for a whole conversation. Reddit hides deeper replies behind &quot;load more&quot; placeholders, and the actor keeps expanding them, top-level comments first, until the limit is hit or the thread runs out. A placeholder that keeps failing after several retries is skipped, and the post's own <code>num_comments</code> also counts comments that have since been deleted, so the total can land a little below that counter.</p>
-<p><strong>What's the difference between <code>parent_id</code> and <code>link_id</code>?</strong>
-<code>link_id</code> always points to the parent post (<code>t3_...</code>). <code>parent_id</code> points to the comment's direct parent, which can be the post (<code>t3_...</code>, for a top-level comment) or another comment (<code>t1_...</code>, for a reply) — check <code>parent_kind</code> to tell which.</p>
+No. The actor reads Reddit's public pages anonymously and stores no credentials.</p>
+<p><strong>Why are some fields missing compared with older versions?</strong>
+Reddit stopped serving its anonymous JSON endpoints in 2026 and does not render author IDs, vote splits, flair, moderator badges, or award details to logged-out readers. The actor emits every field the public pages still expose and omits the rest instead of inventing values.</p>
+<p><strong>Does it really capture the whole thread?</strong>
+Up to <code>maxComments</code>, yes. The actor follows Reddit's nested reply loaders and continue-thread pages until the thread is exhausted or your limit is reached. Reddit's displayed comment count includes deleted and removed comments, so a complete export can be smaller than that number.</p>
+<p><strong>What is the difference between <code>parent_id</code> and <code>link_id</code>?</strong>
+<code>link_id</code> always points to the parent post (<code>t3_...</code>). <code>parent_id</code> points to the comment's direct parent — the post for a top-level comment or another comment for a reply. <code>parent_kind</code> tells you which, and <code>parentPositions</code> gives the position path (with the continue-page caveat above).</p>
 <p><strong>How do I scrape just one comment instead of the whole thread?</strong>
-Paste that comment's permalink URL (the one containing <code>/comment/{id}/</code>) into <code>postUrls</code> and enable <code>focusOnTargetComment</code>. You'll get that comment plus up to <code>commentContext</code> levels of its parent comments, the same view Reddit shows when you click a comment's &quot;permalink&quot;.</p>
+Paste its permalink into <code>postUrls</code> and enable <code>focusOnTargetComment</code>. You get that comment plus up to <code>commentContext</code> levels of parent comments. The target must still be publicly visible; deleted/removed targets return no records.</p>
+<p><strong>Why does a deleted comment still appear?</strong>
+Deleted comments are part of the thread structure. They carry <code>isCommentDeleted</code> / <code>isAuthorDeleted</code> and usually no body; enable <code>excludeDeletedRemoved</code> to drop them.</p>
 <p><strong>What happens for a private subreddit, banned post, or deleted post?</strong>
-The actor returns 0 records for that URL along with a status message, instead of failing the whole run — other URLs in the same run are unaffected.</p>
+The actor returns 0 records for that URL and continues with the other URLs. A status message explains when nothing could be read.</p>
+<p><strong>Do I need to configure a proxy?</strong>
+No. The actor selects the network route it needs automatically.</p>
 <p><strong>Is this affiliated with Reddit?</strong>
-No. This is an independent, third-party actor that reads Reddit's public web pages; it is not endorsed by or affiliated with Reddit, Inc.</p>
-</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/hzfhxZwMsIQ2crhb4/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>dY7mVo8yzz9A9y0va</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
+No. This is an independent third-party actor that reads public web pages; it is not endorsed by or affiliated with Reddit, Inc.</p>
+<h2 id="readme-cost">Cost</h2>
+<p>Measured all-in run cost is roughly <strong>$0.72–1.58 per 1,000 comments</strong>, depending on thread depth, how many continue-thread branches are loaded, and how many deleted comments Reddit still counts. Small or heavily filtered runs have a higher fixed cost per 1,000. Store pricing is set separately.</p>
+<h2 id="readme-limitations">Limitations</h2>
+<ul>
+<li>Reddit's own displayed comment count includes deleted, removed, and filtered comments that are not served to logged-out readers. The actor reports what is actually served.</li>
+<li>Comment author IDs, vote up/down splits, flair, moderator/admin badges, controversy flags, award names/icons, and removal categories are not exposed anonymously. They are omitted rather than guessed. (The post record still carries the post author's ID when Reddit renders it.)</li>
+<li>Some comments arrive from Reddit's lazy-loading fragments with <code>body_html</code> but without a plain-text <code>body</code> (and occasionally without either) even though they are not deleted. Use <code>body_html</code> as a fallback; the omission rate measured in cloud runs was ~15–18%.</li>
+<li><code>parentPositions</code> can lose the continue-target's position for branches loaded through &quot;continue this thread&quot; pages, so paths for those descendants may not match the tree exactly. <code>parent_id</code> remains correct.</li>
+<li>Deleted-comment placeholders that Reddit renders without an id may carry the post as <code>parent_id</code> even when nested; their position path is the only tree hint for those rows.</li>
+<li>Very large threads take longer because every hidden branch is loaded through Reddit's own pagination; there is no branch pruning, so cost scales with the served tree as well as <code>maxComments</code>.</li>
+<li>The parent post record is intentionally thin: media, gallery, poll, crosspost, and flair details are not available on the public post page.</li>
+</ul>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/hzfhxZwMsIQ2crhb4/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>aXR6xVwyCStLrYveu</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

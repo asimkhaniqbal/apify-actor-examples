@@ -41,33 +41,6 @@
       "title": "Sort comments by",
       "type": "string"
     },
-    "controversialOnly": {
-      "default": false,
-      "description": "When enabled, only keep comments Reddit flags as controversial (near-even up/downvote split, i.e. `controversiality: 1`).",
-      "prefill": false,
-      "title": "Only controversial comments",
-      "type": "boolean"
-    },
-    "distinguishedFilter": {
-      "default": "any",
-      "description": "Restrict output to comments with a specific 'distinguished' badge (moderator/admin posting in an official capacity), or only regular (non-distinguished) comments. Leave as 'Any' to keep everyone.",
-      "editor": "select",
-      "enum": [
-        "any",
-        "moderator",
-        "admin",
-        "none"
-      ],
-      "enumTitles": [
-        "Any (default)",
-        "Moderator only",
-        "Admin only",
-        "Regular users only (exclude mod/admin)"
-      ],
-      "prefill": "any",
-      "title": "Filter by distinguished status",
-      "type": "string"
-    },
     "excludeAuthors": {
       "description": "Drop comments written by these Reddit usernames (case-insensitive), e.g. bots like AutoModerator. Leave empty to keep comments from all authors. Applied after `authors` (an author listed in both is excluded).",
       "editor": "stringList",
@@ -86,7 +59,7 @@
     },
     "excludeDeletedRemoved": {
       "default": false,
-      "description": "When enabled, comments whose body or author show as [deleted] or [removed] are dropped (no real content left to scrape).",
+      "description": "When enabled, comments that Reddit marks as deleted or author-deleted are dropped (no real content left to scrape).",
       "prefill": false,
       "title": "Exclude deleted/removed comments",
       "type": "boolean"
@@ -101,23 +74,16 @@
       "title": "Exclude keyword(s) in comment body",
       "type": "array"
     },
-    "excludeStickied": {
-      "default": false,
-      "description": "When enabled, moderator-pinned (stickied) comments — e.g. AutoModerator notices — are dropped.",
-      "prefill": false,
-      "title": "Exclude stickied comments",
-      "type": "boolean"
-    },
     "focusOnTargetComment": {
       "default": false,
-      "description": "When a `postUrls` item is a specific comment permalink (e.g. .../comments/1abc123/title/comment/xyz987/), only that comment plus its ancestor chain (see `commentContext`) is fetched instead of the full thread. Guarantees the target comment is captured even in huge threads where `maxComments` pagination might not reach it. Has no effect on plain post URLs.",
+      "description": "When a `postUrls` item is a specific comment permalink, return that comment plus its ancestor chain (see `commentContext`). Works for deeply nested targets; the target must still be publicly visible. Has no effect on plain post URLs.",
       "prefill": false,
       "title": "Focus on the specific comment in the URL",
       "type": "boolean"
     },
     "includePost": {
       "default": false,
-      "description": "When enabled, the parent post is emitted as the first record of each thread (full post data included).",
+      "description": "When enabled, the parent post metadata is emitted as the first record of each thread.",
       "prefill": false,
       "title": "Include the parent post record",
       "type": "boolean"
