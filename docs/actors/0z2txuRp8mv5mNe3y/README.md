@@ -4,124 +4,183 @@
 
 # Human-Like Website Pageview Traffic Simulator
 
-Send simulated visits to any website, YouTube video, Etsy shop, or Behance profile. Each visit opens the page in a real browser, moves the mouse, scrolls to a random depth and lingers for a set time, and can optionally fan out to a handful of same-domain links found on the start page. Every visit is logged with its load time, dwell time, scroll depth and the browser profile used.
+Send real Chromium pageviews to a website you own or are authorized to test. Choose how many pages to load, how deep each visit goes, how long it stays, whether it scrolls or follows internal links, which device and country it appears from, and which referrer it reports. Every attempt is written as a dataset row with its measured status, timing, device, referrer, analytics requests and error. A run-level summary is checkpointed while the run progresses, and a graceful stop writes an `aborted` row for an in-flight page.
+
+This is a testing and monitoring tool. It does not solve CAPTCHAs, click ads, inflate YouTube views, or promise that the visits will appear in Google Analytics or improve rankings. Use it on your own sites or sites you have permission to test.
 
 ## What this actor does
 
-- Opens each start URL once, in order, with mouse movement, scrolling, link hovering and a dwell time around `waitOnPage` (±20%)
-- In YouTube mode, dismisses the consent banner, presses play and stays on the video for `waitOnPage` seconds or the video length, whichever is shorter
-- With crawling on (Pageview mode only), visits up to `maxPagesPerUrl − 1` randomly chosen same-domain links taken from the start page
-- Gives every start URL its own browser profile (user agent, viewport, locale, timezone, WebGL) when fingerprint randomization is on
-- Stops when every start URL is done or when `endAfterSeconds` runs out, whichever comes first
-- Every record carries the same 12 fields; values that weren't measured for a visit are an empty string or `0`
+- **Real browser visits:** each page loads in Chromium with JavaScript, cookies, redirects and lazy content working normally.
+- **Pageview volume:** request 1–1,000 pageviews; each visit gets its own browser context, cookies and device profile.
+- **Session depth:** attempt to follow one visible same-site link per page, up to 10 pages per visit. A visit can stay on one page when no link is followed or the global pageview budget is used.
+- **Human behaviour:** a jittered dwell target, mouse movement, measured scroll depth and optional internal clicks. A failed click attempt can extend the measured time on a page.
+- **Device, referrer and geo controls:** desktop, Android mobile, Android tablet or a mixed run; direct, search, social or custom referrer; optional residential country for geo QA.
+- **Evidence, not claims:** per-page HTTP status, final URL, load time, actual dwell, actual scroll, links followed, analytics requests observed and a clear error code. A `SUMMARY` record is written to the key-value store and checkpointed during the run.
 
-## Output per page visit
+## Output per pageview
 
-- `url` — URL of the visited page
-- `status` — `success`, `failed` (navigation error), `timeout` (page didn't load in time) or `blocked` (the page title was empty or read "Access denied", "Blocked" or "Captcha")
-- `pageTitle` — HTML title of the page (empty if the page didn't load)
-- `loadTimeMs` — time until the page's DOM was ready, in milliseconds
-- `timeOnPageSec` — seconds spent on the page after it loaded (`0` for failed, timed-out or blocked visits)
-- `scrollDepthPercent` — how far down the page was scrolled, 0–100 (always `0` in Stress mode and on YouTube videos)
-- `linksFound` — number of unique same-domain links matching `crawlingLinkSelector` on the start page; only filled when crawling is on in Pageview mode, otherwise `0`
-- `linksFollowed` — currently always `0`; count the records whose `referrer` equals a start URL to see how many links were followed
-- `referrer` — the start URL a crawled page was reached from (empty for start URLs)
-- `userAgent` — user agent string used for the visit
-- `viewport` — browser window size, e.g. `1920x1080`
-- `timestamp` — ISO 8601 time the visit record was created
+- `url` — the target URL you asked for (before redirects or UTM tagging)
+- `finalUrl` — the final URL after redirects
+- `status` — `success`, `failed`, `blocked`, `timeout` or `aborted`
+- `statusCode` — HTTP response status
+- `pageTitle` — HTML title, omitted for non-HTML pages
+- `loadTimeMs` — time until the DOM was ready
+- `timeOnPageSec` — actual time spent on the page after loading, including click attempts
+- `scrollDepthPercent` — measured scroll depth, omitted when scrolling is off or no range is measurable; a very short page with a tiny overflow can report 100
+- `linksFound` — same-site links present in the page, not only visible ones
+- `linksFollowed` — internal links followed from this page
+- `referrer` — the actual `document.referrer` seen by the page
+- `userAgent`, `viewport`, `device` — the browser profile used
+- `visitId`, `pageviewIndex`, `pageIndex` — traceability for sessions and loops
+- `analyticsTags` — analytics requests observed, e.g. `ga4`, `gtm`, `meta_pixel`, `hotjar` (not proof that the platform accepted a hit)
+- `errorCode`, `error` — a short code and message for failed, blocked or timed-out pages
+- `timestamp` — ISO-8601 UTC time the page attempt started
 
-If the time limit hits while a page is open, that page is still saved with whatever was measured up to that moment.
+Empty or unmeasured fields are omitted, not filled with empty strings or fake zeros. A successful page has no `errorCode`. A graceful stop writes `aborted` for pages that have not yet emitted a row; a hard kill can still omit an in-flight row, while pages already written stay `success`.
+
+A `SUMMARY` record contains requested/attempted pageviews, success/failed/blocked/timeout/aborted counts, error rate, median and p95 load time, median dwell, analytics-request rates and per-target counts. It is checkpointed during the run, so a stopped run still has the latest version.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `startUrls` | array | – | **Required.** URLs to visit, each visited once per run |
-| `mode` | string | `PAGEVIEW` | `PAGEVIEW` (scrolling, dwell time, optional crawling) or `STRESS` (load the page, stay about half a second, no scrolling or crawling) |
-| `enableCrawling` | boolean | `false` | Also visit same-domain links found on each start page (Pageview mode only) |
-| `crawlingLinkSelector` | string | `a[href]` | CSS selector for the links that can be followed when crawling |
-| `maxPagesPerUrl` | integer | `10` | Pages per start URL when crawling, start page included (1–1,000) |
-| `waitOnPage` | integer | `30` | Seconds to stay on each page, varied ±20% in Pageview mode (0–600) |
-| `endAfterSeconds` | integer | `300` | Stop the run after this many seconds; `0` means no time limit (0–86,400) |
-| `enableYoutube` | boolean | `false` | Play YouTube URLs as videos instead of treating them like ordinary pages |
-| `blockResources` | array of strings | – | Extra wildcard URL patterns (e.g. `*fonts.googleapis*`) to block on top of the built-in ad and tracker list; not applied to YouTube URLs when YouTube mode is on |
-| `enableAdvancedFingerprinting` | boolean | `true` | Randomize the browser profile per start URL; when off, every visit uses the same desktop Chrome profile at 1920x1080, en-US |
-| `proxyConfiguration` | object | – | Optional proxy for sites that block data-center IPs or when traffic should come from a specific country; one proxy address is used for the whole run |
+| `targetUrls` | array | – | Public pages you own or are authorized to test (the prefill uses `https://example.com`); legacy `startUrls` is accepted in code |
+| `pageviews` | integer | `10` | Total page loads to attempt (1–1,000) |
+| `pagesPerVisit` | integer | `1` | Maximum pages in one visit (1–10); above 1 attempts same-site link clicks when clicks are enabled and the global pageview budget allows |
+| `visitStyle` | string | `human` | `human` for dwell/scroll/click, `quick` for a fast load check |
+| `dwellSeconds` | integer | `20` | Target seconds per page for human visits (1–300) |
+| `referrerMode` | string | `direct` | `direct`, `search`, `social` or `custom` |
+| `customReferrer` | string | – | Full http(s) URL used when `referrerMode` is `custom` |
+| `scroll` | boolean | `true` | Scroll during human visits; measured depth is omitted if not measurable |
+| `clickInternalLinks` | boolean | `true` | Attempt one visible same-site link per page; never ads, forms or external links |
+| `deviceMix` | string | `mixed` | `desktop`, `mobile`, `tablet` or `mixed` (Android Chromium emulation for mobile/tablet) |
+| `visitCountry` | string | `none` | Optional ISO country for residential-proxy geo QA; `none` keeps visits direct |
+| `blockAds` | boolean | `true` | Block ad domains; analytics requests still load so tag firing can be measured |
+| `blockImages` | boolean | `false` | Skip images, fonts and media for faster visits |
+| `utmSource` | string | – | Optional `utm_source` label appended to target URLs, e.g. `traffic-test` |
 
-### Example: pageview with crawling and YouTube
+## Example: load check on your own site
 
 ```json
 {
-  "startUrls": [
-    { "url": "https://example.com" },
-    { "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ" }
+  "targetUrls": [
+    { "url": "https://www.example.com/" },
+    { "url": "https://www.example.com/pricing" }
   ],
-  "mode": "PAGEVIEW",
-  "waitOnPage": 30,
-  "endAfterSeconds": 300,
-  "enableCrawling": true,
-  "maxPagesPerUrl": 5,
-  "enableYoutube": true
+  "pageviews": 20,
+  "pagesPerVisit": 1,
+  "visitStyle": "human",
+  "dwellSeconds": 15,
+  "deviceMix": "mixed",
+  "referrerMode": "direct"
 }
 ```
 
-### Example: Etsy shop browsing session
+## Example: analytics-tag QA with a test-source label
 
 ```json
 {
-  "startUrls": [{ "url": "https://www.etsy.com/shop/YourShopName" }],
-  "waitOnPage": 45,
-  "endAfterSeconds": 600,
-  "enableCrawling": true,
-  "crawlingLinkSelector": "a[href*='/listing/']",
-  "maxPagesPerUrl": 10
+  "targetUrls": [{ "url": "https://www.example.com/" }],
+  "pageviews": 10,
+  "pagesPerVisit": 2,
+  "visitStyle": "human",
+  "dwellSeconds": 25,
+  "scroll": true,
+  "clickInternalLinks": true,
+  "referrerMode": "search",
+  "utmSource": "traffic-test",
+  "blockAds": true
 }
 ```
 
-### Example: quick load-time check of several pages
+Use the `analyticsTags` field and the `SUMMARY` rates to confirm which analytics requests the page made. Test traffic may still be filtered by an analytics platform; this actor does not guarantee attribution.
+
+## Example: mobile and geo QA
 
 ```json
 {
-  "startUrls": [
-    { "url": "https://yourwebsite.com" },
-    { "url": "https://yourwebsite.com/pricing" },
-    { "url": "https://yourwebsite.com/blog" }
+  "targetUrls": [{ "url": "https://www.example.com/" }],
+  "pageviews": 12,
+  "pagesPerVisit": 1,
+  "visitStyle": "human",
+  "dwellSeconds": 10,
+  "deviceMix": "mobile",
+  "visitCountry": "DE",
+  "referrerMode": "social"
+}
+```
+
+Country visits use a residential proxy in that country. If the proxy is unavailable, the page is reported as failed instead of silently falling back to a direct request.
+
+## Example: quick smoke test
+
+```json
+{
+  "targetUrls": [
+    { "url": "https://www.example.com/" },
+    { "url": "https://www.example.com/health" }
   ],
-  "mode": "STRESS",
-  "endAfterSeconds": 120
+  "pageviews": 2,
+  "visitStyle": "quick",
+  "blockAds": true,
+  "blockImages": true
 }
 ```
 
 ## Use cases
 
-- **Page-speed spot checks** — log load times for a list of your own pages from a real browser
-- **Scheduled availability checks** — visit key pages on a schedule and watch for `failed`, `timeout` or `blocked` statuses
-- **Creator and portfolio visits** — open a YouTube video, Etsy listing or Behance project with a realistic dwell time
-- **QA for internal navigation** — let crawling open a sample of a page's internal links and confirm each one loads with a title
-- **Bot-detection testing** — see whether your own site's protection flags a scripted but human-paced visitor
+- **Load and cache warm-up** — load key pages after a deploy with a realistic browser and short dwell.
+- **Analytics and tag QA** — check whether GA4, GTM, Meta Pixel, Hotjar or other tags actually send data on each page.
+- **Mobile checks** — load pages with Android mobile or tablet profiles and compare status, title and timing.
+- **Geo checks** — request visits through a residential country to test redirects, consent banners, prices or language.
+- **Uptime and broken-link checks** — schedule a small run and watch for `failed`, `blocked`, `timeout` or non-2xx statuses.
 
 ## FAQ
 
-**Do I need a proxy?**
-No. Most websites load fine without one. Add a proxy for sites that block data-center IPs or when the visit should come from a particular country.
+### Do I need a proxy?
 
-**How many visits does one run produce?**
-One per start URL, plus up to `maxPagesPerUrl − 1` crawled pages per start URL when crawling is on. URLs are visited one after another, so with a 30-second dwell time expect roughly two pages per minute. When `endAfterSeconds` is reached the run stops, even if some URLs haven't been visited yet.
+No, for new inputs. Visits are direct by default. Set `visitCountry` only when you need a residential exit in a specific country for geo testing; that option adds proxy usage. Old saved inputs that still contain `proxyConfiguration` can also create a proxy; if no group is set, the account's residential group is used and billed. Remove that legacy key for direct visits.
 
-**Will these visits show up in Google Analytics?**
-Usually not. A built-in block list stops common ad and tracking scripts from loading, including Google Analytics, Google Tag Manager, the Facebook pixel, Hotjar and Microsoft Clarity, so those tools generally won't record the visits. Measure the results with the dataset or your server logs instead.
+### Will these visits show up in Google Analytics or other analytics tools?
 
-**Does it work with YouTube?**
-Yes, when `enableYoutube` is on. The actor plays the video and stays for `waitOnPage` seconds or the video's length, whichever is shorter. YouTube applies its own view-counting rules, so a simulated watch may not be counted as a view.
+Not necessarily. The actor loads the page in a real browser and records which analytics requests fired, but analytics platforms filter automated traffic and may exclude the visits. Use this actor to test whether tags work, not to inflate audience numbers.
 
-**What's the difference between `PAGEVIEW` and `STRESS` mode?**
-`PAGEVIEW` moves the mouse, scrolls, hovers links and waits on the page, and is the only mode that crawls. `STRESS` loads each start URL and leaves after about half a second, with no scrolling and no crawling. It is a fast way to check load times, not a high-concurrency load test: pages are still opened one at a time with a short pause between them.
+### Why did a page report `blocked`?
 
-**How does crawling choose pages?**
-It collects links matching `crawlingLinkSelector` on the start page, keeps those on exactly the same host (so `www.example.com` and `example.com` count as different), shuffles them and visits up to `maxPagesPerUrl − 1`. It goes one level deep only; links on crawled pages are not followed.
+The site answered with 401, 403 or 429, or served a recognizable bot-challenge page. A 403 is reported as `blocked`, a 404 as `failed` with `errorCode=not_found`, and 5xx as `failed` with `errorCode=server_error`; the HTTP status is retained even when the body is empty. The actor does not solve CAPTCHAs and does not try to bypass the block. Change the target, test a staging URL, or use a country proxy where appropriate.
 
-**Why does a record say `blocked`?**
-The page loaded but its title was empty or read "Access denied", "Blocked" or "Captcha". The actor can't solve CAPTCHAs, so no time is spent on such pages.
+### Why is `scrollDepthPercent` missing on some successful pages?
 
-**Can I run several instances at once?**
-Yes. Separate runs are independent, so starting several in parallel multiplies the number of visits.
+The page had no measurable scrollable range, scrolling was turned off, or the depth could not be measured. A page with no range is never forced to 100%, but a very short page with a few pixels of overflow can still report 100% because a wheel step reaches its bottom.
+
+### Why is the actual dwell or page count different from what I set?
+
+`dwellSeconds` is a target, not a hard wall. Waiting for an internal click to navigate can make the measured `timeOnPageSec` longer, and `pagesPerVisit` is a maximum: the run's total pageview budget can end a visit before it reaches that maximum. Both the actual dwell and the actual pages are recorded per visit.
+
+### Does it click ads or inflate YouTube views?
+
+No. It only attempts visible same-site links; ad elements, forms and external links are skipped. YouTube URLs are treated as ordinary pages, and the actor does not generate views.
+
+### What happens if the run is stopped early?
+
+Rows already written stay in the dataset. A graceful stop writes `aborted` rows for in-flight visits, writes the latest `SUMMARY`, and sets a partial status such as `Stopped 3/20`. A hard kill can still omit the in-flight row, but the summary is checkpointed after each page.
+
+### Are my saved inputs from the old version still supported?
+
+Yes. An input with only `startUrls` is accepted and mapped to `targetUrls`. Legacy `waitOnPage`, `mode=STRESS`, `enableCrawling`/`maxPagesPerUrl`, `enableAdvancedFingerprinting`, `crawlingLinkSelector` and `blockResources` are applied in code, including when the platform supplies the new defaults. `endAfterSeconds` and YouTube mode are ignored with a warning; the run stops after the requested pageviews.
+
+### Is this affiliated with the websites I test?
+
+No. It is an independent browser automation tool. Use it only on sites you own or have permission to test, and follow their terms and your local laws.
+
+## Limitations
+
+- No login, basic-auth, form submission or file upload.
+- No CAPTCHA solving or guarantee of bypassing bot protection.
+- No ad clicks, ad impressions or YouTube view generation.
+- Mobile and tablet profiles use Android Chromium emulation, not iOS Safari.
+- Direct visits come from the actor's network; some sites will block them. Country visits depend on residential proxy availability.
+- Analytics platforms may filter automated traffic; `analyticsTags` records requests the page made, not hits the platform accepted.
+- Target URLs and redirect destinations are checked against the private/loopback guard before navigation.
+- A hard kill can omit the in-flight page row; graceful stops write `aborted` and a checkpointed summary.
+- The actor does not claim to improve SEO rankings or audience metrics.

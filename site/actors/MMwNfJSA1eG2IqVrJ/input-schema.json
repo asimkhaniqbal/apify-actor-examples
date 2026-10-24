@@ -1,0 +1,209 @@
+{
+  "description": "Search Google Shopping for products and extract prices, merchants, ratings, and more.",
+  "properties": {
+    "condition": {
+      "default": "",
+      "description": "Filter products by condition.",
+      "editor": "select",
+      "enum": [
+        "",
+        "new",
+        "used",
+        "refurbished"
+      ],
+      "enumTitles": [
+        "Any",
+        "New",
+        "Used",
+        "Refurbished"
+      ],
+      "title": "Condition",
+      "type": "string"
+    },
+    "countryCode": {
+      "default": "us",
+      "description": "Country for localized results and pricing. Determines the Google domain used.",
+      "editor": "select",
+      "enum": [
+        "us",
+        "uk",
+        "ca",
+        "au",
+        "de",
+        "fr",
+        "es",
+        "it",
+        "br",
+        "mx",
+        "in",
+        "jp",
+        "kr",
+        "nl",
+        "be",
+        "at",
+        "ch",
+        "se",
+        "no",
+        "dk",
+        "fi",
+        "pl",
+        "cz",
+        "pt",
+        "ie",
+        "nz",
+        "za",
+        "sg",
+        "hk",
+        "tw",
+        "ph",
+        "th",
+        "id",
+        "my",
+        "vn",
+        "ar",
+        "cl",
+        "co",
+        "pe",
+        "tr",
+        "ru",
+        "ua",
+        "il",
+        "ae",
+        "sa",
+        "eg",
+        "ng",
+        "ke"
+      ],
+      "enumTitles": [
+        "United States",
+        "United Kingdom",
+        "Canada",
+        "Australia",
+        "Germany",
+        "France",
+        "Spain",
+        "Italy",
+        "Brazil",
+        "Mexico",
+        "India",
+        "Japan",
+        "South Korea",
+        "Netherlands",
+        "Belgium",
+        "Austria",
+        "Switzerland",
+        "Sweden",
+        "Norway",
+        "Denmark",
+        "Finland",
+        "Poland",
+        "Czech Republic",
+        "Portugal",
+        "Ireland",
+        "New Zealand",
+        "South Africa",
+        "Singapore",
+        "Hong Kong",
+        "Taiwan",
+        "Philippines",
+        "Thailand",
+        "Indonesia",
+        "Malaysia",
+        "Vietnam",
+        "Argentina",
+        "Chile",
+        "Colombia",
+        "Peru",
+        "Turkey",
+        "Russia",
+        "Ukraine",
+        "Israel",
+        "UAE",
+        "Saudi Arabia",
+        "Egypt",
+        "Nigeria",
+        "Kenya"
+      ],
+      "title": "Country",
+      "type": "string"
+    },
+    "languageCode": {
+      "default": "en",
+      "description": "Language for results (hl parameter). E.g. 'en', 'de', 'fr'. Leave empty for default.",
+      "editor": "textfield",
+      "title": "Language",
+      "type": "string"
+    },
+    "maxPrice": {
+      "description": "Maximum price filter (in local currency units). Leave empty for no maximum.",
+      "minimum": 0,
+      "title": "Maximum Price",
+      "type": "integer"
+    },
+    "maxResultsPerQuery": {
+      "default": 20,
+      "description": "Maximum number of product results to extract per search query.",
+      "maximum": 100,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Max Results Per Query",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Minimum price filter (in local currency units). Leave empty for no minimum.",
+      "minimum": 0,
+      "title": "Minimum Price",
+      "type": "integer"
+    },
+    "proxyConfiguration": {
+      "default": {
+        "apifyProxyGroups": [
+          "GOOGLE_SERP"
+        ],
+        "useApifyProxy": true
+      },
+      "description": "Proxy configuration. GOOGLE_SERP proxy provides the most reliable access to Google Shopping.",
+      "editor": "proxy",
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "queries": {
+      "description": "List of product search queries to look up on Google Shopping (e.g., \"iPhone 15 Pro Max\", \"running shoes\").",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "prefill": [
+        "iPhone 15 Pro Max"
+      ],
+      "title": "Search Queries",
+      "type": "array"
+    },
+    "sortBy": {
+      "default": "",
+      "description": "How to sort Google Shopping results.",
+      "editor": "select",
+      "enum": [
+        "",
+        "review_score",
+        "price_low",
+        "price_high"
+      ],
+      "enumTitles": [
+        "Relevance (default)",
+        "Review score",
+        "Price: low to high",
+        "Price: high to low"
+      ],
+      "title": "Sort By",
+      "type": "string"
+    }
+  },
+  "required": [
+    "queries"
+  ],
+  "schemaVersion": 1,
+  "title": "Google Shopping Insights Scraper Input",
+  "type": "object"
+}

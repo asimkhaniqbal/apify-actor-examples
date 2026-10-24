@@ -1,0 +1,225 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "properties": {
+      "currency": {
+        "description": "Currency code (USD, EUR, GBP) derived from price",
+        "type": "string"
+      },
+      "delivery": {
+        "description": "Delivery or shipping info",
+        "nullable": true,
+        "type": "string"
+      },
+      "imageUrl": {
+        "description": "Product thumbnail image URL",
+        "type": "string"
+      },
+      "isSponsored": {
+        "description": "Whether this is a sponsored/ad result",
+        "type": "boolean"
+      },
+      "merchant": {
+        "description": "Store or merchant name",
+        "type": "string"
+      },
+      "merchantUrl": {
+        "description": "Merchant website URL (derived from merchant name when available)",
+        "nullable": true,
+        "type": "string"
+      },
+      "originalPrice": {
+        "description": "Original price before discount, empty if not discounted",
+        "nullable": true,
+        "type": "string"
+      },
+      "position": {
+        "description": "Position in search results (1-based)",
+        "type": "integer"
+      },
+      "price": {
+        "description": "Current price with currency symbol (e.g., '$999.00')",
+        "type": "string"
+      },
+      "productId": {
+        "description": "Google Shopping unique product identifier",
+        "nullable": true,
+        "type": "string"
+      },
+      "productUrl": {
+        "description": "Google Shopping search URL for this specific product",
+        "nullable": true,
+        "type": "string"
+      },
+      "query": {
+        "description": "The search query used to find this product",
+        "type": "string"
+      },
+      "rating": {
+        "description": "Average rating (e.g., '4.5')",
+        "nullable": true,
+        "type": "string"
+      },
+      "reviewCount": {
+        "description": "Number of reviews (e.g., '1,234')",
+        "nullable": true,
+        "type": "string"
+      },
+      "scrapedAt": {
+        "description": "ISO 8601 timestamp when scraped",
+        "type": "string"
+      },
+      "searchUrl": {
+        "description": "The Google Shopping search URL where this result was found",
+        "type": "string"
+      },
+      "title": {
+        "description": "Product title",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "title": "Google Shopping Products",
+  "views": {
+    "detailed": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "currency": {
+            "format": "text",
+            "label": "Currency"
+          },
+          "delivery": {
+            "format": "text",
+            "label": "Delivery"
+          },
+          "imageUrl": {
+            "format": "link",
+            "label": "Image"
+          },
+          "isSponsored": {
+            "format": "text",
+            "label": "Sponsored"
+          },
+          "merchant": {
+            "format": "text",
+            "label": "Merchant"
+          },
+          "merchantUrl": {
+            "format": "link",
+            "label": "Merchant URL"
+          },
+          "originalPrice": {
+            "format": "text",
+            "label": "Was"
+          },
+          "price": {
+            "format": "text",
+            "label": "Price"
+          },
+          "productId": {
+            "format": "text",
+            "label": "Product ID"
+          },
+          "productUrl": {
+            "format": "link",
+            "label": "Product URL"
+          },
+          "query": {
+            "format": "text",
+            "label": "Query"
+          },
+          "rating": {
+            "format": "text",
+            "label": "Rating"
+          },
+          "reviewCount": {
+            "format": "text",
+            "label": "Reviews"
+          },
+          "scrapedAt": {
+            "format": "text",
+            "label": "Scraped At"
+          },
+          "title": {
+            "format": "text",
+            "label": "Product"
+          }
+        }
+      },
+      "title": "Detailed Results",
+      "transformation": {
+        "fields": [
+          "query",
+          "title",
+          "price",
+          "originalPrice",
+          "merchant",
+          "merchantUrl",
+          "rating",
+          "reviewCount",
+          "delivery",
+          "isSponsored",
+          "imageUrl",
+          "productId",
+          "productUrl",
+          "currency",
+          "scrapedAt"
+        ]
+      }
+    },
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "imageUrl": {
+            "format": "link",
+            "label": "Image"
+          },
+          "merchant": {
+            "format": "text",
+            "label": "Merchant"
+          },
+          "position": {
+            "format": "number",
+            "label": "#"
+          },
+          "price": {
+            "format": "text",
+            "label": "Price"
+          },
+          "query": {
+            "format": "text",
+            "label": "Query"
+          },
+          "rating": {
+            "format": "text",
+            "label": "Rating"
+          },
+          "reviewCount": {
+            "format": "text",
+            "label": "Reviews"
+          },
+          "title": {
+            "format": "text",
+            "label": "Product"
+          }
+        }
+      },
+      "title": "Products Overview",
+      "transformation": {
+        "fields": [
+          "query",
+          "position",
+          "title",
+          "price",
+          "merchant",
+          "rating",
+          "reviewCount",
+          "imageUrl"
+        ]
+      }
+    }
+  }
+}

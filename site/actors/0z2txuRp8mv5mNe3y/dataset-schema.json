@@ -5,6 +5,22 @@
       "display": {
         "component": "table",
         "properties": {
+          "analyticsTags": {
+            "format": "text",
+            "label": "analyticsTags"
+          },
+          "device": {
+            "format": "text",
+            "label": "device"
+          },
+          "errorCode": {
+            "format": "text",
+            "label": "errorCode"
+          },
+          "finalUrl": {
+            "format": "link",
+            "label": "Final URL"
+          },
           "linksFollowed": {
             "format": "number",
             "label": "Followed"
@@ -21,6 +37,10 @@
             "format": "text",
             "label": "Page Title"
           },
+          "referrer": {
+            "format": "text",
+            "label": "referrer"
+          },
           "scrollDepthPercent": {
             "format": "number",
             "label": "Scroll %"
@@ -28,6 +48,10 @@
           "status": {
             "format": "text",
             "label": "Status"
+          },
+          "statusCode": {
+            "format": "number",
+            "label": "statusCode"
           },
           "timeOnPageSec": {
             "format": "number",
@@ -47,13 +71,19 @@
       "transformation": {
         "fields": [
           "url",
+          "finalUrl",
           "status",
+          "statusCode",
           "pageTitle",
           "loadTimeMs",
           "timeOnPageSec",
           "scrollDepthPercent",
           "linksFound",
           "linksFollowed",
+          "device",
+          "referrer",
+          "analyticsTags",
+          "errorCode",
           "timestamp"
         ]
       }
