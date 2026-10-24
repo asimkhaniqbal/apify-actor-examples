@@ -1,0 +1,121 @@
+{
+  "actorSpecification": 1,
+  "title": "Google Search Results",
+  "views": {
+    "detailed": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "aiOverview": {
+            "format": "object",
+            "label": "AI Overview"
+          },
+          "hasNextPage": {
+            "format": "boolean",
+            "label": "Has Next Page"
+          },
+          "knowledgePanel": {
+            "format": "object",
+            "label": "Knowledge Panel"
+          },
+          "localPack": {
+            "format": "array",
+            "label": "Local Pack"
+          },
+          "organicResults": {
+            "format": "array",
+            "label": "Organic Results"
+          },
+          "paidResults": {
+            "format": "array",
+            "label": "Paid Results"
+          },
+          "peopleAlsoAsk": {
+            "format": "array",
+            "label": "People Also Ask"
+          },
+          "relatedQueries": {
+            "format": "array",
+            "label": "Related Queries"
+          },
+          "resultsTotal": {
+            "format": "number",
+            "label": "Total Results"
+          },
+          "searchQuery": {
+            "format": "object",
+            "label": "Search Query"
+          },
+          "sportsTable": {
+            "format": "object",
+            "label": "Sports Table"
+          },
+          "topStories": {
+            "format": "array",
+            "label": "Top Stories"
+          }
+        }
+      },
+      "title": "Detailed View",
+      "transformation": {
+        "fields": [
+          "searchQuery",
+          "hasNextPage",
+          "resultsTotal",
+          "organicResults",
+          "aiOverview",
+          "knowledgePanel",
+          "peopleAlsoAsk",
+          "relatedQueries",
+          "localPack",
+          "topStories",
+          "sportsTable",
+          "paidResults"
+        ]
+      }
+    },
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "hasNextPage": {
+            "format": "boolean",
+            "label": "Has Next Page"
+          },
+          "organicResults": {
+            "format": "array",
+            "label": "Organic Results"
+          },
+          "resultsTotal": {
+            "format": "number",
+            "label": "Total Results"
+          },
+          "searchQuery.countryCode": {
+            "format": "text",
+            "label": "Country"
+          },
+          "searchQuery.page": {
+            "format": "number",
+            "label": "Page"
+          },
+          "searchQuery.term": {
+            "format": "text",
+            "label": "Search Query"
+          }
+        }
+      },
+      "title": "Results Overview",
+      "transformation": {
+        "fields": [
+          "searchQuery",
+          "resultsTotal",
+          "hasNextPage",
+          "organicResults"
+        ],
+        "flatten": [
+          "searchQuery"
+        ]
+      }
+    }
+  }
+}

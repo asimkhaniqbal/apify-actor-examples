@@ -1,0 +1,786 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-3d3bMm5wvtCSX1UKf7VBMSGLJO96P6nA9x4G7sMAg3o=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Google Search Results Scraper: Organic &amp; SERP Boxes | Vexaloom Labs</title><meta name="description" content="Search Google and get organic results plus AI Overview, knowledge panel, People Also Ask, related searches, local pack, top stories and ads for each query, across 48 countries with"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/PlIxbe9L7Qn7c76R7/"><meta property="og:title" content="Google Search Results Scraper: Organic &amp; SERP Boxes | Vexaloom Labs"><meta property="og:description" content="Search Google and get organic results plus AI Overview, knowledge panel, People Also Ask, related searches, local pack, top stories and ads for each query, across 48 countries with"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/PlIxbe9L7Qn7c76R7/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PlIxbe9L7Qn7c76R7/#webpage","name":"Google Search Results Scraper: Organic & SERP Boxes","description":"Search Google and get organic results plus AI Overview, knowledge panel, People Also Ask, related searches, local pack, top stories and ads for each query, across 48 countries with language and date filters.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PlIxbe9L7Qn7c76R7/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PlIxbe9L7Qn7c76R7/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PlIxbe9L7Qn7c76R7/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PlIxbe9L7Qn7c76R7/#article","headline":"Google Search Results Scraper: Organic & SERP Boxes","name":"Google Search Results Scraper: Organic & SERP Boxes","description":"Search Google and get organic results plus AI Overview, knowledge panel, People Also Ask, related searches, local pack, top stories and ads for each query, across 48 countries with language and date filters.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PlIxbe9L7Qn7c76R7/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PlIxbe9L7Qn7c76R7/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PlIxbe9L7Qn7c76R7/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Google Search Results Scraper: Organic & SERP Boxes","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PlIxbe9L7Qn7c76R7/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Google Search Results Scraper: Organic &amp; SERP Boxes</span></div><section id="overview"><h1 class="doc-title">Google Search Results Scraper: Organic &amp; SERP Boxes</h1><p class="lede">Search Google and get organic results plus AI Overview, knowledge panel, People Also Ask, related searches, local pack, top stories and ads for each query, across 48 countries with language and date filters.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/google-search-results-scraper-organic-and-serp">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/PlIxbe9L7Qn7c76R7/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>queries</code></td><td>array</td><td>required</td><td>List of Google Search queries. Each query will be searched separately and results combined in the output. Blank/whitespace-only entries are dropped before searching (a warning is logged with the count).</td></tr><tr><td><code>maxResults</code></td><td>integer</td><td>optional</td><td>Maximum number of organic results to return per search query.</td></tr><tr><td><code>countryCode</code></td><td>string</td><td>optional</td><td>Country for the search. Determines the Google domain and the searcher-location (gl) signal sent to Google, and is also used to steer the automatic GOOGLE_SERP/RESIDENTIAL proxy chain toward an exit IP in that country (skipped only if you set a custom Proxy configuration below). Leave empty for US (google.com); if Precise Location (uule) is set and this is left empty, the country is instead derived from the uule value itself.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>queries</code></td><td>array</td><td>required</td><td>List of Google Search queries. Each query will be searched separately and results combined in the output. Blank/whitespace-only entries are dropped before searching (a warning is logged with the count).</td></tr><tr><td><code>maxResults</code></td><td>integer</td><td>optional</td><td>Maximum number of organic results to return per search query.</td></tr><tr><td><code>countryCode</code></td><td>string</td><td>optional</td><td>Country for the search. Determines the Google domain and the searcher-location (gl) signal sent to Google, and is also used to steer the automatic GOOGLE_SERP/RESIDENTIAL proxy chain toward an exit IP in that country (skipped only if you set a custom Proxy configuration below). Leave empty for US (google.com); if Precise Location (uule) is set and this is left empty, the country is instead derived from the uule value itself.</td></tr><tr><td><code>restrictResultsCountry</code></td><td>string</td><td>optional</td><td>Only return pages whose content originates from/targets this country (Google&#x27;s cr parameter). This is different from Country above (which only sets the searcher&#x27;s location/gl and the Google domain) - e.g. set this to Germany to only get results from German sites regardless of which Google domain or Country is used above. Leave empty for no restriction.</td></tr><tr><td><code>languageCode</code></td><td>string</td><td>optional</td><td>Language for the Google interface/UI itself (hl parameter). E.g. &#x27;en&#x27;, &#x27;de&#x27;, &#x27;fr&#x27;, &#x27;es&#x27;. Leave empty for default. This does NOT restrict which language the matched pages are written in - use &#x27;Restrict results language&#x27; for that.</td></tr><tr><td><code>restrictResultsLanguage</code></td><td>string</td><td>optional</td><td>Only return results for pages written in this language, regardless of the UI language above (Google&#x27;s &#x27;lr&#x27; parameter). Enter a bare language code like &#x27;en&#x27; or &#x27;de&#x27;. To match documents in any of several languages, separate codes with a comma, e.g. &#x27;en,fr&#x27; (sent to Google as an OR: lang_en|lang_fr). Leave empty for no restriction.</td></tr><tr><td><code>maxPagesPerQuery</code></td><td>integer</td><td>optional</td><td>Maximum number of search result pages to crawl per query. More pages means more results but slower execution.</td></tr><tr><td><code>resultsPerPage</code></td><td>integer</td><td>optional</td><td>Number of results per page (Google &#x27;num&#x27; parameter). Allowed values: 10, 20, 30, 40, 50, 100. Google has largely stopped honoring this for organic results since late 2023 and typically still returns roughly 7-10 organic results per page fetch regardless of this setting - use Max Pages Per Query to fetch more results instead.</td></tr><tr><td><code>timePeriod</code></td><td>string</td><td>optional</td><td>Filter results by time period. Leave empty for any time.</td></tr><tr><td><code>safeSearch</code></td><td>string</td><td>optional</td><td>Filter explicit content from results (Google&#x27;s safe= parameter). Leave empty for the account/default setting.</td></tr><tr><td><code>mobileResults</code></td><td>boolean</td><td>optional</td><td>If enabled, returns results for the mobile version of Google Search. Desktop results are returned by default.</td></tr><tr><td><code>forceAiOverviewCapture</code></td><td>boolean</td><td>optional</td><td>If enabled, forces every fetch into a slower, JavaScript-rendering mode and waits specifically for Google&#x27;s AI Overview to finish loading, so &#x27;aiOverview&#x27; can actually populate. By default the actor uses a fast fetch mode that never runs Google&#x27;s JavaScript, so &#x27;aiOverview&#x27; is almost always null regardless of whether Google shows one for your query - leaving this off means you should not expect AI Overview data. Turning it on makes each request noticeably slower and more resource-intensive, and it is still not a guarantee: Google may genuinely not render an AI Overview for a given query. For best results with this option, set Proxy Configuration to the Web Unblocker group. If that fetch fails, the actor falls back to the default fetch mode so other results are still returned, with &#x27;aiOverview&#x27; left null.</td></tr><tr><td><code>csvFriendlyOutput</code></td><td>boolean</td><td>optional</td><td>If enabled, outputs one organic/paid result per row instead of one SERP page per row. Suitable for CSV/Excel export. This is a lossy reshape: organic rows carry query, page, type, position, title, url, displayedUrl, snippet, siteLinks; paid rows carry query, page, type, title, url. AI Overview, knowledge panel, People Also Ask, related queries, local pack, top stories, sports table, and all opt-in extra boxes (weather, time zone, currency/unit converter, jobs, videos, shopping) are NOT included in any row - use the default JSON output if you need that data.</td></tr><tr><td><code>includeExtraBoxes</code></td><td>boolean</td><td>optional</td><td>If enabled, also extracts weather, time-zone, currency converter, unit converter, stock, jobs pack, video pack, shopping pack, and dictionary boxes when present on the results page.</td></tr><tr><td><code>proxyConfiguration</code></td><td>object</td><td>optional</td><td>Choose Apify proxy settings. Leave unset and the scraper automatically tries Google SERP, then RESIDENTIAL, then Apify Web Unblocker, then your account default - the GOOGLE_SERP and RESIDENTIAL attempts are automatically steered to an exit IP in your Country (or, if Country is left empty, the country derived from Precise Location/uule) so the proxy&#x27;s real geolocation lines up with what you asked Google for instead of fighting it. This automatic steering only applies to the default chain; if you set a custom Proxy configuration here yourself (e.g. pinning apifyProxyGroups), set its own apifyProxyCountry too if geo-targeting matters.</td></tr><tr><td><code>uule</code></td><td>string</td><td>optional</td><td>Optional Google-encoded location string for city-level geo-targeting, more precise than Country when honored. It encodes a canonical place name (e.g. &#x27;New York,New York,United States&#x27;) as the literal prefix &#x27;w+CAIQICI&#x27; followed by base64 - example for New York: w+CAIQICIH05ldyBZb3JrLE5ldyBZb3JrLFVuaXRlZCBTdGF0ZXM=. Easiest way to get one for your city: paste its canonical name (as it appears in Google Ads Geo Targets, e.g. https://developers.google.com/google-ads/api/data/geotargets) into a third-party uule builder such as valentin.app/uule.html and copy the resulting string starting with &#x27;w+CAIQICI&#x27;. If Country above is left empty, its country is automatically derived from this value and used for both the gl signal and proxy-country steering, so you don&#x27;t need to set both fields redundantly for the same location. Caveat: Google does not always honor this parameter even so - country-level targeting is reliable, but city-level precision beyond the country match is best-effort and its hit rate varies noticeably by city/region in our testing: it can fall back to the proxy IP&#x27;s actual geographic location (which can be a different city or region, sometimes far from the encoded one) instead of the encoded one. Treat uule as a best-effort hint, not a guarantee, and spot-check results rather than assuming they reflect the targeted city. Leave empty to use Country only.</td></tr><tr><td><code>dateFrom</code></td><td>string</td><td>optional</td><td>Only include results published on or after this date (YYYY-MM-DD). Must be used together with Date to.</td></tr><tr><td><code>dateTo</code></td><td>string</td><td>optional</td><td>Only include results published on or before this date (YYYY-MM-DD). Must be used together with Date from.</td></tr><tr><td><code>exactPhrase</code></td><td>boolean</td><td>optional</td><td>If enabled, wraps each query in quotes so Google matches it as an exact phrase (e.g. &quot;running shoes&quot;) instead of matching the words independently and in any order.</td></tr><tr><td><code>site</code></td><td>string</td><td>optional</td><td>Restrict results to this domain, e.g. nike.com. Unlike the other operators below, this one is verified: every organic result is checked against this domain and off-domain results Google slips in are dropped.</td></tr><tr><td><code>intitle</code></td><td>string</td><td>optional</td><td>Restrict results to pages that contain this word in the title, e.g. running. Sent to Google as-is; unlike Site above, results are not verified against it, so Google may still include pages that don&#x27;t actually match.</td></tr><tr><td><code>intext</code></td><td>string</td><td>optional</td><td>Restrict results to pages that contain this word in the body text, e.g. discount. Sent to Google as-is; unlike Site above, results are not verified against it, so Google may still include pages that don&#x27;t actually match.</td></tr><tr><td><code>inurl</code></td><td>string</td><td>optional</td><td>Restrict results to pages that contain this word in the URL, e.g. blog. Sent to Google as-is; unlike Site above, results are not verified against it, so Google may still include pages that don&#x27;t actually match.</td></tr><tr><td><code>fileType</code></td><td>string</td><td>optional</td><td>e.g. pdf, doc, xls. Sent to Google as-is; unlike Site above, results are not verified against it, so Google may still include pages that don&#x27;t actually match.</td></tr><tr><td><code>excludeTerms</code></td><td>string</td><td>optional</td><td>Words to exclude from results by prefixing them with &#x27;-&#x27;, e.g. jaguar. Separate multiple words with a comma or space, e.g. &#x27;jaguar, cats&#x27;.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Scrape Google Search result pages and extract organic results, ads, related queries, and People Also Ask. Supports country/language targeting, time filters, and pagination.&quot;,
+  &quot;properties&quot;: {
+    &quot;countryCode&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Country for the search. Determines the Google domain and the searcher-location (gl) signal sent to Google, and is also used to steer the automatic GOOGLE_SERP/RESIDENTIAL proxy chain toward an exit IP in that country (skipped only if you set a custom Proxy configuration below). Leave empty for US (google.com); if Precise Location (uule) is set and this is left empty, the country is instead derived from the uule value itself.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;us&quot;,
+        &quot;uk&quot;,
+        &quot;ca&quot;,
+        &quot;au&quot;,
+        &quot;de&quot;,
+        &quot;fr&quot;,
+        &quot;es&quot;,
+        &quot;it&quot;,
+        &quot;br&quot;,
+        &quot;mx&quot;,
+        &quot;in&quot;,
+        &quot;jp&quot;,
+        &quot;kr&quot;,
+        &quot;nl&quot;,
+        &quot;be&quot;,
+        &quot;at&quot;,
+        &quot;ch&quot;,
+        &quot;se&quot;,
+        &quot;no&quot;,
+        &quot;dk&quot;,
+        &quot;fi&quot;,
+        &quot;pl&quot;,
+        &quot;cz&quot;,
+        &quot;pt&quot;,
+        &quot;ie&quot;,
+        &quot;nz&quot;,
+        &quot;za&quot;,
+        &quot;sg&quot;,
+        &quot;hk&quot;,
+        &quot;tw&quot;,
+        &quot;ph&quot;,
+        &quot;th&quot;,
+        &quot;id&quot;,
+        &quot;my&quot;,
+        &quot;vn&quot;,
+        &quot;ar&quot;,
+        &quot;cl&quot;,
+        &quot;co&quot;,
+        &quot;pe&quot;,
+        &quot;tr&quot;,
+        &quot;ru&quot;,
+        &quot;ua&quot;,
+        &quot;il&quot;,
+        &quot;ae&quot;,
+        &quot;sa&quot;,
+        &quot;eg&quot;,
+        &quot;ng&quot;,
+        &quot;ke&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;United States (default)&quot;,
+        &quot;United States&quot;,
+        &quot;United Kingdom&quot;,
+        &quot;Canada&quot;,
+        &quot;Australia&quot;,
+        &quot;Germany&quot;,
+        &quot;France&quot;,
+        &quot;Spain&quot;,
+        &quot;Italy&quot;,
+        &quot;Brazil&quot;,
+        &quot;Mexico&quot;,
+        &quot;India&quot;,
+        &quot;Japan&quot;,
+        &quot;South Korea&quot;,
+        &quot;Netherlands&quot;,
+        &quot;Belgium&quot;,
+        &quot;Austria&quot;,
+        &quot;Switzerland&quot;,
+        &quot;Sweden&quot;,
+        &quot;Norway&quot;,
+        &quot;Denmark&quot;,
+        &quot;Finland&quot;,
+        &quot;Poland&quot;,
+        &quot;Czech Republic&quot;,
+        &quot;Portugal&quot;,
+        &quot;Ireland&quot;,
+        &quot;New Zealand&quot;,
+        &quot;South Africa&quot;,
+        &quot;Singapore&quot;,
+        &quot;Hong Kong&quot;,
+        &quot;Taiwan&quot;,
+        &quot;Philippines&quot;,
+        &quot;Thailand&quot;,
+        &quot;Indonesia&quot;,
+        &quot;Malaysia&quot;,
+        &quot;Vietnam&quot;,
+        &quot;Argentina&quot;,
+        &quot;Chile&quot;,
+        &quot;Colombia&quot;,
+        &quot;Peru&quot;,
+        &quot;Turkey&quot;,
+        &quot;Russia&quot;,
+        &quot;Ukraine&quot;,
+        &quot;Israel&quot;,
+        &quot;UAE&quot;,
+        &quot;Saudi Arabia&quot;,
+        &quot;Egypt&quot;,
+        &quot;Nigeria&quot;,
+        &quot;Kenya&quot;
+      ],
+      &quot;title&quot;: &quot;Country&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;csvFriendlyOutput&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;If enabled, outputs one organic/paid result per row instead of one SERP page per row. Suitable for CSV/Excel export. This is a lossy reshape: organic rows carry query, page, type, position, title, url, displayedUrl, snippet, siteLinks; paid rows carry query, page, type, title, url. AI Overview, knowledge panel, People Also Ask, related queries, local pack, top stories, sports table, and all opt-in extra boxes (weather, time zone, currency/unit converter, jobs, videos, shopping) are NOT included in any row - use the default JSON output if you need that data.&quot;,
+      &quot;title&quot;: &quot;CSV Friendly Output (1 result per row)&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;dateFrom&quot;: {
+      &quot;description&quot;: &quot;Only include results published on or after this date (YYYY-MM-DD). Must be used together with Date to.&quot;,
+      &quot;editor&quot;: &quot;datepicker&quot;,
+      &quot;title&quot;: &quot;Date from&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;dateTo&quot;: {
+      &quot;description&quot;: &quot;Only include results published on or before this date (YYYY-MM-DD). Must be used together with Date from.&quot;,
+      &quot;editor&quot;: &quot;datepicker&quot;,
+      &quot;title&quot;: &quot;Date to&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;exactPhrase&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;If enabled, wraps each query in quotes so Google matches it as an exact phrase (e.g. \&quot;running shoes\&quot;) instead of matching the words independently and in any order.&quot;,
+      &quot;title&quot;: &quot;Exact phrase match&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;excludeTerms&quot;: {
+      &quot;description&quot;: &quot;Words to exclude from results by prefixing them with &#x27;-&#x27;, e.g. jaguar. Separate multiple words with a comma or space, e.g. &#x27;jaguar, cats&#x27;.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Exclude terms (-word operator)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;fileType&quot;: {
+      &quot;description&quot;: &quot;e.g. pdf, doc, xls. Sent to Google as-is; unlike Site above, results are not verified against it, so Google may still include pages that don&#x27;t actually match.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;File type (filetype: operator)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;forceAiOverviewCapture&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;If enabled, forces every fetch into a slower, JavaScript-rendering mode and waits specifically for Google&#x27;s AI Overview to finish loading, so &#x27;aiOverview&#x27; can actually populate. By default the actor uses a fast fetch mode that never runs Google&#x27;s JavaScript, so &#x27;aiOverview&#x27; is almost always null regardless of whether Google shows one for your query - leaving this off means you should not expect AI Overview data. Turning it on makes each request noticeably slower and more resource-intensive, and it is still not a guarantee: Google may genuinely not render an AI Overview for a given query. For best results with this option, set Proxy Configuration to the Web Unblocker group. If that fetch fails, the actor falls back to the default fetch mode so other results are still returned, with &#x27;aiOverview&#x27; left null.&quot;,
+      &quot;title&quot;: &quot;Force AI Overview capture (slower)&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeExtraBoxes&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;If enabled, also extracts weather, time-zone, currency converter, unit converter, stock, jobs pack, video pack, shopping pack, and dictionary boxes when present on the results page.&quot;,
+      &quot;title&quot;: &quot;Include extra info boxes (weather, time zone, currency/unit converter, stock, jobs, videos, shopping, dictionary)&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;intext&quot;: {
+      &quot;description&quot;: &quot;Restrict results to pages that contain this word in the body text, e.g. discount. Sent to Google as-is; unlike Site above, results are not verified against it, so Google may still include pages that don&#x27;t actually match.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Word in text (intext: operator)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;intitle&quot;: {
+      &quot;description&quot;: &quot;Restrict results to pages that contain this word in the title, e.g. running. Sent to Google as-is; unlike Site above, results are not verified against it, so Google may still include pages that don&#x27;t actually match.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Word in title (intitle: operator)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;inurl&quot;: {
+      &quot;description&quot;: &quot;Restrict results to pages that contain this word in the URL, e.g. blog. Sent to Google as-is; unlike Site above, results are not verified against it, so Google may still include pages that don&#x27;t actually match.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Word in URL (inurl: operator)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;languageCode&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Language for the Google interface/UI itself (hl parameter). E.g. &#x27;en&#x27;, &#x27;de&#x27;, &#x27;fr&#x27;, &#x27;es&#x27;. Leave empty for default. This does NOT restrict which language the matched pages are written in - use &#x27;Restrict results language&#x27; for that.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Language&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;maxPagesPerQuery&quot;: {
+      &quot;default&quot;: 1,
+      &quot;description&quot;: &quot;Maximum number of search result pages to crawl per query. More pages means more results but slower execution.&quot;,
+      &quot;maximum&quot;: 10,
+      &quot;minimum&quot;: 1,
+      &quot;title&quot;: &quot;Max Pages Per Query&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxResults&quot;: {
+      &quot;default&quot;: 100,
+      &quot;description&quot;: &quot;Maximum number of organic results to return per search query.&quot;,
+      &quot;maximum&quot;: 200,
+      &quot;minimum&quot;: 1,
+      &quot;title&quot;: &quot;Max Results Per Query&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mobileResults&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;If enabled, returns results for the mobile version of Google Search. Desktop results are returned by default.&quot;,
+      &quot;title&quot;: &quot;Mobile Results&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;proxyConfiguration&quot;: {
+      &quot;description&quot;: &quot;Choose Apify proxy settings. Leave unset and the scraper automatically tries Google SERP, then RESIDENTIAL, then Apify Web Unblocker, then your account default - the GOOGLE_SERP and RESIDENTIAL attempts are automatically steered to an exit IP in your Country (or, if Country is left empty, the country derived from Precise Location/uule) so the proxy&#x27;s real geolocation lines up with what you asked Google for instead of fighting it. This automatic steering only applies to the default chain; if you set a custom Proxy configuration here yourself (e.g. pinning apifyProxyGroups), set its own apifyProxyCountry too if geo-targeting matters.&quot;,
+      &quot;editor&quot;: &quot;proxy&quot;,
+      &quot;prefill&quot;: {
+        &quot;apifyProxyGroups&quot;: [
+          &quot;GOOGLE_SERP&quot;
+        ],
+        &quot;useApifyProxy&quot;: true
+      },
+      &quot;title&quot;: &quot;Proxy configuration&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;queries&quot;: {
+      &quot;description&quot;: &quot;List of Google Search queries. Each query will be searched separately and results combined in the output. Blank/whitespace-only entries are dropped before searching (a warning is logged with the count).&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;minItems&quot;: 1,
+      &quot;prefill&quot;: [
+        &quot;Hotels in NYC&quot;
+      ],
+      &quot;title&quot;: &quot;Search Queries&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;restrictResultsCountry&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Only return pages whose content originates from/targets this country (Google&#x27;s cr parameter). This is different from Country above (which only sets the searcher&#x27;s location/gl and the Google domain) - e.g. set this to Germany to only get results from German sites regardless of which Google domain or Country is used above. Leave empty for no restriction.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;us&quot;,
+        &quot;uk&quot;,
+        &quot;ca&quot;,
+        &quot;au&quot;,
+        &quot;de&quot;,
+        &quot;fr&quot;,
+        &quot;es&quot;,
+        &quot;it&quot;,
+        &quot;br&quot;,
+        &quot;mx&quot;,
+        &quot;in&quot;,
+        &quot;jp&quot;,
+        &quot;kr&quot;,
+        &quot;nl&quot;,
+        &quot;be&quot;,
+        &quot;at&quot;,
+        &quot;ch&quot;,
+        &quot;se&quot;,
+        &quot;no&quot;,
+        &quot;dk&quot;,
+        &quot;fi&quot;,
+        &quot;pl&quot;,
+        &quot;cz&quot;,
+        &quot;pt&quot;,
+        &quot;ie&quot;,
+        &quot;nz&quot;,
+        &quot;za&quot;,
+        &quot;sg&quot;,
+        &quot;hk&quot;,
+        &quot;tw&quot;,
+        &quot;ph&quot;,
+        &quot;th&quot;,
+        &quot;id&quot;,
+        &quot;my&quot;,
+        &quot;vn&quot;,
+        &quot;ar&quot;,
+        &quot;cl&quot;,
+        &quot;co&quot;,
+        &quot;pe&quot;,
+        &quot;tr&quot;,
+        &quot;ru&quot;,
+        &quot;ua&quot;,
+        &quot;il&quot;,
+        &quot;ae&quot;,
+        &quot;sa&quot;,
+        &quot;eg&quot;,
+        &quot;ng&quot;,
+        &quot;ke&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any country (default)&quot;,
+        &quot;United States&quot;,
+        &quot;United Kingdom&quot;,
+        &quot;Canada&quot;,
+        &quot;Australia&quot;,
+        &quot;Germany&quot;,
+        &quot;France&quot;,
+        &quot;Spain&quot;,
+        &quot;Italy&quot;,
+        &quot;Brazil&quot;,
+        &quot;Mexico&quot;,
+        &quot;India&quot;,
+        &quot;Japan&quot;,
+        &quot;South Korea&quot;,
+        &quot;Netherlands&quot;,
+        &quot;Belgium&quot;,
+        &quot;Austria&quot;,
+        &quot;Switzerland&quot;,
+        &quot;Sweden&quot;,
+        &quot;Norway&quot;,
+        &quot;Denmark&quot;,
+        &quot;Finland&quot;,
+        &quot;Poland&quot;,
+        &quot;Czech Republic&quot;,
+        &quot;Portugal&quot;,
+        &quot;Ireland&quot;,
+        &quot;New Zealand&quot;,
+        &quot;South Africa&quot;,
+        &quot;Singapore&quot;,
+        &quot;Hong Kong&quot;,
+        &quot;Taiwan&quot;,
+        &quot;Philippines&quot;,
+        &quot;Thailand&quot;,
+        &quot;Indonesia&quot;,
+        &quot;Malaysia&quot;,
+        &quot;Vietnam&quot;,
+        &quot;Argentina&quot;,
+        &quot;Chile&quot;,
+        &quot;Colombia&quot;,
+        &quot;Peru&quot;,
+        &quot;Turkey&quot;,
+        &quot;Russia&quot;,
+        &quot;Ukraine&quot;,
+        &quot;Israel&quot;,
+        &quot;UAE&quot;,
+        &quot;Saudi Arabia&quot;,
+        &quot;Egypt&quot;,
+        &quot;Nigeria&quot;,
+        &quot;Kenya&quot;
+      ],
+      &quot;title&quot;: &quot;Restrict results to country (cr)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;restrictResultsLanguage&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Only return results for pages written in this language, regardless of the UI language above (Google&#x27;s &#x27;lr&#x27; parameter). Enter a bare language code like &#x27;en&#x27; or &#x27;de&#x27;. To match documents in any of several languages, separate codes with a comma, e.g. &#x27;en,fr&#x27; (sent to Google as an OR: lang_en|lang_fr). Leave empty for no restriction.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Restrict results language (lr)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;resultsPerPage&quot;: {
+      &quot;default&quot;: 10,
+      &quot;description&quot;: &quot;Number of results per page (Google &#x27;num&#x27; parameter). Allowed values: 10, 20, 30, 40, 50, 100. Google has largely stopped honoring this for organic results since late 2023 and typically still returns roughly 7-10 organic results per page fetch regardless of this setting - use Max Pages Per Query to fetch more results instead.&quot;,
+      &quot;maximum&quot;: 100,
+      &quot;minimum&quot;: 10,
+      &quot;title&quot;: &quot;Results Per Page&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;safeSearch&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Filter explicit content from results (Google&#x27;s safe= parameter). Leave empty for the account/default setting.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;active&quot;,
+        &quot;off&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Default&quot;,
+        &quot;Filter explicit results (active)&quot;,
+        &quot;Do not filter (off)&quot;
+      ],
+      &quot;title&quot;: &quot;SafeSearch filter&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;site&quot;: {
+      &quot;description&quot;: &quot;Restrict results to this domain, e.g. nike.com. Unlike the other operators below, this one is verified: every organic result is checked against this domain and off-domain results Google slips in are dropped.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Site (site: operator)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;timePeriod&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Filter results by time period. Leave empty for any time.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;hour&quot;,
+        &quot;day&quot;,
+        &quot;week&quot;,
+        &quot;month&quot;,
+        &quot;year&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any time&quot;,
+        &quot;Past hour&quot;,
+        &quot;Past 24 hours&quot;,
+        &quot;Past week&quot;,
+        &quot;Past month&quot;,
+        &quot;Past year&quot;
+      ],
+      &quot;title&quot;: &quot;Time Period&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;uule&quot;: {
+      &quot;description&quot;: &quot;Optional Google-encoded location string for city-level geo-targeting, more precise than Country when honored. It encodes a canonical place name (e.g. &#x27;New York,New York,United States&#x27;) as the literal prefix &#x27;w+CAIQICI&#x27; followed by base64 - example for New York: w+CAIQICIH05ldyBZb3JrLE5ldyBZb3JrLFVuaXRlZCBTdGF0ZXM=. Easiest way to get one for your city: paste its canonical name (as it appears in Google Ads Geo Targets, e.g. https://developers.google.com/google-ads/api/data/geotargets) into a third-party uule builder such as valentin.app/uule.html and copy the resulting string starting with &#x27;w+CAIQICI&#x27;. If Country above is left empty, its country is automatically derived from this value and used for both the gl signal and proxy-country steering, so you don&#x27;t need to set both fields redundantly for the same location. Caveat: Google does not always honor this parameter even so - country-level targeting is reliable, but city-level precision beyond the country match is best-effort and its hit rate varies noticeably by city/region in our testing: it can fall back to the proxy IP&#x27;s actual geographic location (which can be a different city or region, sometimes far from the encoded one) instead of the encoded one. Treat uule as a best-effort hint, not a guarantee, and spot-check results rather than assuming they reflect the targeted city. Leave empty to use Country only.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Precise location (uule)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;queries&quot;
+  ],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Google Search Results (SERP) Scraper Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>results</code></td><td>string</td><td>optional</td><td>Dataset with scraped SERP data</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;One record per search query/page with organic results, AI Overview, People Also Ask, local pack, related queries, and paid results.&quot;,
+  &quot;properties&quot;: {
+    &quot;results&quot;: {
+      &quot;description&quot;: &quot;Dataset with scraped SERP data&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Google Search Results Scraper: Organic &amp; SERP Boxes Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;title&quot;: &quot;Google Search Results&quot;,
+  &quot;views&quot;: {
+    &quot;detailed&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;aiOverview&quot;: {
+            &quot;format&quot;: &quot;object&quot;,
+            &quot;label&quot;: &quot;AI Overview&quot;
+          },
+          &quot;hasNextPage&quot;: {
+            &quot;format&quot;: &quot;boolean&quot;,
+            &quot;label&quot;: &quot;Has Next Page&quot;
+          },
+          &quot;knowledgePanel&quot;: {
+            &quot;format&quot;: &quot;object&quot;,
+            &quot;label&quot;: &quot;Knowledge Panel&quot;
+          },
+          &quot;localPack&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Local Pack&quot;
+          },
+          &quot;organicResults&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Organic Results&quot;
+          },
+          &quot;paidResults&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Paid Results&quot;
+          },
+          &quot;peopleAlsoAsk&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;People Also Ask&quot;
+          },
+          &quot;relatedQueries&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Related Queries&quot;
+          },
+          &quot;resultsTotal&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Total Results&quot;
+          },
+          &quot;searchQuery&quot;: {
+            &quot;format&quot;: &quot;object&quot;,
+            &quot;label&quot;: &quot;Search Query&quot;
+          },
+          &quot;sportsTable&quot;: {
+            &quot;format&quot;: &quot;object&quot;,
+            &quot;label&quot;: &quot;Sports Table&quot;
+          },
+          &quot;topStories&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Top Stories&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Detailed View&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;searchQuery&quot;,
+          &quot;hasNextPage&quot;,
+          &quot;resultsTotal&quot;,
+          &quot;organicResults&quot;,
+          &quot;aiOverview&quot;,
+          &quot;knowledgePanel&quot;,
+          &quot;peopleAlsoAsk&quot;,
+          &quot;relatedQueries&quot;,
+          &quot;localPack&quot;,
+          &quot;topStories&quot;,
+          &quot;sportsTable&quot;,
+          &quot;paidResults&quot;
+        ]
+      }
+    },
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;hasNextPage&quot;: {
+            &quot;format&quot;: &quot;boolean&quot;,
+            &quot;label&quot;: &quot;Has Next Page&quot;
+          },
+          &quot;organicResults&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Organic Results&quot;
+          },
+          &quot;resultsTotal&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Total Results&quot;
+          },
+          &quot;searchQuery.countryCode&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Country&quot;
+          },
+          &quot;searchQuery.page&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Page&quot;
+          },
+          &quot;searchQuery.term&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Search Query&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Results Overview&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;searchQuery&quot;,
+          &quot;resultsTotal&quot;,
+          &quot;hasNextPage&quot;,
+          &quot;organicResults&quot;
+        ],
+        &quot;flatten&quot;: [
+          &quot;searchQuery&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-google-search-results-scraper-organic-serp-boxes">Google Search Results Scraper: Organic &amp; SERP Boxes</h2>
+<p>Run any search term through Google and get back a structured breakdown of the results page — not just the ten blue links, but the AI Overview, knowledge panel, People Also Ask, related searches, local pack, top stories, sports tables, and ads that Google surrounds them with. Point it at a list of queries, pick a country and language, and it returns one structured record per query/page.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li>Searches one or more queries across 48 countries with language targeting, time filters, custom date ranges, and city-level geo-targeting</li>
+<li>Extracts organic results with position, title, displayed URL, snippet, and sitelinks, plus every SERP feature box Google renders for that query</li>
+<li>Applies Google search operators (<code>site:</code>, <code>intitle:</code>, <code>intext:</code>, <code>inurl:</code>, <code>filetype:</code>, exclusions, exact phrase) directly in the query</li>
+<li>Supports mobile SERP rendering, multi-page pagination per query, and an optional one-row-per-result CSV layout</li>
+<li>Every feature field is always present in a page record; when Google doesn't render that feature for the query, its value is <code>null</code> rather than a placeholder</li>
+</ul>
+<h2 id="readme-output-per-search-result-page">Output per search result page</h2>
+<p>Each run produces one record per query (per page, if <code>maxPagesPerQuery</code> &gt; 1). Most feature fields are <code>null</code> unless Google actually renders that feature for the query — that's normal, not a bug. Paging stops early once <code>maxResults</code> organic results are collected or Google shows no next page.</p>
+<p><strong>Always attempted:</strong></p>
+<ul>
+<li><code>searchQuery</code> — object with <code>term</code>, <code>page</code>, <code>countryCode</code>, <code>languageCode</code> and <code>resultsPerPage</code> used for this record</li>
+<li><code>organicResults</code> — array of <code>{position, title, url, displayedUrl, snippet, siteLinks}</code>, trimmed so the query never exceeds <code>maxResults</code> in total. <code>url</code> is Google's own redirect link, not the destination; use <code>displayedUrl</code> for the real domain</li>
+<li><code>aiOverview</code> — Google's AI-generated summary text and cited sources, when rendered</li>
+<li><code>knowledgePanel</code> — entity info panel for people, places, or organizations</li>
+<li><code>peopleAlsoAsk</code> — array of related questions (question text only; Google loads answers on click, so they aren't in the static page)</li>
+<li><code>relatedQueries</code> — array of <code>{query, url}</code> suggested searches</li>
+<li><code>localPack</code> — local business/map results, with <code>rating</code>, <code>reviewCount</code>, and <code>address</code> parsed regardless of UI language</li>
+<li><code>topStories</code> — news carousel results</li>
+<li><code>sportsTable</code> — title, headers, and rows for sports-standings-style queries</li>
+<li><code>paidResults</code> — ad slots, when Google renders any for the query (often <code>null</code> even for commercial terms)</li>
+<li><code>resultsTotal</code> — Google's own rough estimate of total matches; expect it to fluctuate between pages of the same query</li>
+<li><code>hasNextPage</code> — whether another results page is available</li>
+</ul>
+<p><strong>Opt-in via <code>includeExtraBoxes</code>:</strong></p>
+<ul>
+<li><code>weatherBox</code> — temperature, condition, precipitation, humidity, wind, plus the box's raw text</li>
+<li><code>timeZoneBox</code> — local time, date, day of week, and timezone abbreviation for the queried place</li>
+<li><code>currencyConverterBox</code> — from/to amount and currency, exchange rate, and as-of timestamp</li>
+<li><code>unitConverterBox</code> — category, from/to amount and unit, and the conversion formula</li>
+<li><code>jobsPack</code> — job listing title, company, location, and source</li>
+<li><code>videoPack</code> — video carousel title, URL, channel, duration, and position</li>
+<li><code>shoppingPack</code> — product title, price, original price, seller, rating, and review count (no product URL — Google's shopping grid has no real link in the static page)</li>
+<li><code>dictionaryBox</code> — headword, phonetic, part of speech, and one entry per sense with definition and example</li>
+<li><code>stockBox</code> — raw text of a stock-price box when Google renders one (no structured price/change fields, unlike the other boxes above)</li>
+</ul>
+<p><strong>Error rows:</strong> a query that fails outright, or returns nothing because Google blocked every attempt, produces <code>{&quot;type&quot;: &quot;error&quot;, &quot;query&quot;: ..., &quot;reason&quot;: ...}</code> in place of its page records, in both output layouts.</p>
+<p><strong>One-row-per-result CSV mode (<code>csvFriendlyOutput</code>):</strong> reshapes output to one organic or paid result per row with <code>query</code>, <code>page</code>, <code>type</code>, <code>position</code>, <code>title</code>, <code>url</code>, <code>displayedUrl</code>, <code>snippet</code>, <code>siteLinks</code> (organic) or <code>query</code>, <code>page</code>, <code>type</code>, <code>title</code>, <code>url</code> (paid). AI Overview, knowledge panel, and every other box above are not available in this mode — use the default output if you need them.</p>
+<p>Two verticals are currently out of scope and never populated: Images (Google serves placeholder image data, not real URLs, in the static page) and Flights.</p>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>queries</code></td>
+<td>array</td>
+<td>–</td>
+<td>Search terms to run; each is searched separately.</td>
+</tr>
+<tr>
+<td><code>maxResults</code></td>
+<td>integer</td>
+<td><code>100</code></td>
+<td>Maximum organic results per query (1–200).</td>
+</tr>
+<tr>
+<td><code>countryCode</code></td>
+<td>string</td>
+<td><em>(empty = United States)</em></td>
+<td>Country for the Google domain and searcher-location signal.</td>
+</tr>
+<tr>
+<td><code>restrictResultsCountry</code></td>
+<td>string</td>
+<td><em>(empty = any)</em></td>
+<td>Only return pages targeting this country (Google's <code>cr</code> parameter), independent of <code>countryCode</code>.</td>
+</tr>
+<tr>
+<td><code>languageCode</code></td>
+<td>string</td>
+<td><em>(empty)</em></td>
+<td>UI language for the Google interface itself (e.g. <code>en</code>, <code>de</code>).</td>
+</tr>
+<tr>
+<td><code>restrictResultsLanguage</code></td>
+<td>string</td>
+<td><em>(empty = any)</em></td>
+<td>Only return pages written in this language (e.g. <code>en</code> or <code>en,fr</code> for either).</td>
+</tr>
+<tr>
+<td><code>maxPagesPerQuery</code></td>
+<td>integer</td>
+<td><code>1</code></td>
+<td>Result pages to fetch per query (1–10).</td>
+</tr>
+<tr>
+<td><code>resultsPerPage</code></td>
+<td>integer</td>
+<td><code>10</code></td>
+<td>Requested results per page (10–100, snapped to Google's supported values). Google often still returns ~7–10 organic results per fetch regardless; use <code>maxPagesPerQuery</code> for more.</td>
+</tr>
+<tr>
+<td><code>timePeriod</code></td>
+<td>string</td>
+<td><em>(empty = any time)</em></td>
+<td><code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code>, or <code>year</code>.</td>
+</tr>
+<tr>
+<td><code>safeSearch</code></td>
+<td>string</td>
+<td><em>(empty = account default)</em></td>
+<td><code>active</code> to filter explicit content, <code>off</code> to not filter.</td>
+</tr>
+<tr>
+<td><code>mobileResults</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Fetch the mobile SERP instead of desktop. Organic-result extraction on mobile is experimental.</td>
+</tr>
+<tr>
+<td><code>forceAiOverviewCapture</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Wait specifically for the AI Overview box to render before reading the page (slower, best-effort).</td>
+</tr>
+<tr>
+<td><code>csvFriendlyOutput</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Output one organic/paid result per row instead of one SERP page per row.</td>
+</tr>
+<tr>
+<td><code>includeExtraBoxes</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Also extract weather, time zone, currency/unit converter, jobs, videos, shopping, and dictionary boxes.</td>
+</tr>
+<tr>
+<td><code>proxyConfiguration</code></td>
+<td>object</td>
+<td>–</td>
+<td>Optional (prefilled with the Google SERP proxy group). Left empty or at the prefilled value, the actor picks suitable proxies itself; any other setting is used as given.</td>
+</tr>
+<tr>
+<td><code>uule</code></td>
+<td>string</td>
+<td><em>(empty)</em></td>
+<td>Google-encoded location string for city-level geo-targeting. Best-effort; country-level targeting is reliable, city-level precision is not guaranteed.</td>
+</tr>
+<tr>
+<td><code>dateFrom</code> / <code>dateTo</code></td>
+<td>string</td>
+<td><em>(empty)</em></td>
+<td>Custom date range (<code>YYYY-MM-DD</code>), must be set together. Overrides <code>timePeriod</code> when both are set.</td>
+</tr>
+<tr>
+<td><code>exactPhrase</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Wrap each query in quotes to match it as an exact phrase.</td>
+</tr>
+<tr>
+<td><code>site</code></td>
+<td>string</td>
+<td><em>(empty)</em></td>
+<td><code>site:</code> operator — results are additionally verified against this domain, and non-matching ones are dropped (positions are renumbered).</td>
+</tr>
+<tr>
+<td><code>intitle</code> / <code>intext</code> / <code>inurl</code> / <code>fileType</code></td>
+<td>string</td>
+<td><em>(empty)</em></td>
+<td>Search operators sent to Google as-is. Only when <code>intitle</code> and <code>intext</code> are both set does the actor drop results that share no words with the query and operators.</td>
+</tr>
+<tr>
+<td><code>excludeTerms</code></td>
+<td>string</td>
+<td><em>(empty)</em></td>
+<td>Words to exclude, comma- or space-separated, applied as <code>-word</code>.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-example-seo-rank-check-with-a-time-filter">Example: SEO rank check with a time filter</h3>
+<pre><code class="language-json">{
+  &quot;queries&quot;: [&quot;best running shoes 2026&quot;, &quot;best running shoes for flat feet&quot;],
+  &quot;countryCode&quot;: &quot;us&quot;,
+  &quot;maxResults&quot;: 50,
+  &quot;maxPagesPerQuery&quot;: 6,
+  &quot;timePeriod&quot;: &quot;month&quot;
+}
+</code></pre>
+<h3 id="readme-example-domain-restricted-research-with-extra-boxes">Example: domain-restricted research with extra boxes</h3>
+<pre><code class="language-json">{
+  &quot;queries&quot;: [&quot;machine learning tutorial&quot;],
+  &quot;site&quot;: &quot;github.com&quot;,
+  &quot;includeExtraBoxes&quot;: true,
+  &quot;maxPagesPerQuery&quot;: 2
+}
+</code></pre>
+<h3 id="readme-example-csv-friendly-export-for-localized-results">Example: CSV-friendly export for localized results</h3>
+<pre><code class="language-json">{
+  &quot;queries&quot;: [&quot;Hotels in NYC&quot;],
+  &quot;countryCode&quot;: &quot;de&quot;,
+  &quot;languageCode&quot;: &quot;de&quot;,
+  &quot;csvFriendlyOutput&quot;: true
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>SEO monitoring</strong> — track ranking position for target keywords across countries and languages over time</li>
+<li><strong>Competitor analysis</strong> — see who occupies the organic and local-pack slots for shared keywords</li>
+<li><strong>Content research</strong> — mine People Also Ask and related queries to plan content around what people actually search</li>
+<li><strong>Local SEO</strong> — pull local-pack results for location-based service queries</li>
+<li><strong>SERP feature tracking</strong> — monitor when Google starts or stops showing an AI Overview, knowledge panel, or shopping pack for a query</li>
+<li><strong>Lead generation</strong> — surface businesses and sites ranking for a target service in a target region</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Is this an official Google product?</strong>
+No. This is an independent, third-party actor that reads publicly available Google Search result pages. It isn't affiliated with, endorsed by, or sponsored by Google.</p>
+<p><strong>How fresh is the data?</strong>
+Every run fetches live results at the moment it runs; there's no caching.</p>
+<p><strong>How many results can I get per query?</strong>
+Up to 200 organic results (<code>maxResults</code>) across up to 10 pages (<code>maxPagesPerQuery</code>). Since Google usually returns about 7–10 organic results per page, reaching high <code>maxResults</code> values also needs a higher <code>maxPagesPerQuery</code>; the default of one page gives roughly 10 results.</p>
+<p><strong>Does it work for non-English searches?</strong>
+Yes. Set <code>countryCode</code> and <code>languageCode</code> for localized results. <code>localPack</code>'s rating, review count, and address, and <code>resultsTotal</code>, are parsed structurally rather than by matching English text, so they populate correctly across many languages and number formats.</p>
+<p><strong>Can I filter by date?</strong>
+Yes, two ways: <code>timePeriod</code> for a relative range, or <code>dateFrom</code>/<code>dateTo</code> for an absolute range (set together). When both are set, the custom range takes priority.</p>
+<p><strong>Why is <code>paidResults</code> often empty?</strong>
+Google renders zero ads for a large share of queries, even commercial ones. Treat it as best-effort; organic, AI Overview, and other fields are unaffected.</p>
+<p><strong>I set <code>site</code> — why did I get fewer results than <code>maxResults</code>?</strong>
+Google only keeps showing matching pages from that domain while it has them; once it runs out it starts slipping in unrelated domains without marking them. This actor checks every result against your domain and drops ones that don't belong, so a smaller but accurate result set is expected once a site's matching pages run out.</p>
+<p><strong>Why is <code>aiOverview</code> usually null?</strong>
+Google injects its AI Overview via client-side JavaScript, which the actor's default fast fetch doesn't render. Enable <code>forceAiOverviewCapture</code> to specifically wait for it — this is slower per query and still best-effort, since Google may genuinely not show an AI Overview for a given query.</p>
+<p><strong>Does the organic <code>url</code> field link straight to the destination site?</strong>
+No — it's Google's own redirect link, and the token inside it isn't decodable back to a destination. Use <code>displayedUrl</code> for the visible domain instead.</p>
+<p><strong>Why do some <code>intitle</code>/<code>intext</code>/<code>inurl</code>/<code>fileType</code> results not actually match?</strong>
+Only <code>site</code> is checked result by result. The other operators are sent to Google as part of the query, and Google doesn't strictly enforce them, so treat them as relevance hints rather than a guarantee. The one extra check: when <code>intitle</code> and <code>intext</code> are used together, results that share no words at all with your query and operators are dropped.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/PlIxbe9L7Qn7c76R7/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>adMFfDpYh30aQ957p</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
