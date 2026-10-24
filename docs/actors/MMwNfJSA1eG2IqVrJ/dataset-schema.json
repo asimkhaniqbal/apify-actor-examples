@@ -2,170 +2,424 @@
   "actorSpecification": 1,
   "fields": {
     "properties": {
-      "currency": {
-        "description": "Currency code (USD, EUR, GBP) derived from price",
+      "availability": {
+        "description": "Availability text.",
         "type": "string"
+      },
+      "badge": {
+        "description": "Observed badge such as Best price or Low price.",
+        "type": "string"
+      },
+      "brand": {
+        "description": "Brand from the product viewer.",
+        "type": "string"
+      },
+      "catalogId": {
+        "description": "Real Google Shopping catalog ID from data-cid; used to build viewer URLs.",
+        "type": "string"
+      },
+      "condition": {
+        "description": "Condition when Google shows one.",
+        "type": "string"
+      },
+      "currency": {
+        "description": "Actual detected currency code. Never relabelled from the requested country.",
+        "type": "string"
+      },
+      "dealFlags": {
+        "description": "Observed deal signals.",
+        "properties": {
+          "bestPrice": {
+            "type": "boolean"
+          },
+          "onSale": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
       },
       "delivery": {
-        "description": "Delivery or shipping info",
-        "nullable": true,
+        "description": "Delivery text.",
         "type": "string"
       },
-      "imageUrl": {
-        "description": "Product thumbnail image URL",
+      "description": {
+        "description": "Product description from the viewer.",
         "type": "string"
       },
-      "isSponsored": {
-        "description": "Whether this is a sponsored/ad result",
+      "discountPercent": {
+        "description": "Observed discount percentage.",
+        "type": "number"
+      },
+      "discussions": {
+        "description": "Forum/discussion links about the product (not product review text).",
+        "items": {
+          "properties": {
+            "source": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "type": "array"
+      },
+      "hasMoreOffers": {
+        "description": "True when Google reports more seller offers than the five on the viewer page.",
         "type": "boolean"
       },
+      "highestPrice": {
+        "description": "Highest price among the offers on the page.",
+        "type": "number"
+      },
+      "imageUrl": {
+        "description": "Primary product image URL.",
+        "type": "string"
+      },
+      "imageUrls": {
+        "description": "Product image URLs from the viewer.",
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "isSponsored": {
+        "description": "True only when an explicit sponsored label was observed. Not a reliable ad classifier.",
+        "type": "boolean"
+      },
+      "lowestPrice": {
+        "description": "Lowest price among the offers on the page.",
+        "type": "number"
+      },
       "merchant": {
-        "description": "Store or merchant name",
+        "description": "Seller or merchant name.",
         "type": "string"
       },
       "merchantUrl": {
-        "description": "Merchant website URL (derived from merchant name when available)",
-        "nullable": true,
+        "description": "Direct seller URL when available; otherwise the Google /goto redirect. Never guessed.",
         "type": "string"
+      },
+      "offerCount": {
+        "description": "Total offer count reported by Google; only the first five offers are available over HTTP.",
+        "type": "integer"
+      },
+      "offers": {
+        "description": "First five seller offers from the product viewer.",
+        "items": {
+          "properties": {
+            "availability": {
+              "type": "string"
+            },
+            "badge": {
+              "type": "string"
+            },
+            "currency": {
+              "type": "string"
+            },
+            "delivery": {
+              "type": "string"
+            },
+            "discountPercent": {
+              "type": "number"
+            },
+            "isBestPrice": {
+              "type": "boolean"
+            },
+            "originalPrice": {
+              "type": "string"
+            },
+            "originalPriceValue": {
+              "type": "number"
+            },
+            "price": {
+              "type": "string"
+            },
+            "priceValue": {
+              "type": "number"
+            },
+            "returns": {
+              "type": "string"
+            },
+            "seller": {
+              "type": "string"
+            },
+            "sellerDomain": {
+              "type": "string"
+            },
+            "sellerId": {
+              "type": "string"
+            },
+            "sellerUrl": {
+              "type": "string"
+            },
+            "shipping": {
+              "type": "string"
+            },
+            "shippingValue": {
+              "type": "number"
+            },
+            "storeRating": {
+              "type": "number"
+            },
+            "storeReviewCount": {
+              "type": "integer"
+            },
+            "title": {
+              "type": "string"
+            },
+            "totalPrice": {
+              "type": "number"
+            },
+            "totalPriceDisplay": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "type": "array"
       },
       "originalPrice": {
-        "description": "Original price before discount, empty if not discounted",
-        "nullable": true,
+        "description": "Original or list price as displayed, when discounted.",
         "type": "string"
       },
+      "originalPriceValue": {
+        "description": "Numeric original price.",
+        "type": "number"
+      },
       "position": {
-        "description": "Position in search results (1-based)",
+        "description": "1-based position in the collected result set.",
         "type": "integer"
       },
       "price": {
-        "description": "Current price with currency symbol (e.g., '$999.00')",
+        "description": "Current price as displayed, including currency symbol or code.",
         "type": "string"
       },
+      "priceHistory": {
+        "description": "Per-seller daily price history for the last 12 months, when Google exposes it.",
+        "items": {
+          "properties": {
+            "currency": {
+              "type": "string"
+            },
+            "points": {
+              "items": {
+                "properties": {
+                  "date": {
+                    "type": "string"
+                  },
+                  "price": {
+                    "type": "number"
+                  }
+                },
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "seller": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "type": "array"
+      },
+      "priceRange": {
+        "description": "Low/high price range across page offers.",
+        "properties": {
+          "currency": {
+            "type": "string"
+          },
+          "high": {
+            "type": "number"
+          },
+          "low": {
+            "type": "number"
+          }
+        },
+        "type": "object"
+      },
+      "priceValue": {
+        "description": "Numeric current price.",
+        "type": "number"
+      },
       "productId": {
-        "description": "Google Shopping unique product identifier",
-        "nullable": true,
+        "description": "Real Google Shopping product ID from data-pid.",
         "type": "string"
       },
       "productUrl": {
-        "description": "Google Shopping search URL for this specific product",
-        "nullable": true,
+        "description": "Real Google Shopping product viewer URL.",
         "type": "string"
       },
       "query": {
-        "description": "The search query used to find this product",
+        "description": "Search query or category/deal query that produced the record.",
         "type": "string"
       },
       "rating": {
-        "description": "Average rating (e.g., '4.5')",
-        "nullable": true,
+        "description": "Product rating as displayed on the search card.",
+        "type": "string"
+      },
+      "ratingValue": {
+        "description": "Numeric product rating.",
+        "type": "number"
+      },
+      "recordType": {
+        "description": "searchResult or product.",
+        "type": "string"
+      },
+      "returns": {
+        "description": "Returns policy text.",
         "type": "string"
       },
       "reviewCount": {
-        "description": "Number of reviews (e.g., '1,234')",
-        "nullable": true,
+        "description": "Product review count as displayed on the search card.",
         "type": "string"
       },
+      "reviewCountValue": {
+        "description": "Numeric product review count.",
+        "type": "integer"
+      },
       "scrapedAt": {
-        "description": "ISO 8601 timestamp when scraped",
+        "description": "ISO 8601 collection timestamp.",
         "type": "string"
       },
       "searchUrl": {
-        "description": "The Google Shopping search URL where this result was found",
+        "description": "URL that produced the record.",
         "type": "string"
       },
-      "title": {
-        "description": "Product title",
+      "sellerDomain": {
+        "description": "Seller domain when Google exposes it.",
         "type": "string"
+      },
+      "shipping": {
+        "description": "Shipping text (e.g. Free).",
+        "type": "string"
+      },
+      "shippingValue": {
+        "description": "Numeric shipping cost when known.",
+        "type": "number"
+      },
+      "specifications": {
+        "description": "Product specifications from the viewer.",
+        "items": {
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "type": "array"
+      },
+      "title": {
+        "description": "Product title.",
+        "type": "string"
+      },
+      "typicalPriceRange": {
+        "description": "Typical price range reported by Google, when shown.",
+        "properties": {
+          "currency": {
+            "type": "string"
+          },
+          "display": {
+            "type": "string"
+          },
+          "high": {
+            "type": "number"
+          },
+          "low": {
+            "type": "number"
+          }
+        },
+        "type": "object"
+      },
+      "variants": {
+        "description": "Product variants exposed by the viewer.",
+        "items": {
+          "properties": {
+            "currency": {
+              "type": "string"
+            },
+            "imageUrl": {
+              "type": "string"
+            },
+            "price": {
+              "type": "string"
+            },
+            "priceValue": {
+              "type": "number"
+            },
+            "productUrl": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "type": "array"
       }
     },
     "type": "object"
   },
-  "title": "Google Shopping Products",
+  "title": "Google Shopping Products, Offers and Price History",
   "views": {
-    "detailed": {
+    "offers": {
       "display": {
         "component": "table",
         "properties": {
-          "currency": {
+          "highestPrice": {
+            "format": "number",
+            "label": "Highest"
+          },
+          "lowestPrice": {
+            "format": "number",
+            "label": "Lowest"
+          },
+          "offerCount": {
+            "format": "number",
+            "label": "Offers"
+          },
+          "offers": {
             "format": "text",
-            "label": "Currency"
+            "label": "Page Offers"
           },
-          "delivery": {
+          "priceHistory": {
             "format": "text",
-            "label": "Delivery"
-          },
-          "imageUrl": {
-            "format": "link",
-            "label": "Image"
-          },
-          "isSponsored": {
-            "format": "text",
-            "label": "Sponsored"
-          },
-          "merchant": {
-            "format": "text",
-            "label": "Merchant"
-          },
-          "merchantUrl": {
-            "format": "link",
-            "label": "Merchant URL"
-          },
-          "originalPrice": {
-            "format": "text",
-            "label": "Was"
-          },
-          "price": {
-            "format": "text",
-            "label": "Price"
-          },
-          "productId": {
-            "format": "text",
-            "label": "Product ID"
+            "label": "History"
           },
           "productUrl": {
             "format": "link",
-            "label": "Product URL"
-          },
-          "query": {
-            "format": "text",
-            "label": "Query"
-          },
-          "rating": {
-            "format": "text",
-            "label": "Rating"
-          },
-          "reviewCount": {
-            "format": "text",
-            "label": "Reviews"
-          },
-          "scrapedAt": {
-            "format": "text",
-            "label": "Scraped At"
+            "label": "Viewer"
           },
           "title": {
             "format": "text",
             "label": "Product"
+          },
+          "typicalPriceRange": {
+            "format": "text",
+            "label": "Typical"
           }
         }
       },
-      "title": "Detailed Results",
+      "title": "Offers and Price History",
       "transformation": {
         "fields": [
-          "query",
           "title",
-          "price",
-          "originalPrice",
-          "merchant",
-          "merchantUrl",
-          "rating",
-          "reviewCount",
-          "delivery",
-          "isSponsored",
-          "imageUrl",
-          "productId",
-          "productUrl",
-          "currency",
-          "scrapedAt"
+          "offerCount",
+          "lowestPrice",
+          "highestPrice",
+          "typicalPriceRange",
+          "offers",
+          "priceHistory",
+          "productUrl"
         ]
       }
     },
@@ -173,9 +427,9 @@
       "display": {
         "component": "table",
         "properties": {
-          "imageUrl": {
-            "format": "link",
-            "label": "Image"
+          "currency": {
+            "format": "text",
+            "label": "Currency"
           },
           "merchant": {
             "format": "text",
@@ -197,6 +451,10 @@
             "format": "text",
             "label": "Rating"
           },
+          "recordType": {
+            "format": "text",
+            "label": "Type"
+          },
           "reviewCount": {
             "format": "text",
             "label": "Reviews"
@@ -214,10 +472,11 @@
           "position",
           "title",
           "price",
+          "currency",
           "merchant",
           "rating",
           "reviewCount",
-          "imageUrl"
+          "recordType"
         ]
       }
     }

@@ -4,117 +4,159 @@
 
 # Google Shopping Price Comparison & Deal Finder
 
-Search Google Shopping by keyword and get back structured product listings: current and original price, merchant name, rating, review count, and delivery info — localized to any of 48 countries.
+Collect real Google Shopping data for price comparison and deal monitoring. Search by keyword, open a known product by its Google Shopping ID or viewer URL, browse a department, or pull current deals across 48 countries.
 
-## What this actor does
+Search records use the actual product ID (`data-pid`) and a viewer link built from the catalog or product ID Google returns. Product-mode records carry the numeric ID used in the lookup and a working viewer link. Product records add seller offers with shipping and totals, a price range, specifications, images, variants, and the 12-month per-seller price history when Google exposes it.
 
-- Searches Google Shopping for one or more keyword queries and extracts the listed products
-- Reports both current and original price so discounted items are easy to spot
-- Captures merchant name, rating, review count, and delivery information per listing
-- Localizes results and pricing to any of 48 supported countries and their currency
-- Passes product condition, price range and sort order (relevance, review score, price) to Google Shopping
-- Drops blank fields from each record; `query`, `position`, `title`, `price`, `searchUrl` and `scrapedAt` are always present
+## Modes
 
-## Output per product
+| Mode | What it does | Main input |
+|---|---|---|
+| **search** | Keyword search across Google Shopping results | `queries` |
+| **product** | Opens the product viewer for one or more products | `productIds` |
+| **deals** | Searches Google's deals view | `queries` (optional; defaults to `deals`) |
+| **category** | Browses one of 15 Google Shopping departments | `category` |
 
-- `query` — search query that produced this result
-- `position` — 1-based position on the results page the product was read from
-- `title` — product title
-- `price` — current price with currency symbol (e.g. `"$999.00"`)
-- `originalPrice` — original price when the item is discounted
-- `currency` — currency code (`USD`, `EUR`, `GBP`, etc.)
-- `merchant` — store or merchant name
-- `rating`, `reviewCount` — average rating and number of reviews, as text (e.g. `"4.7"`, `"1203"`)
-- `imageUrl` — product thumbnail image URL
-- `delivery` — delivery info (e.g. `"Free delivery"`), when shown on the result card
-- `isSponsored` — currently always `false`; ads are not told apart from organic listings
-- `productId` — Google Shopping product identifier, when available
-- `productUrl` — link Google gives for the product; when there is none, a Google Shopping search for the product's title
-- `merchantUrl` — the merchant link from the result when one is found; otherwise a homepage guessed from the merchant name for well-known stores (e.g. Best Buy, Walmart) or names that look like a domain
-- `searchUrl` — the Google Shopping search URL that produced this result
-- `scrapedAt` — ISO 8601 collection timestamp
+## What you get
 
-## Input
+**Every record**
 
-| Field | Type | Default | Description |
-|---|---|---|---|
-| `queries` | array of strings | – | **Required.** Product search queries |
-| `maxResultsPerQuery` | integer | `20` | Maximum products to extract per query (1–100) |
-| `countryCode` | string | `us` | Country for localized results and pricing (48 supported) |
-| `languageCode` | string | `en` | Language for results |
-| `sortBy` | string | – | `review_score` / `price_low` / `price_high`; leave empty for relevance |
-| `condition` | string | – | `new` / `used` / `refurbished`; leave empty for any |
-| `minPrice` | integer | – | Minimum price filter, in local currency units |
-| `maxPrice` | integer | – | Maximum price filter, in local currency units |
-| `proxyConfiguration` | object | `GOOGLE_SERP` proxy | The actor picks its own proxies for Google; this setting is only used for the browser-based page loads, and only when set to an Apify proxy group other than `GOOGLE_SERP` |
+- `query`, `position`, `recordType`, `scrapedAt`
+- `title`, `price` (display) and `priceValue` (number)
+- `originalPrice`, `originalPriceValue`, `discountPercent` when discounted
+- `currency` — the currency Google actually served, never relabelled from the requested country
+- `merchant`, `merchantUrl`, `sellerDomain`
+- `rating`, `reviewCount`, `ratingValue`, `reviewCountValue`
+- `delivery`, `shipping`, `availability`, `condition`, `returns`
+- `imageUrl`, `imageUrls`
+- `isSponsored` (true only when a sponsored label is visible)
+- `productId` — real `data-pid` on search/deals/category rows; in product mode it is the ID used in the viewer lookup (a catalog ID when the input is a viewer URL). `catalogId` is the real `data-cid` when Google exposes it.
+- `productUrl` — a real Google Shopping viewer URL
+- `searchUrl`, `hasMoreOffers`, `badge`
 
-### Example: single query, default country
+**Product records and enriched search results**
+
+- `brand`, `description`, `images`, `specifications`, `variants`
+- `offerCount` and `offers` — seller, seller ID, direct seller URL, domain, price, currency, original price, discount, shipping, delivery, total, availability, returns, store rating and review count, badge, best-price flag
+- `lowestPrice`, `highestPrice`, `priceRange`, `typicalPriceRange`
+- `priceHistory` — per-seller daily points with ISO dates
+- `discussions` — forum links about the product (not review text)
+- `dealFlags`
+
+Empty fields are omitted at every depth.
+
+## Inputs
+
+| Field | Default | Description |
+|---|---|---|
+|---|---|
+| `mode` | `search` | `search` (default), `product`, `deals` or `category` |
+| `queries` | – | Keywords for search/deals. Optional in category mode |
+| `productIds` | – | Catalog IDs, product IDs, viewer URLs or legacy product URLs for product mode |
+| `category` | – | One of 15 departments (Electronics, Computers, Cell Phones, ...) |
+| `countryCode` | `us` | 48 countries; sets the Google domain and location hint |
+| `languageCode` | `en` | Result language |
+| `sortBy` | – | Relevance, rating, price low-to-high or high-to-low; applied to the collected rows |
+| `condition` | – | Any, new, used or refurbished |
+| `minPrice` / `maxPrice` | – | Price range in the requested market's currency; rows outside the numeric bounds are dropped. If Google serves another currency, a filtered run can return no rows. |
+| `onSale` | `false` | Keep products with an observed original price or discount |
+| `freeShipping` | `false` | Keep products whose delivery text says free |
+| `minRating` | `0` | 0–5; keeps products at or above the rating |
+| `store` | – | Optional store name to bias and verify |
+| `maxResultsPerQuery` | `20` | 1–200 records per query (or products in product mode) |
+| `includePriceHistory` | `true` | Include the 12-month history when Google exposes it |
+| `includeProductDetails` | `false` | Open the product viewer for each search result (one extra request per result) |
+
+## Examples
+
+Search for one product and include details and history:
 
 ```json
 {
+  "mode": "search",
   "queries": ["iPhone 15 Pro Max"],
-  "maxResultsPerQuery": 10,
+  "maxResultsPerQuery": 5,
   "countryCode": "us",
-  "languageCode": "en"
+  "includeProductDetails": true,
+  "includePriceHistory": true
 }
 ```
 
-### Example: multiple queries
+Look up products by ID or viewer URL:
 
 ```json
 {
-  "queries": ["laptop", "wireless headphones", "running shoes"],
-  "maxResultsPerQuery": 20
+  "mode": "product",
+  "productIds": ["10694224367759637585", "https://www.google.com/search?q=x&ibp=oshop&prds=productid:2457150560515047758,pvt:a"],
+  "countryCode": "ca",
+  "includePriceHistory": true
 }
 ```
 
-### Example: price-filtered, sorted by review score
+Price-filtered, free-shipping deals:
 
 ```json
 {
-  "queries": ["mechanical keyboard"],
-  "sortBy": "review_score",
-  "condition": "new",
-  "minPrice": 50,
-  "maxPrice": 200,
-  "countryCode": "de",
-  "languageCode": "de"
+  "mode": "deals",
+  "queries": ["wireless earbuds"],
+  "minPrice": 20,
+  "maxPrice": 100,
+  "freeShipping": true,
+  "sortBy": "price_low",
+  "countryCode": "uk"
 }
 ```
 
-## Use cases
+Browse a department:
 
-- **Price monitoring** — track a product's price across merchants over time
-- **Competitive analysis** — compare how different sellers price the same product
-- **Market research** — survey pricing patterns and the merchant landscape for a category
-- **Deal detection** — find discounted products by comparing `originalPrice` to `price`
-- **Product catalog building** — assemble a dataset of products with pricing and reviews
+```json
+{
+  "mode": "category",
+  "category": "electronics",
+  "maxResultsPerQuery": 40,
+  "countryCode": "de"
+}
+```
+
+## Coverage and honest limits
+
+- **Up to five offers per product.** Google's product viewer renders at most five offers over the public HTTP path (some products show fewer); `offerCount` often reports many more (209 in sampling). The remaining offers are not available without a browser identity.
+- **About 127 products per query.** Search pages start at 0, 10, 50 and 90; later starts return no products. Split a broad query into narrower queries to collect more.
+- **No product review text.** Google does not expose product review bodies on this path. Ratings and review counts from search cards and store ratings on offers are included; `discussions` contains forum links only.
+- **Localization is best effort.** A country plus location hint usually returns the right market, but Google can serve another exit's currency. The actor retries once, then reports the actual `currency` and logs the mismatch. It never relabels one currency as another.
+- **Filtered runs can be empty on a currency mismatch.** Price bounds use the requested market's currency (for example USD for `countryCode: us`). If Google serves another currency, a max-price or on-sale filter can exclude every row; the run then reports the served currency and fails with "No records scraped" instead of relabelling.
+- **Sorting is client-side.** Google's server-side sort chip is not honored on this page. The actor sorts the rows it actually collected.
+- **Filters are verified after collection.** Price bounds, rating, store, sale and free-shipping checks are re-applied to every row. A condition is checked when the card shows one; many cards omit it.
+- **Display price can differ from the numeric offer price.** A seller card can show a list price in `price` while `priceValue` carries the best price Google reports (one sampled EarFun offer displayed `$89.99` with `priceValue` 51.29). Use `priceValue`, `shippingValue` and `totalPrice` for comparisons.
+- **Sponsored detection is not a classifier.** `isSponsored` is true only when Google visibly labels a card as sponsored. Organic ads can appear without that label.
+- **Some fields are source-dependent.** Brand, description, price history and typical price are present only when Google exposes them for that product. They are omitted rather than guessed.
+
+## Practical use
+
+- **Price monitoring:** run product mode on a fixed list of IDs and compare `priceValue`, `totalPrice` and `priceHistory` over time.
+- **Deal scanning:** use deals mode with `onSale`, a price range and `sortBy: price_low`.
+- **Market research:** search a category with `sortBy: review_score` and compare merchants, availability and shipping.
+- **Catalog enrichment:** search with `includeProductDetails` to attach brand, images, specs and offers to keyword results.
 
 ## FAQ
 
-**Does this actor need cookies or login?**
-No. It reads publicly available Google Shopping search results and requires no authentication.
+**Do I need cookies, a login or a proxy setup?**
+No. The actor reads public Google Shopping pages and handles its own access. There are no user credentials, cookies or proxy fields.
 
-**Do I need to change the proxy setting?**
-No. Google blocks automated requests from data-center IPs, so the actor routes its requests through Apify Proxy on its own, using IPs in the selected country where it can. The default `GOOGLE_SERP` setting is fine for almost every run.
+**Can I get every seller offer?**
+No. Up to five offers per product is a hard limit of the public product viewer; the total count is returned so you know how many exist.
 
-**How many results can I get per query?**
-Up to 100 per query via `maxResultsPerQuery`. The actor reads at most three result pages per query and stops early when a page returns fewer than 10 products, so narrow searches can return fewer. Products whose title repeats an earlier one in the same query are skipped.
+**Why is a field missing on some records?**
+Google does not show every field on every card or product. Missing values are omitted; the actor does not fill them with guesses or sentinels.
 
-**Can I reach individual product detail pages?**
-No. This actor returns search-result data (title, price, merchant, rating, reviews). The `productUrl` field gives you a link to follow up on the product yourself.
+**Why does the currency differ from the country I chose?**
+Google's market routing is not guaranteed. The actor detects the served currency, retries once with the location hint, and reports the actual result rather than assuming.
 
-**Does it support international pricing?**
-Yes. Set `countryCode` (48 options) to search that country's Google domain and see local prices; the `currency` field reports the currency detected from the price, falling back to the country's usual currency.
+**Can I sort by price?**
+Yes — the actor sorts the collected rows by price or rating. The order is deterministic but reflects the rows collected, not Google's full index.
 
-**Why are some fields like `productId`, `delivery` or `originalPrice` missing?**
-Google doesn't show them on every result card, and blank fields are left out of the record. `merchantUrl` is also missing when the result has no merchant link and the store name isn't one the actor recognizes.
-
-**Can I tell sponsored products from organic ones?**
-Not at the moment. `isSponsored` is returned as `false` for every product.
-
-**What's the difference between `price` and `originalPrice`?**
-`price` is the current listed price. `originalPrice` only appears when the item is discounted, showing the pre-discount price.
+**Does this return product review text?**
+No. Review text is not available on this path.
 
 **Is this affiliated with Google?**
-No. This is an independent, third-party actor that reads Google's public Shopping results; it isn't affiliated with or endorsed by Google.
+No. It is an independent third-party tool that reads publicly available Google Shopping pages.

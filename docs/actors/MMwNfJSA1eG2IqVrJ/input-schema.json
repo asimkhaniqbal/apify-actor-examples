@@ -1,9 +1,49 @@
 {
-  "description": "Search Google Shopping for products and extract prices, merchants, ratings, and more.",
+  "description": "Search Google Shopping, look up products by ID, or browse deals and categories. Returns real product IDs, viewer URLs, seller offers with shipping and totals, price ranges and 12-month price history where Google exposes it.",
   "properties": {
+    "category": {
+      "description": "Google Shopping department for category mode.",
+      "editor": "select",
+      "enum": [
+        "electronics",
+        "computers",
+        "cell-phones",
+        "audio",
+        "cameras",
+        "video-games",
+        "tv-home-theater",
+        "appliances",
+        "home-garden",
+        "clothing",
+        "shoes",
+        "beauty",
+        "sports-outdoors",
+        "toys-games",
+        "jewelry"
+      ],
+      "enumTitles": [
+        "Electronics",
+        "Computers",
+        "Cell Phones",
+        "Audio",
+        "Cameras",
+        "Video Games",
+        "TV & Home Theater",
+        "Appliances",
+        "Home & Garden",
+        "Clothing",
+        "Shoes",
+        "Beauty",
+        "Sports & Outdoors",
+        "Toys & Games",
+        "Jewelry"
+      ],
+      "title": "Category",
+      "type": "string"
+    },
     "condition": {
       "default": "",
-      "description": "Filter products by condition.",
+      "description": "Condition hint sent to Google and verified when the result card shows a condition.",
       "editor": "select",
       "enum": [
         "",
@@ -22,7 +62,7 @@
     },
     "countryCode": {
       "default": "us",
-      "description": "Country for localized results and pricing. Determines the Google domain used.",
+      "description": "Country used for the Google domain, UULE location and price hint. The actual currency is always detected from the response, never relabelled.",
       "editor": "select",
       "enum": [
         "us",
@@ -124,56 +164,183 @@
         "Nigeria",
         "Kenya"
       ],
+      "prefill": "us",
       "title": "Country",
       "type": "string"
     },
+    "freeShipping": {
+      "default": false,
+      "description": "Ask Google for free-shipping products and keep rows whose delivery text says free.",
+      "prefill": false,
+      "title": "Free Shipping Only",
+      "type": "boolean"
+    },
+    "includePriceHistory": {
+      "default": true,
+      "description": "Include per-seller daily price history when Google exposes it (product mode and search detail enrichment).",
+      "prefill": false,
+      "title": "Include 12-Month Price History",
+      "type": "boolean"
+    },
+    "includeProductDetails": {
+      "default": false,
+      "description": "Fetch the product viewer for each search result to add brand, description, images, specifications and offers. Costs one extra request per result.",
+      "prefill": false,
+      "title": "Enrich Search Results",
+      "type": "boolean"
+    },
     "languageCode": {
       "default": "en",
-      "description": "Language for results (hl parameter). E.g. 'en', 'de', 'fr'. Leave empty for default.",
-      "editor": "textfield",
+      "description": "Interface and result language (hl parameter).",
+      "editor": "select",
+      "enum": [
+        "en",
+        "es",
+        "fr",
+        "de",
+        "it",
+        "pt",
+        "nl",
+        "pl",
+        "tr",
+        "ru",
+        "ja",
+        "ko",
+        "zh",
+        "ar",
+        "hi",
+        "th",
+        "vi",
+        "id",
+        "ms",
+        "sv",
+        "da",
+        "no",
+        "fi",
+        "cs",
+        "el",
+        "he",
+        "uk"
+      ],
+      "enumTitles": [
+        "English",
+        "Spanish",
+        "French",
+        "German",
+        "Italian",
+        "Portuguese",
+        "Dutch",
+        "Polish",
+        "Turkish",
+        "Russian",
+        "Japanese",
+        "Korean",
+        "Chinese",
+        "Arabic",
+        "Hindi",
+        "Thai",
+        "Vietnamese",
+        "Indonesian",
+        "Malay",
+        "Swedish",
+        "Danish",
+        "Norwegian",
+        "Finnish",
+        "Czech",
+        "Greek",
+        "Hebrew",
+        "Ukrainian"
+      ],
+      "prefill": "en",
       "title": "Language",
       "type": "string"
     },
     "maxPrice": {
-      "description": "Maximum price filter (in local currency units). Leave empty for no maximum.",
+      "description": "Maximum price in the detected local currency. Applied through a shoprs filter and verified on every output row.",
       "minimum": 0,
       "title": "Maximum Price",
       "type": "integer"
     },
     "maxResultsPerQuery": {
       "default": 20,
-      "description": "Maximum number of product results to extract per search query.",
-      "maximum": 100,
+      "description": "Maximum records per query (search/deals/category) or products (product mode).",
+      "maximum": 200,
       "minimum": 1,
-      "prefill": 5,
-      "title": "Max Results Per Query",
+      "prefill": 1,
+      "title": "Max Results",
       "type": "integer"
     },
     "minPrice": {
-      "description": "Minimum price filter (in local currency units). Leave empty for no minimum.",
+      "description": "Minimum price in the detected local currency. Applied through a shoprs filter and verified on every output row.",
       "minimum": 0,
       "title": "Minimum Price",
       "type": "integer"
     },
-    "proxyConfiguration": {
-      "default": {
-        "apifyProxyGroups": [
-          "GOOGLE_SERP"
-        ],
-        "useApifyProxy": true
-      },
-      "description": "Proxy configuration. GOOGLE_SERP proxy provides the most reliable access to Google Shopping.",
-      "editor": "proxy",
-      "title": "Proxy Configuration",
-      "type": "object"
+    "minRating": {
+      "default": "0",
+      "description": "Minimum product rating (0-5). Applied through a shoprs rating chip and verified on every output row.",
+      "editor": "select",
+      "enum": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "enumTitles": [
+        "Any",
+        "1 and up",
+        "2 and up",
+        "3 and up",
+        "4 and up",
+        "5"
+      ],
+      "title": "Minimum Rating",
+      "type": "string"
     },
-    "queries": {
-      "description": "List of product search queries to look up on Google Shopping (e.g., \"iPhone 15 Pro Max\", \"running shoes\").",
+    "mode": {
+      "default": "search",
+      "description": "What to collect: keyword search, product lookup by ID/viewer URL, deals, or a department category.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "product",
+        "deals",
+        "category"
+      ],
+      "enumTitles": [
+        "Keyword search",
+        "Product lookup (ID or URL)",
+        "Deals",
+        "Category browse"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "onSale": {
+      "default": false,
+      "description": "Ask Google for discounted products and keep rows with an observed original price or discount.",
+      "prefill": false,
+      "title": "On Sale Only",
+      "type": "boolean"
+    },
+    "productIds": {
+      "description": "Google Shopping catalog IDs, product IDs, product viewer URLs, or legacy /shopping/product/<id> URLs. Used in product mode.",
       "editor": "stringList",
       "items": {
         "type": "string"
       },
-      "minItems": 1,
+      "title": "Product IDs or Viewer URLs",
+      "type": "array"
+    },
+    "queries": {
+      "description": "Product keywords for search/deals mode. Ignored in product mode; optional in category mode.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
       "prefill": [
         "iPhone 15 Pro Max"
       ],
@@ -182,7 +349,7 @@
     },
     "sortBy": {
       "default": "",
-      "description": "How to sort Google Shopping results.",
+      "description": "Client-side sort of the collected rows. Google ignores server-side sort on this page.",
       "editor": "select",
       "enum": [
         "",
@@ -192,18 +359,21 @@
       ],
       "enumTitles": [
         "Relevance (default)",
-        "Review score",
-        "Price: low to high",
-        "Price: high to low"
+        "Rating high to low",
+        "Price low to high",
+        "Price high to low"
       ],
       "title": "Sort By",
       "type": "string"
+    },
+    "store": {
+      "description": "Optional store name to bias and verify, e.g. Best Buy or Amazon.",
+      "editor": "textfield",
+      "title": "Store",
+      "type": "string"
     }
   },
-  "required": [
-    "queries"
-  ],
   "schemaVersion": 1,
-  "title": "Google Shopping Insights Scraper Input",
+  "title": "Google Shopping Price Comparison & Deal Finder",
   "type": "object"
 }

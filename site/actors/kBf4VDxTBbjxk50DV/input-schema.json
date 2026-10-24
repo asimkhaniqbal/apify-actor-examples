@@ -1,0 +1,1087 @@
+{
+  "description": "Scrape Quora questions, answers, profiles, topics, and spaces. Search by keywords or provide direct URLs.",
+  "properties": {
+    "activityTab": {
+      "default": "all",
+      "description": "Click the given profile-activity tab before extracting profile_activity rows.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "answers",
+        "questions",
+        "posts"
+      ],
+      "prefill": "all",
+      "title": "Profile Activity Tab",
+      "type": "string"
+    },
+    "answerSortOrder": {
+      "default": "observed",
+      "description": "Order retained answer records by rendered order or explicit typed upvotes, machine timestamps, or view counts. Rows missing the selected metric retain stable fallback order and are counted.",
+      "enum": [
+        "observed",
+        "upvotes_desc",
+        "newest",
+        "views_desc"
+      ],
+      "title": "Answer Sort Order",
+      "type": "string"
+    },
+    "commentSortOrder": {
+      "default": "observed",
+      "description": "Order comments by observed order or an explicitly typed metric/timestamp. Unknown selected metrics remain in stable fallback order and are counted.",
+      "enum": [
+        "observed",
+        "upvotes_desc",
+        "reactions_desc",
+        "replies_desc",
+        "newest"
+      ],
+      "title": "Comment Sort Order",
+      "type": "string"
+    },
+    "contentTypes": {
+      "description": "Compatibility alias for resultTypes. Plural values such as questions, answers, profiles, topics, spaces, and posts are normalized to canonical entity types.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Content Types (Compatibility Alias)",
+      "type": "array"
+    },
+    "cookieString": {
+      "description": "Optional browser-exported name=value; name2=value2 header. Parsed locally into authorized session cookies; the raw header is never emitted or logged.",
+      "editor": "textfield",
+      "isSecret": true,
+      "title": "Optional Cookie Header String",
+      "type": "string"
+    },
+    "cookies": {
+      "description": "Optional authenticated browser cookies. Use only for content you are authorized to view; cookies are stored as secret input and are never logged.",
+      "editor": "json",
+      "isSecret": true,
+      "items": {
+        "type": "object"
+      },
+      "prefill": [],
+      "title": "Optional Quora Session Cookies",
+      "type": "array"
+    },
+    "customDateFrom": {
+      "description": "Backward-compatible alias for dateFrom. If both are supplied, dateFrom takes precedence.",
+      "editor": "textfield",
+      "title": "Custom Date From (Alias)",
+      "type": "string"
+    },
+    "customDateTo": {
+      "description": "Backward-compatible alias for dateTo. If both are supplied, dateTo takes precedence.",
+      "editor": "textfield",
+      "title": "Custom Date To (Alias)",
+      "type": "string"
+    },
+    "dateFrom": {
+      "description": "Optional inclusive ISO date/datetime lower bound applied locally to native search cards with machine-readable timestamps.",
+      "editor": "textfield",
+      "title": "Date From",
+      "type": "string"
+    },
+    "dateTo": {
+      "description": "Optional inclusive ISO date/datetime upper bound applied locally to native search cards with machine-readable timestamps.",
+      "editor": "textfield",
+      "title": "Date To",
+      "type": "string"
+    },
+    "dedupeMode": {
+      "default": "canonical",
+      "description": "canonical suppresses overlapping entity rows by stable ID or normalized canonical URL (default). none preserves every observed non-status row; duplicate_records_suppressed in the manifest remains 0 because no suppression is performed.",
+      "editor": "select",
+      "enum": [
+        "canonical",
+        "none"
+      ],
+      "title": "Deduplication Mode",
+      "type": "string"
+    },
+    "directUrls": {
+      "description": "Direct Quora URLs to scrape (questions, profiles, topics, spaces). Example: https://www.quora.com/What-is-Python",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Direct Quora URLs",
+      "type": "array"
+    },
+    "excludePromoted": {
+      "default": false,
+      "description": "Exclude only cards with explicit visible or structured sponsored/promoted/ad evidence; unknown cards remain.",
+      "prefill": false,
+      "title": "Exclude Explicitly Promoted",
+      "type": "boolean"
+    },
+    "filterAiAnswers": {
+      "default": "include",
+      "description": "Include all answers, exclude only explicitly AI-labeled answers, or retain only explicitly AI-labeled answers. Unknown/missing AI labels are never classified and are counted in filter diagnostics. Legacy boolean true/false values are accepted by the API normalizer as exclude/include.",
+      "enum": [
+        "include",
+        "exclude",
+        "only"
+      ],
+      "prefill": "include",
+      "title": "Filter Explicit AI Answers",
+      "type": "string"
+    },
+    "globalOrder": {
+      "default": "observed",
+      "description": "Optional deterministic order across comparable unified parent rows. Missing typed evidence remains in stable fallback order.",
+      "editor": "select",
+      "enum": [
+        "observed",
+        "newest",
+        "views_desc",
+        "answers_desc",
+        "followers_desc",
+        "reactions_desc",
+        "comments_desc"
+      ],
+      "title": "Global Output Order",
+      "type": "string"
+    },
+    "includeActivityHtml": {
+      "default": false,
+      "description": "Include bounded, redacted rendered activity_html (up to 30000 bytes) on profile_activity rows.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Include Activity HTML",
+      "type": "boolean"
+    },
+    "includeActivityText": {
+      "default": true,
+      "description": "Include bounded visible activity_text on profile_activity rows.",
+      "editor": "checkbox",
+      "prefill": true,
+      "title": "Include Activity Text",
+      "type": "boolean"
+    },
+    "includeAnswerHtml": {
+      "default": true,
+      "description": "Include the rendered HTML of answer content. Disable to reduce dataset size.",
+      "prefill": true,
+      "title": "Include Answer HTML",
+      "type": "boolean"
+    },
+    "includeAnswerPreview": {
+      "default": false,
+      "description": "Opt in to bounded, already-rendered answer-preview evidence on question/search_result cards, without navigating to the full answer page.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Include Answer Preview",
+      "type": "boolean"
+    },
+    "includeAnswers": {
+      "default": true,
+      "description": "Expand and emit answer records for question pages.",
+      "prefill": true,
+      "title": "Include Answers",
+      "type": "boolean"
+    },
+    "includeComments": {
+      "default": false,
+      "description": "Extract only comments rendered in visible answer comment-content nodes; hidden comments are not inferred.",
+      "prefill": false,
+      "title": "Include Visible Comments",
+      "type": "boolean"
+    },
+    "includeEngagementBreakdown": {
+      "default": false,
+      "description": "Opt in to explicitly labeled answer-scoped upvote/reaction items in nested answer rows. Comment controls and icons are never decomposed.",
+      "prefill": false,
+      "title": "Include Engagement Breakdown",
+      "type": "boolean"
+    },
+    "includeEntityGraph": {
+      "default": false,
+      "description": "Emit deterministic entity_edge relationship rows when explicit endpoint URLs or IDs are present. This is opt-in and does not invent relationships.",
+      "prefill": false,
+      "title": "Include Entity Graph",
+      "type": "boolean"
+    },
+    "includeFieldEvidence": {
+      "default": true,
+      "description": "Retain field_sources and fields_present after projection; disabling removes only these evidence maps, not semantic or protected access fields.",
+      "editor": "checkbox",
+      "prefill": true,
+      "title": "Include Field Evidence",
+      "type": "boolean"
+    },
+    "includeGraphEdges": {
+      "default": false,
+      "description": "Compatibility alias for includeEntityGraph. The canonical includeEntityGraph takes precedence when both are supplied.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Include Graph Edges (Compatibility Alias)",
+      "type": "boolean"
+    },
+    "includeHtmlContent": {
+      "default": true,
+      "description": "Compatibility alias for includeAnswerHtml. It controls bounded answer HTML only; canonical includeAnswerHtml takes precedence.",
+      "prefill": true,
+      "title": "Include HTML Content (Compatibility Alias)",
+      "type": "boolean"
+    },
+    "includeMedia": {
+      "default": true,
+      "description": "Extract image/video URLs from visible question, answer, and post content. External links are controlled independently by includeOutboundLinks.",
+      "prefill": true,
+      "title": "Include Media and Links",
+      "type": "boolean"
+    },
+    "includeOutboundLinks": {
+      "default": true,
+      "description": "Independently retain visible external anchors from question, answer, and post content; when omitted, follows includeMedia for backward compatibility.",
+      "prefill": true,
+      "title": "Include External Links",
+      "type": "boolean"
+    },
+    "includePostAuthorContext": {
+      "default": false,
+      "description": "Opt in to explicitly labeled About, Education, and Joined/Member since values inside the owning standalone-post author scope; no profile navigation or inference is performed.",
+      "prefill": false,
+      "title": "Include Post Author Context",
+      "type": "boolean"
+    },
+    "includePostComments": {
+      "default": false,
+      "description": "For standalone post URLs, retain only comments inside an explicitly labeled Top/Most helpful/Popular collection as top_comments. Ordinary comments, votes, and position never qualify.",
+      "prefill": false,
+      "title": "Include Top-Labeled Post Comments",
+      "type": "boolean"
+    },
+    "includePostHtml": {
+      "default": false,
+      "description": "Legacy alias: true sets a 100000-byte maxPostHtmlBytes ceiling unless maxPostHtmlBytes is explicitly set.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Include Post HTML (Legacy Alias)",
+      "type": "boolean"
+    },
+    "includeProfileActivity": {
+      "default": false,
+      "description": "Extract public activity links visibly rendered on profile pages.",
+      "prefill": false,
+      "title": "Include Profile Activity",
+      "type": "boolean"
+    },
+    "includeProfileSensitiveFields": {
+      "default": true,
+      "description": "When false, strip location, employment, education, and profile_joined_date from profile/author rows.",
+      "editor": "checkbox",
+      "prefill": true,
+      "title": "Include Profile Sensitive Fields",
+      "type": "boolean"
+    },
+    "includeProfileSnapshot": {
+      "default": false,
+      "description": "When true and resultTypes includes author, open each discovered author's profile and merge a full profile snapshot onto the author row.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Include Profile Snapshot on Author Rows",
+      "type": "boolean"
+    },
+    "includePromoted": {
+      "default": true,
+      "description": "Include cards with explicit promotion evidence. Set false to exclude them; explicit excludePromoted takes precedence when both are supplied.",
+      "prefill": true,
+      "title": "Include Explicitly Promoted",
+      "type": "boolean"
+    },
+    "includePromotionEvidence": {
+      "default": true,
+      "description": "Retain promotion state and explicit label/source fields on native search-result rows.",
+      "prefill": true,
+      "title": "Include Promotion Evidence",
+      "type": "boolean"
+    },
+    "includeQuestionDetails": {
+      "default": true,
+      "description": "Retain rendered question description/body text on question rows. Disable to reduce payload while preserving question identity, metrics, answer/post traversal, and status envelopes.",
+      "prefill": true,
+      "title": "Include Question Details",
+      "type": "boolean"
+    },
+    "includeQuestionHtml": {
+      "default": false,
+      "description": "Retain bounded rendered HTML from the question scope after nested answer regions are removed.",
+      "prefill": false,
+      "title": "Include Question HTML",
+      "type": "boolean"
+    },
+    "includeQuestionTopics": {
+      "default": true,
+      "description": "Retain explicit topic links associated with question rows. Disable to reduce question-context payload; this does not affect answer or post traversal.",
+      "prefill": true,
+      "title": "Include Question Topics",
+      "type": "boolean"
+    },
+    "includeReactionBreakdown": {
+      "default": false,
+      "description": "Legacy alias for includeEngagementBreakdown. The canonical includeEngagementBreakdown takes precedence when both are supplied.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Include Reaction Breakdown (Legacy Alias)",
+      "type": "boolean"
+    },
+    "includeRelatedContent": {
+      "default": false,
+      "description": "Opt in to an explicit 'related/attached content' region scoped to one answer or post card.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Include Related Content",
+      "type": "boolean"
+    },
+    "includeRelatedQuestions": {
+      "default": true,
+      "description": "Retain explicitly labeled related-question links from question pages. Disable to reduce question-context payload; this does not affect answer extraction.",
+      "prefill": true,
+      "title": "Include Related Questions",
+      "type": "boolean"
+    },
+    "includeRelatedTopics": {
+      "default": true,
+      "description": "Emit visibly linked related topics as topic_related rows.",
+      "editor": "checkbox",
+      "prefill": true,
+      "title": "Include Related Topics",
+      "type": "boolean"
+    },
+    "includeSensitiveProfileFields": {
+      "default": true,
+      "description": "Deprecated alias for includeProfileSensitiveFields. The canonical field takes precedence whenever both are supplied.",
+      "editor": "checkbox",
+      "prefill": true,
+      "title": "Include Profile Sensitive Fields (Deprecated Alias)",
+      "type": "boolean"
+    },
+    "includeSocialLinks": {
+      "default": true,
+      "description": "When false, omit social_links/website_url from profile/author rows.",
+      "editor": "checkbox",
+      "prefill": true,
+      "title": "Include Social Links",
+      "type": "boolean"
+    },
+    "includeSpaceSettings": {
+      "default": false,
+      "description": "Opt in to explicitly labeled Space settings/content-permission evidence for Space rows; missing settings remain unknown and admin-only queues are not scraped.",
+      "prefill": false,
+      "title": "Include Explicit Space Settings",
+      "type": "boolean"
+    },
+    "includeTopicPosts": {
+      "default": false,
+      "description": "Emit explicitly linked standalone Posts from a topic page as topic_post rows.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Include Topic Posts",
+      "type": "boolean"
+    },
+    "includeTopicQuestions": {
+      "default": true,
+      "description": "Emit visible topic question links as topic_question rows.",
+      "editor": "checkbox",
+      "prefill": true,
+      "title": "Include Topic Questions",
+      "type": "boolean"
+    },
+    "includeUncertain": {
+      "default": true,
+      "description": "Mark accessible cards without explicit promotion evidence as unknown; this is not a negative classification.",
+      "prefill": true,
+      "title": "Include Uncertain Promotion State",
+      "type": "boolean"
+    },
+    "includeUnchanged": {
+      "default": true,
+      "description": "When onlyNewItems is set, also retain change_type=unchanged rows instead of dropping them.",
+      "editor": "checkbox",
+      "prefill": true,
+      "title": "Include Unchanged Items",
+      "type": "boolean"
+    },
+    "language": {
+      "default": "auto",
+      "description": "Browser language hint. Short language codes and supported regional aliases are accepted and normalize to the short code; auto keeps the actor default. This does not translate content or prove access.",
+      "editor": "select",
+      "enum": [
+        "auto",
+        "en",
+        "es",
+        "fr",
+        "de",
+        "pt",
+        "it",
+        "ja",
+        "ko",
+        "hi",
+        "id",
+        "nl",
+        "pl",
+        "tr",
+        "vi",
+        "zh",
+        "ru",
+        "en-US",
+        "en-GB",
+        "de-DE",
+        "fr-FR",
+        "es-ES",
+        "pt-BR",
+        "it-IT",
+        "ja-JP",
+        "ko-KR",
+        "hi-IN",
+        "tr-TR",
+        "zh-CN",
+        "zh-TW",
+        "ru-RU"
+      ],
+      "title": "Language / Locale",
+      "type": "string"
+    },
+    "maxAnswerHtmlBytes": {
+      "default": 0,
+      "description": "Optional UTF-8 byte ceiling for rendered answer HTML. Zero preserves uncapped backward-compatible HTML; positive values emit answer_html_bytes and answer_html_truncated.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Maximum Answer HTML Bytes",
+      "type": "integer"
+    },
+    "maxAnswerPreviews": {
+      "default": 3,
+      "description": "Bound answer_preview_* entries retained per question/search_result card.",
+      "maximum": 20,
+      "minimum": 0,
+      "prefill": 3,
+      "title": "Maximum Answer Previews",
+      "type": "integer"
+    },
+    "maxAnswersPerQuestion": {
+      "default": 50,
+      "description": "Answer limit for each question URL. Effective value is capped at Maximum Results (maxResults), so raise maxResults too when requesting more than its current value.",
+      "maximum": 5000,
+      "minimum": 0,
+      "prefill": 10,
+      "title": "Maximum Answers per Question",
+      "type": "integer"
+    },
+    "maxAuthors": {
+      "default": 1000,
+      "description": "Maximum unique discovered author rows to emit, independent of maxItems. Requires resultTypes to include author.",
+      "maximum": 5000,
+      "minimum": 1,
+      "prefill": 1000,
+      "title": "Maximum Discovered Authors",
+      "type": "integer"
+    },
+    "maxCommentDepth": {
+      "default": 20,
+      "description": "Maximum explicit comment nesting depth retained from answer pages. Root comments are depth 0; deeper comments are omitted and marked with comment_depth_limit_reached. The maxDepth alias is accepted for compatibility.",
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Maximum Comment Depth",
+      "type": "integer"
+    },
+    "maxCommentsPerAnswer": {
+      "default": 50,
+      "description": "Maximum visible comments extracted from each answer when comments are enabled.",
+      "maximum": 5000,
+      "minimum": 0,
+      "prefill": 10,
+      "title": "Maximum Comments per Answer",
+      "type": "integer"
+    },
+    "maxCommentsPerPost": {
+      "default": 50,
+      "description": "Bound the visible post-comment nodes inspected when includePostComments is enabled; this is not a complete comment-history guarantee.",
+      "maximum": 5000,
+      "minimum": 0,
+      "prefill": 10,
+      "title": "Maximum Post Comments Observed",
+      "type": "integer"
+    },
+    "maxConcurrency": {
+      "default": 1,
+      "description": "Maximum independent indexed discovery queries processed concurrently in deterministic batches. Page extraction remains sequential for shared deduplication and incremental state correctness.",
+      "maximum": 3,
+      "minimum": 1,
+      "title": "Maximum Concurrent Discovery Queries",
+      "type": "integer"
+    },
+    "maxDetailItems": {
+      "default": 0,
+      "description": "When scrapeDepth=detail, bounded number of profile_activity items opened individually for detail_text/detail_title extraction. Zero disables detail expansion.",
+      "maximum": 100,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Maximum Profile Activity Detail Expansions",
+      "type": "integer"
+    },
+    "maxEvidencePerAuthor": {
+      "default": 10,
+      "description": "Maximum evidence_urls/evidence_question_urls/evidence_answer_urls/evidence_answer_previews entries retained per discovered author.",
+      "maximum": 50,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Maximum Evidence Per Author",
+      "type": "integer"
+    },
+    "maxGraphEdges": {
+      "default": 5000,
+      "description": "Independent cap for entity_edge rows. Graph rows may be added in addition to maxItems.",
+      "maximum": 50000,
+      "minimum": 0,
+      "prefill": 1000,
+      "title": "Maximum Graph Edges",
+      "type": "integer"
+    },
+    "maxItems": {
+      "default": 0,
+      "description": "Maximum total records across all inputs. Use 0 for no total cap.",
+      "maximum": 50000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Maximum Total Items",
+      "type": "integer"
+    },
+    "maxItemsPerQuery": {
+      "default": 0,
+      "description": "Compatibility alias for maxItemsPerSource. The canonical maxItemsPerSource takes precedence.",
+      "maximum": 5000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Maximum Items Per Query (Compatibility Alias)",
+      "type": "integer"
+    },
+    "maxItemsPerSource": {
+      "default": 0,
+      "description": "Maximum semantic records emitted from each individual query or direct URL. Status/access rows are preserved; 0 means unlimited.",
+      "maximum": 5000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Maximum Items Per Source",
+      "type": "integer"
+    },
+    "maxItemsPerTab": {
+      "default": 0,
+      "description": "Independent cap on profile_activity rows per tab (answers/questions/posts), in addition to maxProfileActivityItems. Zero means unlimited.",
+      "maximum": 5000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Maximum Items Per Activity Tab",
+      "type": "integer"
+    },
+    "maxLoadMoreAttempts": {
+      "default": 0,
+      "description": "Bound clicks on exact visible search continuation controls independently from scrolling. No click is attempted by default.",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Maximum Search Load-more Attempts",
+      "type": "integer"
+    },
+    "maxNavigationRetries": {
+      "default": 2,
+      "description": "Bounded retries after transient page-navigation failures. HTTP access gates, 404/410 responses, and rendered challenge pages are not retried or relabeled.",
+      "maximum": 3,
+      "minimum": 0,
+      "prefill": 1,
+      "title": "Maximum Navigation Retries",
+      "type": "integer"
+    },
+    "maxPostAuthorContextItems": {
+      "default": 10,
+      "description": "Maximum explicitly labeled active Space links retained per standalone-post author when includePostAuthorContext is enabled; zero emits none.",
+      "maximum": 100,
+      "minimum": 0,
+      "prefill": 10,
+      "title": "Maximum Post Author Spaces",
+      "type": "integer"
+    },
+    "maxPostHtmlBytes": {
+      "default": 0,
+      "description": "Optional UTF-8 byte ceiling for rendered standalone Post HTML in unified Post rows. Zero disables HTML retention; positive values emit post_html_bytes and post_html_truncated.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Maximum Standalone Post HTML Bytes",
+      "type": "integer"
+    },
+    "maxPostsPerSource": {
+      "default": 0,
+      "description": "Bound /post/... links discovered (then fully scraped as post rows when resultTypes includes post) from one profile/Space/search source page. Distinct from maxItemsPerSource, which caps already-scraped rows rather than discovery candidates. Standalone-post discovery from profile/Space/search pages is opt-in: 0 (default) disables it entirely and emits no post/post_discovery rows for those source pages; set a positive value to enable it. Direct standalone post URLs given via directUrls/startUrls are always scraped and are unaffected by this setting.",
+      "maximum": 5000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Maximum Discovered Posts Per Source",
+      "type": "integer"
+    },
+    "maxProfileActivityItems": {
+      "default": 50,
+      "description": "Maximum visibly rendered public activity records per profile.",
+      "maximum": 5000,
+      "minimum": 0,
+      "prefill": 20,
+      "title": "Maximum Profile Activity Items",
+      "type": "integer"
+    },
+    "maxQuestionHtmlBytes": {
+      "default": 0,
+      "description": "Optional UTF-8 byte ceiling for question HTML; positive values emit question_html_bytes and question_html_truncated.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Maximum Question HTML Bytes",
+      "type": "integer"
+    },
+    "maxQuestionTopics": {
+      "default": 0,
+      "description": "Bound retained explicit topic names/URLs on question rows. Zero preserves all observed topic links; positive values emit question_topics_scraped and question_topics_limit_reached diagnostics.",
+      "maximum": 1000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Maximum Question Topics",
+      "type": "integer"
+    },
+    "maxRelatedContent": {
+      "default": 20,
+      "description": "Bound related_content entries retained per answer/post.",
+      "maximum": 100,
+      "minimum": 0,
+      "prefill": 10,
+      "title": "Maximum Related Content Items",
+      "type": "integer"
+    },
+    "maxRelatedQuestions": {
+      "default": 0,
+      "description": "Bound the emitted related-question collection on question rows. Zero preserves all observed related links; positive values emit related_questions_scraped and related_questions_limit_reached diagnostics.",
+      "maximum": 1000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Maximum Related Questions",
+      "type": "integer"
+    },
+    "maxRelatedTopics": {
+      "default": 50,
+      "description": "Bound topic_related rows emitted per topic page. Zero means unlimited.",
+      "maximum": 5000,
+      "minimum": 0,
+      "prefill": 20,
+      "title": "Maximum Related Topics",
+      "type": "integer"
+    },
+    "maxReplyExpandAttempts": {
+      "default": 0,
+      "description": "Bound clicks on clearly labeled visible reply/comment expansion controls per question page.",
+      "maximum": 20,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Maximum Reply Expansions",
+      "type": "integer"
+    },
+    "maxResults": {
+      "default": 50,
+      "description": "Maximum number of results per search query or answers per question URL.",
+      "maximum": 5000,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Maximum Results",
+      "type": "integer"
+    },
+    "maxResultsPerQuery": {
+      "default": 50,
+      "description": "Compatibility alias for maxResults. The canonical maxResults takes precedence.",
+      "maximum": 5000,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Maximum Results Per Query (Compatibility Alias)",
+      "type": "integer"
+    },
+    "maxScrollAttempts": {
+      "default": 20,
+      "description": "Bound the number of browser pagination/scroll attempts per question page. This is capped at 20 to control cost and runaway pages.",
+      "maximum": 20,
+      "minimum": 0,
+      "prefill": 8,
+      "title": "Maximum Scroll Attempts",
+      "type": "integer"
+    },
+    "maxSourcePages": {
+      "default": 100,
+      "description": "Maximum author-discovery source pages (search/question/answer/topic/Space/post/profile) whose already-scraped rows are scanned for author evidence.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 100,
+      "title": "Maximum Author-Discovery Source Pages",
+      "type": "integer"
+    },
+    "maxTopicPosts": {
+      "default": 50,
+      "description": "Bound topic_post rows emitted per topic page. Zero means unlimited.",
+      "maximum": 5000,
+      "minimum": 0,
+      "prefill": 20,
+      "title": "Maximum Topic Posts",
+      "type": "integer"
+    },
+    "maxTopicQuestions": {
+      "default": 50,
+      "description": "Bound topic_question rows emitted per topic page. Zero means unlimited.",
+      "maximum": 5000,
+      "minimum": 0,
+      "prefill": 20,
+      "title": "Maximum Topic Questions",
+      "type": "integer"
+    },
+    "minAnswerPreviewUpvotes": {
+      "default": 0,
+      "description": "Minimum typed upvote threshold an answer preview must meet to be retained. Fails closed: previews with unknown upvotes are excluded once this is positive.",
+      "maximum": 2000000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum Answer Preview Upvotes",
+      "type": "integer"
+    },
+    "minAnswerUpvotes": {
+      "default": 0,
+      "description": "When positive, retain only answer records with explicit machine-readable upvote evidence at or above this threshold. Missing or ambiguous upvotes are never treated as zero and are reported in filter diagnostics.",
+      "maximum": 2000000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum Answer Upvotes",
+      "type": "integer"
+    },
+    "minUpvotes": {
+      "default": 0,
+      "description": "Compatibility alias for minAnswerUpvotes. The canonical minAnswerUpvotes value takes precedence when both are supplied.",
+      "maximum": 2000000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum Upvotes (Compatibility Alias)",
+      "type": "integer"
+    },
+    "onlyNewItems": {
+      "default": false,
+      "description": "Compare stable IDs and content hashes against a persistent state store and suppress unchanged rows.",
+      "prefill": false,
+      "title": "Only New or Changed Items",
+      "type": "boolean"
+    },
+    "onlyUnanswered": {
+      "default": false,
+      "description": "Retain question/search rows only when an explicit typed answer count is exactly zero. Unknown or ambiguous counts are excluded; status and run-manifest rows remain. This does not prove complete answer-history coverage.",
+      "prefill": false,
+      "title": "Only Explicitly Unanswered Questions",
+      "type": "boolean"
+    },
+    "outputFields": {
+      "default": [],
+      "description": "Optional allowlist for compact rows, including bounded dotted paths through nested collections (for example answers.answer_text, comments.comment_text, feed.feed_text, or contributors.contributor_name where applicable). Child identity/URL fields and the actor identity, access/status, source, traversal, graph, filter, and parser-envelope fields remain protected.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 3000,
+      "title": "Output Fields (Optional)",
+      "type": "array"
+    },
+    "profileActivityTypes": {
+      "default": [
+        "answer",
+        "question",
+        "post"
+      ],
+      "description": "Activity categories to retain: answer, question, or post.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "answer",
+          "question",
+          "post"
+        ],
+        "type": "string"
+      },
+      "prefill": [
+        "answer",
+        "question",
+        "post"
+      ],
+      "title": "Profile Activity Types",
+      "type": "array"
+    },
+    "proxyConfiguration": {
+      "default": {
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "description": "Proxy settings. Quora's anti-bot layer challenges the shared datacenter/AUTO proxy pool on a large fraction of requests (cloud-measured ~33% success), so Residential proxy is the default and prefill here (cloud-measured ~96%+ success). Leave this untouched for reliable results.",
+      "editor": "proxy",
+      "prefill": {
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "queries": {
+      "description": "Compatibility alias for searchQueries. Canonical searchQueries takes precedence when both are supplied.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Search Queries (Compatibility Alias)",
+      "type": "array"
+    },
+    "requestDelay": {
+      "default": 2,
+      "description": "Seconds to wait between search/page navigations. Set to 0 for no added delay; this controls pacing but cannot guarantee bypassing Quora access controls.",
+      "maximum": 30,
+      "minimum": 0,
+      "prefill": 2,
+      "title": "Delay Between Requests",
+      "type": "number"
+    },
+    "resultTypes": {
+      "default": [
+        "question",
+        "answer",
+        "profile",
+        "profile_activity",
+        "topic",
+        "space",
+        "post",
+        "search_result"
+      ],
+      "description": "Restrict output to selected entity types. search_result rows are visible Quora discovery cards, not fully scraped question entities.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "question",
+          "answer",
+          "profile",
+          "profile_activity",
+          "topic",
+          "space",
+          "post",
+          "comment",
+          "search_result",
+          "entity_edge",
+          "author",
+          "topic_question",
+          "topic_post",
+          "topic_related",
+          "post_discovery"
+        ],
+        "type": "string"
+      },
+      "prefill": [
+        "question",
+        "answer",
+        "profile",
+        "profile_activity",
+        "topic",
+        "space",
+        "post",
+        "search_result"
+      ],
+      "title": "Result Types",
+      "type": "array"
+    },
+    "scrapeDepth": {
+      "default": "detail",
+      "description": "Overview extracts the initial visible entity without answer/comment/profile-activity expansion. Detail performs the configured bounded traversal; neither mode claims complete history.",
+      "enum": [
+        "overview",
+        "detail"
+      ],
+      "prefill": "detail",
+      "title": "Scrape Depth",
+      "type": "string"
+    },
+    "scrapeType": {
+      "description": "Compatibility alias for resultTypes. It is used only when resultTypes and contentTypes are absent; search means the default unified entity set.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "question",
+        "answer",
+        "profile",
+        "author",
+        "topic",
+        "space",
+        "post"
+      ],
+      "title": "Scrape Type (Compatibility Alias)",
+      "type": "string"
+    },
+    "searchKeywords": {
+      "description": "Compatibility alias for searchQueries. Canonical searchQueries takes precedence, then queries, when multiple names are supplied.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Search Keywords (Compatibility Alias)",
+      "type": "array"
+    },
+    "searchQueries": {
+      "description": "Keywords to search for on Quora. Attempts bounded discovery and preserves visible source/query evidence; availability, ordering, and relevance depend on the accessible result page and authorized access configuration.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "python programming"
+      ],
+      "title": "Search Keywords",
+      "type": "array"
+    },
+    "searchQuery": {
+      "description": "Compatibility alias for searchQueries for a single query. Canonical searchQueries, queries, and searchKeywords take precedence when supplied.",
+      "editor": "textfield",
+      "title": "Search Query (Compatibility Alias)",
+      "type": "string"
+    },
+    "searchTimeFilter": {
+      "default": "all_time",
+      "description": "Visible-timestamp filter. Non-all filters exclude cards without a machine-readable timestamp; no date is inferred.",
+      "editor": "select",
+      "enum": [
+        "all_time",
+        "past_hour",
+        "past_day",
+        "past_week",
+        "past_month",
+        "past_year"
+      ],
+      "title": "Native Search Time Filter",
+      "type": "string"
+    },
+    "searchType": {
+      "default": "all",
+      "description": "Fail-closed filter for visible native Quora search cards: all, question, answer, profile, topic, space, or post.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "all types",
+        "question",
+        "Question",
+        "answer",
+        "Answer",
+        "profile",
+        "Profile",
+        "Author",
+        "topic",
+        "Topic",
+        "space",
+        "Space",
+        "post",
+        "Post"
+      ],
+      "title": "Native Search Content Type",
+      "type": "string"
+    },
+    "sortAnswersBy": {
+      "default": "relevance",
+      "description": "Compatibility alias mapped to answerSortOrder: relevance=observed, recency=newest, upvotes=upvotes_desc. The canonical answerSortOrder takes precedence when both are supplied.",
+      "enum": [
+        "relevance",
+        "recency",
+        "upvotes"
+      ],
+      "title": "Sort Answers By (Compatibility Alias)",
+      "type": "string"
+    },
+    "sortBy": {
+      "description": "Compatibility alias for sortOrder. Supported compatibility values include relevance, recent, most_recent, and most_viewed; unsupported values fail validation rather than being guessed.",
+      "editor": "textfield",
+      "title": "Sort By (Compatibility Alias)",
+      "type": "string"
+    },
+    "sortOrder": {
+      "default": "relevance",
+      "description": "Stable DOM relevance order, newest by visible machine timestamp, or most viewed by visible view count. Missing evidence retains original order.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "newest",
+        "most_viewed",
+        "most_answered"
+      ],
+      "title": "Native Search Sort Order",
+      "type": "string"
+    },
+    "startUrls": {
+      "default": [],
+      "description": "Alternative to directUrls. Accepts Quora URL objects such as {\"url\":\"https://www.quora.com/...\"}.",
+      "editor": "requestListSources",
+      "title": "Start URLs (API-compatible)",
+      "type": "array"
+    },
+    "stateStoreId": {
+      "description": "Name of the Key-Value Store used to persist onlyNewItems state across runs (created automatically on first use if it doesn't exist). Reuse the same name across runs to keep incremental state. Required when onlyNewItems is enabled.",
+      "editor": "textfield",
+      "title": "Incremental State Store ID",
+      "type": "string"
+    },
+    "targets": {
+      "default": [],
+      "description": "Compatibility alias for a mixed list of Quora URLs and search keywords. URL-shaped values join directUrls; other values join searchQueries. Canonical fields and targets are merged; canonical dedupe behavior is applied downstream according to dedupeMode.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Mixed Targets (Compatibility Alias)",
+      "type": "array"
+    },
+    "timeFilter": {
+      "description": "Compatibility alias for searchTimeFilter. Values such as 'Past Week' normalize to past_week; the canonical searchTimeFilter takes precedence.",
+      "editor": "textfield",
+      "title": "Time Filter (Compatibility Alias)",
+      "type": "string"
+    },
+    "topCommentsOnly": {
+      "default": false,
+      "description": "Retain only comments with an explicit visible Top/Most helpful/Popular comments label. Unknown comments are excluded and counted; votes and position are not used as top evidence.",
+      "prefill": false,
+      "title": "Top-Labeled Comments Only",
+      "type": "boolean"
+    },
+    "topicFilter": {
+      "default": [],
+      "description": "For question and search-result rows, retain only rows with an exact explicitly observed topic label or topic URL matching one of these terms. Unknown topic evidence is excluded and counted; this is local payload filtering, not a server-side Quora filter.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 50,
+      "title": "Explicit Topic Filter",
+      "type": "array"
+    },
+    "usernames": {
+      "default": [],
+      "description": "Quora profile usernames/slugs (with or without a leading @ or trailing slash). Normalized to https://www.quora.com/profile/{slug} and merged into the direct-URL queue; also seeds author-discovery and post-discovery when relevant.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Profile Usernames",
+      "type": "array"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "Quora Scraper Input",
+  "type": "object"
+}
