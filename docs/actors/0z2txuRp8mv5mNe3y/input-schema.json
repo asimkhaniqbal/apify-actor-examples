@@ -1,0 +1,104 @@
+{
+  "description": "Simulate realistic website traffic with human-like behavior. Supports any website, YouTube, Etsy, Behance, and more.",
+  "properties": {
+    "blockResources": {
+      "description": "Additional URL patterns to block for faster page loads. Common ad and tracking URLs are blocked by default. Not applied on YouTube pages.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Block Resource Patterns",
+      "type": "array"
+    },
+    "crawlingLinkSelector": {
+      "default": "a[href]",
+      "description": "CSS selector for links to follow when crawling is enabled. Example: 'a.product-link' to follow only product links.",
+      "editor": "textfield",
+      "title": "Link Selector for Crawling",
+      "type": "string"
+    },
+    "enableAdvancedFingerprinting": {
+      "default": true,
+      "description": "Randomize browser fingerprint for each session: user agent, viewport, locale, timezone, and WebGL. Makes each visit appear from a different device.",
+      "title": "Advanced Fingerprint Randomization",
+      "type": "boolean"
+    },
+    "enableCrawling": {
+      "default": false,
+      "description": "When enabled, follows links on visited pages to simulate deeper browsing sessions. Only same-domain links are followed.",
+      "title": "Enable Crawling",
+      "type": "boolean"
+    },
+    "enableYoutube": {
+      "default": false,
+      "description": "YouTube URLs trigger video playback simulation: auto-plays videos, waits for configured duration, and handles cookie consent.",
+      "title": "Enable YouTube Mode",
+      "type": "boolean"
+    },
+    "endAfterSeconds": {
+      "default": 300,
+      "description": "Automatically stop the actor after this many seconds. Set to 0 for unlimited runtime (runs until all URLs are processed).",
+      "maximum": 86400,
+      "minimum": 0,
+      "prefill": 300,
+      "title": "Stop After (seconds)",
+      "type": "integer"
+    },
+    "maxPagesPerUrl": {
+      "default": 10,
+      "description": "Maximum number of pages to visit per start URL when crawling is enabled.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Max Pages Per URL",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "PAGEVIEW",
+      "description": "PAGEVIEW simulates normal browsing with human-like behavior. STRESS sends rapid requests without delays.",
+      "editor": "select",
+      "enum": [
+        "PAGEVIEW",
+        "STRESS"
+      ],
+      "enumTitles": [
+        "Pageview (human simulation)",
+        "Stress Test (rapid requests)"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "proxyConfiguration": {
+      "description": "Optional proxy settings. The actor works without proxy for most websites. Use proxy for sites that block datacenter IPs or for geographic targeting.",
+      "editor": "proxy",
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "startUrls": {
+      "description": "URLs to visit. Supports any website, YouTube videos, Etsy shops, Behance profiles, and more.",
+      "editor": "requestListSources",
+      "prefill": [
+        {
+          "url": "https://example.com"
+        }
+      ],
+      "title": "Target URLs",
+      "type": "array"
+    },
+    "waitOnPage": {
+      "default": 30,
+      "description": "Seconds to spend on each page simulating human behavior. Actual time varies ±20% for realism. Set to 0 for minimum dwell time.",
+      "maximum": 600,
+      "minimum": 0,
+      "prefill": 30,
+      "title": "Wait on Page (seconds)",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "startUrls"
+  ],
+  "schemaVersion": 1,
+  "title": "Traffic Generator Input",
+  "type": "object"
+}

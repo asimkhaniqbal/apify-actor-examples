@@ -1,0 +1,123 @@
+# Human-Like Website Pageview Traffic Simulator
+
+Send simulated visits to any website, YouTube video, Etsy shop, or Behance profile. Each visit opens the page in a real browser, moves the mouse, scrolls to a random depth and lingers for a set time, and can optionally fan out to a handful of same-domain links found on the start page. Every visit is logged with its load time, dwell time, scroll depth and the browser profile used.
+
+## What this actor does
+
+- Opens each start URL once, in order, with mouse movement, scrolling, link hovering and a dwell time around `waitOnPage` (±20%)
+- In YouTube mode, dismisses the consent banner, presses play and stays on the video for `waitOnPage` seconds or the video length, whichever is shorter
+- With crawling on (Pageview mode only), visits up to `maxPagesPerUrl − 1` randomly chosen same-domain links taken from the start page
+- Gives every start URL its own browser profile (user agent, viewport, locale, timezone, WebGL) when fingerprint randomization is on
+- Stops when every start URL is done or when `endAfterSeconds` runs out, whichever comes first
+- Every record carries the same 12 fields; values that weren't measured for a visit are an empty string or `0`
+
+## Output per page visit
+
+- `url` — URL of the visited page
+- `status` — `success`, `failed` (navigation error), `timeout` (page didn't load in time) or `blocked` (the page title was empty or read "Access denied", "Blocked" or "Captcha")
+- `pageTitle` — HTML title of the page (empty if the page didn't load)
+- `loadTimeMs` — time until the page's DOM was ready, in milliseconds
+- `timeOnPageSec` — seconds spent on the page after it loaded (`0` for failed, timed-out or blocked visits)
+- `scrollDepthPercent` — how far down the page was scrolled, 0–100 (always `0` in Stress mode and on YouTube videos)
+- `linksFound` — number of unique same-domain links matching `crawlingLinkSelector` on the start page; only filled when crawling is on in Pageview mode, otherwise `0`
+- `linksFollowed` — currently always `0`; count the records whose `referrer` equals a start URL to see how many links were followed
+- `referrer` — the start URL a crawled page was reached from (empty for start URLs)
+- `userAgent` — user agent string used for the visit
+- `viewport` — browser window size, e.g. `1920x1080`
+- `timestamp` — ISO 8601 time the visit record was created
+
+If the time limit hits while a page is open, that page is still saved with whatever was measured up to that moment.
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `startUrls` | array | – | **Required.** URLs to visit, each visited once per run |
+| `mode` | string | `PAGEVIEW` | `PAGEVIEW` (scrolling, dwell time, optional crawling) or `STRESS` (load the page, stay about half a second, no scrolling or crawling) |
+| `enableCrawling` | boolean | `false` | Also visit same-domain links found on each start page (Pageview mode only) |
+| `crawlingLinkSelector` | string | `a[href]` | CSS selector for the links that can be followed when crawling |
+| `maxPagesPerUrl` | integer | `10` | Pages per start URL when crawling, start page included (1–1,000) |
+| `waitOnPage` | integer | `30` | Seconds to stay on each page, varied ±20% in Pageview mode (0–600) |
+| `endAfterSeconds` | integer | `300` | Stop the run after this many seconds; `0` means no time limit (0–86,400) |
+| `enableYoutube` | boolean | `false` | Play YouTube URLs as videos instead of treating them like ordinary pages |
+| `blockResources` | array of strings | – | Extra wildcard URL patterns (e.g. `*fonts.googleapis*`) to block on top of the built-in ad and tracker list; not applied to YouTube URLs when YouTube mode is on |
+| `enableAdvancedFingerprinting` | boolean | `true` | Randomize the browser profile per start URL; when off, every visit uses the same desktop Chrome profile at 1920x1080, en-US |
+| `proxyConfiguration` | object | – | Optional proxy for sites that block data-center IPs or when traffic should come from a specific country; one proxy address is used for the whole run |
+
+### Example: pageview with crawling and YouTube
+
+```json
+{
+  "startUrls": [
+    { "url": "https://example.com" },
+    { "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ" }
+  ],
+  "mode": "PAGEVIEW",
+  "waitOnPage": 30,
+  "endAfterSeconds": 300,
+  "enableCrawling": true,
+  "maxPagesPerUrl": 5,
+  "enableYoutube": true
+}
+```
+
+### Example: Etsy shop browsing session
+
+```json
+{
+  "startUrls": [{ "url": "https://www.etsy.com/shop/YourShopName" }],
+  "waitOnPage": 45,
+  "endAfterSeconds": 600,
+  "enableCrawling": true,
+  "crawlingLinkSelector": "a[href*='/listing/']",
+  "maxPagesPerUrl": 10
+}
+```
+
+### Example: quick load-time check of several pages
+
+```json
+{
+  "startUrls": [
+    { "url": "https://yourwebsite.com" },
+    { "url": "https://yourwebsite.com/pricing" },
+    { "url": "https://yourwebsite.com/blog" }
+  ],
+  "mode": "STRESS",
+  "endAfterSeconds": 120
+}
+```
+
+## Use cases
+
+- **Page-speed spot checks** — log load times for a list of your own pages from a real browser
+- **Scheduled availability checks** — visit key pages on a schedule and watch for `failed`, `timeout` or `blocked` statuses
+- **Creator and portfolio visits** — open a YouTube video, Etsy listing or Behance project with a realistic dwell time
+- **QA for internal navigation** — let crawling open a sample of a page's internal links and confirm each one loads with a title
+- **Bot-detection testing** — see whether your own site's protection flags a scripted but human-paced visitor
+
+## FAQ
+
+**Do I need a proxy?**
+No. Most websites load fine without one. Add a proxy for sites that block data-center IPs or when the visit should come from a particular country.
+
+**How many visits does one run produce?**
+One per start URL, plus up to `maxPagesPerUrl − 1` crawled pages per start URL when crawling is on. URLs are visited one after another, so with a 30-second dwell time expect roughly two pages per minute. When `endAfterSeconds` is reached the run stops, even if some URLs haven't been visited yet.
+
+**Will these visits show up in Google Analytics?**
+Usually not. A built-in block list stops common ad and tracking scripts from loading, including Google Analytics, Google Tag Manager, the Facebook pixel, Hotjar and Microsoft Clarity, so those tools generally won't record the visits. Measure the results with the dataset or your server logs instead.
+
+**Does it work with YouTube?**
+Yes, when `enableYoutube` is on. The actor plays the video and stays for `waitOnPage` seconds or the video's length, whichever is shorter. YouTube applies its own view-counting rules, so a simulated watch may not be counted as a view.
+
+**What's the difference between `PAGEVIEW` and `STRESS` mode?**
+`PAGEVIEW` moves the mouse, scrolls, hovers links and waits on the page, and is the only mode that crawls. `STRESS` loads each start URL and leaves after about half a second, with no scrolling and no crawling. It is a fast way to check load times, not a high-concurrency load test: pages are still opened one at a time with a short pause between them.
+
+**How does crawling choose pages?**
+It collects links matching `crawlingLinkSelector` on the start page, keeps those on exactly the same host (so `www.example.com` and `example.com` count as different), shuffles them and visits up to `maxPagesPerUrl − 1`. It goes one level deep only; links on crawled pages are not followed.
+
+**Why does a record say `blocked`?**
+The page loaded but its title was empty or read "Access denied", "Blocked" or "Captcha". The actor can't solve CAPTCHAs, so no time is spent on such pages.
+
+**Can I run several instances at once?**
+Yes. Separate runs are independent, so starting several in parallel multiplies the number of visits.

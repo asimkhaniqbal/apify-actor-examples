@@ -1,47 +1,66 @@
 {
-  "description": "Configure the Facebook Photos Scraper to extract photo data from Facebook pages, profiles, albums, or individual photos.",
+  "description": "Collect public Facebook photos from a page, profile, album, photo permalink, tagged collection, or albums list.",
   "properties": {
+    "includeAlbums": {
+      "default": false,
+      "description": "For page and profile URLs, also walk every album listed on the page's Albums tab and collect its photos. A photos_albums URL implies this automatically.",
+      "prefill": false,
+      "title": "Also collect albums",
+      "type": "boolean"
+    },
+    "includeDetails": {
+      "default": true,
+      "description": "Open each photo to add its caption, timestamp, reactions, comments, shares, tagged people, owner, album, and post link. Turn off for a fast grid-only export; album date bounds still read only the timestamp needed for filtering.",
+      "prefill": true,
+      "title": "Include photo details",
+      "type": "boolean"
+    },
     "newerThan": {
-      "description": "Only include photos posted on or after this date (YYYY-MM-DD). Photos whose date couldn't be determined are always included. Leave empty for no lower bound.",
+      "description": "Only include photos posted on or after this date (YYYY-MM-DD). Applied by Facebook for page and tagged tabs. For albums the actor reads each photo timestamp (even with includeDetails off) and applies the bound; rows stay grid-only.",
       "editor": "textfield",
       "prefill": "",
       "title": "Only photos newer than",
       "type": "string"
     },
     "olderThan": {
-      "description": "Only include photos posted on or before this date (YYYY-MM-DD). Photos whose date couldn't be determined are always included. Leave empty for no upper bound.",
+      "description": "Only include photos posted on or before this date (YYYY-MM-DD). Applied by Facebook for page and tagged tabs. For albums the actor reads each photo timestamp (even with includeDetails off) and applies the bound; rows stay grid-only.",
       "editor": "textfield",
       "prefill": "",
       "title": "Only photos older than",
       "type": "string"
     },
-    "proxyConfiguration": {
-      "description": "Proxy configuration. Residential proxy is required and used by default: individual Facebook photo pages (the source of caption, timestamp, likes, comments, reactions, share count, and tagged people) return a login wall to datacenter/AUTO-tier IPs, so this actor defaults to the RESIDENTIAL proxy group for reliable results. Photo grid data (image URLs, alt text, author info) works without any proxy.",
-      "editor": "proxy",
-      "prefill": {
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
-        ],
-        "useApifyProxy": true
-      },
-      "title": "Proxy Configuration",
-      "type": "object"
+    "photoTab": {
+      "default": "uploaded",
+      "description": "For page and profile URLs: photos uploaded by the page, or photos where the page is tagged by others. Ignored for album and photo URLs.",
+      "editor": "select",
+      "enum": [
+        "uploaded",
+        "tagged"
+      ],
+      "enumTitles": [
+        "Photos uploaded by the page",
+        "Photos the page is tagged in"
+      ],
+      "prefill": "uploaded",
+      "title": "Photo tab",
+      "type": "string"
     },
     "resultsLimit": {
-      "description": "Maximum number of photos to scrape. If not set, as many photos as possible are returned — typically dozens to around a hundred per Start URL, depending on how much Facebook loads for that page. This is a global cap across all Start URLs combined, not per URL — if an early URL alone reaches this limit, later URLs in the list won't be processed. To collect more photos overall, provide multiple album/set URLs or run the actor multiple times.",
+      "default": 100,
+      "description": "Global cap across all Start URLs. The actor keeps paginating until this many photos are collected or the source runs out.",
       "editor": "number",
       "minimum": 1,
-      "prefill": 5,
-      "title": "Maximum number of results",
+      "prefill": 1,
+      "title": "Maximum number of photos",
       "type": "integer"
     },
     "startUrls": {
-      "description": "URLs of Facebook pages, profiles, albums, or individual photos to scrape. Supported formats: page URL (e.g., https://www.facebook.com/humansofnewyork), photos section URL (e.g., https://www.facebook.com/humansofnewyork/photos), individual photo URL (e.g., https://www.facebook.com/photo/?fbid=123456), or album URL.",
+      "description": "Facebook page, profile, photos tab, tagged tab, albums tab, album, or single-photo URL. Bare handles such as nasa are accepted too.",
       "editor": "requestListSources",
       "items": {
         "properties": {
           "url": {
-            "description": "URL of a Facebook page, profile, album, or individual photo to scrape.",
+            "description": "Facebook page, profile, photo album, photos tab, tagged tab, or photo permalink.",
             "title": "URL of a web page",
             "type": "string"
           }
@@ -58,6 +77,13 @@
       ],
       "title": "Facebook URLs",
       "type": "array"
+    },
+    "storeImages": {
+      "default": true,
+      "description": "Copy each full-size image and thumbnail to Apify storage and return non-expiring URLs. The signed Facebook originals and their expiry are kept in the record.",
+      "prefill": true,
+      "title": "Store images permanently",
+      "type": "boolean"
     }
   },
   "required": [

@@ -1,0 +1,62 @@
+{
+  "actorSpecification": 1,
+  "views": {
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "linksFollowed": {
+            "format": "number",
+            "label": "Followed"
+          },
+          "linksFound": {
+            "format": "number",
+            "label": "Links"
+          },
+          "loadTimeMs": {
+            "format": "number",
+            "label": "Load (ms)"
+          },
+          "pageTitle": {
+            "format": "text",
+            "label": "Page Title"
+          },
+          "scrollDepthPercent": {
+            "format": "number",
+            "label": "Scroll %"
+          },
+          "status": {
+            "format": "text",
+            "label": "Status"
+          },
+          "timeOnPageSec": {
+            "format": "number",
+            "label": "Time (s)"
+          },
+          "timestamp": {
+            "format": "text",
+            "label": "Timestamp"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          }
+        }
+      },
+      "title": "Page Visits",
+      "transformation": {
+        "fields": [
+          "url",
+          "status",
+          "pageTitle",
+          "loadTimeMs",
+          "timeOnPageSec",
+          "scrollDepthPercent",
+          "linksFound",
+          "linksFollowed",
+          "timestamp"
+        ]
+      }
+    }
+  }
+}

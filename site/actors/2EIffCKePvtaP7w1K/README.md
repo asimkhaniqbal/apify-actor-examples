@@ -1,106 +1,135 @@
 # Facebook Page Photo Gallery & Engagement Scraper
 
-Collect publicly posted photos from Facebook pages, profiles, and albums — full-resolution image URLs, Facebook's own alt-text descriptions, captions, and per-photo engagement including reactions, comments, shares, and tagged people. No login or cookies required.
+Collect public Facebook photos from pages, profiles, albums, tagged collections, and single-photo links. Each row carries the full-size image and thumbnail, caption, upload time, reaction breakdown, comment and share counts, tagged people, owner/page context, album, and post link. No login, cookies, browser, or proxy setup.
 
 ## What this actor does
 
-- Scrapes photos from a page's photo grid, a specific album, or an individual photo URL
-- Returns the photo ID, photo URL, full-resolution image URL, and Facebook's alt-text description whenever Facebook provides them
-- Adds the author name/URL when the photo grid or the photo's own page shows them
-- Adds caption, timestamp, reactions (by type and total), comment count, share count, and tagged people when Facebook renders that detail for the photo
-- Filters results to a date range with `newerThan`/`olderThan`, applied after collection
-- Only includes fields that actually have data — a photo without a caption simply has no `caption` key, and zero counts (e.g. no shares) are left out too
-
-## Output per photo
-
-- `photoId` — unique Facebook photo identifier
-- `photoUrl` — direct link to the photo on Facebook
-- `imageUrl` — full-resolution image file URL from Facebook's CDN
-- `altText` — Facebook's auto-generated image description
-- `authorName`, `authorUrl` — the page or profile that posted the photo
-- `caption` — photo description/caption text
-- `timestamp` — when the photo was uploaded (ISO 8601)
-- `likesCount`, `commentsCount` — like and comment totals as Facebook reports them
-- `reactionsByType` — breakdown of reactions (`LIKE`, `LOVE`, `CARE`, `HAHA`, `WOW`, `SAD`, `ANGRY`) by count
-- `reactionsTotal` — total reaction count across all types
-- `shareCount` — number of times the photo was shared
-- `taggedPeople` — array of people tagged in the photo, each with `name`, `url`, `id`, `type`
-- `inputUrl` — the Start URL that discovered this photo
-- `scrapedAt` — ISO 8601 timestamp of collection
+- Walks a page or profile's **Photos** tab or its **Tagged** tab; add both URLs to collect both
+- Expands **albums**, a page's **Albums** list, or a direct album URL into its photos
+- Accepts **single-photo permalinks** and photo paths
+- Follows Facebook's cursor pagination 8 photos at a time, de-duplicates, and keeps going past the first 8-photo batch
+- Applies `newerThan` / `olderThan` on Facebook's side for page and tagged tabs (Unix-second query arguments)
+- Opens each photo for caption, timestamp, reactions (7 types), comments, shares, tagged people, album, post, and owner
+- Copies images to durable storage by default and keeps the signed original plus its expiry
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `startUrls` | array | – | **Required.** Facebook page, profile, album, or individual photo URLs to scrape |
-| `resultsLimit` | integer | – | Maximum number of photos to scrape, shared across all Start URLs combined. Leave empty to collect as many as the page loads (at most 1,000 per URL). The date filter runs afterwards, so it can leave fewer |
-| `newerThan` | string | – | Only include photos posted on or after this date (`YYYY-MM-DD`) |
-| `olderThan` | string | – | Only include photos posted on or before this date (`YYYY-MM-DD`) |
-| `proxyConfiguration` | object | – | Proxy configuration. The input is prefilled with the residential group, and when left empty the actor uses a residential proxy anyway, because per-photo detail pages require it |
+| `startUrls` | array | – | Page, profile, `/photos`, `/photos_by`, `/photos_stream`, `/photos_of`, `/photos_albums`, album, photo permalink, or bare handle |
+| `resultsLimit` | integer | `100` | Global cap across all Start URLs |
+| `newerThan` | string | – | Keep photos posted on or after this `YYYY-MM-DD` |
+| `olderThan` | string | – | Keep photos posted on or before this `YYYY-MM-DD` |
+| `photoTab` | select | `uploaded` | For page/profile URLs: `uploaded` or `tagged` |
+| `includeAlbums` | boolean | `false` | Also walk every album on a page/profile |
+| `includeDetails` | boolean | `true` | Open each photo; turn off for a fast grid-only export. Album date bounds still read only the timestamp needed for filtering |
+| `storeImages` | boolean | `true` | Store permanent image and thumbnail copies in Apify storage |
 
-Photos whose posting date can't be determined are always included regardless of `newerThan`/`olderThan`.
+`proxyConfiguration` is no longer an input. The actor selects its own connection path; old saved tasks that still send the key are accepted and the key is ignored.
 
-### Example: a page's photo grid
+### Examples
 
-```json
-{
-  "startUrls": [{ "url": "https://www.facebook.com/humansofnewyork/photos" }],
-  "resultsLimit": 10
-}
-```
-
-### Example: filtered to a date range
+A page's recent photos:
 
 ```json
 {
-  "startUrls": [{ "url": "https://www.facebook.com/humansofnewyork/photos" }],
-  "resultsLimit": 50,
-  "newerThan": "2024-01-01",
-  "olderThan": "2024-12-31"
+  "startUrls": [{"url": "https://www.facebook.com/humansofnewyork/photos"}],
+  "resultsLimit": 50
 }
 ```
 
-### Example: a single photo URL
+Tagged photos of a page:
 
 ```json
 {
-  "startUrls": [{ "url": "https://www.facebook.com/photo/?fbid=1547667900257527" }]
+  "startUrls": [{"url": "https://www.facebook.com/nike"}],
+  "photoTab": "tagged",
+  "resultsLimit": 100
 }
 ```
 
-## Use cases
+Every album on a page:
 
-- **Brand asset archiving** — collect a page's photo history with full-resolution URLs
-- **Engagement analysis** — compare reaction breakdowns and share counts across a page's photos
-- **Content moderation research** — review tagged people and captions across an album
-- **Accessibility auditing** — check alt-text coverage across a page's images
-- **Competitive monitoring** — track a competitor's photo posting cadence and engagement over time
+```json
+{
+  "startUrls": [{"url": "https://www.facebook.com/nasa/photos_albums"}],
+  "resultsLimit": 300
+}
+```
+
+A date window:
+
+```json
+{
+  "startUrls": [{"url": "https://www.facebook.com/nationalgeographic/photos"}],
+  "newerThan": "2025-01-01",
+  "olderThan": "2025-12-31",
+  "resultsLimit": 200
+}
+```
+
+A single photo:
+
+```json
+{
+  "startUrls": [{"url": "https://www.facebook.com/photo/?fbid=1547667900257527"}]
+}
+```
+
+## Output per photo
+
+Legacy fields keep their names: `photoId`, `photoUrl`, `imageUrl`, `caption`, `altText`, `timestamp`, `likesCount`, `commentsCount`, `reactionsByType`, `reactionsTotal`, `shareCount`, `taggedPeople`, `authorName`, `authorUrl`, `inputUrl`, `scrapedAt`.
+
+Added fields include `imageUrlOriginal`, `imageExpiresAt`, `imageWidth`, `imageHeight`, `thumbnailUrl`, `thumbnailUrlOriginal`, `ocrText` (Facebook's accessibility caption, not a second OCR pass), `createdTime`, `likeCount`…`angryCount`, `uploaderId/Name/Url`, `pageId/Name/Url/Followers`, `albumId`, `albumName`, `postId`, `postUrl`, `sourceType`, and `detailsStatus`.
+
+`likesCount` keeps its old meaning (total reactions); `likeCount` is the LIKE reaction only. Empty values are omitted. A photo without a caption simply has no `caption` key; a zero count is kept when Facebook reports zero. With `includeDetails` off, album rows have only the grid thumbnail and thumbnail dimensions; `imageUrl` requires details. Album date bounds still work in this mode: the actor reads just the timestamp and keeps the row grid-only.
+
+## Pagination and limits
+
+Facebook returns 8 photos per collection request. The actor follows the cursor until the source ends, `resultsLimit` is reached, three consecutive requests add no new ids, or a duplicate-heavy safety budget is hit. A collection also stops after 2,000 pages (about 16,000 photos) as a safety cap. When a target stops early, the status message notes the shortfall; the log may not name the exact stop cause. No 1,000-photo or 5,000-photo artificial cap is applied.
+
+## Image links and storage
+
+Facebook's CDN links are signed and expire. With `storeImages` on (default), each image and thumbnail is copied to Apify storage; when a copy succeeds, `imageUrl` / `thumbnailUrl` become permanent public links. `imageUrlOriginal` and `imageExpiresAt` preserve the source. If a copy fails, the signed source link is kept and the run continues. With `storeImages` off, the signed links are returned as-is and the expiry is still recorded.
+
+## What this actor cannot collect
+
+- **Photo location** — Facebook does not expose a place/location for photos on these surfaces
+- **Multiple image resolutions** — the photo viewer exposes one image URI plus width/height
+- **Private profiles, login-only pages, and groups** — only what a logged-out visitor sees
+- **Comment bodies or reactor identities** — counts only; use the comments actor for threads
+- **Videos and Reels** — the Photos collections contain photos; use the posts/reels actors for video
+- **One row per album** — album metadata is attached to its photos; an albums-list URL expands into photos
 
 ## FAQ
 
-**Can I scrape photos without a Facebook account?**
-Yes. The actor requires no login, cookies, or API keys — only publicly visible content is read.
+**Do I need a Facebook account?**
+No. The actor reads only public, logged-out content and never asks for cookies or credentials.
 
-**Why are caption and engagement fields sometimes missing?**
-Those fields are only present when Facebook includes them in the public page data for that specific photo. Some photos genuinely have no caption, comments, reactions, or shares.
+**Why did a target return no photos?**
+It may not exist, be private, or hide its Photos tab from logged-out visitors. The final status message names failed targets.
 
-**Why don't I see a label for every reaction type?**
-The actor maps Facebook's reaction IDs to labels (`LIKE`, `LOVE`, `CARE`, `HAHA`, `WOW`, `SAD`, `ANGRY`) using a known mapping. An unrecognized reaction ID ships as its raw numeric string instead of a guessed label, so `reactionsByType` stays accurate.
+**Why are some captions or owner names missing?**
+Facebook genuinely has no caption for some photos, and occasionally omits the uploader's display name. Empty fields are omitted rather than filled with guesses.
 
-**Can I scrape private profiles or albums?**
-No. Only publicly accessible Facebook content is supported.
+**What does `detailsStatus` mean?**
+`Complete` means the photo page was read; `GridOnly` means details were turned off; `Unavailable` means the photo page could not be read, so grid fields were kept.
 
-**How many photos will I get from one Start URL?**
-A single page, profile, or album URL typically surfaces on the order of dozens to around a hundred photos per run, depending on how much Facebook loads for that view. For larger collections, list multiple album/set URLs in `startUrls` or run the actor multiple times.
+**Why do some images need a slower request?**
+Gallery pages are free to read. Individual photo pages are often served as a stripped page to datacenter IPs, so the actor automatically retries the detail request through a residential connection. The gallery does not use that path.
 
-**Why does `resultsLimit` apply across all my Start URLs instead of per URL?**
-It's a shared cap: if an early URL alone reaches the limit, later URLs in the list won't be processed. Set it generously, or run each source as a separate call, if you need every URL covered.
+**How many photos can I get?**
+As many as the page exposes to a logged-out visitor, up to `resultsLimit`. A collection stops after 2,000 pages (about 16,000 photos) even if more remain. Thousands of photos have been walked from one page; duplicate-heavy pages may stop at the safety budget and the status message notes the shortfall.
 
-**Why is a residential proxy used by default?**
-Photo grid fields (`photoId`, `imageUrl`, `authorName`, `authorUrl`, `altText`) work without any proxy, but Facebook serves a login wall on individual photo detail pages to non-residential IPs — the fields that come from there (`caption`, `timestamp`, reactions, `shareCount`, `taggedPeople`) need a residential proxy to come through reliably.
+**Can I filter by date?**
+Yes. Use `YYYY-MM-DD`. Page and tagged tabs send the window to Facebook. Albums have no server-side date filter, so each photo has to be opened and checked. This works even with `includeDetails` off: the actor reads only the timestamp needed for the bound, keeps the row grid-only, and stops with a clear status if the window is not reached within the scan budget. An album date run costs one detail request per photo examined.
 
-**Can I filter photos by date?**
-Yes. Use `newerThan`/`olderThan` (format `YYYY-MM-DD`); photos whose date couldn't be determined are always included regardless of the filter. The filter is applied after `resultsLimit` photos have been collected, so a narrow date range can return fewer photos than the limit — raise `resultsLimit` to compensate. An invalid date is ignored.
+**Are image links permanent?**
+With `storeImages` on, yes, when the copy succeeds; a failed copy leaves the signed source link. With it off, Facebook's signed links expire.
 
 **Is this affiliated with Facebook?**
-No. This is an independent, third-party actor that reads Facebook's public pages; it isn't affiliated with or endorsed by Meta.
+No. This is an independent third-party tool that reads public pages; it is not affiliated with or endorsed by Meta.
+
+## Data source
+
+Public `facebook.com` pages, profiles, photo albums, and photo permalinks, read without login. The actor does not bypass private content or login walls.
