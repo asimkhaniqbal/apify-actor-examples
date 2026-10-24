@@ -1,0 +1,386 @@
+{
+  "properties": {
+    "authorFlairContains": {
+      "description": "Only keep posts whose author flair text contains this text (case-insensitive substring match). Leave empty to keep all.",
+      "editor": "textfield",
+      "example": "Moderator",
+      "title": "Author flair contains keyword",
+      "type": "string"
+    },
+    "authors": {
+      "description": "Only keep posts submitted by one of these usernames (bare name or u/-prefixed, case-insensitive). Leave empty to keep posts from all authors.",
+      "editor": "stringList",
+      "example": [
+        "spez"
+      ],
+      "title": "Only posts by these authors",
+      "type": "array"
+    },
+    "commentSort": {
+      "default": "confidence",
+      "description": "How to sort the comment threads.",
+      "enum": [
+        "confidence",
+        "top",
+        "new",
+        "controversial",
+        "old",
+        "qa"
+      ],
+      "enumTitles": [
+        "Best (Confidence)",
+        "Top",
+        "New",
+        "Controversial",
+        "Old",
+        "Q&A"
+      ],
+      "prefill": "confidence",
+      "title": "Sort comments by",
+      "type": "string"
+    },
+    "contentContains": {
+      "description": "Only keep self (text) posts whose body contains this text (case-insensitive substring match). Link/image/video posts have no body text and are excluded when this is set. Leave empty to keep all posts.",
+      "editor": "textfield",
+      "example": "tutorial",
+      "title": "Post text contains keyword",
+      "type": "string"
+    },
+    "distinguished": {
+      "description": "Only keep posts distinguished by Reddit as moderator, admin or special (e.g. Reddit-team) posts, or only regular (non-distinguished) posts. Leave unset to keep all posts.",
+      "enum": [
+        "moderator",
+        "admin",
+        "special",
+        "none"
+      ],
+      "enumTitles": [
+        "Moderator posts only",
+        "Admin posts only",
+        "Special (official) posts only",
+        "Regular posts only (exclude all distinguished)"
+      ],
+      "title": "Distinguished (official) posts only",
+      "type": "string"
+    },
+    "domain": {
+      "description": "Only keep posts whose link domain contains this text (case-insensitive, e.g. 'youtube.com' or 'self.python'). Leave empty to keep all domains.",
+      "editor": "textfield",
+      "example": "youtube.com",
+      "title": "Domain contains",
+      "type": "string"
+    },
+    "excludeArchived": {
+      "default": false,
+      "description": "When enabled, posts that Reddit has archived (locked from further voting/commenting after 6 months) are dropped from the results.",
+      "prefill": false,
+      "title": "Exclude archived posts",
+      "type": "boolean"
+    },
+    "excludeAuthors": {
+      "description": "Drop posts submitted by any of these usernames (bare name or u/-prefixed, case-insensitive) — useful for filtering out bots (e.g. AutoModerator) or known spam accounts. Leave empty to keep posts from all authors.",
+      "editor": "stringList",
+      "example": [
+        "AutoModerator"
+      ],
+      "title": "Exclude posts by these authors",
+      "type": "array"
+    },
+    "excludeCrossposts": {
+      "default": false,
+      "description": "When enabled, posts that are crossposts from another subreddit are dropped from the results, keeping only original submissions to the scraped subreddit.",
+      "prefill": false,
+      "title": "Exclude crossposts",
+      "type": "boolean"
+    },
+    "excludeDeletedAuthor": {
+      "default": false,
+      "description": "When enabled, posts whose author account was deleted (shown as [deleted]/[removed]) are dropped from the results.",
+      "prefill": false,
+      "title": "Exclude posts with a deleted/removed author",
+      "type": "boolean"
+    },
+    "excludeKeywords": {
+      "description": "Drop posts whose title, self-text body or flair contains any of these keywords or phrases (case-insensitive substring match) — useful for filtering out megathreads, giveaways or spam boilerplate. Leave empty to keep all posts.",
+      "editor": "stringList",
+      "example": [
+        "megathread"
+      ],
+      "title": "Exclude keywords",
+      "type": "array"
+    },
+    "excludeLocked": {
+      "default": false,
+      "description": "When enabled, posts with comments locked by a moderator are dropped from the results.",
+      "prefill": false,
+      "title": "Exclude locked posts",
+      "type": "boolean"
+    },
+    "excludeRemoved": {
+      "default": false,
+      "description": "When enabled, posts removed by a moderator, Reddit, or deleted by their author (marker: removed_by_category) are dropped from the results. Useful for market-research runs where takedown noise isn't wanted.",
+      "prefill": false,
+      "title": "Exclude removed/deleted posts",
+      "type": "boolean"
+    },
+    "excludeSpoilers": {
+      "default": false,
+      "description": "When enabled, posts marked as a spoiler by their author are dropped from the results.",
+      "prefill": false,
+      "title": "Exclude spoiler-tagged posts",
+      "type": "boolean"
+    },
+    "excludeStickied": {
+      "default": false,
+      "description": "When enabled, posts pinned/stickied by moderators (e.g. rules, weekly threads) are dropped from the results.",
+      "prefill": false,
+      "title": "Exclude stickied/pinned posts",
+      "type": "boolean"
+    },
+    "flairContains": {
+      "description": "Only keep posts whose flair text contains this text (case-insensitive substring match). Leave empty to keep all flairs.",
+      "editor": "textfield",
+      "example": "Discussion",
+      "title": "Flair contains keyword",
+      "type": "string"
+    },
+    "fullSubreddit": {
+      "default": false,
+      "description": "When enabled, the actor walks 'New' posts as deep as Reddit allows (roughly 1,000 posts per listing) instead of stopping at the first pages. Combine with a higher 'Maximum posts per subreddit'.",
+      "prefill": false,
+      "title": "Full subreddit mode (deepest reachable history)",
+      "type": "boolean"
+    },
+    "includeComments": {
+      "default": false,
+      "description": "When enabled, the full comment thread (including nested replies) is collected for every scraped post. Significantly increases run time and output.",
+      "prefill": false,
+      "title": "Include comments for each post",
+      "type": "boolean"
+    },
+    "includeNSFW": {
+      "default": false,
+      "description": "Include posts marked as Not Safe For Work in the results. Note: some NSFW subreddits block datacenter IPs entirely; for those, using a proxy is recommended.",
+      "prefill": false,
+      "title": "Include NSFW (18+) content",
+      "type": "boolean"
+    },
+    "maxComments": {
+      "description": "Only keep posts with at most this many comments. Useful for finding under-discussed posts. Leave unset to keep all posts.",
+      "example": 500,
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Maximum number of comments",
+      "type": "integer"
+    },
+    "maxCommentsPerPost": {
+      "default": 0,
+      "description": "Maximum number of comments to scrape per post (only used when 'Include comments' is enabled).",
+      "example": 100,
+      "maximum": 100000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Maximum comments per post",
+      "type": "integer"
+    },
+    "maxContentLength": {
+      "description": "Only keep self (text) posts whose body is at most this many characters long. Leave unset to keep all lengths.",
+      "example": 5000,
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Maximum post body length (characters)",
+      "type": "integer"
+    },
+    "maxItems": {
+      "default": 10000,
+      "description": "Global safety cap on the total number of records pushed for the whole run (posts and comments combined). Guards against runaway costs on large multi-subreddit runs; records are collected until the cap is reached.",
+      "example": 5000,
+      "maximum": 100000,
+      "minimum": 1,
+      "prefill": 10000,
+      "title": "Maximum total items (safety cap)",
+      "type": "integer"
+    },
+    "maxPosts": {
+      "default": 25,
+      "description": "Maximum number of posts to scrape from each subreddit. Raise this when using the full-subreddit mode.",
+      "example": 25,
+      "maximum": 5000,
+      "minimum": 1,
+      "prefill": 25,
+      "title": "Maximum posts per subreddit",
+      "type": "integer"
+    },
+    "maxScore": {
+      "description": "Only keep posts with a score at or below this value. Useful for finding overlooked/low-visibility posts. Leave unset to keep all scores.",
+      "example": 1000,
+      "maximum": 1000000,
+      "minimum": -100000,
+      "title": "Maximum score (upvotes minus downvotes)",
+      "type": "integer"
+    },
+    "minAwards": {
+      "description": "Only keep posts with at least this many total awards. Leave unset to keep all posts.",
+      "example": 1,
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Minimum awards received",
+      "type": "integer"
+    },
+    "minComments": {
+      "description": "Only keep posts with at least this many comments. Leave unset to keep all posts.",
+      "example": 5,
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Minimum number of comments",
+      "type": "integer"
+    },
+    "minContentLength": {
+      "description": "Only keep self (text) posts whose body is at least this many characters long. Link/image/video posts have no body and are excluded when this is set. Useful for dropping one-line/low-effort text posts when building NLP datasets. Leave unset to keep all lengths.",
+      "example": 100,
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Minimum post body length (characters)",
+      "type": "integer"
+    },
+    "minScore": {
+      "description": "Only keep posts with a score at or above this value. Leave unset to keep all scores.",
+      "example": 10,
+      "maximum": 1000000,
+      "minimum": -100000,
+      "title": "Minimum score (upvotes minus downvotes)",
+      "type": "integer"
+    },
+    "minUpvoteRatio": {
+      "description": "Only keep posts whose upvote ratio (fraction of votes that are upvotes, 0-1) is at or above this value. Useful for filtering out controversial/divisive posts. Leave unset to keep all ratios.",
+      "example": 0.8,
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Minimum upvote ratio",
+      "type": "number"
+    },
+    "onlyOriginalContent": {
+      "default": false,
+      "description": "When enabled, only posts the author tagged as original content are kept.",
+      "prefill": false,
+      "title": "Only original content (OC) posts",
+      "type": "boolean"
+    },
+    "onlyWithFlair": {
+      "default": false,
+      "description": "When enabled, posts without a flair tag are dropped from the results.",
+      "prefill": false,
+      "title": "Only posts that have a flair",
+      "type": "boolean"
+    },
+    "postType": {
+      "description": "Keep only posts of the selected content type. Leave unset to keep all types.",
+      "enum": [
+        "self",
+        "link",
+        "image",
+        "video",
+        "gallery",
+        "poll"
+      ],
+      "enumTitles": [
+        "Text (self post)",
+        "Link",
+        "Image",
+        "Video",
+        "Gallery",
+        "Poll"
+      ],
+      "title": "Only posts of this type",
+      "type": "string"
+    },
+    "postedAfter": {
+      "description": "Only keep posts created on or after this date (UTC). When set, collection runs newest-first (sort=new) and the sort option above is ignored. Reddit caps each listing at roughly 1,000 posts, so a distant date window on a very active subreddit may not be fully reachable.",
+      "editor": "datepicker",
+      "example": "2025-01-01",
+      "title": "Posts created on or after (YYYY-MM-DD)",
+      "type": "string"
+    },
+    "postedBefore": {
+      "description": "Only keep posts created on or before this date (interpreted as the end of that day, UTC).",
+      "editor": "datepicker",
+      "example": "2025-12-31",
+      "title": "Posts created on or before (YYYY-MM-DD)",
+      "type": "string"
+    },
+    "sort": {
+      "default": "hot",
+      "description": "How to sort posts in the subreddit. Note: when a 'Posts created on or after' date is set, collection switches to 'New' automatically so older posts can be reached.",
+      "enum": [
+        "hot",
+        "new",
+        "top",
+        "rising",
+        "controversial",
+        "best"
+      ],
+      "enumTitles": [
+        "Hot",
+        "New",
+        "Top",
+        "Rising",
+        "Controversial",
+        "Best"
+      ],
+      "prefill": "hot",
+      "title": "Sort posts by",
+      "type": "string"
+    },
+    "subreddits": {
+      "description": "List of subreddits to scrape. Accepts bare names (python), r/ prefixed (r/python) or full URLs (https://www.reddit.com/r/python/).",
+      "editor": "stringList",
+      "example": [
+        "python",
+        "r/programming",
+        "https://www.reddit.com/r/webdev/"
+      ],
+      "minItems": 1,
+      "prefill": [
+        "python"
+      ],
+      "title": "Subreddits",
+      "type": "array"
+    },
+    "timeFilter": {
+      "default": "day",
+      "description": "Time filter when sorting by 'top' or 'controversial'.",
+      "enum": [
+        "hour",
+        "day",
+        "week",
+        "month",
+        "year",
+        "all"
+      ],
+      "enumTitles": [
+        "Past Hour",
+        "Past Day",
+        "Past Week",
+        "Past Month",
+        "Past Year",
+        "All Time"
+      ],
+      "prefill": "day",
+      "title": "Time filter (for 'top' and 'controversial' sort)",
+      "type": "string"
+    },
+    "titleContains": {
+      "description": "Only keep posts whose title contains this text (case-insensitive substring match). Leave empty to keep all titles.",
+      "editor": "textfield",
+      "example": "launch",
+      "title": "Title contains keyword",
+      "type": "string"
+    }
+  },
+  "required": [
+    "subreddits"
+  ],
+  "schemaVersion": 1,
+  "title": "Reddit Subreddit Scraper Input",
+  "type": "object"
+}
