@@ -4,92 +4,103 @@
 
 # Vinted Secondhand Listings, Closets & Seller Feedback
 
-Vinted's own search only shows what you're willing to click through page by page. This actor queries the same marketplace across 19 country storefronts (US, UK, France, Germany, Italy, Spain, Poland, Czechia, Netherlands, Lithuania, Luxembourg, Austria, Belgium, Portugal, Romania, Slovakia, Finland, Sweden, Greece) and returns structured rows instead: search by keyword and filter, pull a seller's profile and closet, list items under a brand or category, look up the brand registry, or export a seller's feedback history. No account needed.
+Vinted is a large second-hand fashion marketplace spread across country storefronts. This actor turns its public listings, item pages, seller profiles, closets, feedback history, brands and categories into clean dataset rows across 27 markets. Search by keyword with Vinted's own filters, paste filtered URLs, open full item details, or vet a seller before buying. No account, cookies or proxy setup is needed.
 
 ## What this actor does
 
-- **Seven modes**: `search`, `byUrl`, `byUser`, `byBrand`, `byCatalog`, `byBrandSearch`, `byUserFeedbacks`
-- **Search filters**: brand, catalog/category, size, color, material, condition, a price range and sort order, all combinable in one search (they also apply in `byBrand`, `byCatalog` and to brand/catalog links in `byUrl`)
-- **Direct URL input**: paste an item, member, brand, or catalog URL and the actor figures out what to fetch; links from other Vinted country sites are fetched from their own storefront
-- **Post-fetch filters**: drop items below a minimum seller rating, or that don't contain a keyword in the title/description (item listings from searches, brands, catalogs and closets only)
-- **Empty fields are stripped before the record is pushed** — every field you see carries a real value, never a placeholder
+- **Seven modes:** `search`, `byUrl`, `byUser`, `byBrand`, `byCatalog`, `byBrandSearch`, `byUserFeedbacks`
+- **27 markets:** United States, United Kingdom, France, Germany, Italy, Spain, Poland, Czechia, Netherlands, Lithuania, Luxembourg, Austria, Belgium, Portugal, Romania, Slovakia, Finland, Sweden, Greece, Denmark, Estonia, Croatia, Hungary, Ireland, Latvia, Slovenia and Australia
+- **Search filters:** keyword, brand, category, size, colour, condition, material, price range and sort order, combinable in one search
+- **Deep search:** split a broad search into price bands to collect beyond Vinted's 960-result ceiling per query
+- **Optional item details:** description, colour, material, category path, condition ID, upload age, every photo and seller rating
+- **Optional seller stats:** rating, feedback counts, live and sold item counts, followers, business/shop identity
+- **Seller feedback:** full review history with rating, text, reviewer and optional owner reply
+- **Best-effort enrichment:** item details and seller stats are optional; under Vinted rate limits those fields can be omitted or delayed while the search rows still return
+- **Empty fields are omitted** — every value in a row is real; fields Vinted does not expose are absent, not filled with placeholders
 
-## Output per record
-
-Every record starts with `recordType` (`item`, `user`, `brand` or `feedback`) and ends with `scrapedAt`, `siteName` (`Vinted`), `sourceCountry` (storefront domain, e.g. `fr`) and `sourceCountryCode` (ISO country code).
-
-### Item records (`search`, `byUser`, `byBrand`, `byCatalog`, and `byUrl` member/brand/catalog links)
+## Output per item
 
 - `itemId`, `title`, `description`
-- `brandTitle`, `brandId`, `catalogId`
-- `sizeTitle`, `sizeId`, `statusId`, `status` (condition)
-- `priceAmount`, `priceCurrency`, `totalPriceAmount`, `serviceFeeAmount`
-- `isVisible`, `isClosed`, `isReserved`, `isPromoted`
-- `favouriteCount`, `viewCount`, `createdAt`, `updatedAt`
-- `itemUrl`, `canonicalUrl`, `imageUrl`, `photos[]`
-- `sellerId`, `sellerLogin`, `sellerCountryCode`, `sellerProfileUrl`, `sellerAvatarUrl`, `sellerFeedbackCount`, `sellerFeedbackReputation`, `sellerIsBusiness`
+- `brandTitle`, `brandId`, `brandUrl`
+- `sizeTitle`, `sizeId`, `sizeEquivalents`
+- `status` (condition as shown on the storefront), `condition` (English), `conditionId`, `statusId`
+- `color`, `colors`, `materials`, `otherAttributes`
+- `catalogId`, `categoryName`, `categoryPath`
+- `priceAmount`, `priceCurrency`, `totalPriceAmount`, `serviceFeeAmount`, `shippingAmount`, `freeShipping`
+- `favouriteCount`, `isPromoted`, `isReserved`, `isClosed`, `isHidden`, `isVisible`, `availability`
+- `uploadedAgo` — Vinted's relative posting age (e.g. "2 hours ago")
+- `itemUrl`, `canonicalUrl`, `imageUrl`, `photos[]`, `photoCount`
+- `sellerId`, `sellerLogin`, `sellerCountryCode`, `sellerProfileUrl`, `sellerAvatarUrl`
+- `sellerRating`, `sellerFeedbackCount`, `sellerFeedbackReputation`
+- `sellerPositiveFeedbackCount`, `sellerNeutralFeedbackCount`, `sellerNegativeFeedbackCount`
+- `sellerItemCount`, `sellerSoldItemCount`, `sellerBoughtItemCount`, `sellerFollowersCount`
+- `sellerIsBusiness`, `sellerIsOnline`, `sellerBadges`
+- `sellerShopName`, `sellerShopLegalName`, `sellerShopVatNumber`, `sellerShopCountry`, `sellerShop`
+- `sourceUrl` when an item came from a pasted URL
+- `recordType`, `scrapedAt`, `siteName`, `sourceCountry`, `sourceCountryCode`
 
-### Item records from `byUrl` item links
+Fields marked optional above appear only when the selected mode enriches the row or Vinted supplies them.
 
-A single item link is read from the public item page, which carries less data: `itemId`, `title`, `description`, `brandTitle`, `priceAmount`, `priceCurrency`, `imageUrl`, `itemUrl`, `canonicalUrl`, `category`, `color`, `availability`, `itemCondition` and `sourceUrl` (the link you supplied), when the page shows them.
+## Output per seller profile
 
-### User records (`byUser`, `byUrl` member links)
+- `userId`, `login`, `realName`, `about`, `city`, `countryCode`, `countryTitle`, `countryId`
+- `avatarUrl`, `avatarThumbnailUrl`, `profileUrl`
+- `rating` (0–5), `feedbackCount`, `feedbackReputation`, `feedbackRating`
+- `positiveFeedbackCount`, `negativeFeedbackCount`, `neutralFeedbackCount`
+- `itemCount`, `totalItemsCount`, `soldItemCount`, `boughtItemCount`
+- `followersCount`, `followingCount`
+- `isBusiness`, `isOnHoliday`, `isOnline`, `verifications`
+- `shop` — name, legal name/code, VAT number, registrar, country, address and verification state for business sellers
+- `lastLoggedOn`, `recordType`, `scrapedAt`, `siteName`, `sourceCountry`, `sourceCountryCode`
 
-One profile record, written before that seller's closet items.
+One profile row is written before that seller's closet items.
 
-- `userId`, `login`, `realName`, `about`, `city`
-- `avatarUrl`, `avatarThumbnailUrl`
-- `countryCode`, `countryId`
-- `feedbackCount`, `feedbackReputation`, `feedbackRating`, `positiveFeedbackCount`, `negativeFeedbackCount`, `neutralFeedbackCount`
-- `itemCount`, `givenItemCount`, `taxpayerCount`, `followersCount`, `followingCount`
-- `isModerator`, `isBusiness`, `isOnHoliday`, `isHated`
-- `lastLoggedOn`, `createdAt`, `profileUrl`
-
-### Brand records (`byBrandSearch`)
-
-- `brandId`, `title`, `slug`
-- `favouriteCount`, `prettyFavouriteCount`, `itemCount`, `prettyItemCount`
-- `isVisibleInListings`, `requiresAuthenticityCheck`, `isLuxury`, `isHighValue`
-- `brandUrl`, `canonicalUrl`
-
-### Feedback records (`byUserFeedbacks`)
+## Output per feedback entry
 
 - `feedbackId`, `feedbackText`, `rating`, `createdAt`
-- `itemId`, `feedbackUserId`, `isSystem`
-- `ownerComment`, `ownerLogin` — the seller's own reply, when they left one
-- `reviewerLogin`, `reviewerProfileUrl`
+- `itemId`, `itemUrl`
+- `feedbackUserId`, `reviewerId`, `reviewerLogin`, `reviewerProfileUrl`
+- `isSystem`, `isAutomatic`, `feedbackType` (`member` or `automatic`)
+- `ownerComment`, `ownerLogin`
+- `recordType`, `scrapedAt`, `siteName`, `sourceCountry`, `sourceCountryCode`
+
+## Output per brand
+
+- `brandId`, `title`, `slug`
+- `favouriteCount`, `itemCount`, `currency`
+- `isVisibleInListings`, `requiresAuthenticityCheck`, `isLuxury`, `isHighValue`
+- `brandUrl`, `canonicalUrl`
+- `recordType`, `scrapedAt`, `siteName`, `sourceCountry`, `sourceCountryCode`
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `search` | `search`, `byUrl`, `byUser`, `byBrand`, `byCatalog`, `byBrandSearch`, or `byUserFeedbacks`. |
-| `country` | string | `com` | Storefront domain, e.g. `com`, `co.uk`, `fr`, `de`, `it`, `es`. |
-| `searchText` | string | `adidas` | Free-text keyword (mode=search). If the field is omitted entirely, the default `adidas` is searched; send an empty string to search without a keyword. |
-| `order` | string | `relevance` | `relevance`, `newest_first`, `price_high_to_low`, `price_low_to_high` (item listings from search, brand and catalog). |
-| `urls` | array | `[]` | Direct Vinted URLs — item, member, brand, or catalog (mode=byUrl). Brand and catalog links return that brand's or category's item listings. |
-| `userId` | string | – | Numeric Vinted user ID (mode=byUser / byUserFeedbacks). |
-| `brandId` | string | – | Numeric brand ID (mode=byBrand). Use `byBrandSearch` to discover IDs. |
-| `catalogId` | string | – | Numeric catalog/category ID (mode=byCatalog). |
-| `brandKeyword` | string | – | Keyword to search the brand registry (mode=byBrandSearch). |
-| `brandIds` | array | `[]` | Limit a search to one or more brand IDs. |
-| `catalogIds` | array | `[]` | Limit a search to one or more catalog IDs. |
-| `sizeIds` | array | `[]` | Limit a search to one or more size IDs. |
-| `colorIds` | array | `[]` | Limit a search to one or more color IDs. |
-| `materialIds` | array | `[]` | Limit a search to one or more material IDs. |
-| `statusIds` | array | `[]` | Limit a search to one or more condition IDs. |
-| `priceFrom` | integer | – | Minimum price, in the storefront's local currency. |
-| `priceTo` | integer | – | Maximum price, in the storefront's local currency. |
-| `minRating` | number | – | Drop items whose seller's feedback rating is below this (0.0–5.0). Items without a seller rating are kept. Not applied to feedback, brand or user records, or to single item links. |
-| `containsKeyword` | string | – | Drop items whose title or description doesn't contain this keyword (same scope as `minRating`). |
-| `maxItems` | integer | `50` | Cap on records (1–1000): items, brands or feedbacks for the chosen mode. In `byUser` the profile record comes on top, and in `byUrl` each brand or catalog link can return up to this many items on its own. |
-| `perPage` | integer | `96` | Page size requested from Vinted (1–96). |
-| `useProxy` | boolean | `false` | Route requests through Apify proxy; useful if a Cloudflare challenge appears. |
-| `autoEscalateOnBlock` | boolean | `true` | Retry through Apify proxy automatically if a direct request gets blocked. |
-| `proxyConfiguration` | object | – | Apify proxy configuration, used only when `useProxy` is on. |
-| `cookieHeader` | string | – | Optional logged-in cookie header, only needed if public endpoints start returning 401/403 for you. |
+| `mode` | string | `search` | `search`, `byUrl`, `byUser`, `byBrand`, `byCatalog`, `byBrandSearch` or `byUserFeedbacks` |
+| `country` | string | `com` | Market suffix, e.g. `com`, `co.uk`, `fr`, `de`, `pl` |
+| `searchText` | string | – | Keyword (mode=search) |
+| `order` | string | `relevance` | `relevance`, `newest_first`, `price_low_to_high`, `price_high_to_low` |
+| `urls` | array | – | Item, member, brand, catalog or filtered search URLs (mode=byUrl) |
+| `userId` | string | – | Numeric user ID, username or member URL (mode=byUser / byUserFeedbacks) |
+| `brandId` | string | – | Brand ID or brand URL (mode=byBrand) |
+| `catalogId` | string | – | Category ID or catalog URL (mode=byCatalog) |
+| `brandKeyword` | string | – | Brand registry keyword (mode=byBrandSearch) |
+| `brandIds` | array | – | Brand ID filters |
+| `catalogIds` | array | – | Category ID filters |
+| `sizeIds` | array | – | Size ID filters |
+| `color` | string | `any` | Vinted colour ID; the dropdown shows labels such as Black, Gray, White, Cream, Beige, Red, Blue, Green, Brown, Yellow, Silver, Gold and Multi |
+| `materialIds` | array | – | Material ID filters |
+| `condition` | string | `any` | `new_with_tags`, `new_without_tags`, `very_good`, `good`, `satisfactory` |
+| `priceFrom` / `priceTo` | integer | – | Price range in the market's local currency |
+| `deepSearch` | boolean | `false` | Split broad searches into price bands past 960 results; a saturated single-price band is treated as truncated |
+| `includeItemDetails` | boolean | `false` | Add description, attributes, all photos and seller rating from item pages |
+| `includeSellerStats` | boolean | `false` | Add seller rating, counts, followers and shop identity |
+| `minRating` | number | – | Drop items below this seller rating (0–5); items without a rating pass |
+| `containsKeyword` | string | – | Keep items whose title or description contains this text |
+| `maxItems` | integer | `50` | Hard cap (1–5000) |
+| `feedbackType` | string | `all` | `all`, `member` or `automatic` (mode=byUserFeedbacks) |
 
-### Example: search with brand, size, and price filters
+### Example: search a brand with filters
 
 ```json
 {
@@ -98,67 +109,98 @@ One profile record, written before that seller's closet items.
   "searchText": "nike air max",
   "brandIds": ["53"],
   "sizeIds": ["207"],
+  "condition": "very_good",
   "priceFrom": 20,
   "priceTo": 80,
   "maxItems": 100
 }
 ```
 
-### Example: a seller's profile and closet by URL
+### Example: item details and seller stats
+
+```json
+{
+  "mode": "search",
+  "country": "de",
+  "searchText": "carhartt jacket",
+  "includeItemDetails": true,
+  "includeSellerStats": true,
+  "maxItems": 25
+}
+```
+
+### Example: a seller's profile, closet and feedback
 
 ```json
 {
   "mode": "byUrl",
-  "country": "de",
-  "urls": ["https://www.vinted.de/member/3148714106"]
+  "country": "co.uk",
+  "urls": [
+    "https://www.vinted.co.uk/member/123456789-seller-name"
+  ],
+  "maxItems": 50
 }
 ```
-
-### Example: seller feedback history
 
 ```json
 {
   "mode": "byUserFeedbacks",
-  "country": "com",
-  "userId": "3148714106",
-  "maxItems": 200
+  "country": "fr",
+  "userId": "123456789",
+  "feedbackType": "member",
+  "maxItems": 100
+}
+```
+
+### Example: deep search past 960 results
+
+```json
+{
+  "mode": "search",
+  "country": "pl",
+  "searchText": "nike",
+  "deepSearch": true,
+  "maxItems": 3000
 }
 ```
 
 ## Use cases
 
-- **Resellers** — scan a category across several storefronts for underpriced items before they're gone
-- **Price trackers** — monitor a brand or keyword's listed prices over time across countries
-- **Seller vetting** — pull a seller's feedback history and rating before buying or partnering
-- **Arbitrage research** — compare the same brand's prices between country storefronts
-- **Closet monitoring** — follow a specific seller's new listings as they post them
-- **Market analysts** — build a dataset of listing volume and condition mix for a brand or category
+- **Resale sourcing** — scan a brand, size or category for underpriced listings before they sell
+- **Price monitoring** — track asking prices and buyer-protection totals across markets over time
+- **Seller vetting** — pull a seller's rating, sold count, feedback history, followers and shop identity
+- **Market research** — measure listing volume, condition mix and price bands for a brand or category
+- **Closet monitoring** — schedule a seller's closet to spot new stock as it appears
+- **Brand and category discovery** — resolve Vinted brand IDs and category paths for saved searches
 
 ## FAQ
 
-**Do I need a Vinted account?**
-No. Every mode here reads Vinted's public endpoints. `cookieHeader` exists for the rare case where you hit persistent 401/403 errors, but the defaults work without it.
+**Do I need a Vinted account or cookies?**
+No. Every mode reads publicly available Vinted pages and endpoints. No login, API key or cookie setup is required.
 
-**Which country should I pick?**
-`com` is the US storefront. Use `fr`, `de`, `it`, `es`, `co.uk`, and the other listed codes for their respective European inventories — each country has its own listings, currency, and category IDs.
+**How many markets are supported?**
+27 live Vinted markets, each with its own currency and storefront language. Use the `country` dropdown; pasted URLs use their own domain.
 
-**Do I need to configure a proxy?**
-Not by default — Vinted is generally reachable from a standard connection. If a Cloudflare challenge appears, `autoEscalateOnBlock` (on by default) retries through Apify proxy automatically, or you can set `useProxy` yourself.
+**How many results can I get?**
+Vinted returns at most 960 results per query. Turn on `deepSearch` to split a broad query into price bands and collect beyond that ceiling. If a single price point still has more than 960 matches, that band cannot be fully enumerated and is treated as truncated, so deep coverage is broader than 960 but not exhaustive. Closets are capped by Vinted at 10,000 visible items per seller.
 
-**How are price filters applied?**
-`priceFrom`/`priceTo` are passed to Vinted's own search, so filtering happens on Vinted's side in the storefront's local currency. They apply to `search`, `byBrand`, `byCatalog` and brand/catalog links, not to seller closets (`byUser` or member links).
+**Why is the posting date relative instead of an exact timestamp?**
+Vinted stopped exposing an exact listing creation time. The actor returns the relative `uploadedAgo` value the site shows and does not invent a date. View counts are no longer public either, so neither field is fabricated.
 
-**Can I scrape a single item page?**
-Yes — `byUrl` mode accepts item, member, brand, or catalog links and figures out which kind each one is.
+**Why do some items lack a brand, material, colour, description or seller rating?**
+Sellers can leave optional fields blank, and new sellers have no feedback yet. Item-page and seller-stat enrichment is best-effort: if Vinted rate-limits those routes, the row keeps its search fields and omits the enrichment fields instead of inventing values. Seller-stat enrichment stops after repeated API failures, so a rate-limited run can take several minutes and finish with fewer seller counts. Optional fields are omitted rather than filled with a placeholder.
 
-**Why do some items have fewer fields than others?**
-Items requested one by one through `byUrl` item links are read from the public item page, which shows less than the listing data used by the other modes (no seller, size or engagement fields). In every mode, fields Vinted leaves empty are omitted rather than filled with placeholders.
+**Why is `status` in a local language while `condition` is in English?**
+Vinted localizes condition names per market. `status` keeps the storefront wording, while `condition` and `conditionId` provide a stable cross-market equivalent. The ID is the reliable key for filtering.
 
-**What happens if nothing matches?**
-The run finishes with an empty dataset and a status message asking you to check the filters or IDs. A mode that is missing its required input (for example `byBrand` without `brandId`) ends the same way.
+**Can I scrape sold listings or sold prices?**
+No. Vinted removes sold listings from public search and exposes no complete sold feed. Seller `soldItemCount` and review rows with an item ID are useful sale signals, but they are not a sold-price history.
 
-**Can I look up a seller by their username instead of their numeric ID?**
-Not directly — Vinted's canonical member URL uses the numeric ID (`vinted.com/member/<id>` or `vinted.com/member/<id>-<slug>`). A username-only URL resolves to a generic page that can't be scraped; grab the numeric ID from a seller's item listing (`sellerProfileUrl`) instead.
+**Do the same listings appear in several markets?**
+Some markets share one inventory pool and show the same item at converted prices. Match rows by `itemId`; a price difference between markets is often currency conversion, not a separate listing.
+
+**Do images open without authentication?**
+Yes. Image URLs are public and load without cookies or a referrer.
 
 **Is this affiliated with Vinted?**
-No. This is an independent, third-party actor that reads Vinted's publicly accessible data; it isn't affiliated with or endorsed by Vinted Limited.
+No. This is an independent third-party actor that reads publicly accessible marketplace data. It is not affiliated with or endorsed by Vinted.

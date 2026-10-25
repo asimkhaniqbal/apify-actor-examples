@@ -1,0 +1,61 @@
+{
+  "description": "Scrape posts from any Substack publication via its public RSS feed.",
+  "properties": {
+    "categoryAnyOf": {
+      "default": [],
+      "description": "Only emit posts tagged with at least one of these categories (matches RSS `<category>` tags case-insensitively).",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Category filter",
+      "type": "array"
+    },
+    "containsKeyword": {
+      "description": "Only emit posts whose title or description contains this substring (case-insensitive).",
+      "editor": "textfield",
+      "title": "Contains keyword",
+      "type": "string"
+    },
+    "includeBody": {
+      "default": true,
+      "description": "Include the full post body HTML (`content:encoded` from RSS).",
+      "prefill": true,
+      "title": "Include body HTML",
+      "type": "boolean"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Hard cap on emitted records.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "publications": {
+      "default": [
+        "platformer.news",
+        "noahpinion.substack.com"
+      ],
+      "description": "Substack publication URLs or subdomains (e.g. `https://platformer.news`, `noahpinion.substack.com`, just `noahpinion`).",
+      "editor": "stringList",
+      "minItems": 1,
+      "prefill": [
+        "platformer.news"
+      ],
+      "title": "Publications",
+      "type": "array"
+    },
+    "publishedAfter": {
+      "description": "Drop posts published before this date.",
+      "editor": "textfield",
+      "title": "Published after (YYYY-MM-DD)",
+      "type": "string"
+    }
+  },
+  "required": [
+    "publications"
+  ],
+  "schemaVersion": 1,
+  "title": "Substack Scraper Input",
+  "type": "object"
+}
