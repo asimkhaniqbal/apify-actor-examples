@@ -4,113 +4,167 @@
 
 # Craigslist Classifieds Scraper with Category Attributes
 
-Scrape [Craigslist](https://craigslist.org) search results and individual posts across any city subdomain — `sfbay`, `newyork`, `chicago`, `losangeles`, `london`, and hundreds more. Get titles, prices, descriptions, coordinates, images, and the category-specific attribute set for jobs, housing, autos, and for-sale posts. No login, no cookies, and no proxy needed for normal volume.
+Scrape **Craigslist** across 700+ local sites without a login, cookie, or proxy setup. Search by keyword or browse a category, follow individual post links, and get the full listing: price, description, every photo, map coordinates, posted and repost data, plus the category-specific attributes Craigslist shows for jobs, housing, autos, and for-sale items.
 
 ## What this actor does
 
-- Scrapes any Craigslist search page or direct post URL, auto-detecting the city/region from the subdomain
-- Pages through search results (up to 20 result pages per search URL) and opens each post's detail page for full description, attributes, and images
-- Extracts category-specific fields — vehicle specs for autos, bedroom/bathroom counts for housing, compensation for jobs
-- Filters the collected posts by minimum/maximum price or by whether a post has at least one image
-- Empty fields are omitted from each record
+- **Four modes:** keyword search, category browse, specific URLs, and a region/subarea reference list
+- **700+ regions:** every Craigslist hostname, with 62 common regions ready in a dropdown and a custom-region field for the rest
+- **Filters that run on Craigslist:** price, posted today, photos, titles-only, owner/dealer, sort, condition, bedrooms/baths/square feet, vehicle make/year/mileage, postal radius, and duplicate grouping
+- **Full detail records:** body text, gallery images, attributes, coordinates, display address, repost link, notices, and typed category fields
+- **Empty fields are omitted** from every record; no `null` values or placeholder rows
 
 ## Output per listing
 
 - `type` — always `craigslist_listing`
-- `url`, `id` — post URL and numeric post ID
-- `title`, `category`, `subcategory`, `location`, `region`
-- `postingType` — category slug from the URL path (`cto`, `apa`, `lab`, `fud`, ...)
-- `price`, `priceQualifier` — e.g. `/ 2br - 1083ft²`, `OBO`, `/ month`
-- `postedAt`, `updatedAt`
-- `description` — plain-text post body
-- `images[]` — large gallery image URLs
-- `latitude`, `longitude`, `mapAddress` — from the post's embedded map, when shown
-- `attributes` — the raw label-to-value set from the post's attribute group
-- `phoneNumbers[]`, `notices[]`, `replyUrl`
-- Jobs: `compensation`, `employmentType`, `jobTitle`
-- For-sale (generic): `condition`, `size`
-- Autos: `yearManufactured`, `makeManufacturer`, `modelName`, `odometer`, `transmission`, `fuelType`, `titleStatus`, `cylinders`, `paintColor`, `drive`, `vehicleType`, `vin`
-- Housing: `bedroomCount`, `bathroomCount`, `sqft`, `availableDate`, `housingType`, `laundry`, `parking`, `rentPeriod`, `listedBy`, `applicationFee`, `brokerFee`, `openHouseDates`, `catsOk`, `dogsOk`, `furnished`, `smoking`
-- `scrapedAt`
+- `id`, `postingUuid`, `url`, `title`
+- `price`, `priceValue`, `priceCurrency`, `priceQualifier`
+- `postedAt`, `updatedAt`, `recordCreatedAt`, `scrapedAt`
+- `region`, `location`, `neighborhood`, `subArea`, `area`, `areaAbbr`, `locationType`, `mapAddress`
+- `latitude`, `longitude`
+- `category`, `subcategory`, `section`, `categoryAbbr`, `subcategoryAbbr`, `postingType`
+- `description`, `images[]`, `imageCount`, `attributes`, `notices[]`
+- `phoneNumbers[]`, `emails[]`, `vin`, `replyUrl`
+- `repostOf`, `hasContactInfo`, `seeMyOther`
+- Jobs: `compensation`, `employmentType`, `jobTitle`, `companyName`, `experienceLevel`, `salary`
+- Housing: `bedroomCount`, `bathroomCount`, `sqft`, `availableDate`, `housingType`, `laundry`, `parking`, `rentPeriod`, `listedBy`, `applicationFee`, `brokerFee`, `openHouseDates`, `catsOk`, `dogsOk`, `furnished`, `smoking`, `privateRoom`, `privateBath`, `wheelchairAccessible`, `airConditioning`, `evCharging`
+- Autos: `yearManufactured`, `makeManufacturer`, `modelName`, `odometer`, `transmission`, `fuelType`, `titleStatus`, `cylinders`, `paintColor`, `drive`, `vehicleType`
+- For sale: `condition`, `size`, `make`, `model`
 
-With `scrapeDetails` off, records only carry the search-card fields: `type`, `url`, `id`, `region`, `title`, `price`, `location` and `scrapedAt`. A search result whose detail page fails to load also falls back to these fields. Direct post URLs need `scrapeDetails` on; without it (or if the post page can't be loaded) they produce no listing.
+With `includeDetails` off, rows contain only the search-card fields: identity, price, category, posted time, location, coordinates, and image URLs.
 
-If the run ends without a single listing (bad URL, removed post, no search results, or filters that removed everything), one informational record is returned instead: `type: "craigslist_blocked"`, `requestedUrls`, `searchTerm` (empty string when none was given), `message`, `scrapedAt`.
+## Output per area (mode = `areas`)
+
+- `type` — `craigslist_area`
+- `areaId`, `abbreviation`, `hostname`, `description`, `shortDescription`
+- `region`, `country`, `latitude`, `longitude`, `timezone`
+- `subareas[]` — each with `abbreviation`, `description`, and `subAreaId`
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `startUrls` | array | `[{"url": "https://sfbay.craigslist.org/search/jjj"}]` | Craigslist search URLs (`/search/...`) or direct post URLs (ending in `<id>.html`); other URLs are skipped. Filters already in a search URL (e.g. `?min_price=`) are kept |
-| `searchTerm` | string | – | Keyword appended to each search URL as `?query=<term>`; ignored for direct post URLs |
-| `maxItems` | integer | `3` | Maximum posts to return across all start URLs (1–1000) |
-| `scrapeDetails` | boolean | `true` | Fetch each post's detail page for full description, attributes, coordinates, and images; off returns listing-card data only |
-| `minPrice` | integer | – | Minimum price, compared with the number in the post's price (in the listing's own currency). Posts without a price are dropped when either price filter is set |
-| `maxPrice` | integer | – | Maximum price, same rules as `minPrice` |
-| `hasImage` | boolean | `false` | Only include posts with at least one image (needs `scrapeDetails` on, since images come from the detail page) |
-| `proxyConfiguration` | object | `{"useApifyProxy": false}` | Optional — Craigslist works from datacenter IPs for normal volume |
+| `mode` | string | `search` | `search` / `category` / `byUrl` / `areas` |
+| `region` | string | `sfbay` | Common Craigslist region (mode=search/category) |
+| `customRegion` | string | – | Any hostname or abbreviation; overrides `region` |
+| `subarea` | string | – | Optional subarea such as `sfc`, `eby`, `brk` |
+| `category` | string | `sss` | Craigslist category; `sss` is all for-sale listings |
+| `searchQueries` | array | – | One or more keywords (mode=search); leave empty to browse a category |
+| `startUrls` | array | – | Search pages or post URLs (mode=byUrl) |
+| `minPrice` | integer | – | Minimum price |
+| `maxPrice` | integer | – | Maximum price |
+| `postedToday` | boolean | `false` | Only posts from the last 24 hours (Craigslist's posted-today filter) |
+| `hasImage` | boolean | `false` | Only posts with a photo |
+| `titlesOnly` | boolean | `false` | Match keywords against titles only |
+| `sellerType` | string | `all` | `all` / `owner` / `dealer` |
+| `sortBy` | string | `newest` | `newest` / `oldest` / `relevance` / `priceAsc` / `priceDesc` / `distance` |
+| `condition` | string | `any` | `any` / `new` / `like-new` / `excellent` / `good` / `fair` / `salvage` |
+| `minBedrooms` | integer | – | Housing only |
+| `maxBedrooms` | integer | – | Housing only |
+| `minBathrooms` | integer | – | Housing only |
+| `maxBathrooms` | integer | – | Housing only |
+| `minSqft` | integer | – | Housing only |
+| `maxSqft` | integer | – | Housing only |
+| `autoMakeModel` | string | – | Auto categories only, e.g. `honda civic` |
+| `minAutoYear` | integer | – | Auto categories only |
+| `maxAutoYear` | integer | – | Auto categories only |
+| `maxAutoMiles` | integer | – | Auto categories only |
+| `postalCode` | string | – | Optional ZIP/postal code anchor |
+| `searchRadiusMiles` | integer | – | Radius around `postalCode` |
+| `hideDuplicates` | boolean | `false` | Group duplicate/reposted listings |
+| `deliveryAvailable` | boolean | `false` | For-sale/auto only |
+| `cryptoOk` | boolean | `false` | For-sale/auto only |
+| `countryCode` | string | – | Two-letter country filter for `areas` mode |
+| `maxItems` | integer | `100` | Hard cap across all queries and URLs (1–10000) |
+| `includeDetails` | boolean | `true` | Fetch full descriptions, attributes, images, and coordinates |
 
-### Example: search a category in one city
+## Examples
+
+### Search a city for a keyword
 
 ```json
 {
-    "startUrls": [{ "url": "https://sfbay.craigslist.org/search/jjj" }],
-    "maxItems": 50
+  "mode": "search",
+  "region": "sfbay",
+  "category": "sss",
+  "searchQueries": ["bike"],
+  "maxItems": 50,
+  "includeDetails": true
 }
 ```
 
-### Example: keyword search with a price range
+### Browse apartments with housing filters
 
 ```json
 {
-    "startUrls": [{ "url": "https://newyork.craigslist.org/search/sss" }],
-    "searchTerm": "bicycle",
-    "minPrice": 50,
-    "maxPrice": 300,
-    "hasImage": true,
-    "maxItems": 100
+  "mode": "category",
+  "region": "chicago",
+  "category": "apa",
+  "minBedrooms": 2,
+  "maxBedrooms": 2,
+  "maxPrice": 3000,
+  "sortBy": "priceAsc",
+  "maxItems": 100
 }
 ```
 
-### Example: scrape one specific post
+### Scrape specific posts
 
 ```json
 {
-    "startUrls": [{ "url": "https://sfbay.craigslist.org/eby/grd/d/hayward-item/7918207144.html" }],
-    "maxItems": 1
+  "mode": "byUrl",
+  "startUrls": [
+    { "url": "https://www.craigslist.org/view/d/richmond-195-iron-horse-maverick-21/scJ6mscDAryikpFRAS61aq" },
+    { "url": "https://sfbay.craigslist.org/bik/7962037752.html" }
+  ],
+  "maxItems": 10
+}
+```
+
+### List regions in one country
+
+```json
+{
+  "mode": "areas",
+  "countryCode": "CA",
+  "maxItems": 100
 }
 ```
 
 ## Use cases
 
-- **Marketplace price tracking** — monitor asking prices for a product category across one or more cities
-- **Vehicle shopping** — pull year, mileage, and condition for every car listing matching a search
-- **Rental research** — collect bedroom count, rent, and pet policy across a city's housing posts
-- **Job board aggregation** — gather compensation and employment-type data from a labor category
-- **Lead sourcing** — filter by price and image presence to find postings worth following up on
+- **Marketplace price tracking** — monitor asking prices for a product across cities and categories
+- **Vehicle shopping** — pull year, make, model, mileage, transmission, and title status for matching cars
+- **Rental research** — collect rent, bedrooms, bathrooms, square footage, laundry, parking, and pet policy
+- **Job aggregation** — gather compensation, employment type, experience level, and company names
+- **Lead sourcing** — filter by price, photos, seller type, and posted date to find fresh posts
+- **Local market mapping** — join listing coordinates and neighborhoods to city/subarea reference data
 
 ## FAQ
 
-**Do I need a proxy?**
-No. Craigslist usually responds normally to data-center IPs at typical run volumes; enable a proxy only if requests start getting refused.
+**Do I need a Craigslist account, cookie, or proxy?**
+No. The actor reads public Craigslist listings and connects automatically. There is no login or proxy field to fill in.
 
-**Does this work on a login wall?**
-Craigslist's public listings have no login wall, so this actor works without any authentication.
+**How many results can one run return?**
+Craigslist caps a single search at 10,000 results. To collect more, split by category, subarea, price range, or posted-today and combine the runs. The actor tells you in the run status when the cap is reached.
 
-**Can I scrape just one specific post?**
-Yes. Put the direct post URL (ending in `<id>.html`) into `startUrls` and set `maxItems: 1`.
+**Why are some fields missing from a row?**
+Craigslist posts differ by category and by what the seller filled in. A job may have no price; a generic for-sale post may have no structured attributes; a seller may not publish a phone number. Empty fields are omitted rather than filled with `null` or an empty value.
 
-**What cities are supported?**
-Every Craigslist subdomain — the region is detected automatically from the URL, so `sfbay`, `newyork`, `london`, or any other subdomain works the same way.
+**Can I get the poster's email address?**
+Only when the seller typed an email into the post body. Craigslist's reply relay hides the real address behind its own form and sometimes a captcha; this actor does not bypass that.
 
-**Why do some listings lack `attributes` or `images`?**
-Not every post fills in Craigslist's optional attribute fields or uploads photos — those keys are only included when the source post actually has them.
+**Does the actor support RSS or JSON feeds?**
+No. Craigslist discontinued its RSS output, and its old `output=json` parameter no longer returns JSON. This actor uses Craigslist's current listing data and returns the same fields in its dataset.
 
-**What happens if a search or post URL returns nothing?**
-If the whole run produces no listing, it still completes with one `craigslist_blocked` record listing the requested URLs and the possible reasons (invalid URL, removed post, or no matching results) instead of failing silently. A single empty URL in a run that finds listings elsewhere is just skipped.
+**Can I paste an old Craigslist post link?**
+Current `/view/d/...` links work directly. Older `region/category/post-id.html` links also work. Very old links that contain a `/d/` slug but a broad category are resolved by searching for the post; if Craigslist has removed it, the URL is skipped with a message.
 
-**Why did I get fewer posts than `maxItems` when using filters?**
-The actor collects up to `maxItems` posts from the search first and then applies `minPrice`, `maxPrice` and `hasImage`, so posts removed by the filters aren't replaced. For a fuller result, put the price filter in the search URL itself (for example `https://newyork.craigslist.org/search/sss?min_price=50&max_price=300`) or raise `maxItems`.
+**Does an old search URL's `s=` offset still work?**
+No. Craigslist no longer offers an offset cursor for search results, so the actor ignores `s=` and starts from the first result. Use `maxItems`, a narrower price range, or a subarea to control how deep a run goes.
+
+**Why did a run return no listings?**
+The query may have no matches, the category may not exist in that region, the post may have been removed, or a filter may be too narrow. A zero-result run completes with a status message and no placeholder record.
 
 **Is this affiliated with Craigslist?**
-No. This is an independent actor that reads Craigslist's public pages and is not operated or endorsed by Craigslist.
+No. This is an independent actor that reads publicly available Craigslist pages and is not operated or endorsed by Craigslist.

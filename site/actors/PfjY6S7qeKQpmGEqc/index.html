@@ -1,129 +1,960 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-pUEMT7WplRM6T1ANWBqBX27Z7lfHdYFtTULHlBo/pRA=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Craigslist Classifieds Scraper with Category Attributes | Vexaloom Labs</title><meta name="description" content="Scrape Craigslist search results and individual posts across any city subdomain, with category-specific attributes for jobs, housing, autos, and for-sale posts. No login or proxy r"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/"><meta property="og:title" content="Craigslist Classifieds Scraper with Category Attributes | Vexaloom Labs"><meta property="og:description" content="Scrape Craigslist search results and individual posts across any city subdomain, with category-specific attributes for jobs, housing, autos, and for-sale posts. No login or proxy r"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/#webpage","name":"Craigslist Classifieds Scraper with Category Attributes","description":"Scrape Craigslist search results and individual posts across any city subdomain, with category-specific attributes for jobs, housing, autos, and for-sale posts. No login or proxy required.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/#article","headline":"Craigslist Classifieds Scraper with Category Attributes","name":"Craigslist Classifieds Scraper with Category Attributes","description":"Scrape Craigslist search results and individual posts across any city subdomain, with category-specific attributes for jobs, housing, autos, and for-sale posts. No login or proxy required.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Craigslist Classifieds Scraper with Category Attributes","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Craigslist Classifieds Scraper with Category Attributes</span></div><section id="overview"><h1 class="doc-title">Craigslist Classifieds Scraper with Category Attributes</h1><p class="lede">Scrape Craigslist search results and individual posts across any city subdomain, with category-specific attributes for jobs, housing, autos, and for-sale posts. No login or proxy required.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/craigslist-classifieds-scraper-with-category">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/PfjY6S7qeKQpmGEqc/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>startUrls</code></td><td>array</td><td>required</td><td>Craigslist search URLs or direct post URLs. Examples: https://sfbay.craigslist.org/search/jjj, https://newyork.craigslist.org/search/hhh, or a full post URL like https://sfbay.craigslist.org/eby/grd/d/hayward-item/7918207144.html</td></tr><tr><td><code>searchTerm</code></td><td>string</td><td>optional</td><td>Optional keyword; appended to each search URL as ?query=&lt;term&gt;. Ignored for direct post URLs.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum posts to return across all start URLs.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>startUrls</code></td><td>array</td><td>required</td><td>Craigslist search URLs or direct post URLs. Examples: https://sfbay.craigslist.org/search/jjj, https://newyork.craigslist.org/search/hhh, or a full post URL like https://sfbay.craigslist.org/eby/grd/d/hayward-item/7918207144.html</td></tr><tr><td><code>searchTerm</code></td><td>string</td><td>optional</td><td>Optional keyword; appended to each search URL as ?query=&lt;term&gt;. Ignored for direct post URLs.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum posts to return across all start URLs.</td></tr><tr><td><code>scrapeDetails</code></td><td>boolean</td><td>optional</td><td>Fetch each post&#x27;s page for full description, attributes, coordinates and images. Off = listing-card data only (title, url, price, location).</td></tr><tr><td><code>minPrice</code></td><td>integer</td><td>optional</td><td>Optional minimum price filter (USD). Applied to the numeric portion of the listing price when present.</td></tr><tr><td><code>maxPrice</code></td><td>integer</td><td>optional</td><td>Optional maximum price filter (USD). Applied to the numeric portion of the listing price when present.</td></tr><tr><td><code>hasImage</code></td><td>boolean</td><td>optional</td><td>When true, only include posts whose `images` array is non-empty.</td></tr><tr><td><code>proxyConfiguration</code></td><td>object</td><td>optional</td><td>Apify proxy. Craigslist typically works from datacenter IPs with no proxy — leave off for lowest cost.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-pUEMT7WplRM6T1ANWBqBX27Z7lfHdYFtTULHlBo/pRA=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Craigslist Classifieds Scraper with Category Attributes | Vexaloom Labs</title><meta name="description" content="Scrape Craigslist search results and individual posts across any city subdomain, with category-specific attributes for jobs, housing, autos, and for-sale posts. No login or proxy r"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/"><meta property="og:title" content="Craigslist Classifieds Scraper with Category Attributes | Vexaloom Labs"><meta property="og:description" content="Scrape Craigslist search results and individual posts across any city subdomain, with category-specific attributes for jobs, housing, autos, and for-sale posts. No login or proxy r"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/#webpage","name":"Craigslist Classifieds Scraper with Category Attributes","description":"Scrape Craigslist search results and individual posts across any city subdomain, with category-specific attributes for jobs, housing, autos, and for-sale posts. No login or proxy required.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/#article","headline":"Craigslist Classifieds Scraper with Category Attributes","name":"Craigslist Classifieds Scraper with Category Attributes","description":"Scrape Craigslist search results and individual posts across any city subdomain, with category-specific attributes for jobs, housing, autos, and for-sale posts. No login or proxy required.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Craigslist Classifieds Scraper with Category Attributes","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/PfjY6S7qeKQpmGEqc/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Craigslist Classifieds Scraper with Category Attributes</span></div><section id="overview"><h1 class="doc-title">Craigslist Classifieds Scraper with Category Attributes</h1><p class="lede">Scrape Craigslist search results and individual posts across any city subdomain, with category-specific attributes for jobs, housing, autos, and for-sale posts. No login or proxy required.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/craigslist-classifieds-scraper-with-category">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/PfjY6S7qeKQpmGEqc/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to collect: keyword search, a category browse, specific Craigslist URLs, or the region/subarea reference list.</td></tr><tr><td><code>region</code></td><td>string</td><td>optional</td><td>Craigslist city/region to search (mode=search/category). Pick a common region, or use Custom region for any of the 707 Craigslist sites.</td></tr><tr><td><code>customRegion</code></td><td>string</td><td>optional</td><td>Any Craigslist hostname or abbreviation (e.g. humboldt, tokyo, sfbay). Overrides Region. (mode=search/category)</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to collect: keyword search, a category browse, specific Craigslist URLs, or the region/subarea reference list.</td></tr><tr><td><code>region</code></td><td>string</td><td>optional</td><td>Craigslist city/region to search (mode=search/category). Pick a common region, or use Custom region for any of the 707 Craigslist sites.</td></tr><tr><td><code>customRegion</code></td><td>string</td><td>optional</td><td>Any Craigslist hostname or abbreviation (e.g. humboldt, tokyo, sfbay). Overrides Region. (mode=search/category)</td></tr><tr><td><code>subarea</code></td><td>string</td><td>optional</td><td>Optional Craigslist subarea abbreviation inside the region (e.g. sfc, eby, brk). Leave blank for the whole region. (mode=search/category)</td></tr><tr><td><code>category</code></td><td>string</td><td>optional</td><td>Craigslist category to search or browse. The default is all for-sale listings.</td></tr><tr><td><code>searchQueries</code></td><td>array</td><td>optional</td><td>One or more keywords. Each query is searched separately; results are de-duplicated. Leave empty for a category browse. (mode=search)</td></tr><tr><td><code>startUrls</code></td><td>array</td><td>optional</td><td>Craigslist search pages, new-style /view/d/... post URLs, or old /region/category/post-id.html URLs. (mode=byUrl)</td></tr><tr><td><code>minPrice</code></td><td>integer</td><td>optional</td><td>Only listings at or above this price. Posts without a price are excluded when a price filter is set.</td></tr><tr><td><code>maxPrice</code></td><td>integer</td><td>optional</td><td>Only listings at or below this price. Posts without a price are excluded when a price filter is set.</td></tr><tr><td><code>postedToday</code></td><td>boolean</td><td>optional</td><td>Only listings posted in the last 24 hours (Craigslist&#x27;s posted-today filter).</td></tr><tr><td><code>hasImage</code></td><td>boolean</td><td>optional</td><td>Only listings with at least one photo.</td></tr><tr><td><code>titlesOnly</code></td><td>boolean</td><td>optional</td><td>Match the keywords against titles only instead of titles and descriptions.</td></tr><tr><td><code>sellerType</code></td><td>string</td><td>optional</td><td>Filter by owner, dealer, or either.</td></tr><tr><td><code>sortBy</code></td><td>string</td><td>optional</td><td>Order of results within each query.</td></tr><tr><td><code>condition</code></td><td>string</td><td>optional</td><td>For for-sale and auto categories: only items in this condition.</td></tr><tr><td><code>minBedrooms</code></td><td>integer</td><td>optional</td><td>Housing only.</td></tr><tr><td><code>maxBedrooms</code></td><td>integer</td><td>optional</td><td>Housing only.</td></tr><tr><td><code>minBathrooms</code></td><td>integer</td><td>optional</td><td>Housing only.</td></tr><tr><td><code>maxBathrooms</code></td><td>integer</td><td>optional</td><td>Housing only.</td></tr><tr><td><code>minSqft</code></td><td>integer</td><td>optional</td><td>Housing only.</td></tr><tr><td><code>maxSqft</code></td><td>integer</td><td>optional</td><td>Housing only.</td></tr><tr><td><code>autoMakeModel</code></td><td>string</td><td>optional</td><td>Auto categories only, e.g. honda civic.</td></tr><tr><td><code>minAutoYear</code></td><td>integer</td><td>optional</td><td>Auto categories only.</td></tr><tr><td><code>maxAutoYear</code></td><td>integer</td><td>optional</td><td>Auto categories only.</td></tr><tr><td><code>maxAutoMiles</code></td><td>integer</td><td>optional</td><td>Auto categories only.</td></tr><tr><td><code>postalCode</code></td><td>string</td><td>optional</td><td>Optional ZIP/postal code to anchor the search geographically. Use with Search radius.</td></tr><tr><td><code>searchRadiusMiles</code></td><td>integer</td><td>optional</td><td>Distance around the postal code. Requires Postal code.</td></tr><tr><td><code>hideDuplicates</code></td><td>boolean</td><td>optional</td><td>Ask Craigslist to group duplicate/reposted listings together.</td></tr><tr><td><code>deliveryAvailable</code></td><td>boolean</td><td>optional</td><td>For-sale and auto categories: only listings offering delivery.</td></tr><tr><td><code>cryptoOk</code></td><td>boolean</td><td>optional</td><td>For-sale and auto categories: only listings that accept crypto.</td></tr><tr><td><code>countryCode</code></td><td>string</td><td>optional</td><td>Two-letter country code to filter the areas list (mode=areas), e.g. US, CA, GB. Leave blank for all 707 sites.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Hard cap across all queries and URLs. Craigslist returns at most 10,000 results per search.</td></tr><tr><td><code>includeDetails</code></td><td>boolean</td><td>optional</td><td>Fetch each listing&#x27;s full description, attributes, images, coordinates, and repost status. Turn off for faster search-card-only results.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Search Craigslist by keyword or browse a category, scrape specific post URLs, or list the 707 Craigslist regions.&quot;,
   &quot;properties&quot;: {
-    &quot;hasImage&quot;: {
+    &quot;autoMakeModel&quot;: {
+      &quot;description&quot;: &quot;Auto categories only, e.g. honda civic.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Vehicle make and model&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;category&quot;: {
+      &quot;default&quot;: &quot;sss&quot;,
+      &quot;description&quot;: &quot;Craigslist category to search or browse. The default is all for-sale listings.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;sss&quot;,
+        &quot;foa&quot;,
+        &quot;for&quot;,
+        &quot;fod&quot;,
+        &quot;sya&quot;,
+        &quot;sys&quot;,
+        &quot;syd&quot;,
+        &quot;waa&quot;,
+        &quot;wan&quot;,
+        &quot;wad&quot;,
+        &quot;tia&quot;,
+        &quot;tix&quot;,
+        &quot;tid&quot;,
+        &quot;bia&quot;,
+        &quot;bik&quot;,
+        &quot;bid&quot;,
+        &quot;mca&quot;,
+        &quot;mcy&quot;,
+        &quot;mcd&quot;,
+        &quot;bka&quot;,
+        &quot;bks&quot;,
+        &quot;bkd&quot;,
+        &quot;sga&quot;,
+        &quot;spo&quot;,
+        &quot;sgd&quot;,
+        &quot;cla&quot;,
+        &quot;clo&quot;,
+        &quot;cld&quot;,
+        &quot;cba&quot;,
+        &quot;clt&quot;,
+        &quot;cbd&quot;,
+        &quot;ela&quot;,
+        &quot;ele&quot;,
+        &quot;eld&quot;,
+        &quot;hsa&quot;,
+        &quot;hsh&quot;,
+        &quot;hsd&quot;,
+        &quot;msa&quot;,
+        &quot;msg&quot;,
+        &quot;msd&quot;,
+        &quot;baa&quot;,
+        &quot;bab&quot;,
+        &quot;bad&quot;,
+        &quot;ema&quot;,
+        &quot;emd&quot;,
+        &quot;emq&quot;,
+        &quot;tla&quot;,
+        &quot;tls&quot;,
+        &quot;tld&quot;,
+        &quot;boo&quot;,
+        &quot;boa&quot;,
+        &quot;bod&quot;,
+        &quot;jwa&quot;,
+        &quot;jwl&quot;,
+        &quot;jwd&quot;,
+        &quot;pta&quot;,
+        &quot;pts&quot;,
+        &quot;ptd&quot;,
+        &quot;rva&quot;,
+        &quot;rvs&quot;,
+        &quot;rvd&quot;,
+        &quot;taa&quot;,
+        &quot;tag&quot;,
+        &quot;tad&quot;,
+        &quot;gra&quot;,
+        &quot;grd&quot;,
+        &quot;grq&quot;,
+        &quot;bfa&quot;,
+        &quot;bfs&quot;,
+        &quot;bfd&quot;,
+        &quot;ara&quot;,
+        &quot;art&quot;,
+        &quot;ard&quot;,
+        &quot;maa&quot;,
+        &quot;mat&quot;,
+        &quot;mad&quot;,
+        &quot;pha&quot;,
+        &quot;pho&quot;,
+        &quot;phd&quot;,
+        &quot;fua&quot;,
+        &quot;fuo&quot;,
+        &quot;fud&quot;,
+        &quot;cta&quot;,
+        &quot;cto&quot;,
+        &quot;ctd&quot;,
+        &quot;ppa&quot;,
+        &quot;app&quot;,
+        &quot;ppd&quot;,
+        &quot;ata&quot;,
+        &quot;atq&quot;,
+        &quot;atd&quot;,
+        &quot;vga&quot;,
+        &quot;vgm&quot;,
+        &quot;vgd&quot;,
+        &quot;haa&quot;,
+        &quot;hab&quot;,
+        &quot;had&quot;,
+        &quot;moa&quot;,
+        &quot;mob&quot;,
+        &quot;mod&quot;,
+        &quot;sna&quot;,
+        &quot;snw&quot;,
+        &quot;snd&quot;,
+        &quot;hva&quot;,
+        &quot;hvo&quot;,
+        &quot;hvd&quot;,
+        &quot;mpa&quot;,
+        &quot;mpo&quot;,
+        &quot;mpd&quot;,
+        &quot;bip&quot;,
+        &quot;bop&quot;,
+        &quot;bdp&quot;,
+        &quot;syp&quot;,
+        &quot;sop&quot;,
+        &quot;sdp&quot;,
+        &quot;bpa&quot;,
+        &quot;bpo&quot;,
+        &quot;bpd&quot;,
+        &quot;wta&quot;,
+        &quot;wto&quot;,
+        &quot;wtd&quot;,
+        &quot;tra&quot;,
+        &quot;tro&quot;,
+        &quot;trb&quot;,
+        &quot;ava&quot;,
+        &quot;avo&quot;,
+        &quot;avd&quot;,
+        &quot;bar&quot;,
+        &quot;gms&quot;,
+        &quot;zip&quot;,
+        &quot;hhh&quot;,
+        &quot;rea&quot;,
+        &quot;reo&quot;,
+        &quot;reb&quot;,
+        &quot;apa&quot;,
+        &quot;hou&quot;,
+        &quot;roo&quot;,
+        &quot;sha&quot;,
+        &quot;sub&quot;,
+        &quot;off&quot;,
+        &quot;prk&quot;,
+        &quot;sbw&quot;,
+        &quot;swp&quot;,
+        &quot;vac&quot;,
+        &quot;rew&quot;,
+        &quot;jjj&quot;,
+        &quot;web&quot;,
+        &quot;bus&quot;,
+        &quot;mar&quot;,
+        &quot;etc&quot;,
+        &quot;wri&quot;,
+        &quot;sof&quot;,
+        &quot;acc&quot;,
+        &quot;ofc&quot;,
+        &quot;med&quot;,
+        &quot;hea&quot;,
+        &quot;ret&quot;,
+        &quot;npo&quot;,
+        &quot;lgl&quot;,
+        &quot;egr&quot;,
+        &quot;sls&quot;,
+        &quot;sad&quot;,
+        &quot;tfr&quot;,
+        &quot;hum&quot;,
+        &quot;tch&quot;,
+        &quot;edu&quot;,
+        &quot;trd&quot;,
+        &quot;gov&quot;,
+        &quot;sci&quot;,
+        &quot;csr&quot;,
+        &quot;trp&quot;,
+        &quot;spa&quot;,
+        &quot;rej&quot;,
+        &quot;mnu&quot;,
+        &quot;fbh&quot;,
+        &quot;lab&quot;,
+        &quot;sec&quot;,
+        &quot;ggg&quot;,
+        &quot;tlg&quot;,
+        &quot;cwg&quot;,
+        &quot;cpg&quot;,
+        &quot;lbg&quot;,
+        &quot;wrg&quot;,
+        &quot;dmg&quot;,
+        &quot;crg&quot;,
+        &quot;evg&quot;,
+        &quot;bbb&quot;,
+        &quot;biz&quot;,
+        &quot;cps&quot;,
+        &quot;crs&quot;,
+        &quot;evs&quot;,
+        &quot;hss&quot;,
+        &quot;lss&quot;,
+        &quot;lbs&quot;,
+        &quot;sks&quot;,
+        &quot;lgs&quot;,
+        &quot;fns&quot;,
+        &quot;rts&quot;,
+        &quot;aos&quot;,
+        &quot;bts&quot;,
+        &quot;wet&quot;,
+        &quot;trv&quot;,
+        &quot;fgs&quot;,
+        &quot;pas&quot;,
+        &quot;mas&quot;,
+        &quot;cys&quot;,
+        &quot;cms&quot;,
+        &quot;hws&quot;,
+        &quot;ccc&quot;,
+        &quot;com&quot;,
+        &quot;vol&quot;,
+        &quot;act&quot;,
+        &quot;rid&quot;,
+        &quot;pet&quot;,
+        &quot;kid&quot;,
+        &quot;mis&quot;,
+        &quot;ats&quot;,
+        &quot;muc&quot;,
+        &quot;pol&quot;,
+        &quot;laf&quot;,
+        &quot;rnr&quot;,
+        &quot;grp&quot;,
+        &quot;vnn&quot;,
+        &quot;eee&quot;,
+        &quot;eve&quot;,
+        &quot;cls&quot;,
+        &quot;rrr&quot;,
+        &quot;res&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;for sale&quot;,
+        &quot;general&quot;,
+        &quot;general for sale - by owner&quot;,
+        &quot;general for sale - by dealer&quot;,
+        &quot;computers&quot;,
+        &quot;computers - by owner&quot;,
+        &quot;computers - by dealer&quot;,
+        &quot;wanted&quot;,
+        &quot;wanted - by owner&quot;,
+        &quot;wanted - by dealer&quot;,
+        &quot;tickets&quot;,
+        &quot;tickets - by owner&quot;,
+        &quot;tickets - by dealer&quot;,
+        &quot;bikes&quot;,
+        &quot;bicycles - by owner&quot;,
+        &quot;bicycles - by dealer&quot;,
+        &quot;motorcycles&quot;,
+        &quot;motorcycles&quot;,
+        &quot;motorcycles&quot;,
+        &quot;books&quot;,
+        &quot;books&quot;,
+        &quot;books&quot;,
+        &quot;sporting&quot;,
+        &quot;sporting goods - by owner&quot;,
+        &quot;sporting goods - by dealer&quot;,
+        &quot;clothes+acc&quot;,
+        &quot;clothes+acc&quot;,
+        &quot;clothes+acc&quot;,
+        &quot;collectibles&quot;,
+        &quot;collectibles - by owner&quot;,
+        &quot;collectibles - by dealer&quot;,
+        &quot;electronics&quot;,
+        &quot;electronics - by owner&quot;,
+        &quot;electronics - by dealer&quot;,
+        &quot;household&quot;,
+        &quot;household items - by owner&quot;,
+        &quot;household items - by dealer&quot;,
+        &quot;music instr&quot;,
+        &quot;musical instruments - by owner&quot;,
+        &quot;musical instruments - by dealer&quot;,
+        &quot;baby+kids&quot;,
+        &quot;baby &amp; kid stuff - by owner&quot;,
+        &quot;baby &amp; kid stuff - by dealer&quot;,
+        &quot;cds/dvd/vhs&quot;,
+        &quot;cds / dvds / vhs - by owner&quot;,
+        &quot;cds / dvds / vhs - by dealer&quot;,
+        &quot;tools&quot;,
+        &quot;tools - by owner&quot;,
+        &quot;tools - by dealer&quot;,
+        &quot;boats&quot;,
+        &quot;boats - by owner&quot;,
+        &quot;boats - by dealer&quot;,
+        &quot;jewelry&quot;,
+        &quot;jewelry - by owner&quot;,
+        &quot;jewelry - by dealer&quot;,
+        &quot;auto parts&quot;,
+        &quot;auto parts - by owner&quot;,
+        &quot;auto parts - by dealer&quot;,
+        &quot;RVs&quot;,
+        &quot;rvs - by owner&quot;,
+        &quot;rvs - by dealer&quot;,
+        &quot;toys+games&quot;,
+        &quot;toys+games&quot;,
+        &quot;toys+games&quot;,
+        &quot;farm+garden&quot;,
+        &quot;farm+garden&quot;,
+        &quot;farm+garden&quot;,
+        &quot;business&quot;,
+        &quot;business/commercial - by owner&quot;,
+        &quot;business/commercial - by dealer&quot;,
+        &quot;arts+crafts&quot;,
+        &quot;arts &amp; crafts - by owner&quot;,
+        &quot;arts &amp; crafts - by dealer&quot;,
+        &quot;materials&quot;,
+        &quot;materials - by owner&quot;,
+        &quot;materials - by dealer&quot;,
+        &quot;photo+video&quot;,
+        &quot;photo/video - by owner&quot;,
+        &quot;photo/video - by dealer&quot;,
+        &quot;furniture&quot;,
+        &quot;furniture - by owner&quot;,
+        &quot;furniture - by dealer&quot;,
+        &quot;cars+trucks&quot;,
+        &quot;cars+trucks&quot;,
+        &quot;cars+trucks&quot;,
+        &quot;appliances&quot;,
+        &quot;appliances - by owner&quot;,
+        &quot;appliances - by dealer&quot;,
+        &quot;antiques&quot;,
+        &quot;antiques - by owner&quot;,
+        &quot;antiques - by dealer&quot;,
+        &quot;video gaming&quot;,
+        &quot;video gaming - by owner&quot;,
+        &quot;video gaming - by dealer&quot;,
+        &quot;beauty+hlth&quot;,
+        &quot;health and beauty - by owner&quot;,
+        &quot;health and beauty - by dealer&quot;,
+        &quot;cell phones&quot;,
+        &quot;cell phones - by owner&quot;,
+        &quot;cell phones - by dealer&quot;,
+        &quot;atvs/utvs/snow&quot;,
+        &quot;atvs, utvs, snowmobiles - by owner&quot;,
+        &quot;atvs, utvs, snowmobiles - by dealer&quot;,
+        &quot;heavy equipment&quot;,
+        &quot;heavy equipment - by owner&quot;,
+        &quot;heavy equipment - by dealer&quot;,
+        &quot;motorcycle parts&quot;,
+        &quot;motorcycle parts - by owner&quot;,
+        &quot;motorcycle parts - by dealer&quot;,
+        &quot;bike parts&quot;,
+        &quot;bicycle parts - by owner&quot;,
+        &quot;bicycle parts - by dealer&quot;,
+        &quot;computer parts&quot;,
+        &quot;computer parts - by owner&quot;,
+        &quot;computer parts - by dealer&quot;,
+        &quot;boat parts&quot;,
+        &quot;boat parts - by owner&quot;,
+        &quot;boat parts - by dealer&quot;,
+        &quot;auto wheels &amp; tires&quot;,
+        &quot;wheels+tires&quot;,
+        &quot;wheels+tires&quot;,
+        &quot;trailers&quot;,
+        &quot;trailers - by owner&quot;,
+        &quot;trailers - by dealer&quot;,
+        &quot;aviation&quot;,
+        &quot;aviation - by owner&quot;,
+        &quot;aviation - by dealer&quot;,
+        &quot;barter&quot;,
+        &quot;garage sales&quot;,
+        &quot;free stuff&quot;,
+        &quot;housing&quot;,
+        &quot;real estate for sale&quot;,
+        &quot;real estate - by owner&quot;,
+        &quot;real estate - by broker&quot;,
+        &quot;apartments / housing for rent&quot;,
+        &quot;wanted: apts&quot;,
+        &quot;rooms &amp; shares&quot;,
+        &quot;wanted: room/share&quot;,
+        &quot;sublets &amp; temporary&quot;,
+        &quot;office &amp; commercial&quot;,
+        &quot;parking &amp; storage&quot;,
+        &quot;wanted: sublet/temp&quot;,
+        &quot;housing swap&quot;,
+        &quot;vacation rentals&quot;,
+        &quot;wanted: real estate&quot;,
+        &quot;jobs&quot;,
+        &quot;web design&quot;,
+        &quot;business&quot;,
+        &quot;marketing&quot;,
+        &quot;etcetera&quot;,
+        &quot;writing&quot;,
+        &quot;software&quot;,
+        &quot;finance&quot;,
+        &quot;admin/office&quot;,
+        &quot;media&quot;,
+        &quot;healthcare&quot;,
+        &quot;retail/wholesale&quot;,
+        &quot;nonprofit&quot;,
+        &quot;legal&quot;,
+        &quot;engineering&quot;,
+        &quot;sales&quot;,
+        &quot;systems/networking&quot;,
+        &quot;tv video radio&quot;,
+        &quot;human resource&quot;,
+        &quot;tech support&quot;,
+        &quot;education&quot;,
+        &quot;skilled trades&quot;,
+        &quot;government&quot;,
+        &quot;science&quot;,
+        &quot;customer service&quot;,
+        &quot;transport&quot;,
+        &quot;salon/spa/fitness&quot;,
+        &quot;real estate&quot;,
+        &quot;manufacturing&quot;,
+        &quot;food/bev/hosp&quot;,
+        &quot;general labor&quot;,
+        &quot;security&quot;,
+        &quot;gigs&quot;,
+        &quot;talent gigs&quot;,
+        &quot;crew gigs&quot;,
+        &quot;computer gigs&quot;,
+        &quot;labor gigs&quot;,
+        &quot;writing gigs&quot;,
+        &quot;domestic gigs&quot;,
+        &quot;creative gigs&quot;,
+        &quot;event gigs&quot;,
+        &quot;services&quot;,
+        &quot;small biz ads&quot;,
+        &quot;computer services&quot;,
+        &quot;creative services&quot;,
+        &quot;event services&quot;,
+        &quot;household services&quot;,
+        &quot;lessons &amp; tutoring&quot;,
+        &quot;labor &amp; moving&quot;,
+        &quot;skilled trade services&quot;,
+        &quot;legal services&quot;,
+        &quot;financial services&quot;,
+        &quot;real estate services&quot;,
+        &quot;automotive services&quot;,
+        &quot;beauty services&quot;,
+        &quot;write/edit/trans&quot;,
+        &quot;travel/vacation&quot;,
+        &quot;farm &amp; garden services&quot;,
+        &quot;pet services&quot;,
+        &quot;marine services&quot;,
+        &quot;cycle services&quot;,
+        &quot;cell phone / mobile services&quot;,
+        &quot;health/wellness&quot;,
+        &quot;community&quot;,
+        &quot;general&quot;,
+        &quot;volunteers&quot;,
+        &quot;activity partners&quot;,
+        &quot;rideshare&quot;,
+        &quot;pets&quot;,
+        &quot;childcare&quot;,
+        &quot;missed connections&quot;,
+        &quot;artists&quot;,
+        &quot;musicians&quot;,
+        &quot;politics&quot;,
+        &quot;lost &amp; found&quot;,
+        &quot;rants &amp; raves&quot;,
+        &quot;groups&quot;,
+        &quot;local news and views&quot;,
+        &quot;events/classes&quot;,
+        &quot;events&quot;,
+        &quot;classes&quot;,
+        &quot;resumes&quot;,
+        &quot;resumes&quot;
+      ],
+      &quot;prefill&quot;: &quot;sss&quot;,
+      &quot;title&quot;: &quot;Category&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;condition&quot;: {
+      &quot;default&quot;: &quot;any&quot;,
+      &quot;description&quot;: &quot;For for-sale and auto categories: only items in this condition.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;any&quot;,
+        &quot;new&quot;,
+        &quot;like-new&quot;,
+        &quot;excellent&quot;,
+        &quot;good&quot;,
+        &quot;fair&quot;,
+        &quot;salvage&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any condition&quot;,
+        &quot;New&quot;,
+        &quot;Like new&quot;,
+        &quot;Excellent&quot;,
+        &quot;Good&quot;,
+        &quot;Fair&quot;,
+        &quot;Salvage&quot;
+      ],
+      &quot;prefill&quot;: &quot;any&quot;,
+      &quot;title&quot;: &quot;Condition&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;countryCode&quot;: {
+      &quot;description&quot;: &quot;Two-letter country code to filter the areas list (mode=areas), e.g. US, CA, GB. Leave blank for all 707 sites.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Country code&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;cryptoOk&quot;: {
       &quot;default&quot;: false,
-      &quot;description&quot;: &quot;When true, only include posts whose `images` array is non-empty.&quot;,
-      &quot;editor&quot;: &quot;checkbox&quot;,
-      &quot;title&quot;: &quot;Has Image&quot;,
+      &quot;description&quot;: &quot;For-sale and auto categories: only listings that accept crypto.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Cryptocurrency accepted&quot;,
       &quot;type&quot;: &quot;boolean&quot;
     },
-    &quot;maxItems&quot;: {
-      &quot;default&quot;: 3,
-      &quot;description&quot;: &quot;Maximum posts to return across all start URLs.&quot;,
+    &quot;customRegion&quot;: {
+      &quot;description&quot;: &quot;Any Craigslist hostname or abbreviation (e.g. humboldt, tokyo, sfbay). Overrides Region. (mode=search/category)&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Custom region&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;deliveryAvailable&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;For-sale and auto categories: only listings offering delivery.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Delivery available&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;hasImage&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only listings with at least one photo.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Has image&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;hideDuplicates&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Ask Craigslist to group duplicate/reposted listings together.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Hide duplicate listings&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeDetails&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Fetch each listing&#x27;s full description, attributes, images, coordinates, and repost status. Turn off for faster search-card-only results.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Include full listing details&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;maxAutoMiles&quot;: {
+      &quot;description&quot;: &quot;Auto categories only.&quot;,
       &quot;editor&quot;: &quot;number&quot;,
-      &quot;maximum&quot;: 1000,
+      &quot;maximum&quot;: 1000000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Maximum vehicle mileage&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxAutoYear&quot;: {
+      &quot;description&quot;: &quot;Auto categories only.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 2100,
+      &quot;minimum&quot;: 1900,
+      &quot;title&quot;: &quot;Maximum vehicle year&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxBathrooms&quot;: {
+      &quot;description&quot;: &quot;Housing only.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 20,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Maximum bathrooms&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxBedrooms&quot;: {
+      &quot;description&quot;: &quot;Housing only.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 20,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Maximum bedrooms&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 100,
+      &quot;description&quot;: &quot;Hard cap across all queries and URLs. Craigslist returns at most 10,000 results per search.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 10000,
       &quot;minimum&quot;: 1,
       &quot;prefill&quot;: 3,
-      &quot;title&quot;: &quot;Max Items&quot;,
+      &quot;title&quot;: &quot;Maximum listings&quot;,
       &quot;type&quot;: &quot;integer&quot;
     },
     &quot;maxPrice&quot;: {
-      &quot;description&quot;: &quot;Optional maximum price filter (USD). Applied to the numeric portion of the listing price when present.&quot;,
+      &quot;description&quot;: &quot;Only listings at or below this price. Posts without a price are excluded when a price filter is set.&quot;,
       &quot;editor&quot;: &quot;number&quot;,
       &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Maximum Price&quot;,
+      &quot;title&quot;: &quot;Maximum price&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxSqft&quot;: {
+      &quot;description&quot;: &quot;Housing only.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 100000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Maximum square feet&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;minAutoYear&quot;: {
+      &quot;description&quot;: &quot;Auto categories only.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 2100,
+      &quot;minimum&quot;: 1900,
+      &quot;title&quot;: &quot;Minimum vehicle year&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;minBathrooms&quot;: {
+      &quot;description&quot;: &quot;Housing only.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 20,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Minimum bathrooms&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;minBedrooms&quot;: {
+      &quot;description&quot;: &quot;Housing only.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 20,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Minimum bedrooms&quot;,
       &quot;type&quot;: &quot;integer&quot;
     },
     &quot;minPrice&quot;: {
-      &quot;description&quot;: &quot;Optional minimum price filter (USD). Applied to the numeric portion of the listing price when present.&quot;,
+      &quot;description&quot;: &quot;Only listings at or above this price. Posts without a price are excluded when a price filter is set.&quot;,
       &quot;editor&quot;: &quot;number&quot;,
       &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Minimum Price&quot;,
+      &quot;title&quot;: &quot;Minimum price&quot;,
       &quot;type&quot;: &quot;integer&quot;
     },
-    &quot;proxyConfiguration&quot;: {
-      &quot;default&quot;: {
-        &quot;useApifyProxy&quot;: false
-      },
-      &quot;description&quot;: &quot;Apify proxy. Craigslist typically works from datacenter IPs with no proxy — leave off for lowest cost.&quot;,
-      &quot;editor&quot;: &quot;proxy&quot;,
-      &quot;prefill&quot;: {
-        &quot;useApifyProxy&quot;: false
-      },
-      &quot;title&quot;: &quot;Proxy Configuration&quot;,
-      &quot;type&quot;: &quot;object&quot;
+    &quot;minSqft&quot;: {
+      &quot;description&quot;: &quot;Housing only.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 100000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Minimum square feet&quot;,
+      &quot;type&quot;: &quot;integer&quot;
     },
-    &quot;scrapeDetails&quot;: {
-      &quot;default&quot;: true,
-      &quot;description&quot;: &quot;Fetch each post&#x27;s page for full description, attributes, coordinates and images. Off = listing-card data only (title, url, price, location).&quot;,
-      &quot;editor&quot;: &quot;checkbox&quot;,
-      &quot;title&quot;: &quot;Scrape Post Details&quot;,
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;search&quot;,
+      &quot;description&quot;: &quot;What to collect: keyword search, a category browse, specific Craigslist URLs, or the region/subarea reference list.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;search&quot;,
+        &quot;category&quot;,
+        &quot;byUrl&quot;,
+        &quot;areas&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Search by keyword&quot;,
+        &quot;Browse a category&quot;,
+        &quot;Scrape specific URLs&quot;,
+        &quot;List regions and subareas&quot;
+      ],
+      &quot;prefill&quot;: &quot;search&quot;,
+      &quot;title&quot;: &quot;Mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;postalCode&quot;: {
+      &quot;description&quot;: &quot;Optional ZIP/postal code to anchor the search geographically. Use with Search radius.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Postal code&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;postedToday&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only listings posted in the last 24 hours (Craigslist&#x27;s posted-today filter).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Posted today&quot;,
       &quot;type&quot;: &quot;boolean&quot;
     },
-    &quot;searchTerm&quot;: {
-      &quot;description&quot;: &quot;Optional keyword; appended to each search URL as ?query=&lt;term&gt;. Ignored for direct post URLs.&quot;,
-      &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;title&quot;: &quot;Search Term&quot;,
+    &quot;region&quot;: {
+      &quot;default&quot;: &quot;sfbay&quot;,
+      &quot;description&quot;: &quot;Craigslist city/region to search (mode=search/category). Pick a common region, or use Custom region for any of the 707 Craigslist sites.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;sfbay&quot;,
+        &quot;newyork&quot;,
+        &quot;losangeles&quot;,
+        &quot;chicago&quot;,
+        &quot;seattle&quot;,
+        &quot;boston&quot;,
+        &quot;washingtondc&quot;,
+        &quot;atlanta&quot;,
+        &quot;dallas&quot;,
+        &quot;houston&quot;,
+        &quot;denver&quot;,
+        &quot;philadelphia&quot;,
+        &quot;miami&quot;,
+        &quot;austin&quot;,
+        &quot;sandiego&quot;,
+        &quot;phoenix&quot;,
+        &quot;portland&quot;,
+        &quot;minneapolis&quot;,
+        &quot;detroit&quot;,
+        &quot;nashville&quot;,
+        &quot;raleigh&quot;,
+        &quot;charlotte&quot;,
+        &quot;baltimore&quot;,
+        &quot;stlouis&quot;,
+        &quot;orlando&quot;,
+        &quot;tampa&quot;,
+        &quot;lasvegas&quot;,
+        &quot;sacramento&quot;,
+        &quot;hartford&quot;,
+        &quot;columbus&quot;,
+        &quot;indianapolis&quot;,
+        &quot;cincinnati&quot;,
+        &quot;cleveland&quot;,
+        &quot;kansascity&quot;,
+        &quot;milwaukee&quot;,
+        &quot;sanantonio&quot;,
+        &quot;pittsburgh&quot;,
+        &quot;newhaven&quot;,
+        &quot;providence&quot;,
+        &quot;richmond&quot;,
+        &quot;salem&quot;,
+        &quot;saltlakecity&quot;,
+        &quot;anchorage&quot;,
+        &quot;honolulu&quot;,
+        &quot;hudsonvalley&quot;,
+        &quot;longisland&quot;,
+        &quot;newjersey&quot;,
+        &quot;toronto&quot;,
+        &quot;vancouver&quot;,
+        &quot;montreal&quot;,
+        &quot;calgary&quot;,
+        &quot;ottawa&quot;,
+        &quot;edmonton&quot;,
+        &quot;london&quot;,
+        &quot;manchester&quot;,
+        &quot;birmingham&quot;,
+        &quot;leeds&quot;,
+        &quot;liverpool&quot;,
+        &quot;edinburgh&quot;,
+        &quot;glasgow&quot;,
+        &quot;bristol&quot;,
+        &quot;brighton&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;SF bay area&quot;,
+        &quot;new york&quot;,
+        &quot;los angeles&quot;,
+        &quot;chicago&quot;,
+        &quot;seattle&quot;,
+        &quot;boston&quot;,
+        &quot;washington, DC&quot;,
+        &quot;atlanta&quot;,
+        &quot;dallas&quot;,
+        &quot;houston&quot;,
+        &quot;denver&quot;,
+        &quot;philadelphia&quot;,
+        &quot;south florida&quot;,
+        &quot;austin&quot;,
+        &quot;san diego&quot;,
+        &quot;phoenix&quot;,
+        &quot;portland&quot;,
+        &quot;minneapolis&quot;,
+        &quot;detroit metro&quot;,
+        &quot;nashville&quot;,
+        &quot;raleigh&quot;,
+        &quot;charlotte&quot;,
+        &quot;baltimore&quot;,
+        &quot;st louis&quot;,
+        &quot;orlando&quot;,
+        &quot;tampa bay&quot;,
+        &quot;las vegas&quot;,
+        &quot;sacramento&quot;,
+        &quot;hartford&quot;,
+        &quot;columbus, OH&quot;,
+        &quot;indianapolis&quot;,
+        &quot;cincinnati&quot;,
+        &quot;cleveland&quot;,
+        &quot;kansas city&quot;,
+        &quot;milwaukee&quot;,
+        &quot;san antonio&quot;,
+        &quot;pittsburgh&quot;,
+        &quot;new haven&quot;,
+        &quot;rhode island&quot;,
+        &quot;richmond, VA&quot;,
+        &quot;salem&quot;,
+        &quot;salt lake&quot;,
+        &quot;anchorage&quot;,
+        &quot;hawaii&quot;,
+        &quot;hudson valley&quot;,
+        &quot;long island&quot;,
+        &quot;north jersey&quot;,
+        &quot;toronto&quot;,
+        &quot;vancouver, BC&quot;,
+        &quot;montreal&quot;,
+        &quot;calgary&quot;,
+        &quot;ottawa&quot;,
+        &quot;edmonton&quot;,
+        &quot;london, UK&quot;,
+        &quot;manchester&quot;,
+        &quot;birmingham, UK&quot;,
+        &quot;leeds&quot;,
+        &quot;liverpool&quot;,
+        &quot;edinburgh&quot;,
+        &quot;glasgow&quot;,
+        &quot;bristol&quot;,
+        &quot;brighton&quot;
+      ],
+      &quot;prefill&quot;: &quot;sfbay&quot;,
+      &quot;title&quot;: &quot;Region&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;searchQueries&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;One or more keywords. Each query is searched separately; results are de-duplicated. Leave empty for a category browse. (mode=search)&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [
+        &quot;bike&quot;
+      ],
+      &quot;title&quot;: &quot;Search queries&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;searchRadiusMiles&quot;: {
+      &quot;description&quot;: &quot;Distance around the postal code. Requires Postal code.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 250,
+      &quot;minimum&quot;: 1,
+      &quot;title&quot;: &quot;Search radius (miles)&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;sellerType&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;Filter by owner, dealer, or either.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
+        &quot;owner&quot;,
+        &quot;dealer&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All sellers&quot;,
+        &quot;Owner&quot;,
+        &quot;Dealer&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Seller type&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;sortBy&quot;: {
+      &quot;default&quot;: &quot;newest&quot;,
+      &quot;description&quot;: &quot;Order of results within each query.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;newest&quot;,
+        &quot;oldest&quot;,
+        &quot;relevance&quot;,
+        &quot;priceAsc&quot;,
+        &quot;priceDesc&quot;,
+        &quot;distance&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Newest first&quot;,
+        &quot;Oldest first&quot;,
+        &quot;Most relevant&quot;,
+        &quot;Price: low to high&quot;,
+        &quot;Price: high to low&quot;,
+        &quot;Closest first&quot;
+      ],
+      &quot;prefill&quot;: &quot;newest&quot;,
+      &quot;title&quot;: &quot;Sort by&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;startUrls&quot;: {
-      &quot;default&quot;: [
-        {
-          &quot;url&quot;: &quot;https://sfbay.craigslist.org/search/jjj&quot;
-        }
-      ],
-      &quot;description&quot;: &quot;Craigslist search URLs or direct post URLs. Examples: https://sfbay.craigslist.org/search/jjj, https://newyork.craigslist.org/search/hhh, or a full post URL like https://sfbay.craigslist.org/eby/grd/d/hayward-item/7918207144.html&quot;,
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Craigslist search pages, new-style /view/d/... post URLs, or old /region/category/post-id.html URLs. (mode=byUrl)&quot;,
       &quot;editor&quot;: &quot;requestListSources&quot;,
-      &quot;prefill&quot;: [
-        {
-          &quot;url&quot;: &quot;https://sfbay.craigslist.org/search/jjj&quot;
-        }
-      ],
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;object&quot;
+      },
       &quot;title&quot;: &quot;Start URLs&quot;,
       &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;subarea&quot;: {
+      &quot;description&quot;: &quot;Optional Craigslist subarea abbreviation inside the region (e.g. sfc, eby, brk). Leave blank for the whole region. (mode=search/category)&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Subarea&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;titlesOnly&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Match the keywords against titles only instead of titles and descriptions.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Titles only&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
     }
   },
   &quot;required&quot;: [
-    &quot;startUrls&quot;
+    &quot;mode&quot;
   ],
   &quot;schemaVersion&quot;: 1,
-  &quot;title&quot;: &quot;Craigslist Scraper Input&quot;,
+  &quot;title&quot;: &quot;Craigslist Classifieds Scraper Input&quot;,
   &quot;type&quot;: &quot;object&quot;
 }
-</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>listings</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped Craigslist listings.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>listings</code></td><td>string</td><td>optional</td><td>Dataset containing scraped Craigslist listings, plus region records in areas mode.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
   &quot;actorOutputSchemaVersion&quot;: 1,
-  &quot;description&quot;: &quot;Craigslist listings with price, description, images, coordinates, and category-specific attributes for jobs, housing, autos, and for-sale posts.&quot;,
+  &quot;description&quot;: &quot;Craigslist listings with prices, descriptions, photos, coordinates, category attributes, repost status, and region/subarea records.&quot;,
   &quot;properties&quot;: {
     &quot;listings&quot;: {
-      &quot;description&quot;: &quot;Dataset containing all scraped Craigslist listings.&quot;,
+      &quot;description&quot;: &quot;Dataset containing scraped Craigslist listings, plus region records in areas mode.&quot;,
       &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
       &quot;title&quot;: &quot;Craigslist listings&quot;,
       &quot;type&quot;: &quot;string&quot;
     }
   },
-  &quot;title&quot;: &quot;Craigslist Classifieds Scraper with Category Attributes Output&quot;
+  &quot;title&quot;: &quot;Craigslist Classifieds Scraper Output&quot;
 }
 </code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-craigslist-classifieds-scraper-with-category-attributes">Craigslist Classifieds Scraper with Category Attributes</h2>
-<p>Scrape <a href="https://craigslist.org">Craigslist</a> search results and individual posts across any city subdomain — <code>sfbay</code>, <code>newyork</code>, <code>chicago</code>, <code>losangeles</code>, <code>london</code>, and hundreds more. Get titles, prices, descriptions, coordinates, images, and the category-specific attribute set for jobs, housing, autos, and for-sale posts. No login, no cookies, and no proxy needed for normal volume.</p>
+<p>Scrape <strong>Craigslist</strong> across 700+ local sites without a login, cookie, or proxy setup. Search by keyword or browse a category, follow individual post links, and get the full listing: price, description, every photo, map coordinates, posted and repost data, plus the category-specific attributes Craigslist shows for jobs, housing, autos, and for-sale items.</p>
 <h2 id="readme-what-this-actor-does">What this actor does</h2>
 <ul>
-<li>Scrapes any Craigslist search page or direct post URL, auto-detecting the city/region from the subdomain</li>
-<li>Pages through search results (up to 20 result pages per search URL) and opens each post's detail page for full description, attributes, and images</li>
-<li>Extracts category-specific fields — vehicle specs for autos, bedroom/bathroom counts for housing, compensation for jobs</li>
-<li>Filters the collected posts by minimum/maximum price or by whether a post has at least one image</li>
-<li>Empty fields are omitted from each record</li>
+<li><strong>Four modes:</strong> keyword search, category browse, specific URLs, and a region/subarea reference list</li>
+<li><strong>700+ regions:</strong> every Craigslist hostname, with 62 common regions ready in a dropdown and a custom-region field for the rest</li>
+<li><strong>Filters that run on Craigslist:</strong> price, posted today, photos, titles-only, owner/dealer, sort, condition, bedrooms/baths/square feet, vehicle make/year/mileage, postal radius, and duplicate grouping</li>
+<li><strong>Full detail records:</strong> body text, gallery images, attributes, coordinates, display address, repost link, notices, and typed category fields</li>
+<li><strong>Empty fields are omitted</strong> from every record; no <code>null</code> values or placeholder rows</li>
 </ul>
 <h2 id="readme-output-per-listing">Output per listing</h2>
 <ul>
 <li><code>type</code> — always <code>craigslist_listing</code></li>
-<li><code>url</code>, <code>id</code> — post URL and numeric post ID</li>
-<li><code>title</code>, <code>category</code>, <code>subcategory</code>, <code>location</code>, <code>region</code></li>
-<li><code>postingType</code> — category slug from the URL path (<code>cto</code>, <code>apa</code>, <code>lab</code>, <code>fud</code>, ...)</li>
-<li><code>price</code>, <code>priceQualifier</code> — e.g. <code>/ 2br - 1083ft²</code>, <code>OBO</code>, <code>/ month</code></li>
-<li><code>postedAt</code>, <code>updatedAt</code></li>
-<li><code>description</code> — plain-text post body</li>
-<li><code>images[]</code> — large gallery image URLs</li>
-<li><code>latitude</code>, <code>longitude</code>, <code>mapAddress</code> — from the post's embedded map, when shown</li>
-<li><code>attributes</code> — the raw label-to-value set from the post's attribute group</li>
-<li><code>phoneNumbers[]</code>, <code>notices[]</code>, <code>replyUrl</code></li>
-<li>Jobs: <code>compensation</code>, <code>employmentType</code>, <code>jobTitle</code></li>
-<li>For-sale (generic): <code>condition</code>, <code>size</code></li>
-<li>Autos: <code>yearManufactured</code>, <code>makeManufacturer</code>, <code>modelName</code>, <code>odometer</code>, <code>transmission</code>, <code>fuelType</code>, <code>titleStatus</code>, <code>cylinders</code>, <code>paintColor</code>, <code>drive</code>, <code>vehicleType</code>, <code>vin</code></li>
-<li>Housing: <code>bedroomCount</code>, <code>bathroomCount</code>, <code>sqft</code>, <code>availableDate</code>, <code>housingType</code>, <code>laundry</code>, <code>parking</code>, <code>rentPeriod</code>, <code>listedBy</code>, <code>applicationFee</code>, <code>brokerFee</code>, <code>openHouseDates</code>, <code>catsOk</code>, <code>dogsOk</code>, <code>furnished</code>, <code>smoking</code></li>
-<li><code>scrapedAt</code></li>
+<li><code>id</code>, <code>postingUuid</code>, <code>url</code>, <code>title</code></li>
+<li><code>price</code>, <code>priceValue</code>, <code>priceCurrency</code>, <code>priceQualifier</code></li>
+<li><code>postedAt</code>, <code>updatedAt</code>, <code>recordCreatedAt</code>, <code>scrapedAt</code></li>
+<li><code>region</code>, <code>location</code>, <code>neighborhood</code>, <code>subArea</code>, <code>area</code>, <code>areaAbbr</code>, <code>locationType</code>, <code>mapAddress</code></li>
+<li><code>latitude</code>, <code>longitude</code></li>
+<li><code>category</code>, <code>subcategory</code>, <code>section</code>, <code>categoryAbbr</code>, <code>subcategoryAbbr</code>, <code>postingType</code></li>
+<li><code>description</code>, <code>images[]</code>, <code>imageCount</code>, <code>attributes</code>, <code>notices[]</code></li>
+<li><code>phoneNumbers[]</code>, <code>emails[]</code>, <code>vin</code>, <code>replyUrl</code></li>
+<li><code>repostOf</code>, <code>hasContactInfo</code>, <code>seeMyOther</code></li>
+<li>Jobs: <code>compensation</code>, <code>employmentType</code>, <code>jobTitle</code>, <code>companyName</code>, <code>experienceLevel</code>, <code>salary</code></li>
+<li>Housing: <code>bedroomCount</code>, <code>bathroomCount</code>, <code>sqft</code>, <code>availableDate</code>, <code>housingType</code>, <code>laundry</code>, <code>parking</code>, <code>rentPeriod</code>, <code>listedBy</code>, <code>applicationFee</code>, <code>brokerFee</code>, <code>openHouseDates</code>, <code>catsOk</code>, <code>dogsOk</code>, <code>furnished</code>, <code>smoking</code>, <code>privateRoom</code>, <code>privateBath</code>, <code>wheelchairAccessible</code>, <code>airConditioning</code>, <code>evCharging</code></li>
+<li>Autos: <code>yearManufactured</code>, <code>makeManufacturer</code>, <code>modelName</code>, <code>odometer</code>, <code>transmission</code>, <code>fuelType</code>, <code>titleStatus</code>, <code>cylinders</code>, <code>paintColor</code>, <code>drive</code>, <code>vehicleType</code></li>
+<li>For sale: <code>condition</code>, <code>size</code>, <code>make</code>, <code>model</code></li>
 </ul>
-<p>With <code>scrapeDetails</code> off, records only carry the search-card fields: <code>type</code>, <code>url</code>, <code>id</code>, <code>region</code>, <code>title</code>, <code>price</code>, <code>location</code> and <code>scrapedAt</code>. A search result whose detail page fails to load also falls back to these fields. Direct post URLs need <code>scrapeDetails</code> on; without it (or if the post page can't be loaded) they produce no listing.</p>
-<p>If the run ends without a single listing (bad URL, removed post, no search results, or filters that removed everything), one informational record is returned instead: <code>type: &quot;craigslist_blocked&quot;</code>, <code>requestedUrls</code>, <code>searchTerm</code> (empty string when none was given), <code>message</code>, <code>scrapedAt</code>.</p>
+<p>With <code>includeDetails</code> off, rows contain only the search-card fields: identity, price, category, posted time, location, coordinates, and image URLs.</p>
+<h2 id="readme-output-per-area-mode-areas">Output per area (mode = <code>areas</code>)</h2>
+<ul>
+<li><code>type</code> — <code>craigslist_area</code></li>
+<li><code>areaId</code>, <code>abbreviation</code>, <code>hostname</code>, <code>description</code>, <code>shortDescription</code></li>
+<li><code>region</code>, <code>country</code>, <code>latitude</code>, <code>longitude</code>, <code>timezone</code></li>
+<li><code>subareas[]</code> — each with <code>abbreviation</code>, <code>description</code>, and <code>subAreaId</code></li>
+</ul>
 <h2 id="readme-input">Input</h2>
 <div class="table-wrap"><table>
 <thead>
@@ -136,100 +967,271 @@
 </thead>
 <tbody>
 <tr>
-<td><code>startUrls</code></td>
-<td>array</td>
-<td><code>[{&quot;url&quot;: &quot;https://sfbay.craigslist.org/search/jjj&quot;}]</code></td>
-<td>Craigslist search URLs (<code>/search/...</code>) or direct post URLs (ending in <code>&lt;id&gt;.html</code>); other URLs are skipped. Filters already in a search URL (e.g. <code>?min_price=</code>) are kept</td>
+<td><code>mode</code></td>
+<td>string</td>
+<td><code>search</code></td>
+<td><code>search</code> / <code>category</code> / <code>byUrl</code> / <code>areas</code></td>
 </tr>
 <tr>
-<td><code>searchTerm</code></td>
+<td><code>region</code></td>
+<td>string</td>
+<td><code>sfbay</code></td>
+<td>Common Craigslist region (mode=search/category)</td>
+</tr>
+<tr>
+<td><code>customRegion</code></td>
 <td>string</td>
 <td>–</td>
-<td>Keyword appended to each search URL as <code>?query=&lt;term&gt;</code>; ignored for direct post URLs</td>
+<td>Any hostname or abbreviation; overrides <code>region</code></td>
 </tr>
 <tr>
-<td><code>maxItems</code></td>
-<td>integer</td>
-<td><code>3</code></td>
-<td>Maximum posts to return across all start URLs (1–1000)</td>
+<td><code>subarea</code></td>
+<td>string</td>
+<td>–</td>
+<td>Optional subarea such as <code>sfc</code>, <code>eby</code>, <code>brk</code></td>
 </tr>
 <tr>
-<td><code>scrapeDetails</code></td>
-<td>boolean</td>
-<td><code>true</code></td>
-<td>Fetch each post's detail page for full description, attributes, coordinates, and images; off returns listing-card data only</td>
+<td><code>category</code></td>
+<td>string</td>
+<td><code>sss</code></td>
+<td>Craigslist category; <code>sss</code> is all for-sale listings</td>
+</tr>
+<tr>
+<td><code>searchQueries</code></td>
+<td>array</td>
+<td>–</td>
+<td>One or more keywords (mode=search); leave empty to browse a category</td>
+</tr>
+<tr>
+<td><code>startUrls</code></td>
+<td>array</td>
+<td>–</td>
+<td>Search pages or post URLs (mode=byUrl)</td>
 </tr>
 <tr>
 <td><code>minPrice</code></td>
 <td>integer</td>
 <td>–</td>
-<td>Minimum price, compared with the number in the post's price (in the listing's own currency). Posts without a price are dropped when either price filter is set</td>
+<td>Minimum price</td>
 </tr>
 <tr>
 <td><code>maxPrice</code></td>
 <td>integer</td>
 <td>–</td>
-<td>Maximum price, same rules as <code>minPrice</code></td>
+<td>Maximum price</td>
+</tr>
+<tr>
+<td><code>postedToday</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Only posts from the last 24 hours (Craigslist's posted-today filter)</td>
 </tr>
 <tr>
 <td><code>hasImage</code></td>
 <td>boolean</td>
 <td><code>false</code></td>
-<td>Only include posts with at least one image (needs <code>scrapeDetails</code> on, since images come from the detail page)</td>
+<td>Only posts with a photo</td>
 </tr>
 <tr>
-<td><code>proxyConfiguration</code></td>
-<td>object</td>
-<td><code>{&quot;useApifyProxy&quot;: false}</code></td>
-<td>Optional — Craigslist works from datacenter IPs for normal volume</td>
+<td><code>titlesOnly</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Match keywords against titles only</td>
+</tr>
+<tr>
+<td><code>sellerType</code></td>
+<td>string</td>
+<td><code>all</code></td>
+<td><code>all</code> / <code>owner</code> / <code>dealer</code></td>
+</tr>
+<tr>
+<td><code>sortBy</code></td>
+<td>string</td>
+<td><code>newest</code></td>
+<td><code>newest</code> / <code>oldest</code> / <code>relevance</code> / <code>priceAsc</code> / <code>priceDesc</code> / <code>distance</code></td>
+</tr>
+<tr>
+<td><code>condition</code></td>
+<td>string</td>
+<td><code>any</code></td>
+<td><code>any</code> / <code>new</code> / <code>like-new</code> / <code>excellent</code> / <code>good</code> / <code>fair</code> / <code>salvage</code></td>
+</tr>
+<tr>
+<td><code>minBedrooms</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Housing only</td>
+</tr>
+<tr>
+<td><code>maxBedrooms</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Housing only</td>
+</tr>
+<tr>
+<td><code>minBathrooms</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Housing only</td>
+</tr>
+<tr>
+<td><code>maxBathrooms</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Housing only</td>
+</tr>
+<tr>
+<td><code>minSqft</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Housing only</td>
+</tr>
+<tr>
+<td><code>maxSqft</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Housing only</td>
+</tr>
+<tr>
+<td><code>autoMakeModel</code></td>
+<td>string</td>
+<td>–</td>
+<td>Auto categories only, e.g. <code>honda civic</code></td>
+</tr>
+<tr>
+<td><code>minAutoYear</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Auto categories only</td>
+</tr>
+<tr>
+<td><code>maxAutoYear</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Auto categories only</td>
+</tr>
+<tr>
+<td><code>maxAutoMiles</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Auto categories only</td>
+</tr>
+<tr>
+<td><code>postalCode</code></td>
+<td>string</td>
+<td>–</td>
+<td>Optional ZIP/postal code anchor</td>
+</tr>
+<tr>
+<td><code>searchRadiusMiles</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Radius around <code>postalCode</code></td>
+</tr>
+<tr>
+<td><code>hideDuplicates</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Group duplicate/reposted listings</td>
+</tr>
+<tr>
+<td><code>deliveryAvailable</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>For-sale/auto only</td>
+</tr>
+<tr>
+<td><code>cryptoOk</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>For-sale/auto only</td>
+</tr>
+<tr>
+<td><code>countryCode</code></td>
+<td>string</td>
+<td>–</td>
+<td>Two-letter country filter for <code>areas</code> mode</td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>integer</td>
+<td><code>100</code></td>
+<td>Hard cap across all queries and URLs (1–10000)</td>
+</tr>
+<tr>
+<td><code>includeDetails</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Fetch full descriptions, attributes, images, and coordinates</td>
 </tr>
 </tbody>
 </table></div>
-<h3 id="readme-example-search-a-category-in-one-city">Example: search a category in one city</h3>
+<h2 id="readme-examples">Examples</h2>
+<h3 id="readme-search-a-city-for-a-keyword">Search a city for a keyword</h3>
 <pre><code class="language-json">{
-    &quot;startUrls&quot;: [{ &quot;url&quot;: &quot;https://sfbay.craigslist.org/search/jjj&quot; }],
-    &quot;maxItems&quot;: 50
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;region&quot;: &quot;sfbay&quot;,
+  &quot;category&quot;: &quot;sss&quot;,
+  &quot;searchQueries&quot;: [&quot;bike&quot;],
+  &quot;maxItems&quot;: 50,
+  &quot;includeDetails&quot;: true
 }
 </code></pre>
-<h3 id="readme-example-keyword-search-with-a-price-range">Example: keyword search with a price range</h3>
+<h3 id="readme-browse-apartments-with-housing-filters">Browse apartments with housing filters</h3>
 <pre><code class="language-json">{
-    &quot;startUrls&quot;: [{ &quot;url&quot;: &quot;https://newyork.craigslist.org/search/sss&quot; }],
-    &quot;searchTerm&quot;: &quot;bicycle&quot;,
-    &quot;minPrice&quot;: 50,
-    &quot;maxPrice&quot;: 300,
-    &quot;hasImage&quot;: true,
-    &quot;maxItems&quot;: 100
+  &quot;mode&quot;: &quot;category&quot;,
+  &quot;region&quot;: &quot;chicago&quot;,
+  &quot;category&quot;: &quot;apa&quot;,
+  &quot;minBedrooms&quot;: 2,
+  &quot;maxBedrooms&quot;: 2,
+  &quot;maxPrice&quot;: 3000,
+  &quot;sortBy&quot;: &quot;priceAsc&quot;,
+  &quot;maxItems&quot;: 100
 }
 </code></pre>
-<h3 id="readme-example-scrape-one-specific-post">Example: scrape one specific post</h3>
+<h3 id="readme-scrape-specific-posts">Scrape specific posts</h3>
 <pre><code class="language-json">{
-    &quot;startUrls&quot;: [{ &quot;url&quot;: &quot;https://sfbay.craigslist.org/eby/grd/d/hayward-item/7918207144.html&quot; }],
-    &quot;maxItems&quot;: 1
+  &quot;mode&quot;: &quot;byUrl&quot;,
+  &quot;startUrls&quot;: [
+    { &quot;url&quot;: &quot;https://www.craigslist.org/view/d/richmond-195-iron-horse-maverick-21/scJ6mscDAryikpFRAS61aq&quot; },
+    { &quot;url&quot;: &quot;https://sfbay.craigslist.org/bik/7962037752.html&quot; }
+  ],
+  &quot;maxItems&quot;: 10
+}
+</code></pre>
+<h3 id="readme-list-regions-in-one-country">List regions in one country</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;areas&quot;,
+  &quot;countryCode&quot;: &quot;CA&quot;,
+  &quot;maxItems&quot;: 100
 }
 </code></pre>
 <h2 id="readme-use-cases">Use cases</h2>
 <ul>
-<li><strong>Marketplace price tracking</strong> — monitor asking prices for a product category across one or more cities</li>
-<li><strong>Vehicle shopping</strong> — pull year, mileage, and condition for every car listing matching a search</li>
-<li><strong>Rental research</strong> — collect bedroom count, rent, and pet policy across a city's housing posts</li>
-<li><strong>Job board aggregation</strong> — gather compensation and employment-type data from a labor category</li>
-<li><strong>Lead sourcing</strong> — filter by price and image presence to find postings worth following up on</li>
+<li><strong>Marketplace price tracking</strong> — monitor asking prices for a product across cities and categories</li>
+<li><strong>Vehicle shopping</strong> — pull year, make, model, mileage, transmission, and title status for matching cars</li>
+<li><strong>Rental research</strong> — collect rent, bedrooms, bathrooms, square footage, laundry, parking, and pet policy</li>
+<li><strong>Job aggregation</strong> — gather compensation, employment type, experience level, and company names</li>
+<li><strong>Lead sourcing</strong> — filter by price, photos, seller type, and posted date to find fresh posts</li>
+<li><strong>Local market mapping</strong> — join listing coordinates and neighborhoods to city/subarea reference data</li>
 </ul>
 <h2 id="readme-faq">FAQ</h2>
-<p><strong>Do I need a proxy?</strong>
-No. Craigslist usually responds normally to data-center IPs at typical run volumes; enable a proxy only if requests start getting refused.</p>
-<p><strong>Does this work on a login wall?</strong>
-Craigslist's public listings have no login wall, so this actor works without any authentication.</p>
-<p><strong>Can I scrape just one specific post?</strong>
-Yes. Put the direct post URL (ending in <code>&lt;id&gt;.html</code>) into <code>startUrls</code> and set <code>maxItems: 1</code>.</p>
-<p><strong>What cities are supported?</strong>
-Every Craigslist subdomain — the region is detected automatically from the URL, so <code>sfbay</code>, <code>newyork</code>, <code>london</code>, or any other subdomain works the same way.</p>
-<p><strong>Why do some listings lack <code>attributes</code> or <code>images</code>?</strong>
-Not every post fills in Craigslist's optional attribute fields or uploads photos — those keys are only included when the source post actually has them.</p>
-<p><strong>What happens if a search or post URL returns nothing?</strong>
-If the whole run produces no listing, it still completes with one <code>craigslist_blocked</code> record listing the requested URLs and the possible reasons (invalid URL, removed post, or no matching results) instead of failing silently. A single empty URL in a run that finds listings elsewhere is just skipped.</p>
-<p><strong>Why did I get fewer posts than <code>maxItems</code> when using filters?</strong>
-The actor collects up to <code>maxItems</code> posts from the search first and then applies <code>minPrice</code>, <code>maxPrice</code> and <code>hasImage</code>, so posts removed by the filters aren't replaced. For a fuller result, put the price filter in the search URL itself (for example <code>https://newyork.craigslist.org/search/sss?min_price=50&amp;max_price=300</code>) or raise <code>maxItems</code>.</p>
+<p><strong>Do I need a Craigslist account, cookie, or proxy?</strong>
+No. The actor reads public Craigslist listings and connects automatically. There is no login or proxy field to fill in.</p>
+<p><strong>How many results can one run return?</strong>
+Craigslist caps a single search at 10,000 results. To collect more, split by category, subarea, price range, or posted-today and combine the runs. The actor tells you in the run status when the cap is reached.</p>
+<p><strong>Why are some fields missing from a row?</strong>
+Craigslist posts differ by category and by what the seller filled in. A job may have no price; a generic for-sale post may have no structured attributes; a seller may not publish a phone number. Empty fields are omitted rather than filled with <code>null</code> or an empty value.</p>
+<p><strong>Can I get the poster's email address?</strong>
+Only when the seller typed an email into the post body. Craigslist's reply relay hides the real address behind its own form and sometimes a captcha; this actor does not bypass that.</p>
+<p><strong>Does the actor support RSS or JSON feeds?</strong>
+No. Craigslist discontinued its RSS output, and its old <code>output=json</code> parameter no longer returns JSON. This actor uses Craigslist's current listing data and returns the same fields in its dataset.</p>
+<p><strong>Can I paste an old Craigslist post link?</strong>
+Current <code>/view/d/...</code> links work directly. Older <code>region/category/post-id.html</code> links also work. Very old links that contain a <code>/d/</code> slug but a broad category are resolved by searching for the post; if Craigslist has removed it, the URL is skipped with a message.</p>
+<p><strong>Does an old search URL's <code>s=</code> offset still work?</strong>
+No. Craigslist no longer offers an offset cursor for search results, so the actor ignores <code>s=</code> and starts from the first result. Use <code>maxItems</code>, a narrower price range, or a subarea to control how deep a run goes.</p>
+<p><strong>Why did a run return no listings?</strong>
+The query may have no matches, the category may not exist in that region, the post may have been removed, or a filter may be too narrow. A zero-result run completes with a status message and no placeholder record.</p>
 <p><strong>Is this affiliated with Craigslist?</strong>
-No. This is an independent actor that reads Craigslist's public pages and is not operated or endorsed by Craigslist.</p>
-</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/PfjY6S7qeKQpmGEqc/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>Hjko0B65iFAefktLu</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
+No. This is an independent actor that reads publicly available Craigslist pages and is not operated or endorsed by Craigslist.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/PfjY6S7qeKQpmGEqc/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>HWKb9T9uefJQgHpvH</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
