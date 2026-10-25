@@ -1,0 +1,596 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-2tKa9RTjeDPLRohfYm/PTJgneqU1slEqSWVDOdjQ5Vg=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Vinted Secondhand Listings, Closets &amp; Seller Feedback | Vexaloom Labs</title><meta name="description" content="Search Vinted secondhand fashion listings by keyword, brand, size, color, material and price across 19 storefronts, or pull a seller&#x27;s closet, a brand&#x27;s catalog, or a seller&#x27;s feed"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/MXkFfooETidynP1xR/"><meta property="og:title" content="Vinted Secondhand Listings, Closets &amp; Seller Feedback | Vexaloom Labs"><meta property="og:description" content="Search Vinted secondhand fashion listings by keyword, brand, size, color, material and price across 19 storefronts, or pull a seller&#x27;s closet, a brand&#x27;s catalog, or a seller&#x27;s feed"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/MXkFfooETidynP1xR/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/MXkFfooETidynP1xR/#webpage","name":"Vinted Secondhand Listings, Closets & Seller Feedback","description":"Search Vinted secondhand fashion listings by keyword, brand, size, color, material and price across 19 storefronts, or pull a seller's closet, a brand's catalog, or a seller's feedback history.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/MXkFfooETidynP1xR/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/MXkFfooETidynP1xR/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/MXkFfooETidynP1xR/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/MXkFfooETidynP1xR/#article","headline":"Vinted Secondhand Listings, Closets & Seller Feedback","name":"Vinted Secondhand Listings, Closets & Seller Feedback","description":"Search Vinted secondhand fashion listings by keyword, brand, size, color, material and price across 19 storefronts, or pull a seller's closet, a brand's catalog, or a seller's feedback history.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/MXkFfooETidynP1xR/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/MXkFfooETidynP1xR/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/MXkFfooETidynP1xR/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Vinted Secondhand Listings, Closets & Seller Feedback","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/MXkFfooETidynP1xR/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Vinted Secondhand Listings, Closets &amp; Seller Feedback</span></div><section id="overview"><h1 class="doc-title">Vinted Secondhand Listings, Closets &amp; Seller Feedback</h1><p class="lede">Search Vinted secondhand fashion listings by keyword, brand, size, color, material and price across 19 storefronts, or pull a seller&#x27;s closet, a brand&#x27;s catalog, or a seller&#x27;s feedback history.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/vinted-secondhand-listings-closets-and-seller">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/MXkFfooETidynP1xR/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>search: keyword/filters → items. byUrl: explicit Vinted URLs (item, member, brand, catalog). byUser: user closet by user_id. byBrand: brand catalog by brand id or slug. byCatalog: items in a Vinted catalog (category) id. byBrandSearch: search the brand registry. byUserFeedbacks: seller reviews/feedbacks.</td></tr><tr><td><code>country</code></td><td>string</td><td>required</td><td>Vinted country domain to query.</td></tr><tr><td><code>searchText</code></td><td>string</td><td>optional</td><td>Free-text keyword query.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>search: keyword/filters → items. byUrl: explicit Vinted URLs (item, member, brand, catalog). byUser: user closet by user_id. byBrand: brand catalog by brand id or slug. byCatalog: items in a Vinted catalog (category) id. byBrandSearch: search the brand registry. byUserFeedbacks: seller reviews/feedbacks.</td></tr><tr><td><code>country</code></td><td>string</td><td>required</td><td>Vinted country domain to query.</td></tr><tr><td><code>searchText</code></td><td>string</td><td>optional</td><td>Free-text keyword query.</td></tr><tr><td><code>order</code></td><td>string</td><td>optional</td><td>Result ordering.</td></tr><tr><td><code>urls</code></td><td>array</td><td>optional</td><td>Direct Vinted URLs (item, member/user, brand, catalog).</td></tr><tr><td><code>userId</code></td><td>string</td><td>optional</td><td>Vinted numeric user_id (e.g. &quot;3148714106&quot;).</td></tr><tr><td><code>brandId</code></td><td>string</td><td>optional</td><td>Vinted numeric brand_id. Use &quot;Search brand registry&quot; mode to discover IDs (e.g. Nike=53, adidas=14).</td></tr><tr><td><code>catalogId</code></td><td>string</td><td>optional</td><td>Vinted catalog (category) ID. Common: 1904 (Women clothes), 5 (Men clothes), 1193 (Kids), 1242 (Bags), 1231 (Beauty).</td></tr><tr><td><code>brandKeyword</code></td><td>string</td><td>optional</td><td>Keyword to search the Vinted brand registry.</td></tr><tr><td><code>brandIds</code></td><td>array</td><td>optional</td><td>Constrain item search to one or more brand IDs (e.g. [53] for Nike).</td></tr><tr><td><code>catalogIds</code></td><td>array</td><td>optional</td><td>Constrain item search to one or more catalog IDs.</td></tr><tr><td><code>sizeIds</code></td><td>array</td><td>optional</td><td>Constrain item search to one or more size IDs.</td></tr><tr><td><code>colorIds</code></td><td>array</td><td>optional</td><td>Constrain item search to one or more color IDs (1=Black, 3=Grey, 5=White, 7=Beige, 9=Pink, 11=Purple, 12=Red, 13=Yellow, 14=Blue, 16=Green, 17=Orange, 19=Brown, 30=Multicolour).</td></tr><tr><td><code>materialIds</code></td><td>array</td><td>optional</td><td>Constrain item search to one or more material IDs.</td></tr><tr><td><code>statusIds</code></td><td>array</td><td>optional</td><td>Filter by condition: 6=New with tags, 1=New without tags, 2=Very good, 3=Good, 4=Satisfactory.</td></tr><tr><td><code>priceFrom</code></td><td>integer</td><td>optional</td><td>Minimum price (in the country&#x27;s local currency).</td></tr><tr><td><code>priceTo</code></td><td>integer</td><td>optional</td><td>Maximum price (in the country&#x27;s local currency).</td></tr><tr><td><code>minRating</code></td><td>number</td><td>optional</td><td>Drop items whose seller&#x27;s feedback rating is below this value (scale 1.0-5.0). Applied client-side after fetch; items with no rating attached pass through unchanged.</td></tr><tr><td><code>containsKeyword</code></td><td>string</td><td>optional</td><td>Drop items whose title or description does not contain this keyword (case-insensitive substring).</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Hard cap on emitted records.</td></tr><tr><td><code>perPage</code></td><td>integer</td><td>optional</td><td>Vinted API page size (1-96).</td></tr><tr><td><code>useProxy</code></td><td>boolean</td><td>optional</td><td>Route HTTP requests through Apify proxy. Vinted is generally accessible without proxy from datacenter IPs; enable if 403/Cloudflare challenges appear.</td></tr><tr><td><code>autoEscalateOnBlock</code></td><td>boolean</td><td>optional</td><td>If a 403/Cloudflare challenge appears on a direct request, automatically retry through Apify proxy (datacenter then residential).</td></tr><tr><td><code>proxyConfiguration</code></td><td>object</td><td>optional</td><td>Apify proxy configuration. Used only when useProxy is enabled.</td></tr><tr><td><code>cookieHeader</code></td><td>string</td><td>optional</td><td>Optional logged-in cookie header (e.g. _vinted_xx_session=...; access_token_web=...). Not required for public endpoints; pass only if you see persistent 401/403.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Scrape Vinted (second-hand fashion marketplace) items, sellers, brands, and feedbacks across 19 country domains.&quot;,
+  &quot;properties&quot;: {
+    &quot;autoEscalateOnBlock&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;If a 403/Cloudflare challenge appears on a direct request, automatically retry through Apify proxy (datacenter then residential).&quot;,
+      &quot;editor&quot;: &quot;checkbox&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Auto-escalate to proxy on block&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;brandId&quot;: {
+      &quot;description&quot;: &quot;Vinted numeric brand_id. Use \&quot;Search brand registry\&quot; mode to discover IDs (e.g. Nike=53, adidas=14).&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Brand ID (mode=byBrand)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;brandIds&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Constrain item search to one or more brand IDs (e.g. [53] for Nike).&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;sectionCaption&quot;: &quot;Search Filters&quot;,
+      &quot;title&quot;: &quot;Brand IDs filter (mode=search)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;brandKeyword&quot;: {
+      &quot;description&quot;: &quot;Keyword to search the Vinted brand registry.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Brand keyword (mode=byBrandSearch)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;catalogId&quot;: {
+      &quot;description&quot;: &quot;Vinted catalog (category) ID. Common: 1904 (Women clothes), 5 (Men clothes), 1193 (Kids), 1242 (Bags), 1231 (Beauty).&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Catalog / category ID (mode=byCatalog)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;catalogIds&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Constrain item search to one or more catalog IDs.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Catalog IDs filter (mode=search)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;colorIds&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Constrain item search to one or more color IDs (1=Black, 3=Grey, 5=White, 7=Beige, 9=Pink, 11=Purple, 12=Red, 13=Yellow, 14=Blue, 16=Green, 17=Orange, 19=Brown, 30=Multicolour).&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Color IDs filter (mode=search)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;containsKeyword&quot;: {
+      &quot;description&quot;: &quot;Drop items whose title or description does not contain this keyword (case-insensitive substring).&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Title / description contains keyword (filter)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;cookieHeader&quot;: {
+      &quot;description&quot;: &quot;Optional logged-in cookie header (e.g. _vinted_xx_session=...; access_token_web=...). Not required for public endpoints; pass only if you see persistent 401/403.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;isSecret&quot;: true,
+      &quot;title&quot;: &quot;Cookie header (optional)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;country&quot;: {
+      &quot;default&quot;: &quot;com&quot;,
+      &quot;description&quot;: &quot;Vinted country domain to query.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;com&quot;,
+        &quot;co.uk&quot;,
+        &quot;fr&quot;,
+        &quot;de&quot;,
+        &quot;it&quot;,
+        &quot;es&quot;,
+        &quot;pl&quot;,
+        &quot;cz&quot;,
+        &quot;nl&quot;,
+        &quot;lt&quot;,
+        &quot;lu&quot;,
+        &quot;at&quot;,
+        &quot;be&quot;,
+        &quot;pt&quot;,
+        &quot;ro&quot;,
+        &quot;sk&quot;,
+        &quot;fi&quot;,
+        &quot;se&quot;,
+        &quot;gr&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;United States (vinted.com)&quot;,
+        &quot;United Kingdom (vinted.co.uk)&quot;,
+        &quot;France (vinted.fr)&quot;,
+        &quot;Germany (vinted.de)&quot;,
+        &quot;Italy (vinted.it)&quot;,
+        &quot;Spain (vinted.es)&quot;,
+        &quot;Poland (vinted.pl)&quot;,
+        &quot;Czechia (vinted.cz)&quot;,
+        &quot;Netherlands (vinted.nl)&quot;,
+        &quot;Lithuania (vinted.lt)&quot;,
+        &quot;Luxembourg (vinted.lu)&quot;,
+        &quot;Austria (vinted.at)&quot;,
+        &quot;Belgium (vinted.be)&quot;,
+        &quot;Portugal (vinted.pt)&quot;,
+        &quot;Romania (vinted.ro)&quot;,
+        &quot;Slovakia (vinted.sk)&quot;,
+        &quot;Finland (vinted.fi)&quot;,
+        &quot;Sweden (vinted.se)&quot;,
+        &quot;Greece (vinted.gr)&quot;
+      ],
+      &quot;prefill&quot;: &quot;com&quot;,
+      &quot;title&quot;: &quot;Country / domain&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;materialIds&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Constrain item search to one or more material IDs.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Material IDs filter (mode=search)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 50,
+      &quot;description&quot;: &quot;Hard cap on emitted records.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 1000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 25,
+      &quot;sectionCaption&quot;: &quot;Limits&quot;,
+      &quot;title&quot;: &quot;Max items&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;minRating&quot;: {
+      &quot;description&quot;: &quot;Drop items whose seller&#x27;s feedback rating is below this value (scale 1.0-5.0). Applied client-side after fetch; items with no rating attached pass through unchanged.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 5,
+      &quot;minimum&quot;: 0,
+      &quot;sectionCaption&quot;: &quot;Post-Fetch Filters&quot;,
+      &quot;title&quot;: &quot;Min seller feedback rating (filter)&quot;,
+      &quot;type&quot;: &quot;number&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;search&quot;,
+      &quot;description&quot;: &quot;search: keyword/filters → items. byUrl: explicit Vinted URLs (item, member, brand, catalog). byUser: user closet by user_id. byBrand: brand catalog by brand id or slug. byCatalog: items in a Vinted catalog (category) id. byBrandSearch: search the brand registry. byUserFeedbacks: seller reviews/feedbacks.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;search&quot;,
+        &quot;byUrl&quot;,
+        &quot;byUser&quot;,
+        &quot;byBrand&quot;,
+        &quot;byCatalog&quot;,
+        &quot;byBrandSearch&quot;,
+        &quot;byUserFeedbacks&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Search items (keyword + filters)&quot;,
+        &quot;By URL (item / member / brand / catalog)&quot;,
+        &quot;By user (closet items)&quot;,
+        &quot;By brand (items)&quot;,
+        &quot;By catalog (category items)&quot;,
+        &quot;Search brand registry&quot;,
+        &quot;By user feedbacks (seller reviews)&quot;
+      ],
+      &quot;prefill&quot;: &quot;search&quot;,
+      &quot;sectionCaption&quot;: &quot;Mode &amp; Country&quot;,
+      &quot;title&quot;: &quot;Scrape mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;order&quot;: {
+      &quot;default&quot;: &quot;relevance&quot;,
+      &quot;description&quot;: &quot;Result ordering.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;relevance&quot;,
+        &quot;newest_first&quot;,
+        &quot;price_high_to_low&quot;,
+        &quot;price_low_to_high&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Relevance&quot;,
+        &quot;Newest first&quot;,
+        &quot;Price: high to low&quot;,
+        &quot;Price: low to high&quot;
+      ],
+      &quot;prefill&quot;: &quot;relevance&quot;,
+      &quot;title&quot;: &quot;Sort order (mode=search / byBrand / byCatalog)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;perPage&quot;: {
+      &quot;default&quot;: 96,
+      &quot;description&quot;: &quot;Vinted API page size (1-96).&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 96,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 96,
+      &quot;title&quot;: &quot;Items per page&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;priceFrom&quot;: {
+      &quot;description&quot;: &quot;Minimum price (in the country&#x27;s local currency).&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 1000000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Min price (mode=search)&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;priceTo&quot;: {
+      &quot;description&quot;: &quot;Maximum price (in the country&#x27;s local currency).&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 1000000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Max price (mode=search)&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;proxyConfiguration&quot;: {
+      &quot;default&quot;: {
+        &quot;apifyProxyGroups&quot;: [],
+        &quot;useApifyProxy&quot;: true
+      },
+      &quot;description&quot;: &quot;Apify proxy configuration. Used only when useProxy is enabled.&quot;,
+      &quot;editor&quot;: &quot;proxy&quot;,
+      &quot;prefill&quot;: {
+        &quot;apifyProxyGroups&quot;: [],
+        &quot;useApifyProxy&quot;: true
+      },
+      &quot;title&quot;: &quot;Proxy configuration&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;searchText&quot;: {
+      &quot;default&quot;: &quot;adidas&quot;,
+      &quot;description&quot;: &quot;Free-text keyword query.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;adidas&quot;,
+      &quot;sectionCaption&quot;: &quot;Search Inputs&quot;,
+      &quot;title&quot;: &quot;Search query (mode=search)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;sizeIds&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Constrain item search to one or more size IDs.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Size IDs filter (mode=search)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;statusIds&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Filter by condition: 6=New with tags, 1=New without tags, 2=Very good, 3=Good, 4=Satisfactory.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Condition / status IDs filter (mode=search)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;urls&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Direct Vinted URLs (item, member/user, brand, catalog).&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;URLs (mode=byUrl)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;useProxy&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Route HTTP requests through Apify proxy. Vinted is generally accessible without proxy from datacenter IPs; enable if 403/Cloudflare challenges appear.&quot;,
+      &quot;editor&quot;: &quot;checkbox&quot;,
+      &quot;prefill&quot;: false,
+      &quot;sectionCaption&quot;: &quot;Proxy &amp; Anti-bot&quot;,
+      &quot;title&quot;: &quot;Use Apify proxy&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;userId&quot;: {
+      &quot;description&quot;: &quot;Vinted numeric user_id (e.g. \&quot;3148714106\&quot;).&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;sectionCaption&quot;: &quot;Per-Mode Targets&quot;,
+      &quot;title&quot;: &quot;User ID (mode=byUser / byUserFeedbacks)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;mode&quot;,
+    &quot;country&quot;
+  ],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Vinted Scraper Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>items</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped Vinted records.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;One record per Vinted item, user profile, brand, or seller feedback entry, with price, condition, seller details, and source URLs.&quot;,
+  &quot;properties&quot;: {
+    &quot;items&quot;: {
+      &quot;description&quot;: &quot;Dataset containing all scraped Vinted records.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Vinted records&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Vinted Secondhand Listings, Closets &amp; Seller Feedback Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {}
+      },
+      &quot;title&quot;: &quot;Vinted listings&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;recordType&quot;,
+          &quot;title&quot;,
+          &quot;brandTitle&quot;,
+          &quot;priceAmount&quot;,
+          &quot;priceCurrency&quot;,
+          &quot;sellerLogin&quot;,
+          &quot;sellerCountryCode&quot;,
+          &quot;itemUrl&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-vinted-secondhand-listings-closets-seller-feedback">Vinted Secondhand Listings, Closets &amp; Seller Feedback</h2>
+<p>Vinted's own search only shows what you're willing to click through page by page. This actor queries the same marketplace across 19 country storefronts (US, UK, France, Germany, Italy, Spain, Poland, Czechia, Netherlands, Lithuania, Luxembourg, Austria, Belgium, Portugal, Romania, Slovakia, Finland, Sweden, Greece) and returns structured rows instead: search by keyword and filter, pull a seller's profile and closet, list items under a brand or category, look up the brand registry, or export a seller's feedback history. No account needed.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li><strong>Seven modes</strong>: <code>search</code>, <code>byUrl</code>, <code>byUser</code>, <code>byBrand</code>, <code>byCatalog</code>, <code>byBrandSearch</code>, <code>byUserFeedbacks</code></li>
+<li><strong>Search filters</strong>: brand, catalog/category, size, color, material, condition, a price range and sort order, all combinable in one search (they also apply in <code>byBrand</code>, <code>byCatalog</code> and to brand/catalog links in <code>byUrl</code>)</li>
+<li><strong>Direct URL input</strong>: paste an item, member, brand, or catalog URL and the actor figures out what to fetch; links from other Vinted country sites are fetched from their own storefront</li>
+<li><strong>Post-fetch filters</strong>: drop items below a minimum seller rating, or that don't contain a keyword in the title/description (item listings from searches, brands, catalogs and closets only)</li>
+<li><strong>Empty fields are stripped before the record is pushed</strong> — every field you see carries a real value, never a placeholder</li>
+</ul>
+<h2 id="readme-output-per-record">Output per record</h2>
+<p>Every record starts with <code>recordType</code> (<code>item</code>, <code>user</code>, <code>brand</code> or <code>feedback</code>) and ends with <code>scrapedAt</code>, <code>siteName</code> (<code>Vinted</code>), <code>sourceCountry</code> (storefront domain, e.g. <code>fr</code>) and <code>sourceCountryCode</code> (ISO country code).</p>
+<h3 id="readme-item-records-search-byuser-bybrand-bycatalog-and-byurl-member-brand-catalog-links">Item records (<code>search</code>, <code>byUser</code>, <code>byBrand</code>, <code>byCatalog</code>, and <code>byUrl</code> member/brand/catalog links)</h3>
+<ul>
+<li><code>itemId</code>, <code>title</code>, <code>description</code></li>
+<li><code>brandTitle</code>, <code>brandId</code>, <code>catalogId</code></li>
+<li><code>sizeTitle</code>, <code>sizeId</code>, <code>statusId</code>, <code>status</code> (condition)</li>
+<li><code>priceAmount</code>, <code>priceCurrency</code>, <code>totalPriceAmount</code>, <code>serviceFeeAmount</code></li>
+<li><code>isVisible</code>, <code>isClosed</code>, <code>isReserved</code>, <code>isPromoted</code></li>
+<li><code>favouriteCount</code>, <code>viewCount</code>, <code>createdAt</code>, <code>updatedAt</code></li>
+<li><code>itemUrl</code>, <code>canonicalUrl</code>, <code>imageUrl</code>, <code>photos[]</code></li>
+<li><code>sellerId</code>, <code>sellerLogin</code>, <code>sellerCountryCode</code>, <code>sellerProfileUrl</code>, <code>sellerAvatarUrl</code>, <code>sellerFeedbackCount</code>, <code>sellerFeedbackReputation</code>, <code>sellerIsBusiness</code></li>
+</ul>
+<h3 id="readme-item-records-from-byurl-item-links">Item records from <code>byUrl</code> item links</h3>
+<p>A single item link is read from the public item page, which carries less data: <code>itemId</code>, <code>title</code>, <code>description</code>, <code>brandTitle</code>, <code>priceAmount</code>, <code>priceCurrency</code>, <code>imageUrl</code>, <code>itemUrl</code>, <code>canonicalUrl</code>, <code>category</code>, <code>color</code>, <code>availability</code>, <code>itemCondition</code> and <code>sourceUrl</code> (the link you supplied), when the page shows them.</p>
+<h3 id="readme-user-records-byuser-byurl-member-links">User records (<code>byUser</code>, <code>byUrl</code> member links)</h3>
+<p>One profile record, written before that seller's closet items.</p>
+<ul>
+<li><code>userId</code>, <code>login</code>, <code>realName</code>, <code>about</code>, <code>city</code></li>
+<li><code>avatarUrl</code>, <code>avatarThumbnailUrl</code></li>
+<li><code>countryCode</code>, <code>countryId</code></li>
+<li><code>feedbackCount</code>, <code>feedbackReputation</code>, <code>feedbackRating</code>, <code>positiveFeedbackCount</code>, <code>negativeFeedbackCount</code>, <code>neutralFeedbackCount</code></li>
+<li><code>itemCount</code>, <code>givenItemCount</code>, <code>taxpayerCount</code>, <code>followersCount</code>, <code>followingCount</code></li>
+<li><code>isModerator</code>, <code>isBusiness</code>, <code>isOnHoliday</code>, <code>isHated</code></li>
+<li><code>lastLoggedOn</code>, <code>createdAt</code>, <code>profileUrl</code></li>
+</ul>
+<h3 id="readme-brand-records-bybrandsearch">Brand records (<code>byBrandSearch</code>)</h3>
+<ul>
+<li><code>brandId</code>, <code>title</code>, <code>slug</code></li>
+<li><code>favouriteCount</code>, <code>prettyFavouriteCount</code>, <code>itemCount</code>, <code>prettyItemCount</code></li>
+<li><code>isVisibleInListings</code>, <code>requiresAuthenticityCheck</code>, <code>isLuxury</code>, <code>isHighValue</code></li>
+<li><code>brandUrl</code>, <code>canonicalUrl</code></li>
+</ul>
+<h3 id="readme-feedback-records-byuserfeedbacks">Feedback records (<code>byUserFeedbacks</code>)</h3>
+<ul>
+<li><code>feedbackId</code>, <code>feedbackText</code>, <code>rating</code>, <code>createdAt</code></li>
+<li><code>itemId</code>, <code>feedbackUserId</code>, <code>isSystem</code></li>
+<li><code>ownerComment</code>, <code>ownerLogin</code> — the seller's own reply, when they left one</li>
+<li><code>reviewerLogin</code>, <code>reviewerProfileUrl</code></li>
+</ul>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td>string</td>
+<td><code>search</code></td>
+<td><code>search</code>, <code>byUrl</code>, <code>byUser</code>, <code>byBrand</code>, <code>byCatalog</code>, <code>byBrandSearch</code>, or <code>byUserFeedbacks</code>.</td>
+</tr>
+<tr>
+<td><code>country</code></td>
+<td>string</td>
+<td><code>com</code></td>
+<td>Storefront domain, e.g. <code>com</code>, <code>co.uk</code>, <code>fr</code>, <code>de</code>, <code>it</code>, <code>es</code>.</td>
+</tr>
+<tr>
+<td><code>searchText</code></td>
+<td>string</td>
+<td><code>adidas</code></td>
+<td>Free-text keyword (mode=search). If the field is omitted entirely, the default <code>adidas</code> is searched; send an empty string to search without a keyword.</td>
+</tr>
+<tr>
+<td><code>order</code></td>
+<td>string</td>
+<td><code>relevance</code></td>
+<td><code>relevance</code>, <code>newest_first</code>, <code>price_high_to_low</code>, <code>price_low_to_high</code> (item listings from search, brand and catalog).</td>
+</tr>
+<tr>
+<td><code>urls</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Direct Vinted URLs — item, member, brand, or catalog (mode=byUrl). Brand and catalog links return that brand's or category's item listings.</td>
+</tr>
+<tr>
+<td><code>userId</code></td>
+<td>string</td>
+<td>–</td>
+<td>Numeric Vinted user ID (mode=byUser / byUserFeedbacks).</td>
+</tr>
+<tr>
+<td><code>brandId</code></td>
+<td>string</td>
+<td>–</td>
+<td>Numeric brand ID (mode=byBrand). Use <code>byBrandSearch</code> to discover IDs.</td>
+</tr>
+<tr>
+<td><code>catalogId</code></td>
+<td>string</td>
+<td>–</td>
+<td>Numeric catalog/category ID (mode=byCatalog).</td>
+</tr>
+<tr>
+<td><code>brandKeyword</code></td>
+<td>string</td>
+<td>–</td>
+<td>Keyword to search the brand registry (mode=byBrandSearch).</td>
+</tr>
+<tr>
+<td><code>brandIds</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Limit a search to one or more brand IDs.</td>
+</tr>
+<tr>
+<td><code>catalogIds</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Limit a search to one or more catalog IDs.</td>
+</tr>
+<tr>
+<td><code>sizeIds</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Limit a search to one or more size IDs.</td>
+</tr>
+<tr>
+<td><code>colorIds</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Limit a search to one or more color IDs.</td>
+</tr>
+<tr>
+<td><code>materialIds</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Limit a search to one or more material IDs.</td>
+</tr>
+<tr>
+<td><code>statusIds</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Limit a search to one or more condition IDs.</td>
+</tr>
+<tr>
+<td><code>priceFrom</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Minimum price, in the storefront's local currency.</td>
+</tr>
+<tr>
+<td><code>priceTo</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Maximum price, in the storefront's local currency.</td>
+</tr>
+<tr>
+<td><code>minRating</code></td>
+<td>number</td>
+<td>–</td>
+<td>Drop items whose seller's feedback rating is below this (0.0–5.0). Items without a seller rating are kept. Not applied to feedback, brand or user records, or to single item links.</td>
+</tr>
+<tr>
+<td><code>containsKeyword</code></td>
+<td>string</td>
+<td>–</td>
+<td>Drop items whose title or description doesn't contain this keyword (same scope as <code>minRating</code>).</td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>integer</td>
+<td><code>50</code></td>
+<td>Cap on records (1–1000): items, brands or feedbacks for the chosen mode. In <code>byUser</code> the profile record comes on top, and in <code>byUrl</code> each brand or catalog link can return up to this many items on its own.</td>
+</tr>
+<tr>
+<td><code>perPage</code></td>
+<td>integer</td>
+<td><code>96</code></td>
+<td>Page size requested from Vinted (1–96).</td>
+</tr>
+<tr>
+<td><code>useProxy</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Route requests through Apify proxy; useful if a Cloudflare challenge appears.</td>
+</tr>
+<tr>
+<td><code>autoEscalateOnBlock</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Retry through Apify proxy automatically if a direct request gets blocked.</td>
+</tr>
+<tr>
+<td><code>proxyConfiguration</code></td>
+<td>object</td>
+<td>–</td>
+<td>Apify proxy configuration, used only when <code>useProxy</code> is on.</td>
+</tr>
+<tr>
+<td><code>cookieHeader</code></td>
+<td>string</td>
+<td>–</td>
+<td>Optional logged-in cookie header, only needed if public endpoints start returning 401/403 for you.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-example-search-with-brand-size-and-price-filters">Example: search with brand, size, and price filters</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;country&quot;: &quot;fr&quot;,
+  &quot;searchText&quot;: &quot;nike air max&quot;,
+  &quot;brandIds&quot;: [&quot;53&quot;],
+  &quot;sizeIds&quot;: [&quot;207&quot;],
+  &quot;priceFrom&quot;: 20,
+  &quot;priceTo&quot;: 80,
+  &quot;maxItems&quot;: 100
+}
+</code></pre>
+<h3 id="readme-example-a-seller-s-profile-and-closet-by-url">Example: a seller's profile and closet by URL</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;byUrl&quot;,
+  &quot;country&quot;: &quot;de&quot;,
+  &quot;urls&quot;: [&quot;https://www.vinted.de/member/3148714106&quot;]
+}
+</code></pre>
+<h3 id="readme-example-seller-feedback-history">Example: seller feedback history</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;byUserFeedbacks&quot;,
+  &quot;country&quot;: &quot;com&quot;,
+  &quot;userId&quot;: &quot;3148714106&quot;,
+  &quot;maxItems&quot;: 200
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>Resellers</strong> — scan a category across several storefronts for underpriced items before they're gone</li>
+<li><strong>Price trackers</strong> — monitor a brand or keyword's listed prices over time across countries</li>
+<li><strong>Seller vetting</strong> — pull a seller's feedback history and rating before buying or partnering</li>
+<li><strong>Arbitrage research</strong> — compare the same brand's prices between country storefronts</li>
+<li><strong>Closet monitoring</strong> — follow a specific seller's new listings as they post them</li>
+<li><strong>Market analysts</strong> — build a dataset of listing volume and condition mix for a brand or category</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Do I need a Vinted account?</strong>
+No. Every mode here reads Vinted's public endpoints. <code>cookieHeader</code> exists for the rare case where you hit persistent 401/403 errors, but the defaults work without it.</p>
+<p><strong>Which country should I pick?</strong>
+<code>com</code> is the US storefront. Use <code>fr</code>, <code>de</code>, <code>it</code>, <code>es</code>, <code>co.uk</code>, and the other listed codes for their respective European inventories — each country has its own listings, currency, and category IDs.</p>
+<p><strong>Do I need to configure a proxy?</strong>
+Not by default — Vinted is generally reachable from a standard connection. If a Cloudflare challenge appears, <code>autoEscalateOnBlock</code> (on by default) retries through Apify proxy automatically, or you can set <code>useProxy</code> yourself.</p>
+<p><strong>How are price filters applied?</strong>
+<code>priceFrom</code>/<code>priceTo</code> are passed to Vinted's own search, so filtering happens on Vinted's side in the storefront's local currency. They apply to <code>search</code>, <code>byBrand</code>, <code>byCatalog</code> and brand/catalog links, not to seller closets (<code>byUser</code> or member links).</p>
+<p><strong>Can I scrape a single item page?</strong>
+Yes — <code>byUrl</code> mode accepts item, member, brand, or catalog links and figures out which kind each one is.</p>
+<p><strong>Why do some items have fewer fields than others?</strong>
+Items requested one by one through <code>byUrl</code> item links are read from the public item page, which shows less than the listing data used by the other modes (no seller, size or engagement fields). In every mode, fields Vinted leaves empty are omitted rather than filled with placeholders.</p>
+<p><strong>What happens if nothing matches?</strong>
+The run finishes with an empty dataset and a status message asking you to check the filters or IDs. A mode that is missing its required input (for example <code>byBrand</code> without <code>brandId</code>) ends the same way.</p>
+<p><strong>Can I look up a seller by their username instead of their numeric ID?</strong>
+Not directly — Vinted's canonical member URL uses the numeric ID (<code>vinted.com/member/&lt;id&gt;</code> or <code>vinted.com/member/&lt;id&gt;-&lt;slug&gt;</code>). A username-only URL resolves to a generic page that can't be scraped; grab the numeric ID from a seller's item listing (<code>sellerProfileUrl</code>) instead.</p>
+<p><strong>Is this affiliated with Vinted?</strong>
+No. This is an independent, third-party actor that reads Vinted's publicly accessible data; it isn't affiliated with or endorsed by Vinted Limited.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/MXkFfooETidynP1xR/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>SdUizwxR4NxY8h3S1</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

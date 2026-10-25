@@ -1,0 +1,290 @@
+{
+  "description": "Scrape Vinted (second-hand fashion marketplace) items, sellers, brands, and feedbacks across 19 country domains.",
+  "properties": {
+    "autoEscalateOnBlock": {
+      "default": true,
+      "description": "If a 403/Cloudflare challenge appears on a direct request, automatically retry through Apify proxy (datacenter then residential).",
+      "editor": "checkbox",
+      "prefill": true,
+      "title": "Auto-escalate to proxy on block",
+      "type": "boolean"
+    },
+    "brandId": {
+      "description": "Vinted numeric brand_id. Use \"Search brand registry\" mode to discover IDs (e.g. Nike=53, adidas=14).",
+      "editor": "textfield",
+      "title": "Brand ID (mode=byBrand)",
+      "type": "string"
+    },
+    "brandIds": {
+      "default": [],
+      "description": "Constrain item search to one or more brand IDs (e.g. [53] for Nike).",
+      "editor": "stringList",
+      "prefill": [],
+      "sectionCaption": "Search Filters",
+      "title": "Brand IDs filter (mode=search)",
+      "type": "array"
+    },
+    "brandKeyword": {
+      "description": "Keyword to search the Vinted brand registry.",
+      "editor": "textfield",
+      "title": "Brand keyword (mode=byBrandSearch)",
+      "type": "string"
+    },
+    "catalogId": {
+      "description": "Vinted catalog (category) ID. Common: 1904 (Women clothes), 5 (Men clothes), 1193 (Kids), 1242 (Bags), 1231 (Beauty).",
+      "editor": "textfield",
+      "title": "Catalog / category ID (mode=byCatalog)",
+      "type": "string"
+    },
+    "catalogIds": {
+      "default": [],
+      "description": "Constrain item search to one or more catalog IDs.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Catalog IDs filter (mode=search)",
+      "type": "array"
+    },
+    "colorIds": {
+      "default": [],
+      "description": "Constrain item search to one or more color IDs (1=Black, 3=Grey, 5=White, 7=Beige, 9=Pink, 11=Purple, 12=Red, 13=Yellow, 14=Blue, 16=Green, 17=Orange, 19=Brown, 30=Multicolour).",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Color IDs filter (mode=search)",
+      "type": "array"
+    },
+    "containsKeyword": {
+      "description": "Drop items whose title or description does not contain this keyword (case-insensitive substring).",
+      "editor": "textfield",
+      "title": "Title / description contains keyword (filter)",
+      "type": "string"
+    },
+    "cookieHeader": {
+      "description": "Optional logged-in cookie header (e.g. _vinted_xx_session=...; access_token_web=...). Not required for public endpoints; pass only if you see persistent 401/403.",
+      "editor": "textfield",
+      "isSecret": true,
+      "title": "Cookie header (optional)",
+      "type": "string"
+    },
+    "country": {
+      "default": "com",
+      "description": "Vinted country domain to query.",
+      "editor": "select",
+      "enum": [
+        "com",
+        "co.uk",
+        "fr",
+        "de",
+        "it",
+        "es",
+        "pl",
+        "cz",
+        "nl",
+        "lt",
+        "lu",
+        "at",
+        "be",
+        "pt",
+        "ro",
+        "sk",
+        "fi",
+        "se",
+        "gr"
+      ],
+      "enumTitles": [
+        "United States (vinted.com)",
+        "United Kingdom (vinted.co.uk)",
+        "France (vinted.fr)",
+        "Germany (vinted.de)",
+        "Italy (vinted.it)",
+        "Spain (vinted.es)",
+        "Poland (vinted.pl)",
+        "Czechia (vinted.cz)",
+        "Netherlands (vinted.nl)",
+        "Lithuania (vinted.lt)",
+        "Luxembourg (vinted.lu)",
+        "Austria (vinted.at)",
+        "Belgium (vinted.be)",
+        "Portugal (vinted.pt)",
+        "Romania (vinted.ro)",
+        "Slovakia (vinted.sk)",
+        "Finland (vinted.fi)",
+        "Sweden (vinted.se)",
+        "Greece (vinted.gr)"
+      ],
+      "prefill": "com",
+      "title": "Country / domain",
+      "type": "string"
+    },
+    "materialIds": {
+      "default": [],
+      "description": "Constrain item search to one or more material IDs.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Material IDs filter (mode=search)",
+      "type": "array"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Hard cap on emitted records.",
+      "editor": "number",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 25,
+      "sectionCaption": "Limits",
+      "title": "Max items",
+      "type": "integer"
+    },
+    "minRating": {
+      "description": "Drop items whose seller's feedback rating is below this value (scale 1.0-5.0). Applied client-side after fetch; items with no rating attached pass through unchanged.",
+      "editor": "number",
+      "maximum": 5,
+      "minimum": 0,
+      "sectionCaption": "Post-Fetch Filters",
+      "title": "Min seller feedback rating (filter)",
+      "type": "number"
+    },
+    "mode": {
+      "default": "search",
+      "description": "search: keyword/filters → items. byUrl: explicit Vinted URLs (item, member, brand, catalog). byUser: user closet by user_id. byBrand: brand catalog by brand id or slug. byCatalog: items in a Vinted catalog (category) id. byBrandSearch: search the brand registry. byUserFeedbacks: seller reviews/feedbacks.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byUrl",
+        "byUser",
+        "byBrand",
+        "byCatalog",
+        "byBrandSearch",
+        "byUserFeedbacks"
+      ],
+      "enumTitles": [
+        "Search items (keyword + filters)",
+        "By URL (item / member / brand / catalog)",
+        "By user (closet items)",
+        "By brand (items)",
+        "By catalog (category items)",
+        "Search brand registry",
+        "By user feedbacks (seller reviews)"
+      ],
+      "prefill": "search",
+      "sectionCaption": "Mode & Country",
+      "title": "Scrape mode",
+      "type": "string"
+    },
+    "order": {
+      "default": "relevance",
+      "description": "Result ordering.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "newest_first",
+        "price_high_to_low",
+        "price_low_to_high"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Newest first",
+        "Price: high to low",
+        "Price: low to high"
+      ],
+      "prefill": "relevance",
+      "title": "Sort order (mode=search / byBrand / byCatalog)",
+      "type": "string"
+    },
+    "perPage": {
+      "default": 96,
+      "description": "Vinted API page size (1-96).",
+      "editor": "number",
+      "maximum": 96,
+      "minimum": 1,
+      "prefill": 96,
+      "title": "Items per page",
+      "type": "integer"
+    },
+    "priceFrom": {
+      "description": "Minimum price (in the country's local currency).",
+      "editor": "number",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Min price (mode=search)",
+      "type": "integer"
+    },
+    "priceTo": {
+      "description": "Maximum price (in the country's local currency).",
+      "editor": "number",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Max price (mode=search)",
+      "type": "integer"
+    },
+    "proxyConfiguration": {
+      "default": {
+        "apifyProxyGroups": [],
+        "useApifyProxy": true
+      },
+      "description": "Apify proxy configuration. Used only when useProxy is enabled.",
+      "editor": "proxy",
+      "prefill": {
+        "apifyProxyGroups": [],
+        "useApifyProxy": true
+      },
+      "title": "Proxy configuration",
+      "type": "object"
+    },
+    "searchText": {
+      "default": "adidas",
+      "description": "Free-text keyword query.",
+      "editor": "textfield",
+      "prefill": "adidas",
+      "sectionCaption": "Search Inputs",
+      "title": "Search query (mode=search)",
+      "type": "string"
+    },
+    "sizeIds": {
+      "default": [],
+      "description": "Constrain item search to one or more size IDs.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Size IDs filter (mode=search)",
+      "type": "array"
+    },
+    "statusIds": {
+      "default": [],
+      "description": "Filter by condition: 6=New with tags, 1=New without tags, 2=Very good, 3=Good, 4=Satisfactory.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Condition / status IDs filter (mode=search)",
+      "type": "array"
+    },
+    "urls": {
+      "default": [],
+      "description": "Direct Vinted URLs (item, member/user, brand, catalog).",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "URLs (mode=byUrl)",
+      "type": "array"
+    },
+    "useProxy": {
+      "default": false,
+      "description": "Route HTTP requests through Apify proxy. Vinted is generally accessible without proxy from datacenter IPs; enable if 403/Cloudflare challenges appear.",
+      "editor": "checkbox",
+      "prefill": false,
+      "sectionCaption": "Proxy & Anti-bot",
+      "title": "Use Apify proxy",
+      "type": "boolean"
+    },
+    "userId": {
+      "description": "Vinted numeric user_id (e.g. \"3148714106\").",
+      "editor": "textfield",
+      "sectionCaption": "Per-Mode Targets",
+      "title": "User ID (mode=byUser / byUserFeedbacks)",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode",
+    "country"
+  ],
+  "schemaVersion": 1,
+  "title": "Vinted Scraper Input",
+  "type": "object"
+}
