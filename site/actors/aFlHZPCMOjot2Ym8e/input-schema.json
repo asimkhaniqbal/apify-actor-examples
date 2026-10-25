@@ -1,0 +1,76 @@
+{
+  "properties": {
+    "enrichGroupInfo": {
+      "default": false,
+      "description": "Add each group's description, member count, admins, rules, and creation date to every post record.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Enrich with group info",
+      "type": "boolean"
+    },
+    "includeTopComments": {
+      "default": true,
+      "description": "Include each post's top comments in the results, with comment text, author, and reactions.",
+      "editor": "checkbox",
+      "prefill": true,
+      "title": "Include top comments",
+      "type": "boolean"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of posts to return per group.",
+      "editor": "number",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Max posts per group",
+      "type": "integer"
+    },
+    "monitoringMode": {
+      "default": false,
+      "description": "Only return posts not seen in a previous run for the same group, so scheduled runs return just what's new.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Monitor mode (only new posts)",
+      "type": "boolean"
+    },
+    "sortBy": {
+      "default": "top",
+      "description": "How to order the group's feed.",
+      "editor": "select",
+      "enum": [
+        "top",
+        "chronological",
+        "recent_activity",
+        "listings"
+      ],
+      "enumTitles": [
+        "Top posts",
+        "Chronological (newest first)",
+        "Recent activity",
+        "Buy/sell listings"
+      ],
+      "title": "Sort by",
+      "type": "string"
+    },
+    "startUrls": {
+      "description": "Facebook group URLs (e.g. https://www.facebook.com/groups/pythondevelopers/) or bare group slugs/IDs.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "prefill": [
+        "https://www.facebook.com/groups/pythondevelopers/"
+      ],
+      "title": "Group URLs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "startUrls"
+  ],
+  "schemaVersion": 1,
+  "title": "Facebook Group Posts Scraper Input",
+  "type": "object"
+}
