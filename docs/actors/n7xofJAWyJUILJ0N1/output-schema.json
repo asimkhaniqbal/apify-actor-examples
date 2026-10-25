@@ -1,11 +1,11 @@
 {
   "actorOutputSchemaVersion": 1,
-  "description": "One record per Substack post with title, author, publish date, body HTML, categories, cover image and estimated reading time.",
+  "description": "One record per post (metadata, free body HTML/text/Markdown, flagged paid teaser, media, engagement, comments) or one blocked_egress status row per substack.com-hosted input.",
   "properties": {
     "posts": {
-      "description": "Dataset containing all scraped Substack posts.",
+      "description": "Dataset containing scraped Substack posts and author profiles.",
       "template": "{{links.apiDefaultDatasetUrl}}/items",
-      "title": "Substack posts",
+      "title": "Substack posts and author profiles",
       "type": "string"
     }
   },

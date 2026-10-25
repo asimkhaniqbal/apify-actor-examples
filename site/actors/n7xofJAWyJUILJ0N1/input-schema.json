@@ -1,44 +1,170 @@
 {
-  "description": "Scrape posts from any Substack publication via its public RSS feed.",
+  "description": "Export custom-domain Substack publications and post URLs, with an RSS fallback for non-Substack sites.",
   "properties": {
-    "categoryAnyOf": {
-      "default": [],
-      "description": "Only emit posts tagged with at least one of these categories (matches RSS `<category>` tags case-insensitively).",
-      "editor": "stringList",
-      "prefill": [],
-      "title": "Category filter",
-      "type": "array"
+    "audienceFilter": {
+      "default": "all",
+      "description": "Keep all posts, only free posts, or only paid posts.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "free",
+        "paid"
+      ],
+      "enumTitles": [
+        "All posts",
+        "Free posts only",
+        "Paid posts only"
+      ],
+      "prefill": "all",
+      "title": "Free or paid",
+      "type": "string"
+    },
+    "bodyFormat": {
+      "default": "all",
+      "description": "Body fields to include. `none` is fastest; `all` adds HTML, plain text and Markdown.",
+      "editor": "select",
+      "enum": [
+        "none",
+        "html",
+        "text",
+        "markdown",
+        "all"
+      ],
+      "enumTitles": [
+        "No body",
+        "HTML",
+        "Plain text",
+        "Markdown",
+        "HTML + text + Markdown"
+      ],
+      "prefill": "none",
+      "title": "Post body",
+      "type": "string"
     },
     "containsKeyword": {
-      "description": "Only emit posts whose title or description contains this substring (case-insensitive).",
+      "description": "(mode=publicationPosts) Keep posts whose title, teaser or text contains this keyword. Uses Substack's publication search when possible.",
       "editor": "textfield",
       "title": "Contains keyword",
       "type": "string"
     },
-    "includeBody": {
-      "default": true,
-      "description": "Include the full post body HTML (`content:encoded` from RSS).",
-      "prefill": true,
-      "title": "Include body HTML",
+    "includeComments": {
+      "default": false,
+      "description": "Include public comment threads for free posts. Paid-post comments are members-only.",
+      "prefill": false,
+      "title": "Include comments",
       "type": "boolean"
+    },
+    "includePaidPreview": {
+      "default": true,
+      "description": "For paid posts, include the public preview body and flag it as a preview. Turn off for faster metadata-only runs.",
+      "prefill": false,
+      "title": "Include paid post preview",
+      "type": "boolean"
+    },
+    "includePublicationInfo": {
+      "default": true,
+      "description": "Add publication details such as pricing plans, sections, language and payment status.",
+      "prefill": false,
+      "title": "Include publication info",
+      "type": "boolean"
+    },
+    "maxCommentsPerPost": {
+      "default": 20,
+      "description": "Cap on comments per post, including replies. Set to 0 for no limit.",
+      "maximum": 5000,
+      "minimum": 0,
+      "prefill": 20,
+      "title": "Max comments per post",
+      "type": "integer"
     },
     "maxItems": {
       "default": 50,
       "description": "Hard cap on emitted records.",
-      "maximum": 1000,
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 50,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
+    "maxPostsPerPublication": {
+      "default": 0,
+      "description": "Optional per-publication cap. Set to 0 for no per-publication limit.",
+      "maximum": 10000,
+      "minimum": 0,
+      "prefill": 3,
+      "title": "Max posts per publication",
+      "type": "integer"
+    },
+    "mediaFilter": {
+      "default": "any",
+      "description": "Keep all posts, audio posts, video posts, or text-only posts.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "audio",
+        "video",
+        "text"
+      ],
+      "enumTitles": [
+        "Any media",
+        "With audio",
+        "With video",
+        "Text only"
+      ],
+      "prefill": "any",
+      "title": "Media",
+      "type": "string"
+    },
+    "mode": {
+      "default": "publicationPosts",
+      "description": "What to scrape. substack.com-hosted inputs are reported as blocked_egress.",
+      "editor": "select",
+      "enum": [
+        "publicationPosts",
+        "postUrls"
+      ],
+      "enumTitles": [
+        "Publication posts (archive)",
+        "Specific post URLs"
+      ],
+      "prefill": "publicationPosts",
+      "title": "Mode",
+      "type": "string"
+    },
+    "postType": {
+      "default": "all",
+      "description": "Keep all post types or a single type.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "newsletter",
+        "podcast",
+        "thread"
+      ],
+      "enumTitles": [
+        "All types",
+        "Newsletter",
+        "Podcast",
+        "Thread"
+      ],
+      "prefill": "all",
+      "title": "Post type",
+      "type": "string"
+    },
+    "postUrls": {
+      "default": [],
+      "description": "(mode=postUrls) Custom-domain post URLs, e.g. `https://www.noahpinion.blog/p/the-internet-breaks`. substack.com share links are reported as blocked_egress.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Post URLs",
+      "type": "array"
+    },
     "publications": {
       "default": [
-        "platformer.news",
-        "noahpinion.substack.com"
+        "platformer.news"
       ],
-      "description": "Substack publication URLs or subdomains (e.g. `https://platformer.news`, `noahpinion.substack.com`, just `noahpinion`).",
+      "description": "(mode=publicationPosts) Custom-domain publication URLs or RSS-capable sites, e.g. `https://www.slowboring.com` or `https://platformer.news`. Bare subdomains and substack.com links are blocked from this actor's cloud network.",
       "editor": "stringList",
-      "minItems": 1,
       "prefill": [
         "platformer.news"
       ],
@@ -46,15 +172,42 @@
       "type": "array"
     },
     "publishedAfter": {
-      "description": "Drop posts published before this date.",
+      "description": "Keep posts published on or after this date (`YYYY-MM-DD`).",
       "editor": "textfield",
-      "title": "Published after (YYYY-MM-DD)",
+      "title": "Published after",
       "type": "string"
+    },
+    "publishedBefore": {
+      "description": "Keep posts published on or before this date (`YYYY-MM-DD`).",
+      "editor": "textfield",
+      "title": "Published before",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "newest",
+      "description": "(mode=publicationPosts) Newest first or all-time most popular first.",
+      "editor": "select",
+      "enum": [
+        "newest",
+        "top"
+      ],
+      "enumTitles": [
+        "Newest first",
+        "Most popular"
+      ],
+      "prefill": "newest",
+      "title": "Sort order",
+      "type": "string"
+    },
+    "tagsAnyOf": {
+      "default": [],
+      "description": "Keep posts carrying at least one of these tags (case-insensitive).",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Tags",
+      "type": "array"
     }
   },
-  "required": [
-    "publications"
-  ],
   "schemaVersion": 1,
   "title": "Substack Scraper Input",
   "type": "object"

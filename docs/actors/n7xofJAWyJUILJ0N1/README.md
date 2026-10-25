@@ -4,105 +4,151 @@
 
 # Substack Publication Post Exporter
 
-Every Substack newsletter publishes a public feed of its posts — this actor reads that feed for one or many publications and turns it into structured rows: title, author, full body, categories, and cover image for each post, ready to filter, archive, or feed into another pipeline.
+Turn a Substack publication's public archive into a clean dataset, or fetch individual posts you already know. Custom-domain newsletters work directly; publications that still live on `*.substack.com` are reported as a clear `blocked_egress` status row instead of a misleading empty result. Free posts arrive with full HTML, readable text and Markdown; paid posts arrive with metadata and a clearly flagged public teaser. No account, login or proxy setup.
 
 ## What this actor does
 
-- Accepts a publication in any form — full URL, custom domain, `*.substack.com` address, or a bare slug like `noahpinion`
-- Pulls the posts currently listed in each publication's feed (the publication's recent posts, not its whole archive), including title, author, publish date, and full body
-- Filters by category tag (exact name, case-insensitive), a minimum publish date, or a keyword in the title/summary
-- Estimates word count and reading time (at about 220 words per minute) for each post
-- Fields a post doesn't have (e.g. no cover image) are left out of the record
+- **Two modes:** export a publication's archive (`publicationPosts`) or fetch specific post URLs (`postUrls`).
+- **Full archive depth:** walk a custom-domain publication from its newest post back through its history, 50 posts at a time.
+- **Free posts in full:** HTML, plain text and clean Markdown for every free post.
+- **Paid posts, honestly:** title, subtitle, author, date, cover, word count, reactions, comments count and the public teaser. The public preview body is optional and flagged with `contentIsPreview`.
+- **Comments:** nested public comment threads for free posts.
+- **Publication details:** name, domain, language, payment status, subscription plans and sections.
+- **Filters:** date range, keyword, tags, free/paid, post type and audio/video presence.
+- **RSS fallback:** non-Substack sites such as Platformer are read through their public feed (up to 20 recent items).
+- **Blocked inputs are visible:** `substack.com`, `*.substack.com` and share links produce a `blocked_egress` row that explains the limitation and the workaround.
+- **Empty fields are omitted:** a post without a subtitle, tag or video simply has no such key.
 
 ## Output per post
 
-- `title` — post title
-- `url` — canonical post URL (`https://<publication>/p/<slug>`)
-- `guid` — the feed's unique identifier for the post
-- `author` — the post's byline
-- `publishedAt` — publish date/time in ISO 8601 UTC
-- `publishedAtRaw` — the original publish-date string as the feed reported it
-- `summary` — a plain-text excerpt of the post description, capped at 500 characters
-- `bodyHtml` — the full post body as HTML, included when `includeBody` is on
-- `wordCount`, `readingTimeMinutes` — estimated from the body text; only present when `includeBody` is on
-- `categories` — array of category tags attached to the post
-- `coverImage` — the post's cover image URL, when the feed includes one
-- `publication`, `publicationUrl` — the newsletter name and base URL this post came from
-- `recordType` — always `post`
-- `scrapedAt` — when this actor retrieved the record
+- `id`, `slug`, `title`, `subtitle`, `url`, `guid` — identity and canonical link
+- `publishedAt`, `publishedAtRaw`, `updatedAt` — ISO date plus the original source value
+- `author`, `authors[]` — primary byline and every byline with name, handle, bio, photo and Twitter
+- `publication`, `publicationUrl`, `publicationInfo` — newsletter name/link, plus plans and sections when enabled
+- `audience`, `isPaid`, `contentAccess`, `contentIsPreview`, `shouldSendFreePreview`, `freeUnlockRequired` — access state
+- `bodyHtml`, `bodyText`, `bodyMarkdown` — body in the requested formats; paid bodies are previews only
+- `summary`, `truncatedBodyText`, `description` — plain excerpt, source teaser and source description
+- `wordCount` (words in the delivered body), `articleWordCount` (full article count from the source), `readingTimeMinutes`
+- `language`, `postType` — language code and `newsletter` / `podcast` / `thread`
+- `coverImage`, `audioUrl`, `podcastUrl`, `podcastDurationSec` — image and audio
+- `videoUrl`, `videoThumbnailUrl`, `videoDurationSec`, `videoWidth`, `videoHeight`, `videoIsPreview` — video details
+- `tags`, `tagSlugs`, `categories`, `sectionId`, `sectionName` — taxonomy; `categories` is kept for older integrations
+- `reactionCount`, `reactions`, `commentCount`, `childCommentCount`, `restacks` — engagement
+- `comments[]` — nested public comments when enabled, with author, date, reactions and replies
+- `dataSource`, `recordType` (`post`), `scrapedAt`
+
+## Blocked input row
+
+When an input is hosted on `substack.com` (a bare subdomain, a `substack.com/@handle`, or a share link), the actor emits one row with `recordType: "blocked_egress"`, the original `input`, `host`, a plain-language `message` and a `workaround`. This is a limitation of this actor's cloud network, not an empty publication. Use the publication's custom domain or an RSS-capable site instead.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `publications` | array | `["platformer.news", "noahpinion.substack.com"]` | Publication URLs, domains, or bare slugs to export (a bare slug like `noahpinion` becomes `noahpinion.substack.com`). Required. |
-| `categoryAnyOf` | array | `[]` | Only keep posts tagged with at least one of these categories. |
-| `publishedAfter` | string | – | Drop posts published before this date (`YYYY-MM-DD`). |
-| `containsKeyword` | string | – | Only keep posts whose title or summary contains this text. |
-| `includeBody` | boolean | `true` | Include the full post body as HTML. |
-| `maxItems` | integer | `50` | Cap on emitted records for the whole run (1–1000), shared by all publications in list order. |
+| `mode` | string | `publicationPosts` | `publicationPosts` or `postUrls` |
+| `publications` | array | `["platformer.news"]` | Custom-domain publication URLs or RSS-capable sites (mode=publicationPosts) |
+| `postUrls` | array | – | Custom-domain post URLs (mode=postUrls) |
+| `sortBy` | string | `newest` | `newest` or `top` for publication posts |
+| `publishedAfter` | string | – | Keep posts on or after `YYYY-MM-DD` |
+| `publishedBefore` | string | – | Keep posts on or before `YYYY-MM-DD` |
+| `containsKeyword` | string | – | Keep posts whose title, teaser or text contains this keyword |
+| `tagsAnyOf` | array | – | Keep posts with at least one matching tag |
+| `audienceFilter` | string | `all` | `all`, `free` or `paid` |
+| `postType` | string | `all` | `all`, `newsletter`, `podcast` or `thread` |
+| `mediaFilter` | string | `any` | `any`, `audio`, `video` or `text` |
+| `bodyFormat` | string | `all` | `none`, `html`, `text`, `markdown` or `all` |
+| `includePaidPreview` | boolean | `true` | Include the flagged public preview of paid posts |
+| `includeComments` | boolean | `false` | Include public comment threads for free posts |
+| `maxCommentsPerPost` | integer | `20` | Comment cap per post, replies included; `0` means no limit |
+| `includePublicationInfo` | boolean | `true` | Add plans, sections and publication metadata |
+| `maxItems` | integer | `50` | Hard cap on records (1–10,000) |
+| `maxPostsPerPublication` | integer | `0` | Per-publication cap; `0` means no per-publication limit |
 
-### Example: two publications since a given date
+### Example: a custom-domain publication with full bodies
 
 ```json
 {
-  "publications": ["platformer.news", "noahpinion.substack.com"],
+  "mode": "publicationPosts",
+  "publications": ["https://www.slowboring.com"],
+  "maxItems": 25,
+  "bodyFormat": "all"
+}
+```
+
+### Example: paid and free posts in a date range
+
+```json
+{
+  "mode": "publicationPosts",
+  "publications": ["https://www.noahpinion.blog"],
   "publishedAfter": "2026-01-01",
+  "audienceFilter": "all",
+  "includePaidPreview": true,
   "maxItems": 100
 }
 ```
 
-### Example: keyword filter without the full body
+### Example: specific custom-domain post URLs
 
 ```json
 {
-  "publications": ["platformer.news"],
-  "containsKeyword": "antitrust",
-  "includeBody": false
+  "mode": "postUrls",
+  "postUrls": [
+    "https://www.noahpinion.blog/p/the-internet-breaks",
+    "https://www.slowboring.com/p/destroying-womens-sports-in-order"
+  ],
+  "bodyFormat": "markdown",
+  "includeComments": true
 }
 ```
 
-### Example: bare slugs resolved automatically
+### Example: RSS fallback for a site that left Substack
 
 ```json
 {
-  "publications": ["noahpinion", "thedailyupside"]
+  "mode": "publicationPosts",
+  "publications": ["platformer.news"],
+  "maxItems": 10,
+  "bodyFormat": "text"
 }
 ```
 
 ## Use cases
 
-- **Newsletter monitoring** — track what competitor publications are writing about
-- **Sector research** — collect analyst or industry newsletters covering your market
-- **Feed consolidation** — merge several Substacks you follow into one combined dataset
-- **Content analysis** — bulk-export posts for NLP, topic modeling, or summarization
-- **Personal archiving** — back up your own or a friend's publication history
+- **Newsletter monitoring** — follow competitor or industry publications without checking each site.
+- **Research and NLP** — export free-post text or Markdown for topic models, search indexes and RAG stores.
+- **Content archives** — keep a searchable copy of a public archive and its free comments.
+- **Media analysis** — track themes, posting cadence, reactions and discussion across newsletters.
+- **Feed consolidation** — merge several custom-domain publications, or an RSS site, into one dataset.
 
 ## FAQ
 
-**Do I need a Substack account?**
-No. The actor only reads each publication's public feed.
+**Do I need a Substack account, cookies or a proxy?**
+No. The actor reads public custom-domain pages and posts. There is no login step and no proxy setup.
 
-**What does a post URL look like?**
-`https://<publication>/p/<post-slug>` — the actor preserves whatever URL the feed itself reports.
+**Which publications work?**
+Any publication served from its own custom domain, plus non-Substack sites with a public RSS feed. Bare `*.substack.com` addresses and `substack.com` share links do not work from this actor's cloud network.
 
-**Are paid-only posts included?**
-A publication's public feed includes free posts in full and paid posts as a preview only. Full paid-post content isn't accessible without a subscription.
+**What is a `blocked_egress` row?**
+It is a status record that tells you the input is hosted on `substack.com` and cannot be read from this actor's cloud network. It includes the original input, the host, a plain-language message and a workaround. It is not an empty publication.
 
-**How fresh is the data?**
-The actor reads each feed live on every run, with no caching, so you get whatever the publication's feed lists at that moment.
+**Can I download paid posts in full?**
+No. Paid posts are protected. The actor returns their metadata, the public teaser and, when `includePaidPreview` is on, the public preview body with `contentIsPreview: true`. It never bypasses a paywall.
 
-**Can I get a publication's full back catalogue?**
-No. The public feed only lists a publication's recent posts, so older posts that have dropped off the feed can't be reached. Run the actor on a schedule to build up a history over time.
+**How far back does the archive go?**
+As far as a custom-domain publication's public archive goes — not just the latest page. The RSS fallback returns up to 20 recent items.
 
-**Can I export several publications in one run?**
-Yes — list multiple entries in `publications`; the actor processes them in order and removes duplicate posts by URL. `maxItems` covers the whole run, so a low cap can be used up by the first publications before later ones are reached.
+**Why are comments missing on some posts?**
+Public comment threads are available for free posts. Comments on paid posts are members-only, so the actor returns the comment count but not the thread.
 
-**What happens if a publication's feed is temporarily unavailable?**
-That publication is skipped with a warning in the run log so the rest of the run can still complete. If no post passes at all, the run ends with an empty dataset and a status message asking you to check the publication addresses and filters.
+**Can I get Markdown for AI or RAG pipelines?**
+Yes. Choose `markdown` or `all` in `bodyFormat`. Free posts get clean Markdown with subscribe buttons, share widgets and image wrappers removed. Paid posts get the flagged public preview only.
 
-**Does a custom domain work the same as a `.substack.com` address?**
-Yes — pass the custom domain (e.g. `platformer.news`) exactly as you'd visit it; the actor reads the feed at that address's `/feed` path, just as it does for `.substack.com` addresses.
+**Why is a field absent from some records?**
+Empty values are omitted rather than written as `null`. A post without a subtitle, tag, video or public subscriber count simply does not include that key.
+
+**Do custom domains work the same as a `.substack.com` address?**
+Use the custom domain itself, such as `https://www.slowboring.com` or `https://www.noahpinion.blog`. The `.substack.com` address is reported as `blocked_egress`.
 
 **Is this affiliated with Substack?**
-No. This is an independent, third-party actor that reads publicly available Substack feeds; it isn't affiliated with or endorsed by Substack Inc.
+No. This is an independent third-party actor that reads publicly available newsletter data. It is not affiliated with or endorsed by Substack.
