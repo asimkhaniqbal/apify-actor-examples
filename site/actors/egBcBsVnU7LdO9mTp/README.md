@@ -1,0 +1,172 @@
+# Jobicy Remote Jobs Scraper — Full 7-Day Feed & Filters
+
+Jobicy publishes a rolling window of remote roles, and this actor reads the whole window rather than the first page. Search by keyword, location, industry, employment type, seniority, publication date or pay, and export complete job descriptions with structured salary, company and eligibility data. No login, API key or proxy is needed.
+
+## What this actor does
+
+- Reads the complete current Jobicy feed — every listing in the rolling 7-day window, not a fixed sample.
+- Filters by keyword, 54 supported locations, 22 industries, job type, seniority, publication date and salary.
+- Returns the full plain-text description, excerpt, industries, job types, seniority, location, country eligibility and company logo.
+- Keeps structured salary values and adds annualised figures, so hourly, monthly and yearly ranges are easier to compare.
+- Optionally fetches each job page for the exact expiry date, company website and applicant countries, and can check whether listings are still active.
+- Omits empty fields rather than returning placeholders or invented data.
+
+## Output per job
+
+- `id` — Jobicy's numeric job ID
+- `jobSlug` — Jobicy listing slug
+- `title` — job title
+- `company` — hiring company
+- `companyLogo` — company logo URL
+- `companyUrl` — company website (with `includeDetails`)
+- `jobUrl` — canonical Jobicy listing URL
+- `category` — industries joined with `; ` (legacy field)
+- `industries[]` — industry labels
+- `jobType` — employment types joined with `; ` (legacy field)
+- `jobTypes[]` — employment type labels
+- `jobLevel` — Jobicy's seniority value
+- `location` — the job's remote eligibility text
+- `countries[]` — countries parsed from the eligibility text
+- `isWorldwide` — true when the role is open anywhere
+- `excerpt` — short listing summary
+- `description` — full plain-text job description
+- `salaryMin`, `salaryMax` — published salary bounds
+- `salaryCurrency`, `salaryPeriod` — pay currency and period
+- `annualSalaryMin`, `annualSalaryMax` — annualised pay, when a period is published
+- `publishedAt` — publication timestamp
+- `ageDays` — days since publication
+- `expiresAt` — listing expiry date (with `includeDetails`)
+- `applicantCountries[]` — eligible applicant countries (with `includeDetails`)
+- `listingStatus` — `active` when checked (with `onlyActive`)
+- `statusCheckedAt` — when the status was checked
+- `tags[]` — the listing's industries
+- `recordType` — `job`
+- `source` — `jobicy`
+- `scrapedAt` — when the record was collected
+
+## Output per status check
+
+Mode `status` returns one record per requested job ID:
+
+- `id` — Jobicy job ID
+- `listingStatus` — `active`, `closed` or `unknown`
+- `statusCheckedAt` — when Jobicy checked the listing
+- `recordType` — `jobStatus`
+- `source` — `jobicy`
+- `scrapedAt` — when the record was collected
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `mode` | string | `search` | `search` the live feed, fetch `byUrls`, or check `status` |
+| `keyword` | string | – | Full-text Jobicy search, 3-50 characters |
+| `geo` | string | – | Location or region slug; worldwide roles match every location. Legacy names such as `United States` are mapped; Jobicy lists Malaysia but its jobs API rejects that filter, so Malaysia is not offered. |
+| `industry` | string | – | One Jobicy category |
+| `jobType` | string | – | `Full-Time`, `Part-Time`, `Contract` or `Internship` |
+| `jobLevel` | string | – | `Entry-Level`, `Junior`, `Midweight`, `Senior`, `Director` or `Internship`; legacy `Any` keeps listings labeled Any |
+| `postedWithinDays` | integer | `0` | Keep jobs published in the last N days; 0 = no date limit |
+| `salaryDisclosedOnly` | boolean | `false` | Keep only jobs with a published salary |
+| `minAnnualSalaryUsd` | integer | `0` | Minimum annualised USD salary; other currencies are excluded |
+| `excludeKeywords` | array | `[]` | Drop jobs whose title or company contains these terms |
+| `onlyActive` | boolean | `false` | Keep only listings Jobicy reports as active |
+| `includeDetails` | boolean | `false` | Add expiry, company website and applicant countries |
+| `jobUrls` | array | `[]` | Jobicy URLs or numeric IDs (mode `byUrls` / `status`) |
+| `maxItems` | integer | `50` | Maximum job listings to return (1-5,000) |
+
+Mode-scoped fields are read only in their intended mode. The daily prefill uses `search` with `maxItems` 3.
+
+### Example: all current jobs
+
+```json
+{
+  "mode": "search",
+  "maxItems": 100
+}
+```
+
+### Example: senior Python roles open to applicants in the USA
+
+```json
+{
+  "mode": "search",
+  "keyword": "python",
+  "geo": "usa",
+  "jobLevel": "Senior",
+  "jobType": "Full-Time",
+  "maxItems": 50
+}
+```
+
+### Example: paid roles with detail data
+
+```json
+{
+  "mode": "search",
+  "industry": "engineering",
+  "salaryDisclosedOnly": true,
+  "minAnnualSalaryUsd": 120000,
+  "includeDetails": true,
+  "maxItems": 30
+}
+```
+
+### Example: fetch specific listings and check stored IDs
+
+```json
+{
+  "mode": "byUrls",
+  "jobUrls": [
+    "https://jobicy.com/jobs/156858-senior-software-engineer-fundraising-remote",
+    "156864"
+  ],
+  "maxItems": 10
+}
+```
+
+```json
+{
+  "mode": "status",
+  "jobUrls": ["156858", "156864", "147122"]
+}
+```
+
+## Use cases
+
+- **Recruiters** — build a daily shortlist of fresh remote roles by function, region and seniority.
+- **Job boards and newsletters** — feed complete, structured listings into a site, digest or alerts.
+- **Compensation research** — compare published salary ranges across industries and locations.
+- **Talent-market analysis** — track remote hiring by category, type, level and country eligibility.
+- **Job seekers** — export only roles that are open to their location and still active.
+
+## FAQ
+
+**Where does the data come from?**
+Jobicy's public job feed and public job pages. No Jobicy account, login or API key is required. Each run reads Jobicy live; `publishedAt` and `ageDays` show freshness.
+
+**Is this affiliated with Jobicy?**
+No. This is an independent third-party actor that reads publicly available Jobicy listings.
+
+**How many jobs can one run return?**
+The complete current 7-day window, up to `maxItems` (maximum 5,000). The window usually contains roughly 1,000-1,500 roles; when it is exhausted, the run says so instead of returning invented data.
+
+**Why is salary missing on some jobs?**
+Only about half of current Jobicy listings publish structured pay. Missing salary fields are omitted, never estimated. A small number of source listings also contain unusual salary values; they are passed through unchanged for transparency.
+
+**What is the difference between `location` and `countries`?**
+`location` is Jobicy's own eligibility text. `countries[]` is the same text split into country names, and `isWorldwide` flags roles open anywhere.
+
+**Why is Malaysia not in the location list?**
+Jobicy's own location taxonomy lists Malaysia, but its jobs API rejects `geo=malaysia` with HTTP 400. The actor therefore offers the 54 usable locations. If a legacy task sends Malaysia, the filter is ignored with a clear status message instead of stopping the run.
+
+**When should I enable `includeDetails`?**
+Enable it when you need the exact expiry date, company website or applicant countries. It fetches each job page and can be slower; if a page is unavailable, the job is still returned with its feed fields and the optional fields are omitted.
+
+**What does `onlyActive` do?**
+It asks Jobicy for each listing's current status and keeps only `active` jobs. Use mode `status` when you want to check stored IDs without re-scraping the listings.
+
+**Does the actor return the employer's own application link?**
+No. Jobicy's public feed returns the Jobicy listing URL, and the employer application step is handled on Jobicy's site. The actor never substitutes an unrelated or invented apply URL.
+
+**Can I fetch a job that is older than seven days?**
+The search feed only covers the last seven days. If you already have a Jobicy job URL that is still live, mode `byUrls` can open it directly; mode `status` can check stored IDs outside the window.

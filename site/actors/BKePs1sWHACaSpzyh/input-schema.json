@@ -1,12 +1,5 @@
 {
   "properties": {
-    "authorFlairContains": {
-      "description": "Only keep posts whose author flair text contains this text (case-insensitive substring match). Leave empty to keep all.",
-      "editor": "textfield",
-      "example": "Moderator",
-      "title": "Author flair contains keyword",
-      "type": "string"
-    },
     "authors": {
       "description": "Only keep posts submitted by one of these usernames (bare name or u/-prefixed, case-insensitive). Leave empty to keep posts from all authors.",
       "editor": "stringList",
@@ -46,36 +39,12 @@
       "title": "Post text contains keyword",
       "type": "string"
     },
-    "distinguished": {
-      "description": "Only keep posts distinguished by Reddit as moderator, admin or special (e.g. Reddit-team) posts, or only regular (non-distinguished) posts. Leave unset to keep all posts.",
-      "enum": [
-        "moderator",
-        "admin",
-        "special",
-        "none"
-      ],
-      "enumTitles": [
-        "Moderator posts only",
-        "Admin posts only",
-        "Special (official) posts only",
-        "Regular posts only (exclude all distinguished)"
-      ],
-      "title": "Distinguished (official) posts only",
-      "type": "string"
-    },
     "domain": {
       "description": "Only keep posts whose link domain contains this text (case-insensitive, e.g. 'youtube.com' or 'self.python'). Leave empty to keep all domains.",
       "editor": "textfield",
       "example": "youtube.com",
       "title": "Domain contains",
       "type": "string"
-    },
-    "excludeArchived": {
-      "default": false,
-      "description": "When enabled, posts that Reddit has archived (locked from further voting/commenting after 6 months) are dropped from the results.",
-      "prefill": false,
-      "title": "Exclude archived posts",
-      "type": "boolean"
     },
     "excludeAuthors": {
       "description": "Drop posts submitted by any of these usernames (bare name or u/-prefixed, case-insensitive) — useful for filtering out bots (e.g. AutoModerator) or known spam accounts. Leave empty to keep posts from all authors.",
@@ -109,20 +78,6 @@
       "title": "Exclude keywords",
       "type": "array"
     },
-    "excludeLocked": {
-      "default": false,
-      "description": "When enabled, posts with comments locked by a moderator are dropped from the results.",
-      "prefill": false,
-      "title": "Exclude locked posts",
-      "type": "boolean"
-    },
-    "excludeRemoved": {
-      "default": false,
-      "description": "When enabled, posts removed by a moderator, Reddit, or deleted by their author (marker: removed_by_category) are dropped from the results. Useful for market-research runs where takedown noise isn't wanted.",
-      "prefill": false,
-      "title": "Exclude removed/deleted posts",
-      "type": "boolean"
-    },
     "excludeSpoilers": {
       "default": false,
       "description": "When enabled, posts marked as a spoiler by their author are dropped from the results.",
@@ -146,7 +101,7 @@
     },
     "fullSubreddit": {
       "default": false,
-      "description": "When enabled, the actor walks 'New' posts as deep as Reddit allows (roughly 1,000 posts per listing) instead of stopping at the first pages. Combine with a higher 'Maximum posts per subreddit'.",
+      "description": "When enabled, walk Reddit's 'new' listing as deep as the source allows (roughly 1,000 posts per listing) instead of stopping at the first page. Combine with a higher 'Maximum posts per subreddit'.",
       "prefill": false,
       "title": "Full subreddit mode (deepest reachable history)",
       "type": "boolean"
@@ -160,7 +115,7 @@
     },
     "includeNSFW": {
       "default": false,
-      "description": "Include posts marked as Not Safe For Work in the results. Note: some NSFW subreddits block datacenter IPs entirely; for those, using a proxy is recommended.",
+      "description": "Include posts Reddit explicitly flags as NSFW. Posts in 18+ communities are served by the actor's adult-content cookie and are not distinguishable at community level.",
       "prefill": false,
       "title": "Include NSFW (18+) content",
       "type": "boolean"
@@ -193,7 +148,7 @@
     },
     "maxItems": {
       "default": 10000,
-      "description": "Global safety cap on the total number of records pushed for the whole run (posts and comments combined). Guards against runaway costs on large multi-subreddit runs; records are collected until the cap is reached.",
+      "description": "Global safety cap on the total number of records pushed for the whole run (posts and comments combined).",
       "example": 5000,
       "maximum": 100000,
       "minimum": 1,
@@ -203,7 +158,7 @@
     },
     "maxPosts": {
       "default": 25,
-      "description": "Maximum number of posts to scrape from each subreddit. Raise this when using the full-subreddit mode.",
+      "description": "Maximum number of posts to keep from each subreddit after filters. Reddit serves roughly 1,000 posts per hot/new listing and about 500 for top/controversial.",
       "example": 25,
       "maximum": 5000,
       "minimum": 1,
@@ -259,13 +214,6 @@
       "title": "Minimum upvote ratio",
       "type": "number"
     },
-    "onlyOriginalContent": {
-      "default": false,
-      "description": "When enabled, only posts the author tagged as original content are kept.",
-      "prefill": false,
-      "title": "Only original content (OC) posts",
-      "type": "boolean"
-    },
     "onlyWithFlair": {
       "default": false,
       "description": "When enabled, posts without a flair tag are dropped from the results.",
@@ -274,22 +222,26 @@
       "type": "boolean"
     },
     "postType": {
-      "description": "Keep only posts of the selected content type. Leave unset to keep all types.",
+      "description": "Keep only posts of the selected content type (based on Reddit's listing type). Leave unset to keep all types. Legacy 'self' is treated as 'text'.",
       "enum": [
-        "self",
+        "text",
         "link",
         "image",
         "video",
         "gallery",
-        "poll"
+        "poll",
+        "crosspost",
+        "multi_media"
       ],
       "enumTitles": [
-        "Text (self post)",
+        "Text post",
         "Link",
         "Image",
         "Video",
         "Gallery",
-        "Poll"
+        "Poll",
+        "Crosspost",
+        "Multi-media post"
       ],
       "title": "Only posts of this type",
       "type": "string"
@@ -309,8 +261,8 @@
       "type": "string"
     },
     "sort": {
-      "default": "hot",
-      "description": "How to sort posts in the subreddit. Note: when a 'Posts created on or after' date is set, collection switches to 'New' automatically so older posts can be reached.",
+      "default": "new",
+      "description": "How to sort posts in the subreddit. Reddit serves roughly 1,000 posts per hot/new listing and about 500 for top/controversial.",
       "enum": [
         "hot",
         "new",
@@ -327,7 +279,7 @@
         "Controversial",
         "Best"
       ],
-      "prefill": "hot",
+      "prefill": "new",
       "title": "Sort posts by",
       "type": "string"
     },
