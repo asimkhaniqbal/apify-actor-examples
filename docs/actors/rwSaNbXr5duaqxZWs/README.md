@@ -4,155 +4,165 @@
 
 # TikTok DSA Ads Transparency Library Scraper
 
-TikTok keeps a public ad transparency library for Europe, covering ads shown in EU/EEA countries plus the UK, Switzerland and Turkey. This actor searches that library by keyword, advertiser name, or direct ad ID, and returns each ad's creative, advertiser identity, impression data, and (with full detail turned on) audience targeting. No TikTok account, login, or cookies required.
+Search **TikTok's DSA ad transparency library** across 33 European markets and the global **Creative Center Top Ads** from one actor. Get ad creatives, advertiser identity, first/last shown dates, unique-user reach, age/gender targeting, CTAs, landing pages and Creative Center performance signals — with no TikTok account, cookies, API key or proxy setup.
 
 ## What this actor does
 
-- Searches TikTok's ad transparency library by keyword and/or advertiser name, or looks up a list of ad IDs directly
-- Lets you pick one of the 33 European country codes in the region list, or `all`
-- Returns creative media (video/image URLs, cover images), impression buckets, audit status and ad format from the search listing
-- With `quickSearch` off (and always for ad-ID lookups), adds advertiser registry details and per-region location, age and gender targeting from each ad's detail page
-- Filters by advertiser name, targeted region, industry, language, call-to-action text and minimum impressions, and adds `daysActive`/`avgImpressionsPerDay`
-- Fields TikTok doesn't disclose for a given ad (e.g. no targeting data in quick mode) are omitted rather than left blank
+- **DSA library search** by keyword, exact advertiser name (optionally with its business ID), ad ID or a pasted library URL — in 33 EU/EEA/UK/CH/TR markets or all of them.
+- **Server-side filters** for ad type, active/inactive status, age, gender, unique reach and six sort orders, plus an exact-phrase option.
+- **Full ad detail** (optional): caption, CTA, landing page, advertising objective, registered advertiser, sponsor, linked TikTok account, per-country reach and age × gender breakdowns.
+- **Creative Center Top Ads** (optional): global markets, 7/30/180-day windows, ranking by For You/CTR/likes, objective/industry/language filters, video renditions, CTR, likes, cost tier and optional landing pages/comments/shares.
+- **Both sources in one run**, with a `source` field on every row.
+- **Count-only mode** for a quick number of matching DSA ads.
+- Fields a source does not disclose are omitted, never left as null or placeholders.
 
 ## Output per ad
 
-Fields from the search listing (always attempted):
+**DSA library rows (`recordType: "ad"`, `source: "tiktokAdsLibrary"`)**
 
-- `adId`, `adUrl` — TikTok's ad ID and its transparency-library detail page
-- `advertiserName` — advertiser name as shown on the ad
-- `adType` — `video` or `image`
-- `adVideoUrl`, `adVideoCover` — first video URL and its cover image
-- `adVideos` — `{videoUrl, coverImage}` entries, only for ads with more than one video
-- `adImages` — image URLs for image-format ads
-- `adStartDate`, `adEndDate` — first- and last-shown dates (`YYYY-MM-DD`)
-- `adImpressions` — TikTok's impression bucket (e.g. `10K-100K`)
-- `adImpressionsExact` — exact impression count, when TikTok discloses one
-- `adSpent` — disclosed spend figure, when available
-- `auditStatus`, `auditStatusLabel` — TikTok's raw audit code and, for codes 1–4, its label (`approved`, `rejected`, `in_review`, `removed`)
-- `sorAuditStatus`, `rejectionInfo`, `auditReasons` — additional compliance detail, when present
-- `showMode`, `adFormat` — raw format code and, for codes 1–4, its label (`single_video`, `image`, `carousel`, `spark_ad`)
-- `advertiserId`, `advertiserIndustry`, `adLanguages`, `ctaText`, `landingPageUrl` — when the listing carries them
-- `adPlatforms` — platforms the ad ran on, when listed
-- `creativeId`, `creativeName`, `dataSource`, `commercialContentIndicator` — additional creative/source metadata, when present
+- `adId`, `adUrl` — TikTok ad ID and its library detail page
+- `advertiserName`, `advertiserId`, `advertiserBusinessName`, `advertiserBusinessId`, `advertiserCountry`, `advertiserSponsor`
+- `advertiserTikTokUser` — linked TikTok account: `id`, `username`, `displayName`, `followers`, `accountType`, `avatarUrl`, `profileUrl`
+- `adTitle`, `adType`, `adFormat`, `showMode`, `adStartDate`, `adEndDate`, `daysActive`
+- `adImpressions`, `adImpressionsMin`, `adImpressionsMax`, `avgImpressionsPerDay`
+- `adVideoUrl`, `adVideoCover`, `adVideos`, `adImages` — working media URLs
+- `ctaText`, `advertisingObjective`, `landingPageUrl`
+- `auditStatus`, `auditStatusLabel`, `sorAuditStatus`, `rejectionInfo`, `auditReasons`
+- `targetingByLocation`, `adReachByCountry`, `targetingByAge`, `targetingByGender`, `targetAudienceSize`, `targetAudienceSizeMin`, `targetAudienceSizeMax`
+- `targetingCountries`, `targetingCities`, `targetingProvinces`, `targetingLanguages`, `targetingDeviceModels`, `targetingOperatingSystems`, `targetingHighSpendingPower`, `audienceTargeting`, `audienceExclude`
+- `interestTargeting`, `videoInteractionsTargeting`, `creatorInteractionsTargeting`, `displayMode`
+- `searchTotal`, `searchRegion`, `searchQueryType`, `detailsFetched`, `detailUnavailable`
+- `source: "tiktokAdsLibrary"`, `recordType: "ad"`, `scrapedAt`
 
-Fields from the ad's detail page (only with `quickSearch: false` or `adIds`):
+**Creative Center rows (`recordType: "topAd"`, `source: "creativeCenter"`)**
 
-- `advertiserBusinessName`, `advertiserBusinessId` (also written to `advertiserId`) — registered advertiser identity
-- `advertiserCountry` — advertiser's registered country
-- `advertiserSponsor` — sponsor name, when the ad was placed on behalf of another party
-- `advertiserTikTokUser` — linked TikTok account `{id, nickname, uniqueId, avatarUrl, avatarUri}`, when the advertiser has one
-- `targetingByLocation` — `{region, impressions}` rows
-- `targetingTotalRegions`, `targetingTotalImpressions` — totals across the location breakdown
-- `targetingByAge` — per-region rows listing the targeted age buckets in `ages` (`13-17` … `55+`)
-- `targetingByGender` — per-region rows listing the targeted genders in `genders` (`female`, `male`, `unknown`)
-- `targetAudienceSize`, `audienceTargeting`, `interestTargeting`, `videoInteractionsTargeting`, `creatorInteractionsTargeting` — additional targeting detail, when disclosed
+- `adId`, `adUrl`, `adTitle`, `advertiserName`, `adType: "video"`
+- `adVideoUrl`, `adVideoCover`, `videoRenditions`, `videoDuration`, `videoWidth`, `videoHeight`
+- `ctr`, `likeCount`, `costTier`, `industryKey`, `industryName`, `objectiveKey`, `objectiveName`
+- `landingPageUrl`, `commentCount`, `shareCount`, `advertiserCountries`, `isSearchAd`, `ccSource`
+- `observedCountry`, `observedPeriod`, `source: "creativeCenter"`, `recordType: "topAd"`, `scrapedAt`
 
-Calculated and run fields:
-
-- `daysActive` — days from `adStartDate` to `adEndDate`, counting both ends
-- `avgImpressionsPerDay` — the lower bound of the `adImpressions` bucket divided by `daysActive` (a rough floor, not an exact average)
-- `recordType` — always `ad`
-- `scrapedAt` — ISO 8601 timestamp when the record was collected
+**Count-only runs** emit one row with `recordType: "summary"` and `searchTotal`.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `query` | string | `""` | Free-text keyword — company name, domain, or ad text. Leave blank to browse recent ads. |
-| `adIds` | array | `[]` | TikTok ad IDs to look up directly. When set, `query`, `region`, dates and `sortBy` are not used; the post-filters below still apply. |
-| `advertiserName` | string | – | Sent to the library search and also applied as a substring filter on `advertiserName`; ads without an advertiser name are dropped. |
-| `region` | string | `all` | One of 33 European country codes, or `all`. |
-| `startDate` | string | – | Start of the search window (`YYYY-MM-DD`). One year before today when blank. |
-| `endDate` | string | – | End of the search window (`YYYY-MM-DD`). Today when blank. |
-| `sortBy` | string | `last_shown_date,desc` | `last_shown_date`, `create_time` or `impression`, each `,asc` or `,desc`. |
-| `quickSearch` | boolean | `true` | `true` returns listing data only; `false` also opens each ad's detail page for advertiser registry and targeting fields. |
-| `maxItems` | integer | `10` | Number of ads to collect before filtering (1–5000; a run pages through at most about 2,500 search results). |
-| `regionFilter` | array | `[]` | Keep ads whose location targeting mentions one of these region codes. Ads with no targeting data (always the case in quick mode) are kept. |
-| `minImpressions` | integer | – | Drop ads whose impression bucket's lower bound is below this value. Ads without a bucket are kept. |
-| `industryFilter` | array | `[]` | Keep only ads whose advertiser industry contains one of these substrings; ads without an industry are dropped. |
-| `languageFilter` | array | `[]` | Keep only ads in one of these languages (e.g. `en`, `de`). Ads without a detected language are kept. |
-| `ctaFilter` | array | `[]` | Keep only ads whose CTA text contains one of these substrings; ads without CTA text are dropped. |
-| `useApifyProxy` | boolean | `true` | Allow a proxy to be used if the first, direct attempt to open the library fails. |
-| `requestDelaySecs` | integer | `1` | Pause, in seconds, between successive requests (0–10). |
-| `timezone` | string | `UTC` | IANA timezone used to interpret `startDate`/`endDate`. |
+| `mode` | string | `library` | `library`, `creativeCenter` or `both` |
+| `keyword` | string | `""` | Keyword/advertiser text for a DSA search; empty = browse. |
+| `advertiserName` | string | – | Exact advertiser name; retried as a keyword if the exact search is empty. |
+| `advertiserId` | string | – | Optional business ID to disambiguate an advertiser search. |
+| `adIds` | array | `[]` | Direct ad IDs to open. |
+| `startUrls` | array | `[]` | TikTok library search or ad-detail URLs. Search URLs contribute their region, keyword/advertiser and date window. |
+| `region` | string | `all` | One of 33 country codes or `all`. |
+| `startDate` | string | – | Last-shown date from (`YYYY-MM-DD`); default one year ago. |
+| `endDate` | string | – | Last-shown date to (`YYYY-MM-DD`); default today. |
+| `sortBy` | string | `last_shown_date,desc` | One of six sort orders. |
+| `adType` | string | `all` | `all`, `video`, `image`, `text`. |
+| `adStatus` | string | `active` | `all`, `active`, `inactive`. |
+| `age` | array | `[]` | Any of `13-17`, `18-24`, `25-34`, `35-44`, `45-54`, `55+`. |
+| `gender` | string | `all` | `all`, `female`, `male`. |
+| `uniqueReach` | string | `all` | `all`, `under10k`, `10k-100k`, `over100k`. |
+| `exactPhrase` | boolean | `false` | Treat the keyword as an exact phrase. |
+| `includeDetails` | boolean | `true` | Enrich DSA ads from their detail pages. |
+| `countOnly` | boolean | `false` | Return one summary row with the matching total. |
+| `maxItems` | integer | `50` | Records per source (1–5,000). |
+| `ccCountry` | string | `US` | Creative Center market (28 options). |
+| `ccPeriod` | string | `30` | `7`, `30` or `180` days. |
+| `ccOrderBy` | string | `for_you` | `for_you`, `ctr` or `like`. |
+| `ccObjective` | string | `all` | `all` or one of eight campaign objectives. |
+| `ccIndustry` | string | `all` | `all` or one of 258 industries. |
+| `ccLanguage` | string | `all` | `all` or one of 16 languages. |
+| `ccSweep` | boolean | `true` | Sweep filter combinations to collect more than 20 unique top ads. |
+| `ccIncludeDetails` | boolean | `true` | Add landing pages, comments and shares. |
 
-### Example: keyword search, quick mode
+### Example: keyword search in Germany with details
 
 ```json
 {
-  "query": "technology",
-  "quickSearch": true,
-  "region": "all"
-}
-```
-
-### Example: advertiser lookup with full targeting detail
-
-```json
-{
-  "advertiserName": "Temu",
+  "mode": "library",
+  "keyword": "Nike",
   "region": "DE",
-  "quickSearch": false
+  "includeDetails": true,
+  "maxItems": 25
 }
 ```
 
-### Example: direct ad ID lookup
+### Example: exact advertiser, all markets, image ads
 
 ```json
 {
-  "adIds": ["1863424159438849", "1863615078571137"]
-}
-```
-
-### Example: filtered search with a minimum impression floor
-
-```json
-{
-  "query": "supplements",
+  "mode": "library",
+  "advertiserName": "NIKE Retail B.V.",
   "region": "all",
-  "industryFilter": ["health"],
-  "languageFilter": ["en"],
-  "minImpressions": 50000,
-  "quickSearch": false,
-  "maxItems": 200
+  "adType": "image",
+  "includeDetails": true,
+  "maxItems": 100
+}
+```
+
+### Example: Creative Center top ads in the US
+
+```json
+{
+  "mode": "creativeCenter",
+  "ccCountry": "US",
+  "ccPeriod": "180",
+  "ccOrderBy": "ctr",
+  "ccSweep": true,
+  "maxItems": 100
+}
+```
+
+### Example: both sources
+
+```json
+{
+  "mode": "both",
+  "keyword": "skincare",
+  "region": "FR",
+  "ccCountry": "FR",
+  "maxItems": 50
 }
 ```
 
 ## Use cases
 
-- **Competitive intelligence** — see which ads a competitor ran in European markets, with impression buckets and (in full detail) targeting
-- **Creative research** — review competitor creative assets, CTA choices, and formats across markets
-- **Compliance monitoring** — pull audit status, rejection info and audit reasons for regulatory research
-- **Market sizing** — compare impression buckets across an industry and region
-- **Sponsorship mapping** — identify ads placed on behalf of another party via the sponsor field
-- **Brand account checks** — see which TikTok account an advertiser has linked to its ads
+- **Competitive intelligence** — see every ad a brand runs in Europe, with dates, reach and targeting.
+- **Creative research** — collect working video/image creatives and CTAs across markets.
+- **Compliance monitoring** — pull audit status, rejection details and advertiser identity.
+- **Market sizing** — compare unique-user bands and per-country reach for a category.
+- **Global trend spotting** — use Creative Center to find high-performing ads outside the EU.
+- **Advertiser due diligence** — check the registered business, sponsor and linked TikTok account.
 
 ## FAQ
 
-**Which regions are covered?**
-The `region` list holds 33 European country codes (EU/EEA countries plus the UK, Switzerland and Turkey), or `all`. Other countries are not available in this library.
+**Do I need a TikTok account or cookies?**
+No. Both sources are public. The actor opens TikTok's public pages once to establish an anonymous session; no login, cookie file or API key is involved.
 
-**What's the difference between `quickSearch: true` and `false`?**
-`quickSearch: true` returns the search listing data only. `quickSearch: false` additionally opens each ad's detail page and adds advertiser registry details and the `targetingByLocation`, `targetingByAge` and `targetingByGender` breakdowns. If a detail page can't be loaded, the ad is still returned with its listing data, and after eight detail failures the rest of the run keeps listing data only.
+**How many DSA ads can one search return?**
+TikTok serves 12 ads per page and caps a single search at roughly 5,000 results. Split by country, date range or keyword to go deeper. The actor warns when it reaches the cap.
 
-**Why did I get fewer ads than `maxItems`?**
-The actor collects up to `maxItems` ads first and then applies `advertiserName`, `regionFilter`, `industryFilter`, `languageFilter`, `ctaFilter` and `minImpressions`. Ads the filters drop are not replaced. Searches also stop when TikTok reports no more results, and a single run pages through at most about 2,500 results.
+**Why are some ads missing details?**
+TikTok marks some ads as unavailable or shows no detail data. Those rows keep their listing data and carry `detailUnavailable: true`. Detail pages are opened for at most 500 DSA ads and 200 Creative Center ads per run; rows beyond those limits keep their listing data.
 
-**Can results ever ignore my keyword?**
-Yes, in one edge case. If TikTok rejects the keyword or advertiser search request, the actor falls back to the library's default listing of recent ads, so the rows may not match your keyword. The run log notes when this happens.
+**Why are my video URLs sometimes expired?**
+TikTok's media URLs are signed and time-limited. The actor converts the library's wrapper URLs into working CDN URLs; download or re-host the files promptly if you need them long-term.
 
-**Does `sortBy` always apply?**
-It applies to every search request. When `query`, `advertiserName`, `startDate` and `endDate` are all empty, the first page comes from the library's default listing and `sortBy` only applies from the second page on.
+**What is the difference between the DSA library and Creative Center?**
+The DSA library is the EU transparency database: dates, reach, targeting and advertiser identity. Creative Center is a global showcase of high-performing ads with CTR/likes/video renditions, but no dates or targeting.
 
-**How is `avgImpressionsPerDay` calculated?**
-It takes the lower bound of the `adImpressions` bucket (for example `10000` for `10K-100K`) and divides it by `daysActive`. It's a floor estimate, not an exact daily figure. `minImpressions` uses the same lower bound.
+**Why does Creative Center return only 20 ads?**
+Anonymous visitors get one page of 20 per filter combination. With `ccSweep` on, the actor sweeps periods, rankings, objectives and formats, deduplicates, and collects many more unique ads.
 
-**Can I find spark ads?**
-Yes — ads TikTok marks with format code 4 come out with `adFormat: spark_ad`.
+**Can I search Creative Center by keyword?**
+Not reliably without a TikTok login. The actor does not offer a Creative Center keyword field; it sweeps the public Top Ads surface instead.
 
-**Can I filter to a specific date range?**
-Yes — set `startDate` and `endDate` (`YYYY-MM-DD`). Without them the search window is the past year.
+**How do exact advertiser searches work?**
+TikTok matches the exact advertiser name (for example `NIKE Retail B.V.`). If that returns nothing, the actor retries the name as a keyword so you still get useful results.
+
+**Why do some fields stay empty?**
+TikTok does not disclose them for every ad — for example spend, exact impressions, cities or device targeting. Empty fields are omitted rather than filled with placeholders.
 
 **Is this affiliated with TikTok?**
-No. This is an independent, third-party actor that reads TikTok's public ad transparency library; it isn't affiliated with or endorsed by TikTok.
+No. This is an independent third-party actor that reads TikTok's public ad transparency library and Creative Center pages.

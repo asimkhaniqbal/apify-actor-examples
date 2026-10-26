@@ -2,260 +2,514 @@
   "actorSpecification": 1,
   "fields": {
     "adEndDate": {
-      "description": "Date the ad last appeared (YYYY-MM-DD)",
-      "title": "Ad End Date",
+      "description": "Last date the ad was shown (YYYY-MM-DD).",
+      "title": "Last shown",
       "type": "string"
     },
     "adFormat": {
-      "description": "Creative format: 'single_video', 'image', 'carousel', or 'spark_ad'",
-      "title": "Ad Format",
+      "description": "`single_video`, `image`, `carousel` or `spark_ad` when TikTok discloses it.",
+      "title": "Ad format",
       "type": "string"
     },
     "adId": {
-      "description": "Unique TikTok ad ID (string)",
+      "description": "TikTok ad ID.",
       "title": "Ad ID",
       "type": "string"
     },
     "adImages": {
-      "description": "Image URLs for image-type ads",
-      "title": "Ad Images",
+      "description": "Image creative URLs.",
+      "title": "Ad images",
       "type": "array"
     },
     "adImpressions": {
-      "description": "TikTok impression bucket string (e.g. '10K-100K', '1M-10M')",
-      "title": "Impressions",
+      "description": "TikTok's estimate bucket (e.g. `10K-100K`).",
+      "title": "Unique users seen",
       "type": "string"
     },
     "adImpressionsExact": {
-      "description": "Exact impression count when available from the API",
-      "title": "Exact Impressions",
+      "description": "Exact count when TikTok discloses it (normally empty).",
+      "title": "Exact impressions",
+      "type": "integer"
+    },
+    "adImpressionsMax": {
+      "description": "Numeric upper bound of the bucket.",
+      "title": "Impressions upper bound",
+      "type": "integer"
+    },
+    "adImpressionsMin": {
+      "description": "Numeric lower bound of the bucket.",
+      "title": "Impressions lower bound",
       "type": "integer"
     },
     "adLanguages": {
-      "description": "Language codes for the ad content (e.g. ['en', 'de'])",
-      "title": "Ad Languages",
+      "description": "Languages carried by the search listing, when present.",
+      "title": "Ad languages",
       "type": "array"
     },
     "adPlatforms": {
-      "description": "Platforms this ad runs on (TikTok, CapCut, Pangle, Lemon8)",
-      "title": "Ad Platforms",
+      "description": "Platforms the ad ran on, when listed.",
+      "title": "Platforms",
+      "type": "array"
+    },
+    "adReachByCountry": {
+      "description": "Per-country reach with age × gender breakdowns.",
+      "title": "Reach by country",
       "type": "array"
     },
     "adSpent": {
-      "description": "Estimated spend bucket shown by TikTok",
-      "title": "Ad Spend",
+      "description": "Disclosed spend when TikTok publishes it (normally empty).",
+      "title": "Spend",
       "type": "string"
     },
     "adStartDate": {
-      "description": "Date the ad first appeared (YYYY-MM-DD)",
-      "title": "Ad Start Date",
+      "description": "First date the ad was shown (YYYY-MM-DD).",
+      "title": "First shown",
+      "type": "string"
+    },
+    "adTitle": {
+      "description": "Ad caption or headline.",
+      "title": "Ad caption/title",
       "type": "string"
     },
     "adType": {
-      "description": "Ad creative type: 'video' or 'image'",
-      "title": "Ad Type",
+      "description": "`video`, `image` or `text`.",
+      "title": "Ad type",
       "type": "string"
     },
     "adUrl": {
-      "description": "Direct URL to the ad detail page on TikTok Ads Library",
+      "description": "Link to the ad's TikTok page.",
       "title": "Ad URL",
       "type": "string"
     },
     "adVideoCover": {
-      "description": "Cover/thumbnail image URL for the ad video",
-      "title": "Ad Video Cover",
+      "description": "Cover image URL.",
+      "title": "Video cover",
       "type": "string"
     },
     "adVideoUrl": {
-      "description": "URL to the first (or only) ad video",
-      "title": "Ad Video URL",
+      "description": "Working video CDN URL (decoded from TikTok's library wrapper).",
+      "title": "Video URL",
+      "type": "string"
+    },
+    "adVideoUrlOriginal": {
+      "description": "TikTok's original library video URL, kept for traceability.",
+      "title": "Original video URL",
       "type": "string"
     },
     "adVideos": {
-      "description": "All video URLs for carousel/multi-video ads (each item: {videoUrl, coverImage})",
-      "title": "Ad Videos",
+      "description": "All video renditions for carousel ads, each with `videoUrl`, optional `coverImage` and `videoUrlOriginal`.",
+      "title": "Ad videos",
       "type": "array"
     },
     "advertiserBusinessId": {
-      "description": "TikTok advertiser business ID (string)",
-      "title": "Advertiser Business ID",
+      "description": "Registered business ID.",
+      "title": "Business ID",
       "type": "string"
     },
     "advertiserBusinessName": {
-      "description": "Registered business name of the advertiser (from detail page)",
-      "title": "Advertiser Business Name",
+      "description": "Registered business name.",
+      "title": "Registered advertiser",
       "type": "string"
     },
+    "advertiserCountries": {
+      "description": "Countries returned by the Creative Center detail endpoint.",
+      "title": "Creative Center countries",
+      "type": "array"
+    },
     "advertiserCountry": {
-      "description": "Country where the advertiser is registered (ISO code)",
-      "title": "Advertiser Country",
+      "description": "Advertiser's registered country.",
+      "title": "Registry country",
       "type": "string"
     },
     "advertiserId": {
-      "description": "TikTok advertiser/business ID (string)",
+      "description": "TikTok business ID when disclosed.",
       "title": "Advertiser ID",
       "type": "string"
     },
     "advertiserIndustry": {
-      "description": "Industry category of the advertiser",
-      "title": "Advertiser Industry",
+      "description": "Industry when the source provides it.",
+      "title": "Advertiser industry",
       "type": "string"
     },
     "advertiserName": {
-      "description": "Name of the advertiser as shown in the ad card",
-      "title": "Advertiser Name",
+      "description": "Advertiser or brand name.",
+      "title": "Advertiser",
       "type": "string"
     },
     "advertiserSponsor": {
-      "description": "Paid-for-by / sponsor text",
-      "title": "Advertiser Sponsor",
+      "description": "Sponsor/payer name when different from the advertiser.",
+      "title": "Paid for by",
       "type": "string"
     },
     "advertiserTikTokUser": {
-      "description": "Advertiser's TikTok account info (id, nickname, uniqueId, avatarUrl)",
-      "title": "Advertiser TikTok User",
+      "description": "Linked TikTok account: id/username/displayName/followers/accountType/avatar/profile.",
+      "title": "TikTok account",
       "type": "object"
     },
+    "advertisingObjective": {
+      "description": "Campaign objective (e.g. Traffic, Sales).",
+      "title": "Advertising objective",
+      "type": "string"
+    },
+    "audienceExclude": {
+      "description": "Whether the audience is excluded.",
+      "title": "Audience exclude",
+      "type": "string"
+    },
     "audienceTargeting": {
-      "description": "Custom audience targeting description",
-      "title": "Audience Targeting",
+      "description": "TikTok's audience include/exclude flag.",
+      "title": "Audience targeting",
       "type": "string"
     },
     "auditReasons": {
-      "description": "List of audit reason codes",
-      "title": "Audit Reasons",
+      "description": "Additional audit reason codes/text.",
+      "title": "Audit reasons",
       "type": "array"
     },
     "auditStatus": {
-      "description": "Raw TikTok audit status code (1=approved, 2=rejected, 3=in_review, 4=removed)",
-      "title": "Audit Status",
+      "description": "Raw TikTok audit code.",
+      "title": "Audit status",
       "type": "string"
     },
     "auditStatusLabel": {
-      "description": "Human-readable audit status: 'approved', 'rejected', 'in_review', or 'removed'",
-      "title": "Audit Status Label",
+      "description": "`approved`, `rejected`, `in_review` or `removed`.",
+      "title": "Audit status label",
       "type": "string"
     },
     "avgImpressionsPerDay": {
-      "description": "Derived: lower-bound impressions divided by daysActive",
-      "title": "Avg Impressions Per Day",
+      "description": "Lower-bound bucket divided by daysActive.",
+      "title": "Avg impressions/day",
+      "type": "integer"
+    },
+    "ccSource": {
+      "description": "Source label from the Creative Center detail endpoint.",
+      "title": "Creative Center source",
+      "type": "string"
+    },
+    "commentCount": {
+      "description": "Creative Center comment count.",
+      "title": "Comments",
       "type": "integer"
     },
     "commercialContentIndicator": {
-      "description": "Commercial content label type",
-      "title": "Commercial Content Indicator",
-      "type": "string"
+      "description": "Commercial-content indicator when present.",
+      "title": "Commercial content",
+      "type": "boolean"
+    },
+    "costTier": {
+      "description": "Creative Center budget tier code (0/1).",
+      "title": "Cost tier",
+      "type": "integer"
     },
     "creativeId": {
-      "description": "TikTok creative ID (string)",
+      "description": "Creative identifier when present.",
       "title": "Creative ID",
       "type": "string"
     },
     "creativeName": {
-      "description": "Name of the creative asset",
-      "title": "Creative Name",
+      "description": "Creative name when present.",
+      "title": "Creative name",
       "type": "string"
     },
     "creatorInteractionsTargeting": {
-      "description": "Creator interactions targeting description",
-      "title": "Creator Interactions Targeting",
+      "description": "Creator-interaction targeting when disclosed.",
+      "title": "Creator interactions",
       "type": "string"
     },
     "ctaText": {
-      "description": "Call-to-action button text (e.g. 'Shop Now', 'Learn More')",
-      "title": "CTA Text",
+      "description": "CTA button text.",
+      "title": "Call to action",
       "type": "string"
     },
+    "ctr": {
+      "description": "Creative Center click-through rate (0–1).",
+      "title": "CTR",
+      "type": "number"
+    },
     "dataSource": {
-      "description": "TikTok data source identifier",
-      "title": "Data Source",
+      "description": "Source-provided data label when present.",
+      "title": "Data source label",
       "type": "string"
     },
     "daysActive": {
-      "description": "Derived: number of days between adStartDate and adEndDate inclusive",
-      "title": "Days Active",
+      "description": "Inclusive days between first and last shown dates.",
+      "title": "Days active",
       "type": "integer"
     },
-    "interestTargeting": {
-      "description": "Interest-based targeting description",
-      "title": "Interest Targeting",
+    "detailUnavailable": {
+      "description": "True when TikTok had no detail data for the ad.",
+      "title": "Detail unavailable",
+      "type": "boolean"
+    },
+    "detailsFetched": {
+      "description": "True when the detail record was merged.",
+      "title": "Details fetched",
+      "type": "boolean"
+    },
+    "displayMode": {
+      "description": "TikTok detail page display mode.",
+      "title": "Display mode",
       "type": "string"
+    },
+    "industryKey": {
+      "description": "Creative Center industry key.",
+      "title": "Industry key",
+      "type": "string"
+    },
+    "industryName": {
+      "description": "Creative Center industry name.",
+      "title": "Industry",
+      "type": "string"
+    },
+    "interestTargeting": {
+      "description": "Interest categories when disclosed.",
+      "title": "Interest targeting",
+      "type": "string"
+    },
+    "isSearchAd": {
+      "description": "Creative Center `is_search` flag.",
+      "title": "Search placement",
+      "type": "boolean"
     },
     "landingPageUrl": {
-      "description": "URL the ad click leads to",
-      "title": "Landing Page URL",
+      "description": "External website linked from the ad.",
+      "title": "Landing page",
       "type": "string"
     },
+    "likeCount": {
+      "description": "Creative Center like count.",
+      "title": "Likes",
+      "type": "integer"
+    },
+    "objectiveKey": {
+      "description": "Creative Center objective key.",
+      "title": "Objective key",
+      "type": "string"
+    },
+    "objectiveName": {
+      "description": "Creative Center objective name.",
+      "title": "Objective",
+      "type": "string"
+    },
+    "observedCountry": {
+      "description": "Creative Center country used for this row.",
+      "title": "Observed country",
+      "type": "string"
+    },
+    "observedPeriod": {
+      "description": "Creative Center period in days.",
+      "title": "Observed period",
+      "type": "integer"
+    },
     "recordType": {
-      "description": "Always 'ad' for this actor",
+      "description": "`ad` for a DSA library ad, `topAd` for a Creative Center top ad, `summary` for count-only runs.",
       "title": "Record Type",
       "type": "string"
     },
     "rejectionInfo": {
-      "description": "Reason for ad rejection when auditStatus is 'rejected'",
-      "title": "Rejection Info",
-      "type": "string"
+      "description": "Rejection details when the ad was rejected.",
+      "title": "Rejection info",
+      "type": "object"
     },
     "scrapedAt": {
-      "description": "ISO 8601 UTC timestamp when this record was scraped",
-      "title": "Scraped At",
+      "description": "ISO 8601 UTC collection time.",
+      "title": "Scraped at",
       "type": "string"
     },
+    "searchQueryType": {
+      "description": "`keyword`, `advertiser` or `browse`.",
+      "title": "Search type",
+      "type": "string"
+    },
+    "searchRegion": {
+      "description": "Region used for this row.",
+      "title": "Search region",
+      "type": "string"
+    },
+    "searchTotal": {
+      "description": "TikTok's reported total for the search.",
+      "title": "Search total",
+      "type": "integer"
+    },
+    "shareCount": {
+      "description": "Creative Center share count.",
+      "title": "Shares",
+      "type": "integer"
+    },
     "showMode": {
-      "description": "Raw TikTok show_mode value (1=single_video, 2=image, 3=carousel, 4=spark_ad)",
-      "title": "Show Mode",
+      "description": "Raw TikTok show_mode code.",
+      "title": "Show mode",
       "type": "integer"
     },
     "sorAuditStatus": {
-      "description": "Secondary audit status code",
-      "title": "SOR Audit Status",
+      "description": "TikTok's statement-of-reasons audit code.",
+      "title": "SOR audit status",
+      "type": "string"
+    },
+    "source": {
+      "description": "`tiktokAdsLibrary` or `creativeCenter`.",
+      "title": "Source",
       "type": "string"
     },
     "targetAudienceSize": {
-      "description": "Estimated target audience size bucket",
-      "title": "Target Audience Size",
+      "description": "Estimated audience size bucket.",
+      "title": "Target audience size",
       "type": "string"
     },
+    "targetAudienceSizeMax": {
+      "description": "Numeric upper bound.",
+      "title": "Audience size upper",
+      "type": "integer"
+    },
+    "targetAudienceSizeMin": {
+      "description": "Numeric lower bound.",
+      "title": "Audience size lower",
+      "type": "integer"
+    },
     "targetingByAge": {
-      "description": "Age group targeting breakdown (from detail page)",
-      "title": "Targeting By Age",
+      "description": "Per-region targeted age buckets.",
+      "title": "Targeting by age",
       "type": "array"
     },
     "targetingByGender": {
-      "description": "Gender targeting breakdown (from detail page)",
-      "title": "Targeting By Gender",
+      "description": "Per-region targeted genders.",
+      "title": "Targeting by gender",
       "type": "array"
     },
     "targetingByLocation": {
-      "description": "Per-region targeting breakdown with region code and impression share (from detail page)",
-      "title": "Targeting By Location",
+      "description": "Rows of `{region, impressions}`.",
+      "title": "Targeting by location",
+      "type": "array"
+    },
+    "targetingCities": {
+      "description": "Cities explicitly targeted.",
+      "title": "Targeted cities",
+      "type": "array"
+    },
+    "targetingCountries": {
+      "description": "Country codes explicitly targeted.",
+      "title": "Targeted countries",
+      "type": "array"
+    },
+    "targetingDeviceModels": {
+      "description": "Device models explicitly targeted.",
+      "title": "Targeted devices",
+      "type": "array"
+    },
+    "targetingHighSpendingPower": {
+      "description": "TikTok's high-spending-power flag.",
+      "title": "High spending power",
+      "type": "string"
+    },
+    "targetingLanguages": {
+      "description": "Languages explicitly targeted.",
+      "title": "Targeted languages",
+      "type": "array"
+    },
+    "targetingOperatingSystems": {
+      "description": "Operating systems explicitly targeted.",
+      "title": "Targeted operating systems",
+      "type": "array"
+    },
+    "targetingProvinces": {
+      "description": "Provinces/regions explicitly targeted.",
+      "title": "Targeted provinces",
       "type": "array"
     },
     "targetingTotalImpressions": {
-      "description": "Total impressions across all regions",
-      "title": "Targeting Total Impressions",
+      "description": "Total unique-users-seen bucket.",
+      "title": "Total reach",
       "type": "string"
     },
     "targetingTotalRegions": {
-      "description": "Total number of regions targeted",
-      "title": "Targeting Total Regions",
-      "type": "string"
+      "description": "Number of targeted regions.",
+      "title": "Targeted regions",
+      "type": "integer"
+    },
+    "videoDuration": {
+      "description": "Creative Center video length in seconds.",
+      "title": "Video duration",
+      "type": "number"
+    },
+    "videoHeight": {
+      "description": "Creative Center video height in pixels.",
+      "title": "Video height",
+      "type": "integer"
     },
     "videoInteractionsTargeting": {
-      "description": "Video interactions targeting description",
-      "title": "Video Interactions Targeting",
+      "description": "Video-interaction targeting when disclosed.",
+      "title": "Video interactions",
       "type": "string"
+    },
+    "videoRenditions": {
+      "description": "Creative Center video URLs keyed by resolution (360p–1080p).",
+      "title": "Video renditions",
+      "type": "object"
+    },
+    "videoWidth": {
+      "description": "Creative Center video width in pixels.",
+      "title": "Video width",
+      "type": "integer"
     }
   },
   "title": "TikTok Ads",
   "views": {
+    "creativeCenter": {
+      "title": "Creative Center Top Ads",
+      "transformation": {
+        "fields": [
+          "adId",
+          "advertiserName",
+          "adTitle",
+          "ctr",
+          "likeCount",
+          "costTier",
+          "industryName",
+          "objectiveName",
+          "observedCountry",
+          "observedPeriod",
+          "adVideoUrl",
+          "adUrl"
+        ]
+      }
+    },
+    "detailed": {
+      "title": "Detailed ads",
+      "transformation": {
+        "fields": [
+          "adId",
+          "source",
+          "recordType",
+          "advertiserName",
+          "adTitle",
+          "adType",
+          "adFormat",
+          "adStartDate",
+          "adEndDate",
+          "daysActive",
+          "adImpressions",
+          "adImpressionsMin",
+          "adImpressionsMax",
+          "auditStatusLabel",
+          "ctaText",
+          "advertisingObjective",
+          "landingPageUrl",
+          "advertiserBusinessName",
+          "advertiserCountry",
+          "advertiserSponsor",
+          "targetAudienceSize",
+          "targetingCountries",
+          "adUrl"
+        ]
+      }
+    },
     "overview": {
       "display": {
         "component": "table",
         "properties": {
           "adEndDate": {
             "format": "text",
-            "label": "End Date"
+            "label": "Last shown"
           },
           "adId": {
             "format": "text",
@@ -263,15 +517,19 @@
           },
           "adImpressions": {
             "format": "text",
-            "label": "Impressions"
+            "label": "Unique users seen"
           },
           "adStartDate": {
             "format": "text",
-            "label": "Start Date"
+            "label": "First shown"
+          },
+          "adTitle": {
+            "format": "text",
+            "label": "Ad caption/title"
           },
           "adType": {
             "format": "text",
-            "label": "Ad Type"
+            "label": "Ad type"
           },
           "adUrl": {
             "format": "link",
@@ -281,9 +539,17 @@
             "format": "text",
             "label": "Advertiser"
           },
-          "daysActive": {
+          "ctr": {
             "format": "number",
-            "label": "Days Active"
+            "label": "CTR"
+          },
+          "likeCount": {
+            "format": "number",
+            "label": "Likes"
+          },
+          "source": {
+            "format": "text",
+            "label": "Source"
           }
         }
       },
@@ -291,12 +557,15 @@
       "transformation": {
         "fields": [
           "adId",
+          "source",
           "advertiserName",
+          "adTitle",
           "adType",
           "adImpressions",
           "adStartDate",
           "adEndDate",
-          "daysActive",
+          "ctr",
+          "likeCount",
           "adUrl"
         ]
       }

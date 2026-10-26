@@ -1,0 +1,142 @@
+{
+  "description": "Scrape comprehensive YouTube video details including metadata, channel info, transcripts, comments, and engagement metrics.",
+  "properties": {
+    "includeCards": {
+      "default": false,
+      "description": "Extract interactive info cards embedded in the video.",
+      "prefill": false,
+      "title": "Extract Info Cards",
+      "type": "boolean"
+    },
+    "includeChapters": {
+      "default": true,
+      "description": "Extract chapter markers from the video engagement panel or description timestamps.",
+      "prefill": true,
+      "title": "Extract Chapters",
+      "type": "boolean"
+    },
+    "includeEndscreen": {
+      "default": true,
+      "description": "Extract endscreen elements (suggested videos/channels/playlists shown at video end).",
+      "prefill": true,
+      "title": "Extract Endscreen",
+      "type": "boolean"
+    },
+    "includeRelatedVideos": {
+      "default": 0,
+      "description": "Number of related/suggested videos to extract from the watch page sidebar. 0 = skip.",
+      "maximum": 50,
+      "minimum": 0,
+      "title": "Max Related Videos",
+      "type": "integer"
+    },
+    "includeTranscriptMetadata": {
+      "default": true,
+      "description": "List available caption/transcript tracks (language codes, auto-generated flag). Does not fetch transcript text.",
+      "prefill": true,
+      "title": "List Caption Tracks",
+      "type": "boolean"
+    },
+    "maxComments": {
+      "default": 0,
+      "description": "Maximum number of comments to extract per video. Set to 0 to skip comment extraction.",
+      "editor": "number",
+      "maximum": 1000,
+      "minimum": 0,
+      "title": "Max Comments Per Video",
+      "type": "integer"
+    },
+    "proxyCountry": {
+      "default": "US",
+      "description": "Country for proxy routing. Useful for geo-blocked videos.",
+      "enum": [
+        "US",
+        "GB",
+        "CA",
+        "AU",
+        "DE",
+        "FR",
+        "JP",
+        "KR",
+        "BR",
+        "IN",
+        "MX",
+        "IT",
+        "ES",
+        "NL",
+        "PL",
+        "RU",
+        "SE",
+        "NO",
+        "DK",
+        "FI",
+        "ZA",
+        "SG",
+        "HK",
+        "TW",
+        "ID",
+        "MY",
+        "TH",
+        "PH",
+        "AR",
+        "CO",
+        "CL"
+      ],
+      "enumTitles": [
+        "United States",
+        "United Kingdom",
+        "Canada",
+        "Australia",
+        "Germany",
+        "France",
+        "Japan",
+        "South Korea",
+        "Brazil",
+        "India",
+        "Mexico",
+        "Italy",
+        "Spain",
+        "Netherlands",
+        "Poland",
+        "Russia",
+        "Sweden",
+        "Norway",
+        "Denmark",
+        "Finland",
+        "South Africa",
+        "Singapore",
+        "Hong Kong",
+        "Taiwan",
+        "Indonesia",
+        "Malaysia",
+        "Thailand",
+        "Philippines",
+        "Argentina",
+        "Colombia",
+        "Chile"
+      ],
+      "title": "Proxy Country",
+      "type": "string"
+    },
+    "videoUrls": {
+      "description": "YouTube video URLs, short links (youtu.be), shorts URLs, or plain video IDs.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "prefill": [
+        "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "https://www.youtube.com/watch?v=jNQXAC9IVRw"
+      ],
+      "title": "Video URLs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "videoUrls"
+  ],
+  "schemaVersion": 1,
+  "title": "YouTube Video Details Scraper Input",
+  "type": "object"
+}

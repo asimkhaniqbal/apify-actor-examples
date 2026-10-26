@@ -1,84 +1,879 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-GpeOAwsiTFUT3KHbWmM27+9+gBFzpka93MBOcM6AB2E=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>TikTok DSA Ads Transparency Library Scraper | Vexaloom Labs</title><meta name="description" content="Search TikTok&#x27;s EU/EEA ad transparency database by keyword, advertiser or ad ID. Get creative media, advertiser identity, impression buckets, audit status and per-region/age/gender"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/"><meta property="og:title" content="TikTok DSA Ads Transparency Library Scraper | Vexaloom Labs"><meta property="og:description" content="Search TikTok&#x27;s EU/EEA ad transparency database by keyword, advertiser or ad ID. Get creative media, advertiser identity, impression buckets, audit status and per-region/age/gender"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/#webpage","name":"TikTok DSA Ads Transparency Library Scraper","description":"Search TikTok's EU/EEA ad transparency database by keyword, advertiser or ad ID. Get creative media, advertiser identity, impression buckets, audit status and per-region/age/gender targeting.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/#article","headline":"TikTok DSA Ads Transparency Library Scraper","name":"TikTok DSA Ads Transparency Library Scraper","description":"Search TikTok's EU/EEA ad transparency database by keyword, advertiser or ad ID. Get creative media, advertiser identity, impression buckets, audit status and per-region/age/gender targeting.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"TikTok DSA Ads Transparency Library Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>TikTok DSA Ads Transparency Library Scraper</span></div><section id="overview"><h1 class="doc-title">TikTok DSA Ads Transparency Library Scraper</h1><p class="lede">Search TikTok&#x27;s EU/EEA ad transparency database by keyword, advertiser or ad ID. Get creative media, advertiser identity, impression buckets, audit status and per-region/age/gender targeting.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/tiktok-dsa-ads-transparency-library-scraper">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/rwSaNbXr5duaqxZWs/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>query</code></td><td>string</td><td>optional</td><td>Free-text query — company name, domain, or ad text. Leave empty to browse all recent ads.</td></tr><tr><td><code>adIds</code></td><td>array</td><td>optional</td><td>Direct list of TikTok ad IDs. Bypasses search and fetches each ad&#x27;s detail page directly.</td></tr><tr><td><code>advertiserName</code></td><td>string</td><td>optional</td><td>Filter by advertiser name (substring match).</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>query</code></td><td>string</td><td>optional</td><td>Free-text query — company name, domain, or ad text. Leave empty to browse all recent ads.</td></tr><tr><td><code>adIds</code></td><td>array</td><td>optional</td><td>Direct list of TikTok ad IDs. Bypasses search and fetches each ad&#x27;s detail page directly.</td></tr><tr><td><code>advertiserName</code></td><td>string</td><td>optional</td><td>Filter by advertiser name (substring match).</td></tr><tr><td><code>region</code></td><td>string</td><td>optional</td><td>TikTok ad region. The library covers EU/EEA + UK/CH/TR (DSA transparency). Use `all` for all-region search.</td></tr><tr><td><code>startDate</code></td><td>string</td><td>optional</td><td>Earliest ad start date. Default: 1 year ago.</td></tr><tr><td><code>endDate</code></td><td>string</td><td>optional</td><td>Latest ad end date. Default: today.</td></tr><tr><td><code>sortBy</code></td><td>string</td><td>optional</td><td>How to sort results.</td></tr><tr><td><code>quickSearch</code></td><td>boolean</td><td>optional</td><td>When true, skip the ad-detail fetch and only return data from the listing card. Faster but omits some fields (full targeting breakdown).</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Hard cap on emitted ads.</td></tr><tr><td><code>regionFilter</code></td><td>array</td><td>optional</td><td>Only emit ads that target one of these regions. Case-insensitive substring match against `targetingByLocation`.</td></tr><tr><td><code>minImpressions</code></td><td>integer</td><td>optional</td><td>Drop ads with fewer than this many impressions (numeric value parsed from TikTok&#x27;s bucket like `10K-100K`).</td></tr><tr><td><code>industryFilter</code></td><td>array</td><td>optional</td><td>Only emit ads whose advertiser industry contains one of these substrings.</td></tr><tr><td><code>languageFilter</code></td><td>array</td><td>optional</td><td>Only emit ads in these languages (matched case-insensitively against the `adLanguages` field, e.g. `en`, `de`, `fr`). Ads without a detected language are kept. Most effective with `quickSearch=false`.</td></tr><tr><td><code>ctaFilter</code></td><td>array</td><td>optional</td><td>Only emit ads whose call-to-action button text contains one of these substrings (case-insensitive — e.g. `Shop Now`, `Learn More`, `Sign Up`). Ads without a CTA are dropped. Requires `quickSearch=false` — CTA data is only available from the detail page.</td></tr><tr><td><code>useApifyProxy</code></td><td>boolean</td><td>optional</td><td>Route requests through Apify&#x27;s proxy pool (datacenter EU exit IPs). Recommended on cloud — avoids IP rate-limiting. The actor automatically rotates the proxy session on errors.</td></tr><tr><td><code>requestDelaySecs</code></td><td>integer</td><td>optional</td><td>Pause between successive API calls. Lower = faster runs but more rate-limit risk; higher = slower but more reliable. The actor still adds short backoff between retries automatically.</td></tr><tr><td><code>timezone</code></td><td>string</td><td>optional</td><td>IANA timezone for date-range bucketing (`startDate`/`endDate`). Default UTC.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;description&quot;: &quot;Scrape the public TikTok Ad Library transparency database.&quot;,
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-GpeOAwsiTFUT3KHbWmM27+9+gBFzpka93MBOcM6AB2E=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>TikTok DSA Ads Transparency Library Scraper | Vexaloom Labs</title><meta name="description" content="Search TikTok&#x27;s EU/EEA ad transparency database by keyword, advertiser or ad ID. Get creative media, advertiser identity, impression buckets, audit status and per-region/age/gender"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/"><meta property="og:title" content="TikTok DSA Ads Transparency Library Scraper | Vexaloom Labs"><meta property="og:description" content="Search TikTok&#x27;s EU/EEA ad transparency database by keyword, advertiser or ad ID. Get creative media, advertiser identity, impression buckets, audit status and per-region/age/gender"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/#webpage","name":"TikTok DSA Ads Transparency Library Scraper","description":"Search TikTok's EU/EEA ad transparency database by keyword, advertiser or ad ID. Get creative media, advertiser identity, impression buckets, audit status and per-region/age/gender targeting.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/#article","headline":"TikTok DSA Ads Transparency Library Scraper","name":"TikTok DSA Ads Transparency Library Scraper","description":"Search TikTok's EU/EEA ad transparency database by keyword, advertiser or ad ID. Get creative media, advertiser identity, impression buckets, audit status and per-region/age/gender targeting.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"TikTok DSA Ads Transparency Library Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>TikTok DSA Ads Transparency Library Scraper</span></div><section id="overview"><h1 class="doc-title">TikTok DSA Ads Transparency Library Scraper</h1><p class="lede">Search TikTok&#x27;s EU/EEA ad transparency database by keyword, advertiser or ad ID. Get creative media, advertiser identity, impression buckets, audit status and per-region/age/gender targeting.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/tiktok-dsa-ads-transparency-library-scraper">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/rwSaNbXr5duaqxZWs/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>`library` = TikTok DSA Commercial Content Library (EU/EEA/UK/CH/TR). `creativeCenter` = global Top Ads inspiration feed. `both` = run both and label every row with `source`.</td></tr><tr><td><code>keyword</code></td><td>string</td><td>optional</td><td>Search ads by keyword or advertiser name. Leave empty to browse recent ads in the selected region. (mode=library)</td></tr><tr><td><code>advertiserName</code></td><td>string</td><td>optional</td><td>Exact advertiser name as shown in the library, e.g. `NIKE Retail B.V.`. If the exact search finds nothing, the actor retries it as a keyword. (mode=library)</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>`library` = TikTok DSA Commercial Content Library (EU/EEA/UK/CH/TR). `creativeCenter` = global Top Ads inspiration feed. `both` = run both and label every row with `source`.</td></tr><tr><td><code>keyword</code></td><td>string</td><td>optional</td><td>Search ads by keyword or advertiser name. Leave empty to browse recent ads in the selected region. (mode=library)</td></tr><tr><td><code>advertiserName</code></td><td>string</td><td>optional</td><td>Exact advertiser name as shown in the library, e.g. `NIKE Retail B.V.`. If the exact search finds nothing, the actor retries it as a keyword. (mode=library)</td></tr><tr><td><code>advertiserId</code></td><td>string</td><td>optional</td><td>Optional TikTok business ID (`adv_biz_ids`) to disambiguate an advertiser search. Use it with the exact advertiser name. (mode=library)</td></tr><tr><td><code>adIds</code></td><td>array</td><td>optional</td><td>Direct list of TikTok ad IDs. Skips search and opens each ad&#x27;s detail page. (mode=library)</td></tr><tr><td><code>startUrls</code></td><td>array</td><td>optional</td><td>Paste TikTok library search or ad-detail URLs. Search URLs carry their own region, keyword/advertiser, dates and filters; detail URLs are read as ad IDs. (mode=library)</td></tr><tr><td><code>region</code></td><td>string</td><td>optional</td><td>TikTok DSA library covers EU/EEA countries plus the UK, Switzerland and Turkey. `all` searches the union (capped by TikTok), so split regions for deeper runs. (mode=library)</td></tr><tr><td><code>startDate</code></td><td>string</td><td>optional</td><td>Earliest last-shown date (`YYYY-MM-DD`). Default: one year ago. (mode=library)</td></tr><tr><td><code>endDate</code></td><td>string</td><td>optional</td><td>Latest last-shown date (`YYYY-MM-DD`). Default: today. (mode=library)</td></tr><tr><td><code>sortBy</code></td><td>string</td><td>optional</td><td>Result order. (mode=library)</td></tr><tr><td><code>adType</code></td><td>string</td><td>optional</td><td>Filter by creative type. (mode=library)</td></tr><tr><td><code>adStatus</code></td><td>string</td><td>optional</td><td>Active ads are still being shown; inactive ads have stopped. (mode=library)</td></tr><tr><td><code>age</code></td><td>array</td><td>optional</td><td>Only ads targeted at any of these age groups: `13-17`, `18-24`, `25-34`, `35-44`, `45-54`, `55+`. Leave empty for all ages. (mode=library)</td></tr><tr><td><code>gender</code></td><td>string</td><td>optional</td><td>Only ads targeted at this gender. (mode=library)</td></tr><tr><td><code>uniqueReach</code></td><td>string</td><td>optional</td><td>Filter by TikTok&#x27;s unique-users-seen band. (mode=library)</td></tr><tr><td><code>exactPhrase</code></td><td>boolean</td><td>optional</td><td>Treat the keyword as an exact phrase instead of individual words. (mode=library)</td></tr><tr><td><code>includeDetails</code></td><td>boolean</td><td>optional</td><td>Open each ad&#x27;s detail page for caption, CTA, landing page, advertiser identity and age/gender reach breakdown. Slower; recommended for smaller runs. (mode=library)</td></tr><tr><td><code>countOnly</code></td><td>boolean</td><td>optional</td><td>Return one summary row with the number of matching ads instead of collecting ads. (mode=library)</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum records to collect per source (1–5,000). TikTok caps a single library search at about 5,000 results.</td></tr><tr><td><code>ccCountry</code></td><td>string</td><td>optional</td><td>Creative Center market. (mode=creativeCenter or both)</td></tr><tr><td><code>ccPeriod</code></td><td>string</td><td>optional</td><td>Performance window for Creative Center. (mode=creativeCenter or both)</td></tr><tr><td><code>ccOrderBy</code></td><td>string</td><td>optional</td><td>How Creative Center ranks ads. (mode=creativeCenter or both)</td></tr><tr><td><code>ccObjective</code></td><td>string</td><td>optional</td><td>Campaign objective filter. (mode=creativeCenter or both)</td></tr><tr><td><code>ccIndustry</code></td><td>string</td><td>optional</td><td>Creative Center industry filter. 258 industries are available; leave `all` to sweep without an industry. (mode=creativeCenter or both)</td></tr><tr><td><code>ccLanguage</code></td><td>string</td><td>optional</td><td>Ad language filter. (mode=creativeCenter or both)</td></tr><tr><td><code>ccSweep</code></td><td>boolean</td><td>optional</td><td>Anonymous visitors see only 20 ads per filter combination. Sweeping periods, rankings, objectives and formats collects many more unique ads. (mode=creativeCenter or both)</td></tr><tr><td><code>ccIncludeDetails</code></td><td>boolean</td><td>optional</td><td>Fetch each ad&#x27;s landing page, comment and share counts. (mode=creativeCenter or both)</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Search the TikTok DSA ad library in 33 European markets and/or the global Creative Center Top Ads. No login, cookies or proxy setup needed.&quot;,
   &quot;properties&quot;: {
     &quot;adIds&quot;: {
       &quot;default&quot;: [],
-      &quot;description&quot;: &quot;Direct list of TikTok ad IDs. Bypasses search and fetches each ad&#x27;s detail page directly.&quot;,
+      &quot;description&quot;: &quot;Direct list of TikTok ad IDs. Skips search and opens each ad&#x27;s detail page. (mode=library)&quot;,
       &quot;editor&quot;: &quot;stringList&quot;,
       &quot;prefill&quot;: [],
-      &quot;title&quot;: &quot;Ad IDs (direct lookup)&quot;,
+      &quot;title&quot;: &quot;Ad IDs&quot;,
       &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;adStatus&quot;: {
+      &quot;default&quot;: &quot;active&quot;,
+      &quot;description&quot;: &quot;Active ads are still being shown; inactive ads have stopped. (mode=library)&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
+        &quot;active&quot;,
+        &quot;inactive&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All statuses&quot;,
+        &quot;Active&quot;,
+        &quot;Inactive&quot;
+      ],
+      &quot;prefill&quot;: &quot;active&quot;,
+      &quot;title&quot;: &quot;Ad status&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;adType&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;Filter by creative type. (mode=library)&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
+        &quot;video&quot;,
+        &quot;image&quot;,
+        &quot;text&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All ad types&quot;,
+        &quot;Video&quot;,
+        &quot;Image&quot;,
+        &quot;Text&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Ad type&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;advertiserId&quot;: {
+      &quot;description&quot;: &quot;Optional TikTok business ID (`adv_biz_ids`) to disambiguate an advertiser search. Use it with the exact advertiser name. (mode=library)&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Advertiser business ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
     },
     &quot;advertiserName&quot;: {
-      &quot;description&quot;: &quot;Filter by advertiser name (substring match).&quot;,
+      &quot;description&quot;: &quot;Exact advertiser name as shown in the library, e.g. `NIKE Retail B.V.`. If the exact search finds nothing, the actor retries it as a keyword. (mode=library)&quot;,
       &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;title&quot;: &quot;Advertiser name&quot;,
+      &quot;title&quot;: &quot;Exact advertiser name&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
-    &quot;ctaFilter&quot;: {
+    &quot;age&quot;: {
       &quot;default&quot;: [],
-      &quot;description&quot;: &quot;Only emit ads whose call-to-action button text contains one of these substrings (case-insensitive — e.g. `Shop Now`, `Learn More`, `Sign Up`). Ads without a CTA are dropped. Requires `quickSearch=false` — CTA data is only available from the detail page.&quot;,
+      &quot;description&quot;: &quot;Only ads targeted at any of these age groups: `13-17`, `18-24`, `25-34`, `35-44`, `45-54`, `55+`. Leave empty for all ages. (mode=library)&quot;,
       &quot;editor&quot;: &quot;stringList&quot;,
       &quot;prefill&quot;: [],
-      &quot;title&quot;: &quot;CTA filter (Pro)&quot;,
+      &quot;title&quot;: &quot;Audience age&quot;,
       &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;ccCountry&quot;: {
+      &quot;default&quot;: &quot;US&quot;,
+      &quot;description&quot;: &quot;Creative Center market. (mode=creativeCenter or both)&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;AR&quot;,
+        &quot;AU&quot;,
+        &quot;BR&quot;,
+        &quot;CA&quot;,
+        &quot;CO&quot;,
+        &quot;FR&quot;,
+        &quot;DE&quot;,
+        &quot;ID&quot;,
+        &quot;IT&quot;,
+        &quot;JP&quot;,
+        &quot;MY&quot;,
+        &quot;MX&quot;,
+        &quot;NL&quot;,
+        &quot;PK&quot;,
+        &quot;PH&quot;,
+        &quot;RO&quot;,
+        &quot;SA&quot;,
+        &quot;SG&quot;,
+        &quot;ZA&quot;,
+        &quot;KR&quot;,
+        &quot;ES&quot;,
+        &quot;SE&quot;,
+        &quot;TH&quot;,
+        &quot;TR&quot;,
+        &quot;AE&quot;,
+        &quot;GB&quot;,
+        &quot;US&quot;,
+        &quot;VN&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Argentina&quot;,
+        &quot;Australia&quot;,
+        &quot;Brazil&quot;,
+        &quot;Canada&quot;,
+        &quot;Colombia&quot;,
+        &quot;France&quot;,
+        &quot;Germany&quot;,
+        &quot;Indonesia&quot;,
+        &quot;Italy&quot;,
+        &quot;Japan&quot;,
+        &quot;Malaysia&quot;,
+        &quot;Mexico&quot;,
+        &quot;Netherlands&quot;,
+        &quot;Pakistan&quot;,
+        &quot;Philippines&quot;,
+        &quot;Romania&quot;,
+        &quot;Saudi Arabia&quot;,
+        &quot;Singapore&quot;,
+        &quot;South Africa&quot;,
+        &quot;South Korea&quot;,
+        &quot;Spain&quot;,
+        &quot;Sweden&quot;,
+        &quot;Thailand&quot;,
+        &quot;Turkey&quot;,
+        &quot;United Arab Emirates&quot;,
+        &quot;United Kingdom&quot;,
+        &quot;United States&quot;,
+        &quot;Vietnam&quot;
+      ],
+      &quot;prefill&quot;: &quot;US&quot;,
+      &quot;title&quot;: &quot;Top Ads country&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;ccIncludeDetails&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Fetch each ad&#x27;s landing page, comment and share counts. (mode=creativeCenter or both)&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Fetch Top Ads details&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;ccIndustry&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;Creative Center industry filter. 258 industries are available; leave `all` to sweep without an industry. (mode=creativeCenter or both)&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
+        &quot;label_11105000000&quot;,
+        &quot;label_18110000000&quot;,
+        &quot;label_25300000000&quot;,
+        &quot;label_22000000000&quot;,
+        &quot;label_24118000000&quot;,
+        &quot;label_23113000000&quot;,
+        &quot;label_23124000000&quot;,
+        &quot;label_20112000000&quot;,
+        &quot;label_24112000000&quot;,
+        &quot;label_18101000000&quot;,
+        &quot;label_19105000000&quot;,
+        &quot;label_14105000000&quot;,
+        &quot;label_20104000000&quot;,
+        &quot;label_27104000000&quot;,
+        &quot;label_25302000000&quot;,
+        &quot;label_12104000000&quot;,
+        &quot;label_15101000000&quot;,
+        &quot;label_24113000000&quot;,
+        &quot;label_18107000000&quot;,
+        &quot;label_23130000000&quot;,
+        &quot;label_26000000000&quot;,
+        &quot;label_15000000000&quot;,
+        &quot;label_17106000000&quot;,
+        &quot;label_19100000000&quot;,
+        &quot;label_23102000000&quot;,
+        &quot;label_25303000000&quot;,
+        &quot;label_19102000000&quot;,
+        &quot;label_23127000000&quot;,
+        &quot;label_13111000000&quot;,
+        &quot;label_14101000000&quot;,
+        &quot;label_24100000000&quot;,
+        &quot;label_26107000000&quot;,
+        &quot;label_23128000000&quot;,
+        &quot;label_20109000000&quot;,
+        &quot;label_24103000000&quot;,
+        &quot;label_20101000000&quot;,
+        &quot;label_13110000000&quot;,
+        &quot;label_25308000000&quot;,
+        &quot;label_21999000000&quot;,
+        &quot;label_22109000000&quot;,
+        &quot;label_20999000000&quot;,
+        &quot;label_27101000000&quot;,
+        &quot;label_28101000000&quot;,
+        &quot;label_13108000000&quot;,
+        &quot;label_23107000000&quot;,
+        &quot;label_11999000000&quot;,
+        &quot;label_23133000000&quot;,
+        &quot;label_21104000000&quot;,
+        &quot;label_11107000000&quot;,
+        &quot;label_16102000000&quot;,
+        &quot;label_15106000000&quot;,
+        &quot;label_24119000000&quot;,
+        &quot;label_18100000000&quot;,
+        &quot;label_13101000000&quot;,
+        &quot;label_11110000000&quot;,
+        &quot;label_22112000000&quot;,
+        &quot;label_24117000000&quot;,
+        &quot;label_26100000000&quot;,
+        &quot;label_28000000000&quot;,
+        &quot;label_23112000000&quot;,
+        &quot;label_10000000000&quot;,
+        &quot;label_10100000000&quot;,
+        &quot;label_12101000000&quot;,
+        &quot;label_23100000000&quot;,
+        &quot;label_25304000000&quot;,
+        &quot;label_23132000000&quot;,
+        &quot;label_30000000000&quot;,
+        &quot;label_11109000000&quot;,
+        &quot;label_14100000000&quot;,
+        &quot;label_18000000000&quot;,
+        &quot;label_11104000000&quot;,
+        &quot;label_11106000000&quot;,
+        &quot;label_23122000000&quot;,
+        &quot;label_10104000000&quot;,
+        &quot;label_12109000000&quot;,
+        &quot;label_20108000000&quot;,
+        &quot;label_26113000000&quot;,
+        &quot;label_15107000000&quot;,
+        &quot;label_16105000000&quot;,
+        &quot;label_21102000000&quot;,
+        &quot;label_26109000000&quot;,
+        &quot;label_23125000000&quot;,
+        &quot;label_27000000000&quot;,
+        &quot;label_19101000000&quot;,
+        &quot;label_24110000000&quot;,
+        &quot;label_30102000000&quot;,
+        &quot;label_25311000000&quot;,
+        &quot;label_11100000000&quot;,
+        &quot;label_17103000000&quot;,
+        &quot;label_17105000000&quot;,
+        &quot;label_22101000000&quot;,
+        &quot;label_23117000000&quot;,
+        &quot;label_10101000000&quot;,
+        &quot;label_20100000000&quot;,
+        &quot;label_13114000000&quot;,
+        &quot;label_23000000000&quot;,
+        &quot;label_29999000000&quot;,
+        &quot;label_10105000000&quot;,
+        &quot;label_13100000000&quot;,
+        &quot;label_20000000000&quot;,
+        &quot;label_24102000000&quot;,
+        &quot;label_10106000000&quot;,
+        &quot;label_16100000000&quot;,
+        &quot;label_24101000000&quot;,
+        &quot;label_23103000000&quot;,
+        &quot;label_12106000000&quot;,
+        &quot;label_25310000000&quot;,
+        &quot;label_16000000000&quot;,
+        &quot;label_23126000000&quot;,
+        &quot;label_26101000000&quot;,
+        &quot;label_14999000000&quot;,
+        &quot;label_15105000000&quot;,
+        &quot;label_20102000000&quot;,
+        &quot;label_23110000000&quot;,
+        &quot;label_26102000000&quot;,
+        &quot;label_10999000000&quot;,
+        &quot;label_15100000000&quot;,
+        &quot;label_23116000000&quot;,
+        &quot;label_23118000000&quot;,
+        &quot;label_24109000000&quot;,
+        &quot;label_25313000000&quot;,
+        &quot;label_23123000000&quot;,
+        &quot;label_13999000000&quot;,
+        &quot;label_25312000000&quot;,
+        &quot;label_24116000000&quot;,
+        &quot;label_26104000000&quot;,
+        &quot;label_25305000000&quot;,
+        &quot;label_17000000000&quot;,
+        &quot;label_26105000000&quot;,
+        &quot;label_14106000000&quot;,
+        &quot;label_11101000000&quot;,
+        &quot;label_19000000000&quot;,
+        &quot;label_25999000000&quot;,
+        &quot;label_25306000000&quot;,
+        &quot;label_27103000000&quot;,
+        &quot;label_12108000000&quot;,
+        &quot;label_13113000000&quot;,
+        &quot;label_25000000000&quot;,
+        &quot;label_13117000000&quot;,
+        &quot;label_22107000000&quot;,
+        &quot;label_26114000000&quot;,
+        &quot;label_23101000000&quot;,
+        &quot;label_16999000000&quot;,
+        &quot;label_20106000000&quot;,
+        &quot;label_14104000000&quot;,
+        &quot;label_21100000000&quot;,
+        &quot;label_11112000000&quot;,
+        &quot;label_21103000000&quot;,
+        &quot;label_11102000000&quot;,
+        &quot;label_23114000000&quot;,
+        &quot;label_12107000000&quot;,
+        &quot;label_30101000000&quot;,
+        &quot;label_23134000000&quot;,
+        &quot;label_26106000000&quot;,
+        &quot;label_11111000000&quot;,
+        &quot;label_18106000000&quot;,
+        &quot;label_25309000000&quot;,
+        &quot;label_18111000000&quot;,
+        &quot;label_13104000000&quot;,
+        &quot;label_13109000000&quot;,
+        &quot;label_22106000000&quot;,
+        &quot;label_18112000000&quot;,
+        &quot;label_20107000000&quot;,
+        &quot;label_10103000000&quot;,
+        &quot;label_29101000000&quot;,
+        &quot;label_15102000000&quot;,
+        &quot;label_13102000000&quot;,
+        &quot;label_21105000000&quot;,
+        &quot;label_23131000000&quot;,
+        &quot;label_24114000000&quot;,
+        &quot;label_11000000000&quot;,
+        &quot;label_21101000000&quot;,
+        &quot;label_23108000000&quot;,
+        &quot;label_26108000000&quot;,
+        &quot;label_19104000000&quot;,
+        &quot;label_11108000000&quot;,
+        &quot;label_14102000000&quot;,
+        &quot;label_18104000000&quot;,
+        &quot;label_28100000000&quot;,
+        &quot;label_23115000000&quot;,
+        &quot;label_12103000000&quot;,
+        &quot;label_13116000000&quot;,
+        &quot;label_16104000000&quot;,
+        &quot;label_25301000000&quot;,
+        &quot;label_24108000000&quot;,
+        &quot;label_24120000000&quot;,
+        &quot;label_22111000000&quot;,
+        &quot;label_13103000000&quot;,
+        &quot;label_18108000000&quot;,
+        &quot;label_23105000000&quot;,
+        &quot;label_26103000000&quot;,
+        &quot;label_12999000000&quot;,
+        &quot;label_22113000000&quot;,
+        &quot;label_27999000000&quot;,
+        &quot;label_24999000000&quot;,
+        &quot;label_13112000000&quot;,
+        &quot;label_29102000000&quot;,
+        &quot;label_19106000000&quot;,
+        &quot;label_24104000000&quot;,
+        &quot;label_24107000000&quot;,
+        &quot;label_23104000000&quot;,
+        &quot;label_14107000000&quot;,
+        &quot;label_23119000000&quot;,
+        &quot;label_27102000000&quot;,
+        &quot;label_12102000000&quot;,
+        &quot;label_20103000000&quot;,
+        &quot;label_20111000000&quot;,
+        &quot;label_16101000000&quot;,
+        &quot;label_13000000000&quot;,
+        &quot;label_22102000000&quot;,
+        &quot;label_26111000000&quot;,
+        &quot;label_26999000000&quot;,
+        &quot;label_12000000000&quot;,
+        &quot;label_20110000000&quot;,
+        &quot;label_13107000000&quot;,
+        &quot;label_23109000000&quot;,
+        &quot;label_19103000000&quot;,
+        &quot;label_18102000000&quot;,
+        &quot;label_24106000000&quot;,
+        &quot;label_27100000000&quot;,
+        &quot;label_12105000000&quot;,
+        &quot;label_23111000000&quot;,
+        &quot;label_23106000000&quot;,
+        &quot;label_24000000000&quot;,
+        &quot;label_18103000000&quot;,
+        &quot;label_18109000000&quot;,
+        &quot;label_19999000000&quot;,
+        &quot;label_15104000000&quot;,
+        &quot;label_18999000000&quot;,
+        &quot;label_26112000000&quot;,
+        &quot;label_13105000000&quot;,
+        &quot;label_13115000000&quot;,
+        &quot;label_18105000000&quot;,
+        &quot;label_22105000000&quot;,
+        &quot;label_22108000000&quot;,
+        &quot;label_11103000000&quot;,
+        &quot;label_24115000000&quot;,
+        &quot;label_29103000000&quot;,
+        &quot;label_12100000000&quot;,
+        &quot;label_17999000000&quot;,
+        &quot;label_14000000000&quot;,
+        &quot;label_21000000000&quot;,
+        &quot;label_22999000000&quot;,
+        &quot;label_15999000000&quot;,
+        &quot;label_23129000000&quot;,
+        &quot;label_24111000000&quot;,
+        &quot;label_20105000000&quot;,
+        &quot;label_25307000000&quot;,
+        &quot;label_23999000000&quot;,
+        &quot;label_24105000000&quot;,
+        &quot;label_12110000000&quot;,
+        &quot;label_10102000000&quot;,
+        &quot;label_15103000000&quot;,
+        &quot;label_30100000000&quot;,
+        &quot;label_14103000000&quot;,
+        &quot;label_29000000000&quot;,
+        &quot;label_29100000000&quot;,
+        &quot;label_22110000000&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All industries&quot;,
+        &quot;Used Cars&quot;,
+        &quot;Cleaning Supplies&quot;,
+        &quot;Hyper-Casual&quot;,
+        &quot;Apparel &amp; Accessories&quot;,
+        &quot;Auction Services&quot;,
+        &quot;Anime&quot;,
+        &quot;Food &amp; Cooking&quot;,
+        &quot;Utilities&quot;,
+        &quot;Marketing &amp; Advertising&quot;,
+        &quot;Daily Essentials&quot;,
+        &quot;Pet Toys&quot;,
+        &quot;Aesthetic Medicine&quot;,
+        &quot;Education&quot;,
+        &quot;Cooking &amp; Recipes&quot;,
+        &quot;Casino&quot;,
+        &quot;Baby Bedding&quot;,
+        &quot;Computers&quot;,
+        &quot;Professional Consultation&quot;,
+        &quot;Tissues &amp; Wet Wipes&quot;,
+        &quot;Real Estate Information&quot;,
+        &quot;Life Services&quot;,
+        &quot;Tech &amp; Electronics&quot;,
+        &quot;Travel Agencies &amp; Services&quot;,
+        &quot;Petfood&quot;,
+        &quot;Business &amp; Economy&quot;,
+        &quot;Match&quot;,
+        &quot;Pet Household Products&quot;,
+        &quot;General Information&quot;,
+        &quot;Loan Services&quot;,
+        &quot;Haircare&quot;,
+        &quot;Real Estate &amp; Home Rentals&quot;,
+        &quot;Used Good Sales Platforms&quot;,
+        &quot;E-commerce Information&quot;,
+        &quot;Health &amp; Fitness&quot;,
+        &quot;Constructional Engineering&quot;,
+        &quot;Audio &amp; Video Players&quot;,
+        &quot;Investment Advisory&quot;,
+        &quot;Simulation&quot;,
+        &quot;Other Home Improvement&quot;,
+        &quot;Men&#x27;s Shoes&quot;,
+        &quot;Other Apps&quot;,
+        &quot;Food &amp; Fresh Produce&quot;,
+        &quot;Sports &amp; Equipment&quot;,
+        &quot;Credit Bureaus&quot;,
+        &quot;Environmental Protection&quot;,
+        &quot;Other Vehicle &amp; Transportation&quot;,
+        &quot;Tourist Information&quot;,
+        &quot;Home Decor&quot;,
+        &quot;Bicycles&quot;,
+        &quot;Large Appliances&quot;,
+        &quot;Network Products&quot;,
+        &quot;Investment Planning &amp; Management&quot;,
+        &quot;Storage Products&quot;,
+        &quot;Securities&quot;,
+        &quot;Airplanes&quot;,
+        &quot;Traditional &amp; Ceremonial Clothing&quot;,
+        &quot;Legal Services&quot;,
+        &quot;Wedding Photography&quot;,
+        &quot;Sports &amp; Outdoor&quot;,
+        &quot;TV Drama &amp; Series&quot;,
+        &quot;Education&quot;,
+        &quot;Early Childhood &amp; Preschool Education&quot;,
+        &quot;Strollers &amp; Cribs&quot;,
+        &quot;Military&quot;,
+        &quot;Puzzle&quot;,
+        &quot;Streaming Site&quot;,
+        &quot;E-Commerce (Non-app)&quot;,
+        &quot;Water Vehicles&quot;,
+        &quot;Oral Care&quot;,
+        &quot;Household Products&quot;,
+        &quot;Car Rentals&quot;,
+        &quot;Motorcycles&quot;,
+        &quot;Beauty &amp; Personal Care&quot;,
+        &quot;Vocational Training&quot;,
+        &quot;Children&#x27;s Apparel&quot;,
+        &quot;Travel&quot;,
+        &quot;Exercise &amp; Fitness&quot;,
+        &quot;Office Equipment&quot;,
+        &quot;Digital Devices&quot;,
+        &quot;Construction Materials &amp; Lighting&quot;,
+        &quot;Utilities Payments&quot;,
+        &quot;Games &amp; Utility Software&quot;,
+        &quot;Food &amp; Beverage&quot;,
+        &quot;Pet Healthcare&quot;,
+        &quot;Safety &amp; Security&quot;,
+        &quot;Large E-commerce Platforms&quot;,
+        &quot;Party&quot;,
+        &quot;Automobiles&quot;,
+        &quot;Hotels &amp; Accommodation&quot;,
+        &quot;Tours &amp; Attractions&quot;,
+        &quot;Clothing Accessories&quot;,
+        &quot;TV Variety Shows&quot;,
+        &quot;Primary &amp; Secondary Education &amp; K-12&quot;,
+        &quot;Social&quot;,
+        &quot;Third-Party Payments&quot;,
+        &quot;News &amp; Entertainment&quot;,
+        &quot;Other Health&quot;,
+        &quot;Language Training&quot;,
+        &quot;Commercial Banks&quot;,
+        &quot;Apps&quot;,
+        &quot;Recruitment &amp; Job Searching&quot;,
+        &quot;Non-academic Training (Hobbies)&quot;,
+        &quot;Personal Care Appliances&quot;,
+        &quot;Office Equipment &amp; Supplies&quot;,
+        &quot;Science &amp; Technology&quot;,
+        &quot;Toys for Kids&quot;,
+        &quot;Strategy&quot;,
+        &quot;Appliances&quot;,
+        &quot;Car Information&quot;,
+        &quot;Photography&quot;,
+        &quot;Other Beauty &amp; Personal Care&quot;,
+        &quot;Computer Accessories&quot;,
+        &quot;News &amp; Reading&quot;,
+        &quot;Live Events&quot;,
+        &quot;Dating &amp; Matchmaking Services&quot;,
+        &quot;Other Education&quot;,
+        &quot;Cell Phones&quot;,
+        &quot;Culture &amp; Art&quot;,
+        &quot;Reading&quot;,
+        &quot;Energy Conservation &amp; Environmental Protection&quot;,
+        &quot;Kids&quot;,
+        &quot;Sports &amp; Fitness&quot;,
+        &quot;Other Financial Services&quot;,
+        &quot;Tabletop&quot;,
+        &quot;IT Services&quot;,
+        &quot;Gifts &amp; Flowers&quot;,
+        &quot;Racing&quot;,
+        &quot;Travel&quot;,
+        &quot;Housekeeping&quot;,
+        &quot;Fragrances &amp; Perfumes&quot;,
+        &quot;Auto Accessories&quot;,
+        &quot;Pets&quot;,
+        &quot;Other&quot;,
+        &quot;RPG&quot;,
+        &quot;Alcoholic Beverages&quot;,
+        &quot;Baby Feeding Supplies&quot;,
+        &quot;Precious Metals&quot;,
+        &quot;Games&quot;,
+        &quot;Credit Cards&quot;,
+        &quot;High-end Jewelry&quot;,
+        &quot;Beauty &amp; Personal Care&quot;,
+        &quot;Politics&quot;,
+        &quot;Other Appliances&quot;,
+        &quot;Financial Services&quot;,
+        &quot;Cosmetics&quot;,
+        &quot;Interior Design &amp; Decorating Services&quot;,
+        &quot;Car Dealerships&quot;,
+        &quot;Hardware &amp; Electrical&quot;,
+        &quot;Auto Services&quot;,
+        &quot;Astrology&quot;,
+        &quot;Child Car Seats&quot;,
+        &quot;Small &amp; Medium-sized E-commerce Platforms&quot;,
+        &quot;Social Media Account Promotion&quot;,
+        &quot;Shopping Services&quot;,
+        &quot;Accessories for 2/3-Wheeled Vehicles&quot;,
+        &quot;Cleaning Appliances&quot;,
+        &quot;Sports&quot;,
+        &quot;Toys&quot;,
+        &quot;Guarantees&quot;,
+        &quot;Microfinance Companies&quot;,
+        &quot;Ordinary Jewelry&quot;,
+        &quot;Pest Control&quot;,
+        &quot;Life &amp; Leisure&quot;,
+        &quot;Overseas Education&quot;,
+        &quot;Medical Information&quot;,
+        &quot;Computers Components&quot;,
+        &quot;Insurance&quot;,
+        &quot;Power Strips &amp; Socket&quot;,
+        &quot;Relationship Information&quot;,
+        &quot;Exhibition Services&quot;,
+        &quot;Vehicle &amp; Transportation&quot;,
+        &quot;Furniture&quot;,
+        &quot;Celebrities &amp; Gossip&quot;,
+        &quot;Gardening&quot;,
+        &quot;Pet Treats&quot;,
+        &quot;Electric Scooters&quot;,
+        &quot;Wig &amp; Hair Styling&quot;,
+        &quot;Coffee Accessories&quot;,
+        &quot;Outdoor Equipment&quot;,
+        &quot;Humor&quot;,
+        &quot;Diapers &amp; Baby Wipes&quot;,
+        &quot;Cryptocurrencies&quot;,
+        &quot;Home Appliances&quot;,
+        &quot;Action&quot;,
+        &quot;Agriculture, Forestry, Animal Husbandry &amp; Fishing&quot;,
+        &quot;Individual Entrepreneurship&quot;,
+        &quot;Women&#x27;s Shoes&quot;,
+        &quot;Trusts&quot;,
+        &quot;Laundry&quot;,
+        &quot;Charity &amp; Public Welfare&quot;,
+        &quot;Wedding Celebrations&quot;,
+        &quot;Other Baby, Kids &amp; Maternity&quot;,
+        &quot;Wearable Tech Devices&quot;,
+        &quot;Other Food &amp; Beverage&quot;,
+        &quot;Other Business Services&quot;,
+        &quot;Foreign Exchange Transactions&quot;,
+        &quot;Dietary Supplements&quot;,
+        &quot;Pet Travel Accessories&quot;,
+        &quot;Electronics &amp; Electrical&quot;,
+        &quot;Franchising&quot;,
+        &quot;Culture &amp; History&quot;,
+        &quot;Feminine Care&quot;,
+        &quot;Movies&quot;,
+        &quot;Non-alcoholic Beverages&quot;,
+        &quot;Baby Formula&quot;,
+        &quot;Photography&quot;,
+        &quot;Parenting&quot;,
+        &quot;Kitchen &amp; Bathroom Appliances&quot;,
+        &quot;Financial Services&quot;,
+        &quot;Bags&quot;,
+        &quot;Internet Services&quot;,
+        &quot;Other Life Services&quot;,
+        &quot;Baby, Kids &amp; Maternity&quot;,
+        &quot;Business &amp; Productivity&quot;,
+        &quot;Funds&quot;,
+        &quot;Lifestyle News&quot;,
+        &quot;Pet Grooming&quot;,
+        &quot;Glasses &amp; Drinkware&quot;,
+        &quot;Machinery &amp; Equipment&quot;,
+        &quot;Cuisine&quot;,
+        &quot;Baby Shoes&quot;,
+        &quot;Collectables &amp; Antiques&quot;,
+        &quot;Law&quot;,
+        &quot;Business Services&quot;,
+        &quot;Tea Sets&quot;,
+        &quot;Leather Care&quot;,
+        &quot;Other Pets&quot;,
+        &quot;Gaming Devices&quot;,
+        &quot;Other Household Products&quot;,
+        &quot;Consumer Services&quot;,
+        &quot;Pawn Shops&quot;,
+        &quot;Crowd Funding&quot;,
+        &quot;Kitchen Accessories&quot;,
+        &quot;Watches&quot;,
+        &quot;Men&#x27;s Clothing&quot;,
+        &quot;Auto Parts&quot;,
+        &quot;Service Outsourcing&quot;,
+        &quot;Medicine&quot;,
+        &quot;Baby Food&quot;,
+        &quot;Other Travel&quot;,
+        &quot;Beauty &amp; Personal Care&quot;,
+        &quot;Home Improvement&quot;,
+        &quot;Other Apparel &amp; Accessories&quot;,
+        &quot;Other Tech &amp; Electronics&quot;,
+        &quot;Pet Information&quot;,
+        &quot;Logistics&quot;,
+        &quot;Online Shopping&quot;,
+        &quot;Shooting&quot;,
+        &quot;Other News &amp; Entertainment&quot;,
+        &quot;Chemical Materials&quot;,
+        &quot;Baby Hygiene Products&quot;,
+        &quot;Higher Education&quot;,
+        &quot;Computer Repair&quot;,
+        &quot;Big Box Retailers&quot;,
+        &quot;Skincare&quot;,
+        &quot;Health&quot;,
+        &quot;Medical Services&quot;,
+        &quot;Women&#x27;s Clothing&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Top Ads industry&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;ccLanguage&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;Ad language filter. (mode=creativeCenter or both)&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
+        &quot;en&quot;,
+        &quot;es&quot;,
+        &quot;ar&quot;,
+        &quot;vi&quot;,
+        &quot;th&quot;,
+        &quot;de&quot;,
+        &quot;id&quot;,
+        &quot;pt&quot;,
+        &quot;fr&quot;,
+        &quot;ms&quot;,
+        &quot;nl&quot;,
+        &quot;ja&quot;,
+        &quot;it&quot;,
+        &quot;ro&quot;,
+        &quot;zh-Hant&quot;,
+        &quot;ko&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All languages&quot;,
+        &quot;English&quot;,
+        &quot;Spanish&quot;,
+        &quot;Arabic&quot;,
+        &quot;Vietnamese&quot;,
+        &quot;Thai&quot;,
+        &quot;German&quot;,
+        &quot;Indonesian&quot;,
+        &quot;Portuguese&quot;,
+        &quot;French&quot;,
+        &quot;Malay&quot;,
+        &quot;Dutch&quot;,
+        &quot;Japanese&quot;,
+        &quot;Italian&quot;,
+        &quot;Romanian&quot;,
+        &quot;Chinese (Traditional)&quot;,
+        &quot;Korean&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Top Ads language&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;ccObjective&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;Campaign objective filter. (mode=creativeCenter or both)&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
+        &quot;1&quot;,
+        &quot;2&quot;,
+        &quot;3&quot;,
+        &quot;4&quot;,
+        &quot;5&quot;,
+        &quot;8&quot;,
+        &quot;15&quot;,
+        &quot;16&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All objectives&quot;,
+        &quot;Traffic&quot;,
+        &quot;App Installs&quot;,
+        &quot;Conversions&quot;,
+        &quot;Video Views&quot;,
+        &quot;Reach&quot;,
+        &quot;Lead Generation&quot;,
+        &quot;Product sales&quot;,
+        &quot;App Promotion&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Top Ads objective&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;ccOrderBy&quot;: {
+      &quot;default&quot;: &quot;for_you&quot;,
+      &quot;description&quot;: &quot;How Creative Center ranks ads. (mode=creativeCenter or both)&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;for_you&quot;,
+        &quot;ctr&quot;,
+        &quot;like&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;For You&quot;,
+        &quot;Click-through rate&quot;,
+        &quot;Likes&quot;
+      ],
+      &quot;prefill&quot;: &quot;for_you&quot;,
+      &quot;title&quot;: &quot;Top Ads ranking&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;ccPeriod&quot;: {
+      &quot;default&quot;: &quot;30&quot;,
+      &quot;description&quot;: &quot;Performance window for Creative Center. (mode=creativeCenter or both)&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;7&quot;,
+        &quot;30&quot;,
+        &quot;180&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Last 7 days&quot;,
+        &quot;Last 30 days&quot;,
+        &quot;Last 180 days&quot;
+      ],
+      &quot;prefill&quot;: &quot;30&quot;,
+      &quot;title&quot;: &quot;Top Ads period&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;ccSweep&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Anonymous visitors see only 20 ads per filter combination. Sweeping periods, rankings, objectives and formats collects many more unique ads. (mode=creativeCenter or both)&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Sweep Top Ads filters&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;countOnly&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Return one summary row with the number of matching ads instead of collecting ads. (mode=library)&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Count only&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
     },
     &quot;endDate&quot;: {
-      &quot;description&quot;: &quot;Latest ad end date. Default: today.&quot;,
+      &quot;description&quot;: &quot;Latest last-shown date (`YYYY-MM-DD`). Default: today. (mode=library)&quot;,
       &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;title&quot;: &quot;End date (YYYY-MM-DD)&quot;,
+      &quot;title&quot;: &quot;Last shown to&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
-    &quot;industryFilter&quot;: {
-      &quot;default&quot;: [],
-      &quot;description&quot;: &quot;Only emit ads whose advertiser industry contains one of these substrings.&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;prefill&quot;: [],
-      &quot;title&quot;: &quot;Industry filter (Pro)&quot;,
-      &quot;type&quot;: &quot;array&quot;
+    &quot;exactPhrase&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Treat the keyword as an exact phrase instead of individual words. (mode=library)&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Exact phrase&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
     },
-    &quot;languageFilter&quot;: {
-      &quot;default&quot;: [],
-      &quot;description&quot;: &quot;Only emit ads in these languages (matched case-insensitively against the `adLanguages` field, e.g. `en`, `de`, `fr`). Ads without a detected language are kept. Most effective with `quickSearch=false`.&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;prefill&quot;: [],
-      &quot;title&quot;: &quot;Language filter (Pro)&quot;,
-      &quot;type&quot;: &quot;array&quot;
+    &quot;gender&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;Only ads targeted at this gender. (mode=library)&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
+        &quot;female&quot;,
+        &quot;male&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All genders&quot;,
+        &quot;Female&quot;,
+        &quot;Male&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Audience gender&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;includeDetails&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Open each ad&#x27;s detail page for caption, CTA, landing page, advertiser identity and age/gender reach breakdown. Slower; recommended for smaller runs. (mode=library)&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Fetch ad details&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;keyword&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Search ads by keyword or advertiser name. Leave empty to browse recent ads in the selected region. (mode=library)&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;Nike&quot;,
+      &quot;title&quot;: &quot;Keyword&quot;,
+      &quot;type&quot;: &quot;string&quot;
     },
     &quot;maxItems&quot;: {
-      &quot;default&quot;: 10,
-      &quot;description&quot;: &quot;Hard cap on emitted ads.&quot;,
+      &quot;default&quot;: 50,
+      &quot;description&quot;: &quot;Maximum records to collect per source (1–5,000). TikTok caps a single library search at about 5,000 results.&quot;,
       &quot;maximum&quot;: 5000,
       &quot;minimum&quot;: 1,
-      &quot;prefill&quot;: 10,
+      &quot;prefill&quot;: 3,
       &quot;title&quot;: &quot;Max items&quot;,
       &quot;type&quot;: &quot;integer&quot;
     },
-    &quot;minImpressions&quot;: {
-      &quot;description&quot;: &quot;Drop ads with fewer than this many impressions (numeric value parsed from TikTok&#x27;s bucket like `10K-100K`).&quot;,
-      &quot;maximum&quot;: 1000000000,
-      &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Min impressions (Pro)&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;query&quot;: {
-      &quot;default&quot;: &quot;&quot;,
-      &quot;description&quot;: &quot;Free-text query — company name, domain, or ad text. Leave empty to browse all recent ads.&quot;,
-      &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;prefill&quot;: &quot;technology&quot;,
-      &quot;title&quot;: &quot;Search query&quot;,
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;library&quot;,
+      &quot;description&quot;: &quot;`library` = TikTok DSA Commercial Content Library (EU/EEA/UK/CH/TR). `creativeCenter` = global Top Ads inspiration feed. `both` = run both and label every row with `source`.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;library&quot;,
+        &quot;creativeCenter&quot;,
+        &quot;both&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;DSA ad library&quot;,
+        &quot;Creative Center Top Ads&quot;,
+        &quot;Both sources&quot;
+      ],
+      &quot;prefill&quot;: &quot;library&quot;,
+      &quot;title&quot;: &quot;Data source&quot;,
       &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;quickSearch&quot;: {
-      &quot;default&quot;: true,
-      &quot;description&quot;: &quot;When true, skip the ad-detail fetch and only return data from the listing card. Faster but omits some fields (full targeting breakdown).&quot;,
-      &quot;prefill&quot;: true,
-      &quot;title&quot;: &quot;Quick search (skip detail pages)&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
     },
     &quot;region&quot;: {
       &quot;default&quot;: &quot;all&quot;,
-      &quot;description&quot;: &quot;TikTok ad region. The library covers EU/EEA + UK/CH/TR (DSA transparency). Use `all` for all-region search.&quot;,
+      &quot;description&quot;: &quot;TikTok DSA library covers EU/EEA countries plus the UK, Switzerland and Turkey. `all` searches the union (capped by TikTok), so split regions for deeper runs. (mode=library)&quot;,
       &quot;editor&quot;: &quot;select&quot;,
       &quot;enum&quot;: [
         &quot;all&quot;,
@@ -116,31 +911,49 @@
         &quot;SK&quot;,
         &quot;TR&quot;
       ],
-      &quot;prefill&quot;: &quot;all&quot;,
-      &quot;title&quot;: &quot;Region&quot;,
+      &quot;enumTitles&quot;: [
+        &quot;All supported countries&quot;,
+        &quot;Austria&quot;,
+        &quot;Belgium&quot;,
+        &quot;Bulgaria&quot;,
+        &quot;Switzerland&quot;,
+        &quot;Cyprus&quot;,
+        &quot;Czech Republic&quot;,
+        &quot;Germany&quot;,
+        &quot;Denmark&quot;,
+        &quot;Estonia&quot;,
+        &quot;Spain&quot;,
+        &quot;Finland&quot;,
+        &quot;France&quot;,
+        &quot;United Kingdom&quot;,
+        &quot;Greece&quot;,
+        &quot;Croatia&quot;,
+        &quot;Hungary&quot;,
+        &quot;Ireland&quot;,
+        &quot;Iceland&quot;,
+        &quot;Italy&quot;,
+        &quot;Liechtenstein&quot;,
+        &quot;Lithuania&quot;,
+        &quot;Luxembourg&quot;,
+        &quot;Latvia&quot;,
+        &quot;Malta&quot;,
+        &quot;Netherlands&quot;,
+        &quot;Norway&quot;,
+        &quot;Poland&quot;,
+        &quot;Portugal&quot;,
+        &quot;Romania&quot;,
+        &quot;Sweden&quot;,
+        &quot;Slovenia&quot;,
+        &quot;Slovakia&quot;,
+        &quot;Turkey&quot;
+      ],
+      &quot;prefill&quot;: &quot;DE&quot;,
+      &quot;title&quot;: &quot;Ad target country&quot;,
       &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;regionFilter&quot;: {
-      &quot;default&quot;: [],
-      &quot;description&quot;: &quot;Only emit ads that target one of these regions. Case-insensitive substring match against `targetingByLocation`.&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;prefill&quot;: [],
-      &quot;title&quot;: &quot;Region filter (Pro)&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;requestDelaySecs&quot;: {
-      &quot;default&quot;: 1,
-      &quot;description&quot;: &quot;Pause between successive API calls. Lower = faster runs but more rate-limit risk; higher = slower but more reliable. The actor still adds short backoff between retries automatically.&quot;,
-      &quot;editor&quot;: &quot;number&quot;,
-      &quot;maximum&quot;: 10,
-      &quot;minimum&quot;: 0,
-      &quot;prefill&quot;: 1,
-      &quot;title&quot;: &quot;Delay between requests (seconds)&quot;,
-      &quot;type&quot;: &quot;integer&quot;
     },
     &quot;sortBy&quot;: {
       &quot;default&quot;: &quot;last_shown_date,desc&quot;,
-      &quot;description&quot;: &quot;How to sort results.&quot;,
+      &quot;description&quot;: &quot;Result order. (mode=library)&quot;,
       &quot;editor&quot;: &quot;select&quot;,
       &quot;enum&quot;: [
         &quot;last_shown_date,desc&quot;,
@@ -151,341 +964,582 @@
         &quot;impression,asc&quot;
       ],
       &quot;enumTitles&quot;: [
-        &quot;Last shown date (newest first)&quot;,
-        &quot;Last shown date (oldest first)&quot;,
-        &quot;Create time (newest first)&quot;,
-        &quot;Create time (oldest first)&quot;,
-        &quot;Impressions (highest first)&quot;,
-        &quot;Impressions (lowest first)&quot;
+        &quot;Last shown — newest first&quot;,
+        &quot;Last shown — oldest first&quot;,
+        &quot;Created — newest first&quot;,
+        &quot;Created — oldest first&quot;,
+        &quot;Audience size — high to low&quot;,
+        &quot;Audience size — low to high&quot;
       ],
       &quot;prefill&quot;: &quot;last_shown_date,desc&quot;,
       &quot;title&quot;: &quot;Sort by&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;startDate&quot;: {
-      &quot;description&quot;: &quot;Earliest ad start date. Default: 1 year ago.&quot;,
+      &quot;description&quot;: &quot;Earliest last-shown date (`YYYY-MM-DD`). Default: one year ago. (mode=library)&quot;,
       &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;title&quot;: &quot;Start date (YYYY-MM-DD)&quot;,
+      &quot;title&quot;: &quot;Last shown from&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
-    &quot;timezone&quot;: {
-      &quot;default&quot;: &quot;UTC&quot;,
-      &quot;description&quot;: &quot;IANA timezone for date-range bucketing (`startDate`/`endDate`). Default UTC.&quot;,
+    &quot;startUrls&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Paste TikTok library search or ad-detail URLs. Search URLs carry their own region, keyword/advertiser, dates and filters; detail URLs are read as ad IDs. (mode=library)&quot;,
+      &quot;editor&quot;: &quot;requestListSources&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;TikTok library URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;uniqueReach&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;Filter by TikTok&#x27;s unique-users-seen band. (mode=library)&quot;,
       &quot;editor&quot;: &quot;select&quot;,
       &quot;enum&quot;: [
-        &quot;UTC&quot;,
-        &quot;Europe/London&quot;,
-        &quot;Europe/Berlin&quot;,
-        &quot;Europe/Paris&quot;,
-        &quot;Europe/Madrid&quot;,
-        &quot;Europe/Rome&quot;,
-        &quot;Europe/Amsterdam&quot;,
-        &quot;Europe/Stockholm&quot;,
-        &quot;Europe/Warsaw&quot;,
-        &quot;Europe/Athens&quot;,
-        &quot;Europe/Istanbul&quot;,
-        &quot;Europe/Moscow&quot;,
-        &quot;Asia/Dubai&quot;,
-        &quot;Asia/Tokyo&quot;,
-        &quot;Asia/Shanghai&quot;,
-        &quot;Asia/Singapore&quot;,
-        &quot;Asia/Kolkata&quot;,
-        &quot;Australia/Sydney&quot;,
-        &quot;America/New_York&quot;,
-        &quot;America/Chicago&quot;,
-        &quot;America/Denver&quot;,
-        &quot;America/Los_Angeles&quot;,
-        &quot;America/Sao_Paulo&quot;,
-        &quot;America/Mexico_City&quot;
+        &quot;all&quot;,
+        &quot;under10k&quot;,
+        &quot;10k-100k&quot;,
+        &quot;over100k&quot;
       ],
-      &quot;prefill&quot;: &quot;UTC&quot;,
-      &quot;title&quot;: &quot;Timezone&quot;,
+      &quot;enumTitles&quot;: [
+        &quot;All reach bands&quot;,
+        &quot;Under 10K&quot;,
+        &quot;10K–100K&quot;,
+        &quot;Over 100K&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Unique reach&quot;,
       &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;useApifyProxy&quot;: {
-      &quot;default&quot;: true,
-      &quot;description&quot;: &quot;Route requests through Apify&#x27;s proxy pool (datacenter EU exit IPs). Recommended on cloud — avoids IP rate-limiting. The actor automatically rotates the proxy session on errors.&quot;,
-      &quot;prefill&quot;: true,
-      &quot;title&quot;: &quot;Use Apify proxy&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
     }
   },
   &quot;required&quot;: [],
   &quot;schemaVersion&quot;: 1,
-  &quot;title&quot;: &quot;TikTok Ads Library Scraper Pro Input&quot;,
+  &quot;title&quot;: &quot;TikTok DSA Ads Transparency Library Input&quot;,
   &quot;type&quot;: &quot;object&quot;
 }
-</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>ads</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped TikTok ad records with advertiser info, targeting, creative URLs, and impression data.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>ads</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped TikTok DSA ads and Creative Center top ads.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
   &quot;actorOutputSchemaVersion&quot;: 1,
-  &quot;description&quot;: &quot;One record per TikTok ad with creative URLs, advertiser identity, impression data, audit status and targeting breakdown.&quot;,
+  &quot;description&quot;: &quot;One row per TikTok DSA ad or Creative Center top ad, with creatives, advertiser identity, dates, reach, targeting and performance signals.&quot;,
   &quot;properties&quot;: {
     &quot;ads&quot;: {
-      &quot;description&quot;: &quot;Dataset containing all scraped TikTok ad records with advertiser info, targeting, creative URLs, and impression data.&quot;,
+      &quot;description&quot;: &quot;Dataset containing all scraped TikTok DSA ads and Creative Center top ads.&quot;,
       &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
-      &quot;title&quot;: &quot;Scraped Ads&quot;,
+      &quot;title&quot;: &quot;TikTok ads&quot;,
       &quot;type&quot;: &quot;string&quot;
     }
   },
-  &quot;title&quot;: &quot;TikTok DSA Ads Transparency Library Scraper Output&quot;
+  &quot;title&quot;: &quot;TikTok Ads Library + Creative Center Output&quot;
 }
 </code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
   &quot;actorSpecification&quot;: 1,
   &quot;fields&quot;: {
     &quot;adEndDate&quot;: {
-      &quot;description&quot;: &quot;Date the ad last appeared (YYYY-MM-DD)&quot;,
-      &quot;title&quot;: &quot;Ad End Date&quot;,
+      &quot;description&quot;: &quot;Last date the ad was shown (YYYY-MM-DD).&quot;,
+      &quot;title&quot;: &quot;Last shown&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;adFormat&quot;: {
-      &quot;description&quot;: &quot;Creative format: &#x27;single_video&#x27;, &#x27;image&#x27;, &#x27;carousel&#x27;, or &#x27;spark_ad&#x27;&quot;,
-      &quot;title&quot;: &quot;Ad Format&quot;,
+      &quot;description&quot;: &quot;`single_video`, `image`, `carousel` or `spark_ad` when TikTok discloses it.&quot;,
+      &quot;title&quot;: &quot;Ad format&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;adId&quot;: {
-      &quot;description&quot;: &quot;Unique TikTok ad ID (string)&quot;,
+      &quot;description&quot;: &quot;TikTok ad ID.&quot;,
       &quot;title&quot;: &quot;Ad ID&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;adImages&quot;: {
-      &quot;description&quot;: &quot;Image URLs for image-type ads&quot;,
-      &quot;title&quot;: &quot;Ad Images&quot;,
+      &quot;description&quot;: &quot;Image creative URLs.&quot;,
+      &quot;title&quot;: &quot;Ad images&quot;,
       &quot;type&quot;: &quot;array&quot;
     },
     &quot;adImpressions&quot;: {
-      &quot;description&quot;: &quot;TikTok impression bucket string (e.g. &#x27;10K-100K&#x27;, &#x27;1M-10M&#x27;)&quot;,
-      &quot;title&quot;: &quot;Impressions&quot;,
+      &quot;description&quot;: &quot;TikTok&#x27;s estimate bucket (e.g. `10K-100K`).&quot;,
+      &quot;title&quot;: &quot;Unique users seen&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;adImpressionsExact&quot;: {
-      &quot;description&quot;: &quot;Exact impression count when available from the API&quot;,
-      &quot;title&quot;: &quot;Exact Impressions&quot;,
+      &quot;description&quot;: &quot;Exact count when TikTok discloses it (normally empty).&quot;,
+      &quot;title&quot;: &quot;Exact impressions&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;adImpressionsMax&quot;: {
+      &quot;description&quot;: &quot;Numeric upper bound of the bucket.&quot;,
+      &quot;title&quot;: &quot;Impressions upper bound&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;adImpressionsMin&quot;: {
+      &quot;description&quot;: &quot;Numeric lower bound of the bucket.&quot;,
+      &quot;title&quot;: &quot;Impressions lower bound&quot;,
       &quot;type&quot;: &quot;integer&quot;
     },
     &quot;adLanguages&quot;: {
-      &quot;description&quot;: &quot;Language codes for the ad content (e.g. [&#x27;en&#x27;, &#x27;de&#x27;])&quot;,
-      &quot;title&quot;: &quot;Ad Languages&quot;,
+      &quot;description&quot;: &quot;Languages carried by the search listing, when present.&quot;,
+      &quot;title&quot;: &quot;Ad languages&quot;,
       &quot;type&quot;: &quot;array&quot;
     },
     &quot;adPlatforms&quot;: {
-      &quot;description&quot;: &quot;Platforms this ad runs on (TikTok, CapCut, Pangle, Lemon8)&quot;,
-      &quot;title&quot;: &quot;Ad Platforms&quot;,
+      &quot;description&quot;: &quot;Platforms the ad ran on, when listed.&quot;,
+      &quot;title&quot;: &quot;Platforms&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;adReachByCountry&quot;: {
+      &quot;description&quot;: &quot;Per-country reach with age × gender breakdowns.&quot;,
+      &quot;title&quot;: &quot;Reach by country&quot;,
       &quot;type&quot;: &quot;array&quot;
     },
     &quot;adSpent&quot;: {
-      &quot;description&quot;: &quot;Estimated spend bucket shown by TikTok&quot;,
-      &quot;title&quot;: &quot;Ad Spend&quot;,
+      &quot;description&quot;: &quot;Disclosed spend when TikTok publishes it (normally empty).&quot;,
+      &quot;title&quot;: &quot;Spend&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;adStartDate&quot;: {
-      &quot;description&quot;: &quot;Date the ad first appeared (YYYY-MM-DD)&quot;,
-      &quot;title&quot;: &quot;Ad Start Date&quot;,
+      &quot;description&quot;: &quot;First date the ad was shown (YYYY-MM-DD).&quot;,
+      &quot;title&quot;: &quot;First shown&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;adTitle&quot;: {
+      &quot;description&quot;: &quot;Ad caption or headline.&quot;,
+      &quot;title&quot;: &quot;Ad caption/title&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;adType&quot;: {
-      &quot;description&quot;: &quot;Ad creative type: &#x27;video&#x27; or &#x27;image&#x27;&quot;,
-      &quot;title&quot;: &quot;Ad Type&quot;,
+      &quot;description&quot;: &quot;`video`, `image` or `text`.&quot;,
+      &quot;title&quot;: &quot;Ad type&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;adUrl&quot;: {
-      &quot;description&quot;: &quot;Direct URL to the ad detail page on TikTok Ads Library&quot;,
+      &quot;description&quot;: &quot;Link to the ad&#x27;s TikTok page.&quot;,
       &quot;title&quot;: &quot;Ad URL&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;adVideoCover&quot;: {
-      &quot;description&quot;: &quot;Cover/thumbnail image URL for the ad video&quot;,
-      &quot;title&quot;: &quot;Ad Video Cover&quot;,
+      &quot;description&quot;: &quot;Cover image URL.&quot;,
+      &quot;title&quot;: &quot;Video cover&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;adVideoUrl&quot;: {
-      &quot;description&quot;: &quot;URL to the first (or only) ad video&quot;,
-      &quot;title&quot;: &quot;Ad Video URL&quot;,
+      &quot;description&quot;: &quot;Working video CDN URL (decoded from TikTok&#x27;s library wrapper).&quot;,
+      &quot;title&quot;: &quot;Video URL&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;adVideoUrlOriginal&quot;: {
+      &quot;description&quot;: &quot;TikTok&#x27;s original library video URL, kept for traceability.&quot;,
+      &quot;title&quot;: &quot;Original video URL&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;adVideos&quot;: {
-      &quot;description&quot;: &quot;All video URLs for carousel/multi-video ads (each item: {videoUrl, coverImage})&quot;,
-      &quot;title&quot;: &quot;Ad Videos&quot;,
+      &quot;description&quot;: &quot;All video renditions for carousel ads, each with `videoUrl`, optional `coverImage` and `videoUrlOriginal`.&quot;,
+      &quot;title&quot;: &quot;Ad videos&quot;,
       &quot;type&quot;: &quot;array&quot;
     },
     &quot;advertiserBusinessId&quot;: {
-      &quot;description&quot;: &quot;TikTok advertiser business ID (string)&quot;,
-      &quot;title&quot;: &quot;Advertiser Business ID&quot;,
+      &quot;description&quot;: &quot;Registered business ID.&quot;,
+      &quot;title&quot;: &quot;Business ID&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;advertiserBusinessName&quot;: {
-      &quot;description&quot;: &quot;Registered business name of the advertiser (from detail page)&quot;,
-      &quot;title&quot;: &quot;Advertiser Business Name&quot;,
+      &quot;description&quot;: &quot;Registered business name.&quot;,
+      &quot;title&quot;: &quot;Registered advertiser&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
+    &quot;advertiserCountries&quot;: {
+      &quot;description&quot;: &quot;Countries returned by the Creative Center detail endpoint.&quot;,
+      &quot;title&quot;: &quot;Creative Center countries&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
     &quot;advertiserCountry&quot;: {
-      &quot;description&quot;: &quot;Country where the advertiser is registered (ISO code)&quot;,
-      &quot;title&quot;: &quot;Advertiser Country&quot;,
+      &quot;description&quot;: &quot;Advertiser&#x27;s registered country.&quot;,
+      &quot;title&quot;: &quot;Registry country&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;advertiserId&quot;: {
-      &quot;description&quot;: &quot;TikTok advertiser/business ID (string)&quot;,
+      &quot;description&quot;: &quot;TikTok business ID when disclosed.&quot;,
       &quot;title&quot;: &quot;Advertiser ID&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;advertiserIndustry&quot;: {
-      &quot;description&quot;: &quot;Industry category of the advertiser&quot;,
-      &quot;title&quot;: &quot;Advertiser Industry&quot;,
+      &quot;description&quot;: &quot;Industry when the source provides it.&quot;,
+      &quot;title&quot;: &quot;Advertiser industry&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;advertiserName&quot;: {
-      &quot;description&quot;: &quot;Name of the advertiser as shown in the ad card&quot;,
-      &quot;title&quot;: &quot;Advertiser Name&quot;,
+      &quot;description&quot;: &quot;Advertiser or brand name.&quot;,
+      &quot;title&quot;: &quot;Advertiser&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;advertiserSponsor&quot;: {
-      &quot;description&quot;: &quot;Paid-for-by / sponsor text&quot;,
-      &quot;title&quot;: &quot;Advertiser Sponsor&quot;,
+      &quot;description&quot;: &quot;Sponsor/payer name when different from the advertiser.&quot;,
+      &quot;title&quot;: &quot;Paid for by&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;advertiserTikTokUser&quot;: {
-      &quot;description&quot;: &quot;Advertiser&#x27;s TikTok account info (id, nickname, uniqueId, avatarUrl)&quot;,
-      &quot;title&quot;: &quot;Advertiser TikTok User&quot;,
+      &quot;description&quot;: &quot;Linked TikTok account: id/username/displayName/followers/accountType/avatar/profile.&quot;,
+      &quot;title&quot;: &quot;TikTok account&quot;,
       &quot;type&quot;: &quot;object&quot;
     },
+    &quot;advertisingObjective&quot;: {
+      &quot;description&quot;: &quot;Campaign objective (e.g. Traffic, Sales).&quot;,
+      &quot;title&quot;: &quot;Advertising objective&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;audienceExclude&quot;: {
+      &quot;description&quot;: &quot;Whether the audience is excluded.&quot;,
+      &quot;title&quot;: &quot;Audience exclude&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
     &quot;audienceTargeting&quot;: {
-      &quot;description&quot;: &quot;Custom audience targeting description&quot;,
-      &quot;title&quot;: &quot;Audience Targeting&quot;,
+      &quot;description&quot;: &quot;TikTok&#x27;s audience include/exclude flag.&quot;,
+      &quot;title&quot;: &quot;Audience targeting&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;auditReasons&quot;: {
-      &quot;description&quot;: &quot;List of audit reason codes&quot;,
-      &quot;title&quot;: &quot;Audit Reasons&quot;,
+      &quot;description&quot;: &quot;Additional audit reason codes/text.&quot;,
+      &quot;title&quot;: &quot;Audit reasons&quot;,
       &quot;type&quot;: &quot;array&quot;
     },
     &quot;auditStatus&quot;: {
-      &quot;description&quot;: &quot;Raw TikTok audit status code (1=approved, 2=rejected, 3=in_review, 4=removed)&quot;,
-      &quot;title&quot;: &quot;Audit Status&quot;,
+      &quot;description&quot;: &quot;Raw TikTok audit code.&quot;,
+      &quot;title&quot;: &quot;Audit status&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;auditStatusLabel&quot;: {
-      &quot;description&quot;: &quot;Human-readable audit status: &#x27;approved&#x27;, &#x27;rejected&#x27;, &#x27;in_review&#x27;, or &#x27;removed&#x27;&quot;,
-      &quot;title&quot;: &quot;Audit Status Label&quot;,
+      &quot;description&quot;: &quot;`approved`, `rejected`, `in_review` or `removed`.&quot;,
+      &quot;title&quot;: &quot;Audit status label&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;avgImpressionsPerDay&quot;: {
-      &quot;description&quot;: &quot;Derived: lower-bound impressions divided by daysActive&quot;,
-      &quot;title&quot;: &quot;Avg Impressions Per Day&quot;,
+      &quot;description&quot;: &quot;Lower-bound bucket divided by daysActive.&quot;,
+      &quot;title&quot;: &quot;Avg impressions/day&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;ccSource&quot;: {
+      &quot;description&quot;: &quot;Source label from the Creative Center detail endpoint.&quot;,
+      &quot;title&quot;: &quot;Creative Center source&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;commentCount&quot;: {
+      &quot;description&quot;: &quot;Creative Center comment count.&quot;,
+      &quot;title&quot;: &quot;Comments&quot;,
       &quot;type&quot;: &quot;integer&quot;
     },
     &quot;commercialContentIndicator&quot;: {
-      &quot;description&quot;: &quot;Commercial content label type&quot;,
-      &quot;title&quot;: &quot;Commercial Content Indicator&quot;,
-      &quot;type&quot;: &quot;string&quot;
+      &quot;description&quot;: &quot;Commercial-content indicator when present.&quot;,
+      &quot;title&quot;: &quot;Commercial content&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;costTier&quot;: {
+      &quot;description&quot;: &quot;Creative Center budget tier code (0/1).&quot;,
+      &quot;title&quot;: &quot;Cost tier&quot;,
+      &quot;type&quot;: &quot;integer&quot;
     },
     &quot;creativeId&quot;: {
-      &quot;description&quot;: &quot;TikTok creative ID (string)&quot;,
+      &quot;description&quot;: &quot;Creative identifier when present.&quot;,
       &quot;title&quot;: &quot;Creative ID&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;creativeName&quot;: {
-      &quot;description&quot;: &quot;Name of the creative asset&quot;,
-      &quot;title&quot;: &quot;Creative Name&quot;,
+      &quot;description&quot;: &quot;Creative name when present.&quot;,
+      &quot;title&quot;: &quot;Creative name&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;creatorInteractionsTargeting&quot;: {
-      &quot;description&quot;: &quot;Creator interactions targeting description&quot;,
-      &quot;title&quot;: &quot;Creator Interactions Targeting&quot;,
+      &quot;description&quot;: &quot;Creator-interaction targeting when disclosed.&quot;,
+      &quot;title&quot;: &quot;Creator interactions&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;ctaText&quot;: {
-      &quot;description&quot;: &quot;Call-to-action button text (e.g. &#x27;Shop Now&#x27;, &#x27;Learn More&#x27;)&quot;,
-      &quot;title&quot;: &quot;CTA Text&quot;,
+      &quot;description&quot;: &quot;CTA button text.&quot;,
+      &quot;title&quot;: &quot;Call to action&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
+    &quot;ctr&quot;: {
+      &quot;description&quot;: &quot;Creative Center click-through rate (0–1).&quot;,
+      &quot;title&quot;: &quot;CTR&quot;,
+      &quot;type&quot;: &quot;number&quot;
+    },
     &quot;dataSource&quot;: {
-      &quot;description&quot;: &quot;TikTok data source identifier&quot;,
-      &quot;title&quot;: &quot;Data Source&quot;,
+      &quot;description&quot;: &quot;Source-provided data label when present.&quot;,
+      &quot;title&quot;: &quot;Data source label&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;daysActive&quot;: {
-      &quot;description&quot;: &quot;Derived: number of days between adStartDate and adEndDate inclusive&quot;,
-      &quot;title&quot;: &quot;Days Active&quot;,
+      &quot;description&quot;: &quot;Inclusive days between first and last shown dates.&quot;,
+      &quot;title&quot;: &quot;Days active&quot;,
       &quot;type&quot;: &quot;integer&quot;
     },
-    &quot;interestTargeting&quot;: {
-      &quot;description&quot;: &quot;Interest-based targeting description&quot;,
-      &quot;title&quot;: &quot;Interest Targeting&quot;,
+    &quot;detailUnavailable&quot;: {
+      &quot;description&quot;: &quot;True when TikTok had no detail data for the ad.&quot;,
+      &quot;title&quot;: &quot;Detail unavailable&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;detailsFetched&quot;: {
+      &quot;description&quot;: &quot;True when the detail record was merged.&quot;,
+      &quot;title&quot;: &quot;Details fetched&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;displayMode&quot;: {
+      &quot;description&quot;: &quot;TikTok detail page display mode.&quot;,
+      &quot;title&quot;: &quot;Display mode&quot;,
       &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;industryKey&quot;: {
+      &quot;description&quot;: &quot;Creative Center industry key.&quot;,
+      &quot;title&quot;: &quot;Industry key&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;industryName&quot;: {
+      &quot;description&quot;: &quot;Creative Center industry name.&quot;,
+      &quot;title&quot;: &quot;Industry&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;interestTargeting&quot;: {
+      &quot;description&quot;: &quot;Interest categories when disclosed.&quot;,
+      &quot;title&quot;: &quot;Interest targeting&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;isSearchAd&quot;: {
+      &quot;description&quot;: &quot;Creative Center `is_search` flag.&quot;,
+      &quot;title&quot;: &quot;Search placement&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
     },
     &quot;landingPageUrl&quot;: {
-      &quot;description&quot;: &quot;URL the ad click leads to&quot;,
-      &quot;title&quot;: &quot;Landing Page URL&quot;,
+      &quot;description&quot;: &quot;External website linked from the ad.&quot;,
+      &quot;title&quot;: &quot;Landing page&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
+    &quot;likeCount&quot;: {
+      &quot;description&quot;: &quot;Creative Center like count.&quot;,
+      &quot;title&quot;: &quot;Likes&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;objectiveKey&quot;: {
+      &quot;description&quot;: &quot;Creative Center objective key.&quot;,
+      &quot;title&quot;: &quot;Objective key&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;objectiveName&quot;: {
+      &quot;description&quot;: &quot;Creative Center objective name.&quot;,
+      &quot;title&quot;: &quot;Objective&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;observedCountry&quot;: {
+      &quot;description&quot;: &quot;Creative Center country used for this row.&quot;,
+      &quot;title&quot;: &quot;Observed country&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;observedPeriod&quot;: {
+      &quot;description&quot;: &quot;Creative Center period in days.&quot;,
+      &quot;title&quot;: &quot;Observed period&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
     &quot;recordType&quot;: {
-      &quot;description&quot;: &quot;Always &#x27;ad&#x27; for this actor&quot;,
+      &quot;description&quot;: &quot;`ad` for a DSA library ad, `topAd` for a Creative Center top ad, `summary` for count-only runs.&quot;,
       &quot;title&quot;: &quot;Record Type&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;rejectionInfo&quot;: {
-      &quot;description&quot;: &quot;Reason for ad rejection when auditStatus is &#x27;rejected&#x27;&quot;,
-      &quot;title&quot;: &quot;Rejection Info&quot;,
-      &quot;type&quot;: &quot;string&quot;
+      &quot;description&quot;: &quot;Rejection details when the ad was rejected.&quot;,
+      &quot;title&quot;: &quot;Rejection info&quot;,
+      &quot;type&quot;: &quot;object&quot;
     },
     &quot;scrapedAt&quot;: {
-      &quot;description&quot;: &quot;ISO 8601 UTC timestamp when this record was scraped&quot;,
-      &quot;title&quot;: &quot;Scraped At&quot;,
+      &quot;description&quot;: &quot;ISO 8601 UTC collection time.&quot;,
+      &quot;title&quot;: &quot;Scraped at&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
+    &quot;searchQueryType&quot;: {
+      &quot;description&quot;: &quot;`keyword`, `advertiser` or `browse`.&quot;,
+      &quot;title&quot;: &quot;Search type&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;searchRegion&quot;: {
+      &quot;description&quot;: &quot;Region used for this row.&quot;,
+      &quot;title&quot;: &quot;Search region&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;searchTotal&quot;: {
+      &quot;description&quot;: &quot;TikTok&#x27;s reported total for the search.&quot;,
+      &quot;title&quot;: &quot;Search total&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;shareCount&quot;: {
+      &quot;description&quot;: &quot;Creative Center share count.&quot;,
+      &quot;title&quot;: &quot;Shares&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
     &quot;showMode&quot;: {
-      &quot;description&quot;: &quot;Raw TikTok show_mode value (1=single_video, 2=image, 3=carousel, 4=spark_ad)&quot;,
-      &quot;title&quot;: &quot;Show Mode&quot;,
+      &quot;description&quot;: &quot;Raw TikTok show_mode code.&quot;,
+      &quot;title&quot;: &quot;Show mode&quot;,
       &quot;type&quot;: &quot;integer&quot;
     },
     &quot;sorAuditStatus&quot;: {
-      &quot;description&quot;: &quot;Secondary audit status code&quot;,
-      &quot;title&quot;: &quot;SOR Audit Status&quot;,
+      &quot;description&quot;: &quot;TikTok&#x27;s statement-of-reasons audit code.&quot;,
+      &quot;title&quot;: &quot;SOR audit status&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;source&quot;: {
+      &quot;description&quot;: &quot;`tiktokAdsLibrary` or `creativeCenter`.&quot;,
+      &quot;title&quot;: &quot;Source&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;targetAudienceSize&quot;: {
-      &quot;description&quot;: &quot;Estimated target audience size bucket&quot;,
-      &quot;title&quot;: &quot;Target Audience Size&quot;,
+      &quot;description&quot;: &quot;Estimated audience size bucket.&quot;,
+      &quot;title&quot;: &quot;Target audience size&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
+    &quot;targetAudienceSizeMax&quot;: {
+      &quot;description&quot;: &quot;Numeric upper bound.&quot;,
+      &quot;title&quot;: &quot;Audience size upper&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;targetAudienceSizeMin&quot;: {
+      &quot;description&quot;: &quot;Numeric lower bound.&quot;,
+      &quot;title&quot;: &quot;Audience size lower&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
     &quot;targetingByAge&quot;: {
-      &quot;description&quot;: &quot;Age group targeting breakdown (from detail page)&quot;,
-      &quot;title&quot;: &quot;Targeting By Age&quot;,
+      &quot;description&quot;: &quot;Per-region targeted age buckets.&quot;,
+      &quot;title&quot;: &quot;Targeting by age&quot;,
       &quot;type&quot;: &quot;array&quot;
     },
     &quot;targetingByGender&quot;: {
-      &quot;description&quot;: &quot;Gender targeting breakdown (from detail page)&quot;,
-      &quot;title&quot;: &quot;Targeting By Gender&quot;,
+      &quot;description&quot;: &quot;Per-region targeted genders.&quot;,
+      &quot;title&quot;: &quot;Targeting by gender&quot;,
       &quot;type&quot;: &quot;array&quot;
     },
     &quot;targetingByLocation&quot;: {
-      &quot;description&quot;: &quot;Per-region targeting breakdown with region code and impression share (from detail page)&quot;,
-      &quot;title&quot;: &quot;Targeting By Location&quot;,
+      &quot;description&quot;: &quot;Rows of `{region, impressions}`.&quot;,
+      &quot;title&quot;: &quot;Targeting by location&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;targetingCities&quot;: {
+      &quot;description&quot;: &quot;Cities explicitly targeted.&quot;,
+      &quot;title&quot;: &quot;Targeted cities&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;targetingCountries&quot;: {
+      &quot;description&quot;: &quot;Country codes explicitly targeted.&quot;,
+      &quot;title&quot;: &quot;Targeted countries&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;targetingDeviceModels&quot;: {
+      &quot;description&quot;: &quot;Device models explicitly targeted.&quot;,
+      &quot;title&quot;: &quot;Targeted devices&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;targetingHighSpendingPower&quot;: {
+      &quot;description&quot;: &quot;TikTok&#x27;s high-spending-power flag.&quot;,
+      &quot;title&quot;: &quot;High spending power&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;targetingLanguages&quot;: {
+      &quot;description&quot;: &quot;Languages explicitly targeted.&quot;,
+      &quot;title&quot;: &quot;Targeted languages&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;targetingOperatingSystems&quot;: {
+      &quot;description&quot;: &quot;Operating systems explicitly targeted.&quot;,
+      &quot;title&quot;: &quot;Targeted operating systems&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;targetingProvinces&quot;: {
+      &quot;description&quot;: &quot;Provinces/regions explicitly targeted.&quot;,
+      &quot;title&quot;: &quot;Targeted provinces&quot;,
       &quot;type&quot;: &quot;array&quot;
     },
     &quot;targetingTotalImpressions&quot;: {
-      &quot;description&quot;: &quot;Total impressions across all regions&quot;,
-      &quot;title&quot;: &quot;Targeting Total Impressions&quot;,
+      &quot;description&quot;: &quot;Total unique-users-seen bucket.&quot;,
+      &quot;title&quot;: &quot;Total reach&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;targetingTotalRegions&quot;: {
-      &quot;description&quot;: &quot;Total number of regions targeted&quot;,
-      &quot;title&quot;: &quot;Targeting Total Regions&quot;,
-      &quot;type&quot;: &quot;string&quot;
+      &quot;description&quot;: &quot;Number of targeted regions.&quot;,
+      &quot;title&quot;: &quot;Targeted regions&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;videoDuration&quot;: {
+      &quot;description&quot;: &quot;Creative Center video length in seconds.&quot;,
+      &quot;title&quot;: &quot;Video duration&quot;,
+      &quot;type&quot;: &quot;number&quot;
+    },
+    &quot;videoHeight&quot;: {
+      &quot;description&quot;: &quot;Creative Center video height in pixels.&quot;,
+      &quot;title&quot;: &quot;Video height&quot;,
+      &quot;type&quot;: &quot;integer&quot;
     },
     &quot;videoInteractionsTargeting&quot;: {
-      &quot;description&quot;: &quot;Video interactions targeting description&quot;,
-      &quot;title&quot;: &quot;Video Interactions Targeting&quot;,
+      &quot;description&quot;: &quot;Video-interaction targeting when disclosed.&quot;,
+      &quot;title&quot;: &quot;Video interactions&quot;,
       &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;videoRenditions&quot;: {
+      &quot;description&quot;: &quot;Creative Center video URLs keyed by resolution (360p–1080p).&quot;,
+      &quot;title&quot;: &quot;Video renditions&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;videoWidth&quot;: {
+      &quot;description&quot;: &quot;Creative Center video width in pixels.&quot;,
+      &quot;title&quot;: &quot;Video width&quot;,
+      &quot;type&quot;: &quot;integer&quot;
     }
   },
   &quot;title&quot;: &quot;TikTok Ads&quot;,
   &quot;views&quot;: {
+    &quot;creativeCenter&quot;: {
+      &quot;title&quot;: &quot;Creative Center Top Ads&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;adId&quot;,
+          &quot;advertiserName&quot;,
+          &quot;adTitle&quot;,
+          &quot;ctr&quot;,
+          &quot;likeCount&quot;,
+          &quot;costTier&quot;,
+          &quot;industryName&quot;,
+          &quot;objectiveName&quot;,
+          &quot;observedCountry&quot;,
+          &quot;observedPeriod&quot;,
+          &quot;adVideoUrl&quot;,
+          &quot;adUrl&quot;
+        ]
+      }
+    },
+    &quot;detailed&quot;: {
+      &quot;title&quot;: &quot;Detailed ads&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;adId&quot;,
+          &quot;source&quot;,
+          &quot;recordType&quot;,
+          &quot;advertiserName&quot;,
+          &quot;adTitle&quot;,
+          &quot;adType&quot;,
+          &quot;adFormat&quot;,
+          &quot;adStartDate&quot;,
+          &quot;adEndDate&quot;,
+          &quot;daysActive&quot;,
+          &quot;adImpressions&quot;,
+          &quot;adImpressionsMin&quot;,
+          &quot;adImpressionsMax&quot;,
+          &quot;auditStatusLabel&quot;,
+          &quot;ctaText&quot;,
+          &quot;advertisingObjective&quot;,
+          &quot;landingPageUrl&quot;,
+          &quot;advertiserBusinessName&quot;,
+          &quot;advertiserCountry&quot;,
+          &quot;advertiserSponsor&quot;,
+          &quot;targetAudienceSize&quot;,
+          &quot;targetingCountries&quot;,
+          &quot;adUrl&quot;
+        ]
+      }
+    },
     &quot;overview&quot;: {
       &quot;display&quot;: {
         &quot;component&quot;: &quot;table&quot;,
         &quot;properties&quot;: {
           &quot;adEndDate&quot;: {
             &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;End Date&quot;
+            &quot;label&quot;: &quot;Last shown&quot;
           },
           &quot;adId&quot;: {
             &quot;format&quot;: &quot;text&quot;,
@@ -493,15 +1547,19 @@
           },
           &quot;adImpressions&quot;: {
             &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Impressions&quot;
+            &quot;label&quot;: &quot;Unique users seen&quot;
           },
           &quot;adStartDate&quot;: {
             &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Start Date&quot;
+            &quot;label&quot;: &quot;First shown&quot;
+          },
+          &quot;adTitle&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Ad caption/title&quot;
           },
           &quot;adType&quot;: {
             &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Ad Type&quot;
+            &quot;label&quot;: &quot;Ad type&quot;
           },
           &quot;adUrl&quot;: {
             &quot;format&quot;: &quot;link&quot;,
@@ -511,9 +1569,17 @@
             &quot;format&quot;: &quot;text&quot;,
             &quot;label&quot;: &quot;Advertiser&quot;
           },
-          &quot;daysActive&quot;: {
+          &quot;ctr&quot;: {
             &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Days Active&quot;
+            &quot;label&quot;: &quot;CTR&quot;
+          },
+          &quot;likeCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Likes&quot;
+          },
+          &quot;source&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Source&quot;
           }
         }
       },
@@ -521,12 +1587,15 @@
       &quot;transformation&quot;: {
         &quot;fields&quot;: [
           &quot;adId&quot;,
+          &quot;source&quot;,
           &quot;advertiserName&quot;,
+          &quot;adTitle&quot;,
           &quot;adType&quot;,
           &quot;adImpressions&quot;,
           &quot;adStartDate&quot;,
           &quot;adEndDate&quot;,
-          &quot;daysActive&quot;,
+          &quot;ctr&quot;,
+          &quot;likeCount&quot;,
           &quot;adUrl&quot;
         ]
       }
@@ -534,55 +1603,43 @@
   }
 }
 </code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-tiktok-dsa-ads-transparency-library-scraper">TikTok DSA Ads Transparency Library Scraper</h2>
-<p>TikTok keeps a public ad transparency library for Europe, covering ads shown in EU/EEA countries plus the UK, Switzerland and Turkey. This actor searches that library by keyword, advertiser name, or direct ad ID, and returns each ad's creative, advertiser identity, impression data, and (with full detail turned on) audience targeting. No TikTok account, login, or cookies required.</p>
+<p>Search <strong>TikTok's DSA ad transparency library</strong> across 33 European markets and the global <strong>Creative Center Top Ads</strong> from one actor. Get ad creatives, advertiser identity, first/last shown dates, unique-user reach, age/gender targeting, CTAs, landing pages and Creative Center performance signals — with no TikTok account, cookies, API key or proxy setup.</p>
 <h2 id="readme-what-this-actor-does">What this actor does</h2>
 <ul>
-<li>Searches TikTok's ad transparency library by keyword and/or advertiser name, or looks up a list of ad IDs directly</li>
-<li>Lets you pick one of the 33 European country codes in the region list, or <code>all</code></li>
-<li>Returns creative media (video/image URLs, cover images), impression buckets, audit status and ad format from the search listing</li>
-<li>With <code>quickSearch</code> off (and always for ad-ID lookups), adds advertiser registry details and per-region location, age and gender targeting from each ad's detail page</li>
-<li>Filters by advertiser name, targeted region, industry, language, call-to-action text and minimum impressions, and adds <code>daysActive</code>/<code>avgImpressionsPerDay</code></li>
-<li>Fields TikTok doesn't disclose for a given ad (e.g. no targeting data in quick mode) are omitted rather than left blank</li>
+<li><strong>DSA library search</strong> by keyword, exact advertiser name (optionally with its business ID), ad ID or a pasted library URL — in 33 EU/EEA/UK/CH/TR markets or all of them.</li>
+<li><strong>Server-side filters</strong> for ad type, active/inactive status, age, gender, unique reach and six sort orders, plus an exact-phrase option.</li>
+<li><strong>Full ad detail</strong> (optional): caption, CTA, landing page, advertising objective, registered advertiser, sponsor, linked TikTok account, per-country reach and age × gender breakdowns.</li>
+<li><strong>Creative Center Top Ads</strong> (optional): global markets, 7/30/180-day windows, ranking by For You/CTR/likes, objective/industry/language filters, video renditions, CTR, likes, cost tier and optional landing pages/comments/shares.</li>
+<li><strong>Both sources in one run</strong>, with a <code>source</code> field on every row.</li>
+<li><strong>Count-only mode</strong> for a quick number of matching DSA ads.</li>
+<li>Fields a source does not disclose are omitted, never left as null or placeholders.</li>
 </ul>
 <h2 id="readme-output-per-ad">Output per ad</h2>
-<p>Fields from the search listing (always attempted):</p>
+<p><strong>DSA library rows (<code>recordType: &quot;ad&quot;</code>, <code>source: &quot;tiktokAdsLibrary&quot;</code>)</strong></p>
 <ul>
-<li><code>adId</code>, <code>adUrl</code> — TikTok's ad ID and its transparency-library detail page</li>
-<li><code>advertiserName</code> — advertiser name as shown on the ad</li>
-<li><code>adType</code> — <code>video</code> or <code>image</code></li>
-<li><code>adVideoUrl</code>, <code>adVideoCover</code> — first video URL and its cover image</li>
-<li><code>adVideos</code> — <code>{videoUrl, coverImage}</code> entries, only for ads with more than one video</li>
-<li><code>adImages</code> — image URLs for image-format ads</li>
-<li><code>adStartDate</code>, <code>adEndDate</code> — first- and last-shown dates (<code>YYYY-MM-DD</code>)</li>
-<li><code>adImpressions</code> — TikTok's impression bucket (e.g. <code>10K-100K</code>)</li>
-<li><code>adImpressionsExact</code> — exact impression count, when TikTok discloses one</li>
-<li><code>adSpent</code> — disclosed spend figure, when available</li>
-<li><code>auditStatus</code>, <code>auditStatusLabel</code> — TikTok's raw audit code and, for codes 1–4, its label (<code>approved</code>, <code>rejected</code>, <code>in_review</code>, <code>removed</code>)</li>
-<li><code>sorAuditStatus</code>, <code>rejectionInfo</code>, <code>auditReasons</code> — additional compliance detail, when present</li>
-<li><code>showMode</code>, <code>adFormat</code> — raw format code and, for codes 1–4, its label (<code>single_video</code>, <code>image</code>, <code>carousel</code>, <code>spark_ad</code>)</li>
-<li><code>advertiserId</code>, <code>advertiserIndustry</code>, <code>adLanguages</code>, <code>ctaText</code>, <code>landingPageUrl</code> — when the listing carries them</li>
-<li><code>adPlatforms</code> — platforms the ad ran on, when listed</li>
-<li><code>creativeId</code>, <code>creativeName</code>, <code>dataSource</code>, <code>commercialContentIndicator</code> — additional creative/source metadata, when present</li>
+<li><code>adId</code>, <code>adUrl</code> — TikTok ad ID and its library detail page</li>
+<li><code>advertiserName</code>, <code>advertiserId</code>, <code>advertiserBusinessName</code>, <code>advertiserBusinessId</code>, <code>advertiserCountry</code>, <code>advertiserSponsor</code></li>
+<li><code>advertiserTikTokUser</code> — linked TikTok account: <code>id</code>, <code>username</code>, <code>displayName</code>, <code>followers</code>, <code>accountType</code>, <code>avatarUrl</code>, <code>profileUrl</code></li>
+<li><code>adTitle</code>, <code>adType</code>, <code>adFormat</code>, <code>showMode</code>, <code>adStartDate</code>, <code>adEndDate</code>, <code>daysActive</code></li>
+<li><code>adImpressions</code>, <code>adImpressionsMin</code>, <code>adImpressionsMax</code>, <code>avgImpressionsPerDay</code></li>
+<li><code>adVideoUrl</code>, <code>adVideoCover</code>, <code>adVideos</code>, <code>adImages</code> — working media URLs</li>
+<li><code>ctaText</code>, <code>advertisingObjective</code>, <code>landingPageUrl</code></li>
+<li><code>auditStatus</code>, <code>auditStatusLabel</code>, <code>sorAuditStatus</code>, <code>rejectionInfo</code>, <code>auditReasons</code></li>
+<li><code>targetingByLocation</code>, <code>adReachByCountry</code>, <code>targetingByAge</code>, <code>targetingByGender</code>, <code>targetAudienceSize</code>, <code>targetAudienceSizeMin</code>, <code>targetAudienceSizeMax</code></li>
+<li><code>targetingCountries</code>, <code>targetingCities</code>, <code>targetingProvinces</code>, <code>targetingLanguages</code>, <code>targetingDeviceModels</code>, <code>targetingOperatingSystems</code>, <code>targetingHighSpendingPower</code>, <code>audienceTargeting</code>, <code>audienceExclude</code></li>
+<li><code>interestTargeting</code>, <code>videoInteractionsTargeting</code>, <code>creatorInteractionsTargeting</code>, <code>displayMode</code></li>
+<li><code>searchTotal</code>, <code>searchRegion</code>, <code>searchQueryType</code>, <code>detailsFetched</code>, <code>detailUnavailable</code></li>
+<li><code>source: &quot;tiktokAdsLibrary&quot;</code>, <code>recordType: &quot;ad&quot;</code>, <code>scrapedAt</code></li>
 </ul>
-<p>Fields from the ad's detail page (only with <code>quickSearch: false</code> or <code>adIds</code>):</p>
+<p><strong>Creative Center rows (<code>recordType: &quot;topAd&quot;</code>, <code>source: &quot;creativeCenter&quot;</code>)</strong></p>
 <ul>
-<li><code>advertiserBusinessName</code>, <code>advertiserBusinessId</code> (also written to <code>advertiserId</code>) — registered advertiser identity</li>
-<li><code>advertiserCountry</code> — advertiser's registered country</li>
-<li><code>advertiserSponsor</code> — sponsor name, when the ad was placed on behalf of another party</li>
-<li><code>advertiserTikTokUser</code> — linked TikTok account <code>{id, nickname, uniqueId, avatarUrl, avatarUri}</code>, when the advertiser has one</li>
-<li><code>targetingByLocation</code> — <code>{region, impressions}</code> rows</li>
-<li><code>targetingTotalRegions</code>, <code>targetingTotalImpressions</code> — totals across the location breakdown</li>
-<li><code>targetingByAge</code> — per-region rows listing the targeted age buckets in <code>ages</code> (<code>13-17</code> … <code>55+</code>)</li>
-<li><code>targetingByGender</code> — per-region rows listing the targeted genders in <code>genders</code> (<code>female</code>, <code>male</code>, <code>unknown</code>)</li>
-<li><code>targetAudienceSize</code>, <code>audienceTargeting</code>, <code>interestTargeting</code>, <code>videoInteractionsTargeting</code>, <code>creatorInteractionsTargeting</code> — additional targeting detail, when disclosed</li>
+<li><code>adId</code>, <code>adUrl</code>, <code>adTitle</code>, <code>advertiserName</code>, <code>adType: &quot;video&quot;</code></li>
+<li><code>adVideoUrl</code>, <code>adVideoCover</code>, <code>videoRenditions</code>, <code>videoDuration</code>, <code>videoWidth</code>, <code>videoHeight</code></li>
+<li><code>ctr</code>, <code>likeCount</code>, <code>costTier</code>, <code>industryKey</code>, <code>industryName</code>, <code>objectiveKey</code>, <code>objectiveName</code></li>
+<li><code>landingPageUrl</code>, <code>commentCount</code>, <code>shareCount</code>, <code>advertiserCountries</code>, <code>isSearchAd</code>, <code>ccSource</code></li>
+<li><code>observedCountry</code>, <code>observedPeriod</code>, <code>source: &quot;creativeCenter&quot;</code>, <code>recordType: &quot;topAd&quot;</code>, <code>scrapedAt</code></li>
 </ul>
-<p>Calculated and run fields:</p>
-<ul>
-<li><code>daysActive</code> — days from <code>adStartDate</code> to <code>adEndDate</code>, counting both ends</li>
-<li><code>avgImpressionsPerDay</code> — the lower bound of the <code>adImpressions</code> bucket divided by <code>daysActive</code> (a rough floor, not an exact average)</li>
-<li><code>recordType</code> — always <code>ad</code></li>
-<li><code>scrapedAt</code> — ISO 8601 timestamp when the record was collected</li>
-</ul>
+<p><strong>Count-only runs</strong> emit one row with <code>recordType: &quot;summary&quot;</code> and <code>searchTotal</code>.</p>
 <h2 id="readme-input">Input</h2>
 <div class="table-wrap"><table>
 <thead>
@@ -595,165 +1652,235 @@
 </thead>
 <tbody>
 <tr>
-<td><code>query</code></td>
+<td><code>mode</code></td>
 <td>string</td>
-<td><code>&quot;&quot;</code></td>
-<td>Free-text keyword — company name, domain, or ad text. Leave blank to browse recent ads.</td>
+<td><code>library</code></td>
+<td><code>library</code>, <code>creativeCenter</code> or <code>both</code></td>
 </tr>
 <tr>
-<td><code>adIds</code></td>
-<td>array</td>
-<td><code>[]</code></td>
-<td>TikTok ad IDs to look up directly. When set, <code>query</code>, <code>region</code>, dates and <code>sortBy</code> are not used; the post-filters below still apply.</td>
+<td><code>keyword</code></td>
+<td>string</td>
+<td><code>&quot;&quot;</code></td>
+<td>Keyword/advertiser text for a DSA search; empty = browse.</td>
 </tr>
 <tr>
 <td><code>advertiserName</code></td>
 <td>string</td>
 <td>–</td>
-<td>Sent to the library search and also applied as a substring filter on <code>advertiserName</code>; ads without an advertiser name are dropped.</td>
+<td>Exact advertiser name; retried as a keyword if the exact search is empty.</td>
+</tr>
+<tr>
+<td><code>advertiserId</code></td>
+<td>string</td>
+<td>–</td>
+<td>Optional business ID to disambiguate an advertiser search.</td>
+</tr>
+<tr>
+<td><code>adIds</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Direct ad IDs to open.</td>
+</tr>
+<tr>
+<td><code>startUrls</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>TikTok library search or ad-detail URLs. Search URLs contribute their region, keyword/advertiser and date window.</td>
 </tr>
 <tr>
 <td><code>region</code></td>
 <td>string</td>
 <td><code>all</code></td>
-<td>One of 33 European country codes, or <code>all</code>.</td>
+<td>One of 33 country codes or <code>all</code>.</td>
 </tr>
 <tr>
 <td><code>startDate</code></td>
 <td>string</td>
 <td>–</td>
-<td>Start of the search window (<code>YYYY-MM-DD</code>). One year before today when blank.</td>
+<td>Last-shown date from (<code>YYYY-MM-DD</code>); default one year ago.</td>
 </tr>
 <tr>
 <td><code>endDate</code></td>
 <td>string</td>
 <td>–</td>
-<td>End of the search window (<code>YYYY-MM-DD</code>). Today when blank.</td>
+<td>Last-shown date to (<code>YYYY-MM-DD</code>); default today.</td>
 </tr>
 <tr>
 <td><code>sortBy</code></td>
 <td>string</td>
 <td><code>last_shown_date,desc</code></td>
-<td><code>last_shown_date</code>, <code>create_time</code> or <code>impression</code>, each <code>,asc</code> or <code>,desc</code>.</td>
+<td>One of six sort orders.</td>
 </tr>
 <tr>
-<td><code>quickSearch</code></td>
+<td><code>adType</code></td>
+<td>string</td>
+<td><code>all</code></td>
+<td><code>all</code>, <code>video</code>, <code>image</code>, <code>text</code>.</td>
+</tr>
+<tr>
+<td><code>adStatus</code></td>
+<td>string</td>
+<td><code>active</code></td>
+<td><code>all</code>, <code>active</code>, <code>inactive</code>.</td>
+</tr>
+<tr>
+<td><code>age</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Any of <code>13-17</code>, <code>18-24</code>, <code>25-34</code>, <code>35-44</code>, <code>45-54</code>, <code>55+</code>.</td>
+</tr>
+<tr>
+<td><code>gender</code></td>
+<td>string</td>
+<td><code>all</code></td>
+<td><code>all</code>, <code>female</code>, <code>male</code>.</td>
+</tr>
+<tr>
+<td><code>uniqueReach</code></td>
+<td>string</td>
+<td><code>all</code></td>
+<td><code>all</code>, <code>under10k</code>, <code>10k-100k</code>, <code>over100k</code>.</td>
+</tr>
+<tr>
+<td><code>exactPhrase</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Treat the keyword as an exact phrase.</td>
+</tr>
+<tr>
+<td><code>includeDetails</code></td>
 <td>boolean</td>
 <td><code>true</code></td>
-<td><code>true</code> returns listing data only; <code>false</code> also opens each ad's detail page for advertiser registry and targeting fields.</td>
+<td>Enrich DSA ads from their detail pages.</td>
+</tr>
+<tr>
+<td><code>countOnly</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Return one summary row with the matching total.</td>
 </tr>
 <tr>
 <td><code>maxItems</code></td>
 <td>integer</td>
-<td><code>10</code></td>
-<td>Number of ads to collect before filtering (1–5000; a run pages through at most about 2,500 search results).</td>
+<td><code>50</code></td>
+<td>Records per source (1–5,000).</td>
 </tr>
 <tr>
-<td><code>regionFilter</code></td>
-<td>array</td>
-<td><code>[]</code></td>
-<td>Keep ads whose location targeting mentions one of these region codes. Ads with no targeting data (always the case in quick mode) are kept.</td>
+<td><code>ccCountry</code></td>
+<td>string</td>
+<td><code>US</code></td>
+<td>Creative Center market (28 options).</td>
 </tr>
 <tr>
-<td><code>minImpressions</code></td>
-<td>integer</td>
-<td>–</td>
-<td>Drop ads whose impression bucket's lower bound is below this value. Ads without a bucket are kept.</td>
+<td><code>ccPeriod</code></td>
+<td>string</td>
+<td><code>30</code></td>
+<td><code>7</code>, <code>30</code> or <code>180</code> days.</td>
 </tr>
 <tr>
-<td><code>industryFilter</code></td>
-<td>array</td>
-<td><code>[]</code></td>
-<td>Keep only ads whose advertiser industry contains one of these substrings; ads without an industry are dropped.</td>
+<td><code>ccOrderBy</code></td>
+<td>string</td>
+<td><code>for_you</code></td>
+<td><code>for_you</code>, <code>ctr</code> or <code>like</code>.</td>
 </tr>
 <tr>
-<td><code>languageFilter</code></td>
-<td>array</td>
-<td><code>[]</code></td>
-<td>Keep only ads in one of these languages (e.g. <code>en</code>, <code>de</code>). Ads without a detected language are kept.</td>
+<td><code>ccObjective</code></td>
+<td>string</td>
+<td><code>all</code></td>
+<td><code>all</code> or one of eight campaign objectives.</td>
 </tr>
 <tr>
-<td><code>ctaFilter</code></td>
-<td>array</td>
-<td><code>[]</code></td>
-<td>Keep only ads whose CTA text contains one of these substrings; ads without CTA text are dropped.</td>
+<td><code>ccIndustry</code></td>
+<td>string</td>
+<td><code>all</code></td>
+<td><code>all</code> or one of 258 industries.</td>
 </tr>
 <tr>
-<td><code>useApifyProxy</code></td>
+<td><code>ccLanguage</code></td>
+<td>string</td>
+<td><code>all</code></td>
+<td><code>all</code> or one of 16 languages.</td>
+</tr>
+<tr>
+<td><code>ccSweep</code></td>
 <td>boolean</td>
 <td><code>true</code></td>
-<td>Allow a proxy to be used if the first, direct attempt to open the library fails.</td>
+<td>Sweep filter combinations to collect more than 20 unique top ads.</td>
 </tr>
 <tr>
-<td><code>requestDelaySecs</code></td>
-<td>integer</td>
-<td><code>1</code></td>
-<td>Pause, in seconds, between successive requests (0–10).</td>
-</tr>
-<tr>
-<td><code>timezone</code></td>
-<td>string</td>
-<td><code>UTC</code></td>
-<td>IANA timezone used to interpret <code>startDate</code>/<code>endDate</code>.</td>
+<td><code>ccIncludeDetails</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Add landing pages, comments and shares.</td>
 </tr>
 </tbody>
 </table></div>
-<h3 id="readme-example-keyword-search-quick-mode">Example: keyword search, quick mode</h3>
+<h3 id="readme-example-keyword-search-in-germany-with-details">Example: keyword search in Germany with details</h3>
 <pre><code class="language-json">{
-  &quot;query&quot;: &quot;technology&quot;,
-  &quot;quickSearch&quot;: true,
-  &quot;region&quot;: &quot;all&quot;
-}
-</code></pre>
-<h3 id="readme-example-advertiser-lookup-with-full-targeting-detail">Example: advertiser lookup with full targeting detail</h3>
-<pre><code class="language-json">{
-  &quot;advertiserName&quot;: &quot;Temu&quot;,
+  &quot;mode&quot;: &quot;library&quot;,
+  &quot;keyword&quot;: &quot;Nike&quot;,
   &quot;region&quot;: &quot;DE&quot;,
-  &quot;quickSearch&quot;: false
+  &quot;includeDetails&quot;: true,
+  &quot;maxItems&quot;: 25
 }
 </code></pre>
-<h3 id="readme-example-direct-ad-id-lookup">Example: direct ad ID lookup</h3>
+<h3 id="readme-example-exact-advertiser-all-markets-image-ads">Example: exact advertiser, all markets, image ads</h3>
 <pre><code class="language-json">{
-  &quot;adIds&quot;: [&quot;1863424159438849&quot;, &quot;1863615078571137&quot;]
-}
-</code></pre>
-<h3 id="readme-example-filtered-search-with-a-minimum-impression-floor">Example: filtered search with a minimum impression floor</h3>
-<pre><code class="language-json">{
-  &quot;query&quot;: &quot;supplements&quot;,
+  &quot;mode&quot;: &quot;library&quot;,
+  &quot;advertiserName&quot;: &quot;NIKE Retail B.V.&quot;,
   &quot;region&quot;: &quot;all&quot;,
-  &quot;industryFilter&quot;: [&quot;health&quot;],
-  &quot;languageFilter&quot;: [&quot;en&quot;],
-  &quot;minImpressions&quot;: 50000,
-  &quot;quickSearch&quot;: false,
-  &quot;maxItems&quot;: 200
+  &quot;adType&quot;: &quot;image&quot;,
+  &quot;includeDetails&quot;: true,
+  &quot;maxItems&quot;: 100
+}
+</code></pre>
+<h3 id="readme-example-creative-center-top-ads-in-the-us">Example: Creative Center top ads in the US</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;creativeCenter&quot;,
+  &quot;ccCountry&quot;: &quot;US&quot;,
+  &quot;ccPeriod&quot;: &quot;180&quot;,
+  &quot;ccOrderBy&quot;: &quot;ctr&quot;,
+  &quot;ccSweep&quot;: true,
+  &quot;maxItems&quot;: 100
+}
+</code></pre>
+<h3 id="readme-example-both-sources">Example: both sources</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;both&quot;,
+  &quot;keyword&quot;: &quot;skincare&quot;,
+  &quot;region&quot;: &quot;FR&quot;,
+  &quot;ccCountry&quot;: &quot;FR&quot;,
+  &quot;maxItems&quot;: 50
 }
 </code></pre>
 <h2 id="readme-use-cases">Use cases</h2>
 <ul>
-<li><strong>Competitive intelligence</strong> — see which ads a competitor ran in European markets, with impression buckets and (in full detail) targeting</li>
-<li><strong>Creative research</strong> — review competitor creative assets, CTA choices, and formats across markets</li>
-<li><strong>Compliance monitoring</strong> — pull audit status, rejection info and audit reasons for regulatory research</li>
-<li><strong>Market sizing</strong> — compare impression buckets across an industry and region</li>
-<li><strong>Sponsorship mapping</strong> — identify ads placed on behalf of another party via the sponsor field</li>
-<li><strong>Brand account checks</strong> — see which TikTok account an advertiser has linked to its ads</li>
+<li><strong>Competitive intelligence</strong> — see every ad a brand runs in Europe, with dates, reach and targeting.</li>
+<li><strong>Creative research</strong> — collect working video/image creatives and CTAs across markets.</li>
+<li><strong>Compliance monitoring</strong> — pull audit status, rejection details and advertiser identity.</li>
+<li><strong>Market sizing</strong> — compare unique-user bands and per-country reach for a category.</li>
+<li><strong>Global trend spotting</strong> — use Creative Center to find high-performing ads outside the EU.</li>
+<li><strong>Advertiser due diligence</strong> — check the registered business, sponsor and linked TikTok account.</li>
 </ul>
 <h2 id="readme-faq">FAQ</h2>
-<p><strong>Which regions are covered?</strong>
-The <code>region</code> list holds 33 European country codes (EU/EEA countries plus the UK, Switzerland and Turkey), or <code>all</code>. Other countries are not available in this library.</p>
-<p><strong>What's the difference between <code>quickSearch: true</code> and <code>false</code>?</strong>
-<code>quickSearch: true</code> returns the search listing data only. <code>quickSearch: false</code> additionally opens each ad's detail page and adds advertiser registry details and the <code>targetingByLocation</code>, <code>targetingByAge</code> and <code>targetingByGender</code> breakdowns. If a detail page can't be loaded, the ad is still returned with its listing data, and after eight detail failures the rest of the run keeps listing data only.</p>
-<p><strong>Why did I get fewer ads than <code>maxItems</code>?</strong>
-The actor collects up to <code>maxItems</code> ads first and then applies <code>advertiserName</code>, <code>regionFilter</code>, <code>industryFilter</code>, <code>languageFilter</code>, <code>ctaFilter</code> and <code>minImpressions</code>. Ads the filters drop are not replaced. Searches also stop when TikTok reports no more results, and a single run pages through at most about 2,500 results.</p>
-<p><strong>Can results ever ignore my keyword?</strong>
-Yes, in one edge case. If TikTok rejects the keyword or advertiser search request, the actor falls back to the library's default listing of recent ads, so the rows may not match your keyword. The run log notes when this happens.</p>
-<p><strong>Does <code>sortBy</code> always apply?</strong>
-It applies to every search request. When <code>query</code>, <code>advertiserName</code>, <code>startDate</code> and <code>endDate</code> are all empty, the first page comes from the library's default listing and <code>sortBy</code> only applies from the second page on.</p>
-<p><strong>How is <code>avgImpressionsPerDay</code> calculated?</strong>
-It takes the lower bound of the <code>adImpressions</code> bucket (for example <code>10000</code> for <code>10K-100K</code>) and divides it by <code>daysActive</code>. It's a floor estimate, not an exact daily figure. <code>minImpressions</code> uses the same lower bound.</p>
-<p><strong>Can I find spark ads?</strong>
-Yes — ads TikTok marks with format code 4 come out with <code>adFormat: spark_ad</code>.</p>
-<p><strong>Can I filter to a specific date range?</strong>
-Yes — set <code>startDate</code> and <code>endDate</code> (<code>YYYY-MM-DD</code>). Without them the search window is the past year.</p>
+<p><strong>Do I need a TikTok account or cookies?</strong>
+No. Both sources are public. The actor opens TikTok's public pages once to establish an anonymous session; no login, cookie file or API key is involved.</p>
+<p><strong>How many DSA ads can one search return?</strong>
+TikTok serves 12 ads per page and caps a single search at roughly 5,000 results. Split by country, date range or keyword to go deeper. The actor warns when it reaches the cap.</p>
+<p><strong>Why are some ads missing details?</strong>
+TikTok marks some ads as unavailable or shows no detail data. Those rows keep their listing data and carry <code>detailUnavailable: true</code>. Detail pages are opened for at most 500 DSA ads and 200 Creative Center ads per run; rows beyond those limits keep their listing data.</p>
+<p><strong>Why are my video URLs sometimes expired?</strong>
+TikTok's media URLs are signed and time-limited. The actor converts the library's wrapper URLs into working CDN URLs; download or re-host the files promptly if you need them long-term.</p>
+<p><strong>What is the difference between the DSA library and Creative Center?</strong>
+The DSA library is the EU transparency database: dates, reach, targeting and advertiser identity. Creative Center is a global showcase of high-performing ads with CTR/likes/video renditions, but no dates or targeting.</p>
+<p><strong>Why does Creative Center return only 20 ads?</strong>
+Anonymous visitors get one page of 20 per filter combination. With <code>ccSweep</code> on, the actor sweeps periods, rankings, objectives and formats, deduplicates, and collects many more unique ads.</p>
+<p><strong>Can I search Creative Center by keyword?</strong>
+Not reliably without a TikTok login. The actor does not offer a Creative Center keyword field; it sweeps the public Top Ads surface instead.</p>
+<p><strong>How do exact advertiser searches work?</strong>
+TikTok matches the exact advertiser name (for example <code>NIKE Retail B.V.</code>). If that returns nothing, the actor retries the name as a keyword so you still get useful results.</p>
+<p><strong>Why do some fields stay empty?</strong>
+TikTok does not disclose them for every ad — for example spend, exact impressions, cities or device targeting. Empty fields are omitted rather than filled with placeholders.</p>
 <p><strong>Is this affiliated with TikTok?</strong>
-No. This is an independent, third-party actor that reads TikTok's public ad transparency library; it isn't affiliated with or endorsed by TikTok.</p>
-</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/rwSaNbXr5duaqxZWs/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>pz8Y1j3OF1xxdRb2X</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
+No. This is an independent third-party actor that reads TikTok's public ad transparency library and Creative Center pages.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/rwSaNbXr5duaqxZWs/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>VN98RbYxVmnD8fOwy</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
