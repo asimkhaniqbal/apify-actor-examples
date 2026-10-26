@@ -1,0 +1,725 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-TDngHMu3A9tyxbIXP3zJ3YLA8EXK89P9ccRBInjP85g=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Google Maps Business Finder with Hours, Ratings &amp; Location | Vexaloom Labs</title><meta name="description" content="Find public Google Maps businesses by search term or place URL and get name, address, phone, website, category, rating, review count, hours and coordinates."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/cbcgtWlBcgrsLiv99/"><meta property="og:title" content="Google Maps Business Finder with Hours, Ratings &amp; Location | Vexaloom Labs"><meta property="og:description" content="Find public Google Maps businesses by search term or place URL and get name, address, phone, website, category, rating, review count, hours and coordinates."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/cbcgtWlBcgrsLiv99/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/cbcgtWlBcgrsLiv99/#webpage","name":"Google Maps Business Finder with Hours, Ratings & Location","description":"Find public Google Maps businesses by search term or place URL and get name, address, phone, website, category, rating, review count, hours and coordinates.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/cbcgtWlBcgrsLiv99/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/cbcgtWlBcgrsLiv99/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/cbcgtWlBcgrsLiv99/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/cbcgtWlBcgrsLiv99/#article","headline":"Google Maps Business Finder with Hours, Ratings & Location","name":"Google Maps Business Finder with Hours, Ratings & Location","description":"Find public Google Maps businesses by search term or place URL and get name, address, phone, website, category, rating, review count, hours and coordinates.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/cbcgtWlBcgrsLiv99/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/cbcgtWlBcgrsLiv99/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/cbcgtWlBcgrsLiv99/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Google Maps Business Finder with Hours, Ratings & Location","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/cbcgtWlBcgrsLiv99/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Google Maps Business Finder with Hours, Ratings &amp; Location</span></div><section id="overview"><h1 class="doc-title">Google Maps Business Finder with Hours, Ratings &amp; Location</h1><p class="lede">Find public Google Maps businesses by search term or place URL and get name, address, phone, website, category, rating, review count, hours and coordinates.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/google-maps-business-finder-with-hours-ratings">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/cbcgtWlBcgrsLiv99/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>Search mode uses a text query; placeUrls mode scrapes specific Maps URLs; placeIds mode resolves canonical ChIJ Place IDs through Google&#x27;s public URL API.</td></tr><tr><td><code>searchQuery</code></td><td>string</td><td>optional</td><td>What to search for on Google Maps. Include location in the query for best results (e.g., &#x27;coffee shop in New York&#x27;). Used when mode is &#x27;search&#x27;.</td></tr><tr><td><code>location</code></td><td>string</td><td>optional</td><td>Optional location to append to the search query (e.g., &#x27;Los Angeles, CA&#x27;). Leave blank if location is already in the search query.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>Search mode uses a text query; placeUrls mode scrapes specific Maps URLs; placeIds mode resolves canonical ChIJ Place IDs through Google&#x27;s public URL API.</td></tr><tr><td><code>searchQuery</code></td><td>string</td><td>optional</td><td>What to search for on Google Maps. Include location in the query for best results (e.g., &#x27;coffee shop in New York&#x27;). Used when mode is &#x27;search&#x27;.</td></tr><tr><td><code>location</code></td><td>string</td><td>optional</td><td>Optional location to append to the search query (e.g., &#x27;Los Angeles, CA&#x27;). Leave blank if location is already in the search query.</td></tr><tr><td><code>placeUrls</code></td><td>array</td><td>optional</td><td>List of Google Maps place URLs to scrape directly. Used when mode is &#x27;placeUrls&#x27;. Each URL should be a full Google Maps place URL.</td></tr><tr><td><code>placeIds</code></td><td>array</td><td>optional</td><td>Canonical Google Place IDs beginning with ChIJ. The actor resolves them anonymously through Google&#x27;s public Maps URL API.</td></tr><tr><td><code>maxResults</code></td><td>integer</td><td>optional</td><td>Requested number of places to collect **per search**. With a batch of search terms or locations, every search gets its own allowance, so one busy term cannot use up the others. Records stop when the public feed ends, this ceiling is reached for that search, or the bounded runtime deadline expires.</td></tr><tr><td><code>language</code></td><td>string</td><td>optional</td><td>Language for Google Maps interface and results.</td></tr><tr><td><code>proxyConfiguration</code></td><td>object</td><td>optional</td><td>Proxy settings for the scraper. Using Apify Proxy is recommended for reliable results.</td></tr><tr><td><code>searchTerms</code></td><td>array</td><td>optional</td><td>Run several search terms in one go, e.g. [&quot;coffee shops&quot;, &quot;dentists&quot;]. Used with mode = search. Each term is searched in every location you provide, and every search gets its own maxResults allowance.</td></tr><tr><td><code>locations</code></td><td>array</td><td>optional</td><td>Run the search in several places in one go, e.g. [&quot;New York, NY&quot;, &quot;Austin, TX&quot;]. Used with mode = search. Each term is searched in each location.</td></tr><tr><td><code>minRating</code></td><td>number</td><td>optional</td><td>Only keep businesses rated at or above this value. Leave empty to keep every rating. A business with no published rating does not satisfy a minimum, so it is skipped.</td></tr><tr><td><code>maxRating</code></td><td>number</td><td>optional</td><td>Only keep businesses rated at or below this value. Useful for finding under-served or low-rated prospects.</td></tr><tr><td><code>minReviews</code></td><td>integer</td><td>optional</td><td>Only keep businesses with at least this many reviews. Use it to filter out brand-new listings with almost no history.</td></tr><tr><td><code>maxReviews</code></td><td>integer</td><td>optional</td><td>Only keep businesses with at most this many reviews. Useful for finding smaller independent businesses.</td></tr><tr><td><code>openNow</code></td><td>boolean</td><td>optional</td><td>Only keep businesses Google currently shows as open.</td></tr><tr><td><code>hasWebsite</code></td><td>boolean</td><td>optional</td><td>Only keep businesses that publish a website on their Google Maps listing.</td></tr><tr><td><code>hasPhone</code></td><td>boolean</td><td>optional</td><td>Only keep businesses that publish a phone number on their Google Maps listing.</td></tr><tr><td><code>nameFilter</code></td><td>string</td><td>optional</td><td>Only keep businesses whose name contains this text, for example &quot;pizza&quot; or &quot;Starbucks&quot;.</td></tr><tr><td><code>includeClosed</code></td><td>boolean</td><td>optional</td><td>When off, businesses Google marks as permanently closed are skipped.</td></tr><tr><td><code>excludeCategories</code></td><td>array</td><td>optional</td><td>Skip businesses whose category contains any of these words, for example [&quot;hotel&quot;, &quot;casino&quot;].</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;properties&quot;: {
+    &quot;excludeCategories&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Skip businesses whose category contains any of these words, for example [\&quot;hotel\&quot;, \&quot;casino\&quot;].&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Exclude categories&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;hasPhone&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only keep businesses that publish a phone number on their Google Maps listing.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Must have a phone number&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;hasWebsite&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only keep businesses that publish a website on their Google Maps listing.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Must have a website&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeClosed&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;When off, businesses Google marks as permanently closed are skipped.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Include permanently closed businesses&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;language&quot;: {
+      &quot;default&quot;: &quot;en&quot;,
+      &quot;description&quot;: &quot;Language for Google Maps interface and results.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;en&quot;,
+        &quot;es&quot;,
+        &quot;fr&quot;,
+        &quot;de&quot;,
+        &quot;it&quot;,
+        &quot;pt&quot;,
+        &quot;ja&quot;,
+        &quot;ko&quot;,
+        &quot;zh&quot;,
+        &quot;ar&quot;,
+        &quot;ru&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;English&quot;,
+        &quot;Spanish&quot;,
+        &quot;French&quot;,
+        &quot;German&quot;,
+        &quot;Italian&quot;,
+        &quot;Portuguese&quot;,
+        &quot;Japanese&quot;,
+        &quot;Korean&quot;,
+        &quot;Chinese&quot;,
+        &quot;Arabic&quot;,
+        &quot;Russian&quot;
+      ],
+      &quot;title&quot;: &quot;Language&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;location&quot;: {
+      &quot;description&quot;: &quot;Optional location to append to the search query (e.g., &#x27;Los Angeles, CA&#x27;). Leave blank if location is already in the search query.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Location (optional)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;locations&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Run the search in several places in one go, e.g. [\&quot;New York, NY\&quot;, \&quot;Austin, TX\&quot;]. Used with mode = search. Each term is searched in each location.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Locations (batch)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;maxRating&quot;: {
+      &quot;description&quot;: &quot;Only keep businesses rated at or below this value. Useful for finding under-served or low-rated prospects.&quot;,
+      &quot;maximum&quot;: 5,
+      &quot;minimum&quot;: 1,
+      &quot;title&quot;: &quot;Maximum rating&quot;,
+      &quot;type&quot;: &quot;number&quot;
+    },
+    &quot;maxResults&quot;: {
+      &quot;default&quot;: 20,
+      &quot;description&quot;: &quot;Requested number of places to collect **per search**. With a batch of search terms or locations, every search gets its own allowance, so one busy term cannot use up the others. Records stop when the public feed ends, this ceiling is reached for that search, or the bounded runtime deadline expires.&quot;,
+      &quot;maximum&quot;: 100000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 5,
+      &quot;title&quot;: &quot;Max Results&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxReviews&quot;: {
+      &quot;description&quot;: &quot;Only keep businesses with at most this many reviews. Useful for finding smaller independent businesses.&quot;,
+      &quot;maximum&quot;: 10000000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Maximum review count&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;minRating&quot;: {
+      &quot;description&quot;: &quot;Only keep businesses rated at or above this value. Leave empty to keep every rating. A business with no published rating does not satisfy a minimum, so it is skipped.&quot;,
+      &quot;maximum&quot;: 5,
+      &quot;minimum&quot;: 1,
+      &quot;title&quot;: &quot;Minimum rating&quot;,
+      &quot;type&quot;: &quot;number&quot;
+    },
+    &quot;minReviews&quot;: {
+      &quot;description&quot;: &quot;Only keep businesses with at least this many reviews. Use it to filter out brand-new listings with almost no history.&quot;,
+      &quot;maximum&quot;: 10000000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Minimum review count&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;search&quot;,
+      &quot;description&quot;: &quot;Search mode uses a text query; placeUrls mode scrapes specific Maps URLs; placeIds mode resolves canonical ChIJ Place IDs through Google&#x27;s public URL API.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;search&quot;,
+        &quot;placeUrls&quot;,
+        &quot;placeIds&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Search Google Maps&quot;,
+        &quot;Scrape place URLs&quot;,
+        &quot;Scrape Place IDs&quot;
+      ],
+      &quot;title&quot;: &quot;Mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;nameFilter&quot;: {
+      &quot;description&quot;: &quot;Only keep businesses whose name contains this text, for example \&quot;pizza\&quot; or \&quot;Starbucks\&quot;.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Business name contains&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;openNow&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only keep businesses Google currently shows as open.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Open now only&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;placeIds&quot;: {
+      &quot;description&quot;: &quot;Canonical Google Place IDs beginning with ChIJ. The actor resolves them anonymously through Google&#x27;s public Maps URL API.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;minItems&quot;: 1,
+      &quot;title&quot;: &quot;Google Place IDs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;placeUrls&quot;: {
+      &quot;description&quot;: &quot;List of Google Maps place URLs to scrape directly. Used when mode is &#x27;placeUrls&#x27;. Each URL should be a full Google Maps place URL.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Place URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;proxyConfiguration&quot;: {
+      &quot;description&quot;: &quot;Proxy settings for the scraper. Using Apify Proxy is recommended for reliable results.&quot;,
+      &quot;editor&quot;: &quot;proxy&quot;,
+      &quot;prefill&quot;: {
+        &quot;useApifyProxy&quot;: true
+      },
+      &quot;title&quot;: &quot;Proxy Configuration&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;searchQuery&quot;: {
+      &quot;description&quot;: &quot;What to search for on Google Maps. Include location in the query for best results (e.g., &#x27;coffee shop in New York&#x27;). Used when mode is &#x27;search&#x27;.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;coffee shop in New York&quot;,
+      &quot;title&quot;: &quot;Search Query&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;searchTerms&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Run several search terms in one go, e.g. [\&quot;coffee shops\&quot;, \&quot;dentists\&quot;]. Used with mode = search. Each term is searched in every location you provide, and every search gets its own maxResults allowance.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Search terms (batch)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    }
+  },
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Google Maps Business Scraper&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>places</code></td><td>string</td><td>optional</td><td>Each item contains only fields observed on the public place page or canonical URL.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Dataset of public Google Maps places with name, address, category, rating, review count, hours and coordinates.&quot;,
+  &quot;properties&quot;: {
+    &quot;places&quot;: {
+      &quot;description&quot;: &quot;Each item contains only fields observed on the public place page or canonical URL.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Places&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Google Maps Business Finder with Hours, Ratings &amp; Location Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;views&quot;: {
+    &quot;full&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {}
+      },
+      &quot;title&quot;: &quot;Complete Business Data&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;recordType&quot;,
+          &quot;searchTerm&quot;,
+          &quot;name&quot;,
+          &quot;categoryName&quot;,
+          &quot;description&quot;,
+          &quot;totalScore&quot;,
+          &quot;reviewsCount&quot;,
+          &quot;ratingHistogram&quot;,
+          &quot;priceLevel&quot;,
+          &quot;address&quot;,
+          &quot;location&quot;,
+          &quot;longitude&quot;,
+          &quot;latitude&quot;,
+          &quot;plusCode&quot;,
+          &quot;locatedIn&quot;,
+          &quot;phone&quot;,
+          &quot;website&quot;,
+          &quot;menuLink&quot;,
+          &quot;bookingLinks&quot;,
+          &quot;hours&quot;,
+          &quot;hoursStatus&quot;,
+          &quot;isOpenNow&quot;,
+          &quot;serviceOptions&quot;,
+          &quot;amenities&quot;,
+          &quot;placeAttributes&quot;,
+          &quot;hotelAmenities&quot;,
+          &quot;priceOfferFreeCancellation&quot;,
+          &quot;priceOfferDateRange&quot;,
+          &quot;priceOfferCurrency&quot;,
+          &quot;priceOfferAmount&quot;,
+          &quot;checkOutTime&quot;,
+          &quot;checkInTime&quot;,
+          &quot;hotelStarRating&quot;,
+          &quot;hotelStars&quot;,
+          &quot;fuelPrices&quot;,
+          &quot;hasStreetView&quot;,
+          &quot;streetViewCount&quot;,
+          &quot;photosSample&quot;,
+          &quot;photoCount&quot;,
+          &quot;popularTimesSummary&quot;,
+          &quot;claimed&quot;,
+          &quot;permanentlyClosed&quot;,
+          &quot;temporarilyClosed&quot;,
+          &quot;placeId&quot;,
+          &quot;featureId&quot;,
+          &quot;kgmid&quot;,
+          &quot;googleMapsUrl&quot;,
+          &quot;sourceUrl&quot;,
+          &quot;scrapedAt&quot;
+        ]
+      }
+    },
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;address&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Address&quot;
+          },
+          &quot;categoryName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Category&quot;
+          },
+          &quot;name&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Name&quot;
+          },
+          &quot;phone&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Phone&quot;
+          },
+          &quot;reviewsCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Reviews&quot;
+          },
+          &quot;totalScore&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Rating&quot;
+          },
+          &quot;website&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Website&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Google Maps Businesses&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;recordType&quot;,
+          &quot;searchTerm&quot;,
+          &quot;name&quot;,
+          &quot;categoryName&quot;,
+          &quot;totalScore&quot;,
+          &quot;reviewsCount&quot;,
+          &quot;address&quot;,
+          &quot;phone&quot;,
+          &quot;website&quot;,
+          &quot;priceLevel&quot;,
+          &quot;isOpenNow&quot;,
+          &quot;latitude&quot;,
+          &quot;longitude&quot;,
+          &quot;googleMapsUrl&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-google-maps-business-finder-with-hours-ratings-location">Google Maps Business Finder with Hours, Ratings &amp; Location</h2>
+<p>Find business records from public Google Maps pages. Run a text search (or a batch of searches across several cities) to discover places, or hand over specific Google Maps place URLs or <code>ChIJ</code> Place IDs for direct extraction. Each business is written to the dataset as soon as it has been read.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li>Searches Google Maps for a query, optionally combined with one or more locations, or for a batch of search terms × locations in one run.</li>
+<li>Reads specific public place URLs or canonical Place IDs directly.</li>
+<li>Extracts business details such as name, category, address, phone, website, rating, review count, hours, coordinates, identifiers, photos and, for hotels and fuel stations, prices, when Google shows them.</li>
+<li>Applies optional filters (rating, review count, open now, website, phone, name, category, permanently closed) and skips geographic areas such as a city or state that a search can surface.</li>
+<li>Removes duplicate places across the whole run and omits fields Google doesn't show instead of returning placeholders.</li>
+</ul>
+<h2 id="readme-output-per-record">Output per record</h2>
+<p>Each business row can include:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>recordType</code></td>
+<td>Always <code>business</code></td>
+</tr>
+<tr>
+<td><code>searchTerm</code></td>
+<td>The search that found this business (search mode only), so batch runs stay traceable</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>Business name shown by Google Maps</td>
+</tr>
+<tr>
+<td><code>categoryName</code></td>
+<td>Category shown on the listing</td>
+</tr>
+<tr>
+<td><code>address</code></td>
+<td>Public address</td>
+</tr>
+<tr>
+<td><code>phone</code></td>
+<td>Public phone number, when shown</td>
+</tr>
+<tr>
+<td><code>website</code></td>
+<td>Public website, when shown</td>
+</tr>
+<tr>
+<td><code>totalScore</code></td>
+<td>Star rating, when rated</td>
+</tr>
+<tr>
+<td><code>reviewsCount</code></td>
+<td>Review count</td>
+</tr>
+<tr>
+<td><code>priceLevel</code></td>
+<td>Price band such as <code>$$</code> or <code>$10–20</code>, when shown</td>
+</tr>
+<tr>
+<td><code>plusCode</code></td>
+<td>Plus Code, when shown</td>
+</tr>
+<tr>
+<td><code>location</code></td>
+<td><code>{lat, lng}</code> read from the place's Maps URL</td>
+</tr>
+<tr>
+<td><code>latitude</code> / <code>longitude</code></td>
+<td>The same coordinates as plain columns</td>
+</tr>
+<tr>
+<td><code>placeId</code></td>
+<td>Canonical Google Place ID (the <code>ChIJ...</code> token), when Google exposes one</td>
+</tr>
+<tr>
+<td><code>featureId</code></td>
+<td>Google Maps feature ID (the <code>0x...:0x...</code> token), when Google exposes one; kept separate from <code>placeId</code></td>
+</tr>
+<tr>
+<td><code>kgmid</code></td>
+<td>Knowledge Graph identifier (the <code>/g/...</code> token in the Maps URL)</td>
+</tr>
+<tr>
+<td><code>locatedIn</code></td>
+<td>Parent place when Google shows &quot;Located in:&quot; — useful for shops inside malls, stations, and buildings</td>
+</tr>
+<tr>
+<td><code>placeAttributes</code></td>
+<td>Google's attribute chips exactly as shown, e.g. <code>LGBTQ+ friendly</code>, <code>Check-in time: 3:00 PM</code></td>
+</tr>
+<tr>
+<td><code>hasStreetView</code> / <code>streetViewCount</code></td>
+<td>Set when Google shows a Street View control for the place</td>
+</tr>
+<tr>
+<td><code>fuelPrices</code></td>
+<td>Fuel grades and published prices for a fuel station, e.g. <code>[{&quot;grade&quot;: &quot;Regular&quot;, &quot;price&quot;: &quot;$4.79&quot;}]</code>; <code>stale: true</code> marks a price Google flags as over 24 hours old</td>
+</tr>
+<tr>
+<td><code>hotelStars</code> / <code>hotelStarRating</code></td>
+<td>Hotel star class as Google labels it, plus the numeric value</td>
+</tr>
+<tr>
+<td><code>checkInTime</code> / <code>checkOutTime</code></td>
+<td>Published check-in and check-out times</td>
+</tr>
+<tr>
+<td><code>priceOfferAmount</code> / <code>priceOfferCurrency</code></td>
+<td>The nightly hotel price Google currently shows, and its currency</td>
+</tr>
+<tr>
+<td><code>priceOfferDateRange</code></td>
+<td>The dates that price applies to</td>
+</tr>
+<tr>
+<td><code>priceOfferFreeCancellation</code></td>
+<td>Free-cancellation note on that hotel offer, in Google's wording</td>
+</tr>
+<tr>
+<td><code>hotelAmenities</code></td>
+<td>Named hotel amenities with availability, e.g. <code>[{&quot;name&quot;: &quot;Pool&quot;, &quot;available&quot;: true}]</code></td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>Editorial description shown on the place page</td>
+</tr>
+<tr>
+<td><code>hoursStatus</code> / <code>hours</code></td>
+<td>Opening-hours status line and weekly hours</td>
+</tr>
+<tr>
+<td><code>isOpenNow</code></td>
+<td>Whether Google shows the place as open at scrape time</td>
+</tr>
+<tr>
+<td><code>ratingHistogram</code></td>
+<td>Rating distribution by stars</td>
+</tr>
+<tr>
+<td><code>serviceOptions</code></td>
+<td>Object of service flags Google shows, e.g. <code>{&quot;dineIn&quot;: true, &quot;takeout&quot;: true}</code></td>
+</tr>
+<tr>
+<td><code>amenities</code></td>
+<td>Header amenity labels in Google's own wording</td>
+</tr>
+<tr>
+<td><code>menuLink</code></td>
+<td>Menu link, when shown</td>
+</tr>
+<tr>
+<td><code>bookingLinks</code></td>
+<td>Booking, order or reservation links, when shown</td>
+</tr>
+<tr>
+<td><code>photosSample</code></td>
+<td>Image URLs visible on the place page</td>
+</tr>
+<tr>
+<td><code>photoCount</code></td>
+<td>Number of photos Google reports for the place</td>
+</tr>
+<tr>
+<td><code>popularTimesSummary</code></td>
+<td>Live busyness, as <code>{currentBusyness, currentBusynessText}</code> or just the text</td>
+</tr>
+<tr>
+<td><code>claimed</code></td>
+<td><code>false</code> only when Google shows a &quot;Claim this business&quot; link</td>
+</tr>
+<tr>
+<td><code>permanentlyClosed</code> / <code>temporarilyClosed</code></td>
+<td><code>true</code> only when Google marks the place closed</td>
+</tr>
+<tr>
+<td><code>googleMapsUrl</code></td>
+<td>Maps URL of the place</td>
+</tr>
+<tr>
+<td><code>sourceUrl</code></td>
+<td>Same as <code>googleMapsUrl</code></td>
+</tr>
+<tr>
+<td><code>scrapedAt</code></td>
+<td>UTC scrape timestamp</td>
+</tr>
+</tbody>
+</table></div>
+<p>Fields are conditional. A business without a website, phone, rating, hours, or photos simply omits that field.</p>
+<p><strong>Search results without a detail page:</strong> in search mode the actor first reads each result card, then opens the place page. If the place page can't be opened in time, the business is still saved with only what the card showed (typically <code>name</code>, <code>totalScore</code>, <code>reviewsCount</code>, <code>categoryName</code>, <code>priceLevel</code>, <code>description</code>, <code>address</code> and <code>googleMapsUrl</code>). Phone, website, Place ID, coordinates, hours, photos and the other detail fields are missing from those rows.</p>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td>string</td>
+<td><code>search</code></td>
+<td><code>search</code>, <code>placeUrls</code>, or <code>placeIds</code>. The two direct modes read both <code>placeUrls</code> and <code>placeIds</code>, so you can mix them.</td>
+</tr>
+<tr>
+<td><code>searchQuery</code></td>
+<td>string</td>
+<td>–</td>
+<td>Search text such as <code>coffee shops in Brooklyn</code>. Used in <code>search</code> mode when <code>searchTerms</code> is empty.</td>
+</tr>
+<tr>
+<td><code>location</code></td>
+<td>string</td>
+<td>–</td>
+<td>Location added to each search as &quot;term in location&quot; (skipped when the term already contains it). Combined with <code>locations</code>.</td>
+</tr>
+<tr>
+<td><code>placeUrls</code></td>
+<td>array</td>
+<td>–</td>
+<td>Google Maps place URLs for the direct modes. Copied quotes, tracking parameters, country domains and short links are cleaned up; duplicates are removed; non-Maps URLs are rejected.</td>
+</tr>
+<tr>
+<td><code>placeIds</code></td>
+<td>array</td>
+<td>–</td>
+<td>Canonical Google Place IDs beginning with <code>ChIJ</code> for the direct modes. Feature IDs and CIDs are not accepted here; paste a Maps URL instead.</td>
+</tr>
+<tr>
+<td><code>maxResults</code></td>
+<td>integer</td>
+<td><code>20</code></td>
+<td>In <code>search</code> mode: the cap <strong>per search</strong> (each term × location combination gets its own allowance). In <code>placeUrls</code>/<code>placeIds</code> mode: how many of the supplied URLs/IDs are read in total, so raise it when you pass more than 20. 1–100,000.</td>
+</tr>
+<tr>
+<td><code>language</code></td>
+<td>string</td>
+<td><code>en</code></td>
+<td>Maps interface language: <code>en</code>, <code>es</code>, <code>fr</code>, <code>de</code>, <code>it</code>, <code>pt</code>, <code>ja</code>, <code>ko</code>, <code>zh</code>, <code>ar</code> or <code>ru</code>.</td>
+</tr>
+<tr>
+<td><code>proxyConfiguration</code></td>
+<td>object</td>
+<td>–</td>
+<td>Optional proxy override. Leave empty to use the actor's default proxy; set <code>useApifyProxy</code> to <code>false</code> to connect without one.</td>
+</tr>
+<tr>
+<td><code>searchTerms</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Several search terms in one run, e.g. <code>[&quot;coffee shops&quot;, &quot;dentists&quot;]</code>. When set, <code>searchQuery</code> is not used. Each term is searched in every location.</td>
+</tr>
+<tr>
+<td><code>locations</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Several locations in one run, e.g. <code>[&quot;New York, NY&quot;, &quot;Austin, TX&quot;]</code>.</td>
+</tr>
+<tr>
+<td><code>minRating</code></td>
+<td>number</td>
+<td>–</td>
+<td>Keep businesses rated at or above this value (1–5). Unrated businesses are skipped.</td>
+</tr>
+<tr>
+<td><code>maxRating</code></td>
+<td>number</td>
+<td>–</td>
+<td>Keep businesses rated at or below this value. Unrated businesses are skipped.</td>
+</tr>
+<tr>
+<td><code>minReviews</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Keep businesses with at least this many reviews. Businesses without a review count are skipped.</td>
+</tr>
+<tr>
+<td><code>maxReviews</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Keep businesses with at most this many reviews. Businesses without a review count are skipped.</td>
+</tr>
+<tr>
+<td><code>openNow</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Keep only businesses Google shows as open at scrape time.</td>
+</tr>
+<tr>
+<td><code>hasWebsite</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Keep only businesses that publish a website.</td>
+</tr>
+<tr>
+<td><code>hasPhone</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Keep only businesses that publish a phone number.</td>
+</tr>
+<tr>
+<td><code>nameFilter</code></td>
+<td>string</td>
+<td>–</td>
+<td>Keep only businesses whose name contains this text (case-insensitive).</td>
+</tr>
+<tr>
+<td><code>includeClosed</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>When off, businesses Google marks as permanently closed are skipped.</td>
+</tr>
+<tr>
+<td><code>excludeCategories</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Skip businesses whose category contains any of these words.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Filters apply in every mode. A card-only search row (see above) has no phone, website or open-now data, so it is dropped when <code>hasPhone</code>, <code>hasWebsite</code> or <code>openNow</code> is on.</p>
+<h3 id="readme-example-search-for-local-businesses">Example: search for local businesses</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;searchQuery&quot;: &quot;coffee shops&quot;,
+  &quot;location&quot;: &quot;Brooklyn, NY&quot;,
+  &quot;maxResults&quot;: 20,
+  &quot;language&quot;: &quot;en&quot;
+}
+</code></pre>
+<h3 id="readme-example-many-search-terms-across-several-cities-filtered">Example: many search terms across several cities, filtered</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;searchTerms&quot;: [&quot;coffee shops&quot;, &quot;bakeries&quot;],
+  &quot;locations&quot;: [&quot;Austin, TX&quot;, &quot;Dallas, TX&quot;],
+  &quot;minRating&quot;: 4.0,
+  &quot;minReviews&quot;: 25,
+  &quot;hasWebsite&quot;: true,
+  &quot;maxResults&quot;: 50
+}
+</code></pre>
+<p>This runs all four term-and-city combinations, keeps only well-reviewed businesses that publish a website, and allows up to 50 per combination.</p>
+<h3 id="readme-example-search-in-japanese">Example: search in Japanese</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;searchQuery&quot;: &quot;寿司&quot;,
+  &quot;location&quot;: &quot;東京 日本&quot;,
+  &quot;maxResults&quot;: 10,
+  &quot;language&quot;: &quot;ja&quot;
+}
+</code></pre>
+<h3 id="readme-example-scrape-specific-place-urls">Example: scrape specific place URLs</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;placeUrls&quot;,
+  &quot;placeUrls&quot;: [
+    &quot;https://www.google.com/maps/place/GRIND+THE+NYC+COFFEE+SHOP+%26+BAGEL+HOUSE/@40.7590839,-73.9918101,17z/data=!3m1!4m6!3m5!1s0x89c259125a931087:0x3d471d4575240620!8m2!3d40.7590839!4d-73.9918101!16s%2Fg%2F11kgnrjx7t&quot;
+  ],
+  &quot;maxResults&quot;: 1
+}
+</code></pre>
+<h3 id="readme-example-scrape-canonical-place-ids">Example: scrape canonical Place IDs</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;placeIds&quot;,
+  &quot;placeIds&quot;: [&quot;ChIJabtoT7hlwokRLECK0SW3_8I&quot;],
+  &quot;maxResults&quot;: 1
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li>Map every bakery or dentist in a set of cities before opening a new location.</li>
+<li>Build a prospect list of local businesses that have a phone number but no website.</li>
+<li>Refresh ratings, review counts and opening hours for a fixed list of branch URLs.</li>
+<li>Find hotels with their star class, check-in times and the nightly price Google shows.</li>
+<li>Compare fuel prices across the stations in an area.</li>
+<li>Add coordinates, Plus Codes and Place IDs to an existing location database.</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Are all fields always present?</strong> No. Google publishes different fields for different businesses and regions, and card-only search rows carry fewer fields. Unavailable values are omitted.</p>
+<p><strong>Does the actor invent ratings, review counts, or identifiers?</strong> No. Values are only written when they appear on the place page, its result card or its Maps URL.</p>
+<p><strong>Can I get more than about 120 results for one search?</strong> You can request up to 100,000, but Google usually lists around 120 or fewer places for one search. For wider coverage, split a broad search into narrower ones (for example by neighborhood) using <code>searchTerms</code> and <code>locations</code>.</p>
+<p><strong>Why did my place-URL run return fewer rows than URLs I supplied?</strong> In <code>placeUrls</code>/<code>placeIds</code> mode <code>maxResults</code> caps how many of the supplied URLs/IDs are read (default 20). Duplicate URLs are also merged, filters can skip places, and a place page that won't load is left out rather than saved as an empty row.</p>
+<p><strong>What happens with duplicates?</strong> Places are matched by Place ID, feature ID or Maps URL (or name plus address when none of those are available) across the whole run. A place found by two searches is saved once, under the first search that found it.</p>
+<p><strong>What happens if Google blocks or limits the page?</strong> Already saved records are kept and the run status says whether Google failed to load the results or nothing matched your filters. The dataset is never padded to reach <code>maxResults</code>. Very large requests also stop when the run approaches its timeout.</p>
+<p><strong>Do I need a Google account?</strong> No. No login or cookies are needed.</p>
+<p><strong>Is this affiliated with Google?</strong> No. It's an independent tool that reads public Google Maps pages. Use the data responsibly and follow applicable terms and laws.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/cbcgtWlBcgrsLiv99/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>YAWwN1vDmmrZaV6Xw</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

@@ -1,0 +1,202 @@
+{
+  "properties": {
+    "excludeCategories": {
+      "default": [],
+      "description": "Skip businesses whose category contains any of these words, for example [\"hotel\", \"casino\"].",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Exclude categories",
+      "type": "array"
+    },
+    "hasPhone": {
+      "default": false,
+      "description": "Only keep businesses that publish a phone number on their Google Maps listing.",
+      "prefill": false,
+      "title": "Must have a phone number",
+      "type": "boolean"
+    },
+    "hasWebsite": {
+      "default": false,
+      "description": "Only keep businesses that publish a website on their Google Maps listing.",
+      "prefill": false,
+      "title": "Must have a website",
+      "type": "boolean"
+    },
+    "includeClosed": {
+      "default": true,
+      "description": "When off, businesses Google marks as permanently closed are skipped.",
+      "prefill": true,
+      "title": "Include permanently closed businesses",
+      "type": "boolean"
+    },
+    "language": {
+      "default": "en",
+      "description": "Language for Google Maps interface and results.",
+      "editor": "select",
+      "enum": [
+        "en",
+        "es",
+        "fr",
+        "de",
+        "it",
+        "pt",
+        "ja",
+        "ko",
+        "zh",
+        "ar",
+        "ru"
+      ],
+      "enumTitles": [
+        "English",
+        "Spanish",
+        "French",
+        "German",
+        "Italian",
+        "Portuguese",
+        "Japanese",
+        "Korean",
+        "Chinese",
+        "Arabic",
+        "Russian"
+      ],
+      "title": "Language",
+      "type": "string"
+    },
+    "location": {
+      "description": "Optional location to append to the search query (e.g., 'Los Angeles, CA'). Leave blank if location is already in the search query.",
+      "editor": "textfield",
+      "title": "Location (optional)",
+      "type": "string"
+    },
+    "locations": {
+      "default": [],
+      "description": "Run the search in several places in one go, e.g. [\"New York, NY\", \"Austin, TX\"]. Used with mode = search. Each term is searched in each location.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Locations (batch)",
+      "type": "array"
+    },
+    "maxRating": {
+      "description": "Only keep businesses rated at or below this value. Useful for finding under-served or low-rated prospects.",
+      "maximum": 5,
+      "minimum": 1,
+      "title": "Maximum rating",
+      "type": "number"
+    },
+    "maxResults": {
+      "default": 20,
+      "description": "Requested number of places to collect **per search**. With a batch of search terms or locations, every search gets its own allowance, so one busy term cannot use up the others. Records stop when the public feed ends, this ceiling is reached for that search, or the bounded runtime deadline expires.",
+      "maximum": 100000,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Max Results",
+      "type": "integer"
+    },
+    "maxReviews": {
+      "description": "Only keep businesses with at most this many reviews. Useful for finding smaller independent businesses.",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Maximum review count",
+      "type": "integer"
+    },
+    "minRating": {
+      "description": "Only keep businesses rated at or above this value. Leave empty to keep every rating. A business with no published rating does not satisfy a minimum, so it is skipped.",
+      "maximum": 5,
+      "minimum": 1,
+      "title": "Minimum rating",
+      "type": "number"
+    },
+    "minReviews": {
+      "description": "Only keep businesses with at least this many reviews. Use it to filter out brand-new listings with almost no history.",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Minimum review count",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "Search mode uses a text query; placeUrls mode scrapes specific Maps URLs; placeIds mode resolves canonical ChIJ Place IDs through Google's public URL API.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "placeUrls",
+        "placeIds"
+      ],
+      "enumTitles": [
+        "Search Google Maps",
+        "Scrape place URLs",
+        "Scrape Place IDs"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "nameFilter": {
+      "description": "Only keep businesses whose name contains this text, for example \"pizza\" or \"Starbucks\".",
+      "editor": "textfield",
+      "title": "Business name contains",
+      "type": "string"
+    },
+    "openNow": {
+      "default": false,
+      "description": "Only keep businesses Google currently shows as open.",
+      "prefill": false,
+      "title": "Open now only",
+      "type": "boolean"
+    },
+    "placeIds": {
+      "description": "Canonical Google Place IDs beginning with ChIJ. The actor resolves them anonymously through Google's public Maps URL API.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Google Place IDs",
+      "type": "array"
+    },
+    "placeUrls": {
+      "description": "List of Google Maps place URLs to scrape directly. Used when mode is 'placeUrls'. Each URL should be a full Google Maps place URL.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Place URLs",
+      "type": "array"
+    },
+    "proxyConfiguration": {
+      "description": "Proxy settings for the scraper. Using Apify Proxy is recommended for reliable results.",
+      "editor": "proxy",
+      "prefill": {
+        "useApifyProxy": true
+      },
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "searchQuery": {
+      "description": "What to search for on Google Maps. Include location in the query for best results (e.g., 'coffee shop in New York'). Used when mode is 'search'.",
+      "editor": "textfield",
+      "prefill": "coffee shop in New York",
+      "title": "Search Query",
+      "type": "string"
+    },
+    "searchTerms": {
+      "default": [],
+      "description": "Run several search terms in one go, e.g. [\"coffee shops\", \"dentists\"]. Used with mode = search. Each term is searched in every location you provide, and every search gets its own maxResults allowance.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Search terms (batch)",
+      "type": "array"
+    }
+  },
+  "schemaVersion": 1,
+  "title": "Google Maps Business Scraper",
+  "type": "object"
+}
