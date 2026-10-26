@@ -1,0 +1,217 @@
+{
+  "description": "Scrape the public TikTok Ad Library transparency database.",
+  "properties": {
+    "adIds": {
+      "default": [],
+      "description": "Direct list of TikTok ad IDs. Bypasses search and fetches each ad's detail page directly.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Ad IDs (direct lookup)",
+      "type": "array"
+    },
+    "advertiserName": {
+      "description": "Filter by advertiser name (substring match).",
+      "editor": "textfield",
+      "title": "Advertiser name",
+      "type": "string"
+    },
+    "ctaFilter": {
+      "default": [],
+      "description": "Only emit ads whose call-to-action button text contains one of these substrings (case-insensitive — e.g. `Shop Now`, `Learn More`, `Sign Up`). Ads without a CTA are dropped. Requires `quickSearch=false` — CTA data is only available from the detail page.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "CTA filter (Pro)",
+      "type": "array"
+    },
+    "endDate": {
+      "description": "Latest ad end date. Default: today.",
+      "editor": "textfield",
+      "title": "End date (YYYY-MM-DD)",
+      "type": "string"
+    },
+    "industryFilter": {
+      "default": [],
+      "description": "Only emit ads whose advertiser industry contains one of these substrings.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Industry filter (Pro)",
+      "type": "array"
+    },
+    "languageFilter": {
+      "default": [],
+      "description": "Only emit ads in these languages (matched case-insensitively against the `adLanguages` field, e.g. `en`, `de`, `fr`). Ads without a detected language are kept. Most effective with `quickSearch=false`.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Language filter (Pro)",
+      "type": "array"
+    },
+    "maxItems": {
+      "default": 10,
+      "description": "Hard cap on emitted ads.",
+      "maximum": 5000,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "minImpressions": {
+      "description": "Drop ads with fewer than this many impressions (numeric value parsed from TikTok's bucket like `10K-100K`).",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Min impressions (Pro)",
+      "type": "integer"
+    },
+    "query": {
+      "default": "",
+      "description": "Free-text query — company name, domain, or ad text. Leave empty to browse all recent ads.",
+      "editor": "textfield",
+      "prefill": "technology",
+      "title": "Search query",
+      "type": "string"
+    },
+    "quickSearch": {
+      "default": true,
+      "description": "When true, skip the ad-detail fetch and only return data from the listing card. Faster but omits some fields (full targeting breakdown).",
+      "prefill": true,
+      "title": "Quick search (skip detail pages)",
+      "type": "boolean"
+    },
+    "region": {
+      "default": "all",
+      "description": "TikTok ad region. The library covers EU/EEA + UK/CH/TR (DSA transparency). Use `all` for all-region search.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "AT",
+        "BE",
+        "BG",
+        "CH",
+        "CY",
+        "CZ",
+        "DE",
+        "DK",
+        "EE",
+        "ES",
+        "FI",
+        "FR",
+        "GB",
+        "GR",
+        "HR",
+        "HU",
+        "IE",
+        "IS",
+        "IT",
+        "LI",
+        "LT",
+        "LU",
+        "LV",
+        "MT",
+        "NL",
+        "NO",
+        "PL",
+        "PT",
+        "RO",
+        "SE",
+        "SI",
+        "SK",
+        "TR"
+      ],
+      "prefill": "all",
+      "title": "Region",
+      "type": "string"
+    },
+    "regionFilter": {
+      "default": [],
+      "description": "Only emit ads that target one of these regions. Case-insensitive substring match against `targetingByLocation`.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Region filter (Pro)",
+      "type": "array"
+    },
+    "requestDelaySecs": {
+      "default": 1,
+      "description": "Pause between successive API calls. Lower = faster runs but more rate-limit risk; higher = slower but more reliable. The actor still adds short backoff between retries automatically.",
+      "editor": "number",
+      "maximum": 10,
+      "minimum": 0,
+      "prefill": 1,
+      "title": "Delay between requests (seconds)",
+      "type": "integer"
+    },
+    "sortBy": {
+      "default": "last_shown_date,desc",
+      "description": "How to sort results.",
+      "editor": "select",
+      "enum": [
+        "last_shown_date,desc",
+        "last_shown_date,asc",
+        "create_time,desc",
+        "create_time,asc",
+        "impression,desc",
+        "impression,asc"
+      ],
+      "enumTitles": [
+        "Last shown date (newest first)",
+        "Last shown date (oldest first)",
+        "Create time (newest first)",
+        "Create time (oldest first)",
+        "Impressions (highest first)",
+        "Impressions (lowest first)"
+      ],
+      "prefill": "last_shown_date,desc",
+      "title": "Sort by",
+      "type": "string"
+    },
+    "startDate": {
+      "description": "Earliest ad start date. Default: 1 year ago.",
+      "editor": "textfield",
+      "title": "Start date (YYYY-MM-DD)",
+      "type": "string"
+    },
+    "timezone": {
+      "default": "UTC",
+      "description": "IANA timezone for date-range bucketing (`startDate`/`endDate`). Default UTC.",
+      "editor": "select",
+      "enum": [
+        "UTC",
+        "Europe/London",
+        "Europe/Berlin",
+        "Europe/Paris",
+        "Europe/Madrid",
+        "Europe/Rome",
+        "Europe/Amsterdam",
+        "Europe/Stockholm",
+        "Europe/Warsaw",
+        "Europe/Athens",
+        "Europe/Istanbul",
+        "Europe/Moscow",
+        "Asia/Dubai",
+        "Asia/Tokyo",
+        "Asia/Shanghai",
+        "Asia/Singapore",
+        "Asia/Kolkata",
+        "Australia/Sydney",
+        "America/New_York",
+        "America/Chicago",
+        "America/Denver",
+        "America/Los_Angeles",
+        "America/Sao_Paulo",
+        "America/Mexico_City"
+      ],
+      "prefill": "UTC",
+      "title": "Timezone",
+      "type": "string"
+    },
+    "useApifyProxy": {
+      "default": true,
+      "description": "Route requests through Apify's proxy pool (datacenter EU exit IPs). Recommended on cloud — avoids IP rate-limiting. The actor automatically rotates the proxy session on errors.",
+      "prefill": true,
+      "title": "Use Apify proxy",
+      "type": "boolean"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "TikTok Ads Library Scraper Pro Input",
+  "type": "object"
+}

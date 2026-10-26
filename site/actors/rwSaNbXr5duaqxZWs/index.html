@@ -1,0 +1,759 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-GpeOAwsiTFUT3KHbWmM27+9+gBFzpka93MBOcM6AB2E=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>TikTok DSA Ads Transparency Library Scraper | Vexaloom Labs</title><meta name="description" content="Search TikTok&#x27;s EU/EEA ad transparency database by keyword, advertiser or ad ID. Get creative media, advertiser identity, impression buckets, audit status and per-region/age/gender"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/"><meta property="og:title" content="TikTok DSA Ads Transparency Library Scraper | Vexaloom Labs"><meta property="og:description" content="Search TikTok&#x27;s EU/EEA ad transparency database by keyword, advertiser or ad ID. Get creative media, advertiser identity, impression buckets, audit status and per-region/age/gender"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/#webpage","name":"TikTok DSA Ads Transparency Library Scraper","description":"Search TikTok's EU/EEA ad transparency database by keyword, advertiser or ad ID. Get creative media, advertiser identity, impression buckets, audit status and per-region/age/gender targeting.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/#article","headline":"TikTok DSA Ads Transparency Library Scraper","name":"TikTok DSA Ads Transparency Library Scraper","description":"Search TikTok's EU/EEA ad transparency database by keyword, advertiser or ad ID. Get creative media, advertiser identity, impression buckets, audit status and per-region/age/gender targeting.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"TikTok DSA Ads Transparency Library Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/rwSaNbXr5duaqxZWs/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>TikTok DSA Ads Transparency Library Scraper</span></div><section id="overview"><h1 class="doc-title">TikTok DSA Ads Transparency Library Scraper</h1><p class="lede">Search TikTok&#x27;s EU/EEA ad transparency database by keyword, advertiser or ad ID. Get creative media, advertiser identity, impression buckets, audit status and per-region/age/gender targeting.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/tiktok-dsa-ads-transparency-library-scraper">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/rwSaNbXr5duaqxZWs/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>query</code></td><td>string</td><td>optional</td><td>Free-text query — company name, domain, or ad text. Leave empty to browse all recent ads.</td></tr><tr><td><code>adIds</code></td><td>array</td><td>optional</td><td>Direct list of TikTok ad IDs. Bypasses search and fetches each ad&#x27;s detail page directly.</td></tr><tr><td><code>advertiserName</code></td><td>string</td><td>optional</td><td>Filter by advertiser name (substring match).</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>query</code></td><td>string</td><td>optional</td><td>Free-text query — company name, domain, or ad text. Leave empty to browse all recent ads.</td></tr><tr><td><code>adIds</code></td><td>array</td><td>optional</td><td>Direct list of TikTok ad IDs. Bypasses search and fetches each ad&#x27;s detail page directly.</td></tr><tr><td><code>advertiserName</code></td><td>string</td><td>optional</td><td>Filter by advertiser name (substring match).</td></tr><tr><td><code>region</code></td><td>string</td><td>optional</td><td>TikTok ad region. The library covers EU/EEA + UK/CH/TR (DSA transparency). Use `all` for all-region search.</td></tr><tr><td><code>startDate</code></td><td>string</td><td>optional</td><td>Earliest ad start date. Default: 1 year ago.</td></tr><tr><td><code>endDate</code></td><td>string</td><td>optional</td><td>Latest ad end date. Default: today.</td></tr><tr><td><code>sortBy</code></td><td>string</td><td>optional</td><td>How to sort results.</td></tr><tr><td><code>quickSearch</code></td><td>boolean</td><td>optional</td><td>When true, skip the ad-detail fetch and only return data from the listing card. Faster but omits some fields (full targeting breakdown).</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Hard cap on emitted ads.</td></tr><tr><td><code>regionFilter</code></td><td>array</td><td>optional</td><td>Only emit ads that target one of these regions. Case-insensitive substring match against `targetingByLocation`.</td></tr><tr><td><code>minImpressions</code></td><td>integer</td><td>optional</td><td>Drop ads with fewer than this many impressions (numeric value parsed from TikTok&#x27;s bucket like `10K-100K`).</td></tr><tr><td><code>industryFilter</code></td><td>array</td><td>optional</td><td>Only emit ads whose advertiser industry contains one of these substrings.</td></tr><tr><td><code>languageFilter</code></td><td>array</td><td>optional</td><td>Only emit ads in these languages (matched case-insensitively against the `adLanguages` field, e.g. `en`, `de`, `fr`). Ads without a detected language are kept. Most effective with `quickSearch=false`.</td></tr><tr><td><code>ctaFilter</code></td><td>array</td><td>optional</td><td>Only emit ads whose call-to-action button text contains one of these substrings (case-insensitive — e.g. `Shop Now`, `Learn More`, `Sign Up`). Ads without a CTA are dropped. Requires `quickSearch=false` — CTA data is only available from the detail page.</td></tr><tr><td><code>useApifyProxy</code></td><td>boolean</td><td>optional</td><td>Route requests through Apify&#x27;s proxy pool (datacenter EU exit IPs). Recommended on cloud — avoids IP rate-limiting. The actor automatically rotates the proxy session on errors.</td></tr><tr><td><code>requestDelaySecs</code></td><td>integer</td><td>optional</td><td>Pause between successive API calls. Lower = faster runs but more rate-limit risk; higher = slower but more reliable. The actor still adds short backoff between retries automatically.</td></tr><tr><td><code>timezone</code></td><td>string</td><td>optional</td><td>IANA timezone for date-range bucketing (`startDate`/`endDate`). Default UTC.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Scrape the public TikTok Ad Library transparency database.&quot;,
+  &quot;properties&quot;: {
+    &quot;adIds&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Direct list of TikTok ad IDs. Bypasses search and fetches each ad&#x27;s detail page directly.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Ad IDs (direct lookup)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;advertiserName&quot;: {
+      &quot;description&quot;: &quot;Filter by advertiser name (substring match).&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Advertiser name&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;ctaFilter&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Only emit ads whose call-to-action button text contains one of these substrings (case-insensitive — e.g. `Shop Now`, `Learn More`, `Sign Up`). Ads without a CTA are dropped. Requires `quickSearch=false` — CTA data is only available from the detail page.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;CTA filter (Pro)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;endDate&quot;: {
+      &quot;description&quot;: &quot;Latest ad end date. Default: today.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;End date (YYYY-MM-DD)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;industryFilter&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Only emit ads whose advertiser industry contains one of these substrings.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Industry filter (Pro)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;languageFilter&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Only emit ads in these languages (matched case-insensitively against the `adLanguages` field, e.g. `en`, `de`, `fr`). Ads without a detected language are kept. Most effective with `quickSearch=false`.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Language filter (Pro)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 10,
+      &quot;description&quot;: &quot;Hard cap on emitted ads.&quot;,
+      &quot;maximum&quot;: 5000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 10,
+      &quot;title&quot;: &quot;Max items&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;minImpressions&quot;: {
+      &quot;description&quot;: &quot;Drop ads with fewer than this many impressions (numeric value parsed from TikTok&#x27;s bucket like `10K-100K`).&quot;,
+      &quot;maximum&quot;: 1000000000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Min impressions (Pro)&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;query&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Free-text query — company name, domain, or ad text. Leave empty to browse all recent ads.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;technology&quot;,
+      &quot;title&quot;: &quot;Search query&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;quickSearch&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;When true, skip the ad-detail fetch and only return data from the listing card. Faster but omits some fields (full targeting breakdown).&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Quick search (skip detail pages)&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;region&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;TikTok ad region. The library covers EU/EEA + UK/CH/TR (DSA transparency). Use `all` for all-region search.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
+        &quot;AT&quot;,
+        &quot;BE&quot;,
+        &quot;BG&quot;,
+        &quot;CH&quot;,
+        &quot;CY&quot;,
+        &quot;CZ&quot;,
+        &quot;DE&quot;,
+        &quot;DK&quot;,
+        &quot;EE&quot;,
+        &quot;ES&quot;,
+        &quot;FI&quot;,
+        &quot;FR&quot;,
+        &quot;GB&quot;,
+        &quot;GR&quot;,
+        &quot;HR&quot;,
+        &quot;HU&quot;,
+        &quot;IE&quot;,
+        &quot;IS&quot;,
+        &quot;IT&quot;,
+        &quot;LI&quot;,
+        &quot;LT&quot;,
+        &quot;LU&quot;,
+        &quot;LV&quot;,
+        &quot;MT&quot;,
+        &quot;NL&quot;,
+        &quot;NO&quot;,
+        &quot;PL&quot;,
+        &quot;PT&quot;,
+        &quot;RO&quot;,
+        &quot;SE&quot;,
+        &quot;SI&quot;,
+        &quot;SK&quot;,
+        &quot;TR&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Region&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;regionFilter&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Only emit ads that target one of these regions. Case-insensitive substring match against `targetingByLocation`.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Region filter (Pro)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;requestDelaySecs&quot;: {
+      &quot;default&quot;: 1,
+      &quot;description&quot;: &quot;Pause between successive API calls. Lower = faster runs but more rate-limit risk; higher = slower but more reliable. The actor still adds short backoff between retries automatically.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 10,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 1,
+      &quot;title&quot;: &quot;Delay between requests (seconds)&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;sortBy&quot;: {
+      &quot;default&quot;: &quot;last_shown_date,desc&quot;,
+      &quot;description&quot;: &quot;How to sort results.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;last_shown_date,desc&quot;,
+        &quot;last_shown_date,asc&quot;,
+        &quot;create_time,desc&quot;,
+        &quot;create_time,asc&quot;,
+        &quot;impression,desc&quot;,
+        &quot;impression,asc&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Last shown date (newest first)&quot;,
+        &quot;Last shown date (oldest first)&quot;,
+        &quot;Create time (newest first)&quot;,
+        &quot;Create time (oldest first)&quot;,
+        &quot;Impressions (highest first)&quot;,
+        &quot;Impressions (lowest first)&quot;
+      ],
+      &quot;prefill&quot;: &quot;last_shown_date,desc&quot;,
+      &quot;title&quot;: &quot;Sort by&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;startDate&quot;: {
+      &quot;description&quot;: &quot;Earliest ad start date. Default: 1 year ago.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Start date (YYYY-MM-DD)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;timezone&quot;: {
+      &quot;default&quot;: &quot;UTC&quot;,
+      &quot;description&quot;: &quot;IANA timezone for date-range bucketing (`startDate`/`endDate`). Default UTC.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;UTC&quot;,
+        &quot;Europe/London&quot;,
+        &quot;Europe/Berlin&quot;,
+        &quot;Europe/Paris&quot;,
+        &quot;Europe/Madrid&quot;,
+        &quot;Europe/Rome&quot;,
+        &quot;Europe/Amsterdam&quot;,
+        &quot;Europe/Stockholm&quot;,
+        &quot;Europe/Warsaw&quot;,
+        &quot;Europe/Athens&quot;,
+        &quot;Europe/Istanbul&quot;,
+        &quot;Europe/Moscow&quot;,
+        &quot;Asia/Dubai&quot;,
+        &quot;Asia/Tokyo&quot;,
+        &quot;Asia/Shanghai&quot;,
+        &quot;Asia/Singapore&quot;,
+        &quot;Asia/Kolkata&quot;,
+        &quot;Australia/Sydney&quot;,
+        &quot;America/New_York&quot;,
+        &quot;America/Chicago&quot;,
+        &quot;America/Denver&quot;,
+        &quot;America/Los_Angeles&quot;,
+        &quot;America/Sao_Paulo&quot;,
+        &quot;America/Mexico_City&quot;
+      ],
+      &quot;prefill&quot;: &quot;UTC&quot;,
+      &quot;title&quot;: &quot;Timezone&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;useApifyProxy&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Route requests through Apify&#x27;s proxy pool (datacenter EU exit IPs). Recommended on cloud — avoids IP rate-limiting. The actor automatically rotates the proxy session on errors.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Use Apify proxy&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    }
+  },
+  &quot;required&quot;: [],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;TikTok Ads Library Scraper Pro Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>ads</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped TikTok ad records with advertiser info, targeting, creative URLs, and impression data.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;One record per TikTok ad with creative URLs, advertiser identity, impression data, audit status and targeting breakdown.&quot;,
+  &quot;properties&quot;: {
+    &quot;ads&quot;: {
+      &quot;description&quot;: &quot;Dataset containing all scraped TikTok ad records with advertiser info, targeting, creative URLs, and impression data.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Scraped Ads&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;TikTok DSA Ads Transparency Library Scraper Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;fields&quot;: {
+    &quot;adEndDate&quot;: {
+      &quot;description&quot;: &quot;Date the ad last appeared (YYYY-MM-DD)&quot;,
+      &quot;title&quot;: &quot;Ad End Date&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;adFormat&quot;: {
+      &quot;description&quot;: &quot;Creative format: &#x27;single_video&#x27;, &#x27;image&#x27;, &#x27;carousel&#x27;, or &#x27;spark_ad&#x27;&quot;,
+      &quot;title&quot;: &quot;Ad Format&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;adId&quot;: {
+      &quot;description&quot;: &quot;Unique TikTok ad ID (string)&quot;,
+      &quot;title&quot;: &quot;Ad ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;adImages&quot;: {
+      &quot;description&quot;: &quot;Image URLs for image-type ads&quot;,
+      &quot;title&quot;: &quot;Ad Images&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;adImpressions&quot;: {
+      &quot;description&quot;: &quot;TikTok impression bucket string (e.g. &#x27;10K-100K&#x27;, &#x27;1M-10M&#x27;)&quot;,
+      &quot;title&quot;: &quot;Impressions&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;adImpressionsExact&quot;: {
+      &quot;description&quot;: &quot;Exact impression count when available from the API&quot;,
+      &quot;title&quot;: &quot;Exact Impressions&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;adLanguages&quot;: {
+      &quot;description&quot;: &quot;Language codes for the ad content (e.g. [&#x27;en&#x27;, &#x27;de&#x27;])&quot;,
+      &quot;title&quot;: &quot;Ad Languages&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;adPlatforms&quot;: {
+      &quot;description&quot;: &quot;Platforms this ad runs on (TikTok, CapCut, Pangle, Lemon8)&quot;,
+      &quot;title&quot;: &quot;Ad Platforms&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;adSpent&quot;: {
+      &quot;description&quot;: &quot;Estimated spend bucket shown by TikTok&quot;,
+      &quot;title&quot;: &quot;Ad Spend&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;adStartDate&quot;: {
+      &quot;description&quot;: &quot;Date the ad first appeared (YYYY-MM-DD)&quot;,
+      &quot;title&quot;: &quot;Ad Start Date&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;adType&quot;: {
+      &quot;description&quot;: &quot;Ad creative type: &#x27;video&#x27; or &#x27;image&#x27;&quot;,
+      &quot;title&quot;: &quot;Ad Type&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;adUrl&quot;: {
+      &quot;description&quot;: &quot;Direct URL to the ad detail page on TikTok Ads Library&quot;,
+      &quot;title&quot;: &quot;Ad URL&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;adVideoCover&quot;: {
+      &quot;description&quot;: &quot;Cover/thumbnail image URL for the ad video&quot;,
+      &quot;title&quot;: &quot;Ad Video Cover&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;adVideoUrl&quot;: {
+      &quot;description&quot;: &quot;URL to the first (or only) ad video&quot;,
+      &quot;title&quot;: &quot;Ad Video URL&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;adVideos&quot;: {
+      &quot;description&quot;: &quot;All video URLs for carousel/multi-video ads (each item: {videoUrl, coverImage})&quot;,
+      &quot;title&quot;: &quot;Ad Videos&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;advertiserBusinessId&quot;: {
+      &quot;description&quot;: &quot;TikTok advertiser business ID (string)&quot;,
+      &quot;title&quot;: &quot;Advertiser Business ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;advertiserBusinessName&quot;: {
+      &quot;description&quot;: &quot;Registered business name of the advertiser (from detail page)&quot;,
+      &quot;title&quot;: &quot;Advertiser Business Name&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;advertiserCountry&quot;: {
+      &quot;description&quot;: &quot;Country where the advertiser is registered (ISO code)&quot;,
+      &quot;title&quot;: &quot;Advertiser Country&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;advertiserId&quot;: {
+      &quot;description&quot;: &quot;TikTok advertiser/business ID (string)&quot;,
+      &quot;title&quot;: &quot;Advertiser ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;advertiserIndustry&quot;: {
+      &quot;description&quot;: &quot;Industry category of the advertiser&quot;,
+      &quot;title&quot;: &quot;Advertiser Industry&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;advertiserName&quot;: {
+      &quot;description&quot;: &quot;Name of the advertiser as shown in the ad card&quot;,
+      &quot;title&quot;: &quot;Advertiser Name&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;advertiserSponsor&quot;: {
+      &quot;description&quot;: &quot;Paid-for-by / sponsor text&quot;,
+      &quot;title&quot;: &quot;Advertiser Sponsor&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;advertiserTikTokUser&quot;: {
+      &quot;description&quot;: &quot;Advertiser&#x27;s TikTok account info (id, nickname, uniqueId, avatarUrl)&quot;,
+      &quot;title&quot;: &quot;Advertiser TikTok User&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;audienceTargeting&quot;: {
+      &quot;description&quot;: &quot;Custom audience targeting description&quot;,
+      &quot;title&quot;: &quot;Audience Targeting&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;auditReasons&quot;: {
+      &quot;description&quot;: &quot;List of audit reason codes&quot;,
+      &quot;title&quot;: &quot;Audit Reasons&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;auditStatus&quot;: {
+      &quot;description&quot;: &quot;Raw TikTok audit status code (1=approved, 2=rejected, 3=in_review, 4=removed)&quot;,
+      &quot;title&quot;: &quot;Audit Status&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;auditStatusLabel&quot;: {
+      &quot;description&quot;: &quot;Human-readable audit status: &#x27;approved&#x27;, &#x27;rejected&#x27;, &#x27;in_review&#x27;, or &#x27;removed&#x27;&quot;,
+      &quot;title&quot;: &quot;Audit Status Label&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;avgImpressionsPerDay&quot;: {
+      &quot;description&quot;: &quot;Derived: lower-bound impressions divided by daysActive&quot;,
+      &quot;title&quot;: &quot;Avg Impressions Per Day&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;commercialContentIndicator&quot;: {
+      &quot;description&quot;: &quot;Commercial content label type&quot;,
+      &quot;title&quot;: &quot;Commercial Content Indicator&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;creativeId&quot;: {
+      &quot;description&quot;: &quot;TikTok creative ID (string)&quot;,
+      &quot;title&quot;: &quot;Creative ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;creativeName&quot;: {
+      &quot;description&quot;: &quot;Name of the creative asset&quot;,
+      &quot;title&quot;: &quot;Creative Name&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;creatorInteractionsTargeting&quot;: {
+      &quot;description&quot;: &quot;Creator interactions targeting description&quot;,
+      &quot;title&quot;: &quot;Creator Interactions Targeting&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;ctaText&quot;: {
+      &quot;description&quot;: &quot;Call-to-action button text (e.g. &#x27;Shop Now&#x27;, &#x27;Learn More&#x27;)&quot;,
+      &quot;title&quot;: &quot;CTA Text&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;dataSource&quot;: {
+      &quot;description&quot;: &quot;TikTok data source identifier&quot;,
+      &quot;title&quot;: &quot;Data Source&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;daysActive&quot;: {
+      &quot;description&quot;: &quot;Derived: number of days between adStartDate and adEndDate inclusive&quot;,
+      &quot;title&quot;: &quot;Days Active&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;interestTargeting&quot;: {
+      &quot;description&quot;: &quot;Interest-based targeting description&quot;,
+      &quot;title&quot;: &quot;Interest Targeting&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;landingPageUrl&quot;: {
+      &quot;description&quot;: &quot;URL the ad click leads to&quot;,
+      &quot;title&quot;: &quot;Landing Page URL&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;recordType&quot;: {
+      &quot;description&quot;: &quot;Always &#x27;ad&#x27; for this actor&quot;,
+      &quot;title&quot;: &quot;Record Type&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;rejectionInfo&quot;: {
+      &quot;description&quot;: &quot;Reason for ad rejection when auditStatus is &#x27;rejected&#x27;&quot;,
+      &quot;title&quot;: &quot;Rejection Info&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;scrapedAt&quot;: {
+      &quot;description&quot;: &quot;ISO 8601 UTC timestamp when this record was scraped&quot;,
+      &quot;title&quot;: &quot;Scraped At&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;showMode&quot;: {
+      &quot;description&quot;: &quot;Raw TikTok show_mode value (1=single_video, 2=image, 3=carousel, 4=spark_ad)&quot;,
+      &quot;title&quot;: &quot;Show Mode&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;sorAuditStatus&quot;: {
+      &quot;description&quot;: &quot;Secondary audit status code&quot;,
+      &quot;title&quot;: &quot;SOR Audit Status&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;targetAudienceSize&quot;: {
+      &quot;description&quot;: &quot;Estimated target audience size bucket&quot;,
+      &quot;title&quot;: &quot;Target Audience Size&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;targetingByAge&quot;: {
+      &quot;description&quot;: &quot;Age group targeting breakdown (from detail page)&quot;,
+      &quot;title&quot;: &quot;Targeting By Age&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;targetingByGender&quot;: {
+      &quot;description&quot;: &quot;Gender targeting breakdown (from detail page)&quot;,
+      &quot;title&quot;: &quot;Targeting By Gender&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;targetingByLocation&quot;: {
+      &quot;description&quot;: &quot;Per-region targeting breakdown with region code and impression share (from detail page)&quot;,
+      &quot;title&quot;: &quot;Targeting By Location&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;targetingTotalImpressions&quot;: {
+      &quot;description&quot;: &quot;Total impressions across all regions&quot;,
+      &quot;title&quot;: &quot;Targeting Total Impressions&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;targetingTotalRegions&quot;: {
+      &quot;description&quot;: &quot;Total number of regions targeted&quot;,
+      &quot;title&quot;: &quot;Targeting Total Regions&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;videoInteractionsTargeting&quot;: {
+      &quot;description&quot;: &quot;Video interactions targeting description&quot;,
+      &quot;title&quot;: &quot;Video Interactions Targeting&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;TikTok Ads&quot;,
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;adEndDate&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;End Date&quot;
+          },
+          &quot;adId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Ad ID&quot;
+          },
+          &quot;adImpressions&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Impressions&quot;
+          },
+          &quot;adStartDate&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Start Date&quot;
+          },
+          &quot;adType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Ad Type&quot;
+          },
+          &quot;adUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Ad URL&quot;
+          },
+          &quot;advertiserName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Advertiser&quot;
+          },
+          &quot;daysActive&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Days Active&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;TikTok Ads&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;adId&quot;,
+          &quot;advertiserName&quot;,
+          &quot;adType&quot;,
+          &quot;adImpressions&quot;,
+          &quot;adStartDate&quot;,
+          &quot;adEndDate&quot;,
+          &quot;daysActive&quot;,
+          &quot;adUrl&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-tiktok-dsa-ads-transparency-library-scraper">TikTok DSA Ads Transparency Library Scraper</h2>
+<p>TikTok keeps a public ad transparency library for Europe, covering ads shown in EU/EEA countries plus the UK, Switzerland and Turkey. This actor searches that library by keyword, advertiser name, or direct ad ID, and returns each ad's creative, advertiser identity, impression data, and (with full detail turned on) audience targeting. No TikTok account, login, or cookies required.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li>Searches TikTok's ad transparency library by keyword and/or advertiser name, or looks up a list of ad IDs directly</li>
+<li>Lets you pick one of the 33 European country codes in the region list, or <code>all</code></li>
+<li>Returns creative media (video/image URLs, cover images), impression buckets, audit status and ad format from the search listing</li>
+<li>With <code>quickSearch</code> off (and always for ad-ID lookups), adds advertiser registry details and per-region location, age and gender targeting from each ad's detail page</li>
+<li>Filters by advertiser name, targeted region, industry, language, call-to-action text and minimum impressions, and adds <code>daysActive</code>/<code>avgImpressionsPerDay</code></li>
+<li>Fields TikTok doesn't disclose for a given ad (e.g. no targeting data in quick mode) are omitted rather than left blank</li>
+</ul>
+<h2 id="readme-output-per-ad">Output per ad</h2>
+<p>Fields from the search listing (always attempted):</p>
+<ul>
+<li><code>adId</code>, <code>adUrl</code> — TikTok's ad ID and its transparency-library detail page</li>
+<li><code>advertiserName</code> — advertiser name as shown on the ad</li>
+<li><code>adType</code> — <code>video</code> or <code>image</code></li>
+<li><code>adVideoUrl</code>, <code>adVideoCover</code> — first video URL and its cover image</li>
+<li><code>adVideos</code> — <code>{videoUrl, coverImage}</code> entries, only for ads with more than one video</li>
+<li><code>adImages</code> — image URLs for image-format ads</li>
+<li><code>adStartDate</code>, <code>adEndDate</code> — first- and last-shown dates (<code>YYYY-MM-DD</code>)</li>
+<li><code>adImpressions</code> — TikTok's impression bucket (e.g. <code>10K-100K</code>)</li>
+<li><code>adImpressionsExact</code> — exact impression count, when TikTok discloses one</li>
+<li><code>adSpent</code> — disclosed spend figure, when available</li>
+<li><code>auditStatus</code>, <code>auditStatusLabel</code> — TikTok's raw audit code and, for codes 1–4, its label (<code>approved</code>, <code>rejected</code>, <code>in_review</code>, <code>removed</code>)</li>
+<li><code>sorAuditStatus</code>, <code>rejectionInfo</code>, <code>auditReasons</code> — additional compliance detail, when present</li>
+<li><code>showMode</code>, <code>adFormat</code> — raw format code and, for codes 1–4, its label (<code>single_video</code>, <code>image</code>, <code>carousel</code>, <code>spark_ad</code>)</li>
+<li><code>advertiserId</code>, <code>advertiserIndustry</code>, <code>adLanguages</code>, <code>ctaText</code>, <code>landingPageUrl</code> — when the listing carries them</li>
+<li><code>adPlatforms</code> — platforms the ad ran on, when listed</li>
+<li><code>creativeId</code>, <code>creativeName</code>, <code>dataSource</code>, <code>commercialContentIndicator</code> — additional creative/source metadata, when present</li>
+</ul>
+<p>Fields from the ad's detail page (only with <code>quickSearch: false</code> or <code>adIds</code>):</p>
+<ul>
+<li><code>advertiserBusinessName</code>, <code>advertiserBusinessId</code> (also written to <code>advertiserId</code>) — registered advertiser identity</li>
+<li><code>advertiserCountry</code> — advertiser's registered country</li>
+<li><code>advertiserSponsor</code> — sponsor name, when the ad was placed on behalf of another party</li>
+<li><code>advertiserTikTokUser</code> — linked TikTok account <code>{id, nickname, uniqueId, avatarUrl, avatarUri}</code>, when the advertiser has one</li>
+<li><code>targetingByLocation</code> — <code>{region, impressions}</code> rows</li>
+<li><code>targetingTotalRegions</code>, <code>targetingTotalImpressions</code> — totals across the location breakdown</li>
+<li><code>targetingByAge</code> — per-region rows listing the targeted age buckets in <code>ages</code> (<code>13-17</code> … <code>55+</code>)</li>
+<li><code>targetingByGender</code> — per-region rows listing the targeted genders in <code>genders</code> (<code>female</code>, <code>male</code>, <code>unknown</code>)</li>
+<li><code>targetAudienceSize</code>, <code>audienceTargeting</code>, <code>interestTargeting</code>, <code>videoInteractionsTargeting</code>, <code>creatorInteractionsTargeting</code> — additional targeting detail, when disclosed</li>
+</ul>
+<p>Calculated and run fields:</p>
+<ul>
+<li><code>daysActive</code> — days from <code>adStartDate</code> to <code>adEndDate</code>, counting both ends</li>
+<li><code>avgImpressionsPerDay</code> — the lower bound of the <code>adImpressions</code> bucket divided by <code>daysActive</code> (a rough floor, not an exact average)</li>
+<li><code>recordType</code> — always <code>ad</code></li>
+<li><code>scrapedAt</code> — ISO 8601 timestamp when the record was collected</li>
+</ul>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>query</code></td>
+<td>string</td>
+<td><code>&quot;&quot;</code></td>
+<td>Free-text keyword — company name, domain, or ad text. Leave blank to browse recent ads.</td>
+</tr>
+<tr>
+<td><code>adIds</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>TikTok ad IDs to look up directly. When set, <code>query</code>, <code>region</code>, dates and <code>sortBy</code> are not used; the post-filters below still apply.</td>
+</tr>
+<tr>
+<td><code>advertiserName</code></td>
+<td>string</td>
+<td>–</td>
+<td>Sent to the library search and also applied as a substring filter on <code>advertiserName</code>; ads without an advertiser name are dropped.</td>
+</tr>
+<tr>
+<td><code>region</code></td>
+<td>string</td>
+<td><code>all</code></td>
+<td>One of 33 European country codes, or <code>all</code>.</td>
+</tr>
+<tr>
+<td><code>startDate</code></td>
+<td>string</td>
+<td>–</td>
+<td>Start of the search window (<code>YYYY-MM-DD</code>). One year before today when blank.</td>
+</tr>
+<tr>
+<td><code>endDate</code></td>
+<td>string</td>
+<td>–</td>
+<td>End of the search window (<code>YYYY-MM-DD</code>). Today when blank.</td>
+</tr>
+<tr>
+<td><code>sortBy</code></td>
+<td>string</td>
+<td><code>last_shown_date,desc</code></td>
+<td><code>last_shown_date</code>, <code>create_time</code> or <code>impression</code>, each <code>,asc</code> or <code>,desc</code>.</td>
+</tr>
+<tr>
+<td><code>quickSearch</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td><code>true</code> returns listing data only; <code>false</code> also opens each ad's detail page for advertiser registry and targeting fields.</td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>integer</td>
+<td><code>10</code></td>
+<td>Number of ads to collect before filtering (1–5000; a run pages through at most about 2,500 search results).</td>
+</tr>
+<tr>
+<td><code>regionFilter</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Keep ads whose location targeting mentions one of these region codes. Ads with no targeting data (always the case in quick mode) are kept.</td>
+</tr>
+<tr>
+<td><code>minImpressions</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Drop ads whose impression bucket's lower bound is below this value. Ads without a bucket are kept.</td>
+</tr>
+<tr>
+<td><code>industryFilter</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Keep only ads whose advertiser industry contains one of these substrings; ads without an industry are dropped.</td>
+</tr>
+<tr>
+<td><code>languageFilter</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Keep only ads in one of these languages (e.g. <code>en</code>, <code>de</code>). Ads without a detected language are kept.</td>
+</tr>
+<tr>
+<td><code>ctaFilter</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Keep only ads whose CTA text contains one of these substrings; ads without CTA text are dropped.</td>
+</tr>
+<tr>
+<td><code>useApifyProxy</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Allow a proxy to be used if the first, direct attempt to open the library fails.</td>
+</tr>
+<tr>
+<td><code>requestDelaySecs</code></td>
+<td>integer</td>
+<td><code>1</code></td>
+<td>Pause, in seconds, between successive requests (0–10).</td>
+</tr>
+<tr>
+<td><code>timezone</code></td>
+<td>string</td>
+<td><code>UTC</code></td>
+<td>IANA timezone used to interpret <code>startDate</code>/<code>endDate</code>.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-example-keyword-search-quick-mode">Example: keyword search, quick mode</h3>
+<pre><code class="language-json">{
+  &quot;query&quot;: &quot;technology&quot;,
+  &quot;quickSearch&quot;: true,
+  &quot;region&quot;: &quot;all&quot;
+}
+</code></pre>
+<h3 id="readme-example-advertiser-lookup-with-full-targeting-detail">Example: advertiser lookup with full targeting detail</h3>
+<pre><code class="language-json">{
+  &quot;advertiserName&quot;: &quot;Temu&quot;,
+  &quot;region&quot;: &quot;DE&quot;,
+  &quot;quickSearch&quot;: false
+}
+</code></pre>
+<h3 id="readme-example-direct-ad-id-lookup">Example: direct ad ID lookup</h3>
+<pre><code class="language-json">{
+  &quot;adIds&quot;: [&quot;1863424159438849&quot;, &quot;1863615078571137&quot;]
+}
+</code></pre>
+<h3 id="readme-example-filtered-search-with-a-minimum-impression-floor">Example: filtered search with a minimum impression floor</h3>
+<pre><code class="language-json">{
+  &quot;query&quot;: &quot;supplements&quot;,
+  &quot;region&quot;: &quot;all&quot;,
+  &quot;industryFilter&quot;: [&quot;health&quot;],
+  &quot;languageFilter&quot;: [&quot;en&quot;],
+  &quot;minImpressions&quot;: 50000,
+  &quot;quickSearch&quot;: false,
+  &quot;maxItems&quot;: 200
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>Competitive intelligence</strong> — see which ads a competitor ran in European markets, with impression buckets and (in full detail) targeting</li>
+<li><strong>Creative research</strong> — review competitor creative assets, CTA choices, and formats across markets</li>
+<li><strong>Compliance monitoring</strong> — pull audit status, rejection info and audit reasons for regulatory research</li>
+<li><strong>Market sizing</strong> — compare impression buckets across an industry and region</li>
+<li><strong>Sponsorship mapping</strong> — identify ads placed on behalf of another party via the sponsor field</li>
+<li><strong>Brand account checks</strong> — see which TikTok account an advertiser has linked to its ads</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Which regions are covered?</strong>
+The <code>region</code> list holds 33 European country codes (EU/EEA countries plus the UK, Switzerland and Turkey), or <code>all</code>. Other countries are not available in this library.</p>
+<p><strong>What's the difference between <code>quickSearch: true</code> and <code>false</code>?</strong>
+<code>quickSearch: true</code> returns the search listing data only. <code>quickSearch: false</code> additionally opens each ad's detail page and adds advertiser registry details and the <code>targetingByLocation</code>, <code>targetingByAge</code> and <code>targetingByGender</code> breakdowns. If a detail page can't be loaded, the ad is still returned with its listing data, and after eight detail failures the rest of the run keeps listing data only.</p>
+<p><strong>Why did I get fewer ads than <code>maxItems</code>?</strong>
+The actor collects up to <code>maxItems</code> ads first and then applies <code>advertiserName</code>, <code>regionFilter</code>, <code>industryFilter</code>, <code>languageFilter</code>, <code>ctaFilter</code> and <code>minImpressions</code>. Ads the filters drop are not replaced. Searches also stop when TikTok reports no more results, and a single run pages through at most about 2,500 results.</p>
+<p><strong>Can results ever ignore my keyword?</strong>
+Yes, in one edge case. If TikTok rejects the keyword or advertiser search request, the actor falls back to the library's default listing of recent ads, so the rows may not match your keyword. The run log notes when this happens.</p>
+<p><strong>Does <code>sortBy</code> always apply?</strong>
+It applies to every search request. When <code>query</code>, <code>advertiserName</code>, <code>startDate</code> and <code>endDate</code> are all empty, the first page comes from the library's default listing and <code>sortBy</code> only applies from the second page on.</p>
+<p><strong>How is <code>avgImpressionsPerDay</code> calculated?</strong>
+It takes the lower bound of the <code>adImpressions</code> bucket (for example <code>10000</code> for <code>10K-100K</code>) and divides it by <code>daysActive</code>. It's a floor estimate, not an exact daily figure. <code>minImpressions</code> uses the same lower bound.</p>
+<p><strong>Can I find spark ads?</strong>
+Yes — ads TikTok marks with format code 4 come out with <code>adFormat: spark_ad</code>.</p>
+<p><strong>Can I filter to a specific date range?</strong>
+Yes — set <code>startDate</code> and <code>endDate</code> (<code>YYYY-MM-DD</code>). Without them the search window is the past year.</p>
+<p><strong>Is this affiliated with TikTok?</strong>
+No. This is an independent, third-party actor that reads TikTok's public ad transparency library; it isn't affiliated with or endorsed by TikTok.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/rwSaNbXr5duaqxZWs/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>pz8Y1j3OF1xxdRb2X</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

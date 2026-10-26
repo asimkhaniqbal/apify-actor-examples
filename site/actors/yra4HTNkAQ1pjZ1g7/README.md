@@ -1,169 +1,213 @@
 # Fiverr Gig & Seller Sitemap Directory Scraper
 
-Fiverr lists its gigs, sellers, categories, search tags and Logo Maker ideas in public sitemap files that anyone can read. This actor turns those listings into structured rows: gig URLs with preview images, seller profile URLs, category taxonomy entries with Fiverr's own numeric IDs where the sitemap carries them, the search-tag vocabulary, and (best-effort) full gig detail pulled from an individual gig page.
+Scrape **Fiverr** gigs, sellers and directories without an account, cookies or API keys. Search live gig results by keyword or category, open full gig pages for packages and reviews, read seller profiles, and list Fiverr's public sitemap catalog of 280,000+ gigs and 280,000+ sellers. Results are real, structured and exported as JSON, CSV or Excel.
 
 ## What this actor does
 
-- **Seven modes**: `discoverGigs`, `discoverSellers`, `discoverCategories`, `discoverTags`, `discoverLogoMakerIdeas`, `discoverAndFetchDetails`, `gigDetails`
-- **Five discovery modes** only read Fiverr's sitemap listings (gigs, sellers, categories, tags, Logo Maker ideas) and never open an individual page
-- **Two detail modes are best-effort** — `discoverAndFetchDetails` and `gigDetails` open individual gig pages for full detail (packages, seller card, rating breakdown, FAQ); Fiverr often blocks these pages, so these modes can return fewer records than requested, or none at all
-- **Keyword filter** is a substring match on the sitemap URL (gig slug, seller username, category path, tag slug) or the Logo Maker idea slug; it never looks at gig titles and is not applied in `gigDetails` mode
-- **Detail-only filters**: minimum rating, minimum review count and starting-price range apply only in the two detail modes; the top-level `category` filter applies in the detail modes and in `discoverCategories`
-- Fields a gig or seller doesn't expose (e.g. no video preview, no disclosed package pricing) are omitted rather than filled with a placeholder
+- **Four modes:** `search`, `gigDetails`, `sellerProfiles`, `sitemapDirectory`
+- **Live search** with Fiverr's own filters for seller level, country, language, delivery time, budget, Pro, online, agency and hourly gigs, plus five sort options
+- **Full gig detail** with every package tier, features, paid extras, FAQ, ratings breakdown, latest reviews, gallery, seller card and orders in queue
+- **Seller profiles** with level, response time, rating, skills, certifications, education, languages, portfolio count, notable clients, all gigs and latest reviews
+- **Full sitemap directory** for gigs, sellers, categories, search tags and Logo Maker ideas, including exact sitemap counts and category IDs
+- **Backward compatible:** the original discovery mode names still work, and every existing output field is kept
+- **Empty fields are omitted** — records never contain nulls or placeholder strings
 
 ## Output per record type
 
-### Discovered gig (`recordType: "gigUrl"`)
-- `gigUrl`, `gigId`, `gigSlug`
-- `sellerUsername`, `sellerProfileUrl`
-- `imageUrl`, `imageUrls`, `imageCaption`
-- `previewVideo` — `{thumbnailUrl, title, description, playerUrl, category}`, present for gigs with a video preview
-- `hasVideoPreview`
-- `sourceSitemapShard` — which sitemap shard file the entry came from
+### Gig search result (`recordType: "gigListing"`)
+
+- `gigId`, `gigUrl`, `gigSlug`, `title`
+- `sellerUsername`, `sellerId`, `sellerDisplayName`, `sellerProfileUrl`, `sellerProfilePhotoUrl`
+- `sellerLevel`, `sellerCountryCode`, `sellerOnline`, `sellerOverallRating`, `sellerOverallReviewsCount`, `sellerLanguages`
+- `priceMin`, `currency`, `minDeliveryDays`, `packagesCount`
+- `rating`, `reviewsCount`
+- `isPro`, `isFiverrChoice`, `isFeatured`, `hasVideoPreview`, `hasRecurringOption`, `offerConsultation`, `hourlyRateUsd`
+- `attributes` — Fiverr's own facet tags, each `{type, values[]}`
+- `workSamples` — public delivery previews, each `{type, url}`
+- `agency` — when the gig is agency-run (`slug`, `established`, `employeesCount`, `highlights`, `bannerImageUrl`)
+- `categoryId`, `subCategoryId`, `nestedSubCategoryId`
+- `position`, `page`, `searchQuery`
 - `recordType`, `scrapedAt`
 
-### Discovered seller (`recordType: "sellerProfile"`)
-- `sellerUsername`, `sellerProfileUrl`, `sellerId`
-- `sellerProfilePhotoUrl`
-- `sourceSitemapShard` — which sitemap shard file the entry came from
-- `recordType`, `scrapedAt`
+### Gig detail (`recordType: "gigDetail"`)
 
-### Category taxonomy entry (`recordType: "category"`)
-- `categoryUrl`, `categoryLevel` (`category` / `subCategory` / `nestedSubCategory`)
-- `name`
-- `categorySlug`, `subCategorySlug`, `nestedSubCategorySlug` (present at their respective levels)
-- `categoryId`, `subCategoryId` — Fiverr's internal numeric IDs, present at the `category`/`subCategory` levels
-- `recordType`, `scrapedAt`
-
-### Search tag (`recordType: "tag"`)
-- `tagSlug`, `tagName`
-- `tagSearchUrl` — Fiverr's own tag search-result page for this slug (informational; not fetched by this actor)
-- `sourceSitemapShard` — which sitemap shard file the entry came from
-- `recordType`, `scrapedAt`
-
-### Logo Maker idea (`recordType: "logoMakerIdea"`)
-- `ideaSlug`, `ideaType` (`tag` / `industry` / `brandValue` / `style` / `symbolType`), `ideaName`
-- `ideaUrl`, `imageUrl`, `imageCaption`
-- `recordType`, `scrapedAt`
-
-### Gig detail (`recordType: "gigDetail"`, best-effort)
 - `sourceUrl`, `sellerUsername`, `sellerProfileUrl`, `gigSlug`, `gigId`, `gigStatus`
 - `title`, `description`, `fullDescription`, `imageUrl`
-- `rating`, `reviewsCount`, `gigCollectedCount`
-- `priceMin`, `priceMax`, `currency`, `packagesCount`, `availability`
+- `rating`, `reviewsCount`, `gigCollectedCount`, `ordersInQueue`
+- `priceMin`, `priceMax`, `currency`, `packagesCount`, `availability`, `minDeliveryDays`
 - `category`, `categoryUrl`, `subCategory`, `subCategoryUrl`, `nestedSubCategory`, `nestedSubCategoryUrl`, `categoryPath`
 - `categoryId`, `subCategoryId`, `nestedSubCategoryId`, `categorySlug`, `subCategorySlug`, `nestedSubCategorySlug`
 - `isPro`, `acceptsCustomOrders`
-- `sellerLevel`, `sellerIsVerified`, `sellerCompletedOrders`, `sellerIsHighlyResponsive`, `sellerSkills`
-- `sellerOverallRating`, `sellerOverallReviewsCount` — seller-wide, across all their gigs
+- `sellerLevel`, `sellerIsVerified`, `sellerIsHighlyResponsive`, `sellerCompletedOrders`, `sellerSkills`
+- `sellerOverallRating`, `sellerOverallReviewsCount`, `sellerProSubCategories`
 - `sellerDisplayName`, `sellerLanguages`, `sellerCountryCode`, `sellerProfilePhotoUrl`
-- `sellerOneLiner`, `sellerResponseTimeHours`, `sellerMemberSince`, `sellerRecentDeliveryAt`
-- `sellerIsOnVacation`, `sellerAllowsContact`, `isTrustedFreelancer`
+- `sellerOneLiner`, `sellerResponseTimeHours`, `sellerMemberSince`, `sellerRecentDeliveryAt`, `sellerIsOnVacation`, `sellerAllowsContact`, `isTrustedFreelancer`
 - `ratingBreakdown` — `{stars, count}` per star value
 - `communicationRating`, `recommendRating`, `serviceRating`
-- `packages` — `{tier, title, description, priceUsd, deliveryDays, revisions, extraFastDeliveryPriceUsd, extraFastDeliveryDays}`, when `includePackages` is on
-- `minDeliveryDays`
-- `gigExtras` — paid add-ons available on the gig, each `{name, description, priceUsd, extraDeliveryDays}`, when `includePackages` is on
-- `faq` — `{question, answer}` pairs, when `includeFaq` is on
-- `sellerSkills` is a list of `{name, level}` entries; `gigGallery` items carry `slideType`, `title`, `mediaUrl`, `thumbnailUrl` and, for video/audio slides, `videoUrl`/`audioUrl`; `relatedServiceTypes` items carry `serviceTypeName`, `serviceSlug` and `startPriceUsd`
+- `reviews` — latest reviews, each `{reviewId, rating, comment, reviewerUsername, reviewerCountryCode, reviewerCountry, createdAt, orderDurationDays, orderPriceRangeUsd, repeatBuyer}`
+- `packages` — `{tier, title, description, priceUsd, deliveryDays, revisions, extraFastDeliveryPriceUsd, extraFastDeliveryDays, features[]}`
+- `gigExtras` — paid add-ons, each `{name, description, priceUsd, extraDeliveryDays}`
+- `faq` — `{question, answer}` pairs
 - `gigTags`, `gigGallery`, `sellerOtherGigIds`, `sellerPortfolioProjects`, `sellerPortfolioProjectsCount`
-- `relatedServiceTypes`, `relatedSubCategoryName`
+- `relatedServiceTypes`, `relatedSubCategoryName`, `notableClients`, `aiSummary`
 - `recordType`, `scrapedAt`
+
+### Seller profile (`recordType: "sellerProfile"`)
+
+- `sellerUsername`, `sellerProfileUrl`, `sellerId`, `sellerDisplayName`
+- `sellerCountryCode`, `sellerCountryName`, `sellerLanguages`, `sellerLanguageProficiencies`
+- `sellerProfilePhotoUrl`, `sellerBannerUrl`, `sellerDescription`, `sellerOneLiner`
+- `sellerLevel`, `sellerAchievementLevel`, `sellerIsPro`, `sellerIsVerified`, `sellerIsHighlyResponsive`, `sellerIsActive`, `sellerIsOnVacation`
+- `sellerOverallRating`, `sellerOverallReviewsCount`, `sellerResponseTimeHours`, `sellerMemberSince`, `sellerApprovedGigsCount`, `sellerHourlyRateUsd`
+- `sellerSkills` — `{name, level, verified}`
+- `sellerCertifications` — `{name, issuer, year}`
+- `sellerEducations` — `{school, degree, degreeTitle, countryCode, fromYear, toYear}`
+- `sellerPortfolioProjectsCount`, `sellerNotableClients`, `sellerAgency`
+- `sellerGigs` — `{gigId, gigSlug, gigUrl, title, priceMin, currency, minDeliveryDays, rating, reviewsCount, imageUrl, isPro, isFiverrChoice, categoryId, subCategoryId, nestedSubCategoryId}`
+- `sellerReviews` — latest reviews with the same fields as gig reviews
+- `sellerRatingBreakdown`, `sellerReviewTotal`, `sellerCommunicationRating`, `sellerRecommendRating`, `sellerServiceRating`
+- `sourceUrl`, `recordType`, `scrapedAt`
+
+### Sitemap directory records
+
+`recordType: "gigUrl"` — `gigUrl`, `gigId`, `gigSlug`, `sellerUsername`, `sellerProfileUrl`, `imageUrl`, `imageUrls`, `imageCaption`, `previewVideo`, `hasVideoPreview`, `sourceSitemapShard`, `recordType`, `scrapedAt`.
+
+`recordType: "sellerProfile"` from the seller sitemap — `sellerUsername`, `sellerProfileUrl`, `sellerId`, `sellerProfilePhotoUrl`, `sourceSitemapShard`.
+
+`recordType: "category"` — `categoryUrl`, `categoryLevel`, `name`, `categorySlug`, `subCategorySlug`, `nestedSubCategorySlug`, `categoryId`, `subCategoryId`.
+
+`recordType: "tag"` — `tagSlug`, `tagName`, `tagSearchUrl`, `sourceSitemapShard`.
+
+`recordType: "logoMakerIdea"` — `ideaSlug`, `ideaType`, `ideaName`, `ideaUrl`, `imageUrl`, `imageCaption`.
+
+`recordType: "marketSummary"` (optional) — `searchQuery`, `totalResults`, `sampledCount`, `priceMin`, `priceMedian`, `priceMax`, `currency`, `sellerLevelCounts`, `topSellerCountries`.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `discoverGigs` | `discoverGigs`, `discoverSellers`, `discoverCategories`, `discoverTags`, `discoverLogoMakerIdeas`, `discoverAndFetchDetails`, or `gigDetails`. |
-| `searchKeyword` | string | – | Case-insensitive substring filter on the sitemap URL (gig slug, seller username, category path, tag slug) or Logo Maker idea slug. Applied before any page is opened; ignored in `gigDetails`. |
-| `gigUrls` | array | `[]` | Specific gig URLs to fetch (mode=`gigDetails`). |
-| `maxShards` | integer | `1` | How many of Fiverr's gig, seller or tag sitemap shard files to scan (1–7). Values above the number of shards Fiverr currently lists are capped. Not used by `discoverCategories`, `discoverLogoMakerIdeas` or `gigDetails`. |
-| `categoryLevel` | string | *(all levels)* | Taxonomy level filter for `discoverCategories`: `category`, `subCategory`, or `nestedSubCategory`. |
-| `ideaType` | string | *(all types)* | Logo Maker idea type filter for `discoverLogoMakerIdeas`: `tag`, `industry`, `brandValue`, `style`, or `symbolType`. |
-| `category` | string | *(all)* | Top-level category slug, e.g. `music-audio`. In `discoverCategories` it keeps only that category's tree; in the detail modes it keeps gigs whose page reports that category (gigs whose category can't be read are kept). Ignored by the other discovery modes. |
-| `minRating` | number | – | Minimum gig rating (0–5). Detail modes only; gigs without a rating are dropped when set. |
-| `minReviews` | integer | – | Minimum review count. Detail modes only; gigs without a review count are dropped when set. |
-| `minPriceUsd` / `maxPriceUsd` | number | – | Range for the gig's lowest package price in USD. Detail modes only; gigs without a price are dropped when set. |
-| `includePackages` | boolean | `true` | Include the per-package pricing breakdown on gig detail records. |
-| `includeFaq` | boolean | `true` | Include the FAQ list on gig detail records. |
-| `maxItems` | integer | `20` | Hard cap on emitted records (1–500). |
+| `mode` | string | `sitemapDirectory` | `search`, `gigDetails`, `sellerProfiles` or `sitemapDirectory`. Legacy names (`discoverGigs`, `discoverSellers`, `discoverCategories`, `discoverTags`, `discoverLogoMakerIdeas`, `discoverAndFetchDetails`) are also accepted. |
+| `searchQueries` | array | `[]` | Keywords to search on Fiverr (mode=`search`). |
+| `searchUrls` | array | `[]` | Fiverr search or category URLs to browse (mode=`search`). Pasted filters are preserved. |
+| `gigUrls` | array | `[]` | Gig URLs to fetch (mode=`gigDetails`). |
+| `sellerUrls` | array | `[]` | Seller usernames or profile URLs (mode=`sellerProfiles`). |
+| `sitemapType` | string | `gigs` | `gigs`, `sellers`, `categories`, `tags` or `logomakerIdeas` (mode=`sitemapDirectory`). |
+| `searchKeyword` | string | – | Case-insensitive substring filter for sitemap URLs/slugs; also filters titles in detail/search modes. |
+| `maxShards` | integer | `1` | Sitemap shard files to scan: gigs up to 7, sellers up to 6, tags up to 2. |
+| `categoryLevel` | string | *(all)* | Category level filter for `sitemapType=categories`. |
+| `ideaType` | string | *(all)* | Logo Maker idea type filter: `tag`, `industry`, `monogram`, `brandValue`, `style`, `symbolType`. |
+| `category` | string | *(all)* | Top-level category filter for category directory, gig details and enriched search results. |
+| `sortBy` | string | `relevance` | `relevance`, `best_selling`, `price_low_to_high`, `price_high_to_low`, `newest` (mode=`search`). |
+| `sellerLevels` | array | `[]` | `top_rated_seller`, `level_two_seller`, `level_one_seller`, `na` (new seller). |
+| `sellerLanguages` | array | `[]` | ISO language codes, e.g. `en`, `es`, `de`. |
+| `sellerCountries` | array | `[]` | ISO-2 country codes, e.g. `US`, `GB`, `DE`. |
+| `deliveryTime` | string | `any` | `any`, `1` (24 hours), `3` or `7` days. |
+| `proOnly` | boolean | `false` | Only Fiverr Pro gigs. |
+| `onlineOnly` | boolean | `false` | Only sellers online now. |
+| `agencyOnly` | boolean | `false` | Only agency-run gigs. |
+| `hourlyOnly` | boolean | `false` | Only gigs with an hourly rate. |
+| `facets` | array | `[]` | Category-specific filters as `key:value`, e.g. `style:flat_minimalist` or `file_format:svg`. |
+| `minRating` | number | – | Minimum gig or seller rating (0–5). |
+| `minReviews` | integer | – | Minimum review count. |
+| `minPriceUsd` / `maxPriceUsd` | number | – | Starting-price range in USD. |
+| `includeGigDetails` | boolean | `false` | Fetch each search result's gig page for packages, reviews and full detail. |
+| `includePackages` | boolean | `true` | Include package pricing, features and paid extras on gig details. |
+| `includeFaq` | boolean | `true` | Include gig FAQ when present. |
+| `includeSellerGigs` | boolean | `true` | Include the seller's gig list on seller records. |
+| `includeSellerReviews` | boolean | `true` | Include latest seller reviews and rating breakdown. |
+| `includeMarketSummary` | boolean | `false` | Emit one market-summary row per search query. |
+| `maxPagesPerQuery` | integer | `21` | Upper bound on search pages per query or URL. Fiverr often stops earlier; the actor stops when Fiverr returns no more results. |
+| `maxItems` | integer | `20` | Hard cap on emitted records. |
 
-### Example: discover and fetch logo-design gigs
+### Example: search logo gigs with filters
 
 ```json
 {
-  "mode": "discoverAndFetchDetails",
-  "searchKeyword": "logo",
-  "maxShards": 2,
-  "maxItems": 20
+  "mode": "search",
+  "searchQueries": ["logo design"],
+  "sellerLevels": ["top_rated_seller", "level_two_seller"],
+  "sellerCountries": ["US", "GB"],
+  "deliveryTime": "3",
+  "minPriceUsd": 10,
+  "maxPriceUsd": 100,
+  "sortBy": "price_low_to_high",
+  "maxItems": 50
 }
 ```
 
-### Example: fetch detail for a known gig URL
+### Example: fetch full detail for known gigs
 
 ```json
 {
   "mode": "gigDetails",
-  "gigUrls": ["https://www.fiverr.com/michael7878/master-your-song-in-1-day"]
+  "gigUrls": [
+    "https://www.fiverr.com/michael7878/master-your-song-in-1-day",
+    "https://www.fiverr.com/aurexhq/create-modern-minimalist-logo-design-for-your-business"
+  ],
+  "includePackages": true,
+  "includeFaq": true
 }
 ```
 
-### Example: sub-categories under one top-level category
+### Example: seller profiles
 
 ```json
 {
-  "mode": "discoverCategories",
-  "category": "music-audio",
+  "mode": "sellerProfiles",
+  "sellerUrls": ["michael7878", "jidesigns"],
+  "includeSellerGigs": true,
+  "includeSellerReviews": true
+}
+```
+
+### Example: list a sitemap directory
+
+```json
+{
+  "mode": "sitemapDirectory",
+  "sitemapType": "categories",
   "categoryLevel": "subCategory",
-  "maxItems": 100
-}
-```
-
-### Example: discover real search-tag keywords for a niche
-
-```json
-{
-  "mode": "discoverTags",
-  "searchKeyword": "tax",
-  "maxShards": 2,
   "maxItems": 100
 }
 ```
 
 ## Use cases
 
-- **Marketplace research** — size a niche by listing live gig and seller counts for a category or keyword
-- **Agency lead generation** — build an outreach list of sellers active in a given category
-- **Pricing intelligence** — pull starting prices and package tiers from fetched gig details to benchmark competitors
-- **SEO/keyword research** — mine `discoverTags` for Fiverr's own curated, high-traffic search vocabulary
-- **Taxonomy mapping** — pull Fiverr's category tree, one top-level category at a time, with its numeric IDs for a catalog integration
-- **Design-inspiration tools** — feed `discoverLogoMakerIdeas` into a mood-board or naming tool
+- **Market research** — size a Fiverr niche by gig and seller counts, price bands and seller-level mix
+- **Pricing intelligence** — compare package tiers, delivery times, revisions and paid extras
+- **Seller lead lists** — build shortlists by level, country, language, response time and rating
+- **Competitor tracking** — schedule the same search or seller list and compare prices and reviews over time
+- **SEO and keyword research** — mine Fiverr's own search-tag vocabulary and category tree
+- **Catalog integrations** — sync the full public gig and seller directory into a database or CRM
 
 ## FAQ
 
 **Is this affiliated with Fiverr?**
-No. This is an independent, third-party actor that reads Fiverr's public sitemaps and, best-effort, individual gig pages. It isn't affiliated with or endorsed by Fiverr.
+No. This is an independent third-party actor that reads Fiverr's public pages and sitemaps. It is not affiliated with or endorsed by Fiverr.
 
-**Why do `discoverAndFetchDetails` and `gigDetails` sometimes return fewer records than I asked for?**
-Those two modes open individual gig pages, which Fiverr protects far more heavily than its sitemap listings. When a page is blocked or can't be parsed, the gig is simply skipped (no placeholder row is written), and a run that keeps hitting blocks stops early. A run can therefore finish with zero detail records. The five discovery modes only read sitemap files and don't depend on gig pages.
+**Do I need a Fiverr account, cookies or an API key?**
+No. There are no login, cookie or API-key inputs. Fill in a mode and run it.
 
-**Why is there no live keyword-search mode?**
-Fiverr's own search and browse pages aren't reliably reachable for automated requests. `searchKeyword` instead matches against gig slugs, seller usernames, and category/tag slugs from the sitemaps — and `discoverTags` gives you Fiverr's own tag vocabulary to pick keywords from.
+**Do I need to configure a proxy?**
+No. The actor chooses a working connection to Fiverr automatically.
 
-**Why are some `gigDetail` fields missing on a given record?**
-Every detail field comes from the gig page's own data. Fields that page doesn't expose are left out rather than filled with a guess.
+**Why does a search return fewer gigs than Fiverr says exist?**
+Fiverr's search window is shallower than the headline total and varies by query. On 2026-10-26 a `logo design` search returned 11 pages (516 cards) and about 328 unique gigs before Fiverr stopped; promoted gigs repeat across pages. The actor reads until Fiverr reports no further results, and `maxPagesPerQuery` is only an upper bound. Fiverr also echoes some requested sort or filter values without applying them. The actor validates the response and applies price sorts locally; unsupported filter values are named in the run log. Use narrower filters or the `sitemapDirectory` mode for the full public catalog.
 
-**What does `maxShards` control?**
-Fiverr splits its gig, seller, and tag sitemaps into multiple files. Each one holds tens of thousands of entries, so a single shard is usually enough to satisfy `maxItems`; raising `maxShards` widens the pool a narrow `searchKeyword` is matched against, at the cost of more download time. Records come out in sitemap order, starting from the first shard.
+**What is the difference between search and sitemapDirectory?**
+`search` reads live Fiverr search/category results with filters and sorting. `sitemapDirectory` reads Fiverr's public sitemaps, which cover 280,000+ gigs and 280,000+ sellers but only carry URL-level metadata.
+
+**Can I get a seller's email or phone number?**
+No. Fiverr does not publish seller emails or phone numbers on public profiles.
+
+**How many reviews can I get?**
+Gig and seller pages expose the latest reviews on the page, so the actor returns those reviews plus the full star breakdown and total count. It does not return every historical review.
+
+**Why are some fields missing on a record?**
+Fields are omitted when Fiverr does not expose them for that gig or seller. The actor never fills missing values with guesses, nulls or placeholders.
 
 **How fresh is the data?**
-Each run reads the sitemap files Fiverr is serving at that moment, so discovery results are only as current as Fiverr's own latest sitemap refresh. Detail records are read live from the gig page.
+Search, gig and seller records are read live at run time. Directory records follow Fiverr's latest sitemap refresh.
 
-**Can I export the whole category tree or tag list in one run?**
-No. `maxItems` tops out at 500 per run, and the category, tag and Logo Maker listings are larger than that. Split the work with `category`, `categoryLevel`, `ideaType` or `searchKeyword` across several runs.
-
-**Are `categoryId`/`subCategoryId`/`nestedSubCategoryId` always present?**
-`categoryId` and `subCategoryId` are present whenever Fiverr's own data exposes them — on `discoverCategories` records at those two levels when the sitemap entry carries the ID, and best-effort on `gigDetail`. `nestedSubCategoryId` isn't part of the category directory, so nested-level `discoverCategories` records carry a slug only; `gigDetail` can still surface it when the individual gig page includes it.
-
-**Does this actor need login, cookies, or proxy settings?**
-No. There are no login, cookie or proxy inputs to fill in.
+**Can I still use the old mode names?**
+Yes. `discoverGigs`, `discoverSellers`, `discoverCategories`, `discoverTags`, `discoverLogoMakerIdeas` and `discoverAndFetchDetails` map to the new directory and detail paths, and existing output fields are unchanged.

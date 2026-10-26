@@ -2,41 +2,85 @@
   "properties": {
     "enrichGroupInfo": {
       "default": false,
-      "description": "Add each group's description, member count, admins, rules, and creation date to every post record.",
+      "description": "Add the group's name, description, member count, creation date, privacy, rules and admins to posts. Works for public groups; private groups return their public profile only.",
       "editor": "checkbox",
       "prefill": false,
-      "title": "Enrich with group info",
+      "title": "Include group profile",
+      "type": "boolean"
+    },
+    "fetchAllComments": {
+      "default": false,
+      "description": "Fetch the full comment thread for each post, not just the inline top comments. This is slower and can add many rows of comment data.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Fetch full comment threads",
+      "type": "boolean"
+    },
+    "includeCommentReplies": {
+      "default": true,
+      "description": "Attach replies to each fetched comment. Only used when full comment threads are enabled.",
+      "editor": "checkbox",
+      "prefill": true,
+      "title": "Include comment replies",
       "type": "boolean"
     },
     "includeTopComments": {
       "default": true,
-      "description": "Include each post's top comments in the results, with comment text, author, and reactions.",
+      "description": "Include each post's inline top comments, with comment text, author, reactions and reply count.",
       "editor": "checkbox",
       "prefill": true,
       "title": "Include top comments",
       "type": "boolean"
     },
+    "maxCommentsPerPost": {
+      "default": 20,
+      "description": "Comment budget per post, including replies. Only used when full comment threads are enabled.",
+      "editor": "number",
+      "maximum": 200,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Max comments per post",
+      "type": "integer"
+    },
     "maxItems": {
       "default": 50,
-      "description": "Maximum number of posts to return per group.",
+      "description": "Maximum number of posts to return per group. Post links always return one post.",
       "editor": "number",
       "maximum": 500,
       "minimum": 1,
-      "prefill": 10,
+      "prefill": 3,
       "title": "Max posts per group",
       "type": "integer"
     },
     "monitoringMode": {
       "default": false,
-      "description": "Only return posts not seen in a previous run for the same group, so scheduled runs return just what's new.",
+      "description": "Return only posts not seen in a previous run for the same group or post link, so scheduled runs return just what is new.",
       "editor": "checkbox",
       "prefill": false,
       "title": "Monitor mode (only new posts)",
       "type": "boolean"
     },
+    "onlyPostsNewerThan": {
+      "description": "Keep posts created after this date. Use YYYY-MM-DD or a relative value such as '7 days' or '24 hours'. Applied while collecting posts.",
+      "editor": "textfield",
+      "title": "Only posts newer than",
+      "type": "string"
+    },
+    "onlyPostsOlderThan": {
+      "description": "Keep posts created before this date. Use YYYY-MM-DD or a relative value such as '30 days'.",
+      "editor": "textfield",
+      "title": "Only posts older than",
+      "type": "string"
+    },
+    "searchKeyword": {
+      "description": "Keep only posts whose text contains this keyword (case-insensitive). Applied while collecting posts.",
+      "editor": "textfield",
+      "title": "Keyword filter",
+      "type": "string"
+    },
     "sortBy": {
       "default": "top",
-      "description": "How to order the group's feed.",
+      "description": "How to order each group's feed.",
       "editor": "select",
       "enum": [
         "top",
@@ -54,7 +98,7 @@
       "type": "string"
     },
     "startUrls": {
-      "description": "Facebook group URLs (e.g. https://www.facebook.com/groups/pythondevelopers/) or bare group slugs/IDs.",
+      "description": "Facebook group URLs, bare group slugs or numeric IDs, or links to individual group posts.",
       "editor": "stringList",
       "items": {
         "type": "string"
@@ -63,7 +107,7 @@
       "prefill": [
         "https://www.facebook.com/groups/pythondevelopers/"
       ],
-      "title": "Group URLs",
+      "title": "Group or post URLs",
       "type": "array"
     }
   },
@@ -71,6 +115,6 @@
     "startUrls"
   ],
   "schemaVersion": 1,
-  "title": "Facebook Group Posts Scraper Input",
+  "title": "Facebook Group Feed & Engagement Extractor Input",
   "type": "object"
 }

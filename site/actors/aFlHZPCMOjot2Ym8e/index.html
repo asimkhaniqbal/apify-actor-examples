@@ -1,42 +1,86 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-gA4XQ5cLou8tJRLk1xfTtcflhgpVdhaOBd9Dcy16z+Y=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Facebook Group Feed &amp; Engagement Extractor | Vexaloom Labs</title><meta name="description" content="Pull posts from any public Facebook group with full text, media, reaction breakdown, top comments and reshares, plus optional group member count, admins and rules."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/"><meta property="og:title" content="Facebook Group Feed &amp; Engagement Extractor | Vexaloom Labs"><meta property="og:description" content="Pull posts from any public Facebook group with full text, media, reaction breakdown, top comments and reshares, plus optional group member count, admins and rules."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/#webpage","name":"Facebook Group Feed & Engagement Extractor","description":"Pull posts from any public Facebook group with full text, media, reaction breakdown, top comments and reshares, plus optional group member count, admins and rules.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/#article","headline":"Facebook Group Feed & Engagement Extractor","name":"Facebook Group Feed & Engagement Extractor","description":"Pull posts from any public Facebook group with full text, media, reaction breakdown, top comments and reshares, plus optional group member count, admins and rules.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Facebook Group Feed & Engagement Extractor","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Facebook Group Feed &amp; Engagement Extractor</span></div><section id="overview"><h1 class="doc-title">Facebook Group Feed &amp; Engagement Extractor</h1><p class="lede">Pull posts from any public Facebook group with full text, media, reaction breakdown, top comments and reshares, plus optional group member count, admins and rules.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/facebook-group-feed-and-engagement-extractor">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/aFlHZPCMOjot2Ym8e/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>startUrls</code></td><td>array</td><td>required</td><td>Facebook group URLs (e.g. https://www.facebook.com/groups/pythondevelopers/) or bare group slugs/IDs.</td></tr><tr><td><code>sortBy</code></td><td>string</td><td>optional</td><td>How to order the group&#x27;s feed.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of posts to return per group.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>startUrls</code></td><td>array</td><td>required</td><td>Facebook group URLs (e.g. https://www.facebook.com/groups/pythondevelopers/) or bare group slugs/IDs.</td></tr><tr><td><code>sortBy</code></td><td>string</td><td>optional</td><td>How to order the group&#x27;s feed.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of posts to return per group.</td></tr><tr><td><code>includeTopComments</code></td><td>boolean</td><td>optional</td><td>Include each post&#x27;s top comments in the results, with comment text, author, and reactions.</td></tr><tr><td><code>enrichGroupInfo</code></td><td>boolean</td><td>optional</td><td>Add each group&#x27;s description, member count, admins, rules, and creation date to every post record.</td></tr><tr><td><code>monitoringMode</code></td><td>boolean</td><td>optional</td><td>Only return posts not seen in a previous run for the same group, so scheduled runs return just what&#x27;s new.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-gA4XQ5cLou8tJRLk1xfTtcflhgpVdhaOBd9Dcy16z+Y=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Facebook Group Feed &amp; Engagement Extractor | Vexaloom Labs</title><meta name="description" content="Pull posts from any public Facebook group with full text, media, reaction breakdown, top comments and reshares, plus optional group member count, admins and rules."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/"><meta property="og:title" content="Facebook Group Feed &amp; Engagement Extractor | Vexaloom Labs"><meta property="og:description" content="Pull posts from any public Facebook group with full text, media, reaction breakdown, top comments and reshares, plus optional group member count, admins and rules."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/#webpage","name":"Facebook Group Feed & Engagement Extractor","description":"Pull posts from any public Facebook group with full text, media, reaction breakdown, top comments and reshares, plus optional group member count, admins and rules.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/#article","headline":"Facebook Group Feed & Engagement Extractor","name":"Facebook Group Feed & Engagement Extractor","description":"Pull posts from any public Facebook group with full text, media, reaction breakdown, top comments and reshares, plus optional group member count, admins and rules.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Facebook Group Feed & Engagement Extractor","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/aFlHZPCMOjot2Ym8e/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Facebook Group Feed &amp; Engagement Extractor</span></div><section id="overview"><h1 class="doc-title">Facebook Group Feed &amp; Engagement Extractor</h1><p class="lede">Pull posts from any public Facebook group with full text, media, reaction breakdown, top comments and reshares, plus optional group member count, admins and rules.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/facebook-group-feed-and-engagement-extractor">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/aFlHZPCMOjot2Ym8e/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>startUrls</code></td><td>array</td><td>required</td><td>Facebook group URLs, bare group slugs or numeric IDs, or links to individual group posts.</td></tr><tr><td><code>sortBy</code></td><td>string</td><td>optional</td><td>How to order each group&#x27;s feed.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of posts to return per group. Post links always return one post.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>startUrls</code></td><td>array</td><td>required</td><td>Facebook group URLs, bare group slugs or numeric IDs, or links to individual group posts.</td></tr><tr><td><code>sortBy</code></td><td>string</td><td>optional</td><td>How to order each group&#x27;s feed.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of posts to return per group. Post links always return one post.</td></tr><tr><td><code>includeTopComments</code></td><td>boolean</td><td>optional</td><td>Include each post&#x27;s inline top comments, with comment text, author, reactions and reply count.</td></tr><tr><td><code>fetchAllComments</code></td><td>boolean</td><td>optional</td><td>Fetch the full comment thread for each post, not just the inline top comments. This is slower and can add many rows of comment data.</td></tr><tr><td><code>maxCommentsPerPost</code></td><td>integer</td><td>optional</td><td>Comment budget per post, including replies. Only used when full comment threads are enabled.</td></tr><tr><td><code>includeCommentReplies</code></td><td>boolean</td><td>optional</td><td>Attach replies to each fetched comment. Only used when full comment threads are enabled.</td></tr><tr><td><code>onlyPostsNewerThan</code></td><td>string</td><td>optional</td><td>Keep posts created after this date. Use YYYY-MM-DD or a relative value such as &#x27;7 days&#x27; or &#x27;24 hours&#x27;. Applied while collecting posts.</td></tr><tr><td><code>onlyPostsOlderThan</code></td><td>string</td><td>optional</td><td>Keep posts created before this date. Use YYYY-MM-DD or a relative value such as &#x27;30 days&#x27;.</td></tr><tr><td><code>searchKeyword</code></td><td>string</td><td>optional</td><td>Keep only posts whose text contains this keyword (case-insensitive). Applied while collecting posts.</td></tr><tr><td><code>enrichGroupInfo</code></td><td>boolean</td><td>optional</td><td>Add the group&#x27;s name, description, member count, creation date, privacy, rules and admins to posts. Works for public groups; private groups return their public profile only.</td></tr><tr><td><code>monitoringMode</code></td><td>boolean</td><td>optional</td><td>Return only posts not seen in a previous run for the same group or post link, so scheduled runs return just what is new.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
   &quot;properties&quot;: {
     &quot;enrichGroupInfo&quot;: {
       &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Add each group&#x27;s description, member count, admins, rules, and creation date to every post record.&quot;,
+      &quot;description&quot;: &quot;Add the group&#x27;s name, description, member count, creation date, privacy, rules and admins to posts. Works for public groups; private groups return their public profile only.&quot;,
       &quot;editor&quot;: &quot;checkbox&quot;,
       &quot;prefill&quot;: false,
-      &quot;title&quot;: &quot;Enrich with group info&quot;,
+      &quot;title&quot;: &quot;Include group profile&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;fetchAllComments&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Fetch the full comment thread for each post, not just the inline top comments. This is slower and can add many rows of comment data.&quot;,
+      &quot;editor&quot;: &quot;checkbox&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Fetch full comment threads&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeCommentReplies&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Attach replies to each fetched comment. Only used when full comment threads are enabled.&quot;,
+      &quot;editor&quot;: &quot;checkbox&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Include comment replies&quot;,
       &quot;type&quot;: &quot;boolean&quot;
     },
     &quot;includeTopComments&quot;: {
       &quot;default&quot;: true,
-      &quot;description&quot;: &quot;Include each post&#x27;s top comments in the results, with comment text, author, and reactions.&quot;,
+      &quot;description&quot;: &quot;Include each post&#x27;s inline top comments, with comment text, author, reactions and reply count.&quot;,
       &quot;editor&quot;: &quot;checkbox&quot;,
       &quot;prefill&quot;: true,
       &quot;title&quot;: &quot;Include top comments&quot;,
       &quot;type&quot;: &quot;boolean&quot;
     },
+    &quot;maxCommentsPerPost&quot;: {
+      &quot;default&quot;: 20,
+      &quot;description&quot;: &quot;Comment budget per post, including replies. Only used when full comment threads are enabled.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 200,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 5,
+      &quot;title&quot;: &quot;Max comments per post&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
     &quot;maxItems&quot;: {
       &quot;default&quot;: 50,
-      &quot;description&quot;: &quot;Maximum number of posts to return per group.&quot;,
+      &quot;description&quot;: &quot;Maximum number of posts to return per group. Post links always return one post.&quot;,
       &quot;editor&quot;: &quot;number&quot;,
       &quot;maximum&quot;: 500,
       &quot;minimum&quot;: 1,
-      &quot;prefill&quot;: 10,
+      &quot;prefill&quot;: 3,
       &quot;title&quot;: &quot;Max posts per group&quot;,
       &quot;type&quot;: &quot;integer&quot;
     },
     &quot;monitoringMode&quot;: {
       &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Only return posts not seen in a previous run for the same group, so scheduled runs return just what&#x27;s new.&quot;,
+      &quot;description&quot;: &quot;Return only posts not seen in a previous run for the same group or post link, so scheduled runs return just what is new.&quot;,
       &quot;editor&quot;: &quot;checkbox&quot;,
       &quot;prefill&quot;: false,
       &quot;title&quot;: &quot;Monitor mode (only new posts)&quot;,
       &quot;type&quot;: &quot;boolean&quot;
     },
+    &quot;onlyPostsNewerThan&quot;: {
+      &quot;description&quot;: &quot;Keep posts created after this date. Use YYYY-MM-DD or a relative value such as &#x27;7 days&#x27; or &#x27;24 hours&#x27;. Applied while collecting posts.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Only posts newer than&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;onlyPostsOlderThan&quot;: {
+      &quot;description&quot;: &quot;Keep posts created before this date. Use YYYY-MM-DD or a relative value such as &#x27;30 days&#x27;.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Only posts older than&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;searchKeyword&quot;: {
+      &quot;description&quot;: &quot;Keep only posts whose text contains this keyword (case-insensitive). Applied while collecting posts.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Keyword filter&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
     &quot;sortBy&quot;: {
       &quot;default&quot;: &quot;top&quot;,
-      &quot;description&quot;: &quot;How to order the group&#x27;s feed.&quot;,
+      &quot;description&quot;: &quot;How to order each group&#x27;s feed.&quot;,
       &quot;editor&quot;: &quot;select&quot;,
       &quot;enum&quot;: [
         &quot;top&quot;,
@@ -54,7 +98,7 @@
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;startUrls&quot;: {
-      &quot;description&quot;: &quot;Facebook group URLs (e.g. https://www.facebook.com/groups/pythondevelopers/) or bare group slugs/IDs.&quot;,
+      &quot;description&quot;: &quot;Facebook group URLs, bare group slugs or numeric IDs, or links to individual group posts.&quot;,
       &quot;editor&quot;: &quot;stringList&quot;,
       &quot;items&quot;: {
         &quot;type&quot;: &quot;string&quot;
@@ -63,7 +107,7 @@
       &quot;prefill&quot;: [
         &quot;https://www.facebook.com/groups/pythondevelopers/&quot;
       ],
-      &quot;title&quot;: &quot;Group URLs&quot;,
+      &quot;title&quot;: &quot;Group or post URLs&quot;,
       &quot;type&quot;: &quot;array&quot;
     }
   },
@@ -71,17 +115,17 @@
     &quot;startUrls&quot;
   ],
   &quot;schemaVersion&quot;: 1,
-  &quot;title&quot;: &quot;Facebook Group Posts Scraper Input&quot;,
+  &quot;title&quot;: &quot;Facebook Group Feed &amp; Engagement Extractor Input&quot;,
   &quot;type&quot;: &quot;object&quot;
 }
-</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>posts</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped Facebook group posts.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>posts</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped Facebook group posts and status rows.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
   &quot;actorOutputSchemaVersion&quot;: 1,
-  &quot;description&quot;: &quot;Posts scraped from public Facebook groups: text, media, reaction breakdown, comments, reshares, and optional group metadata.&quot;,
+  &quot;description&quot;: &quot;Dataset of public Facebook group posts with text, media, reactions, comment threads, reshares and optional group profile data. Rows for private or empty groups carry a status message plus public group metadata when enrichment is enabled.&quot;,
   &quot;properties&quot;: {
     &quot;posts&quot;: {
-      &quot;description&quot;: &quot;Dataset containing all scraped Facebook group posts.&quot;,
+      &quot;description&quot;: &quot;Dataset containing all scraped Facebook group posts and status rows.&quot;,
       &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
-      &quot;title&quot;: &quot;Group Posts&quot;,
+      &quot;title&quot;: &quot;Group posts&quot;,
       &quot;type&quot;: &quot;string&quot;
     }
   },
@@ -141,18 +185,18 @@
   }
 }
 </code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-facebook-group-feed-engagement-extractor">Facebook Group Feed &amp; Engagement Extractor</h2>
-<p>Point this actor at any public Facebook group and pull its feed as structured data — no login, password, or cookies required. Each record carries the full post text, author details, photos and videos, a reaction breakdown, top comments, shares, and reshared content, plus optional group metadata like member count, admins, and rules.</p>
+<p>Collect public Facebook group posts as structured data: full text, author, timestamp, media, reaction breakdown, comment and share counts, top comments, reshares, and optional full comment threads. Add group profiles, paste individual post links, or monitor a group on a schedule — without logging in or supplying cookies.</p>
 <h2 id="readme-what-this-actor-does">What this actor does</h2>
 <ul>
-<li><strong>Scrapes any public Facebook group</strong> by pasting a group URL, slug, or numeric group ID</li>
-<li><strong>No Facebook login, password, or cookies needed</strong> — works entirely on public data</li>
-<li><strong>Captures full post content</strong>: text, hashtags, photos/videos, timestamps, and author info</li>
-<li><strong>Full engagement data</strong>: reaction breakdown by type (Like, Love, Haha, Wow, Sad, Angry, Care), total reactions, comment counts, shares, and top comments</li>
-<li><strong>Reshares included</strong>: when a post shares another post, the original post's full content is captured too</li>
-<li><strong>Four sort orders</strong>: top posts, chronological (newest first), recent activity, and buy/sell listings</li>
-<li><strong>Optional group profile data</strong>: description, member count, admin names, group rules, and creation date</li>
-<li><strong>Monitor mode</strong>: schedule recurring runs that return only newly published posts</li>
-<li><strong>Empty fields are omitted</strong> — every record only contains data that was actually found, never <code>null</code> or blank placeholders</li>
+<li><strong>Scrape public group feeds</strong> from a group URL, bare slug, or numeric group ID.</li>
+<li><strong>Scrape individual group posts</strong> by pasting one or more post links.</li>
+<li><strong>Fetch full comment threads</strong> with comment text, author, reactions, timestamps, and nested replies.</li>
+<li><strong>Include group profiles</strong>: name where available, description, exact member count, creation date, privacy, rules, plus admins and tags when Facebook exposes them.</li>
+<li><strong>Work with private groups honestly</strong>: their posts are not public, but their public profile data (description, member count, rules, privacy) is returned when group enrichment is enabled.</li>
+<li><strong>Four feed orders</strong>: top posts, chronological, recent activity, and buy/sell listings.</li>
+<li><strong>Filter while collecting</strong>: date range, keyword, and monitor mode for new posts only.</li>
+<li><strong>Handle mixed languages and formats</strong>: English, Arabic, Vietnamese, and other group content is returned as written.</li>
+<li><strong>Omit empty fields</strong> at every level — no nulls or blank placeholders.</li>
 </ul>
 <h2 id="readme-output-per-post">Output per post</h2>
 <div class="table-wrap"><table>
@@ -165,14 +209,14 @@
 </thead>
 <tbody>
 <tr>
-<td><code>id</code></td>
-<td>string</td>
-<td>Facebook's internal opaque post ID</td>
-</tr>
-<tr>
 <td><code>postId</code></td>
 <td>string</td>
-<td>Real numeric post ID</td>
+<td>Facebook post ID</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>string</td>
+<td>Facebook's internal post identifier</td>
 </tr>
 <tr>
 <td><code>permalinkUrl</code></td>
@@ -182,12 +226,12 @@
 <tr>
 <td><code>groupId</code></td>
 <td>string</td>
-<td>Numeric ID of the group the post belongs to</td>
+<td>Group ID</td>
 </tr>
 <tr>
 <td><code>groupUrl</code></td>
 <td>string</td>
-<td>Normalized URL of the group</td>
+<td>Group URL</td>
 </tr>
 <tr>
 <td><code>text</code></td>
@@ -195,74 +239,99 @@
 <td>Full post text</td>
 </tr>
 <tr>
+<td><code>postType</code></td>
+<td>string</td>
+<td><code>text</code>, <code>photo</code>, <code>video</code>, <code>link</code>, or <code>share</code></td>
+</tr>
+<tr>
 <td><code>hashtags</code></td>
 <td>array</td>
-<td>Facebook hashtag page URLs found in the post text</td>
+<td>Hashtag links found in the post</td>
+</tr>
+<tr>
+<td><code>mentions</code></td>
+<td>array</td>
+<td>Mentioned profiles or pages, when present</td>
+</tr>
+<tr>
+<td><code>externalLinks</code></td>
+<td>array</td>
+<td>Clean destination links found in the post</td>
 </tr>
 <tr>
 <td><code>creationTime</code></td>
 <td>integer</td>
-<td>Unix timestamp the post was created</td>
+<td>Unix timestamp</td>
 </tr>
 <tr>
 <td><code>authorId</code></td>
 <td>string</td>
-<td>Numeric ID of the post author</td>
+<td>Post author ID</td>
 </tr>
 <tr>
 <td><code>authorName</code></td>
 <td>string</td>
-<td>Name of the post author</td>
+<td>Post author name</td>
 </tr>
 <tr>
 <td><code>authorUrl</code></td>
 <td>string</td>
-<td>URL of the post author's profile</td>
+<td>Author profile URL; a profile.php fallback is flagged</td>
 </tr>
 <tr>
 <td><code>authorUrlIsFallback</code></td>
 <td>boolean</td>
-<td><code>true</code> when Facebook didn't provide a direct profile link and the URL was built from the author's numeric ID instead</td>
+<td><code>true</code> when the author URL was built from the numeric ID</td>
 </tr>
 <tr>
 <td><code>attachments</code></td>
 <td>array</td>
-<td>Photos/videos attached to the post, including direct media URLs and auto-generated image captions where available</td>
+<td>Photos/videos with direct media URLs, dimensions and image captions</td>
 </tr>
 <tr>
 <td><code>reactionsTotal</code></td>
 <td>integer</td>
-<td>Total reaction count</td>
+<td>Total reactions</td>
 </tr>
 <tr>
 <td><code>reactionBreakdown</code></td>
 <td>array</td>
-<td>Reaction counts by type, e.g. Like/Love/Haha/Wow/Sad/Angry/Care</td>
+<td>Reactions by type (Like, Love, Care, Haha, Wow, Sad, Angry)</td>
 </tr>
 <tr>
 <td><code>commentsCount</code></td>
 <td>integer</td>
-<td>Total number of comments (including replies)</td>
+<td>Total comments including replies</td>
+</tr>
+<tr>
+<td><code>commentsVisible</code></td>
+<td>integer</td>
+<td>Comments visible without a login, when a full thread is fetched</td>
+</tr>
+<tr>
+<td><code>comments</code></td>
+<td>array</td>
+<td>Full comment thread, when enabled; each comment can include <code>replies</code></td>
 </tr>
 <tr>
 <td><code>sharesCount</code></td>
 <td>integer</td>
-<td>Total number of shares</td>
+<td>Share count</td>
 </tr>
 <tr>
 <td><code>topComments</code></td>
 <td>array</td>
-<td>Top comments, each with text, author, reactions, and permalink</td>
+<td>Inline top comments with author, reactions and reply count</td>
 </tr>
 <tr>
 <td><code>sharedPost</code></td>
 <td>object</td>
-<td>The original post's full data if this post is a reshare, otherwise omitted</td>
+<td>Original post details when this post is a reshare</td>
 </tr>
 <tr>
 <td><code>group</code></td>
 <td>object</td>
-<td>Group profile data (only present when &quot;Enrich with group info&quot; is enabled) — see below</td>
+<td>Group profile data when enrichment is enabled</td>
 </tr>
 <tr>
 <td><code>inputUrl</code></td>
@@ -272,78 +341,15 @@
 <tr>
 <td><code>scrapedAt</code></td>
 <td>string</td>
-<td>ISO 8601 timestamp of when the record was scraped</td>
+<td>ISO 8601 scrape time</td>
 </tr>
 </tbody>
 </table></div>
-<p>If a group can't be reached or has no posts in the chosen sort order, one diagnostic record is pushed for it instead: <code>_status</code> (the access/error state), <code>_inputUrl</code>, <code>_groupUrl</code>, <code>_message</code>, <code>scrapedAt</code>.</p>
-<h3 id="readme-group-object-when-enrich-with-group-info-is-enabled"><code>group</code> object (when &quot;Enrich with group info&quot; is enabled)</h3>
-<div class="table-wrap"><table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>string</td>
-<td>Numeric group ID</td>
-</tr>
-<tr>
-<td><code>url</code></td>
-<td>string</td>
-<td>Normalized group URL</td>
-</tr>
-<tr>
-<td><code>description</code></td>
-<td>string</td>
-<td>Full group description</td>
-</tr>
-<tr>
-<td><code>memberCount</code></td>
-<td>integer</td>
-<td>Exact member count</td>
-</tr>
-<tr>
-<td><code>memberCountFormatted</code></td>
-<td>string</td>
-<td>Abbreviated member count, e.g. <code>&quot;75.9K&quot;</code></td>
-</tr>
-<tr>
-<td><code>createdAt</code></td>
-<td>integer</td>
-<td>Unix timestamp the group was created</td>
-</tr>
-<tr>
-<td><code>admins</code></td>
-<td>array</td>
-<td>Group admin names</td>
-</tr>
-<tr>
-<td><code>rules</code></td>
-<td>array</td>
-<td>Group rules, each with a title and description</td>
-</tr>
-<tr>
-<td><code>privacy</code></td>
-<td>string</td>
-<td>Group privacy setting, e.g. <code>&quot;Anyone can see who's in the group and what they post.&quot;</code></td>
-</tr>
-<tr>
-<td><code>discoverability</code></td>
-<td>string</td>
-<td>Group discoverability setting</td>
-</tr>
-<tr>
-<td><code>tags</code></td>
-<td>array</td>
-<td>Group category tags</td>
-</tr>
-</tbody>
-</table></div>
+<h3 id="readme-comment-fields">Comment fields</h3>
+<p>Comments carry <code>id</code>, <code>text</code>, <code>authorId</code>, <code>authorName</code>, <code>authorUrl</code>, <code>createdAt</code>, <code>reactionsTotal</code>, <code>replyCount</code>, and <code>permalinkUrl</code> when Facebook exposes them; missing fields are omitted. Comments fetched with replies enabled also carry a <code>replies</code> array using the same shape.</p>
+<h3 id="readme-group-profile-fields">Group profile fields</h3>
+<p><code>id</code>, <code>name</code> when available (post-link mode; some group-feed About payloads omit it), <code>url</code>, <code>description</code>, <code>memberCount</code>, <code>memberCountFormatted</code>, <code>createdAt</code>, <code>admins</code>, <code>rules</code>, <code>privacy</code>, <code>discoverability</code>, and <code>tags</code>.</p>
+<p>Private and empty groups produce a status row with <code>_status</code>, <code>_inputUrl</code>, <code>_groupUrl</code>, <code>_message</code>, <code>scrapedAt</code>, and the public <code>group</code> object when enrichment is enabled.</p>
 <h2 id="readme-input">Input</h2>
 <div class="table-wrap"><table>
 <thead>
@@ -358,162 +364,131 @@
 <tr>
 <td><code>startUrls</code></td>
 <td>array</td>
-<td>–</td>
-<td>Facebook group URLs, bare slugs, or numeric group IDs (required)</td>
+<td>—</td>
+<td>Group URLs, bare slugs, numeric group IDs, or group post URLs (required)</td>
 </tr>
 <tr>
 <td><code>sortBy</code></td>
-<td>string</td>
+<td>select</td>
 <td><code>top</code></td>
-<td><code>top</code> / <code>chronological</code> / <code>recent_activity</code> / <code>listings</code></td>
+<td><code>top</code>, <code>chronological</code>, <code>recent_activity</code>, <code>listings</code></td>
 </tr>
 <tr>
 <td><code>maxItems</code></td>
 <td>integer</td>
-<td><code>50</code></td>
-<td>Maximum posts to return per group (1–500)</td>
+<td>50</td>
+<td>Posts per group (1–500); post links always return one</td>
 </tr>
 <tr>
 <td><code>includeTopComments</code></td>
 <td>boolean</td>
-<td><code>true</code></td>
-<td>Include each post's top comments</td>
+<td>true</td>
+<td>Include inline top comments</td>
+</tr>
+<tr>
+<td><code>fetchAllComments</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Fetch each post's full comment thread</td>
+</tr>
+<tr>
+<td><code>maxCommentsPerPost</code></td>
+<td>integer</td>
+<td>20</td>
+<td>Comment budget per post, including replies</td>
+</tr>
+<tr>
+<td><code>includeCommentReplies</code></td>
+<td>boolean</td>
+<td>true</td>
+<td>Attach replies to fetched comments</td>
+</tr>
+<tr>
+<td><code>onlyPostsNewerThan</code></td>
+<td>string</td>
+<td>—</td>
+<td><code>YYYY-MM-DD</code>, ISO date, or relative value such as <code>7 days</code></td>
+</tr>
+<tr>
+<td><code>onlyPostsOlderThan</code></td>
+<td>string</td>
+<td>—</td>
+<td>Same formats; keeps older posts</td>
+</tr>
+<tr>
+<td><code>searchKeyword</code></td>
+<td>string</td>
+<td>—</td>
+<td>Case-insensitive keyword filter</td>
 </tr>
 <tr>
 <td><code>enrichGroupInfo</code></td>
 <td>boolean</td>
-<td><code>false</code></td>
-<td>Add group description, member count, admins, and rules to every post</td>
+<td>false</td>
+<td>Attach group profile data to posts; also returns a profile row for private/empty groups</td>
 </tr>
 <tr>
 <td><code>monitoringMode</code></td>
 <td>boolean</td>
-<td><code>false</code></td>
-<td>Only return posts not seen in a previous run for the same group</td>
+<td>false</td>
+<td>Return only posts not seen in a previous run</td>
 </tr>
 </tbody>
 </table></div>
-<h3 id="readme-supported-group-url-formats">Supported group URL formats</h3>
-<ul>
-<li><strong>Group URL</strong>: <code>https://www.facebook.com/groups/pythondevelopers/</code></li>
-<li><strong>Group with a numeric ID</strong>: <code>https://www.facebook.com/groups/123456789012345/</code></li>
-<li><strong>Bare slug</strong>: <code>pythondevelopers</code></li>
-</ul>
-<h3 id="readme-example-basic-scrape-of-a-group-s-top-posts">Example: basic scrape of a group's top posts</h3>
-<pre><code class="language-json">{
-    &quot;startUrls&quot;: [&quot;https://www.facebook.com/groups/pythondevelopers/&quot;],
-    &quot;sortBy&quot;: &quot;top&quot;,
-    &quot;maxItems&quot;: 50,
-    &quot;includeTopComments&quot;: true
-}
-</code></pre>
-<h3 id="readme-example-scrape-with-group-profile-data-included">Example: scrape with group profile data included</h3>
+<h2 id="readme-examples">Examples</h2>
+<p>Scrape the newest 50 posts from a group:</p>
 <pre><code class="language-json">{
     &quot;startUrls&quot;: [&quot;https://www.facebook.com/groups/pythondevelopers/&quot;],
     &quot;sortBy&quot;: &quot;chronological&quot;,
-    &quot;maxItems&quot;: 20,
-    &quot;enrichGroupInfo&quot;: true
+    &quot;maxItems&quot;: 50
 }
 </code></pre>
-<h3 id="readme-example-monitor-a-group-for-new-posts-only">Example: monitor a group for new posts only</h3>
+<p>Fetch full comment threads for two group posts:</p>
+<pre><code class="language-json">{
+    &quot;startUrls&quot;: [
+        &quot;https://www.facebook.com/groups/pythondevelopers/posts/29000349089604342/&quot;,
+        &quot;https://www.facebook.com/groups/OPonemillion/posts/29298552993071994/&quot;
+    ],
+    &quot;fetchAllComments&quot;: true,
+    &quot;maxCommentsPerPost&quot;: 50,
+    &quot;includeCommentReplies&quot;: true
+}
+</code></pre>
+<p>Monitor a group and include its profile:</p>
 <pre><code class="language-json">{
     &quot;startUrls&quot;: [&quot;https://www.facebook.com/groups/pythondevelopers/&quot;],
-    &quot;maxItems&quot;: 50,
+    &quot;sortBy&quot;: &quot;recent_activity&quot;,
+    &quot;maxItems&quot;: 100,
+    &quot;enrichGroupInfo&quot;: true,
     &quot;monitoringMode&quot;: true
 }
 </code></pre>
-<h3 id="readme-example-multiple-groups-in-one-run">Example: multiple groups in one run</h3>
-<pre><code class="language-json">{
-    &quot;startUrls&quot;: [
-        &quot;https://www.facebook.com/groups/pythondevelopers/&quot;,
-        &quot;https://www.facebook.com/groups/javascript/&quot;
-    ],
-    &quot;sortBy&quot;: &quot;recent_activity&quot;,
-    &quot;maxItems&quot;: 100
-}
-</code></pre>
-<h2 id="readme-example-output">Example output</h2>
-<pre><code class="language-json">{
-    &quot;id&quot;: &quot;UzpfSTEwMDA3NjkwNTU4ODg0MDpWSzoyODQ0OTkzNTA4Nzk3OTA4MQ==&quot;,
-    &quot;postId&quot;: &quot;28449935087979081&quot;,
-    &quot;permalinkUrl&quot;: &quot;https://www.facebook.com/groups/pythondevelopers/posts/28449935087979081/&quot;,
-    &quot;groupId&quot;: &quot;527595400639758&quot;,
-    &quot;groupUrl&quot;: &quot;https://www.facebook.com/groups/pythondevelopers/&quot;,
-    &quot;text&quot;: &quot;PYTHON #60 CODING CHALLENGE - can you solve it?&quot;,
-    &quot;hashtags&quot;: [&quot;https://www.facebook.com/hashtag/python&quot;],
-    &quot;creationTime&quot;: 1789471995,
-    &quot;authorId&quot;: &quot;100076905588840&quot;,
-    &quot;authorName&quot;: &quot;Dhiraj Kumar&quot;,
-    &quot;authorUrl&quot;: &quot;https://www.facebook.com/profile.php?id=100076905588840&quot;,
-    &quot;authorUrlIsFallback&quot;: true,
-    &quot;attachments&quot;: [
-        {
-            &quot;type&quot;: &quot;Photo&quot;,
-            &quot;url&quot;: &quot;https://scontent.xx.fbcdn.net/v/...&quot;,
-            &quot;width&quot;: 1080,
-            &quot;height&quot;: 1920,
-            &quot;accessibilityCaption&quot;: &quot;May be an image of text that says \&quot;PYTHON #60 CODING CHALLENGE...\&quot;&quot;
-        }
-    ],
-    &quot;reactionsTotal&quot;: 796,
-    &quot;reactionBreakdown&quot;: [
-        {&quot;type&quot;: &quot;Like&quot;, &quot;count&quot;: 450},
-        {&quot;type&quot;: &quot;Love&quot;, &quot;count&quot;: 310},
-        {&quot;type&quot;: &quot;Wow&quot;, &quot;count&quot;: 20},
-        {&quot;type&quot;: &quot;Care&quot;, &quot;count&quot;: 15},
-        {&quot;type&quot;: &quot;Haha&quot;, &quot;count&quot;: 1}
-    ],
-    &quot;commentsCount&quot;: 42,
-    &quot;sharesCount&quot;: 3,
-    &quot;topComments&quot;: [
-        {
-            &quot;id&quot;: &quot;Y29tbWVudDoxMjM0NQ==&quot;,
-            &quot;text&quot;: &quot;Nice challenge!&quot;,
-            &quot;authorName&quot;: &quot;Jari Abbas&quot;,
-            &quot;authorId&quot;: &quot;100001234567890&quot;,
-            &quot;authorUrl&quot;: &quot;https://www.facebook.com/jari.abbas.691553&quot;,
-            &quot;createdAt&quot;: 1789472500,
-            &quot;reactionsTotal&quot;: 5,
-            &quot;replyCount&quot;: 1,
-            &quot;permalinkUrl&quot;: &quot;https://www.facebook.com/groups/pythondevelopers/posts/28449935087979081/?comment_id=12345&quot;
-        }
-    ],
-    &quot;inputUrl&quot;: &quot;https://www.facebook.com/groups/pythondevelopers/&quot;,
-    &quot;scrapedAt&quot;: &quot;2026-09-16T12:00:00+00:00&quot;
-}
-</code></pre>
-<h2 id="readme-use-cases">Use cases</h2>
+<h2 id="readme-supported-url-formats">Supported URL formats</h2>
 <ul>
-<li><strong>Community monitoring</strong> — track new posts and discussions in Facebook groups relevant to your brand, product, or industry</li>
-<li><strong>Market research</strong> — analyze engagement patterns, sentiment, and popular topics inside niche communities</li>
-<li><strong>Content aggregation</strong> — collect group discussions for newsletters, digests, or dashboards</li>
-<li><strong>Lead generation</strong> — identify active members and recurring topics in professional or interest-based groups</li>
-<li><strong>Trend tracking</strong> — use monitor mode on a schedule to catch new activity as it happens</li>
-<li><strong>Competitor and brand monitoring</strong> — watch what's being said in industry-specific or competitor-run Facebook groups</li>
+<li><code>https://www.facebook.com/groups/pythondevelopers/</code></li>
+<li><code>https://www.facebook.com/groups/527595400639758/</code></li>
+<li><code>pythondevelopers</code> or <code>527595400639758</code></li>
+<li><code>https://www.facebook.com/groups/pythondevelopers/posts/29000349089604342/</code></li>
+<li><code>https://www.facebook.com/groups/pythondevelopers/permalink/29000349089604342/</code></li>
+<li>Mobile and web variants of the same links</li>
 </ul>
 <h2 id="readme-faq">FAQ</h2>
-<p><strong>Do I need to log in to Facebook to use this actor?</strong>
-No. This actor works entirely without a Facebook login, password, cookies, or any authentication. It only accesses data that's publicly visible to anyone, logged in or not.</p>
-<p><strong>Is this affiliated with Facebook or Meta?</strong>
-No. This is an independent, third-party tool that reads publicly available Facebook group data. It is not created, endorsed, or affiliated with Meta Platforms, Inc.</p>
-<p><strong>Can I scrape private or closed Facebook groups?</strong>
-No. Private and closed groups require Facebook group membership to view posts, and this actor cannot bypass that requirement. It only works with public groups.</p>
-<p><strong>What happens if a group is private, invalid, or doesn't exist?</strong>
-The run does not fail. Instead, the actor returns a diagnostic record noting that no posts could be retrieved for that specific group, so you can tell &quot;group is private or invalid&quot; apart from &quot;group genuinely has zero posts&quot; — and any other groups in the same run are unaffected.</p>
-<p><strong>Can I search Facebook groups by keyword?</strong>
-Not directly — Facebook doesn't offer true keyword search across a group's full post history. This actor fetches a group's feed in the sort order you choose (top, chronological, recent activity, or listings) as Facebook itself renders it. If you need posts about a specific topic, scrape the feed and filter the results for your keyword afterward.</p>
-<p><strong>How is the member count calculated?</strong>
-Member count is Facebook's own reported number from the group's About page, returned both as an exact figure and an abbreviated string (e.g. <code>&quot;75.9K&quot;</code>). It's only included when &quot;Enrich with group info&quot; is enabled.</p>
-<p><strong>What does monitor mode do?</strong>
-When enabled, the actor remembers which post IDs it has already returned for each group, across separate runs. The next run only pushes posts that weren't seen before — ideal for scheduled runs where you just want new activity.</p>
-<p><strong>Why is <code>authorUrl</code> sometimes a <code>profile.php?id=...</code> link instead of a normal profile URL?</strong>
-Facebook doesn't always expose a normal vanity profile URL for a post's author. When that happens, the actor builds a valid link from the author's numeric ID so the field is never left empty. Check <code>authorUrlIsFallback</code> to tell the two cases apart.</p>
-<p><strong>How many posts can I scrape per group?</strong>
-Up to 500 posts per group in a single run, controlled by the &quot;Max posts per group&quot; input field.</p>
-<p><strong>How fresh is the data?</strong>
-Every run fetches Facebook's live group feed at the moment the actor runs — there's no caching or delay, so results reflect what's currently visible on Facebook.</p>
-<p><strong>Can I export the results to Excel, CSV, or Google Sheets?</strong>
-Yes. Every Apify actor run's dataset can be exported to JSON, CSV, Excel (XLSX), XML, or pushed directly to Google Sheets from the run's results page.</p>
-<p><strong>Can I scrape multiple Facebook groups in one run?</strong>
-Yes. Add as many group URLs, slugs, or IDs as you like to the input list — each is scraped in the same run and tagged with its own <code>groupUrl</code> in the output.</p>
-</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/aFlHZPCMOjot2Ym8e/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>3QvBZZMPXd4w13tst</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
+<p><strong>Do I need a Facebook account, cookies, or a proxy?</strong>
+No. The actor reads public data without logging in and chooses its connection automatically. You do not need to configure a proxy.</p>
+<p><strong>Can it scrape private groups?</strong>
+Private group posts are not available without membership. The actor returns the group's public profile when group enrichment is enabled, and a clear status message explaining that posts are private.</p>
+<p><strong>Why are some engagement fields missing, and why do others show 0?</strong>
+Facebook reports 0 for some posts with no reactions, comments, or shares; those exact zeros are kept. Fields Facebook does not return at all are omitted, along with empty strings, arrays, objects, and nulls. Counts are preserved exactly as Facebook reports them, never rounded up or fabricated.</p>
+<p><strong>Are date and keyword filters applied by Facebook?</strong>
+No. Facebook's group feed does not expose a server-side date or keyword filter, so the actor applies these filters while collecting posts. A very narrow filter can stop after the configured scan ceiling; the status message explains this.</p>
+<p><strong>Why is <code>videoUrl</code> missing on some video posts?</strong>
+Facebook exposes a direct MP4 for some group videos only. When it does not, the actor returns the thumbnail, duration, dimensions, and permalink instead of inventing a URL.</p>
+<p><strong>How many comments can I get?</strong>
+Facebook serves comments in pages of ten. Set <code>maxCommentsPerPost</code> to control the budget. Public visibility can be lower than the total shown on the post; <code>commentsVisible</code> reports what was available.</p>
+<p><strong>Why is a group feed shorter than the requested number of posts?</strong>
+Facebook returns three posts per request and may stop serving older posts. The actor stops when the feed ends or the requested number is reached.</p>
+<p><strong>Does this actor use cookies or a login for post links?</strong>
+No. Public group post links and their comment threads are read without authentication.</p>
+<p><strong>Can I export the results?</strong>
+Yes. Any run's dataset can be exported to JSON, CSV, Excel, XML, or pushed to Google Sheets from the run page.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/aFlHZPCMOjot2Ym8e/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>Dg4WzPhie7Uh9fl7g</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
