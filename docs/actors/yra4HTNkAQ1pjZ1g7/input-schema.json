@@ -1,0 +1,195 @@
+{
+  "description": "Discover Fiverr gig URLs from Fiverr's public sitemap, and/or fetch full gig detail records (title, packages, seller, category, rating, price, images) for a list of gig URLs.",
+  "properties": {
+    "category": {
+      "default": "",
+      "description": "Only keep gigs in this top-level Fiverr category. Matched against the gig's own `categorySlug` — for mode=discoverAndFetchDetails/gigDetails this is extracted from the fetched gig page and skipped (passed through) for gigs where that field couldn't be parsed; for mode=discoverCategories it filters the taxonomy listing to just this top-level category's own tree. Leave empty for no filtering.",
+      "editor": "select",
+      "enum": [
+        "",
+        "graphics-design",
+        "online-marketing",
+        "writing-translation",
+        "video-animation",
+        "music-audio",
+        "programming-tech",
+        "data",
+        "business",
+        "lifestyle",
+        "photography",
+        "finance",
+        "end-to-end-projects"
+      ],
+      "enumTitles": [
+        "(any category)",
+        "Graphics & Design",
+        "Digital Marketing",
+        "Writing & Translation",
+        "Video & Animation",
+        "Music & Audio",
+        "Programming & Tech",
+        "Data",
+        "Business",
+        "Lifestyle",
+        "Photography",
+        "Finance",
+        "End-to-End Projects"
+      ],
+      "prefill": "",
+      "title": "Category filter (mode=discoverAndFetchDetails / gigDetails / discoverCategories)",
+      "type": "string"
+    },
+    "categoryLevel": {
+      "default": "",
+      "description": "Only keep entries at this level of the category taxonomy. Leave empty to list all 3 levels together.",
+      "editor": "select",
+      "enum": [
+        "",
+        "category",
+        "subCategory",
+        "nestedSubCategory"
+      ],
+      "enumTitles": [
+        "(all levels)",
+        "Top-level category",
+        "Sub-category",
+        "Nested sub-category"
+      ],
+      "prefill": "",
+      "title": "Category taxonomy level filter (mode=discoverCategories)",
+      "type": "string"
+    },
+    "gigUrls": {
+      "default": [],
+      "description": "Full Fiverr gig URLs to fetch details for, e.g. `https://www.fiverr.com/username/gig-slug`. Required for mode=gigDetails.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Gig URLs (mode=gigDetails)",
+      "type": "array"
+    },
+    "ideaType": {
+      "default": "",
+      "description": "Only keep Logo Maker idea entries of this taxonomy type. Leave empty to list all types together.",
+      "editor": "select",
+      "enum": [
+        "",
+        "tag",
+        "industry",
+        "brandValue",
+        "style",
+        "symbolType"
+      ],
+      "enumTitles": [
+        "(all types)",
+        "Tag (e.g. zoo, dog)",
+        "Industry (e.g. restaurant, kids)",
+        "Brand value (e.g. modern, classic)",
+        "Style",
+        "Symbol type"
+      ],
+      "prefill": "",
+      "title": "Logo Maker idea taxonomy filter (mode=discoverLogoMakerIdeas)",
+      "type": "string"
+    },
+    "includeFaq": {
+      "default": true,
+      "description": "Include the gig's public FAQ question/answer list when present on the page.",
+      "prefill": true,
+      "title": "Include FAQ section",
+      "type": "boolean"
+    },
+    "includePackages": {
+      "default": true,
+      "description": "Include the per-package (Basic/Standard/Premium or custom tier) pricing breakdown when Fiverr discloses it on the gig page.",
+      "prefill": true,
+      "title": "Include package/pricing-tier breakdown",
+      "type": "boolean"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Hard cap on emitted records.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxPriceUsd": {
+      "description": "Only keep gigs whose lowest package price is at or below this amount (USD). Only applies once gig details are fetched.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Maximum starting price (USD)",
+      "type": "number"
+    },
+    "maxShards": {
+      "default": 1,
+      "description": "Fiverr splits its gig sitemap into 7 gzip shard files (~40,000 gig URLs each), its seller sitemap into 6 gzip shard files (~50,000 seller URLs each), and its tag sitemap into 2 gzip shard files (~50,000 tag slugs each), all refreshed daily. Higher values scan more of the catalog but take longer to download/parse. Used by discoverGigs / discoverAndFetchDetails (gig shards, max 7), discoverSellers (seller shards, max 6), and discoverTags (tag shards, max 2) — values above the available shard count are simply capped.",
+      "maximum": 7,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Sitemap shards to scan",
+      "type": "integer"
+    },
+    "minPriceUsd": {
+      "description": "Only keep gigs whose lowest package price is at or above this amount (USD). Only applies once gig details are fetched.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Minimum starting price (USD)",
+      "type": "number"
+    },
+    "minRating": {
+      "description": "Only keep gigs with an average rating at or above this value (0-5). Only applies once gig details are fetched (mode=gigDetails / discoverAndFetchDetails).",
+      "maximum": 5,
+      "minimum": 0,
+      "title": "Minimum rating",
+      "type": "number"
+    },
+    "minReviews": {
+      "description": "Only keep gigs with at least this many reviews. Only applies once gig details are fetched.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Minimum review count",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "discoverGigs",
+      "description": "What to run. `discoverGigs` (recommended, 100% reliable, zero-cost) lists real gig URLs straight from Fiverr's own sitemap. `discoverSellers` (also 100% reliable, zero-cost) lists real seller/freelancer profile URLs straight from Fiverr's own seller sitemap. `discoverCategories` (also 100% reliable, zero-cost) lists Fiverr's full category/sub-category/nested-sub-category taxonomy (~950 entries with numeric category IDs) straight from Fiverr's own category sitemap. `discoverTags` (also 100% reliable, zero-cost) lists Fiverr's own curated search-tag vocabulary (~100,000 real tag slugs, e.g. `logo-design`, `wordpress-website`) straight from Fiverr's own tag sitemap — use it to discover real, high-traffic keywords for the `searchKeyword` filter on the other modes. `discoverLogoMakerIdeas` (also 100% reliable, zero-cost) lists Fiverr's Logo Maker inspiration taxonomy (~1,000 entries: tag/industry/style/symbol-type/brand-values logo ideas, each with a real example image) straight from Fiverr's own Logo Maker ideas sitemap. `discoverAndFetchDetails` additionally fetches full details per gig, but Fiverr's gig detail pages are behind PerimeterX and have been confirmed (via live cloud runs, re-verified 2026-07-25) to block ALL tested source IPs, direct and proxied alike — this mode is best-effort and may return 0 detail records. `gigDetails` fetches full details for a list of gig URLs you already have (same best-effort caveat). See README 'Data Source / Scope' for the full evidence.",
+      "editor": "select",
+      "enum": [
+        "discoverGigs",
+        "discoverSellers",
+        "discoverCategories",
+        "discoverTags",
+        "discoverLogoMakerIdeas",
+        "discoverAndFetchDetails",
+        "gigDetails"
+      ],
+      "enumTitles": [
+        "Discover gig URLs from sitemap (reliable)",
+        "Discover seller profile URLs from sitemap (reliable)",
+        "Discover category taxonomy from sitemap (reliable)",
+        "Discover search-tag vocabulary from sitemap (reliable)",
+        "Discover Logo Maker idea taxonomy from sitemap (reliable)",
+        "Discover gigs + fetch full details (best-effort)",
+        "Fetch gig details for given URLs (best-effort)"
+      ],
+      "prefill": "discoverGigs",
+      "title": "Mode",
+      "type": "string"
+    },
+    "searchKeyword": {
+      "default": "",
+      "description": "Only keep gigs/sellers/categories/tags/logo-ideas whose URL slug (or, once fetched, gig title) contains this keyword. Case-insensitive. Leave empty for no filtering. Note: this is a substring match against Fiverr's sitemap-derived gig slugs, seller usernames, category URLs, tag slugs, or logo-idea slugs, not a live Fiverr search (Fiverr's own search endpoint is blocked to automated traffic). Tip: run mode=discoverTags first to find real Fiverr search-tag slugs to use here.",
+      "editor": "textfield",
+      "prefill": "logo",
+      "title": "Keyword filter (mode=discoverGigs / discoverSellers / discoverCategories / discoverTags / discoverLogoMakerIdeas / discoverAndFetchDetails)",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Fiverr Scraper Input",
+  "type": "object"
+}
