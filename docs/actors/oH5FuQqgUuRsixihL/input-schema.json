@@ -1,0 +1,31 @@
+{
+  "description": "Search and extract job listings from Reed.co.uk — the UK's largest job board. Filter by keywords and location.",
+  "properties": {
+    "keywords": {
+      "description": "Job title, skills, or keywords to search for (e.g. 'python developer', 'marketing manager', 'nurse').",
+      "editor": "textfield",
+      "prefill": "software engineer",
+      "title": "Keywords",
+      "type": "string"
+    },
+    "location": {
+      "description": "City, region, or area to search in (e.g. 'London', 'Manchester', 'Birmingham'). Leave blank to search UK-wide.",
+      "editor": "textfield",
+      "title": "Location",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of job records to return (1–5000).",
+      "maximum": 5000,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Max items",
+      "type": "integer"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "Reed.co.uk Jobs Scraper Input",
+  "type": "object"
+}

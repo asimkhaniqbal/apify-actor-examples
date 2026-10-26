@@ -1,196 +1,139 @@
 # YouTube Video Metadata & Chapter Extractor
 
-Give this actor a YouTube video or Short link (or just the 11-character ID) and get back the watch page as structured data: core metadata, channel info, chapters, endscreen elements, the list of caption tracks, a timed transcript when YouTube serves one, related videos, and comments.
+Give this actor YouTube video or Short links (or bare 11-character IDs) and get one structured row per video: exact metadata, manual and automatic chapters, heatmap segments, caption-track availability, live and age status, and optional comments or transcript text. No YouTube API key, cookies, or proxy setup.
 
 ## What this actor does
 
-- **Video metadata:** title, description, channel, views, likes, comment count, duration, dates, tags, hashtags, category, thumbnails and playability flags
-- **Optional sections:** chapters, endscreen, info cards, caption-track list, related videos and comments, each switched on or off in the input
-- **Engagement rate:** (likes + comments) ÷ views, calculated per video
-- **Bulk videos:** one row per input link, processed one after another
-- **Empty fields are omitted** — records only contain values YouTube actually returned (failure rows are the exception, see below)
+- **Exact metadata:** title, description, channel, exact views and likes, duration, ISO publish time, category, creator keywords, thumbnails and canonical URL.
+- **Chapters:** manual creator chapters and YouTube-generated automatic chapters, each with title, start, end, source and a deep link. Description timestamps are used only when YouTube exposes no chapter panel.
+- **Heatmap:** optional Most replayed segments and YouTube's own labels. Heatmap is available when YouTube provides it and is omitted otherwise.
+- **Captions:** the full caption-track list with language, manual or auto-generated status, and a transcript when a track can be downloaded.
+- **Status:** live now, was live, upcoming, age-restricted, unlisted, family-safe, available countries and playability flags.
+- **Shorts and batches:** watch, youtu.be, Shorts, embed, live, `/v/` and mobile links or bare IDs; repeated IDs are processed once.
+- **Comments:** up to 1,000 comment texts per video when enabled. The display comment count is captured separately.
+- **Omit-empty:** a field is present only when YouTube returned real data. On a gated page some values, including caption summaries, can be unavailable rather than genuinely empty; see Limitations.
 
 ## Output
 
-Each row in the dataset represents one input link.
+Each dataset row is one unique video.
 
-### Video fields
+| Field | Type | Notes |
+|---|---|---|
+| `videoId`, `url`, `inputUrl` | string | Canonical watch URL and the original input |
+| `type`, `uploadType` | string | `video` or `short`; a Short is labelled `short` from a `/shorts/` link or the Shorts player surface |
+| `title`, `description` | string | Full values on normal pages; a gated description can be truncated to about 160 characters |
+| `channelId`, `channelName` | string | Uploader identity |
+| `channel` | object | id, name, handle, url, subscriber count/text, logo, badges |
+| `viewCount`, `likeCount` | integer | Exact values when YouTube exposes them |
+| `commentCountText` | string | Display count such as `2.4M` |
+| `commentCount` | integer | Only when the display value is an exact integer |
+| `durationSeconds` | integer | Omitted for live streams or unknown duration |
+| `publishedDate` | string | `YYYY-MM-DD` |
+| `publishedAt` | string | ISO-8601 timestamp with the original offset; omitted when YouTube hides it on a gated page |
+| `uploadDate` | string | Raw YouTube upload value |
+| `category`, `tags`, `hashtags` | string / array | Creator settings and description hashtags |
+| `thumbnails` | object | default, medium, high, standard, maxres when available |
+| `captionTracks` | array | language, name, auto-generated flag, translatable; empty when YouTube exposes none or gates the page |
+| `captionTrackCount`, `hasManualCaptions`, `hasAutoCaptions` | integer / boolean | Caption availability summary; `0`/`false` can mean "not observed" on a gated page |
+| `chapterSource` | string | `manual`, `auto` or `description` |
+| `chapters` | array | title, startSeconds, endSeconds, startTimeText, source, url, thumbnailUrl |
+| `heatmap` | array | startSeconds, endSeconds, intensity (when enabled) |
+| `mostReplayed` | array | YouTube's Most replayed labels (when enabled) |
+| `heatmapSegmentCount` | integer | Present only when a heatmap exists |
+| `liveStatus` | string | `live_now`, `was_live` or `upcoming`; omitted for regular uploads |
+| `isLiveNow`, `isUpcoming`, `isUnlisted`, `isFamilySafe`, `isShortsEligible` | boolean | Availability flags |
+| `isAgeGated`, `requiresLogin`, `isPlayable`, `playabilityStatus` | boolean / string | Access state |
+| `availableCountries` | array | Country codes YouTube reports |
+| `transcript` | array | Timed `{start, dur, text}` segments when available |
+| `comments` | array | Comment texts when `maxComments` > 0 |
+| `success`, `error`, `scrapedAt` | boolean / string | Result state; failure rows still carry real partial data |
 
-| Field | Type | Example |
-|-------|------|---------|
-| `type` | string | `"video"` or `"short"` |
-| `inputUrl` | string | Original URL provided in input |
-| `videoId` | string | `"dQw4w9WgXcQ"` |
-| `title` | string | `"Rick Astley - Never Gonna Give You Up"` |
-| `description` | string | Full video description |
-| `channelId` | string | `"UCuAXFkgsw1L7xaCfnd5JJOw"` |
-| `channelName` | string | `"Rick Astley"` |
-| `publishedDate` | string | `"2009-10-25"` |
-| `uploadDate` | string | Upload date as YouTube reports it |
-| `durationSeconds` | integer | `212` |
-| `viewCount` | integer | `1234567890` |
-| `likeCount` | integer | `15000000` |
-| `commentCount` | integer | `500000` |
-| `commentsDisabled` | boolean | `false` |
-| `tags` | array | `["rick astley", "never gonna give you up"]` |
-| `hashtags` | array | `["#rickastley"]` |
-| `thumbnails` | object | Keys among `default`, `medium`, `high`, `standard`, `maxres` |
-| `category` | string | `"Music"` |
-| `defaultAudioLanguage` | string | `"en"` |
-| `liveStatus` | string | `"live_now"`, `"was_live"` or `"upcoming"`; omitted for regular uploads |
-| `liveBroadcastDetails` | object | Start/end timestamps for live streams |
-| `isUpcoming` | boolean | `false` |
-| `isUnlisted` | boolean | `false` |
-| `uploadType` | string | `"normal"`, `"live"`, `"was_live"`, `"premiere"` or `"short"` |
-| `engagementRate` | float | `0.0162` |
-| `resolution` | string | Highest available quality, e.g. `"1080p"` or `"4K"` |
-| `isFamilySafe` | boolean | `true` |
-| `isShortsEligible` | boolean | `true` |
-| `isPlayable` | boolean | `true` |
-| `isAgeGated` | boolean | `false` |
-| `requiresLogin` | boolean | `false` |
-| `playabilityStatus` | string | `"OK"` |
-| `availableCountries` | array | `["US", "GB", "CA", ...]` |
-| `clipId`, `clipStartMs`, `clipEndMs` | string / integer | Only when YouTube's player data carries clip settings |
-| `transcript` | array | Timed segments `{start, dur, text}` (seconds as strings), when YouTube serves a transcript for the video |
-| `success` | boolean | `true` |
-| `scrapedAt` | string | `"2026-02-10T12:00:00.000000+00:00"` |
-
-### Failure rows
-
-When a link can't be parsed, the video is private, removed or region-blocked, or every fetch attempt is blocked, the actor still writes a row for that link with `success: false` and an `error` message (for example `"Invalid YouTube video URL"` or `"Video not available: ..."`). Those rows carry `type`, `inputUrl`, `scrapedAt`, `playabilityStatus` (often `"ERROR"`), and the flags `isPlayable`, `isAgeGated`, `requiresLogin`, `isUpcoming`, `isUnlisted` and `commentsDisabled` set to `false` unless YouTube said otherwise. When the video ID is known they also include `videoId` and `url`, and any title, channel, view, duration or like data YouTube still returned.
-
-### Channel info (embedded in `channel` object)
-
-| Field | Type | Example |
-|-------|------|---------|
-| `id` | string | `"UCuAXFkgsw1L7xaCfnd5JJOw"` |
-| `name` | string | `"Rick Astley"` |
-| `handle` | string | `"@rickastley"` |
-| `url` | string | `"https://www.youtube.com/@rickastley"` |
-| `subscriberCount` | integer | `2500000` |
-| `subscriberCountText` | string | `"2.5M subscribers"` |
-| `logo` | string | Channel avatar URL |
-| `badges` | array | `["Verified"]` |
-
-### Chapters (`chapters` array, when `includeChapters` is on)
-
-| Field | Type | Example |
-|-------|------|---------|
-| `title` | string | `"Intro"` |
-| `startSeconds` | integer | `0` |
-| `startTimeText` | string | `"0:00"` |
-| `thumbnailUrl` | string | Chapter thumbnail URL |
-
-### Endscreen (`endscreen` array, when `includeEndscreen` is on)
-
-Each item has `style` (video, channel, playlist or link type), `title`, `url`, and when available `videoId`, `channelId`, `thumbnailUrl`, `startMs` and `endMs`.
-
-### Info cards (`cards` array, when `includeCards` is on)
-
-Each card has `type` and, when available, `videoId` and `title`.
-
-### Caption tracks (`captionTracks` array, when `includeTranscriptMetadata` is on)
-
-| Field | Type | Example |
-|-------|------|---------|
-| `languageCode` | string | `"en"` |
-| `languageName` | string | `"English"` |
-| `isAutoGenerated` | boolean | `false` |
-| `isTranslatable` | boolean | `true` |
-
-### Related videos (`relatedVideos` array, when `includeRelatedVideos` > 0)
-
-Each entry has `videoId` and `title`, plus `url`, `channelName` and `viewCountText` when the sidebar shows them. Shorts from the sidebar shelf carry `type: "short"` instead.
-
-### Comments (`comments` array, when `maxComments` > 0)
-
-| Field | Type | Example |
-|-------|------|---------|
-| `commentId` | string | `"abc123"` |
-| `text` | string | `"This song is timeless!"` |
-| `author` | string | `"MusicFan"` |
-| `authorChannelId` | string | `"UC..."` |
-| `authorThumbnail` | string | Profile image URL |
-| `publishedTime` | string | `"2 years ago"` |
-| `likes` | integer | `1200` |
-| `isHearted` | boolean | `false` |
-| `isPinned` | boolean | `false` |
-| `isVerified` | boolean | `false` |
-| `isCreator` | boolean | `false` |
-| `isArtist` | boolean | `false` |
+Failure rows are written for invalid, removed, private or region-blocked links. They keep the input URL, a real video ID when known, `success: false` and an explanatory `error`; they never invent metadata.
 
 ## Input
 
 | Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `videoUrls` | array | – | Required. YouTube watch, `youtu.be`, Shorts, `/live/`, `/embed/` or `/v/` links, or plain 11-character video IDs |
-| `maxComments` | integer | `0` | Comments to collect per video (0–1000). `0` skips comments |
-| `includeChapters` | boolean | `true` | Add chapter markers from the chapter panel or description timestamps |
-| `includeEndscreen` | boolean | `true` | Add endscreen elements (videos, channels, playlists or links shown at the end) |
-| `includeCards` | boolean | `false` | Add the info cards embedded in the video |
-| `includeTranscriptMetadata` | boolean | `true` | Add the list of caption tracks. It does not control the `transcript` field, which is added whenever YouTube serves a transcript |
-| `includeRelatedVideos` | integer | `0` | How many sidebar related videos to add (0–50). `0` skips them |
-| `proxyCountry` | string | `US` | Country to route requests through — one of 31 countries in the list (e.g. `US`, `GB`, `DE`, `JP`, `IN`, `BR`). Useful for region-locked videos |
+|---|---|---|---|
+| `videoUrls` | array | – (required) | Watch/youtu.be/Shorts/embed/live/`/v/` links or bare 11-character IDs. Duplicates are removed. |
+| `maxComments` | integer | `0` | Comment texts to collect per video (0–1000). `0` skips comments. |
+| `includeChapters` | boolean | `true` | Manual and automatic chapters with source and end times. |
+| `includeHeatmap` | boolean | `false` | Most replayed segments and labels when available. |
+| `includeEndscreen` | boolean | `true` | Endscreen elements when YouTube exposes them. |
+| `includeCards` | boolean | `false` | Info cards embedded in the player. |
+| `includeTranscriptMetadata` | boolean | `true` | Caption-track list with language and manual/auto status. |
+| `includeTranscript` | boolean | `true` | Download transcript text when a caption track is available. |
+| `includeRelatedVideos` | integer | `0` | Related sidebar videos to include (0–50). |
 
-### Example: core details
-
-```json
-{
-  "videoUrls": ["https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
-}
-```
-
-### Example: details with chapters and comments
+### Example: core metadata and chapters
 
 ```json
 {
-  "videoUrls": ["https://www.youtube.com/watch?v=9bZkp7q19f0"],
+  "videoUrls": ["https://www.youtube.com/watch?v=dQw4w9WgXcQ"],
   "includeChapters": true,
-  "includeEndscreen": true,
-  "maxComments": 20
+  "includeHeatmap": false
 }
 ```
 
-### Example: Shorts and IDs with related videos
+### Example: batch IDs with heatmap and comments
 
 ```json
 {
-  "videoUrls": ["https://www.youtube.com/shorts/dQw4w9WgXcQ", "jNQXAC9IVRw"],
-  "includeTranscriptMetadata": true,
-  "includeRelatedVideos": 10,
-  "proxyCountry": "GB"
+  "videoUrls": ["jNQXAC9IVRw", "https://youtu.be/dQw4w9WgXcQ", "https://www.youtube.com/shorts/IaSm0LeErrc"],
+  "includeHeatmap": true,
+  "maxComments": 20,
+  "includeTranscript": false
 }
 ```
 
 ## Use cases
 
-- **Content research** — pull chapters, tags and engagement rates for a hand-picked list of videos
-- **SEO analysis** — collect titles, descriptions, hashtags, and related videos for keyword and ranking research
-- **Media monitoring** — re-run the same video list to track view counts, like counts, and playability status over time
-- **Competitor review** — compare a set of a competitor's videos on categories, endscreen strategy, and caption availability
-- **Subtitles and NLP** — see which caption languages exist and read the timed transcript where YouTube serves one
-- **Rights and availability checks** — check `availableCountries`, `isAgeGated`, and `playabilityStatus` for content rights workflows
+- **Content research:** compare exact views, likes, dates and chapter structure across a list of videos.
+- **SEO and publishing:** inspect titles, descriptions, tags, categories and hashtags from competitors.
+- **Retention analysis:** see which parts YouTube marks as Most replayed and how they line up with chapters.
+- **Caption and accessibility audits:** find which languages have manual captions versus auto-generated tracks.
+- **Monitoring:** re-run the same list to track view growth, live status and availability changes.
+- **AI and analytics pipelines:** feed clean, stable JSON into summaries, dashboards or datasets.
 
 ## FAQ
 
-**Does this actor return transcript text?**
-Sometimes. Whenever YouTube serves a transcript for the video, it's added as `transcript` (timed segments). Many videos have no transcript available to signed-out visitors, so the field is often missing. `captionTracks` lists the caption languages separately.
+**Does it need cookies or a proxy?**
+No. It reads public YouTube pages and public InnerTube endpoints without cookies, logins or API keys. No proxy setup is required. After a block it can retry through Apify's built-in datacenter proxy automatically; there is no proxy field and nothing to configure.
 
-**Why is `commentCount` missing or `comments` empty?**
-Comments are only collected when `maxComments` is above 0, and only if YouTube serves the comment section; videos with comments turned off return none. `commentCount` comes from the watch page or the first comment page, so it can be missing when YouTube shows neither.
+**Why is `commentCount` missing when I can see a count on YouTube?**
+YouTube shows abbreviated counts such as `2.4M`. That value is returned in `commentCountText`. `commentCount` is populated only when the display value is an exact integer, so a rounded number is never presented as exact.
 
-**Can I use clip links?**
-No. `/clip/` links aren't recognised and produce a failure row. Use the parent video's link instead.
+**Why is a description short or a field missing?**
+On Apify cloud/datacenter IPs YouTube sometimes shows a bot-check page. The actor still returns the chapters and heatmap visible on that page and recovers what it can, but some fields (publish time, duration, tags, caption tracks, transcript) may be missing and a gated description can be cut to about 160 characters. It never invents values. Re-running can recover more because the gate is per request.
 
-**What happens for region-blocked videos?**
-Set `proxyCountry` to a country where the video is available. The `availableCountries` array on the output shows where YouTube says the video can be watched.
+**Why is a heatmap missing?**
+YouTube does not publish Most replayed data for every video. It is commonly absent on live streams, very new or low-view videos, some music videos and age-restricted videos. The field is omitted rather than fabricated.
 
-**Are private or members-only videos supported?**
-No. Only public and unlisted videos you have a link to can be read. Private, removed or members-only videos produce a failure row with `success: false`, an `error` message and the `playabilityStatus` YouTube returned.
+**Why do some videos have no chapters?**
+Only creators who add chapters, or videos where YouTube generates automatic chapters, have them. `chapterSource` tells you which kind was found. Videos with neither have no `chapters` field.
 
-**Does a failed video stop the run?**
-No. Every input link gets its own row, so a failure on one video doesn't affect the others. Filter on `success` to separate them.
+**Are auto-generated chapters supported?**
+Yes. They use YouTube's `AUTO_CHAPTERS` surface and are labelled `auto`; creator chapters are labelled `manual`.
+
+**Why are captions missing for some videos?**
+YouTube only exposes caption tracks when the uploader provided them or the platform generated them. Live streams, some age-restricted videos and bot-gated pages often have none. `captionTrackCount`, `hasManualCaptions` and `hasAutoCaptions` show what was observed; a zero on a gated page can mean "not observed" rather than "no captions".
+
+**Is the transcript always available?**
+No. Transcript text is returned only when a caption track can be downloaded. Set `includeTranscript` to `false` to skip the extra request.
+
+**What happens for age-restricted or private videos?**
+Age-restricted videos can return real metadata with `isAgeGated: true`. Private, removed or members-only videos produce a failure row with `success: false` and the reason YouTube gave. The actor does not bypass access controls.
+
+**Does a failed link stop the run?**
+No. Every unique input gets its own row; failures do not stop the remaining videos.
 
 **Is this affiliated with YouTube?**
-No. It's an independent tool that reads publicly available YouTube pages.
+No. It is an independent tool that reads publicly available YouTube data.
+
+## Limitations
+
+- Heatmap, automatic chapters, captions and transcripts are conditional on what YouTube publishes for each video.
+- Cloud runs can be partially gated by YouTube. Missing fields (publish time, duration, tags, caption tracks, transcript) are omitted rather than guessed; a gated description can be truncated to about 160 characters, and summary values such as `captionTrackCount: 0` can mean "not observed" rather than "none". Re-running can recover more because the gate is per request.
+- A Short is labelled `short` when the input uses a `/shorts/` link or YouTube exposes the Shorts player; a bare ID without those signals is labelled `video` (`isShortsEligible` and duration are still returned).
+- Exact comment counts and exact subscriber counts are not available from the public surfaces used here; display text is returned instead.
+- Private, members-only and login-gated content is not supported.
+- YouTube's public endpoints can intermittently ask for a bot check; the actor retries with a fresh connection before reporting a real failure.
