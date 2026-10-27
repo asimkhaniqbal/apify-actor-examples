@@ -4,113 +4,161 @@
 
 # Himalayas Remote Job Finder with Salary & Tech Stack
 
-Himalayas is a job board for remote roles. This actor searches its public listings by keyword, pulls the open roles at one company, or looks up a list of job URLs you already have — returning salary, tech stack and job links for each one.
+Himalayas is a remote-first job board with roles from startups and established companies around the world. This actor turns its public listings into structured records: search by keyword, walk the newest jobs, pull a company's open roles, or resolve specific job URLs. When an employer publishes pay, each record carries the salary range, its pay period and an annualised comparison; every record also includes seniority, employment type, location and timezone restrictions, and optional job skills or company tech stack. No account, API key or proxy is required.
 
 ## What this actor does
 
-- Searches Himalayas job listings by free-text keyword, most recent first
-- Fetches the currently open jobs posted by a single company, given its slug (up to `maxItems`)
-- Turns a list of specific Himalayas job page URLs into structured records, as long as the job is still listed
-- Filters by employment type and a minimum salary floor in every mode
-- Omits any field Himalayas doesn't provide for a job, so a record never shows a null or placeholder value
+- **Four modes:** `searchJobs`, `browseAll`, `byCompany`, `byJobUrls`
+- **Remote-work filters:** country, worldwide-only, exclude worldwide, seniority, employment type, timezone and sort order
+- **Salary done properly:** raw minimum/maximum plus `salaryPeriod` and annualised `salaryAnnualMin` / `salaryAnnualMax`
+- **Optional enrichment:** per-job required skills and per-company tech stack
+- **Clean records:** empty fields are omitted, so a record never contains a null or placeholder value
+- **URL-safe identity:** every record has a stable `jobGuid` and a clean listing `jobUrl`; `applyUrl` is the link Himalayas publishes for applications
 
 ## Output per job
 
 | Field | Description |
 |---|---|
-| `jobId` | Unique job identifier taken from the job URL |
-| `jobUrl` | Direct link to the job listing on Himalayas |
+| `jobId` | Job slug from the listing URL |
+| `jobGuid` | Canonical Himalayas listing URL; globally unique across companies |
+| `jobUrl` | Clean link to the job on Himalayas |
+| `applyUrl` | Application link exactly as Himalayas publishes it |
+| `source` | Always `"Himalayas"` |
 | `title` | Job title |
 | `company` | Hiring company name |
-| `companyUrl` | Link to the company's Himalayas profile |
-| `location` | Countries applicants must be in (first five, then "(+more)"), or "Worldwide" when there are none |
-| `remotePolicy` | Always `"remote"` — every job on Himalayas is a remote role |
-| `salaryMin` / `salaryMax` | Annual salary range, when published |
-| `salaryCurrency` | Currency code for the salary range, when a salary is published |
-| `employmentType` | full-time, part-time, contract, or internship |
-| `techStack` | Skill and technology tags attached to the listing |
-| `categories` | Broader function areas the job belongs to, e.g. Developer, Product, Design |
-| `postedAt` | UTC timestamp of when the job was posted |
-| `description` | Job description HTML, or Himalayas' short excerpt when the full text isn't provided |
+| `companySlug` | Canonical company slug |
+| `companyUrl` | Company profile on Himalayas |
+| `companyLogo` | Company logo image URL, when published |
+| `location` | First five accepted countries, or `"Worldwide"` |
+| `locationRestrictions` | Full list of countries the job is open to; omitted when the job is open worldwide |
+| `worldwide` | `true` when the job has no country restriction |
+| `remotePolicy` | Always `"remote"` |
+| `salaryMin` / `salaryMax` | Published pay range in the listing's own `salaryPeriod` |
+| `salaryPeriod` | `annual`, `monthly`, `fortnightly`, `weekly` or `hourly` |
+| `salaryAnnualMin` / `salaryAnnualMax` | Pay converted to a yearly figure for comparison |
+| `salaryCurrency` | Currency code for the published pay range, when provided |
+| `employmentType` | `full-time`, `part-time`, `contract`, `temporary`, `internship`, `volunteer` or `other` |
+| `seniority` | Seniority levels the role targets |
+| `techStack` | Himalayas job tags, including role and technology tags |
+| `categories` | Broader parent categories, e.g. Developer, Data Science, Design |
+| `skills` | Required skills, when **Include job skills** is on |
+| `companyTechStack` | Company-level tools, when **Include company tech stack** is on and published |
+| `companyTechStackCategories` | Company tech stack grouped by category, when available |
+| `timezoneRestrictions` | UTC offsets the job accepts, e.g. `UTC-5`, `UTC+05:30`; omitted when the job accepts any timezone |
+| `postedAt` | When Himalayas last updated the listing |
+| `expiresAt` | Latest date the listing stays open |
+| `excerpt` | Short plain-text summary |
+| `description` | Full job description HTML |
 | `recordType` | Always `"job"` |
-| `scrapedAt` | UTC timestamp of when the record was scraped |
+| `scrapedAt` | When the record was scraped |
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string (required) | searchJobs | `searchJobs` runs a keyword search with filters; `byCompany` returns every job for a company slug; `byJobUrls` enriches a list of specific job URLs |
-| `searchQuery` | string | – | Free-text keyword query, e.g. "python backend", "product manager" — used in `searchJobs` mode |
-| `companySlug` | string | – | Canonical company slug from Himalayas, e.g. "stripe", "gitlab" — used only in `byCompany` mode |
-| `jobUrls` | array | `[]` | Himalayas job page URLs (`/companies/<slug>/jobs/<job>`) — used only in `byJobUrls` mode |
-| `remotePolicy` | string | `""` (any) | Leave blank or set to "remote"; both return the same jobs, because every record is marked remote |
-| `employmentType` | string | `""` (any) | Keep full-time, part-time, contract, or internship jobs. Jobs with no stated employment type are kept |
-| `minSalary` | integer | – | Exclude jobs whose maximum salary (or minimum, when only that is given) is below this value; jobs with no published salary are also excluded once this is set. The number is compared to the listing's own salary figures in whatever currency they use |
-| `maxItems` | integer | 20 | Hard cap on the number of job records returned (1–5000) |
+| `mode` | string (required) | `searchJobs` | `searchJobs` keyword search; `browseAll` newest-updated feed; `byCompany` company openings; `byJobUrls` specific URLs |
+| `searchQuery` | string | – | Keyword search, e.g. "data engineer" (mode=searchJobs) |
+| `companySlug` | string | – | Company slug or URL; comma-separate several, e.g. "stripe,vercel" (mode=byCompany) |
+| `jobUrls` | array | `[]` | Himalayas job URLs to resolve (mode=byJobUrls) |
+| `country` | string | `""` (any) | Only jobs open to this country; worldwide jobs are included unless excluded |
+| `worldwide` | boolean | `false` | Only jobs with no country restriction; overrides country |
+| `excludeWorldwide` | boolean | `false` | With a country set, exclude jobs open worldwide |
+| `seniority` | array | `[]` | Entry-level, Mid-level, Senior, Manager, Director, Executive |
+| `employmentType` | string | `""` (any) | full-time, part-time, contract, temporary, internship, volunteer, other |
+| `timezone` | string | – | Accepted UTC offset, e.g. `-5`, `UTC-5`, `UTC+05:30` |
+| `categories` | array | `[]` | Match categories, parent categories or tech tags, e.g. "python", "developer" |
+| `minSalary` | integer | – | Annualised salary floor |
+| `maxSalary` | integer | – | Annualised salary ceiling |
+| `salaryCurrency` | string | `""` (any) | Compare only jobs paid in this currency |
+| `sortBy` | string | `recent` | relevant, recent, salaryAsc, salaryDesc, nameAToZ, nameZToA, jobs (browse mode is always newest-updated) |
+| `includeSkills` | boolean | `false` | Fetch per-job required skills; one extra lookup per job (Himalayas' anonymous limit is 30/minute and 200/day) |
+| `includeCompanyTechStack` | boolean | `false` | Fetch the employer's company-level tech stack once per company; shares the same lookup limit |
+| `maxItems` | integer | `20` (prefill `3`) | Hard cap on emitted job records (1–5000) |
 
-### Example: keyword search with a salary floor
+### Example: senior Python roles with a salary floor
 
 ```json
 {
   "mode": "searchJobs",
-  "searchQuery": "data scientist",
-  "employmentType": "contract",
+  "searchQuery": "python",
+  "seniority": ["Senior"],
+  "employmentType": "full-time",
   "minSalary": 120000,
-  "maxItems": 30
+  "salaryCurrency": "USD",
+  "includeSkills": true,
+  "maxItems": 50
 }
 ```
 
-### Example: all open roles at one company
+### Example: newest worldwide jobs
+
+```json
+{
+  "mode": "browseAll",
+  "worldwide": true,
+  "maxItems": 200
+}
+```
+
+### Example: all open roles at two companies
 
 ```json
 {
   "mode": "byCompany",
-  "companySlug": "gitlab",
+  "companySlug": "stripe,vercel",
   "maxItems": 100
 }
 ```
 
-### Example: enrich a list of job URLs
+### Example: resolve specific job URLs
 
 ```json
 {
   "mode": "byJobUrls",
   "jobUrls": [
-    "https://himalayas.app/companies/stripe/jobs/backend-engineer-123"
-  ]
+    "https://himalayas.app/companies/sola-payments/jobs/senior-data-platform-engineer"
+  ],
+  "includeSkills": true
 }
 ```
 
 ## Use cases
 
-- **Remote job search** — filter by keyword, employment type and minimum salary to shortlist roles
-- **Startup hiring trends** — track which companies are actively posting and in what roles
-- **Salary benchmarking** — compare published pay ranges for a role or tech stack across companies
-- **Recruiting and sourcing** — monitor what a target company is hiring for over time
-- **Job board aggregation** — fold Himalayas listings into a broader remote-jobs feed
+- **Remote job boards** — build a fresh feed with salary, seniority and location restrictions
+- **Salary research** — compare annualised pay across roles, countries and currencies
+- **Recruiting and sourcing** — monitor a target company's open roles and required skills
+- **Tech hiring analytics** — track which technologies appear in remote job postings
+- **Job alerts** — run on a schedule and filter by country, seniority, employment type or keyword
+- **Data enrichment** — resolve a list of known Himalayas job URLs into structured records
 
 ## FAQ
 
-**Do I need a Himalayas account or API key?**
-No. The actor reads Himalayas's public job listings; no login or key is required.
+**Do I need a Himalayas account, API key or proxy?**
+No. The actor reads Himalayas' public job listings. There is no login, key or proxy setup.
 
-**What does `remotePolicy` mean if every job is remote anyway?**
-Himalayas only lists remote roles, so the field is always `"remote"`. Any geographic restriction on who can apply shows up in `location` instead, for example "United States, Canada" or "Worldwide".
+**Why are salary fields missing on some jobs?**
+Many employers do not publish pay on Himalayas. When a listing has no salary figures, all salary fields are omitted. The actor never fills them with estimates.
 
-**How do I find a company's slug for `byCompany` mode?**
-It's the part of the company's Himalayas URL after `/companies/`. For `https://himalayas.app/companies/stripe`, the slug is `stripe`.
+**What is the difference between `salaryMin` and `salaryAnnualMin`?**
+`salaryMin` and `salaryMax` are the published numbers in `salaryPeriod` — which may be hourly, monthly or annual. `salaryAnnualMin` and `salaryAnnualMax` convert those numbers to a yearly figure so different listings can be compared. For example, 50 USD/hour becomes 104,000 USD/year.
 
-**Why are `salaryMin`, `salaryMax` or `salaryCurrency` missing on some jobs?**
-Not every company publishes a salary range on Himalayas. When a listing has no salary figures, those fields are left out of the record entirely.
+**Does the salary filter convert between currencies?**
+No. The filter compares annualised numbers in the listing's own currency. Set `salaryCurrency` to compare only jobs paid in one currency, for example USD. Always read `salaryCurrency` alongside the figures. Jobs without a published salary are excluded whenever a salary floor, ceiling or currency filter is set.
 
-**What happens if I set `minSalary` on a search?**
-Jobs whose maximum salary is below that value are dropped, and jobs with no published salary at all are dropped too, since there's nothing to compare against your floor. There's no currency conversion: a listing paid in EUR or GBP is compared using its own numbers, so check `salaryCurrency` in the results.
+**Why did I get at most 5,000 results for a keyword?**
+Himalayas caps keyword searches at 5,000 results. Use `browseAll` to walk the full newest-updated feed, or add country, seniority or employment filters to narrow the search. The run status tells you when the cap was reached.
 
-**Can I pull every listing on Himalayas?**
-Leave `searchQuery` blank in `searchJobs` mode to page through the newest listings, up to `maxItems` (at most 5,000 per run). The number returned also depends on how many jobs Himalayas has live at the time.
+**How do I collect every listing on Himalayas?**
+Use `browseAll` with a high `maxItems`. The actor follows Himalayas' cursor and never repeats a job; the feed currently holds more than 130,000 live listings. `searchJobs` and `byCompany` send country, worldwide, seniority, employment type, timezone and sort filters to Himalayas. `browseAll` applies country, seniority, employment type, timezone, salary and category filters in the actor, so a narrow filter can scan many pages; `maxItems` counts matches, not scanned jobs.
 
-**Why was one of my job URLs skipped in `byJobUrls` mode?**
-The actor finds each URL among that company's currently listed jobs (checking up to 200 of them). A job that has been closed, or a URL that isn't in the `/companies/<slug>/jobs/<job>` form, is skipped.
+**Why are `skills` missing when I turn on Include job skills?**
+Not every listing exposes a skill list, and Himalayas' public lookup limit allows 30 job/company lookups per minute and 200 per day without an account. The actor stops enrichment when that limit is reached and keeps the base records. For a large run, split it into smaller runs, run enrichment on a shortlist, or leave enrichment off.
 
-**Is this affiliated with Himalayas?**
-No. This actor reads Himalayas's public job pages and is not affiliated with, endorsed by, or sponsored by Himalayas.
+**Why is `companyTechStack` missing?**
+Company tech stacks are optional on Himalayas and many employers do not publish one. When a company has no stack, the field is omitted.
+
+**Why was one of my job URLs skipped?**
+A URL is skipped when it is not a Himalayas `/companies/<slug>/jobs/<job>` link, when the job no longer exists, or when it has closed. Salary and category filters also apply in this mode, so a resolved job that does not match is skipped too; the status message reports how many URLs were closed or invalid.
+
+**Is this actor affiliated with Himalayas?**
+No. It is an independent actor that reads Himalayas' public job data and links back to the original listings. Himalayas is the source of the data.
