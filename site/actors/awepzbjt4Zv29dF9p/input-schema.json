@@ -1,0 +1,301 @@
+{
+  "description": "Search Twitch, fetch top live streams, browse categories (games), or look up channels, videos, and clips by ID/URL. No Twitch login is required.",
+  "properties": {
+    "authToken": {
+      "description": "Optional Twitch OAuth user-token (the value of the `auth-token` cookie on twitch.tv when logged in). Increases rate limits and can unlock subscriber-only data. Not required for any mode.",
+      "editor": "textfield",
+      "isSecret": true,
+      "sectionCaption": "Authentication & Proxy",
+      "title": "Twitch OAuth token (optional)",
+      "type": "string"
+    },
+    "categorySlug": {
+      "description": "Twitch category (game) slug, e.g. `just-chatting`, `league-of-legends`, `valorant`. Find it from the URL: twitch.tv/directory/category/<slug>.",
+      "editor": "textfield",
+      "title": "Category slug (mode=byCategory or topClips)",
+      "type": "string"
+    },
+    "channelName": {
+      "description": "Twitch channel login (the part after twitch.tv/, e.g. `lirik`, `shroud`, `pokimane`).",
+      "editor": "textfield",
+      "title": "Channel login / name (mode=byChannel)",
+      "type": "string"
+    },
+    "clipPeriod": {
+      "default": "LAST_WEEK",
+      "description": "For `topClips` and `byChannel` clip lists: time window over which clips were created.",
+      "editor": "select",
+      "enum": [
+        "LAST_DAY",
+        "LAST_WEEK",
+        "LAST_MONTH",
+        "ALL_TIME"
+      ],
+      "enumTitles": [
+        "Last 24 hours",
+        "Last 7 days",
+        "Last 30 days",
+        "All time"
+      ],
+      "prefill": "LAST_WEEK",
+      "title": "Clip time window",
+      "type": "string"
+    },
+    "clipSlug": {
+      "description": "Twitch clip slug, e.g. `AcceptablePleasantAuberginePanicVis-EVdxDQ1vsQAQZpBS`. Find it from twitch.tv/<channel>/clip/<slug>.",
+      "editor": "textfield",
+      "title": "Clip slug (mode=byClip)",
+      "type": "string"
+    },
+    "containsKeyword": {
+      "description": "Substring filter applied case-insensitively to stream/video/clip titles.",
+      "editor": "textfield",
+      "title": "Title contains keyword",
+      "type": "string"
+    },
+    "includeChannelClips": {
+      "default": true,
+      "description": "When `mode=byChannel`, also fetch and emit top clips for the channel.",
+      "prefill": true,
+      "title": "Include clips (mode=byChannel)",
+      "type": "boolean"
+    },
+    "includeChannelVideos": {
+      "default": true,
+      "description": "When `mode=byChannel`, also fetch and emit recent VODs for the channel.",
+      "prefill": true,
+      "title": "Include VODs (mode=byChannel)",
+      "type": "boolean"
+    },
+    "language": {
+      "default": "EN",
+      "description": "Filter live streams (and search results) to a specific broadcast language. Applies to `topStreams`, `byCategory`, and `search`. Leave on `(any)` for no filter.",
+      "editor": "select",
+      "enum": [
+        "",
+        "EN",
+        "ES",
+        "DE",
+        "FR",
+        "PT",
+        "RU",
+        "JA",
+        "KO",
+        "ZH",
+        "IT",
+        "TR",
+        "PL",
+        "AR",
+        "TH",
+        "ID",
+        "VI",
+        "NL",
+        "SV",
+        "FI",
+        "DA",
+        "NO",
+        "CS",
+        "HU",
+        "EL",
+        "RO",
+        "BG",
+        "UK",
+        "HE",
+        "MS",
+        "TL",
+        "ASL",
+        "OTHER"
+      ],
+      "enumTitles": [
+        "(any)",
+        "English (EN)",
+        "Spanish (ES)",
+        "German (DE)",
+        "French (FR)",
+        "Portuguese (PT)",
+        "Russian (RU)",
+        "Japanese (JA)",
+        "Korean (KO)",
+        "Chinese (ZH)",
+        "Italian (IT)",
+        "Turkish (TR)",
+        "Polish (PL)",
+        "Arabic (AR)",
+        "Thai (TH)",
+        "Indonesian (ID)",
+        "Vietnamese (VI)",
+        "Dutch (NL)",
+        "Swedish (SV)",
+        "Finnish (FI)",
+        "Danish (DA)",
+        "Norwegian (NO)",
+        "Czech (CS)",
+        "Hungarian (HU)",
+        "Greek (EL)",
+        "Romanian (RO)",
+        "Bulgarian (BG)",
+        "Ukrainian (UK)",
+        "Hebrew (HE)",
+        "Malay (MS)",
+        "Tagalog (TL)",
+        "American Sign Language (ASL)",
+        "Other"
+      ],
+      "prefill": "EN",
+      "sectionCaption": "Language & Type Filters",
+      "title": "Broadcast language",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Hard cap on emitted records.",
+      "maximum": 5000,
+      "minimum": 1,
+      "prefill": 10,
+      "sectionCaption": "Limits",
+      "title": "Max items",
+      "type": "integer"
+    },
+    "minViewCount": {
+      "description": "Drop VODs and clips with fewer total views than this.",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Min total views (videos / clips filter)",
+      "type": "integer"
+    },
+    "minViewersCount": {
+      "description": "Drop live streams with fewer concurrent viewers than this. Applies to `topStreams` and `byCategory`.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "sectionCaption": "Quality Filters",
+      "title": "Min concurrent viewers (live streams filter)",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "topStreams",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "topStreams",
+        "topGames",
+        "search",
+        "byChannel",
+        "byCategory",
+        "topClips",
+        "byVideo",
+        "byClip",
+        "byUrl"
+      ],
+      "enumTitles": [
+        "Top live streams",
+        "Top games / categories",
+        "Search Twitch (channels / games / videos)",
+        "Channel info + recent VODs + clips",
+        "Browse a category (game) — live streams",
+        "Top clips for a category (game)",
+        "Lookup a single VOD by video ID",
+        "Lookup a single clip by slug",
+        "Resolve and scrape a Twitch URL"
+      ],
+      "prefill": "topStreams",
+      "sectionCaption": "Mode & Query",
+      "title": "Mode",
+      "type": "string"
+    },
+    "searchQuery": {
+      "default": "lirik",
+      "description": "Free-text query for `mode=search` — matches channels, games, and videos.",
+      "editor": "textfield",
+      "prefill": "lirik",
+      "title": "Search query (mode=search)",
+      "type": "string"
+    },
+    "searchType": {
+      "default": "all",
+      "description": "Restrict search results to a single result type. `all` returns channels + games + videos.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "channel",
+        "game",
+        "video"
+      ],
+      "enumTitles": [
+        "All result types",
+        "Channels (users) only",
+        "Games (categories) only",
+        "Videos (VODs) only"
+      ],
+      "prefill": "all",
+      "title": "Search result type (mode=search)",
+      "type": "string"
+    },
+    "streamType": {
+      "default": "",
+      "description": "Restrict the VOD list returned for a channel to a specific broadcast type. Leave blank for all types.",
+      "editor": "select",
+      "enum": [
+        "",
+        "ARCHIVE",
+        "HIGHLIGHT",
+        "UPLOAD",
+        "PAST_PREMIERE",
+        "PREMIERE_UPLOAD"
+      ],
+      "enumTitles": [
+        "(any)",
+        "Archive (full past broadcast)",
+        "Highlight (clip-cut from a past broadcast)",
+        "Upload (uploaded video)",
+        "Past Premiere",
+        "Premiere Upload"
+      ],
+      "prefill": "",
+      "title": "VOD type filter (mode=byChannel)",
+      "type": "string"
+    },
+    "twitchUrls": {
+      "default": [],
+      "description": "Direct Twitch URLs to resolve. Supports channel pages (twitch.tv/<channel>), VOD pages (twitch.tv/videos/<id>), clip pages (twitch.tv/<channel>/clip/<slug>), and category pages (twitch.tv/directory/category/<slug>).",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Twitch URLs (mode=byUrl)",
+      "type": "array"
+    },
+    "useApifyProxy": {
+      "default": false,
+      "description": "Route requests through the Apify proxy from the start. When OFF the actor still auto-engages the proxy if the first direct attempt emits zero records, so leaving this OFF saves cost on most runs.",
+      "prefill": false,
+      "title": "Use Apify proxy",
+      "type": "boolean"
+    },
+    "videoId": {
+      "description": "Twitch VOD ID, e.g. `2766365638`. Find it from twitch.tv/videos/<id>.",
+      "editor": "textfield",
+      "title": "Video ID (mode=byVideo)",
+      "type": "string"
+    },
+    "videoSort": {
+      "default": "TIME",
+      "description": "How to sort the channel's VODs.",
+      "editor": "select",
+      "enum": [
+        "TIME",
+        "VIEWS"
+      ],
+      "enumTitles": [
+        "Most recent first (TIME)",
+        "Most viewed first (VIEWS)"
+      ],
+      "prefill": "TIME",
+      "title": "Video sort order (mode=byChannel)",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Twitch Scraper Input",
+  "type": "object"
+}
