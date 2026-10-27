@@ -1,0 +1,48 @@
+{
+  "actorSpecification": 1,
+  "title": "AutoScout24 Listings",
+  "views": {
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "listingId": {
+            "format": "text",
+            "label": "ID"
+          },
+          "price.amount": {
+            "format": "number",
+            "label": "Price"
+          },
+          "title": {
+            "format": "text",
+            "label": "Title"
+          },
+          "vehicle.mileage": {
+            "format": "number",
+            "label": "Mileage"
+          },
+          "vehicle.year": {
+            "format": "number",
+            "label": "Year"
+          }
+        }
+      },
+      "title": "Overview",
+      "transformation": {
+        "fields": [
+          "listingId",
+          "title",
+          "price.amount",
+          "price.currency",
+          "vehicle.year",
+          "vehicle.mileage",
+          "vehicle.fuelType",
+          "seller.name",
+          "location.city",
+          "url"
+        ]
+      }
+    }
+  }
+}
