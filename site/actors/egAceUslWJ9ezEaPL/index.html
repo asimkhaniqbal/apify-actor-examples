@@ -1,0 +1,531 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-wbUGVHFopza4nhIpKCmZ2u04U8pmRmxZmlGTfMW1xwc=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>2GIS Business Directory Extractor for CIS &amp; Middle East | Vexaloom Labs</title><meta name="description" content="Search 2GIS for businesses by category and city across Russia, the UAE, Kazakhstan and the wider CIS, and get name, address, rating, hours, contacts and social links for each place"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/egAceUslWJ9ezEaPL/"><meta property="og:title" content="2GIS Business Directory Extractor for CIS &amp; Middle East | Vexaloom Labs"><meta property="og:description" content="Search 2GIS for businesses by category and city across Russia, the UAE, Kazakhstan and the wider CIS, and get name, address, rating, hours, contacts and social links for each place"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/egAceUslWJ9ezEaPL/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/egAceUslWJ9ezEaPL/#webpage","name":"2GIS Business Directory Extractor for CIS & Middle East","description":"Search 2GIS for businesses by category and city across Russia, the UAE, Kazakhstan and the wider CIS, and get name, address, rating, hours, contacts and social links for each place.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/egAceUslWJ9ezEaPL/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/egAceUslWJ9ezEaPL/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/egAceUslWJ9ezEaPL/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/egAceUslWJ9ezEaPL/#article","headline":"2GIS Business Directory Extractor for CIS & Middle East","name":"2GIS Business Directory Extractor for CIS & Middle East","description":"Search 2GIS for businesses by category and city across Russia, the UAE, Kazakhstan and the wider CIS, and get name, address, rating, hours, contacts and social links for each place.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/egAceUslWJ9ezEaPL/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/egAceUslWJ9ezEaPL/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/egAceUslWJ9ezEaPL/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"2GIS Business Directory Extractor for CIS & Middle East","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/egAceUslWJ9ezEaPL/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>2GIS Business Directory Extractor for CIS &amp; Middle East</span></div><section id="overview"><h1 class="doc-title">2GIS Business Directory Extractor for CIS &amp; Middle East</h1><p class="lede">Search 2GIS for businesses by category and city across Russia, the UAE, Kazakhstan and the wider CIS, and get name, address, rating, hours, contacts and social links for each place.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/2gis-business-directory-extractor-for-cis">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/egAceUslWJ9ezEaPL/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>startUrls</code></td><td>array</td><td>optional</td><td>One or more 2GIS search URLs. Go to 2gis.ae (or 2gis.ru, 2gis.kz) and search for a category in a city, then copy the URL and paste it here.</td></tr><tr><td><code>query</code></td><td>array</td><td>optional</td><td>Search terms to run against each URL&#x27;s city, or against locationQuery. Example: [&quot;restaurant&quot;, &quot;hotel&quot;, &quot;coffee&quot;]. If empty, uses the query embedded in each Start URL.</td></tr><tr><td><code>locationQuery</code></td><td>string</td><td>optional</td><td>City or area name when not using Start URLs. Example: &quot;Dubai&quot;, &quot;Moscow&quot;, &quot;Almaty&quot;.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>startUrls</code></td><td>array</td><td>optional</td><td>One or more 2GIS search URLs. Go to 2gis.ae (or 2gis.ru, 2gis.kz) and search for a category in a city, then copy the URL and paste it here.</td></tr><tr><td><code>query</code></td><td>array</td><td>optional</td><td>Search terms to run against each URL&#x27;s city, or against locationQuery. Example: [&quot;restaurant&quot;, &quot;hotel&quot;, &quot;coffee&quot;]. If empty, uses the query embedded in each Start URL.</td></tr><tr><td><code>locationQuery</code></td><td>string</td><td>optional</td><td>City or area name when not using Start URLs. Example: &quot;Dubai&quot;, &quot;Moscow&quot;, &quot;Almaty&quot;.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of places to scrape per query+location combination.</td></tr><tr><td><code>apiKey</code></td><td>string</td><td>optional</td><td>2GIS Catalog API key. The built-in &quot;demo&quot; key works up to ~50 results per search with no signup. For more results, register a free key at platform.2gis.ru.</td></tr><tr><td><code>includeContacts</code></td><td>boolean</td><td>optional</td><td>Fetch phone numbers, website, emails, and social media links. No extra API call — included in the main search request.</td></tr><tr><td><code>includeReviews</code></td><td>boolean</td><td>optional</td><td>Fetch reviews for each place. Requires a registered API key (demo key does not support the reviews endpoint). Adds one API call per place.</td></tr><tr><td><code>maxReviewsPerPlace</code></td><td>integer</td><td>optional</td><td>Maximum number of reviews to fetch per place when Include Reviews is enabled.</td></tr><tr><td><code>includePhotos</code></td><td>boolean</td><td>optional</td><td>Include photo URLs for each place. Note: photo URLs are not available with the demo API key.</td></tr><tr><td><code>maxPhotosPerPlace</code></td><td>integer</td><td>optional</td><td>Maximum number of photo URLs to include per place.</td></tr><tr><td><code>sortBy</code></td><td>string</td><td>optional</td><td>Sort order for search results.</td></tr><tr><td><code>filterHasWebsite</code></td><td>boolean</td><td>optional</td><td>Only return places that have a website listed.</td></tr><tr><td><code>filterHasPhotos</code></td><td>boolean</td><td>optional</td><td>Only return places that have photos.</td></tr><tr><td><code>filterOpenNow</code></td><td>boolean</td><td>optional</td><td>Only return places currently open.</td></tr><tr><td><code>rubricIds</code></td><td>array</td><td>optional</td><td>Filter by 2GIS category IDs. Example: [&quot;281&quot;] for restaurants. Find IDs at 2gis.com/catalog.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;properties&quot;: {
+    &quot;apiKey&quot;: {
+      &quot;description&quot;: &quot;2GIS Catalog API key. The built-in \&quot;demo\&quot; key works up to ~50 results per search with no signup. For more results, register a free key at platform.2gis.ru.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;demo&quot;,
+      &quot;title&quot;: &quot;2GIS API Key&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;filterHasPhotos&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only return places that have photos.&quot;,
+      &quot;title&quot;: &quot;Has Photos Only&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;filterHasWebsite&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only return places that have a website listed.&quot;,
+      &quot;title&quot;: &quot;Has Website Only&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;filterOpenNow&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only return places currently open.&quot;,
+      &quot;title&quot;: &quot;Open Now Only&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeContacts&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Fetch phone numbers, website, emails, and social media links. No extra API call — included in the main search request.&quot;,
+      &quot;title&quot;: &quot;Include Contacts&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includePhotos&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Include photo URLs for each place. Note: photo URLs are not available with the demo API key.&quot;,
+      &quot;title&quot;: &quot;Include Photos&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeReviews&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Fetch reviews for each place. Requires a registered API key (demo key does not support the reviews endpoint). Adds one API call per place.&quot;,
+      &quot;title&quot;: &quot;Include Reviews&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;locationQuery&quot;: {
+      &quot;description&quot;: &quot;City or area name when not using Start URLs. Example: \&quot;Dubai\&quot;, \&quot;Moscow\&quot;, \&quot;Almaty\&quot;.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Location&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 50,
+      &quot;description&quot;: &quot;Maximum number of places to scrape per query+location combination.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 10000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 5,
+      &quot;title&quot;: &quot;Max Items&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxPhotosPerPlace&quot;: {
+      &quot;default&quot;: 5,
+      &quot;description&quot;: &quot;Maximum number of photo URLs to include per place.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 50,
+      &quot;minimum&quot;: 1,
+      &quot;title&quot;: &quot;Max Photos per Place&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxReviewsPerPlace&quot;: {
+      &quot;default&quot;: 10,
+      &quot;description&quot;: &quot;Maximum number of reviews to fetch per place when Include Reviews is enabled.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 100,
+      &quot;minimum&quot;: 1,
+      &quot;title&quot;: &quot;Max Reviews per Place&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;query&quot;: {
+      &quot;description&quot;: &quot;Search terms to run against each URL&#x27;s city, or against locationQuery. Example: [\&quot;restaurant\&quot;, \&quot;hotel\&quot;, \&quot;coffee\&quot;]. If empty, uses the query embedded in each Start URL.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;title&quot;: &quot;Search Queries&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;rubricIds&quot;: {
+      &quot;description&quot;: &quot;Filter by 2GIS category IDs. Example: [\&quot;281\&quot;] for restaurants. Find IDs at 2gis.com/catalog.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;title&quot;: &quot;Category IDs (Rubric IDs)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;sortBy&quot;: {
+      &quot;default&quot;: &quot;relevance&quot;,
+      &quot;description&quot;: &quot;Sort order for search results.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;relevance&quot;,
+        &quot;rating&quot;,
+        &quot;distance&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Relevance (default)&quot;,
+        &quot;Rating (highest first)&quot;,
+        &quot;Distance (nearest first)&quot;
+      ],
+      &quot;title&quot;: &quot;Sort By&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;startUrls&quot;: {
+      &quot;description&quot;: &quot;One or more 2GIS search URLs. Go to 2gis.ae (or 2gis.ru, 2gis.kz) and search for a category in a city, then copy the URL and paste it here.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [
+        &quot;https://2gis.ae/dubai/search/restaurant&quot;
+      ],
+      &quot;title&quot;: &quot;Start URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    }
+  },
+  &quot;required&quot;: [],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;2GIS Places Scraper Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>results</code></td><td>string</td><td>optional</td><td>All records from the run, in the default dataset.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Every record the Actor extracts, in its default dataset.&quot;,
+  &quot;properties&quot;: {
+    &quot;results&quot;: {
+      &quot;description&quot;: &quot;All records from the run, in the default dataset.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Results&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;2GIS Business Directory Extractor for CIS &amp; Middle East Output&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;fields&quot;: {},
+  &quot;title&quot;: &quot;2GIS Business Directory Extractor for CIS &amp; Middle East Output&quot;,
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;address&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Address&quot;
+          },
+          &quot;addressComment&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Address Comment&quot;
+          },
+          &quot;categories&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Categories&quot;
+          },
+          &quot;categoryIds&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Category IDs&quot;
+          },
+          &quot;city&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;City&quot;
+          },
+          &quot;country&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Country&quot;
+          },
+          &quot;emails&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Emails&quot;
+          },
+          &quot;id&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;ID&quot;
+          },
+          &quot;latitude&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Latitude&quot;
+          },
+          &quot;longitude&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Longitude&quot;
+          },
+          &quot;name&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Name&quot;
+          },
+          &quot;phones&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Phones&quot;
+          },
+          &quot;photos&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Photos&quot;
+          },
+          &quot;rating&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Rating&quot;
+          },
+          &quot;reviewCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Reviews&quot;
+          },
+          &quot;reviews&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Reviews Data&quot;
+          },
+          &quot;scrapedAt&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Scraped At&quot;
+          },
+          &quot;socialLinks&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Social Links&quot;
+          },
+          &quot;url&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;2GIS URL&quot;
+          },
+          &quot;website&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Website&quot;
+          },
+          &quot;workingHours&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Working Hours&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Places Overview&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;id&quot;,
+          &quot;name&quot;,
+          &quot;city&quot;,
+          &quot;country&quot;,
+          &quot;address&quot;,
+          &quot;addressComment&quot;,
+          &quot;categories&quot;,
+          &quot;categoryIds&quot;,
+          &quot;rating&quot;,
+          &quot;reviewCount&quot;,
+          &quot;phones&quot;,
+          &quot;website&quot;,
+          &quot;emails&quot;,
+          &quot;socialLinks&quot;,
+          &quot;latitude&quot;,
+          &quot;longitude&quot;,
+          &quot;workingHours&quot;,
+          &quot;reviews&quot;,
+          &quot;photos&quot;,
+          &quot;url&quot;,
+          &quot;scrapedAt&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-2gis-business-directory-extractor-for-cis-middle-east">2GIS Business Directory Extractor for CIS &amp; Middle East</h2>
+<p>2GIS is a map and business directory used in Russia, the UAE, Kazakhstan and other CIS countries. This actor searches its catalog by category and city — or reads a single place page directly — and returns structured place data with contacts, ratings and hours.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li>Runs a search by pasting a 2GIS search URL, or by giving free-text queries plus a city; each search covers about 20 km around the city centre</li>
+<li>Fetches a single place directly when given a 2GIS firm page URL</li>
+<li>Optionally pulls phone numbers, website, emails and social links, user reviews, and photo URLs for each place</li>
+<li>Lets you filter search results to only places with a website, only places with photos, only places currently open, or only specific category (rubric) IDs, and sort them by relevance, rating or distance</li>
+<li>Omits any field 2GIS doesn't have for a place, so place records contain no null or placeholder values</li>
+</ul>
+<h2 id="readme-output-per-place">Output per place</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>2GIS place ID</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>Place name</td>
+</tr>
+<tr>
+<td><code>city</code></td>
+<td>The city you searched, taken from the URL's city part or <code>locationQuery</code> and title-cased (e.g. <code>Dubai</code>)</td>
+</tr>
+<tr>
+<td><code>country</code></td>
+<td>Country, derived from 2GIS's administrative division data</td>
+</tr>
+<tr>
+<td><code>address</code></td>
+<td>Street address as a single line</td>
+</tr>
+<tr>
+<td><code>street</code></td>
+<td>Street name only, when 2GIS exposes a structured address</td>
+</tr>
+<tr>
+<td><code>houseNumber</code></td>
+<td>Building number, when 2GIS exposes a structured address</td>
+</tr>
+<tr>
+<td><code>postcode</code></td>
+<td>Postal code, when available</td>
+</tr>
+<tr>
+<td><code>addressComment</code></td>
+<td>Extra address detail such as floor or entrance</td>
+</tr>
+<tr>
+<td><code>latitude</code> / <code>longitude</code></td>
+<td>GPS coordinates</td>
+</tr>
+<tr>
+<td><code>categories</code></td>
+<td>Place category names (rubrics)</td>
+</tr>
+<tr>
+<td><code>categoryIds</code></td>
+<td>Place category (rubric) IDs</td>
+</tr>
+<tr>
+<td><code>rating</code></td>
+<td>Average rating out of 5</td>
+</tr>
+<tr>
+<td><code>ratingCategory</code></td>
+<td>Rating bucket derived from <code>rating</code>: Excellent (≥4.5), Good (≥4.0), Average (≥3.0), or Poor (&lt;3.0)</td>
+</tr>
+<tr>
+<td><code>reviewCount</code></td>
+<td>Total number of reviews</td>
+</tr>
+<tr>
+<td><code>workingHours</code></td>
+<td>Opening hours as a list of <code>{day, hours}</code> entries</td>
+</tr>
+<tr>
+<td><code>phones</code></td>
+<td>Phone numbers, when &quot;Include Contacts&quot; is on</td>
+</tr>
+<tr>
+<td><code>website</code></td>
+<td>Website URL, when &quot;Include Contacts&quot; is on</td>
+</tr>
+<tr>
+<td><code>emails</code></td>
+<td>Email addresses, when &quot;Include Contacts&quot; is on</td>
+</tr>
+<tr>
+<td><code>socialLinks</code></td>
+<td>Object keyed by network (<code>instagram</code>, <code>facebook</code>, <code>vkontakte</code>, <code>telegram</code>, <code>whatsapp</code>, <code>youtube</code>, <code>odnoklassniki</code>, <code>tiktok</code>), when &quot;Include Contacts&quot; is on</td>
+</tr>
+<tr>
+<td><code>reviews</code></td>
+<td>Review objects as 2GIS returns them, when &quot;Include Reviews&quot; is on and the key allows it</td>
+</tr>
+<tr>
+<td><code>photos</code></td>
+<td>Photo URLs, when &quot;Include Photos&quot; is on (search results only)</td>
+</tr>
+<tr>
+<td><code>url</code></td>
+<td>2GIS page URL for the place</td>
+</tr>
+<tr>
+<td><code>scrapedAt</code></td>
+<td>UTC timestamp when the record was scraped</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Error records:</strong> if a city can't be resolved or a search request fails, the dataset gets a short record with only <code>input</code> (the query or city that failed), <code>error</code> and <code>scrapedAt</code> for that query/city combination. A failed direct place URL is only reported in the log.</p>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>startUrls</code></td>
+<td>array</td>
+<td>–</td>
+<td>2GIS search URLs (<code>/&lt;city&gt;/search/&lt;term&gt;</code>) or direct place URLs (<code>/&lt;city&gt;/firm/...</code>). A URL with only a city part needs <code>query</code> terms</td>
+</tr>
+<tr>
+<td><code>query</code></td>
+<td>array</td>
+<td>–</td>
+<td>Search terms. With <code>startUrls</code>, each term is searched in each URL's city instead of the URL's own term; without <code>startUrls</code>, each term is searched in <code>locationQuery</code></td>
+</tr>
+<tr>
+<td><code>locationQuery</code></td>
+<td>string</td>
+<td>–</td>
+<td>City or area name to search in when <code>startUrls</code> is empty, e.g. &quot;Dubai&quot;, &quot;Moscow&quot;, &quot;Almaty&quot;. Needs at least one <code>query</code> term</td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>integer</td>
+<td><code>50</code></td>
+<td>Maximum number of places per query + city combination (1–10000)</td>
+</tr>
+<tr>
+<td><code>apiKey</code></td>
+<td>string</td>
+<td>–</td>
+<td>2GIS Catalog API key. When blank, the public <code>demo</code> key is used, which may return only around 50 results per search and no reviews or photos; a free key from platform.2gis.ru lifts those limits</td>
+</tr>
+<tr>
+<td><code>includeContacts</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Add phone numbers, website, emails and social links to each place</td>
+</tr>
+<tr>
+<td><code>includeReviews</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Add reviews to each place; needs a registered API key</td>
+</tr>
+<tr>
+<td><code>maxReviewsPerPlace</code></td>
+<td>integer</td>
+<td><code>10</code></td>
+<td>Maximum number of reviews per place when <code>includeReviews</code> is on (1–100)</td>
+</tr>
+<tr>
+<td><code>includePhotos</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Add photo URLs to search results; not available with the <code>demo</code> key</td>
+</tr>
+<tr>
+<td><code>maxPhotosPerPlace</code></td>
+<td>integer</td>
+<td><code>5</code></td>
+<td>Maximum number of photo URLs per place (1–50)</td>
+</tr>
+<tr>
+<td><code>sortBy</code></td>
+<td>string</td>
+<td><code>relevance</code></td>
+<td>Sort order for search results: <code>relevance</code>, <code>rating</code>, or <code>distance</code></td>
+</tr>
+<tr>
+<td><code>filterHasWebsite</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Only return places that list a website</td>
+</tr>
+<tr>
+<td><code>filterHasPhotos</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Only return places that have photos</td>
+</tr>
+<tr>
+<td><code>filterOpenNow</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Only return places currently open</td>
+</tr>
+<tr>
+<td><code>rubricIds</code></td>
+<td>array</td>
+<td>–</td>
+<td>Only return places matching these 2GIS category (rubric) IDs</td>
+</tr>
+</tbody>
+</table></div>
+<p>Sorting and the four filters apply to searches only; a direct place URL always returns that one place (without photos).</p>
+<h3 id="readme-example-search-by-query-and-city">Example: search by query and city</h3>
+<pre><code class="language-json">{
+  &quot;query&quot;: [&quot;coffee&quot;],
+  &quot;locationQuery&quot;: &quot;Almaty&quot;,
+  &quot;maxItems&quot;: 50
+}
+</code></pre>
+<h3 id="readme-example-paste-a-search-url-with-filters">Example: paste a search URL with filters</h3>
+<pre><code class="language-json">{
+  &quot;startUrls&quot;: [&quot;https://2gis.ae/dubai/search/restaurant&quot;],
+  &quot;filterHasWebsite&quot;: true,
+  &quot;sortBy&quot;: &quot;rating&quot;,
+  &quot;maxItems&quot;: 100
+}
+</code></pre>
+<h3 id="readme-example-fetch-a-single-place-directly">Example: fetch a single place directly</h3>
+<pre><code class="language-json">{
+  &quot;startUrls&quot;: [&quot;https://2gis.ae/dubai/firm/nobu/70000001035586092&quot;],
+  &quot;includeReviews&quot;: true,
+  &quot;apiKey&quot;: &quot;YOUR_2GIS_API_KEY&quot;
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>Local lead generation</strong> — collect businesses in a city and category along with phone, website and email</li>
+<li><strong>Directory and listings research</strong> — compare how businesses are categorized and rated across 2GIS cities</li>
+<li><strong>Reputation monitoring</strong> — track rating, review count and individual reviews for named businesses over time</li>
+<li><strong>Market coverage checks</strong> — see which competitors in a sector have a website or published photos, using the filter inputs</li>
+<li><strong>Multilingual search</strong> — run queries in Russian, Arabic or other local languages supported by 2GIS</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Do I need an API key?</strong>
+No signup is required to start: leave <code>apiKey</code> blank and the public <code>demo</code> key is used, which typically stops at around 50 results per search. Registering a free key at platform.2gis.ru raises that limit and unlocks reviews and photos.</p>
+<p><strong>Why can't I get photos or reviews with the default key?</strong>
+2GIS restricts its photo and review data to registered API keys; the <code>demo</code> key does not return them even when <code>includePhotos</code> or <code>includeReviews</code> is enabled.</p>
+<p><strong>Which countries and cities are covered?</strong>
+Any city 2GIS can find by name. The city part of your URL (for example <code>dubai</code> in <code>2gis.ae/dubai/...</code>) or your <code>locationQuery</code> is looked up in the 2GIS catalog, and the search then covers roughly a 20 km radius around that city's centre. Very large metro areas may need several searches around different districts.</p>
+<p><strong>What happens if a city can't be found?</strong>
+That query/city combination produces an error record (<code>input</code>, <code>error</code>, <code>scrapedAt</code>) and the run carries on with the next one.</p>
+<p><strong>How do I search in Russian or Arabic?</strong>
+Paste a 2GIS URL that already contains a Cyrillic or Arabic query, or put the term directly in the <code>query</code> field alongside a <code>locationQuery</code> such as &quot;Москва&quot;.</p>
+<p><strong>Why are some fields missing from a place?</strong>
+2GIS listings vary in how much detail each business has published. A field such as <code>website</code>, <code>phones</code> or <code>workingHours</code> is only included when 2GIS actually has that data for the place.</p>
+<p><strong>How do I find a rubric (category) ID to filter by?</strong>
+Browse categories on 2gis.com's catalog pages; the numeric ID shown in the category URL can be passed in <code>rubricIds</code>.</p>
+<p><strong>Is this affiliated with 2GIS?</strong>
+No. This actor reads 2GIS's public catalog API and is not affiliated with, endorsed by, or sponsored by 2GIS.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/egAceUslWJ9ezEaPL/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>zfgTLLny3UH62CJXe</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

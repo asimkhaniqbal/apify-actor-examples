@@ -1,0 +1,123 @@
+{
+  "properties": {
+    "apiKey": {
+      "description": "2GIS Catalog API key. The built-in \"demo\" key works up to ~50 results per search with no signup. For more results, register a free key at platform.2gis.ru.",
+      "editor": "textfield",
+      "prefill": "demo",
+      "title": "2GIS API Key",
+      "type": "string"
+    },
+    "filterHasPhotos": {
+      "default": false,
+      "description": "Only return places that have photos.",
+      "title": "Has Photos Only",
+      "type": "boolean"
+    },
+    "filterHasWebsite": {
+      "default": false,
+      "description": "Only return places that have a website listed.",
+      "title": "Has Website Only",
+      "type": "boolean"
+    },
+    "filterOpenNow": {
+      "default": false,
+      "description": "Only return places currently open.",
+      "title": "Open Now Only",
+      "type": "boolean"
+    },
+    "includeContacts": {
+      "default": true,
+      "description": "Fetch phone numbers, website, emails, and social media links. No extra API call — included in the main search request.",
+      "title": "Include Contacts",
+      "type": "boolean"
+    },
+    "includePhotos": {
+      "default": false,
+      "description": "Include photo URLs for each place. Note: photo URLs are not available with the demo API key.",
+      "title": "Include Photos",
+      "type": "boolean"
+    },
+    "includeReviews": {
+      "default": false,
+      "description": "Fetch reviews for each place. Requires a registered API key (demo key does not support the reviews endpoint). Adds one API call per place.",
+      "title": "Include Reviews",
+      "type": "boolean"
+    },
+    "locationQuery": {
+      "description": "City or area name when not using Start URLs. Example: \"Dubai\", \"Moscow\", \"Almaty\".",
+      "editor": "textfield",
+      "title": "Location",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of places to scrape per query+location combination.",
+      "editor": "number",
+      "maximum": 10000,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "maxPhotosPerPlace": {
+      "default": 5,
+      "description": "Maximum number of photo URLs to include per place.",
+      "editor": "number",
+      "maximum": 50,
+      "minimum": 1,
+      "title": "Max Photos per Place",
+      "type": "integer"
+    },
+    "maxReviewsPerPlace": {
+      "default": 10,
+      "description": "Maximum number of reviews to fetch per place when Include Reviews is enabled.",
+      "editor": "number",
+      "maximum": 100,
+      "minimum": 1,
+      "title": "Max Reviews per Place",
+      "type": "integer"
+    },
+    "query": {
+      "description": "Search terms to run against each URL's city, or against locationQuery. Example: [\"restaurant\", \"hotel\", \"coffee\"]. If empty, uses the query embedded in each Start URL.",
+      "editor": "stringList",
+      "title": "Search Queries",
+      "type": "array"
+    },
+    "rubricIds": {
+      "description": "Filter by 2GIS category IDs. Example: [\"281\"] for restaurants. Find IDs at 2gis.com/catalog.",
+      "editor": "stringList",
+      "title": "Category IDs (Rubric IDs)",
+      "type": "array"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Sort order for search results.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "rating",
+        "distance"
+      ],
+      "enumTitles": [
+        "Relevance (default)",
+        "Rating (highest first)",
+        "Distance (nearest first)"
+      ],
+      "title": "Sort By",
+      "type": "string"
+    },
+    "startUrls": {
+      "description": "One or more 2GIS search URLs. Go to 2gis.ae (or 2gis.ru, 2gis.kz) and search for a category in a city, then copy the URL and paste it here.",
+      "editor": "stringList",
+      "prefill": [
+        "https://2gis.ae/dubai/search/restaurant"
+      ],
+      "title": "Start URLs",
+      "type": "array"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "2GIS Places Scraper Input",
+  "type": "object"
+}
