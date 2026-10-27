@@ -1,0 +1,102 @@
+{
+  "description": "Search remote jobs on Himalayas.app by keyword, filter by employment type, remote policy, and salary, or fetch all jobs for a specific company.",
+  "properties": {
+    "companySlug": {
+      "description": "Canonical company slug from Himalayas (e.g. `stripe`, `gitlab`, `zapier`). Used only in `byCompany` mode.",
+      "editor": "textfield",
+      "title": "Company slug (mode=byCompany)",
+      "type": "string"
+    },
+    "employmentType": {
+      "default": "",
+      "description": "Filter results by employment type. Leave blank to return all.",
+      "editor": "select",
+      "enum": [
+        "",
+        "full-time",
+        "part-time",
+        "contract",
+        "internship"
+      ],
+      "enumTitles": [
+        "Any (no filter)",
+        "Full-time",
+        "Part-time",
+        "Contract",
+        "Internship"
+      ],
+      "title": "Employment type filter",
+      "type": "string"
+    },
+    "jobUrls": {
+      "default": [],
+      "description": "List of Himalayas job page URLs to enrich (e.g. `https://himalayas.app/companies/stripe/jobs/some-role`). Used only in `byJobUrls` mode.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Job URLs (mode=byJobUrls)",
+      "type": "array"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Hard cap on the number of job records emitted.",
+      "maximum": 5000,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "minSalary": {
+      "description": "Exclude jobs whose maximum salary is below this value. Jobs without salary data are also excluded when this filter is set.",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Minimum salary (USD/year)",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "searchJobs",
+      "description": "What to scrape. `searchJobs` — keyword search with filters. `byCompany` — all jobs for a company slug. `byJobUrls` — enrich a list of specific job URLs.",
+      "editor": "select",
+      "enum": [
+        "searchJobs",
+        "byCompany",
+        "byJobUrls"
+      ],
+      "enumTitles": [
+        "Search jobs (keyword + filters)",
+        "All jobs for a company slug",
+        "Enrich specific job URLs"
+      ],
+      "prefill": "searchJobs",
+      "title": "Mode",
+      "type": "string"
+    },
+    "remotePolicy": {
+      "default": "",
+      "description": "Filter by remote policy. Himalayas is a remote-first platform — all listed jobs are remote. Leave blank to return all, or select `remote` to confirm remote-only results.",
+      "editor": "select",
+      "enum": [
+        "",
+        "remote"
+      ],
+      "enumTitles": [
+        "Any (no filter)",
+        "Remote"
+      ],
+      "title": "Remote policy filter",
+      "type": "string"
+    },
+    "searchQuery": {
+      "description": "Free-text keyword query (used in `searchJobs` mode). Example: `python backend`, `product manager`, `data scientist`.",
+      "editor": "textfield",
+      "prefill": "software engineer",
+      "title": "Search query",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Himalayas Remote Jobs Scraper Input",
+  "type": "object"
+}

@@ -1,123 +1,424 @@
 {
+  "description": "Find businesses in the 2GIS directory by search term, city, point or map area, or read specific search, place, organization and building links. No account, API key or proxy is needed.",
   "properties": {
-    "apiKey": {
-      "description": "2GIS Catalog API key. The built-in \"demo\" key works up to ~50 results per search with no signup. For more results, register a free key at platform.2gis.ru.",
+    "bbox": {
+      "description": "Optional rectangle as lon1,lat1,lon2,lat2. Overrides city and point search.",
       "editor": "textfield",
-      "prefill": "demo",
-      "title": "2GIS API Key",
+      "title": "Map area",
       "type": "string"
+    },
+    "cities": {
+      "description": "Optional additional cities. Every search term runs in every city (mode=search).",
+      "editor": "stringList",
+      "title": "More cities",
+      "type": "array"
+    },
+    "cityIds": {
+      "description": "Optional exact 2GIS city IDs. Use instead of city names when you already know the ID.",
+      "editor": "stringList",
+      "title": "City IDs",
+      "type": "array"
+    },
+    "country": {
+      "default": "auto",
+      "description": "2GIS country site. Leave on Auto-detect to derive it from the city or link.",
+      "editor": "select",
+      "enum": [
+        "auto",
+        "ru",
+        "kz",
+        "ae",
+        "kg",
+        "uz",
+        "by",
+        "az",
+        "am",
+        "ge",
+        "tj",
+        "cy",
+        "cz",
+        "it",
+        "cl"
+      ],
+      "enumTitles": [
+        "Auto-detect",
+        "Russia (2gis.ru)",
+        "Kazakhstan (2gis.kz)",
+        "UAE (2gis.ae)",
+        "Kyrgyzstan (2gis.kg)",
+        "Uzbekistan (2gis.uz)",
+        "Belarus (2gis.by)",
+        "Azerbaijan (2gis.az)",
+        "Armenia (2gis.am)",
+        "Georgia (2gis.ge)",
+        "Tajikistan (2gis.tj)",
+        "Cyprus (2gis.com.cy)",
+        "Czechia (2gis.cz)",
+        "Italy (2gis.it)",
+        "Chile (2gis.cl)"
+      ],
+      "title": "Country site",
+      "type": "string"
+    },
+    "districtIds": {
+      "description": "Optional district IDs. Useful for splitting a large city into smaller searches.",
+      "editor": "stringList",
+      "title": "District IDs",
+      "type": "array"
+    },
+    "filter24x7": {
+      "default": false,
+      "description": "Only return places open around the clock.",
+      "title": "Open 24/7 only",
+      "type": "boolean"
+    },
+    "filterCardPayment": {
+      "default": false,
+      "description": "Only return places whose attributes mention card payment.",
+      "title": "Card payment only",
+      "type": "boolean"
+    },
+    "filterDelivery": {
+      "default": false,
+      "description": "Only return places whose published attributes mention delivery.",
+      "title": "Delivery only",
+      "type": "boolean"
+    },
+    "filterHasGoods": {
+      "default": false,
+      "description": "Only return places that published goods or a menu.",
+      "title": "Has goods/menu only",
+      "type": "boolean"
     },
     "filterHasPhotos": {
       "default": false,
-      "description": "Only return places that have photos.",
-      "title": "Has Photos Only",
+      "description": "Only return places that have photos on 2GIS.",
+      "title": "Has photos only",
       "type": "boolean"
     },
-    "filterHasWebsite": {
+    "filterHasRating": {
       "default": false,
-      "description": "Only return places that have a website listed.",
-      "title": "Has Website Only",
+      "description": "Only return places with a rating.",
+      "title": "Has rating only",
+      "type": "boolean"
+    },
+    "filterHasReviews": {
+      "default": false,
+      "description": "Only return places with reviews.",
+      "title": "Has reviews only",
       "type": "boolean"
     },
     "filterOpenNow": {
       "default": false,
-      "description": "Only return places currently open.",
-      "title": "Open Now Only",
+      "description": "Only return places open at the time of the run.",
+      "title": "Open now only",
+      "type": "boolean"
+    },
+    "filterTakeaway": {
+      "default": false,
+      "description": "Only return places whose attributes mention takeaway or pickup.",
+      "title": "Takeaway only",
+      "type": "boolean"
+    },
+    "filterWifi": {
+      "default": false,
+      "description": "Only return places whose attributes mention Wi-Fi.",
+      "title": "Wi-Fi only",
       "type": "boolean"
     },
     "includeContacts": {
       "default": true,
-      "description": "Fetch phone numbers, website, emails, and social media links. No extra API call — included in the main search request.",
-      "title": "Include Contacts",
+      "description": "Add phones, websites, emails, social links and messengers.",
+      "prefill": true,
+      "title": "Include contacts",
       "type": "boolean"
     },
     "includePhotos": {
       "default": false,
-      "description": "Include photo URLs for each place. Note: photo URLs are not available with the demo API key.",
-      "title": "Include Photos",
+      "description": "Add photo URLs when 2GIS exposes them. A main photo URL and photo count are included whenever available.",
+      "title": "Include photo URLs",
       "type": "boolean"
     },
     "includeReviews": {
       "default": false,
-      "description": "Fetch reviews for each place. Requires a registered API key (demo key does not support the reviews endpoint). Adds one API call per place.",
-      "title": "Include Reviews",
+      "description": "Add review texts to each place when 2GIS exposes them. Rating and review counts are always included.",
+      "title": "Include reviews",
       "type": "boolean"
     },
-    "locationQuery": {
-      "description": "City or area name when not using Start URLs. Example: \"Dubai\", \"Moscow\", \"Almaty\".",
-      "editor": "textfield",
-      "title": "Location",
+    "language": {
+      "default": "auto",
+      "description": "Language of names and content returned by 2GIS. Auto uses the country site's default.",
+      "editor": "select",
+      "enum": [
+        "auto",
+        "ru_RU",
+        "ru_KZ",
+        "en_RU",
+        "en_AE",
+        "ar_AE",
+        "kk_KZ",
+        "ky_KG",
+        "uz_UZ",
+        "az_AZ",
+        "hy_AM",
+        "ka_GE",
+        "tg_TJ",
+        "cs_CZ",
+        "it_IT",
+        "es_CL",
+        "en_CY"
+      ],
+      "enumTitles": [
+        "Auto",
+        "Russian (Russia)",
+        "Russian (Kazakhstan)",
+        "English (Russia)",
+        "English (UAE)",
+        "Arabic (UAE)",
+        "Kazakh",
+        "Kyrgyz",
+        "Uzbek",
+        "Azerbaijani",
+        "Armenian",
+        "Georgian",
+        "Tajik",
+        "Czech",
+        "Italian",
+        "Spanish (Chile)",
+        "English (Cyprus)"
+      ],
+      "title": "Language",
       "type": "string"
+    },
+    "latitude": {
+      "description": "Center latitude for an area search (mode=search). Set together with longitude; overrides the city center.",
+      "maximum": 90,
+      "minimum": -90,
+      "title": "Latitude",
+      "type": "number"
+    },
+    "locationQuery": {
+      "description": "City or area to search in (mode=search), for example Moscow, Алматы or Dubai. Can be a local or English name.",
+      "editor": "textfield",
+      "prefill": "Moscow",
+      "title": "City",
+      "type": "string"
+    },
+    "longitude": {
+      "description": "Center longitude for an area search (mode=search). Set together with latitude.",
+      "maximum": 180,
+      "minimum": -180,
+      "title": "Longitude",
+      "type": "number"
+    },
+    "maxAverageCheck": {
+      "description": "Keep only places whose published average check is at most this value, in local currency.",
+      "minimum": 0,
+      "title": "Maximum average check",
+      "type": "integer"
     },
     "maxItems": {
       "default": 50,
-      "description": "Maximum number of places to scrape per query+location combination.",
+      "description": "Maximum number of places per search term + city/area combination.",
       "editor": "number",
       "maximum": 10000,
       "minimum": 1,
-      "prefill": 5,
-      "title": "Max Items",
+      "prefill": 3,
+      "title": "Max places",
       "type": "integer"
     },
     "maxPhotosPerPlace": {
       "default": 5,
-      "description": "Maximum number of photo URLs to include per place.",
+      "description": "Maximum photo URLs per place when photos are enabled (1–100).",
       "editor": "number",
-      "maximum": 50,
+      "maximum": 100,
       "minimum": 1,
-      "title": "Max Photos per Place",
+      "title": "Max photos per place",
       "type": "integer"
     },
     "maxReviewsPerPlace": {
       "default": 10,
-      "description": "Maximum number of reviews to fetch per place when Include Reviews is enabled.",
+      "description": "Maximum review texts per place when reviews are enabled (1–1000).",
       "editor": "number",
-      "maximum": 100,
+      "maximum": 1000,
       "minimum": 1,
-      "title": "Max Reviews per Place",
+      "title": "Max reviews per place",
       "type": "integer"
     },
-    "query": {
-      "description": "Search terms to run against each URL's city, or against locationQuery. Example: [\"restaurant\", \"hotel\", \"coffee\"]. If empty, uses the query embedded in each Start URL.",
+    "minAverageCheck": {
+      "description": "Keep only places whose published average check is at least this value, in local currency.",
+      "minimum": 0,
+      "title": "Minimum average check",
+      "type": "integer"
+    },
+    "minRating": {
+      "description": "Keep only places rated at least this value (0–5).",
+      "maximum": 5,
+      "minimum": 0,
+      "title": "Minimum rating",
+      "type": "number"
+    },
+    "minReviews": {
+      "description": "Keep only places with at least this many reviews.",
+      "minimum": 0,
+      "title": "Minimum reviews",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to read: search the directory, expand 2GIS links, or look up place IDs.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "urls",
+        "ids"
+      ],
+      "enumTitles": [
+        "Search by keyword + city/area",
+        "Read 2GIS links",
+        "Look up place IDs"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "placeIds": {
+      "description": "2GIS branch IDs to read directly (mode=ids).",
       "editor": "stringList",
-      "title": "Search Queries",
+      "title": "Place IDs",
       "type": "array"
     },
+    "radiusMeters": {
+      "default": 20000,
+      "description": "Search radius around latitude/longitude, in meters (1–50000).",
+      "editor": "number",
+      "maximum": 50000,
+      "minimum": 1,
+      "title": "Radius (meters)",
+      "type": "integer"
+    },
+    "reviewsKeyword": {
+      "description": "Keep only reviews whose text contains this word or phrase.",
+      "editor": "textfield",
+      "title": "Review keyword",
+      "type": "string"
+    },
+    "reviewsMinRating": {
+      "description": "Keep only reviews with at least this star rating (1–5).",
+      "maximum": 5,
+      "minimum": 1,
+      "title": "Minimum review rating",
+      "type": "integer"
+    },
+    "reviewsSince": {
+      "description": "Keep only reviews created on or after this date (YYYY-MM-DD).",
+      "editor": "textfield",
+      "title": "Reviews since",
+      "type": "string"
+    },
+    "reviewsSort": {
+      "default": "date_created",
+      "description": "Order of review texts.",
+      "editor": "select",
+      "enum": [
+        "date_created",
+        "date_edited",
+        "rating"
+      ],
+      "enumTitles": [
+        "Newest first",
+        "Recently edited",
+        "Highest rating"
+      ],
+      "title": "Review order",
+      "type": "string"
+    },
+    "reviewsWithAnswer": {
+      "default": false,
+      "description": "Keep only reviews that have an official business reply.",
+      "title": "Reviews with a business reply",
+      "type": "boolean"
+    },
     "rubricIds": {
-      "description": "Filter by 2GIS category IDs. Example: [\"281\"] for restaurants. Find IDs at 2gis.com/catalog.",
+      "description": "Only places in these 2GIS categories (rubric IDs), for example 162 for coffee shops.",
       "editor": "stringList",
-      "title": "Category IDs (Rubric IDs)",
+      "title": "Category IDs",
       "type": "array"
+    },
+    "scrapeOrgBranches": {
+      "default": false,
+      "description": "When a place link is given, also return the other branches of the same organization.",
+      "title": "Expand organization branches",
+      "type": "boolean"
+    },
+    "searchQueries": {
+      "description": "What to look for, one term per line (mode=search). Example: coffee, restaurant, стоматология. Use the local language for better coverage.",
+      "editor": "stringList",
+      "prefill": [
+        "coffee"
+      ],
+      "title": "Search terms",
+      "type": "array"
+    },
+    "skipAds": {
+      "default": false,
+      "description": "Drop paid/promoted search results.",
+      "title": "Skip promoted places",
+      "type": "boolean"
     },
     "sortBy": {
       "default": "relevance",
-      "description": "Sort order for search results.",
+      "description": "Order of search results. Distance needs a latitude/longitude or map area.",
       "editor": "select",
       "enum": [
         "relevance",
         "rating",
-        "distance"
+        "distance",
+        "flamp_rating",
+        "creation_time",
+        "opened_time",
+        "name"
       ],
       "enumTitles": [
-        "Relevance (default)",
+        "Relevance",
         "Rating (highest first)",
-        "Distance (nearest first)"
+        "Distance (nearest first)",
+        "Flamp rating",
+        "Newest branch",
+        "Recently opened",
+        "Name (A–Z)"
       ],
-      "title": "Sort By",
+      "title": "Sort by",
       "type": "string"
     },
     "startUrls": {
-      "description": "One or more 2GIS search URLs. Go to 2gis.ae (or 2gis.ru, 2gis.kz) and search for a category in a city, then copy the URL and paste it here.",
+      "description": "Search, place (/firm/), organization (/branches/) or building (/inside/) links, go.2gis.com short links, or bare place IDs (mode=urls).",
       "editor": "stringList",
-      "prefill": [
-        "https://2gis.ae/dubai/search/restaurant"
-      ],
-      "title": "Start URLs",
+      "title": "2GIS links",
       "type": "array"
+    },
+    "websiteFilter": {
+      "default": "all",
+      "description": "Return all places, only places with a website, or only places without one.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "with",
+        "without"
+      ],
+      "enumTitles": [
+        "All places",
+        "With a website",
+        "Without a website"
+      ],
+      "title": "Website",
+      "type": "string"
     }
   },
-  "required": [],
+  "required": [
+    "mode"
+  ],
   "schemaVersion": 1,
-  "title": "2GIS Places Scraper Input",
+  "title": "2GIS Business Directory Input",
   "type": "object"
 }

@@ -4,130 +4,171 @@
 
 # 2GIS Business Directory Extractor for CIS & Middle East
 
-2GIS is a map and business directory used in Russia, the UAE, Kazakhstan and other CIS countries. This actor searches its catalog by category and city — or reads a single place page directly — and returns structured place data with contacts, ratings and hours.
+Scrape **2GIS** business listings across 14 country sites — Russia, Kazakhstan, the UAE, Kyrgyzstan, Uzbekistan, Belarus, Azerbaijan, Armenia, Georgia, Tajikistan, Cyprus, Czechia, Italy and Chile. Search by keyword and city or map area, or paste search, place, organization and building links. Records include the address and coordinates, categories, rating and review counts when published, opening hours, contacts, social links and published attributes, plus a main photo when 2GIS exposes one. No account, API key or proxy is needed.
 
 ## What this actor does
 
-- Runs a search by pasting a 2GIS search URL, or by giving free-text queries plus a city; each search covers about 20 km around the city centre
-- Fetches a single place directly when given a 2GIS firm page URL
-- Optionally pulls phone numbers, website, emails and social links, user reviews, and photo URLs for each place
-- Lets you filter search results to only places with a website, only places with photos, only places currently open, or only specific category (rubric) IDs, and sort them by relevance, rating or distance
-- Omits any field 2GIS doesn't have for a place, so place records contain no null or placeholder values
+- **Three modes:** search by keyword + city/area, read 2GIS links, or look up place IDs.
+- **Rich place data:** phones, websites, emails, social links, messengers, hours, rating, review counts, attributes, nearest transit and a main photo.
+- **Organization and branch discovery:** expand an organization to its branches, or read every business inside a building.
+- **Real filters:** open now, 24/7, has a website, has photos, has goods/menu, has a rating or reviews, plus rating/review thresholds and category filters.
+- **Optional enrichment:** review texts with rating, author, date and business replies; photo URLs.
+- **Clean output:** every empty field is omitted, so records contain no nulls or placeholder values.
 
 ## Output per place
 
-| Field | Description |
-|---|---|
-| `id` | 2GIS place ID |
-| `name` | Place name |
-| `city` | The city you searched, taken from the URL's city part or `locationQuery` and title-cased (e.g. `Dubai`) |
-| `country` | Country, derived from 2GIS's administrative division data |
-| `address` | Street address as a single line |
-| `street` | Street name only, when 2GIS exposes a structured address |
-| `houseNumber` | Building number, when 2GIS exposes a structured address |
-| `postcode` | Postal code, when available |
-| `addressComment` | Extra address detail such as floor or entrance |
-| `latitude` / `longitude` | GPS coordinates |
-| `categories` | Place category names (rubrics) |
-| `categoryIds` | Place category (rubric) IDs |
-| `rating` | Average rating out of 5 |
-| `ratingCategory` | Rating bucket derived from `rating`: Excellent (≥4.5), Good (≥4.0), Average (≥3.0), or Poor (<3.0) |
-| `reviewCount` | Total number of reviews |
-| `workingHours` | Opening hours as a list of `{day, hours}` entries |
-| `phones` | Phone numbers, when "Include Contacts" is on |
-| `website` | Website URL, when "Include Contacts" is on |
-| `emails` | Email addresses, when "Include Contacts" is on |
-| `socialLinks` | Object keyed by network (`instagram`, `facebook`, `vkontakte`, `telegram`, `whatsapp`, `youtube`, `odnoklassniki`, `tiktok`), when "Include Contacts" is on |
-| `reviews` | Review objects as 2GIS returns them, when "Include Reviews" is on and the key allows it |
-| `photos` | Photo URLs, when "Include Photos" is on (search results only) |
-| `url` | 2GIS page URL for the place |
-| `scrapedAt` | UTC timestamp when the record was scraped |
-
-**Error records:** if a city can't be resolved or a search request fails, the dataset gets a short record with only `input` (the query or city that failed), `error` and `scrapedAt` for that query/city combination. A failed direct place URL is only reported in the log.
+- `id` — 2GIS branch ID
+- `name`, `fullName`, `shortName`, `extension`, `type`, `recordType`
+- `url` — the place page on the correct 2GIS country site
+- `categories`, `categoryIds`, `rubrics[]`, `primaryCategory`
+- `address`, `addressComment`, `postcode`, `street`, `houseNumber`, `landmark`
+- `country`, `region`, `city`, `addressCity`, `district`, `districtArea`, `cityAlias`
+- `latitude`, `longitude`, `timezoneOffset`
+- `phones`, `phonesFormatted`, `website`, `websites`, `emails`, `socialLinks`, `messengers`
+- `rating`, `reviewCount`, `ratingCount`, `orgRating`, `orgReviewCount`, `ratingCategory`, `reviewProviders[]`
+- `workingHours[]`, `scheduleText`, `is24x7`, `isClosed`
+- `orgId`, `orgName`, `orgBranchCount`, `brand`
+- `attributes[]`, `attributeGroups[]`, `attributesByTag`
+- `photoCount` (when 2GIS returns it), `mainPhotoUrl`, `photos[]` (when photo URLs are enabled)
+- `reviews[]` — review text, rating, author, date, photos and business reply (when enabled)
+- `isPromoted`, `hasGoods`, `hasDiscount`, `delivery`
+- `nearestStations[]`, `nearestMetro[]`
+- `searchQuery`, `searchCity`, `scrapedAt`, `updatedAt`, `createdAt`, `description`
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `startUrls` | array | – | 2GIS search URLs (`/<city>/search/<term>`) or direct place URLs (`/<city>/firm/...`). A URL with only a city part needs `query` terms |
-| `query` | array | – | Search terms. With `startUrls`, each term is searched in each URL's city instead of the URL's own term; without `startUrls`, each term is searched in `locationQuery` |
-| `locationQuery` | string | – | City or area name to search in when `startUrls` is empty, e.g. "Dubai", "Moscow", "Almaty". Needs at least one `query` term |
-| `maxItems` | integer | `50` | Maximum number of places per query + city combination (1–10000) |
-| `apiKey` | string | – | 2GIS Catalog API key. When blank, the public `demo` key is used, which may return only around 50 results per search and no reviews or photos; a free key from platform.2gis.ru lifts those limits |
-| `includeContacts` | boolean | `true` | Add phone numbers, website, emails and social links to each place |
-| `includeReviews` | boolean | `false` | Add reviews to each place; needs a registered API key |
-| `maxReviewsPerPlace` | integer | `10` | Maximum number of reviews per place when `includeReviews` is on (1–100) |
-| `includePhotos` | boolean | `false` | Add photo URLs to search results; not available with the `demo` key |
-| `maxPhotosPerPlace` | integer | `5` | Maximum number of photo URLs per place (1–50) |
-| `sortBy` | string | `relevance` | Sort order for search results: `relevance`, `rating`, or `distance` |
-| `filterHasWebsite` | boolean | `false` | Only return places that list a website |
-| `filterHasPhotos` | boolean | `false` | Only return places that have photos |
-| `filterOpenNow` | boolean | `false` | Only return places currently open |
-| `rubricIds` | array | – | Only return places matching these 2GIS category (rubric) IDs |
+| `mode` | string | `search` | `search`, `urls` or `ids` |
+| `searchQueries` | array | – | Search terms (mode=search) |
+| `locationQuery` | string | – | City to search in (mode=search) |
+| `cities` | array | – | Additional cities; every term runs in each city |
+| `cityIds` | array | – | Exact 2GIS city IDs instead of names |
+| `startUrls` | array | – | Search, `/firm/`, `/branches/`, `/inside/` or short links (mode=urls) |
+| `placeIds` | array | – | Branch IDs (mode=ids) |
+| `latitude`, `longitude` | number | – | Center for a point search |
+| `radiusMeters` | integer | `20000` | Radius around the point (1–50000) |
+| `bbox` | string | – | Map rectangle as `lon1,lat1,lon2,lat2` |
+| `country` | string | `auto` | Country site: `ru`, `kz`, `ae`, `kg`, `uz`, `by`, `az`, `am`, `ge`, `tj`, `cy`, `cz`, `it`, `cl` |
+| `language` | string | `auto` | Content language, e.g. `ru_RU`, `ru_KZ`, `en_AE`, `kk_KZ` |
+| `maxItems` | integer | `50` | Max places per search term + city/area |
+| `sortBy` | string | `relevance` | `relevance`, `rating`, `distance`, `flamp_rating`, `creation_time`, `opened_time`, `name` |
+| `rubricIds` | array | – | Category IDs, e.g. `162` for coffee shops |
+| `districtIds` | array | – | District IDs for splitting large cities |
+| `minRating` | number | – | Keep places rated at least this value |
+| `minReviews` | integer | – | Keep places with at least this many reviews |
+| `websiteFilter` | string | `all` | `all`, `with` or `without` a website |
+| `filterHasPhotos` | boolean | false | Only places with photos |
+| `filterOpenNow` | boolean | false | Only places open now |
+| `filter24x7` | boolean | false | Only places open around the clock |
+| `filterHasGoods` | boolean | false | Only places with goods or a menu |
+| `filterHasRating` | boolean | false | Only places with a rating |
+| `filterHasReviews` | boolean | false | Only places with reviews |
+| `filterDelivery` | boolean | false | Only places whose attributes mention delivery |
+| `filterTakeaway` | boolean | false | Only places whose attributes mention takeaway |
+| `filterCardPayment` | boolean | false | Only places whose attributes mention card payment |
+| `filterWifi` | boolean | false | Only places whose attributes mention Wi-Fi |
+| `minAverageCheck`, `maxAverageCheck` | integer | – | Filter by published average check |
+| `skipAds` | boolean | false | Drop promoted results |
+| `includeContacts` | boolean | true | Add phones, websites, emails, socials and messengers |
+| `includeReviews` | boolean | false | Add review texts |
+| `maxReviewsPerPlace` | integer | `10` | Max review texts per place |
+| `reviewsSort` | string | `date_created` | `date_created`, `date_edited` or `rating` |
+| `reviewsMinRating` | integer | – | Keep reviews with at least this rating |
+| `reviewsWithAnswer` | boolean | false | Keep only reviews with a business reply |
+| `reviewsSince` | string | – | Keep reviews since `YYYY-MM-DD` |
+| `reviewsKeyword` | string | – | Keep reviews containing this word |
+| `includePhotos` | boolean | false | Add photo URLs |
+| `maxPhotosPerPlace` | integer | `5` | Max photo URLs per place |
+| `scrapeOrgBranches` | boolean | false | Expand a place link to its organization's branches |
 
-Sorting and the four filters apply to searches only; a direct place URL always returns that one place (without photos).
-
-### Example: search by query and city
+### Example: coffee shops in Moscow
 
 ```json
 {
-  "query": ["coffee"],
-  "locationQuery": "Almaty",
+  "mode": "search",
+  "searchQueries": ["coffee"],
+  "locationQuery": "Moscow",
+  "maxItems": 25,
+  "websiteFilter": "with",
+  "sortBy": "rating"
+}
+```
+
+### Example: Dubai restaurants that are open now
+
+```json
+{
+  "mode": "search",
+  "searchQueries": ["restaurant"],
+  "locationQuery": "Dubai",
+  "filterOpenNow": true,
+  "includeContacts": true,
   "maxItems": 50
 }
 ```
 
-### Example: paste a search URL with filters
+### Example: read a place and its organization's branches
 
 ```json
 {
-  "startUrls": ["https://2gis.ae/dubai/search/restaurant"],
-  "filterHasWebsite": true,
-  "sortBy": "rating",
-  "maxItems": 100
+  "mode": "urls",
+  "startUrls": ["https://2gis.ru/moscow/firm/70000001044357973"],
+  "scrapeOrgBranches": true,
+  "includeReviews": true,
+  "maxReviewsPerPlace": 5
 }
 ```
 
-### Example: fetch a single place directly
+### Example: every business inside a building
 
 ```json
 {
-  "startUrls": ["https://2gis.ae/dubai/firm/nobu/70000001035586092"],
-  "includeReviews": true,
-  "apiKey": "YOUR_2GIS_API_KEY"
+  "mode": "urls",
+  "startUrls": ["https://2gis.ru/moscow/inside/4504235290707169"],
+  "maxItems": 100
 }
 ```
 
 ## Use cases
 
-- **Local lead generation** — collect businesses in a city and category along with phone, website and email
-- **Directory and listings research** — compare how businesses are categorized and rated across 2GIS cities
-- **Reputation monitoring** — track rating, review count and individual reviews for named businesses over time
-- **Market coverage checks** — see which competitors in a sector have a website or published photos, using the filter inputs
-- **Multilingual search** — run queries in Russian, Arabic or other local languages supported by 2GIS
+- **Local lead generation** — collect businesses by city and category with phone, website and email contacts.
+- **Market research** — compare category coverage, ratings and review volumes across cities and countries.
+- **Competitor tracking** — follow a chain's branches, addresses, hours and rating changes.
+- **Reputation monitoring** — export ratings, review counts and optional review texts with business replies.
+- **Directory enrichment** — fill missing contacts, coordinates and opening hours in your own listings.
+- **Coverage checks** — find businesses without a website, without photos or without reviews.
 
 ## FAQ
 
-**Do I need an API key?**
-No signup is required to start: leave `apiKey` blank and the public `demo` key is used, which typically stops at around 50 results per search. Registering a free key at platform.2gis.ru raises that limit and unlocks reviews and photos.
+### Do I need a 2GIS account or API key?
 
-**Why can't I get photos or reviews with the default key?**
-2GIS restricts its photo and review data to registered API keys; the `demo` key does not return them even when `includePhotos` or `includeReviews` is enabled.
+No. The actor reads 2GIS's public directory data and needs no account, API key, cookie or proxy. Just choose a search term and a city.
 
-**Which countries and cities are covered?**
-Any city 2GIS can find by name. The city part of your URL (for example `dubai` in `2gis.ae/dubai/...`) or your `locationQuery` is looked up in the 2GIS catalog, and the search then covers roughly a 20 km radius around that city's centre. Very large metro areas may need several searches around different districts.
+### Which countries are supported?
 
-**What happens if a city can't be found?**
-That query/city combination produces an error record (`input`, `error`, `scrapedAt`) and the run carries on with the next one.
+Russia, Kazakhstan, the UAE, Kyrgyzstan, Uzbekistan, Belarus, Azerbaijan, Armenia, Georgia, Tajikistan, Cyprus, Czechia, Italy and Chile. The country site is detected automatically from a link or resolved from the city.
 
-**How do I search in Russian or Arabic?**
-Paste a 2GIS URL that already contains a Cyrillic or Arabic query, or put the term directly in the `query` field alongside a `locationQuery` such as "Москва".
+### Why are some fields missing from a place?
 
-**Why are some fields missing from a place?**
-2GIS listings vary in how much detail each business has published. A field such as `website`, `phones` or `workingHours` is only included when 2GIS actually has that data for the place.
+2GIS listings vary. A website, email, social link, photo or review is only included when the business has published it. Empty fields are omitted rather than filled with null or placeholder values.
 
-**How do I find a rubric (category) ID to filter by?**
-Browse categories on 2gis.com's catalog pages; the numeric ID shown in the category URL can be passed in `rubricIds`.
+### What is the difference between `rating` and `orgRating`?
 
-**Is this affiliated with 2GIS?**
-No. This actor reads 2GIS's public catalog API and is not affiliated with, endorsed by, or sponsored by 2GIS.
+`rating` belongs to the individual branch. `orgRating` and `orgReviewCount` aggregate the whole organization. `ratingCount` counts star votes, while `reviewCount` counts written reviews.
+
+### Do reviews and photos work for every place?
+
+Rating and review counts are included whenever 2GIS publishes them. Review texts and photo URLs are optional and depend on what 2GIS exposes for that place. A main photo URL and an exact photo count are included when 2GIS returns them; places with no reviews or photos simply omit those fields.
+
+### How do I get more than the default number of places?
+
+Raise `maxItems`. For very large categories, split the search by district, category (`rubricIds`) or several narrower search terms. The run status message tells you if more places were available than were requested.
+
+### How do I search in Russian, Kazakh or Arabic?
+
+Use the local spelling in `searchQueries` and `locationQuery` (for example `кофейня` and `Москва`), or set `language` to the content language you want.
+
+### Is this affiliated with 2GIS?
+
+No. This is a third-party actor that reads the public 2GIS directory. It is not affiliated with, endorsed by, or sponsored by 2GIS.

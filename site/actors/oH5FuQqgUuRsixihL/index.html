@@ -1,37 +1,358 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-j+WSGKVTPPltt7q/SB7y90JiqaEiXZTHS4D3DG6Uyrc=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Reed.co.uk UK Job Listings &amp; Pay Extractor | Vexaloom Labs</title><meta name="description" content="Search live Reed.co.uk vacancies by keyword and location and get structured job records with parsed pay ranges, job type, remote status and job descriptions."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/"><meta property="og:title" content="Reed.co.uk UK Job Listings &amp; Pay Extractor | Vexaloom Labs"><meta property="og:description" content="Search live Reed.co.uk vacancies by keyword and location and get structured job records with parsed pay ranges, job type, remote status and job descriptions."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/#webpage","name":"Reed.co.uk UK Job Listings & Pay Extractor","description":"Search live Reed.co.uk vacancies by keyword and location and get structured job records with parsed pay ranges, job type, remote status and job descriptions.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/#article","headline":"Reed.co.uk UK Job Listings & Pay Extractor","name":"Reed.co.uk UK Job Listings & Pay Extractor","description":"Search live Reed.co.uk vacancies by keyword and location and get structured job records with parsed pay ranges, job type, remote status and job descriptions.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Reed.co.uk UK Job Listings & Pay Extractor","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Reed.co.uk UK Job Listings &amp; Pay Extractor</span></div><section id="overview"><h1 class="doc-title">Reed.co.uk UK Job Listings &amp; Pay Extractor</h1><p class="lede">Search live Reed.co.uk vacancies by keyword and location and get structured job records with parsed pay ranges, job type, remote status and job descriptions.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/reed-co-uk-uk-job-listings-and-pay-extractor">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/oH5FuQqgUuRsixihL/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>keywords</code></td><td>string</td><td>optional</td><td>Job title, skills, or keywords to search for (e.g. &#x27;python developer&#x27;, &#x27;marketing manager&#x27;, &#x27;nurse&#x27;).</td></tr><tr><td><code>location</code></td><td>string</td><td>optional</td><td>City, region, or area to search in (e.g. &#x27;London&#x27;, &#x27;Manchester&#x27;, &#x27;Birmingham&#x27;). Leave blank to search UK-wide.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of job records to return (1–5000).</td></tr></tbody></table></div><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;description&quot;: &quot;Search and extract job listings from Reed.co.uk — the UK&#x27;s largest job board. Filter by keywords and location.&quot;,
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-j+WSGKVTPPltt7q/SB7y90JiqaEiXZTHS4D3DG6Uyrc=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Reed.co.uk UK Job Listings &amp; Pay Extractor | Vexaloom Labs</title><meta name="description" content="Search live Reed.co.uk vacancies by keyword and location and get structured job records with parsed pay ranges, job type, remote status and job descriptions."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/"><meta property="og:title" content="Reed.co.uk UK Job Listings &amp; Pay Extractor | Vexaloom Labs"><meta property="og:description" content="Search live Reed.co.uk vacancies by keyword and location and get structured job records with parsed pay ranges, job type, remote status and job descriptions."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/#webpage","name":"Reed.co.uk UK Job Listings & Pay Extractor","description":"Search live Reed.co.uk vacancies by keyword and location and get structured job records with parsed pay ranges, job type, remote status and job descriptions.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/#article","headline":"Reed.co.uk UK Job Listings & Pay Extractor","name":"Reed.co.uk UK Job Listings & Pay Extractor","description":"Search live Reed.co.uk vacancies by keyword and location and get structured job records with parsed pay ranges, job type, remote status and job descriptions.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Reed.co.uk UK Job Listings & Pay Extractor","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/oH5FuQqgUuRsixihL/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Reed.co.uk UK Job Listings &amp; Pay Extractor</span></div><section id="overview"><h1 class="doc-title">Reed.co.uk UK Job Listings &amp; Pay Extractor</h1><p class="lede">Search live Reed.co.uk vacancies by keyword and location and get structured job records with parsed pay ranges, job type, remote status and job descriptions.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/reed-co-uk-uk-job-listings-and-pay-extractor">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/oH5FuQqgUuRsixihL/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>Search Reed&#x27;s job listings, or scrape specific Reed search/job URLs.</td></tr><tr><td><code>keywords</code></td><td>string</td><td>optional</td><td>Job title, skill or phrase to search for (mode=search).</td></tr><tr><td><code>searchQueries</code></td><td>array</td><td>optional</td><td>Run several keyword searches in one run (mode=search). When set, this replaces Keywords.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>Search Reed&#x27;s job listings, or scrape specific Reed search/job URLs.</td></tr><tr><td><code>keywords</code></td><td>string</td><td>optional</td><td>Job title, skill or phrase to search for (mode=search).</td></tr><tr><td><code>searchQueries</code></td><td>array</td><td>optional</td><td>Run several keyword searches in one run (mode=search). When set, this replaces Keywords.</td></tr><tr><td><code>location</code></td><td>string</td><td>optional</td><td>UK town, city, region or postcode (mode=search). Leave blank for UK-wide.</td></tr><tr><td><code>sector</code></td><td>string</td><td>optional</td><td>Limit results to one of Reed&#x27;s parent sectors (mode=search).</td></tr><tr><td><code>proximity</code></td><td>string</td><td>optional</td><td>Radius around the location (mode=search).</td></tr><tr><td><code>salaryFrom</code></td><td>integer</td><td>optional</td><td>Annual salary floor in pounds (mode=search). Reed matches jobs whose salary range overlaps this floor.</td></tr><tr><td><code>salaryTo</code></td><td>integer</td><td>optional</td><td>Annual salary ceiling in pounds (mode=search). Reed matches jobs whose salary range overlaps this ceiling.</td></tr><tr><td><code>postedWithin</code></td><td>string</td><td>optional</td><td>Only return jobs posted in this window (mode=search).</td></tr><tr><td><code>postedBy</code></td><td>string</td><td>optional</td><td>Filter by who advertised the job (mode=search).</td></tr><tr><td><code>remoteOption</code></td><td>string</td><td>optional</td><td>Filter by remote, hybrid or on-site work (mode=search).</td></tr><tr><td><code>permanent</code></td><td>boolean</td><td>optional</td><td>Only permanent contracts (mode=search).</td></tr><tr><td><code>contract</code></td><td>boolean</td><td>optional</td><td>Only contract roles (mode=search).</td></tr><tr><td><code>temporary</code></td><td>boolean</td><td>optional</td><td>Only temporary roles (mode=search).</td></tr><tr><td><code>fullTime</code></td><td>boolean</td><td>optional</td><td>Only full-time roles (mode=search).</td></tr><tr><td><code>partTime</code></td><td>boolean</td><td>optional</td><td>Only part-time roles (mode=search).</td></tr><tr><td><code>graduateOnly</code></td><td>boolean</td><td>optional</td><td>Only graduate roles (mode=search).</td></tr><tr><td><code>easyApplyOnly</code></td><td>boolean</td><td>optional</td><td>Only jobs with Reed Easy Apply (mode=search).</td></tr><tr><td><code>visaSponsorship</code></td><td>boolean</td><td>optional</td><td>Only jobs Reed marks as offering visa sponsorship (mode=search).</td></tr><tr><td><code>hideNoSalary</code></td><td>boolean</td><td>optional</td><td>Exclude listings where no salary is displayed (mode=search).</td></tr><tr><td><code>hideTrainingJobs</code></td><td>boolean</td><td>optional</td><td>Exclude training-course adverts (mode=search).</td></tr><tr><td><code>hideSurveyJobs</code></td><td>boolean</td><td>optional</td><td>Exclude survey-job adverts (mode=search).</td></tr><tr><td><code>searchUrls</code></td><td>array</td><td>optional</td><td>One or more Reed search URLs (mode=byUrl). Their filters are preserved; other filters here are added when absent.</td></tr><tr><td><code>jobUrls</code></td><td>array</td><td>optional</td><td>One or more Reed job URLs or numeric job IDs (mode=byUrl).</td></tr><tr><td><code>fetchDetails</code></td><td>boolean</td><td>optional</td><td>Open each job page for the full description, display salary, per-annum pay and location details. Turn off for a faster listing-only run.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of job records to return (1-10,000). Reed exposes at most 10,000 results per search.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Search Reed.co.uk by keywords, location, pay, job type, remote option and posting date, or scrape specific Reed search and job URLs. No account or API key needed.&quot;,
   &quot;properties&quot;: {
+    &quot;contract&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only contract roles (mode=search).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Contract jobs&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;easyApplyOnly&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only jobs with Reed Easy Apply (mode=search).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Easy Apply only&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;fetchDetails&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Open each job page for the full description, display salary, per-annum pay and location details. Turn off for a faster listing-only run.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Fetch full details&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;fullTime&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only full-time roles (mode=search).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Full-time&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;graduateOnly&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only graduate roles (mode=search).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Graduate jobs&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;hideNoSalary&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Exclude listings where no salary is displayed (mode=search).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Hide jobs without pay&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;hideSurveyJobs&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Exclude survey-job adverts (mode=search).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Hide survey ads&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;hideTrainingJobs&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Exclude training-course adverts (mode=search).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Hide training ads&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;jobUrls&quot;: {
+      &quot;description&quot;: &quot;One or more Reed job URLs or numeric job IDs (mode=byUrl).&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Reed job URLs or IDs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
     &quot;keywords&quot;: {
-      &quot;description&quot;: &quot;Job title, skills, or keywords to search for (e.g. &#x27;python developer&#x27;, &#x27;marketing manager&#x27;, &#x27;nurse&#x27;).&quot;,
+      &quot;description&quot;: &quot;Job title, skill or phrase to search for (mode=search).&quot;,
       &quot;editor&quot;: &quot;textfield&quot;,
       &quot;prefill&quot;: &quot;software engineer&quot;,
       &quot;title&quot;: &quot;Keywords&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;location&quot;: {
-      &quot;description&quot;: &quot;City, region, or area to search in (e.g. &#x27;London&#x27;, &#x27;Manchester&#x27;, &#x27;Birmingham&#x27;). Leave blank to search UK-wide.&quot;,
+      &quot;description&quot;: &quot;UK town, city, region or postcode (mode=search). Leave blank for UK-wide.&quot;,
       &quot;editor&quot;: &quot;textfield&quot;,
       &quot;title&quot;: &quot;Location&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;maxItems&quot;: {
       &quot;default&quot;: 50,
-      &quot;description&quot;: &quot;Maximum number of job records to return (1–5000).&quot;,
-      &quot;maximum&quot;: 5000,
+      &quot;description&quot;: &quot;Maximum number of job records to return (1-10,000). Reed exposes at most 10,000 results per search.&quot;,
+      &quot;maximum&quot;: 10000,
       &quot;minimum&quot;: 1,
-      &quot;prefill&quot;: 10,
-      &quot;title&quot;: &quot;Max items&quot;,
+      &quot;prefill&quot;: 3,
+      &quot;title&quot;: &quot;Max jobs&quot;,
       &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;search&quot;,
+      &quot;description&quot;: &quot;Search Reed&#x27;s job listings, or scrape specific Reed search/job URLs.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;search&quot;,
+        &quot;byUrl&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Search jobs&quot;,
+        &quot;Scrape specific URLs&quot;
+      ],
+      &quot;prefill&quot;: &quot;search&quot;,
+      &quot;title&quot;: &quot;Mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;partTime&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only part-time roles (mode=search).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Part-time&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;permanent&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only permanent contracts (mode=search).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Permanent jobs&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;postedBy&quot;: {
+      &quot;default&quot;: &quot;any&quot;,
+      &quot;description&quot;: &quot;Filter by who advertised the job (mode=search).&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;any&quot;,
+        &quot;agency&quot;,
+        &quot;employer&quot;,
+        &quot;reed&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Anyone&quot;,
+        &quot;Recruitment agency&quot;,
+        &quot;Direct employer&quot;,
+        &quot;Reed&quot;
+      ],
+      &quot;prefill&quot;: &quot;any&quot;,
+      &quot;title&quot;: &quot;Posted by&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;postedWithin&quot;: {
+      &quot;default&quot;: &quot;anytime&quot;,
+      &quot;description&quot;: &quot;Only return jobs posted in this window (mode=search).&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;anytime&quot;,
+        &quot;today&quot;,
+        &quot;lastThreeDays&quot;,
+        &quot;lastWeek&quot;,
+        &quot;lastTwoWeeks&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Anytime&quot;,
+        &quot;Today&quot;,
+        &quot;Last 3 days&quot;,
+        &quot;Last week&quot;,
+        &quot;Last 2 weeks&quot;
+      ],
+      &quot;prefill&quot;: &quot;anytime&quot;,
+      &quot;title&quot;: &quot;Posted within&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;proximity&quot;: {
+      &quot;default&quot;: &quot;10&quot;,
+      &quot;description&quot;: &quot;Radius around the location (mode=search).&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;0&quot;,
+        &quot;1&quot;,
+        &quot;3&quot;,
+        &quot;5&quot;,
+        &quot;10&quot;,
+        &quot;15&quot;,
+        &quot;20&quot;,
+        &quot;30&quot;,
+        &quot;50&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Exact location&quot;,
+        &quot;1 mile&quot;,
+        &quot;3 miles&quot;,
+        &quot;5 miles&quot;,
+        &quot;10 miles&quot;,
+        &quot;15 miles&quot;,
+        &quot;20 miles&quot;,
+        &quot;30 miles&quot;,
+        &quot;50 miles&quot;
+      ],
+      &quot;prefill&quot;: &quot;10&quot;,
+      &quot;title&quot;: &quot;Distance (miles)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;remoteOption&quot;: {
+      &quot;default&quot;: &quot;any&quot;,
+      &quot;description&quot;: &quot;Filter by remote, hybrid or on-site work (mode=search).&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;any&quot;,
+        &quot;remote&quot;,
+        &quot;hybrid&quot;,
+        &quot;onSite&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any&quot;,
+        &quot;Remote&quot;,
+        &quot;Hybrid&quot;,
+        &quot;On-site&quot;
+      ],
+      &quot;prefill&quot;: &quot;any&quot;,
+      &quot;title&quot;: &quot;Work arrangement&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;salaryFrom&quot;: {
+      &quot;description&quot;: &quot;Annual salary floor in pounds (mode=search). Reed matches jobs whose salary range overlaps this floor.&quot;,
+      &quot;maximum&quot;: 500000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Minimum salary (GBP)&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;salaryTo&quot;: {
+      &quot;description&quot;: &quot;Annual salary ceiling in pounds (mode=search). Reed matches jobs whose salary range overlaps this ceiling.&quot;,
+      &quot;maximum&quot;: 500000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Maximum salary (GBP)&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;searchQueries&quot;: {
+      &quot;description&quot;: &quot;Run several keyword searches in one run (mode=search). When set, this replaces Keywords.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Multiple searches&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;searchUrls&quot;: {
+      &quot;description&quot;: &quot;One or more Reed search URLs (mode=byUrl). Their filters are preserved; other filters here are added when absent.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Reed search URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;sector&quot;: {
+      &quot;default&quot;: &quot;any&quot;,
+      &quot;description&quot;: &quot;Limit results to one of Reed&#x27;s parent sectors (mode=search).&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;any&quot;,
+        &quot;100&quot;,
+        &quot;30&quot;,
+        &quot;90&quot;,
+        &quot;146&quot;,
+        &quot;52&quot;,
+        &quot;24&quot;,
+        &quot;12&quot;,
+        &quot;2&quot;,
+        &quot;3&quot;,
+        &quot;34&quot;,
+        &quot;117&quot;,
+        &quot;18&quot;,
+        &quot;11&quot;,
+        &quot;1962&quot;,
+        &quot;1755&quot;,
+        &quot;168&quot;,
+        &quot;66&quot;,
+        &quot;68&quot;,
+        &quot;36&quot;,
+        &quot;6&quot;,
+        &quot;5&quot;,
+        &quot;27&quot;,
+        &quot;338&quot;,
+        &quot;1722&quot;,
+        &quot;169&quot;,
+        &quot;101&quot;,
+        &quot;1700&quot;,
+        &quot;16&quot;,
+        &quot;500&quot;,
+        &quot;71&quot;,
+        &quot;1961&quot;,
+        &quot;92&quot;,
+        &quot;21&quot;,
+        &quot;1963&quot;,
+        &quot;89&quot;,
+        &quot;1909&quot;,
+        &quot;1964&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any sector&quot;,
+        &quot;Accountancy (Qualified)&quot;,
+        &quot;Sales&quot;,
+        &quot;Retail&quot;,
+        &quot;Construction &amp; Property&quot;,
+        &quot;IT &amp; Telecoms&quot;,
+        &quot;Human Resources&quot;,
+        &quot;Engineering&quot;,
+        &quot;Accountancy&quot;,
+        &quot;Admin, Secretarial &amp; PA&quot;,
+        &quot;Social Care&quot;,
+        &quot;Financial Services&quot;,
+        &quot;Marketing &amp; PR&quot;,
+        &quot;Transport &amp; Logistics&quot;,
+        &quot;Estate Agency&quot;,
+        &quot;Strategy &amp; Consultancy&quot;,
+        &quot;Manufacturing&quot;,
+        &quot;Customer Service&quot;,
+        &quot;Education&quot;,
+        &quot;Health &amp; Medicine&quot;,
+        &quot;Hospitality &amp; Catering&quot;,
+        &quot;Banking&quot;,
+        &quot;Purchasing&quot;,
+        &quot;Recruitment Consultancy&quot;,
+        &quot;FMCG&quot;,
+        &quot;Graduate Training &amp; Internships&quot;,
+        &quot;Legal&quot;,
+        &quot;Motoring &amp; Automotive&quot;,
+        &quot;General Insurance&quot;,
+        &quot;Charity &amp; Voluntary&quot;,
+        &quot;Media, Digital &amp; Creative&quot;,
+        &quot;Energy&quot;,
+        &quot;Leisure &amp; Tourism&quot;,
+        &quot;Other&quot;,
+        &quot;Security &amp; Safety&quot;,
+        &quot;Scientific&quot;,
+        &quot;Training&quot;,
+        &quot;Apprenticeships&quot;
+      ],
+      &quot;prefill&quot;: &quot;any&quot;,
+      &quot;title&quot;: &quot;Sector&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;temporary&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only temporary roles (mode=search).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Temporary jobs&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;visaSponsorship&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only jobs Reed marks as offering visa sponsorship (mode=search).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Visa sponsorship&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
     }
   },
   &quot;required&quot;: [],
   &quot;schemaVersion&quot;: 1,
-  &quot;title&quot;: &quot;Reed.co.uk Jobs Scraper Input&quot;,
+  &quot;title&quot;: &quot;Reed.co.uk Jobs &amp; Pay Input&quot;,
   &quot;type&quot;: &quot;object&quot;
 }
 </code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>jobs</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped Reed.co.uk job listings.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
   &quot;actorOutputSchemaVersion&quot;: 1,
-  &quot;description&quot;: &quot;Reed.co.uk job listings with title, company, location, parsed salary range, job type, remote status, category, and description.&quot;,
+  &quot;description&quot;: &quot;Reed.co.uk job listings with full descriptions, parsed pay ranges, employer and location metadata, sector, skills and direct job URLs.&quot;,
   &quot;properties&quot;: {
     &quot;jobs&quot;: {
       &quot;description&quot;: &quot;Dataset containing all scraped Reed.co.uk job listings.&quot;,
@@ -44,6 +365,286 @@
 }
 </code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
   &quot;actorSpecification&quot;: 1,
+  &quot;fields&quot;: {
+    &quot;properties&quot;: {
+      &quot;category&quot;: {
+        &quot;description&quot;: &quot;Top-level Reed role category&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;companyLogoUrl&quot;: {
+        &quot;description&quot;: &quot;Employer logo image URL&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;companyName&quot;: {
+        &quot;description&quot;: &quot;Hiring employer or recruitment agency&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;companyUrl&quot;: {
+        &quot;description&quot;: &quot;Employer&#x27;s Reed jobs/profile page&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;country&quot;: {
+        &quot;description&quot;: &quot;Country name&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;countryCode&quot;: {
+        &quot;description&quot;: &quot;ISO country code, normally GB&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;county&quot;: {
+        &quot;description&quot;: &quot;County of the job&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;datePosted&quot;: {
+        &quot;description&quot;: &quot;Creation date in ISO 8601 UTC&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;dateUpdated&quot;: {
+        &quot;description&quot;: &quot;Last update date in ISO 8601 UTC&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;description&quot;: {
+        &quot;description&quot;: &quot;Full job description as plain text&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;descriptionHtml&quot;: {
+        &quot;description&quot;: &quot;Full job description as HTML&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;displayDate&quot;: {
+        &quot;description&quot;: &quot;Reed&#x27;s display date in ISO 8601 UTC&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;eligibilityRequirement&quot;: {
+        &quot;description&quot;: &quot;Reed&#x27;s raw eligibility requirement&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;eligibleUkOnly&quot;: {
+        &quot;description&quot;: &quot;True when the search listing is marked UK-only&quot;,
+        &quot;type&quot;: &quot;boolean&quot;
+      },
+      &quot;expiryDate&quot;: {
+        &quot;description&quot;: &quot;Listing expiry date in ISO 8601 UTC&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;externalUrl&quot;: {
+        &quot;description&quot;: &quot;Legacy field; Reed&#x27;s public pages do not expose an external apply URL&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;isEarlyBird&quot;: {
+        &quot;description&quot;: &quot;True when the listing is an early-bird advert&quot;,
+        &quot;type&quot;: &quot;boolean&quot;
+      },
+      &quot;isEasyApply&quot;: {
+        &quot;description&quot;: &quot;True when Reed Easy Apply is available&quot;,
+        &quot;type&quot;: &quot;boolean&quot;
+      },
+      &quot;isFeatured&quot;: {
+        &quot;description&quot;: &quot;True when the listing is featured&quot;,
+        &quot;type&quot;: &quot;boolean&quot;
+      },
+      &quot;isFullTime&quot;: {
+        &quot;description&quot;: &quot;True when the role is full-time&quot;,
+        &quot;type&quot;: &quot;boolean&quot;
+      },
+      &quot;isGraduate&quot;: {
+        &quot;description&quot;: &quot;True when Reed marks the role as graduate&quot;,
+        &quot;type&quot;: &quot;boolean&quot;
+      },
+      &quot;isLive&quot;: {
+        &quot;description&quot;: &quot;True when the detail page says the job is live&quot;,
+        &quot;type&quot;: &quot;boolean&quot;
+      },
+      &quot;isPartTime&quot;: {
+        &quot;description&quot;: &quot;True when the role is part-time&quot;,
+        &quot;type&quot;: &quot;boolean&quot;
+      },
+      &quot;isPromoted&quot;: {
+        &quot;description&quot;: &quot;True when the listing is promoted&quot;,
+        &quot;type&quot;: &quot;boolean&quot;
+      },
+      &quot;isRedirect&quot;: {
+        &quot;description&quot;: &quot;True when applications leave Reed&quot;,
+        &quot;type&quot;: &quot;boolean&quot;
+      },
+      &quot;isRemote&quot;: {
+        &quot;description&quot;: &quot;True when Reed marks the role as remote&quot;,
+        &quot;type&quot;: &quot;boolean&quot;
+      },
+      &quot;isSurveyJob&quot;: {
+        &quot;description&quot;: &quot;True when the listing is a survey advert&quot;,
+        &quot;type&quot;: &quot;boolean&quot;
+      },
+      &quot;isTrainingJob&quot;: {
+        &quot;description&quot;: &quot;True when the listing is a training advert&quot;,
+        &quot;type&quot;: &quot;boolean&quot;
+      },
+      &quot;jobId&quot;: {
+        &quot;description&quot;: &quot;Reed&#x27;s numeric job identifier&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;jobType&quot;: {
+        &quot;description&quot;: &quot;Permanent, Contract or Temporary&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;location&quot;: {
+        &quot;description&quot;: &quot;Display location as shown by Reed&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;postCode&quot;: {
+        &quot;description&quot;: &quot;Postcode when the employer publishes one&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;postedBy&quot;: {
+        &quot;description&quot;: &quot;Agency, Employer or Reed&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;recordType&quot;: {
+        &quot;description&quot;: &quot;Always job&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;recruiterReference&quot;: {
+        &quot;description&quot;: &quot;Recruiter&#x27;s own job reference&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;region&quot;: {
+        &quot;description&quot;: &quot;UK region from the detail page&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;remoteWorking&quot;: {
+        &quot;description&quot;: &quot;Remote, Hybrid or On-site&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;requiresUkEligibility&quot;: {
+        &quot;description&quot;: &quot;True when the job requires UK work eligibility&quot;,
+        &quot;type&quot;: &quot;boolean&quot;
+      },
+      &quot;salaryCurrency&quot;: {
+        &quot;description&quot;: &quot;ISO currency code, normally GBP&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;salaryDescription&quot;: {
+        &quot;description&quot;: &quot;Salary text as displayed by Reed&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;salaryFrom&quot;: {
+        &quot;description&quot;: &quot;Lower salary bound in the stated period&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;number&quot;
+      },
+      &quot;salaryFromPerAnnum&quot;: {
+        &quot;description&quot;: &quot;Lower bound normalised to a full year&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;number&quot;
+      },
+      &quot;salaryIsCompetitive&quot;: {
+        &quot;description&quot;: &quot;True when Reed labels the pay as competitive&quot;,
+        &quot;type&quot;: &quot;boolean&quot;
+      },
+      &quot;salaryIsNegotiable&quot;: {
+        &quot;description&quot;: &quot;True when Reed labels the pay as negotiable&quot;,
+        &quot;type&quot;: &quot;boolean&quot;
+      },
+      &quot;salaryIsOte&quot;: {
+        &quot;description&quot;: &quot;True when the pay includes OTE&quot;,
+        &quot;type&quot;: &quot;boolean&quot;
+      },
+      &quot;salaryIsProRata&quot;: {
+        &quot;description&quot;: &quot;True when the salary is pro rata&quot;,
+        &quot;type&quot;: &quot;boolean&quot;
+      },
+      &quot;salaryTo&quot;: {
+        &quot;description&quot;: &quot;Upper salary bound in the stated period&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;number&quot;
+      },
+      &quot;salaryToPerAnnum&quot;: {
+        &quot;description&quot;: &quot;Upper bound normalised to a full year&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;number&quot;
+      },
+      &quot;salaryType&quot;: {
+        &quot;description&quot;: &quot;Pay period: Per hour, Per day, Per week, Per month or Per annum&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;scrapedAt&quot;: {
+        &quot;description&quot;: &quot;UTC timestamp when the record was collected&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;searchLocation&quot;: {
+        &quot;description&quot;: &quot;Location search that produced this record&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;searchQuery&quot;: {
+        &quot;description&quot;: &quot;Keyword search that produced this record&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;sector&quot;: {
+        &quot;description&quot;: &quot;Detailed Reed sector from the job page&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;sectorParent&quot;: {
+        &quot;description&quot;: &quot;Parent Reed sector&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;skills&quot;: {
+        &quot;description&quot;: &quot;Skills Reed associates with the job&quot;,
+        &quot;items&quot;: {
+          &quot;type&quot;: &quot;string&quot;
+        },
+        &quot;type&quot;: &quot;array&quot;
+      },
+      &quot;sourceUrl&quot;: {
+        &quot;description&quot;: &quot;Canonical Reed job page URL&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;subcategory&quot;: {
+        &quot;description&quot;: &quot;Reed role specialism&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: {
+        &quot;description&quot;: &quot;Job title&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;town&quot;: {
+        &quot;description&quot;: &quot;Town or city from the detail page&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      }
+    },
+    &quot;type&quot;: &quot;object&quot;
+  },
+  &quot;title&quot;: &quot;Reed.co.uk jobs&quot;,
   &quot;views&quot;: {
     &quot;overview&quot;: {
       &quot;display&quot;: {
@@ -64,8 +665,49 @@
           &quot;salaryDescription&quot;,
           &quot;jobType&quot;,
           &quot;remoteWorking&quot;,
-          &quot;category&quot;,
           &quot;datePosted&quot;,
+          &quot;sourceUrl&quot;
+        ]
+      }
+    },
+    &quot;payAndDetails&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;description&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Description&quot;
+          },
+          &quot;skills&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Skills&quot;
+          },
+          &quot;sourceUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Job URL&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Pay and details&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;title&quot;,
+          &quot;companyName&quot;,
+          &quot;postedBy&quot;,
+          &quot;location&quot;,
+          &quot;salaryFrom&quot;,
+          &quot;salaryTo&quot;,
+          &quot;salaryType&quot;,
+          &quot;salaryFromPerAnnum&quot;,
+          &quot;salaryToPerAnnum&quot;,
+          &quot;salaryCurrency&quot;,
+          &quot;jobType&quot;,
+          &quot;remoteWorking&quot;,
+          &quot;sector&quot;,
+          &quot;skills&quot;,
+          &quot;datePosted&quot;,
+          &quot;expiryDate&quot;,
+          &quot;description&quot;,
           &quot;sourceUrl&quot;
         ]
       }
@@ -73,130 +715,61 @@
   }
 }
 </code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-reed-co-uk-uk-job-listings-pay-extractor">Reed.co.uk UK Job Listings &amp; Pay Extractor</h2>
-<p>Search live vacancies on the UK job board Reed.co.uk and pull back structured records with pay ranges, job type, remote-working status and the job description — no Reed account needed.</p>
+<p>Pull live UK vacancies from Reed.co.uk into a clean dataset with full job descriptions, parsed pay ranges, employer details, location metadata and direct job links. Search by keyword, location, salary band, contract type, work arrangement and posting date, or scrape Reed search and job URLs you already have.</p>
 <h2 id="readme-what-this-actor-does">What this actor does</h2>
 <ul>
-<li>Searches Reed.co.uk by job keywords, by location, or by both combined</li>
-<li>Walks through the result pages (25 jobs each) until it has collected the number of jobs you asked for or a page comes back short</li>
-<li>Parses each listing's pay figures into separate minimum/maximum/period fields alongside the raw salary text shown on the page</li>
-<li>Captures job category, employment type, remote/hybrid/on-site status, company profile link and logo where Reed provides them</li>
-<li>Omits any field Reed didn't supply for a given job, so every record only contains data that was actually found</li>
+<li>Searches Reed.co.uk by keyword and location, with filters for salary, job type, full/part-time, remote/hybrid/on-site, date posted, agency vs employer, graduate roles, Easy Apply, visa sponsorship and 37 sectors</li>
+<li>Runs one search or several keyword searches in a single run, and accepts Reed search URLs or individual job URLs/IDs</li>
+<li>Opens each job page to capture the full description, the displayed salary, annualised pay for hourly/daily/weekly/monthly roles, postcode, region, sector, skills and recruiter reference</li>
+<li>Returns up to 10,000 jobs per search, deduplicated by Reed's job ID, with canonical job and employer URLs</li>
+<li>Omits fields Reed does not publish for a job, so every record contains only real data</li>
 </ul>
 <h2 id="readme-output-per-job">Output per job</h2>
-<div class="table-wrap"><table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>jobId</code></td>
-<td>Reed's internal numeric ID for the job</td>
-</tr>
-<tr>
-<td><code>sourceUrl</code></td>
-<td>Direct link to the job on reed.co.uk</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td>Job title</td>
-</tr>
-<tr>
-<td><code>companyName</code></td>
-<td>Hiring company or recruiter name</td>
-</tr>
-<tr>
-<td><code>location</code></td>
-<td>Display location (town/city)</td>
-</tr>
-<tr>
-<td><code>county</code></td>
-<td>County of the job location</td>
-</tr>
-<tr>
-<td><code>salaryDescription</code></td>
-<td>Raw salary text as shown on the listing (e.g. &quot;£35,000 - £40,000 per annum&quot;)</td>
-</tr>
-<tr>
-<td><code>salaryFrom</code></td>
-<td>Parsed minimum salary figure</td>
-</tr>
-<tr>
-<td><code>salaryTo</code></td>
-<td>Parsed maximum salary figure</td>
-</tr>
-<tr>
-<td><code>salaryType</code></td>
-<td>Pay period: Per hour, Per day, Per week, Per month or Per annum</td>
-</tr>
-<tr>
-<td><code>jobType</code></td>
-<td>Contract type: Permanent, Temporary, Contract, Internship or Part-time</td>
-</tr>
-<tr>
-<td><code>isFullTime</code></td>
-<td><code>true</code> if Reed flags the role as full-time (omitted otherwise)</td>
-</tr>
-<tr>
-<td><code>isPartTime</code></td>
-<td><code>true</code> if Reed flags the role as part-time (omitted otherwise)</td>
-</tr>
-<tr>
-<td><code>remoteWorking</code></td>
-<td>Remote, Hybrid or On-site, when Reed states it</td>
-</tr>
-<tr>
-<td><code>category</code></td>
-<td>Top-level job category/industry</td>
-</tr>
-<tr>
-<td><code>subcategory</code></td>
-<td>Secondary job category</td>
-</tr>
-<tr>
-<td><code>datePosted</code></td>
-<td>Date the listing was created</td>
-</tr>
-<tr>
-<td><code>displayDate</code></td>
-<td>Human-readable posted date as shown on Reed</td>
-</tr>
-<tr>
-<td><code>expiryDate</code></td>
-<td>Date the listing closes</td>
-</tr>
-<tr>
-<td><code>description</code></td>
-<td>Job description text as included in the search results, HTML stripped and cut at 3,000 characters</td>
-</tr>
-<tr>
-<td><code>externalUrl</code></td>
-<td>Link to the employer's own application page, when the job isn't applied for on Reed directly</td>
-</tr>
-<tr>
-<td><code>companyUrl</code></td>
-<td>Link to the company's Reed profile page</td>
-</tr>
-<tr>
-<td><code>companyLogoUrl</code></td>
-<td>URL of the company's logo image</td>
-</tr>
-<tr>
-<td><code>isEasyApply</code></td>
-<td><code>true</code> if the listing supports Reed's &quot;Easy Apply&quot; (omitted otherwise)</td>
-</tr>
-<tr>
-<td><code>recordType</code></td>
-<td>Always <code>&quot;job&quot;</code></td>
-</tr>
-<tr>
-<td><code>scrapedAt</code></td>
-<td>Timestamp when the record was scraped</td>
-</tr>
-</tbody>
-</table></div>
+<p>Identity and links:</p>
+<ul>
+<li><code>jobId</code> — Reed's numeric job identifier</li>
+<li><code>sourceUrl</code> — canonical Reed job page</li>
+<li><code>title</code>, <code>companyName</code>, <code>companyUrl</code>, <code>companyLogoUrl</code></li>
+<li><code>recordType</code> — always <code>job</code></li>
+<li><code>scrapedAt</code> — collection timestamp</li>
+</ul>
+<p>Location:</p>
+<ul>
+<li><code>location</code>, <code>town</code>, <code>county</code>, <code>region</code>, <code>country</code>, <code>countryCode</code>, <code>postCode</code></li>
+<li><code>remoteWorking</code> — Remote, Hybrid or On-site</li>
+<li><code>isRemote</code></li>
+</ul>
+<p>Pay:</p>
+<ul>
+<li><code>salaryDescription</code> — the salary text Reed displays</li>
+<li><code>salaryFrom</code>, <code>salaryTo</code> — hourly, daily, weekly, monthly or annual bounds</li>
+<li><code>salaryFromPerAnnum</code>, <code>salaryToPerAnnum</code> — annualised bounds for easy comparison</li>
+<li><code>salaryCurrency</code>, <code>salaryType</code></li>
+<li><code>salaryIsNegotiable</code>, <code>salaryIsCompetitive</code>, <code>salaryIsOte</code>, <code>salaryIsProRata</code></li>
+</ul>
+<p>Job and employer:</p>
+<ul>
+<li><code>jobType</code> — Permanent, Contract or Temporary</li>
+<li><code>postedBy</code> — Agency, Employer or Reed</li>
+<li><code>recruiterReference</code></li>
+<li><code>isFullTime</code>, <code>isPartTime</code>, <code>isEasyApply</code></li>
+<li><code>category</code>, <code>subcategory</code>, <code>sector</code>, <code>sectorParent</code></li>
+<li><code>skills</code></li>
+</ul>
+<p>Description and dates:</p>
+<ul>
+<li><code>description</code> — full plain-text description</li>
+<li><code>descriptionHtml</code> — full HTML description</li>
+<li><code>datePosted</code>, <code>dateUpdated</code>, <code>displayDate</code>, <code>expiryDate</code></li>
+</ul>
+<p>Flags and provenance:</p>
+<ul>
+<li><code>isGraduate</code>, <code>isPromoted</code>, <code>isFeatured</code>, <code>isEarlyBird</code>, <code>isTrainingJob</code>, <code>isSurveyJob</code></li>
+<li><code>eligibleUkOnly</code>, <code>requiresUkEligibility</code>, <code>eligibilityRequirement</code></li>
+<li><code>isLive</code>, <code>isRedirect</code></li>
+<li><code>searchQuery</code>, <code>searchLocation</code></li>
+<li><code>externalUrl</code> — kept for compatibility; Reed's public pages do not expose an external apply URL, so it is normally omitted</li>
+</ul>
 <h2 id="readme-input">Input</h2>
 <div class="table-wrap"><table>
 <thead>
@@ -209,67 +782,212 @@
 </thead>
 <tbody>
 <tr>
+<td><code>mode</code></td>
+<td>string</td>
+<td><code>search</code></td>
+<td><code>search</code> for keyword search, <code>byUrl</code> for Reed search/job URLs</td>
+</tr>
+<tr>
 <td><code>keywords</code></td>
 <td>string</td>
 <td>–</td>
-<td>Job title, skills, or keywords to search for (e.g. &quot;python developer&quot;, &quot;marketing manager&quot;, &quot;nurse&quot;). Punctuation is dropped when the search is built</td>
+<td>Keywords for one search (mode=search)</td>
+</tr>
+<tr>
+<td><code>searchQueries</code></td>
+<td>array</td>
+<td>–</td>
+<td>Several keyword searches; replaces <code>keywords</code> (mode=search)</td>
 </tr>
 <tr>
 <td><code>location</code></td>
 <td>string</td>
 <td>–</td>
-<td>City, region, or area to search in (e.g. &quot;London&quot;, &quot;Manchester&quot;, &quot;Birmingham&quot;). Leave blank to search UK-wide</td>
+<td>UK town, city, region or postcode (mode=search)</td>
+</tr>
+<tr>
+<td><code>sector</code></td>
+<td>string</td>
+<td><code>any</code></td>
+<td>One of 37 Reed parent sectors (mode=search)</td>
+</tr>
+<tr>
+<td><code>proximity</code></td>
+<td>string</td>
+<td><code>10</code></td>
+<td>Radius around the location in miles (mode=search)</td>
+</tr>
+<tr>
+<td><code>salaryFrom</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Annual GBP salary floor (mode=search)</td>
+</tr>
+<tr>
+<td><code>salaryTo</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Annual GBP salary ceiling (mode=search)</td>
+</tr>
+<tr>
+<td><code>postedWithin</code></td>
+<td>string</td>
+<td><code>anytime</code></td>
+<td><code>anytime</code>, <code>today</code>, <code>lastThreeDays</code>, <code>lastWeek</code>, <code>lastTwoWeeks</code> (mode=search)</td>
+</tr>
+<tr>
+<td><code>postedBy</code></td>
+<td>string</td>
+<td><code>any</code></td>
+<td><code>any</code>, <code>agency</code>, <code>employer</code>, <code>reed</code> (mode=search)</td>
+</tr>
+<tr>
+<td><code>remoteOption</code></td>
+<td>string</td>
+<td><code>any</code></td>
+<td><code>any</code>, <code>remote</code>, <code>hybrid</code>, <code>onSite</code> (mode=search)</td>
+</tr>
+<tr>
+<td><code>permanent</code>, <code>contract</code>, <code>temporary</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Contract-type filters (mode=search)</td>
+</tr>
+<tr>
+<td><code>fullTime</code>, <code>partTime</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Working-hours filters (mode=search)</td>
+</tr>
+<tr>
+<td><code>graduateOnly</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Graduate roles only (mode=search)</td>
+</tr>
+<tr>
+<td><code>easyApplyOnly</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Reed Easy Apply only (mode=search)</td>
+</tr>
+<tr>
+<td><code>visaSponsorship</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Visa-sponsorship roles only (mode=search)</td>
+</tr>
+<tr>
+<td><code>hideNoSalary</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Exclude jobs without displayed pay (mode=search)</td>
+</tr>
+<tr>
+<td><code>hideTrainingJobs</code>, <code>hideSurveyJobs</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Exclude training and survey adverts (mode=search)</td>
+</tr>
+<tr>
+<td><code>searchUrls</code></td>
+<td>array</td>
+<td>–</td>
+<td>Reed search URLs; their filters are preserved (mode=byUrl)</td>
+</tr>
+<tr>
+<td><code>jobUrls</code></td>
+<td>array</td>
+<td>–</td>
+<td>Reed job URLs or numeric IDs (mode=byUrl)</td>
+</tr>
+<tr>
+<td><code>fetchDetails</code></td>
+<td>boolean</td>
+<td>true</td>
+<td>Open each job page for the full description and detailed pay/location</td>
 </tr>
 <tr>
 <td><code>maxItems</code></td>
 <td>integer</td>
 <td>50</td>
-<td>Maximum number of job records to return (1–5000)</td>
+<td>Maximum records (1–10,000)</td>
 </tr>
 </tbody>
 </table></div>
-<h3 id="readme-example-keyword-search-in-a-city">Example: keyword search in a city</h3>
+<h3 id="readme-example-software-jobs-in-london-with-pay-data">Example: software jobs in London with pay data</h3>
 <pre><code class="language-json">{
-  &quot;keywords&quot;: &quot;data analyst&quot;,
-  &quot;location&quot;: &quot;Leeds&quot;,
-  &quot;maxItems&quot;: 100
-}
-</code></pre>
-<h3 id="readme-example-uk-wide-search-no-location-filter">Example: UK-wide search, no location filter</h3>
-<pre><code class="language-json">{
-  &quot;keywords&quot;: &quot;warehouse operative&quot;,
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;keywords&quot;: &quot;software engineer&quot;,
+  &quot;location&quot;: &quot;London&quot;,
+  &quot;salaryFrom&quot;: 55000,
+  &quot;postedWithin&quot;: &quot;lastWeek&quot;,
+  &quot;fetchDetails&quot;: true,
   &quot;maxItems&quot;: 200
 }
 </code></pre>
-<h3 id="readme-example-minimal-run-for-a-quick-check">Example: minimal run for a quick check</h3>
+<h3 id="readme-example-remote-nursing-roles-across-the-uk">Example: remote nursing roles across the UK</h3>
 <pre><code class="language-json">{
-  &quot;keywords&quot;: &quot;software engineer&quot;,
-  &quot;maxItems&quot;: 10
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;keywords&quot;: &quot;registered nurse&quot;,
+  &quot;remoteOption&quot;: &quot;remote&quot;,
+  &quot;postedBy&quot;: &quot;employer&quot;,
+  &quot;maxItems&quot;: 100
+}
+</code></pre>
+<h3 id="readme-example-several-searches-in-one-run">Example: several searches in one run</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;searchQueries&quot;: [&quot;data analyst&quot;, &quot;business analyst&quot;, &quot;product analyst&quot;],
+  &quot;location&quot;: &quot;Manchester&quot;,
+  &quot;permanent&quot;: true,
+  &quot;maxItems&quot;: 300
+}
+</code></pre>
+<h3 id="readme-example-scrape-a-reed-search-page-and-specific-jobs">Example: scrape a Reed search page and specific jobs</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;byUrl&quot;,
+  &quot;searchUrls&quot;: [
+    &quot;https://www.reed.co.uk/jobs/warehouse-jobs-in-leeds?permanent=true&quot;
+  ],
+  &quot;jobUrls&quot;: [
+    &quot;https://www.reed.co.uk/jobs/warehouse-operative/57400001&quot;,
+    &quot;57400002&quot;
+  ],
+  &quot;fetchDetails&quot;: true,
+  &quot;maxItems&quot;: 50
 }
 </code></pre>
 <h2 id="readme-use-cases">Use cases</h2>
 <ul>
-<li><strong>Salary benchmarking</strong> — pull pay ranges for a role and region to see where offers sit against the market</li>
-<li><strong>Recruitment market monitoring</strong> — track how many roles a given employer or sector is advertising on Reed at any time</li>
-<li><strong>Job feed aggregation</strong> — fold UK vacancies into a wider multi-board job search tool or newsletter</li>
-<li><strong>Remote-work research</strong> — filter results after collection to see which employers list hybrid or fully remote roles</li>
-<li><strong>Lead generation for recruiters</strong> — find companies actively hiring in a specific location or skill area</li>
+<li><strong>Salary benchmarking</strong> — compare advertised pay for a role, region and contract type, including annualised day and hourly rates</li>
+<li><strong>Recruitment market monitoring</strong> — track live vacancy volumes by sector, employer and work arrangement</li>
+<li><strong>Job-board aggregation</strong> — feed Reed vacancies into a wider UK job search, newsletter or dashboard</li>
+<li><strong>Remote-work research</strong> — isolate remote and hybrid roles and compare their pay with on-site equivalents</li>
+<li><strong>Recruiter lead generation</strong> — find employers actively hiring in a skill area, city or salary band</li>
+<li><strong>Career planning</strong> — collect full descriptions and required skills for a target role before applications</li>
 </ul>
 <h2 id="readme-faq">FAQ</h2>
 <p><strong>Do I need a Reed account or API key?</strong>
-No. The actor reads Reed's public job search pages; no login or key is required.</p>
+No. The actor reads Reed.co.uk's public job pages. There is no login, key or cookie to supply.</p>
+<p><strong>Do I need to configure a proxy?</strong>
+No. The actor fetches Reed directly and can fall back to Apify's datacenter proxy automatically if Reed blocks the runner IP. There is no proxy setting to supply.</p>
 <p><strong>Why do some jobs have no salary fields?</strong>
-Not every employer publishes a salary on Reed. When a listing has no pay information, <code>salaryDescription</code>, <code>salaryFrom</code>, <code>salaryTo</code> and <code>salaryType</code> are simply left out of that record.</p>
-<p><strong>Can I search without keywords or location?</strong>
-Yes — leaving both blank returns Reed's general UK jobs listing, which the actor will paginate through up to <code>maxItems</code>.</p>
-<p><strong>How far back do results go?</strong>
-The actor only returns jobs that are currently live on Reed's search results; it does not retrieve expired or removed listings.</p>
-<p><strong>What does <code>isEasyApply</code> mean?</strong>
-It reflects whether Reed marks the listing as &quot;Easy Apply&quot;. When a job is applied for on the employer's own site instead, <code>externalUrl</code> usually carries that link.</p>
+Reed lets employers hide pay. When a listing has no pay data, the salary fields are left out of that record rather than filled with a guess.</p>
+<p><strong>What does <code>salaryFromPerAnnum</code> add?</strong>
+It converts hourly, daily, weekly and monthly pay to an annual figure using Reed's own annualised values, so a £450/day contract can be compared with an £85,000 permanent role.</p>
+<p><strong>How many jobs can one search return?</strong>
+Reed exposes at most 10,000 results per search. The actor stops at that window and tells you in the run message; split a broad search by keyword, location or sector to collect more.</p>
+<p><strong>Why is <code>externalUrl</code> usually missing?</strong>
+Reed's public job pages do not include the employer's external application URL. The actor keeps the field for older integrations but does not invent a link.</p>
+<p><strong>Why are <code>skills</code> or <code>postCode</code> missing on some jobs?</strong>
+Reed only publishes them when the employer supplies them. The description, pay, location and dates are still returned.</p>
+<p><strong>Does <code>fetchDetails: false</code> still return descriptions?</strong>
+No. Turning details off makes runs faster and returns the listing fields only; the full description and detailed salary breakdown require opening the job page.</p>
+<p><strong>What happens if a job page is unavailable?</strong>
+The listing record is still returned with its title, company, location and search-page pay data; only the detail-only fields such as the full description are omitted.</p>
+<p><strong>Are duplicate jobs possible?</strong>
+The actor deduplicates by Reed's job ID across pages and searches. Reed's result order can shift slightly between requests, so this is necessary even on a single search.</p>
 <p><strong>Is this affiliated with Reed.co.uk?</strong>
-No. This actor is an independent tool that reads Reed's public search pages and is not affiliated with, endorsed by, or sponsored by Reed.co.uk.</p>
-<p><strong>Why might the number of results be lower than <code>maxItems</code>?</strong>
-If a search has fewer matching live jobs than requested, or Reed returns a page with fewer than 25 jobs or an error, the actor stops and returns everything it found rather than padding the output.</p>
-<p><strong>Is the description complete?</strong>
-It's the description text Reed includes in its search results, with formatting removed and a 3,000-character limit, so long adverts can be cut short. Open <code>sourceUrl</code> for the full advert.</p>
-</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/oH5FuQqgUuRsixihL/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>1mTkNgCUzKgOF6UoQ</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
+No. It is an independent tool that reads publicly available job listings and is not endorsed by or affiliated with Reed.co.uk.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/oH5FuQqgUuRsixihL/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>PXJc0ImTfiwpuWFBr</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

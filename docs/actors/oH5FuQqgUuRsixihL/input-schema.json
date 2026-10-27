@@ -1,31 +1,352 @@
 {
-  "description": "Search and extract job listings from Reed.co.uk — the UK's largest job board. Filter by keywords and location.",
+  "description": "Search Reed.co.uk by keywords, location, pay, job type, remote option and posting date, or scrape specific Reed search and job URLs. No account or API key needed.",
   "properties": {
+    "contract": {
+      "default": false,
+      "description": "Only contract roles (mode=search).",
+      "prefill": false,
+      "title": "Contract jobs",
+      "type": "boolean"
+    },
+    "easyApplyOnly": {
+      "default": false,
+      "description": "Only jobs with Reed Easy Apply (mode=search).",
+      "prefill": false,
+      "title": "Easy Apply only",
+      "type": "boolean"
+    },
+    "fetchDetails": {
+      "default": true,
+      "description": "Open each job page for the full description, display salary, per-annum pay and location details. Turn off for a faster listing-only run.",
+      "prefill": true,
+      "title": "Fetch full details",
+      "type": "boolean"
+    },
+    "fullTime": {
+      "default": false,
+      "description": "Only full-time roles (mode=search).",
+      "prefill": false,
+      "title": "Full-time",
+      "type": "boolean"
+    },
+    "graduateOnly": {
+      "default": false,
+      "description": "Only graduate roles (mode=search).",
+      "prefill": false,
+      "title": "Graduate jobs",
+      "type": "boolean"
+    },
+    "hideNoSalary": {
+      "default": false,
+      "description": "Exclude listings where no salary is displayed (mode=search).",
+      "prefill": false,
+      "title": "Hide jobs without pay",
+      "type": "boolean"
+    },
+    "hideSurveyJobs": {
+      "default": false,
+      "description": "Exclude survey-job adverts (mode=search).",
+      "prefill": false,
+      "title": "Hide survey ads",
+      "type": "boolean"
+    },
+    "hideTrainingJobs": {
+      "default": false,
+      "description": "Exclude training-course adverts (mode=search).",
+      "prefill": false,
+      "title": "Hide training ads",
+      "type": "boolean"
+    },
+    "jobUrls": {
+      "description": "One or more Reed job URLs or numeric job IDs (mode=byUrl).",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Reed job URLs or IDs",
+      "type": "array"
+    },
     "keywords": {
-      "description": "Job title, skills, or keywords to search for (e.g. 'python developer', 'marketing manager', 'nurse').",
+      "description": "Job title, skill or phrase to search for (mode=search).",
       "editor": "textfield",
       "prefill": "software engineer",
       "title": "Keywords",
       "type": "string"
     },
     "location": {
-      "description": "City, region, or area to search in (e.g. 'London', 'Manchester', 'Birmingham'). Leave blank to search UK-wide.",
+      "description": "UK town, city, region or postcode (mode=search). Leave blank for UK-wide.",
       "editor": "textfield",
       "title": "Location",
       "type": "string"
     },
     "maxItems": {
       "default": 50,
-      "description": "Maximum number of job records to return (1–5000).",
-      "maximum": 5000,
+      "description": "Maximum number of job records to return (1-10,000). Reed exposes at most 10,000 results per search.",
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 10,
-      "title": "Max items",
+      "prefill": 3,
+      "title": "Max jobs",
       "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "Search Reed's job listings, or scrape specific Reed search/job URLs.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byUrl"
+      ],
+      "enumTitles": [
+        "Search jobs",
+        "Scrape specific URLs"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "partTime": {
+      "default": false,
+      "description": "Only part-time roles (mode=search).",
+      "prefill": false,
+      "title": "Part-time",
+      "type": "boolean"
+    },
+    "permanent": {
+      "default": false,
+      "description": "Only permanent contracts (mode=search).",
+      "prefill": false,
+      "title": "Permanent jobs",
+      "type": "boolean"
+    },
+    "postedBy": {
+      "default": "any",
+      "description": "Filter by who advertised the job (mode=search).",
+      "editor": "select",
+      "enum": [
+        "any",
+        "agency",
+        "employer",
+        "reed"
+      ],
+      "enumTitles": [
+        "Anyone",
+        "Recruitment agency",
+        "Direct employer",
+        "Reed"
+      ],
+      "prefill": "any",
+      "title": "Posted by",
+      "type": "string"
+    },
+    "postedWithin": {
+      "default": "anytime",
+      "description": "Only return jobs posted in this window (mode=search).",
+      "editor": "select",
+      "enum": [
+        "anytime",
+        "today",
+        "lastThreeDays",
+        "lastWeek",
+        "lastTwoWeeks"
+      ],
+      "enumTitles": [
+        "Anytime",
+        "Today",
+        "Last 3 days",
+        "Last week",
+        "Last 2 weeks"
+      ],
+      "prefill": "anytime",
+      "title": "Posted within",
+      "type": "string"
+    },
+    "proximity": {
+      "default": "10",
+      "description": "Radius around the location (mode=search).",
+      "editor": "select",
+      "enum": [
+        "0",
+        "1",
+        "3",
+        "5",
+        "10",
+        "15",
+        "20",
+        "30",
+        "50"
+      ],
+      "enumTitles": [
+        "Exact location",
+        "1 mile",
+        "3 miles",
+        "5 miles",
+        "10 miles",
+        "15 miles",
+        "20 miles",
+        "30 miles",
+        "50 miles"
+      ],
+      "prefill": "10",
+      "title": "Distance (miles)",
+      "type": "string"
+    },
+    "remoteOption": {
+      "default": "any",
+      "description": "Filter by remote, hybrid or on-site work (mode=search).",
+      "editor": "select",
+      "enum": [
+        "any",
+        "remote",
+        "hybrid",
+        "onSite"
+      ],
+      "enumTitles": [
+        "Any",
+        "Remote",
+        "Hybrid",
+        "On-site"
+      ],
+      "prefill": "any",
+      "title": "Work arrangement",
+      "type": "string"
+    },
+    "salaryFrom": {
+      "description": "Annual salary floor in pounds (mode=search). Reed matches jobs whose salary range overlaps this floor.",
+      "maximum": 500000,
+      "minimum": 0,
+      "title": "Minimum salary (GBP)",
+      "type": "integer"
+    },
+    "salaryTo": {
+      "description": "Annual salary ceiling in pounds (mode=search). Reed matches jobs whose salary range overlaps this ceiling.",
+      "maximum": 500000,
+      "minimum": 0,
+      "title": "Maximum salary (GBP)",
+      "type": "integer"
+    },
+    "searchQueries": {
+      "description": "Run several keyword searches in one run (mode=search). When set, this replaces Keywords.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Multiple searches",
+      "type": "array"
+    },
+    "searchUrls": {
+      "description": "One or more Reed search URLs (mode=byUrl). Their filters are preserved; other filters here are added when absent.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Reed search URLs",
+      "type": "array"
+    },
+    "sector": {
+      "default": "any",
+      "description": "Limit results to one of Reed's parent sectors (mode=search).",
+      "editor": "select",
+      "enum": [
+        "any",
+        "100",
+        "30",
+        "90",
+        "146",
+        "52",
+        "24",
+        "12",
+        "2",
+        "3",
+        "34",
+        "117",
+        "18",
+        "11",
+        "1962",
+        "1755",
+        "168",
+        "66",
+        "68",
+        "36",
+        "6",
+        "5",
+        "27",
+        "338",
+        "1722",
+        "169",
+        "101",
+        "1700",
+        "16",
+        "500",
+        "71",
+        "1961",
+        "92",
+        "21",
+        "1963",
+        "89",
+        "1909",
+        "1964"
+      ],
+      "enumTitles": [
+        "Any sector",
+        "Accountancy (Qualified)",
+        "Sales",
+        "Retail",
+        "Construction & Property",
+        "IT & Telecoms",
+        "Human Resources",
+        "Engineering",
+        "Accountancy",
+        "Admin, Secretarial & PA",
+        "Social Care",
+        "Financial Services",
+        "Marketing & PR",
+        "Transport & Logistics",
+        "Estate Agency",
+        "Strategy & Consultancy",
+        "Manufacturing",
+        "Customer Service",
+        "Education",
+        "Health & Medicine",
+        "Hospitality & Catering",
+        "Banking",
+        "Purchasing",
+        "Recruitment Consultancy",
+        "FMCG",
+        "Graduate Training & Internships",
+        "Legal",
+        "Motoring & Automotive",
+        "General Insurance",
+        "Charity & Voluntary",
+        "Media, Digital & Creative",
+        "Energy",
+        "Leisure & Tourism",
+        "Other",
+        "Security & Safety",
+        "Scientific",
+        "Training",
+        "Apprenticeships"
+      ],
+      "prefill": "any",
+      "title": "Sector",
+      "type": "string"
+    },
+    "temporary": {
+      "default": false,
+      "description": "Only temporary roles (mode=search).",
+      "prefill": false,
+      "title": "Temporary jobs",
+      "type": "boolean"
+    },
+    "visaSponsorship": {
+      "default": false,
+      "description": "Only jobs Reed marks as offering visa sponsorship (mode=search).",
+      "prefill": false,
+      "title": "Visa sponsorship",
+      "type": "boolean"
     }
   },
   "required": [],
   "schemaVersion": 1,
-  "title": "Reed.co.uk Jobs Scraper Input",
+  "title": "Reed.co.uk Jobs & Pay Input",
   "type": "object"
 }

@@ -1,112 +1,184 @@
 # Reed.co.uk UK Job Listings & Pay Extractor
 
-Search live vacancies on the UK job board Reed.co.uk and pull back structured records with pay ranges, job type, remote-working status and the job description — no Reed account needed.
+Pull live UK vacancies from Reed.co.uk into a clean dataset with full job descriptions, parsed pay ranges, employer details, location metadata and direct job links. Search by keyword, location, salary band, contract type, work arrangement and posting date, or scrape Reed search and job URLs you already have.
 
 ## What this actor does
 
-- Searches Reed.co.uk by job keywords, by location, or by both combined
-- Walks through the result pages (25 jobs each) until it has collected the number of jobs you asked for or a page comes back short
-- Parses each listing's pay figures into separate minimum/maximum/period fields alongside the raw salary text shown on the page
-- Captures job category, employment type, remote/hybrid/on-site status, company profile link and logo where Reed provides them
-- Omits any field Reed didn't supply for a given job, so every record only contains data that was actually found
+- Searches Reed.co.uk by keyword and location, with filters for salary, job type, full/part-time, remote/hybrid/on-site, date posted, agency vs employer, graduate roles, Easy Apply, visa sponsorship and 37 sectors
+- Runs one search or several keyword searches in a single run, and accepts Reed search URLs or individual job URLs/IDs
+- Opens each job page to capture the full description, the displayed salary, annualised pay for hourly/daily/weekly/monthly roles, postcode, region, sector, skills and recruiter reference
+- Returns up to 10,000 jobs per search, deduplicated by Reed's job ID, with canonical job and employer URLs
+- Omits fields Reed does not publish for a job, so every record contains only real data
 
 ## Output per job
 
-| Field | Description |
-|---|---|
-| `jobId` | Reed's internal numeric ID for the job |
-| `sourceUrl` | Direct link to the job on reed.co.uk |
-| `title` | Job title |
-| `companyName` | Hiring company or recruiter name |
-| `location` | Display location (town/city) |
-| `county` | County of the job location |
-| `salaryDescription` | Raw salary text as shown on the listing (e.g. "£35,000 - £40,000 per annum") |
-| `salaryFrom` | Parsed minimum salary figure |
-| `salaryTo` | Parsed maximum salary figure |
-| `salaryType` | Pay period: Per hour, Per day, Per week, Per month or Per annum |
-| `jobType` | Contract type: Permanent, Temporary, Contract, Internship or Part-time |
-| `isFullTime` | `true` if Reed flags the role as full-time (omitted otherwise) |
-| `isPartTime` | `true` if Reed flags the role as part-time (omitted otherwise) |
-| `remoteWorking` | Remote, Hybrid or On-site, when Reed states it |
-| `category` | Top-level job category/industry |
-| `subcategory` | Secondary job category |
-| `datePosted` | Date the listing was created |
-| `displayDate` | Human-readable posted date as shown on Reed |
-| `expiryDate` | Date the listing closes |
-| `description` | Job description text as included in the search results, HTML stripped and cut at 3,000 characters |
-| `externalUrl` | Link to the employer's own application page, when the job isn't applied for on Reed directly |
-| `companyUrl` | Link to the company's Reed profile page |
-| `companyLogoUrl` | URL of the company's logo image |
-| `isEasyApply` | `true` if the listing supports Reed's "Easy Apply" (omitted otherwise) |
-| `recordType` | Always `"job"` |
-| `scrapedAt` | Timestamp when the record was scraped |
+Identity and links:
+
+- `jobId` — Reed's numeric job identifier
+- `sourceUrl` — canonical Reed job page
+- `title`, `companyName`, `companyUrl`, `companyLogoUrl`
+- `recordType` — always `job`
+- `scrapedAt` — collection timestamp
+
+Location:
+
+- `location`, `town`, `county`, `region`, `country`, `countryCode`, `postCode`
+- `remoteWorking` — Remote, Hybrid or On-site
+- `isRemote`
+
+Pay:
+
+- `salaryDescription` — the salary text Reed displays
+- `salaryFrom`, `salaryTo` — hourly, daily, weekly, monthly or annual bounds
+- `salaryFromPerAnnum`, `salaryToPerAnnum` — annualised bounds for easy comparison
+- `salaryCurrency`, `salaryType`
+- `salaryIsNegotiable`, `salaryIsCompetitive`, `salaryIsOte`, `salaryIsProRata`
+
+Job and employer:
+
+- `jobType` — Permanent, Contract or Temporary
+- `postedBy` — Agency, Employer or Reed
+- `recruiterReference`
+- `isFullTime`, `isPartTime`, `isEasyApply`
+- `category`, `subcategory`, `sector`, `sectorParent`
+- `skills`
+
+Description and dates:
+
+- `description` — full plain-text description
+- `descriptionHtml` — full HTML description
+- `datePosted`, `dateUpdated`, `displayDate`, `expiryDate`
+
+Flags and provenance:
+
+- `isGraduate`, `isPromoted`, `isFeatured`, `isEarlyBird`, `isTrainingJob`, `isSurveyJob`
+- `eligibleUkOnly`, `requiresUkEligibility`, `eligibilityRequirement`
+- `isLive`, `isRedirect`
+- `searchQuery`, `searchLocation`
+- `externalUrl` — kept for compatibility; Reed's public pages do not expose an external apply URL, so it is normally omitted
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `keywords` | string | – | Job title, skills, or keywords to search for (e.g. "python developer", "marketing manager", "nurse"). Punctuation is dropped when the search is built |
-| `location` | string | – | City, region, or area to search in (e.g. "London", "Manchester", "Birmingham"). Leave blank to search UK-wide |
-| `maxItems` | integer | 50 | Maximum number of job records to return (1–5000) |
+| `mode` | string | `search` | `search` for keyword search, `byUrl` for Reed search/job URLs |
+| `keywords` | string | – | Keywords for one search (mode=search) |
+| `searchQueries` | array | – | Several keyword searches; replaces `keywords` (mode=search) |
+| `location` | string | – | UK town, city, region or postcode (mode=search) |
+| `sector` | string | `any` | One of 37 Reed parent sectors (mode=search) |
+| `proximity` | string | `10` | Radius around the location in miles (mode=search) |
+| `salaryFrom` | integer | – | Annual GBP salary floor (mode=search) |
+| `salaryTo` | integer | – | Annual GBP salary ceiling (mode=search) |
+| `postedWithin` | string | `anytime` | `anytime`, `today`, `lastThreeDays`, `lastWeek`, `lastTwoWeeks` (mode=search) |
+| `postedBy` | string | `any` | `any`, `agency`, `employer`, `reed` (mode=search) |
+| `remoteOption` | string | `any` | `any`, `remote`, `hybrid`, `onSite` (mode=search) |
+| `permanent`, `contract`, `temporary` | boolean | false | Contract-type filters (mode=search) |
+| `fullTime`, `partTime` | boolean | false | Working-hours filters (mode=search) |
+| `graduateOnly` | boolean | false | Graduate roles only (mode=search) |
+| `easyApplyOnly` | boolean | false | Reed Easy Apply only (mode=search) |
+| `visaSponsorship` | boolean | false | Visa-sponsorship roles only (mode=search) |
+| `hideNoSalary` | boolean | false | Exclude jobs without displayed pay (mode=search) |
+| `hideTrainingJobs`, `hideSurveyJobs` | boolean | false | Exclude training and survey adverts (mode=search) |
+| `searchUrls` | array | – | Reed search URLs; their filters are preserved (mode=byUrl) |
+| `jobUrls` | array | – | Reed job URLs or numeric IDs (mode=byUrl) |
+| `fetchDetails` | boolean | true | Open each job page for the full description and detailed pay/location |
+| `maxItems` | integer | 50 | Maximum records (1–10,000) |
 
-### Example: keyword search in a city
+### Example: software jobs in London with pay data
 
 ```json
 {
-  "keywords": "data analyst",
-  "location": "Leeds",
-  "maxItems": 100
-}
-```
-
-### Example: UK-wide search, no location filter
-
-```json
-{
-  "keywords": "warehouse operative",
+  "mode": "search",
+  "keywords": "software engineer",
+  "location": "London",
+  "salaryFrom": 55000,
+  "postedWithin": "lastWeek",
+  "fetchDetails": true,
   "maxItems": 200
 }
 ```
 
-### Example: minimal run for a quick check
+### Example: remote nursing roles across the UK
 
 ```json
 {
-  "keywords": "software engineer",
-  "maxItems": 10
+  "mode": "search",
+  "keywords": "registered nurse",
+  "remoteOption": "remote",
+  "postedBy": "employer",
+  "maxItems": 100
+}
+```
+
+### Example: several searches in one run
+
+```json
+{
+  "mode": "search",
+  "searchQueries": ["data analyst", "business analyst", "product analyst"],
+  "location": "Manchester",
+  "permanent": true,
+  "maxItems": 300
+}
+```
+
+### Example: scrape a Reed search page and specific jobs
+
+```json
+{
+  "mode": "byUrl",
+  "searchUrls": [
+    "https://www.reed.co.uk/jobs/warehouse-jobs-in-leeds?permanent=true"
+  ],
+  "jobUrls": [
+    "https://www.reed.co.uk/jobs/warehouse-operative/57400001",
+    "57400002"
+  ],
+  "fetchDetails": true,
+  "maxItems": 50
 }
 ```
 
 ## Use cases
 
-- **Salary benchmarking** — pull pay ranges for a role and region to see where offers sit against the market
-- **Recruitment market monitoring** — track how many roles a given employer or sector is advertising on Reed at any time
-- **Job feed aggregation** — fold UK vacancies into a wider multi-board job search tool or newsletter
-- **Remote-work research** — filter results after collection to see which employers list hybrid or fully remote roles
-- **Lead generation for recruiters** — find companies actively hiring in a specific location or skill area
+- **Salary benchmarking** — compare advertised pay for a role, region and contract type, including annualised day and hourly rates
+- **Recruitment market monitoring** — track live vacancy volumes by sector, employer and work arrangement
+- **Job-board aggregation** — feed Reed vacancies into a wider UK job search, newsletter or dashboard
+- **Remote-work research** — isolate remote and hybrid roles and compare their pay with on-site equivalents
+- **Recruiter lead generation** — find employers actively hiring in a skill area, city or salary band
+- **Career planning** — collect full descriptions and required skills for a target role before applications
 
 ## FAQ
 
 **Do I need a Reed account or API key?**
-No. The actor reads Reed's public job search pages; no login or key is required.
+No. The actor reads Reed.co.uk's public job pages. There is no login, key or cookie to supply.
+
+**Do I need to configure a proxy?**
+No. The actor fetches Reed directly and can fall back to Apify's datacenter proxy automatically if Reed blocks the runner IP. There is no proxy setting to supply.
 
 **Why do some jobs have no salary fields?**
-Not every employer publishes a salary on Reed. When a listing has no pay information, `salaryDescription`, `salaryFrom`, `salaryTo` and `salaryType` are simply left out of that record.
+Reed lets employers hide pay. When a listing has no pay data, the salary fields are left out of that record rather than filled with a guess.
 
-**Can I search without keywords or location?**
-Yes — leaving both blank returns Reed's general UK jobs listing, which the actor will paginate through up to `maxItems`.
+**What does `salaryFromPerAnnum` add?**
+It converts hourly, daily, weekly and monthly pay to an annual figure using Reed's own annualised values, so a £450/day contract can be compared with an £85,000 permanent role.
 
-**How far back do results go?**
-The actor only returns jobs that are currently live on Reed's search results; it does not retrieve expired or removed listings.
+**How many jobs can one search return?**
+Reed exposes at most 10,000 results per search. The actor stops at that window and tells you in the run message; split a broad search by keyword, location or sector to collect more.
 
-**What does `isEasyApply` mean?**
-It reflects whether Reed marks the listing as "Easy Apply". When a job is applied for on the employer's own site instead, `externalUrl` usually carries that link.
+**Why is `externalUrl` usually missing?**
+Reed's public job pages do not include the employer's external application URL. The actor keeps the field for older integrations but does not invent a link.
+
+**Why are `skills` or `postCode` missing on some jobs?**
+Reed only publishes them when the employer supplies them. The description, pay, location and dates are still returned.
+
+**Does `fetchDetails: false` still return descriptions?**
+No. Turning details off makes runs faster and returns the listing fields only; the full description and detailed salary breakdown require opening the job page.
+
+**What happens if a job page is unavailable?**
+The listing record is still returned with its title, company, location and search-page pay data; only the detail-only fields such as the full description are omitted.
+
+**Are duplicate jobs possible?**
+The actor deduplicates by Reed's job ID across pages and searches. Reed's result order can shift slightly between requests, so this is necessary even on a single search.
 
 **Is this affiliated with Reed.co.uk?**
-No. This actor is an independent tool that reads Reed's public search pages and is not affiliated with, endorsed by, or sponsored by Reed.co.uk.
-
-**Why might the number of results be lower than `maxItems`?**
-If a search has fewer matching live jobs than requested, or Reed returns a page with fewer than 25 jobs or an error, the actor stops and returns everything it found rather than padding the output.
-
-**Is the description complete?**
-It's the description text Reed includes in its search results, with formatting removed and a 3,000-character limit, so long adverts can be cut short. Open `sourceUrl` for the full advert.
+No. It is an independent tool that reads publicly available job listings and is not endorsed by or affiliated with Reed.co.uk.
