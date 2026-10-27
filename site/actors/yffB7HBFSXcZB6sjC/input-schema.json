@@ -1,85 +1,408 @@
 {
-  "description": "Configure the AutoScout24 scraper with search filters, crawl controls, and output options.",
+  "description": "Search AutoScout24 vehicle listings, open listing or dealer URLs, or look up listing IDs. Choose whether to add full specification pages and dealer contact details.",
   "properties": {
+    "bodyType": {
+      "description": "Vehicle body style.",
+      "editor": "select",
+      "enum": [
+        "",
+        "small-car",
+        "convertible",
+        "coupe",
+        "suv",
+        "estate",
+        "sedan",
+        "van",
+        "transporter",
+        "other"
+      ],
+      "enumTitles": [
+        "Any",
+        "Small car",
+        "Convertible",
+        "Coupe",
+        "SUV / off-road / pickup",
+        "Estate",
+        "Sedan",
+        "Van / minibus",
+        "Transporter",
+        "Other"
+      ],
+      "title": "Body type",
+      "type": "string"
+    },
+    "color": {
+      "description": "Exterior paint colour.",
+      "editor": "select",
+      "enum": [
+        "",
+        "beige",
+        "blue",
+        "brown",
+        "bronze",
+        "yellow",
+        "grey",
+        "green",
+        "red",
+        "black",
+        "silver",
+        "violet",
+        "white",
+        "orange",
+        "gold"
+      ],
+      "enumTitles": [
+        "Any",
+        "Beige",
+        "Blue",
+        "Brown",
+        "Bronze",
+        "Yellow",
+        "Grey",
+        "Green",
+        "Red",
+        "Black",
+        "Silver",
+        "Violet",
+        "White",
+        "Orange",
+        "Gold"
+      ],
+      "title": "Exterior colour",
+      "type": "string"
+    },
     "country": {
       "default": "de",
-      "description": "Country code for AutoScout24 domain (e.g., 'de', 'it', 'fr', 'es', 'nl', 'be', 'at')",
+      "description": "Country site to search (mode=search). 'All eight country sites' runs one search per market; Belgium (French) and autoscout24.com stay separately selectable.",
       "editor": "select",
       "enum": [
         "de",
-        "it",
-        "fr",
-        "es",
-        "nl",
-        "be",
         "at",
-        "lu"
+        "be-nl",
+        "be-fr",
+        "es",
+        "fr",
+        "it",
+        "lu",
+        "nl",
+        "com",
+        "all"
       ],
       "enumTitles": [
         "Germany",
-        "Italy",
-        "France",
-        "Spain",
-        "Netherlands",
-        "Belgium",
         "Austria",
-        "Luxembourg"
+        "Belgium (Dutch)",
+        "Belgium (French)",
+        "Spain",
+        "France",
+        "Italy",
+        "Luxembourg",
+        "Netherlands",
+        "Europe (autoscout24.com)",
+        "All eight country sites"
       ],
+      "prefill": "de",
       "title": "Country",
       "type": "string"
     },
-    "debugMode": {
-      "default": false,
-      "description": "Enable verbose logging and save debug screenshots",
-      "title": "Debug Mode",
-      "type": "boolean"
+    "damagedListings": {
+      "default": "exclude",
+      "description": "Whether to include listings marked as damaged.",
+      "editor": "select",
+      "enum": [
+        "exclude",
+        "include",
+        "only"
+      ],
+      "enumTitles": [
+        "Exclude damaged vehicles",
+        "Include damaged vehicles",
+        "Only damaged vehicles"
+      ],
+      "prefill": "exclude",
+      "title": "Damaged vehicles",
+      "type": "string"
     },
-    "detailPageOnly": {
-      "default": false,
-      "description": "If enabled with startUrls containing detail page URLs, only scrapes those pages without listing crawl.",
-      "title": "Detail Page Only Mode",
-      "type": "boolean"
-    },
-    "downloadImages": {
-      "default": false,
-      "description": "Download and store images in key-value store",
-      "title": "Download Images",
-      "type": "boolean"
+    "driveTrain": {
+      "description": "Driven wheels.",
+      "editor": "select",
+      "enum": [
+        "",
+        "awd",
+        "front",
+        "rear"
+      ],
+      "enumTitles": [
+        "Any",
+        "All-wheel drive",
+        "Front-wheel drive",
+        "Rear-wheel drive"
+      ],
+      "title": "Drive train",
+      "type": "string"
     },
     "fuelType": {
-      "description": "Filter by fuel type",
+      "description": "Fuel or plug-in hybrid type.",
       "editor": "select",
       "enum": [
         "",
         "petrol",
         "diesel",
         "electric",
-        "hybrid",
-        "hybrid-petrol",
-        "hybrid-diesel",
-        "lpg",
+        "plug-in-hybrid-petrol",
+        "plug-in-hybrid-diesel",
         "cng",
+        "lpg",
+        "ethanol",
         "hydrogen",
-        "ethanol"
+        "other"
       ],
       "enumTitles": [
         "Any",
         "Petrol",
         "Diesel",
         "Electric",
-        "Hybrid",
-        "Hybrid (Petrol)",
-        "Hybrid (Diesel)",
-        "LPG",
+        "Plug-in hybrid (petrol)",
+        "Plug-in hybrid (diesel)",
         "CNG",
+        "LPG",
+        "Ethanol",
         "Hydrogen",
-        "Ethanol"
+        "Other"
       ],
-      "title": "Fuel Type",
+      "title": "Fuel type",
       "type": "string"
     },
-    "gearType": {
-      "description": "Filter by transmission type",
+    "includeDealerContact": {
+      "default": true,
+      "description": "Look up each dealer's public profile for email, website, opening hours and ratings. Phone numbers are already included from the listing.",
+      "prefill": false,
+      "title": "Fetch dealer contact details",
+      "type": "boolean"
+    },
+    "includeDetails": {
+      "default": true,
+      "description": "Open each listing's detail page for specifications, equipment, description and high-resolution photos. Turn off for a faster, cheaper listing-only run.",
+      "prefill": false,
+      "title": "Fetch full vehicle details",
+      "type": "boolean"
+    },
+    "listingIds": {
+      "description": "AutoScout24 listing UUIDs or listing URLs (mode=details). UUIDs use the selected Country; paste a full listing URL to pick the market automatically.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Listing IDs",
+      "type": "array"
+    },
+    "make": {
+      "description": "Vehicle make, e.g. bmw, audi, mercedes-benz, volkswagen (mode=search).",
+      "editor": "textfield",
+      "example": "bmw",
+      "prefill": "bmw",
+      "title": "Make",
+      "type": "string"
+    },
+    "maxResults": {
+      "default": 100,
+      "description": "Maximum listings to save. 0 means the site cap (4,000 per search query).",
+      "editor": "number",
+      "maximum": 10000,
+      "minimum": 0,
+      "prefill": 3,
+      "title": "Maximum results",
+      "type": "integer"
+    },
+    "mileageMax": {
+      "description": "Highest mileage in kilometres.",
+      "editor": "number",
+      "minimum": 0,
+      "title": "Maximum mileage (km)",
+      "type": "integer"
+    },
+    "mileageMin": {
+      "description": "Lowest mileage in kilometres.",
+      "editor": "number",
+      "minimum": 0,
+      "title": "Minimum mileage (km)",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "Search with filters, open specific listing IDs/URLs, scrape a dealer's inventory, or paginate search URLs you paste.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "details",
+        "dealer",
+        "byUrl"
+      ],
+      "enumTitles": [
+        "Search with filters",
+        "Listing IDs or listing URLs",
+        "Dealer inventory",
+        "Search URLs"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "model": {
+      "description": "Model as AutoScout24 spells it, e.g. 3er, a4, c-klasse, golf (mode=search).",
+      "editor": "textfield",
+      "example": "3er",
+      "title": "Model",
+      "type": "string"
+    },
+    "onlineSinceDays": {
+      "default": 0,
+      "description": "Only listings published within this many days. 0 means any age.",
+      "editor": "number",
+      "maximum": 14,
+      "minimum": 0,
+      "title": "Online since (days)",
+      "type": "integer"
+    },
+    "powerMax": {
+      "description": "Highest engine power in kilowatts.",
+      "editor": "number",
+      "maximum": 2000,
+      "minimum": 0,
+      "title": "Maximum power (kW)",
+      "type": "integer"
+    },
+    "powerMin": {
+      "description": "Lowest engine power in kilowatts.",
+      "editor": "number",
+      "maximum": 2000,
+      "minimum": 0,
+      "title": "Minimum power (kW)",
+      "type": "integer"
+    },
+    "previousOwnersMax": {
+      "description": "Filter by the number of previous owners.",
+      "editor": "select",
+      "enum": [
+        "",
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "enumTitles": [
+        "Any",
+        "1 owner",
+        "Up to 2 owners",
+        "Up to 3 owners",
+        "4 or more owners"
+      ],
+      "title": "Maximum previous owners",
+      "type": "string"
+    },
+    "priceMax": {
+      "description": "Highest asking price in EUR.",
+      "editor": "number",
+      "minimum": 0,
+      "title": "Maximum price",
+      "type": "integer"
+    },
+    "priceMin": {
+      "description": "Lowest asking price in EUR.",
+      "editor": "number",
+      "minimum": 0,
+      "title": "Minimum price",
+      "type": "integer"
+    },
+    "radius": {
+      "description": "Distance in kilometres from the ZIP code.",
+      "editor": "select",
+      "enum": [
+        "10",
+        "20",
+        "50",
+        "100",
+        "150",
+        "200",
+        "250",
+        "300",
+        "400"
+      ],
+      "enumTitles": [
+        "10 km",
+        "20 km",
+        "50 km",
+        "100 km",
+        "150 km",
+        "200 km",
+        "250 km",
+        "300 km",
+        "400 km"
+      ],
+      "title": "Radius around ZIP",
+      "type": "string"
+    },
+    "searchQuery": {
+      "description": "Free-text search, e.g. \"BMW 320 Touring\" (mode=search).",
+      "editor": "textfield",
+      "title": "Search text",
+      "type": "string"
+    },
+    "sellerType": {
+      "description": "Dealer or private seller.",
+      "editor": "select",
+      "enum": [
+        "",
+        "dealer",
+        "private"
+      ],
+      "enumTitles": [
+        "Any",
+        "Dealer",
+        "Private seller"
+      ],
+      "title": "Seller type",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "standard",
+      "description": "Result order.",
+      "editor": "select",
+      "enum": [
+        "standard",
+        "price-asc",
+        "price-desc",
+        "mileage-asc",
+        "mileage-desc",
+        "year-desc",
+        "year-asc",
+        "power-desc",
+        "newest",
+        "distance"
+      ],
+      "enumTitles": [
+        "Best match",
+        "Price: low to high",
+        "Price: high to low",
+        "Mileage: low to high",
+        "Mileage: high to low",
+        "First registration: newest first",
+        "First registration: oldest first",
+        "Power: highest first",
+        "Newest listings first",
+        "Distance (requires ZIP code)"
+      ],
+      "prefill": "standard",
+      "title": "Sort by",
+      "type": "string"
+    },
+    "startUrls": {
+      "description": "URLs for mode=byUrl (search URLs), mode=details (listing URLs) or mode=dealer (dealer profile URLs).",
+      "editor": "requestListSources",
+      "prefill": [],
+      "title": "Start URLs",
+      "type": "array"
+    },
+    "transmission": {
+      "description": "Gearbox type.",
       "editor": "select",
       "enum": [
         "",
@@ -96,195 +419,53 @@
       "title": "Transmission",
       "type": "string"
     },
-    "headless": {
-      "default": true,
-      "description": "Run browser in headless mode",
-      "title": "Headless Mode",
-      "type": "boolean"
-    },
-    "includePhoneNumber": {
-      "default": false,
-      "description": "Attempt to extract seller phone numbers (may require additional interaction)",
-      "title": "Include Phone Number",
-      "type": "boolean"
-    },
-    "make": {
-      "description": "Car manufacturer (e.g., 'bmw', 'audi', 'mercedes-benz')",
-      "editor": "textfield",
-      "example": "bmw",
-      "title": "Make (Brand)",
-      "type": "string"
-    },
-    "maxConcurrency": {
-      "default": 5,
-      "description": "Maximum number of parallel browser pages",
-      "editor": "number",
-      "maximum": 20,
-      "minimum": 1,
-      "title": "Max Concurrency",
-      "type": "integer"
-    },
-    "maxPages": {
-      "default": 10,
-      "description": "Maximum number of listing pages to crawl. Set 0 for unlimited.",
-      "editor": "number",
-      "minimum": 0,
-      "title": "Maximum Pages",
-      "type": "integer"
-    },
-    "maxResults": {
-      "default": 100,
-      "description": "Maximum number of listings to scrape. Set 0 for unlimited.",
-      "editor": "number",
-      "minimum": 0,
-      "title": "Maximum Results",
-      "type": "integer"
-    },
-    "maxRetries": {
-      "default": 3,
-      "description": "Maximum retries for failed requests",
-      "editor": "number",
-      "maximum": 10,
-      "minimum": 0,
-      "title": "Max Retries",
-      "type": "integer"
-    },
-    "mileageMax": {
-      "description": "Maximum mileage in km",
-      "editor": "number",
-      "minimum": 0,
-      "title": "Maximum Mileage",
-      "type": "integer"
-    },
-    "mileageMin": {
-      "description": "Minimum mileage in km",
-      "editor": "number",
-      "minimum": 0,
-      "title": "Minimum Mileage",
-      "type": "integer"
-    },
-    "model": {
-      "description": "Car model (e.g., '3-series', 'a4', 'c-class')",
-      "editor": "textfield",
-      "example": "3-series",
-      "title": "Model",
-      "type": "string"
-    },
-    "priceMax": {
-      "description": "Maximum price filter",
-      "editor": "number",
-      "minimum": 0,
-      "title": "Maximum Price",
-      "type": "integer"
-    },
-    "priceMin": {
-      "description": "Minimum price filter",
-      "editor": "number",
-      "minimum": 0,
-      "title": "Minimum Price",
-      "type": "integer"
-    },
-    "proxyConfiguration": {
-      "description": "Apify Proxy configuration. Required for production use to avoid blocking.",
-      "editor": "proxy",
-      "sectionCaption": "Proxy and Browser Settings",
-      "title": "Proxy Configuration",
-      "type": "object"
-    },
-    "radius": {
-      "description": "Search radius around ZIP code in kilometers (e.g., 10, 20, 50, 100, 200, 500)",
-      "editor": "number",
-      "maximum": 500,
-      "minimum": 1,
-      "title": "Search Radius (km)",
-      "type": "integer"
-    },
-    "requestTimeout": {
-      "default": 60,
-      "description": "Timeout for page loads in seconds",
-      "editor": "number",
-      "maximum": 300,
-      "minimum": 10,
-      "title": "Request Timeout (seconds)",
-      "type": "integer"
-    },
-    "scrapeDetails": {
-      "default": true,
-      "description": "If enabled, scrapes full detail pages for each listing. Slower but provides complete data.",
-      "title": "Scrape Detail Pages",
-      "type": "boolean"
-    },
-    "sellerType": {
-      "description": "Filter by seller type",
+    "vehicleType": {
+      "default": "car",
+      "description": "Which vehicle category to search (mode=search).",
       "editor": "select",
       "enum": [
-        "",
-        "dealer",
-        "private"
+        "car",
+        "motorcycle",
+        "caravan",
+        "transporter"
       ],
       "enumTitles": [
-        "Any",
-        "Dealer",
-        "Private"
+        "Cars",
+        "Motorcycles",
+        "Caravans",
+        "Transporters"
       ],
-      "title": "Seller Type",
+      "prefill": "car",
+      "title": "Vehicle type",
       "type": "string"
-    },
-    "sortBy": {
-      "default": "standard",
-      "description": "Sort order for results",
-      "editor": "select",
-      "enum": [
-        "standard",
-        "price_asc",
-        "price_desc",
-        "mileage_asc",
-        "mileage_desc",
-        "age_asc",
-        "age_desc"
-      ],
-      "enumTitles": [
-        "Relevance",
-        "Price (Low to High)",
-        "Price (High to Low)",
-        "Mileage (Low to High)",
-        "Mileage (High to Low)",
-        "Newest First",
-        "Oldest First"
-      ],
-      "title": "Sort By",
-      "type": "string"
-    },
-    "startUrls": {
-      "description": "Direct search or category URLs to start scraping from. If provided, search filters below are ignored.",
-      "editor": "requestListSources",
-      "prefill": [],
-      "title": "Start URLs",
-      "type": "array"
     },
     "yearMax": {
-      "description": "Maximum first registration year",
+      "description": "Latest first-registration year.",
       "editor": "number",
       "maximum": 2030,
       "minimum": 1900,
-      "title": "Maximum Year",
+      "title": "First registration to",
       "type": "integer"
     },
     "yearMin": {
-      "description": "Minimum first registration year",
+      "description": "Earliest first-registration year.",
       "editor": "number",
       "maximum": 2030,
       "minimum": 1900,
-      "title": "Minimum Year",
+      "title": "First registration from",
       "type": "integer"
     },
     "zipCode": {
-      "description": "ZIP/Postal code for location-based search",
+      "description": "Search around this postal code. Combine with the radius.",
       "editor": "textfield",
-      "title": "ZIP Code",
+      "example": "80331",
+      "title": "ZIP / postal code",
       "type": "string"
     }
   },
+  "required": [
+    "mode"
+  ],
   "schemaVersion": 1,
   "title": "AutoScout24 Scraper Input",
   "type": "object"

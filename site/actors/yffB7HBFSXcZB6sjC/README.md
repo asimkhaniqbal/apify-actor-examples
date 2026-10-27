@@ -1,170 +1,174 @@
 # AutoScout24 Vehicle Listings with Dealer Contact Details
 
-Search AutoScout24 across eight European country domains by make, model, price, mileage, fuel type and location radius, and pull back full vehicle specs, equipment lists, dealer contact details and photos for every matching listing.
+Collect vehicle listings from AutoScout24 with prices, mileage, first registration, power, fuel, transmission, body and colour, equipment, high-resolution photos and the seller's public contact details. Search by filters, paste search URLs, scrape a dealer's inventory, or open known listing IDs.
 
 ## What this actor does
 
-- Builds a search from your filters (make, model, price, year, mileage, fuel type, transmission, seller type, ZIP code and radius) or starts directly from search/listing URLs you provide
-- Follows each listing to its detail page to collect specifications, equipment features, description and seller contact details
-- Can also run against a list of individual listing URLs only, skipping the search step entirely
-- Puts price, power, fuel consumption and emissions into the same nested fields on every country domain
-- Groups output into clear sections — price, vehicle, specifications, seller, location and images — rather than one flat row; every record has the same structure
+- Searches eight AutoScout24 country sites and the English `autoscout24.com` marketplace.
+- Supports free-text search plus make, model, vehicle type, price, year, mileage, power, fuel, transmission, seller type, body, colour, drivetrain, postal code/radius, previous owners and listing age.
+- Walks the result pages up to the source cap and de-duplicates listings by their AutoScout24 ID.
+- Opens each listing's detail page on request for the full specification sheet, equipment list, description, price evaluation and 1280x960 photos.
+- Adds public dealer contact details from the dealer's profile: phone, email, website, address, opening hours, rating, review count, contact persons and VAT/register details when the dealer publishes them.
+- Scrapes a dealer's live inventory for the selected vehicle type from a dealer profile URL.
+- Omits fields the source does not publish; every record contains only real, non-empty values.
+
+## Markets
+
+| Value | Site |
+|---|---|
+| `de` | autoscout24.de |
+| `at` | autoscout24.at |
+| `be-nl` / `be-fr` | autoscout24.be (Dutch / French) |
+| `es` | autoscout24.es |
+| `fr` | autoscout24.fr |
+| `it` | autoscout24.it |
+| `lu` | autoscout24.lu |
+| `nl` | autoscout24.nl |
+| `com` | autoscout24.com (English pan-European feed) |
+| `all` | Runs the eight local country sites (`de`, `at`, `be-nl`, `es`, `fr`, `it`, `lu`, `nl`) and merges by listing ID; `be-fr` and `com` stay separate |
 
 ## Output per listing
 
-| Field | Description |
+| Group | Fields |
 |---|---|
-| `platform` | Always `"autoscout24"` |
-| `listingId` | Listing identifier taken from its URL |
-| `url` | Listing page URL |
-| `title` | Listing title as shown on AutoScout24 |
-| `price.amount` / `price.currency` | Price and currency |
-| `price.gross` / `price.net` | Gross and net price, when the dealer publishes both |
-| `price.monthly` | Monthly financing rate, when offered |
-| `price.negotiable` | Whether the price is marked negotiable |
-| `price.raw` | The price text as originally shown |
-| `vehicle.make` / `vehicle.model` / `vehicle.modelGroup` / `vehicle.variant` | Make, model, model group and trim/variant |
-| `vehicle.condition` | New or used |
-| `vehicle.year` / `vehicle.month` | First registration year and month |
-| `vehicle.mileage` / `vehicle.mileageUnit` | Mileage and its unit (km) |
-| `vehicle.vin` | Vehicle identification number, when shown |
-| `vehicle.previousOwners` | Number of previous owners, when shown |
-| `vehicle.accidentFree` | Whether the listing states the vehicle is accident-free |
-| `specifications.powerKw` / `specifications.powerHp` / `specifications.power` | Engine power in kW and HP |
-| `specifications.fuelType` / `specifications.transmission` / `specifications.driveType` | Fuel type, transmission and drive type |
-| `specifications.consumptionL100km` / `specifications.consumption` | Published fuel consumption |
-| `specifications.co2Emissions` / `specifications.emission` / `specifications.emissionClass` | CO2 emissions and emission class |
-| `specifications.doors` / `specifications.seats` | Door and seat counts |
-| `specifications.color` / `specifications.interiorColor` / `specifications.interiorMaterial` | Exterior color, interior color and interior material |
-| `specifications.weight` / `specifications.towingCapacity` | Weight and towing capacity, when published |
-| `features` | List of equipment/feature labels shown on the listing |
-| `description` | Dealer's free-text description |
-| `subtitle` | Listing subtitle, when present |
-| `highlights` | Short highlight phrases AutoScout24 shows on the listing |
-| `warranty` | Warranty text, when stated |
-| `seller.type` / `seller.name` | Dealer or private seller, and seller/dealer name |
-| `seller.contact` / `seller.phone` | Contact name and phone number, when shown |
-| `seller.address` / `seller.city` / `seller.zip` | Seller address components |
-| `seller.rating` / `seller.reviewCount` | Dealer rating and number of reviews, when AutoScout24 shows them |
-| `seller.website` | Dealer's own website, when listed |
-| `seller.dealerId` | Dealer's AutoScout24 ID |
-| `seller.openingHours` | Published opening hours, when shown |
-| `images` / `thumbnail` | Photo URLs, and the first one as a thumbnail |
-| `videoUrl` | Listing video URL, when present |
-| `location.country` / `location.city` / `location.zip` / `location.street` / `location.region` | Vehicle location components |
-| `location.coordinates` | Geographic coordinates, when published |
-| `meta.scrapedAt` | UTC timestamp when the record was scraped |
-| `meta.country` | Country domain the listing was collected from |
-| `meta.source` | Always `"autoscout24"` |
-| `meta.crawlId` | Short run identifier, the same on every record from one run |
-| `meta.promoted` / `meta.topListing` | Whether AutoScout24 marks the listing as promoted or a top listing |
-| `meta.availabilityStatus` | Availability status text, when shown |
+| Listing | `platform`, `listingId`, `url`, `title`, `subtitle`, `description`, `descriptionHtml`, `status`, `createdAt`, `lastModifiedAt` |
+| Price | `price.amount`, `price.currency`, `price.formatted`, `price.raw`, `price.net`, `price.negotiable`, `price.onRequestOnly`, `price.taxDeductible`, `price.vatRate`, `price.isFinalPrice`, `price.evaluation`, `price.median`, `price.previousAmount` |
+| Vehicle | `vehicle.make`, `model`, `modelGroup`, `modelVersion`, `motorType`, `variant`, `condition`, `offerType`, `vehicleType`, `bodyType`, `year`, `month`, `firstRegistrationDate`, `mileage`, `mileageUnit`, `vin`, `hsnTsn`, `previousOwners`, `accidentFree`, `hasFullServiceHistory`, `nonSmoking`, `newInspection`, `warranty`, `doors`, `seats`, `color`, `paintType`, `upholstery`, `upholsteryColor`, `cylinders`, `gears`, `driveTrain`, `displacementCcm`, `weightKg`, `towingCapacity` |
+| Specifications | `specifications.powerKw`, `powerHp`, `power`, `fuelType`, `fuelCode`, `transmission`, `transmissionCode`, `driveType`, `consumptionL100km`, `consumption`, `co2Emissions`, `emission`, `electricRangeKm`, `batteryCapacityKwh` |
+| Equipment | `features` (flat list), `equipment` (grouped by comfort, entertainment, safety and extras) |
+| Seller | `seller.type`, `isDealer`, `name`, `contact`, `address`, `city`, `zip`, `country`, `phone`, `phoneE164`, `phones`, `emails`, `website`, `dealerUrl`, `dealerId`, `rating`, `ratingCount`, `reviewCount`, `recommendPercentage`, `openingHours`, `contactPersons`, `additionalServices`, `about`, `imprint`, `vatId`, `registerNumber`, `logo` |
+| Location | `location.country`, `city`, `zip`, `street`, `region`, `latitude`, `longitude`, `coordinates` |
+| Media | `images`, `thumbnail`, `imageCount`, `has360`, `videoUrl`, `whatsappNumber` |
+| Meta | `meta.scrapedAt`, `meta.country`, `meta.marketplace`, `meta.language`, `meta.source`, `meta.crawlId`, `meta.promoted`, `meta.searchPosition`, `meta.deliveryAvailable` |
 
-Every record carries all of the keys above. Values AutoScout24 doesn't publish for a listing, or that are only available from the detail page, come back as `null` or as an empty list/object rather than being left out. A few keys always have a value: `price.currency` falls back to `EUR`, `vehicle.mileageUnit` is always `km`, `location.country` falls back to the chosen country code, and `price.negotiable`, `meta.promoted` and `meta.topListing` are `false` unless the listing says otherwise. Running with detail pages enabled (the default) fills in the most fields.
+Fields are nested for readability. Empty values are omitted rather than emitted as `null`.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `startUrls` | array | – | AutoScout24 URLs to start from. URLs containing `/offers/`, `/angebot/` or `/lst/` are opened as single listing pages; other URLs are read as search-result pages and paged through. When set, the search filters below are ignored. |
-| `make` | string | – | Car manufacturer slug, e.g. "bmw", "audi", "mercedes-benz" |
-| `model` | string | – | Car model slug, e.g. "3-series", "a4", "c-class" |
-| `priceMin` / `priceMax` | integer | – | Price range filter |
-| `yearMin` / `yearMax` | integer | – | First registration year range (1900–2030) |
-| `mileageMin` / `mileageMax` | integer | – | Mileage range in kilometres |
-| `fuelType` | string | – | petrol, diesel, electric, hybrid, hybrid-petrol, hybrid-diesel, lpg, cng, hydrogen, or ethanol |
-| `gearType` | string | – | manual, automatic, or semi-automatic |
-| `sellerType` | string | – | dealer or private |
-| `country` | string | `de` | Country domain to search: de, it, fr, es, nl, be, at, or lu |
-| `zipCode` | string | – | ZIP/postal code for a location-based search |
-| `radius` | integer | – | Search radius in kilometres around `zipCode` (1–500) |
-| `sortBy` | string | `standard` | Result order: standard (relevance), price_asc, price_desc, mileage_asc, mileage_desc, age_asc, age_desc |
-| `maxResults` | integer | `100` | Rough cap on the run (0 = no cap). It limits how many pages the run opens in total (search pages plus listing pages) and how many listings are taken from each search page, so with detail pages on you get somewhat fewer records than this number. With `scrapeDetails` off it does not cap the total across pages — use `maxPages` for that. |
-| `maxPages` | integer | `10` | Maximum number of search-result pages to read. 0 means no cap. |
-| `maxConcurrency` | integer | `5` | How many pages can be processed in parallel (1–20) |
-| `scrapeDetails` | boolean | `true` | Visit each listing's detail page for full specs, features and seller contact details |
-| `detailPageOnly` | boolean | `false` | When true, only `startUrls` that are opened as single listing pages are scraped, and no search is run |
-| `includePhoneNumber` | boolean | `false` | Click the seller's "show phone number" button on detail pages before reading them |
-| `downloadImages` | boolean | `false` | Also save up to 20 images per listing in the run's key-value store (detail pages only) |
-| `proxyConfiguration` | object | – | Optional Apify Proxy configuration |
-| `headless` | boolean | `true` | Run the browser without a visible window |
-| `debugMode` | boolean | `false` | Enable verbose logging and save debug screenshots for troubleshooting |
-| `maxRetries` | integer | `3` | Maximum number of retries for a page that fails to load (0–10) |
-| `requestTimeout` | integer | `60` | Seconds allowed for processing one page before it counts as failed (10–300) |
+| `mode` | select | `search` | `search`, `details`, `dealer` or `byUrl` |
+| `searchQuery` | text | – | Free-text search |
+| `make` / `model` | text | – | AutoScout24 make and model slugs, e.g. `bmw`, `3er` |
+| `vehicleType` | select | `car` | Cars, motorcycles, caravans or transporters |
+| `country` | select | `de` | One market, `com`, or `all` |
+| `priceMin` / `priceMax` | number | – | Price range in EUR |
+| `yearMin` / `yearMax` | number | – | First-registration year range |
+| `mileageMin` / `mileageMax` | number | – | Mileage range in km |
+| `powerMin` / `powerMax` | number | – | Power range in kW |
+| `fuelType` | select | – | Petrol, diesel, electric, plug-in hybrids, CNG, LPG, ethanol, hydrogen, other |
+| `transmission` | select | – | Manual, automatic or semi-automatic |
+| `sellerType` | select | – | Dealer or private seller |
+| `bodyType` | select | – | Small car, convertible, coupe, SUV, estate, sedan, van, transporter, other |
+| `color` | select | – | Exterior colour |
+| `driveTrain` | select | – | All-wheel, front-wheel or rear-wheel drive |
+| `zipCode` / `radius` | text / select | – | Search around a postal code |
+| `sortBy` | select | `standard` | Price, mileage, registration year, power, newest or distance |
+| `onlineSinceDays` | number | `0` | Only listings published within N days; 0 = any |
+| `previousOwnersMax` | select | – | 1, 2, 3 or 4+ previous owners |
+| `damagedListings` | select | `exclude` | Exclude, include or only damaged vehicles |
+| `includeDetails` | boolean | `true` | Open every listing's detail page |
+| `includeDealerContact` | boolean | `true` | Add the dealer's public profile details |
+| `maxResults` | number | `100` | Row cap; 0 means the 4,000-row source cap for the run (shared across markets and de-duplicated) |
+| `startUrls` | array | – | Search URLs (`byUrl`), listing URLs (`details`) or dealer URLs (`dealer`) |
+| `listingIds` | array | – | Listing UUIDs or listing URLs (`details`). UUIDs use the selected `country`; full URLs select their own market. |
 
-### Example: basic make/model search
+## Examples
+
+Search in Germany:
 
 ```json
 {
-  "make": "bmw",
-  "model": "3-series",
+  "mode": "search",
   "country": "de",
+  "make": "bmw",
+  "model": "3er",
   "priceMax": 30000,
   "yearMin": 2019,
+  "fuelType": "diesel",
+  "transmission": "automatic",
   "maxResults": 50
 }
 ```
 
-### Example: location-radius search with full filters
+Search all eight country sites:
 
 ```json
 {
-  "make": "audi",
-  "model": "a4",
-  "country": "de",
-  "priceMin": 15000,
-  "priceMax": 40000,
-  "fuelType": "diesel",
-  "gearType": "automatic",
-  "sellerType": "dealer",
-  "zipCode": "80331",
-  "radius": 100,
-  "sortBy": "price_asc",
+  "mode": "search",
+  "country": "all",
+  "make": "volkswagen",
+  "model": "golf",
   "maxResults": 200
 }
 ```
 
-### Example: scrape specific listing URLs only
+Open listing IDs:
 
 ```json
 {
-  "startUrls": [
-    {"url": "https://www.autoscout24.de/angebot/mercedes-benz-c-klasse-uuid-here"}
-  ],
-  "detailPageOnly": true
+  "mode": "details",
+  "country": "de",
+  "listingIds": ["dc39eaab-7f63-4b3b-b732-ae82f17ef805"],
+  "includeDealerContact": true
 }
 ```
 
-## Use cases
+Scrape a dealer's inventory:
 
-- **Vehicle shopping** — filter by budget, mileage and location radius to shortlist cars worth viewing
-- **Dealer inventory tracking** — monitor a dealer's live stock and pricing over time
-- **Pricing research** — compare asking prices for the same make/model/year across countries
-- **Feature and equipment comparison** — review which trims and feature packages are available at a given price point
-- **Lead building** — pull seller contact details for dealers actively listing a given make or model
+```json
+{
+  "mode": "dealer",
+  "startUrls": [{"url": "https://www.autoscout24.de/haendler/autohaus-next-car"}],
+  "maxResults": 100
+}
+```
+
+Use a saved search URL:
+
+```json
+{
+  "mode": "byUrl",
+  "startUrls": [{"url": "https://www.autoscout24.it/lst/bmw?atype=C&fuel=D&sort=price&desc=0"}],
+  "maxResults": 100
+}
+```
+
+## Dealer contact coverage
+
+Dealer phone numbers are present on the listing itself and are collected for every dealer listing. Email, website, opening hours, rating and VAT/register details come from the dealer's public profile and are included when the dealer publishes them; they are never guessed. Private sellers usually do not publish a company name or email.
+
+## Limits
+
+- AutoScout24 returns at most 4,000 listings for one search query. The actor de-duplicates repeated listings across pages, so a cap-level query can return slightly fewer than 4,000 unique rows. Narrow the filters to collect a larger slice of the market.
+- Switzerland (`autoscout24.ch`) runs on a separate API and is not included; the eight country sites and `autoscout24.com` are covered.
+- Some specification fields (consumption, CO2, warranty, net price) are only shown when the seller provides them.
+- Buy-online (`smyle`) listings opened directly by URL or ID return the smyle specification sheet; seller, location and the full photo set are merged when the same listing is reached through search results.
+- The actor is stateless: there is no only-new mode. Keep the `listingId` values from a previous run and compare them in your own pipeline.
+- `autoscout24.com` is an English pan-European feed and overlaps the country sites; use one or the other when de-duplicating yourself.
 
 ## FAQ
 
-**Which AutoScout24 markets are covered?**
-Germany, Italy, France, Spain, the Netherlands, Belgium, Austria and Luxembourg, each on its own country domain.
+**Do I need an account, login or API key?**
+No. The actor reads public pages and returns data without any credentials.
 
-**Do I need a proxy to run this?**
-It's optional. Without `proxyConfiguration` the run connects directly; if AutoScout24 starts blocking pages, add an Apify Proxy configuration and run again.
+**Which markets are covered?**
+Germany, Austria, Belgium (Dutch and French), Spain, France, Italy, Luxembourg, the Netherlands and the English `autoscout24.com` feed.
 
-**What's the difference between leaving `scrapeDetails` on and off?**
-With it on (the default), every listing gets its own detail-page visit, so specifications, features, description and seller contact details are filled in. With it off, you get faster results limited mostly to what's shown on the search results page, such as title, price and basic vehicle info.
+**What is the difference between `includeDetails` on and off?**
+With it on, every listing's detail page is opened for specifications, equipment, description, price evaluation and high-resolution photos. With it off, the run is faster and returns the fields shown on the search results card.
 
-**Why are some specification fields empty?**
-Not every dealer fills in every field on AutoScout24, and some fields are only available on the listing's detail page. Enable `scrapeDetails` (on by default) to capture as much as is published for each listing.
+**How do I scrape a dealer's inventory?**
+Use `mode: "dealer"` and paste the dealer profile URL in `startUrls`. The run returns that dealer's stock for the selected vehicle type (cars by default); run again with another vehicle type if the dealer also lists transporters, motorcycles or caravans.
 
-**Can I scrape a list of listings I already have instead of searching?**
-Yes — put the listing URLs (the `/offers/...` or `/angebot/...` form) in `startUrls` and set `detailPageOnly` to true to fetch just those pages.
+**Can I use listing IDs instead of URLs?**
+Yes. Put the AutoScout24 UUIDs in `listingIds` with `mode: "details"`.
 
-**Can I paste a search URL from my browser?**
-Only with care. AutoScout24 search URLs usually contain `/lst/`, and those are opened as a single listing page rather than paged through as a search, which gives poor results. Use the filter inputs (make, model, price, ZIP code and so on) to run a search instead.
+**Why are some dealer fields missing?**
+Email, website, opening hours and VAT details are optional on AutoScout24. They are included only when the dealer publishes them.
 
-**How do I search near a specific location instead of a whole country?**
-Set `zipCode` to a postal code and `radius` to a distance in kilometres; results are limited to listings within that radius.
+**Why do I get fewer rows than `maxResults`?**
+The source caps each search query at 4,000 listings, some combinations of filters have fewer results, and repeated listings are de-duplicated. The run status reports the reason.
 
 **Is this affiliated with AutoScout24?**
-No. This actor reads AutoScout24's public pages and is not affiliated with, endorsed by, or sponsored by AutoScout24.
+No. This actor reads public pages and is not affiliated with, endorsed by or sponsored by AutoScout24.
