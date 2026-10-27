@@ -1,0 +1,147 @@
+{
+  "actorSpecification": 1,
+  "title": "Yandex News Results",
+  "views": {
+    "articles": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "articleUrl": {
+            "format": "link",
+            "label": "Article URL"
+          },
+          "domain": {
+            "format": "text",
+            "label": "Domain"
+          },
+          "headline": {
+            "format": "text",
+            "label": "Headline"
+          },
+          "publishedAt": {
+            "format": "text",
+            "label": "Published"
+          },
+          "recordType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "scrapedAt": {
+            "format": "text",
+            "label": "Scraped At"
+          },
+          "sourceName": {
+            "format": "text",
+            "label": "Source"
+          },
+          "storyId": {
+            "format": "text",
+            "label": "Story ID"
+          }
+        }
+      },
+      "title": "Articles",
+      "transformation": {
+        "fields": [
+          "recordType",
+          "storyId",
+          "headline",
+          "sourceName",
+          "articleUrl",
+          "publishedAt",
+          "domain",
+          "scrapedAt"
+        ]
+      }
+    },
+    "stories": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "articleCount": {
+            "format": "number",
+            "label": "Sources"
+          },
+          "category": {
+            "format": "text",
+            "label": "Category"
+          },
+          "domain": {
+            "format": "text",
+            "label": "Domain"
+          },
+          "headline": {
+            "format": "text",
+            "label": "Headline"
+          },
+          "recordType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "scrapedAt": {
+            "format": "text",
+            "label": "Scraped At"
+          },
+          "storyId": {
+            "format": "text",
+            "label": "Story ID"
+          },
+          "storyUrl": {
+            "format": "link",
+            "label": "Story URL"
+          },
+          "topicTags": {
+            "format": "array",
+            "label": "Topic Tags"
+          }
+        }
+      },
+      "title": "Stories",
+      "transformation": {
+        "fields": [
+          "recordType",
+          "storyId",
+          "headline",
+          "category",
+          "topicTags",
+          "articleCount",
+          "domain",
+          "storyUrl",
+          "scrapedAt"
+        ]
+      }
+    },
+    "trending": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "domain": {
+            "format": "text",
+            "label": "Domain"
+          },
+          "recordType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "scrapedAt": {
+            "format": "text",
+            "label": "Scraped At"
+          },
+          "topics": {
+            "format": "array",
+            "label": "Trending Topics"
+          }
+        }
+      },
+      "title": "Trending Topics",
+      "transformation": {
+        "fields": [
+          "recordType",
+          "topics",
+          "domain",
+          "scrapedAt"
+        ]
+      }
+    }
+  }
+}
