@@ -1,0 +1,122 @@
+{
+  "description": "Scrape Sofascore for live events, scheduled events, search results, team histories, and tournament standings across 17 sports.",
+  "properties": {
+    "date": {
+      "description": "Date to fetch events for (mode=eventsByDate). Format: YYYY-MM-DD.",
+      "editor": "datepicker",
+      "title": "Date",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of records to return.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to scrape from Sofascore.",
+      "editor": "select",
+      "enum": [
+        "liveEvents",
+        "eventsByDate",
+        "search",
+        "teamEvents",
+        "standings"
+      ],
+      "enumTitles": [
+        "Live Events — current live matches",
+        "Events by Date — scheduled/finished events for a specific date",
+        "Search — find teams, players, and tournaments",
+        "Team Events — recent and upcoming events for a team",
+        "Standings — tournament/league table"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "proxyConfiguration": {
+      "description": "Proxy settings. Sofascore blocks datacenter IPs — enabling Apify Proxy is recommended.",
+      "editor": "proxy",
+      "prefill": {
+        "useApifyProxy": true
+      },
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "searchQuery": {
+      "description": "Team, player, or tournament name to search for (mode=search).",
+      "editor": "textfield",
+      "prefill": "Real Madrid",
+      "title": "Search Query",
+      "type": "string"
+    },
+    "sport": {
+      "default": "football",
+      "description": "Sport to fetch events for (applies to liveEvents, eventsByDate, and teamEvents modes).",
+      "editor": "select",
+      "enum": [
+        "football",
+        "basketball",
+        "tennis",
+        "baseball",
+        "ice-hockey",
+        "volleyball",
+        "handball",
+        "cricket",
+        "rugby-union",
+        "american-football",
+        "esports",
+        "table-tennis",
+        "badminton",
+        "cycling",
+        "darts",
+        "snooker",
+        "mma"
+      ],
+      "enumTitles": [
+        "Football (Soccer)",
+        "Basketball",
+        "Tennis",
+        "Baseball",
+        "Ice Hockey",
+        "Volleyball",
+        "Handball",
+        "Cricket",
+        "Rugby Union",
+        "American Football",
+        "Esports",
+        "Table Tennis",
+        "Badminton",
+        "Cycling",
+        "Darts",
+        "Snooker",
+        "MMA"
+      ],
+      "prefill": "football",
+      "title": "Sport",
+      "type": "string"
+    },
+    "teamId": {
+      "description": "Sofascore team ID (mode=teamEvents). Find team IDs by searching for the team first.",
+      "minimum": 1,
+      "title": "Team ID",
+      "type": "integer"
+    },
+    "tournamentId": {
+      "description": "Sofascore tournament ID (mode=standings). E.g. 17 for Premier League.",
+      "minimum": 1,
+      "title": "Tournament ID",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Sofascore Scraper Input",
+  "type": "object"
+}

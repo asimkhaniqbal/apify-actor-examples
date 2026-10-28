@@ -1,0 +1,137 @@
+# SofaScore Live Scores, Standings & Team Search Data
+
+Pull live scores, scheduled fixtures, league standings, and team/player/tournament search results from SofaScore across 17 sports including football, basketball, tennis, and ice hockey — no account needed.
+
+## What this actor does
+
+- Fetches every currently live event for a chosen sport, with real-time score and match period
+- Fetches all events scheduled or finished on a specific date
+- Searches SofaScore by name and returns matching teams, players, and tournaments with their IDs
+- Fetches a team's recent and upcoming events, or a full tournament/league standings table
+- Omits any field SofaScore doesn't provide for a given record rather than returning a null or placeholder value
+
+## Output per record
+
+### Events (`liveEvents`, `eventsByDate`, `teamEvents`)
+
+| Field | Description |
+|---|---|
+| `eventId` | Unique SofaScore event ID |
+| `status` | Match status, e.g. notstarted, inprogress, finished, postponed, canceled |
+| `homeTeam` / `awayTeam` | Team details: id, name, slug, shortName, logoUrl, teamColors |
+| `homeScore` / `awayScore` | Current score for each side |
+| `currentPeriod` | Current match period, e.g. period2, overtime |
+| `matchTime` | Match clock in minutes |
+| `startTime` | Match start time, in ISO 8601 |
+| `sport` | Sport slug, e.g. football |
+| `tournamentName` / `tournamentId` | Competition name and ID |
+| `country` / `countryCode` | Tournament's country/region |
+| `seasonName` / `seasonId` / `seasonYear` | Season label, ID, and year |
+| `roundName` | Round name or number |
+| `venue` / `city` | Stadium/venue and host city |
+| `sofascoreUrl` | Direct link to the event on SofaScore |
+| `scrapedAt` | UTC timestamp when the record was scraped |
+
+### Search results (`search`)
+
+| Field | Description |
+|---|---|
+| `type` | team, player, or tournament |
+| `id` | Entity's SofaScore ID |
+| `name` / `slug` | Entity name and URL slug |
+| `sport` | Sport name |
+| `country` / `countryCode` | Country associated with the entity |
+| `teamColors` | Primary/secondary hex colors — teams only |
+| `imageUrl` | Logo or photo URL |
+| `teamId` / `playerId` | Set when `type` is team or player, respectively |
+| `searchQuery` | The search term that produced this result |
+| `scrapedAt` | UTC timestamp when the record was scraped |
+
+### Standings (`standings`)
+
+| Field | Description |
+|---|---|
+| `teamId` / `teamName` / `teamSlug` | Team identifiers |
+| `position` | League table position |
+| `wins` / `draws` / `losses` | Match record |
+| `points` | Total points |
+| `gamesPlayed` | Matches played |
+| `goalsFor` / `goalsAgainst` | Goals or points scored and conceded |
+| `goalDifference` | `goalsFor` minus `goalsAgainst` |
+| `tournamentName` / `tournamentId` | Competition name and ID |
+| `seasonName` / `seasonId` | Season label and ID |
+| `groupName` | Group name, for tournaments with group stages |
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `mode` | string (required) | search | liveEvents, eventsByDate, search, teamEvents, or standings |
+| `sport` | string | football | Sport to use with liveEvents, eventsByDate, and teamEvents: football, basketball, tennis, baseball, ice-hockey, volleyball, handball, cricket, rugby-union, american-football, esports, table-tennis, badminton, cycling, darts, snooker, or mma |
+| `date` | string | – | Date to use with `eventsByDate`, formatted YYYY-MM-DD |
+| `searchQuery` | string | – | Team, player, or tournament name to search for |
+| `teamId` | integer | – | SofaScore team ID, used with `teamEvents` |
+| `tournamentId` | integer | – | SofaScore tournament ID, used with `standings`, e.g. 17 for the Premier League |
+| `maxItems` | integer | 50 | Maximum number of records to return (1-1000) |
+| `proxyConfiguration` | object | Apify Proxy enabled | Optional proxy override |
+
+### Example: live football scores
+
+```json
+{
+  "mode": "liveEvents",
+  "sport": "football",
+  "maxItems": 50
+}
+```
+
+### Example: search for a team
+
+```json
+{
+  "mode": "search",
+  "searchQuery": "Real Madrid",
+  "maxItems": 10
+}
+```
+
+### Example: Premier League standings
+
+```json
+{
+  "mode": "standings",
+  "tournamentId": 17,
+  "maxItems": 20
+}
+```
+
+## Use cases
+
+- **Live score boards** — power a scoreboard widget or alert feed for one or more sports
+- **Team and player lookup** — resolve a name into its SofaScore ID for use in other modes
+- **League table tracking** — pull standings for a tournament and track how they change over time
+- **Fixture aggregation** — collect a date's full schedule across one or more sports
+- **Team form tracking** — watch a specific team's recent results and upcoming matches
+
+## FAQ
+
+**Do I need an account or API key?**
+No. SofaScore's public match and search data is accessible without authentication.
+
+**Why does `liveEvents` return 0 records?**
+There may simply be no live matches for the chosen sport right now. Try `eventsByDate` with a recent date, or `search` to confirm a team exists.
+
+**How do I find a team or tournament ID?**
+Run `mode=search` with the team or tournament name, then use the `id` from the result as `teamId` or `tournamentId` in another mode.
+
+**Can I get historical fixtures?**
+Yes — use `eventsByDate` with any past date to fetch the events scheduled or finished on that day.
+
+**What does `teamEvents` actually return?**
+A team's recent past results and its next scheduled matches, rather than its entire season history. For broader date coverage, run `eventsByDate` across multiple dates instead.
+
+**Why are some fields, like `venue` or `roundName`, missing from an event?**
+Not every match on SofaScore has that detail published; when it's missing, the field is left out of the record rather than filled with a placeholder.
+
+**Is this affiliated with SofaScore?**
+No. This actor reads SofaScore's public data and is not affiliated with, endorsed by, or sponsored by SofaScore.
