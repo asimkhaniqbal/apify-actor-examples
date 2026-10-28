@@ -1,0 +1,94 @@
+{
+  "description": "Scrape Jobstreet.com for job listings across Singapore, Malaysia, Philippines, Indonesia, and Thailand.",
+  "properties": {
+    "country": {
+      "default": "sg",
+      "description": "Target country for job search.",
+      "editor": "select",
+      "enum": [
+        "sg",
+        "my",
+        "ph",
+        "id",
+        "th"
+      ],
+      "enumTitles": [
+        "Singapore (sg)",
+        "Malaysia (my)",
+        "Philippines (ph)",
+        "Indonesia (id)",
+        "Thailand (th)"
+      ],
+      "prefill": "sg",
+      "title": "Country",
+      "type": "string"
+    },
+    "jobType": {
+      "description": "Filter by employment type.",
+      "editor": "select",
+      "enum": [
+        "full-time",
+        "part-time",
+        "contract",
+        "internship",
+        "permanent"
+      ],
+      "enumTitles": [
+        "Full-time",
+        "Part-time",
+        "Contract",
+        "Internship",
+        "Permanent"
+      ],
+      "title": "Job type",
+      "type": "string"
+    },
+    "keyword": {
+      "default": "data analyst",
+      "description": "Job title or keyword to search for.",
+      "editor": "textfield",
+      "prefill": "data analyst",
+      "title": "Keyword",
+      "type": "string"
+    },
+    "location": {
+      "description": "City within the country to filter jobs.",
+      "editor": "textfield",
+      "title": "Location / City",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Maximum number of jobs to return.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "searchJobs",
+      "description": "What to fetch from Jobstreet.",
+      "editor": "select",
+      "enum": [
+        "searchJobs",
+        "searchByCountry",
+        "featuredJobs"
+      ],
+      "enumTitles": [
+        "Search Jobs by keyword",
+        "Browse Jobs by Country",
+        "Featured / Premium Jobs"
+      ],
+      "prefill": "searchJobs",
+      "title": "Mode",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Jobstreet Scraper Input",
+  "type": "object"
+}
