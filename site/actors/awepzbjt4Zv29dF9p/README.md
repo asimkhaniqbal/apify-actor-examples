@@ -1,48 +1,56 @@
 # Twitch Live Stream, Channel & VOD Metadata Extractor
 
-One actor, nine modes: pull Twitch's current top live streams, browse a game category, look up a channel's profile with its recent VODs and clips, fetch a single video or clip by ID, run a free-text search, or resolve a plain Twitch URL into structured data.
+Collect **Twitch** metadata without a login, OAuth app, or API key: live streams, channel profiles with social links and published schedules, category directories, category VODs, individual VODs and clips, search results, and resolved twitch.tv links. Every record is public data returned in clean JSON, with empty fields omitted.
 
 ## What this actor does
 
-- Fetches the current top live streams across Twitch, or within a single game category, with language and viewer-count filters
-- Looks up a channel's profile — followers, partner/affiliate status, current live state, last broadcast — plus its recent VODs and top clips
-- Returns the top games (categories) on Twitch right now, or the top clips for one category over a chosen time window
-- Looks up a single VOD by its video ID, a single clip by its slug, or resolves a list of plain twitch.tv URLs to the right record type automatically
-- Omits any field Twitch doesn't provide for a given record rather than returning null, empty string, or an empty object
+- Returns the live directory globally or inside one category, with viewer counts, language, start time, tags, broadcaster followers, partner status, and stream quality details
+- Builds channel profiles with bio, images, follower count, roles, social links, About panels, primary team, upcoming schedule, total VOD count, and emails published in the bio
+- Pages channel VODs and clips deeply, with VOD type/sort and clip period/sort controls
+- Searches Twitch channels, categories, and videos with independent deep pagination for each index
+- Adds category VODs, batch channel/VOD/clip lookup, multi-URL resolution, and category stats on stream records
+- Omits empty values at every depth instead of returning `null`, empty strings, or empty objects
 
 ## Modes
 
 | Mode | What you get |
 |---|---|
-| `topStreams` | Current top live streams, with broadcaster, game, viewer count, language and preview thumbnail |
-| `topGames` | Current top categories, sorted by viewer count, with box art and follower/broadcaster counts |
-| `search` | Free-text search across channels, games and videos, optionally restricted to one result type |
-| `byChannel` | A channel's profile, plus its recent VODs and top clips when enabled |
-| `byCategory` | Live streams currently broadcasting in a given category |
-| `topClips` | Top clips for a category over a chosen time window |
-| `byVideo` | Full metadata for a single VOD by video ID |
-| `byClip` | Full metadata for a single clip by slug |
-| `byUrl` | Resolves a list of twitch.tv URLs (channel, video, clip, or category pages) to the matching record type |
+| `topStreams` | Current live streams across Twitch, with language, tag, viewer, and sort filters |
+| `topGames` | Categories sorted by current viewers, with follower and broadcaster counts |
+| `search` | Channels, categories, and videos from Twitch search, with per-index pagination |
+| `byChannel` | One or more channel profiles, plus optional recent VODs and clips |
+| `byCategory` | Live streams in a category, with category viewer/follower/broadcaster stats attached |
+| `byCategoryVideos` | VODs for a category, filtered by type, language, and sort order |
+| `topClips` | Top clips for a category over a chosen time window, sorted by views or trending |
+| `byVideo` | One or many VODs by numeric ID or VOD URL |
+| `byClip` | One or many clips by slug or clip URL |
+| `byUrl` | Resolves channel, VOD, clip, and category URLs, including `/videos` and `/clips` tabs |
 
 ## Output per record
 
-Every record carries a `recordType` of `stream`, `channel`, `video`, `clip`, or `game`, plus a `scrapedAt` timestamp.
+Every record carries a `recordType` of `stream`, `channel`, `video`, `clip`, or `game`, plus `scrapedAt`. Invalid URLs produce a typed `error` row, which does not count toward `maxItems`.
 
 ### Live stream (`recordType: "stream"`)
 
 | Field | Description |
 |---|---|
-| `streamId` | Twitch's stream ID |
+| `streamId` | Twitch stream ID |
 | `title` | Stream title |
 | `viewersCount` | Current concurrent viewers |
-| `streamType` | Broadcast type as reported by Twitch |
+| `streamType` | Broadcast type |
 | `language` | Broadcast language code |
-| `startedAt` | When the stream started |
+| `startedAt` | Stream start timestamp |
 | `previewImageURL` | Live preview thumbnail |
 | `channelId` / `channelName` / `displayName` | Broadcaster identifiers |
-| `gameId` / `gameName` / `gameSlug` | Category being streamed |
-| `tags` | Stream tags, up to 20 |
-| `broadcaster` / `game` | Nested detail objects for the broadcaster and category |
+| `followersCount` | Broadcaster follower count |
+| `isPartner` / `isAffiliate` | Broadcaster role flags, when true |
+| `gameId` / `gameName` / `gameSlug` | Category identifiers |
+| `tags` | Freeform stream tags |
+| `isMature` | Mature-content flag |
+| `averageFPS` / `height` / `width` | Stream quality details |
+| `contentClassificationLabels` | Twitch content labels, when present |
+| `broadcaster` | Broadcaster object with images, color, followers, roles, social links |
+| `game` | Category object with artwork and category stats when available |
 | `url` | Channel URL |
 
 ### Channel (`recordType: "channel"`)
@@ -50,33 +58,41 @@ Every record carries a `recordType` of `stream`, `channel`, `video`, `clip`, or 
 | Field | Description |
 |---|---|
 | `channelId` / `channelName` / `displayName` | Channel identifiers |
-| `description` | Channel "About" text |
+| `description` | Public channel bio |
+| `language` | Channel broadcast language |
 | `createdAt` | Account creation date |
 | `profileImageURL` / `bannerImageURL` / `offlineImageURL` | Channel images |
-| `primaryColorHex` | Channel's brand color |
-| `isPartner` / `isAffiliate` / `isStaff` | Role flags, present only when true |
+| `primaryColorHex` | Brand color |
+| `isPartner` / `isAffiliate` / `isStaff` | Role flags, when true |
 | `followersCount` | Total followers |
-| `streamTitle` / `currentGame` | Configured stream title and category, when set |
-| `isLive` | Whether the channel is currently live |
-| `liveStream` | Nested live-stream details, present only when currently live |
-| `lastBroadcast` | Nested details of the channel's most recent broadcast |
+| `streamTitle` / `currentGame` | Configured stream title and category |
+| `isLive` | Whether the channel is live |
+| `liveStream` | Nested live-stream details when live |
+| `lastBroadcast` | Most recent broadcast details |
+| `socialLinks[]` | Social links shown on the channel page |
+| `panels[]` | About-page panels with title, text, image, and link |
+| `primaryTeam` | Primary Twitch team, when set |
+| `upcomingSchedule[]` | Published upcoming schedule segments |
+| `videosCount` | Total current VODs on the channel |
+| `contactEmails[]` | Emails published in the public bio |
 | `url` | Channel URL |
 
 ### VOD (`recordType: "video"`)
 
 | Field | Description |
 |---|---|
-| `videoId` | Video ID |
-| `title` / `description` | Video title and description |
+| `videoId` | VOD ID |
+| `title` / `description` | Title and description when published |
 | `lengthSeconds` | Duration in seconds |
 | `viewCount` | Total views |
-| `createdAt` / `publishedAt` | Creation and publish timestamps |
-| `previewImageURL` | Thumbnail |
-| `broadcastType` | Archive, Highlight, Upload, etc. |
-| `language` | Video language code |
+| `createdAt` / `publishedAt` / `updatedAt` / `recordedAt` | Relevant timestamps |
+| `previewImageURL` / `animatedPreviewURL` | Thumbnails |
+| `broadcastType` / `status` | VOD type and recording status |
+| `language` | Video language |
+| `contentTags[]` | Twitch content tags |
 | `gameId` / `gameName` / `gameSlug` / `game` | Associated category |
-| `channelId` / `channelName` / `displayName` / `owner` | Channel that owns the video |
-| `url` | Video URL |
+| `channelId` / `channelName` / `displayName` / `owner` | Owning channel |
+| `url` | VOD URL |
 
 ### Clip (`recordType: "clip"`)
 
@@ -86,54 +102,62 @@ Every record carries a `recordType` of `stream`, `channel`, `video`, `clip`, or 
 | `title` | Clip title |
 | `viewCount` | Total views |
 | `durationSeconds` | Clip length |
-| `createdAt` | When the clip was created |
-| `language` | Clip language code |
-| `thumbnailURL` / `embedURL` | Thumbnail and embeddable player URL |
+| `createdAt` | Creation timestamp |
+| `language` | Clip language |
+| `isFeatured` | Featured flag, when true |
+| `thumbnailURL` / `embedURL` | Thumbnail and embed URL |
 | `videoOffsetSeconds` | Offset into the source broadcast, when known |
 | `gameId` / `gameName` / `gameSlug` / `game` | Associated category |
-| `channelId` / `channelName` / `displayName` / `broadcaster` | Channel the clip is from |
-| `curator` | Who created the clip, when different from the broadcaster |
-| `sourceVideo` | The source VOD's ID and title, when the clip was cut from one |
+| `channelId` / `channelName` / `displayName` / `broadcaster` | Broadcaster details |
+| `curator` | Who created the clip |
+| `sourceVideo` | Source VOD ID and title, when linked |
 | `url` | Clip URL |
 
-### Game / category (`recordType: "game"`)
+### Category (`recordType: "game"`)
 
 | Field | Description |
 |---|---|
 | `gameId` | Category ID |
-| `name` / `displayName` | Category name |
-| `slug` | URL slug for the category |
-| `viewersCount` | Current total viewers across the category |
-| `followersCount` | Total followers of the category |
-| `broadcastersCount` | Number of channels currently streaming it |
-| `boxArtURL` / `avatarURL` | Category artwork |
+| `name` / `displayName` / `slug` | Category names and URL slug |
+| `viewersCount` / `followersCount` / `broadcastersCount` | Current category stats |
+| `boxArtURL` / `logoURL` / `coverURL` | Category artwork |
 | `description` | Category description |
+| `tags[]` | Category content tags |
+| `originalReleaseDate` | Release date when published |
+| `developers[]` / `publishers[]` | Companies when published |
 | `url` | Category directory URL |
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string (required) | topStreams | One of the nine modes listed above |
-| `searchQuery` | string | lirik | Free-text query for `search` mode |
-| `searchType` | string | all | Restrict `search` results to: all, channel, game, or video |
-| `channelName` | string | – | Channel login for `byChannel` mode, e.g. "lirik" |
-| `categorySlug` | string | – | Category slug for `byCategory`/`topClips`, e.g. "just-chatting" |
-| `videoId` | string | – | VOD ID for `byVideo` mode |
-| `clipSlug` | string | – | Clip slug for `byClip` mode |
-| `twitchUrls` | array of strings | `[]` | Twitch URLs to resolve for `byUrl` mode |
-| `language` | string | EN | Broadcast language filter for `topStreams`, `byCategory` and `search`; leave on "(any)" for no filter |
-| `streamType` | string | (any) | VOD type filter for `byChannel`: ARCHIVE, HIGHLIGHT, UPLOAD, PAST_PREMIERE, or PREMIERE_UPLOAD |
-| `videoSort` | string | TIME | Sort order for a channel's VODs: TIME (newest first) or VIEWS (most-viewed first) |
-| `clipPeriod` | string | LAST_WEEK | Time window for clips: LAST_DAY, LAST_WEEK, LAST_MONTH, or ALL_TIME |
-| `includeChannelClips` | boolean | true | In `byChannel` mode, also fetch the channel's top clips |
-| `includeChannelVideos` | boolean | true | In `byChannel` mode, also fetch the channel's recent VODs |
-| `minViewersCount` | integer | – | Drop live streams below this concurrent-viewer count |
-| `minViewCount` | integer | – | Drop VODs/clips below this total-view count |
-| `containsKeyword` | string | – | Case-insensitive substring filter on stream/video/clip titles |
-| `authToken` | string | – | Optional Twitch session token; not required for any mode, but can unlock subscriber-gated fields |
-| `useApifyProxy` | boolean | false | Route requests through a proxy from the start instead of only as a fallback |
-| `maxItems` | integer | 50 | Hard cap on the number of records returned (1–5000) |
+| `mode` | string | `topStreams` | One of the ten modes above |
+| `searchQuery` | string | `lirik` | Search term for `search` |
+| `searchType` | string | `all` | `all`, `channel`, `game`, or `video` |
+| `channelName` | string | – | One channel login or URL for `byChannel` |
+| `channelNames` | array | `[]` | Batch channel logins or URLs |
+| `categorySlug` | string | – | Category slug, name, or directory URL |
+| `videoId` | string | – | One VOD ID or URL |
+| `videoIds` | array | `[]` | Batch VOD IDs or URLs |
+| `clipSlug` | string | – | One clip slug or URL |
+| `clipSlugs` | array | `[]` | Batch clip slugs or URLs |
+| `twitchUrls` | array | `[]` | URLs for `byUrl` |
+| `language` | string | `EN` | Broadcast language, or `(any)` |
+| `streamSort` | string | `VIEWER_COUNT` | Most viewers, fewest viewers, recently started, or recommended |
+| `streamTags` | array | `[]` | Require all listed freeform tags |
+| `streamType` | string | – | VOD type filter |
+| `videoSort` | string | `TIME` | Newest or most viewed |
+| `clipPeriod` | string | `LAST_WEEK` | Last day, week, month, or all time |
+| `clipSort` | string | `VIEWS_DESC` | Most viewed or trending |
+| `includeChannelClips` | boolean | `true` | Include clips in `byChannel` |
+| `includeChannelVideos` | boolean | `true` | Include VODs in `byChannel` |
+| `minViewersCount` | integer | – | Drop streams below this viewer count |
+| `minViewCount` | integer | – | Drop VODs and clips below this view count |
+| `minFollowersCount` | integer | – | Drop channels and streams below this follower count |
+| `maxFollowersCount` | integer | – | Drop channels and streams above this follower count |
+| `onlyLive` | boolean | `false` | Drop offline channel profiles |
+| `containsKeyword` | string | – | Title keyword filter |
+| `maxItems` | integer | `50` | Hard record cap (1–5000) |
 
 ### Example: top live streams in English
 
@@ -141,72 +165,83 @@ Every record carries a `recordType` of `stream`, `channel`, `video`, `clip`, or 
 {
   "mode": "topStreams",
   "language": "EN",
-  "maxItems": 20
+  "streamSort": "VIEWER_COUNT",
+  "maxItems": 50
 }
 ```
 
-### Example: channel profile with VODs and clips
+### Example: channel profiles with schedules and media
 
 ```json
 {
   "mode": "byChannel",
-  "channelName": "lirik",
+  "channelNames": ["lirik", "xqc", "pokimane"],
   "includeChannelVideos": true,
   "includeChannelClips": true,
-  "maxItems": 30
+  "maxItems": 60
 }
 ```
 
-### Example: top clips for a category this month
+### Example: category VODs
 
 ```json
 {
-  "mode": "topClips",
-  "categorySlug": "league-of-legends",
-  "clipPeriod": "LAST_MONTH",
-  "maxItems": 25
+  "mode": "byCategoryVideos",
+  "categorySlug": "minecraft",
+  "streamType": "ARCHIVE",
+  "videoSort": "VIEWS",
+  "maxItems": 100
 }
 ```
 
-### Example: resolve a list of Twitch URLs
+### Example: mixed URL resolution
 
 ```json
 {
   "mode": "byUrl",
   "twitchUrls": [
     "https://www.twitch.tv/shroud",
-    "https://www.twitch.tv/videos/2766365638"
-  ]
+    "https://www.twitch.tv/videos/2766365638",
+    "https://www.twitch.tv/directory/category/just-chatting/videos"
+  ],
+  "maxItems": 40
 }
 ```
 
 ## Use cases
 
-- **Esports and influencer discovery** — find who's streaming a given game right now, and how many viewers they have
-- **Clip curation** — pull top clips for a category over the last day, week, or month for highlight reels
-- **Channel research** — build a profile of a creator's followers, stream cadence, and recent VOD performance
-- **Category trend tracking** — monitor viewer and broadcaster counts for specific games over time
-- **Link enrichment** — turn a list of plain Twitch links into structured channel, video, clip, or category data
+- **Creator discovery** — find channels by category, language, tags, follower range, or viewer count
+- **Sponsorship research** — compare live audiences and follower totals across streamers
+- **Clip curation** — pull top or trending clips for a category or channel over a chosen window
+- **VOD archives** — collect titles, durations, views, and categories for past broadcasts
+- **Market monitoring** — track category viewers, broadcaster counts, and changing top streams
+- **Link enrichment** — turn lists of Twitch links into structured channel, VOD, clip, or category rows
 
 ## FAQ
 
-**Do I need a Twitch account or token?**
-No. Every mode works without any login. The optional `authToken` input can raise rate limits or unlock a few subscriber-gated fields, but isn't required.
+**Do I need a Twitch account, OAuth token, or API key?**
+No. All modes work without a login or developer credentials.
 
-**Why don't I see subscriber counts on a channel?**
-Twitch only exposes subscriber counts and a few other partner-only fields to a logged-in session. Supply `authToken` to attempt to unlock them; without it, those fields are simply left out.
+**Why does a run stop before `maxItems`?**
+Twitch sometimes has fewer matching rows than requested. Clip lists stop at about 1,000 rows, search categories at about 30 matches, search channels at about 1,000 per term, and search videos at Twitch's 10,000-match ceiling. In `byUrl`, the cap is shared across the supplied URLs, so a small `maxItems` can stop before every URL is expanded. The actor reports when the source ends or a cap is reached instead of padding the dataset.
 
-**What's the difference between `byCategory` and `topClips`?**
-`byCategory` returns streams that are live right now in that category. `topClips` returns the best-performing clips from that category over the time window you choose, regardless of whether anyone is streaming it currently.
+**Why are some channel fields missing?**
+Social links, schedules, panels, teams, and bio emails are optional on Twitch. They are included when the channel publishes them and omitted otherwise.
 
-**Can this pull chat messages?**
-No. This actor covers streams, channels, VODs, clips and categories only; live or replay chat is not in scope.
+**How many live streams can one run return?**
+The live directory pages in groups of up to 30. Requesting thousands of rows means many pages and a longer run; the prefill stays small to keep daily tests cheap.
+
+**Can this pull chat messages or video files?**
+No. This actor covers stream, channel, VOD, clip, and category metadata only. Chat replays and media downloads are separate tasks.
+
+**What is the difference between `byCategory` and `byCategoryVideos`?**
+`byCategory` returns channels that are live in the category now. `byCategoryVideos` returns published VODs for that category.
 
 **How do I find a category slug?**
-Open the category's page on twitch.tv — the slug is the last part of the URL, e.g. `just-chatting` or `league-of-legends` — or run `topGames` mode and read the `slug` field from the results.
+Open the category on Twitch and copy the last part of its URL, or use `topGames` and read `slug`.
 
-**Why might a run return fewer records than `maxItems`?**
-If a category, channel, or search has fewer matching items than requested, the actor returns everything it found instead of padding the output.
+**Are duplicate records removed?**
+Yes. Streams, channels, VODs, clips, and categories are deduplicated by their Twitch IDs across pages and batches.
 
 **Is this affiliated with Twitch?**
-No. This actor reads Twitch's public data and is not affiliated with, endorsed by, or sponsored by Twitch.
+No. This actor reads public Twitch data and is not affiliated with, endorsed by, or sponsored by Twitch.

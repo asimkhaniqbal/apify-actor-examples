@@ -1,104 +1,184 @@
 {
+  "description": "Search Yandex News / Dzen News by keyword, browse a category, read homepage top stories, or fetch story clusters by URL. Returns every linked article, source counts, topics and dates.",
   "properties": {
-    "categoryUrls": {
-      "description": "Yandex News category page URLs (required for browseCategory mode). Use dzen.ru/news/rubric/* URLs. Confirmed working slugs: computers, politics, world, sport, business, science, society, culture, auto, health. Legacy news.yandex.ru/*.html URLs are auto-converted.",
+    "category": {
+      "default": "politics",
+      "description": "Rubric to browse (mode=browseCategory). `all` reads all 16 rubrics in one run.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "politics",
+        "society",
+        "svo",
+        "business",
+        "world",
+        "sport",
+        "incident",
+        "culture",
+        "computers",
+        "science",
+        "auto",
+        "army",
+        "showbusiness",
+        "health",
+        "moscow",
+        "personal_feed"
+      ],
+      "enumTitles": [
+        "All categories",
+        "Politics",
+        "Society",
+        "SVO / Ukraine conflict",
+        "Business",
+        "World",
+        "Sport",
+        "Incidents",
+        "Culture",
+        "Technology",
+        "Science",
+        "Cars",
+        "Army and weapons",
+        "Show business",
+        "Health",
+        "Moscow",
+        "Interesting"
+      ],
+      "prefill": "politics",
+      "title": "Category",
+      "type": "string"
+    },
+    "excludeDomains": {
+      "default": [],
+      "description": "Drop a cluster when any linked article is from one of these domains.",
       "editor": "stringList",
       "items": {
         "type": "string"
       },
-      "prefill": [
-        "https://dzen.ru/news/rubric/politics"
-      ],
-      "title": "Category URLs",
+      "prefill": [],
+      "title": "Exclude source domains",
       "type": "array"
     },
-    "domain": {
-      "default": "ru",
-      "description": "Regional Yandex News edition to scrape (via dzen.ru).",
-      "editor": "select",
-      "enum": [
-        "ru",
-        "kz",
-        "by",
-        "uz",
-        "com"
-      ],
-      "enumTitles": [
-        "Russia (ru)",
-        "Kazakhstan (kz)",
-        "Belarus (by)",
-        "Uzbekistan (uz)",
-        "International (com)"
-      ],
-      "prefill": "ru",
-      "title": "Domain / Market",
-      "type": "string"
+    "excludeKeywords": {
+      "default": [],
+      "description": "Drop a cluster when its headline, summary or an article headline/summary contains any of these values.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Excluded keywords",
+      "type": "array"
     },
-    "language": {
-      "default": "ru",
-      "description": "Content language filter. Sets Accept-Language header and Yandex language preference.",
-      "editor": "select",
-      "enum": [
-        "ru",
-        "kk",
-        "be",
-        "uz",
-        "en"
-      ],
-      "enumTitles": [
-        "Russian",
-        "Kazakh",
-        "Belarusian",
-        "Uzbek",
-        "English"
-      ],
-      "prefill": "ru",
-      "title": "Language",
-      "type": "string"
+    "excludePublishers": {
+      "default": [],
+      "description": "Drop a cluster when any linked source name contains one of these values (case-insensitive).",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Exclude publishers",
+      "type": "array"
+    },
+    "includeArticles": {
+      "default": true,
+      "description": "Emit one record per linked article in every cluster. Turn this off for a story-only dataset.",
+      "prefill": true,
+      "title": "Include article records",
+      "type": "boolean"
+    },
+    "includeDetails": {
+      "default": true,
+      "description": "Fetch the cluster page for topic labels, source-reported counts, images, country/region, comments and likes.",
+      "prefill": true,
+      "title": "Include story details",
+      "type": "boolean"
+    },
+    "includeDomains": {
+      "default": [],
+      "description": "Keep a cluster when at least one linked article is from one of these domains (for example `rbc.ru`).",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Include source domains",
+      "type": "array"
+    },
+    "includeKeywords": {
+      "default": [],
+      "description": "Keep a cluster when its headline, summary or an article headline/summary contains at least one of these values.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Required keywords",
+      "type": "array"
+    },
+    "includePublishers": {
+      "default": [],
+      "description": "Keep a cluster when any linked source name contains one of these values (case-insensitive).",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Include publishers",
+      "type": "array"
+    },
+    "maxArticlesPerStory": {
+      "default": 100,
+      "description": "Maximum article records and article pages fetched per cluster. Yandex returns 100 articles per page.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Maximum articles per story",
+      "type": "integer"
     },
     "maxStories": {
       "default": 20,
-      "description": "Maximum number of story clusters to scrape per query or category (1–200).",
-      "editor": "number",
-      "maximum": 200,
+      "description": "Maximum number of story clusters to return across the whole run. Yandex search depth varies by query.",
+      "maximum": 500,
       "minimum": 1,
       "prefill": 3,
-      "title": "Max Stories",
+      "title": "Maximum story clusters",
       "type": "integer"
     },
     "mode": {
       "default": "searchNews",
-      "description": "Scraping mode: search by keyword, browse a category, or get trending stories.",
+      "description": "What to scrape. `searchNews` searches keywords, `browseCategory` reads a rubric feed, `topStories` reads the homepage sections, and `byStoryUrls` resolves specific story clusters.",
       "editor": "select",
       "enum": [
         "searchNews",
         "browseCategory",
-        "getTrending"
+        "topStories",
+        "byStoryUrls"
       ],
       "enumTitles": [
-        "Search News",
-        "Browse Category",
-        "Get Trending"
+        "Search news by keyword",
+        "Browse a category",
+        "Homepage top stories",
+        "Fetch story clusters by URL"
       ],
       "prefill": "searchNews",
       "title": "Mode",
       "type": "string"
     },
-    "proxyConfiguration": {
-      "description": "Required. Yandex/Dzen only serves Russian IPs. Use Apify Residential proxy with country=RU for reliable access.",
-      "editor": "proxy",
-      "prefill": {
-        "apifyProxyCountry": "RU",
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
-        ],
-        "useApifyProxy": true
-      },
-      "title": "Proxy Configuration",
-      "type": "object"
+    "publishedAfter": {
+      "description": "Inclusive start date in YYYY-MM-DD format (mode=searchNews). Leave blank for no lower bound.",
+      "editor": "textfield",
+      "title": "Published after",
+      "type": "string"
+    },
+    "publishedBefore": {
+      "description": "Inclusive end date in YYYY-MM-DD format (mode=searchNews). Leave blank for no upper bound.",
+      "editor": "textfield",
+      "title": "Published before",
+      "type": "string"
     },
     "searchQueries": {
-      "description": "One or more search queries (required for searchNews mode). E.g. 'Яндекс', 'Ukraine', 'Apple'.",
+      "description": "One or more keywords or phrases (mode=searchNews). Russian and English queries are supported. The daily-test prefill uses one query.",
       "editor": "stringList",
       "items": {
         "type": "string"
@@ -106,23 +186,57 @@
       "prefill": [
         "Яндекс"
       ],
-      "title": "Search Queries",
+      "title": "Search queries",
       "type": "array"
     },
     "sortOrder": {
       "default": "newest",
-      "description": "Sort order for search and category results.",
+      "description": "Order of the returned search clusters (mode=searchNews). Yandex search itself is relevance-ranked; these options sort the returned set.",
       "editor": "select",
       "enum": [
+        "relevance",
         "newest",
-        "popular"
+        "oldest",
+        "mostCovered"
       ],
       "enumTitles": [
-        "Newest First",
-        "Most Popular"
+        "Yandex relevance",
+        "Newest first",
+        "Oldest first",
+        "Most covered first"
       ],
       "prefill": "newest",
-      "title": "Sort Order",
+      "title": "Sort order",
+      "type": "string"
+    },
+    "storyUrls": {
+      "description": "Dzen News story or instory URLs, or bare cluster UUIDs (mode=byStoryUrls). A bare numeric persistent ID is not a valid cluster URL.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Story URLs or cluster IDs",
+      "type": "array"
+    },
+    "timeRange": {
+      "default": "any",
+      "description": "Keep clusters published in this window (mode=searchNews). Applied to the results Yandex returns. A custom date range overrides this field.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "day",
+        "week",
+        "month"
+      ],
+      "enumTitles": [
+        "Any time",
+        "Past day",
+        "Past week",
+        "Past month"
+      ],
+      "prefill": "any",
+      "title": "Publication time",
       "type": "string"
     }
   },
@@ -130,6 +244,6 @@
     "mode"
   ],
   "schemaVersion": 1,
-  "title": "Yandex News Scraper Input",
+  "title": "Yandex News Story Clusters Input",
   "type": "object"
 }

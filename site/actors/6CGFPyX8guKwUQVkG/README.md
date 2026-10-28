@@ -1,137 +1,206 @@
-# SofaScore Live Scores, Standings & Team Search Data
+# SofaScore Live Scores, Standings & Match Data
 
-Pull live scores, scheduled fixtures, league standings, and team/player/tournament search results from SofaScore across 17 sports including football, basketball, tennis, and ice hockey — no account needed.
+Scrape **SofaScore** live scores, fixtures, league tables, team and player profiles, match statistics, lineups, odds and rankings across 25 sports. Search by name, paste SofaScore URLs, or pull every live and scheduled match. No login, API key or proxy setup.
 
 ## What this actor does
 
-- Fetches every currently live event for a chosen sport, with real-time score and match period
-- Fetches all events scheduled or finished on a specific date
-- Searches SofaScore by name and returns matching teams, players, and tournaments with their IDs
-- Fetches a team's recent and upcoming events, or a full tournament/league standings table
-- Omits any field SofaScore doesn't provide for a given record rather than returning a null or placeholder value
+- **Nine ways in:** search by name, live events, fixtures by date, team profile, player profile, tournament profile, standings, match detail by ID/URL, and rankings.
+- **25 sports:** football, basketball, tennis, ice hockey, cricket, MMA, esports, volleyball, handball, rugby, and more.
+- **Match depth on demand:** statistics, lineups with ratings, incidents, odds, crowd votes, head-to-head, shotmap, momentum, average positions, best players, win probability, managers, streaks and commentary.
+- **Team and player data:** squad lists, manager, venue, market value, contract, nationality and per-competition season statistics.
+- **Leagues and rankings:** overall, home and away tables, group tables, FIFA, UEFA, ATP, WTA, UTR, FIP, rugby, UFC and FNC rankings.
+- **Empty fields are omitted** — a field SofaScore does not publish for a record is left out, never filled with `null` or a placeholder.
 
 ## Output per record
 
-### Events (`liveEvents`, `eventsByDate`, `teamEvents`)
+Every row has a `recordType`, a `sofascoreUrl` where one exists, and `scrapedAt`.
 
-| Field | Description |
-|---|---|
-| `eventId` | Unique SofaScore event ID |
-| `status` | Match status, e.g. notstarted, inprogress, finished, postponed, canceled |
-| `homeTeam` / `awayTeam` | Team details: id, name, slug, shortName, logoUrl, teamColors |
-| `homeScore` / `awayScore` | Current score for each side |
-| `currentPeriod` | Current match period, e.g. period2, overtime |
-| `matchTime` | Match clock in minutes |
-| `startTime` | Match start time, in ISO 8601 |
-| `sport` | Sport slug, e.g. football |
-| `tournamentName` / `tournamentId` | Competition name and ID |
-| `country` / `countryCode` | Tournament's country/region |
-| `seasonName` / `seasonId` / `seasonYear` | Season label, ID, and year |
-| `roundName` | Round name or number |
-| `venue` / `city` | Stadium/venue and host city |
-| `sofascoreUrl` | Direct link to the event on SofaScore |
-| `scrapedAt` | UTC timestamp when the record was scraped |
+### `recordType: "event"`
 
-### Search results (`search`)
+- `eventId`, `slug`, `sport`, `startTime`, `startTimestamp`, `status`, `statusCode`, `statusDescription`, `winnerCode`
+- `homeTeam` / `awayTeam` — id, name, slug, shortName, nameCode, logoUrl, teamColors, countryCode, manager
+- `homeScore` / `awayScore`, `currentPeriod`, `matchTime`
+- `tournamentName`, `tournamentId`, `uniqueTournamentId`, `uniqueTournamentName`, `categoryName`, `country`, `countryCode`
+- `seasonName`, `seasonId`, `seasonYear`, `round`, `roundName`
+- `venue`, `city`, `venueCapacity`, `venueCoordinates`, `referee`, `refereeCountry`, `attendance`
+- `hasStatistics`, `hasXg`, `hasHighlights`
+- Optional: `statistics`, `lineups`, `incidents`, `odds`, `votes`, `h2h`, `advanced` (shotmap, momentum, average positions, best players, win probability, managers, team streaks, pre-game form), `comments`
 
-| Field | Description |
-|---|---|
-| `type` | team, player, or tournament |
-| `id` | Entity's SofaScore ID |
-| `name` / `slug` | Entity name and URL slug |
-| `sport` | Sport name |
-| `country` / `countryCode` | Country associated with the entity |
-| `teamColors` | Primary/secondary hex colors — teams only |
-| `imageUrl` | Logo or photo URL |
-| `teamId` / `playerId` | Set when `type` is team or player, respectively |
-| `searchQuery` | The search term that produced this result |
-| `scrapedAt` | UTC timestamp when the record was scraped |
+### `recordType: "team"`
 
-### Standings (`standings`)
+- `teamId`, `name`, `slug`, `shortName`, `fullName`, `nameCode`, `sport`
+- `country`, `countryCode`, `category`, `tournamentId`, `tournamentName`, `uniqueTournamentId`
+- `manager`, `managerCountry`, `venue`, `venueCapacity`, `venueCity`, `foundationDate`
+- `teamColors`, `userCount`, `national`, `gender`, `class`, `primaryTournament`, `pregameForm`
+- Optional: `squad`, `events`
 
-| Field | Description |
-|---|---|
-| `teamId` / `teamName` / `teamSlug` | Team identifiers |
-| `position` | League table position |
-| `wins` / `draws` / `losses` | Match record |
-| `points` | Total points |
-| `gamesPlayed` | Matches played |
-| `goalsFor` / `goalsAgainst` | Goals or points scored and conceded |
-| `goalDifference` | `goalsFor` minus `goalsAgainst` |
-| `tournamentName` / `tournamentId` | Competition name and ID |
-| `seasonName` / `seasonId` | Season label and ID |
-| `groupName` | Group name, for tournaments with group stages |
+### `recordType: "player"`
+
+- `playerId`, `name`, `slug`, `shortName`, `position`, `positionsDetailed`, `jerseyNumber`, `height`, `preferredFoot`
+- `dateOfBirth`, `country`, `countryCode`, `teamId`, `teamName`
+- `marketValue`, `marketValueCurrency`, `contractUntil`, `userCount`, `sofascoreId`, `gender`
+- Optional: `statistics` (per competition and season)
+
+### `recordType: "standingsRow"`
+
+- `teamId`, `teamName`, `teamSlug`, `teamLogoUrl`, `teamCountryCode`
+- `position`, `wins`, `draws`, `losses`, `points`, `gamesPlayed`, `goalsFor`, `goalsAgainst`, `goalDifference`
+- `tournamentName`, `tournamentId`, `seasonName`, `seasonId`, `groupName`, `tableType`, `promotion`, `avgRating`
+
+### `recordType: "tournament"`
+
+- `tournamentId`, `name`, `slug`, `sport`, `category`, `country`, `countryCode`, `userCount`
+- `seasons`, `standings` (when requested), `currentRound` (when standings are requested)
+
+### `recordType: "searchResult"`
+
+- `type`, `id`, `name`, `slug`, `sport`, `sportSlug`, `country`, `countryCode`
+- `score`, `teamColors`, `imageUrl`, `teamId`, `playerId`, `tournamentId`, `eventId`
+- Event fields when the result is a match; position, shirt number and market value when it is a player.
+
+### `recordType: "rankingRow"`
+
+- `rankingTypeId`, `rankingTypeName`, `position`, `previousPosition`, `bestPosition`
+- `id`, `name`, `teamId`, `teamName`, `teamSlug`, `country`, `countryCode`
+- `points`, `previousPoints`, `year`, `tournamentsPlayed`, `playingTeams`, `totalTeams`, `updatedAt`
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string (required) | search | liveEvents, eventsByDate, search, teamEvents, or standings |
-| `sport` | string | football | Sport to use with liveEvents, eventsByDate, and teamEvents: football, basketball, tennis, baseball, ice-hockey, volleyball, handball, cricket, rugby-union, american-football, esports, table-tennis, badminton, cycling, darts, snooker, or mma |
-| `date` | string | – | Date to use with `eventsByDate`, formatted YYYY-MM-DD |
-| `searchQuery` | string | – | Team, player, or tournament name to search for |
-| `teamId` | integer | – | SofaScore team ID, used with `teamEvents` |
-| `tournamentId` | integer | – | SofaScore tournament ID, used with `standings`, e.g. 17 for the Premier League |
-| `maxItems` | integer | 50 | Maximum number of records to return (1-1000) |
-| `proxyConfiguration` | object | Apify Proxy enabled | Optional proxy override |
+| `mode` | string | `search` | `search`, `live`, `scheduled`, `team`, `player`, `tournament`, `standings`, `event`, `rankings` |
+| `searchQueries` | array | – | Names to resolve (mode=search) |
+| `searchType` | string | `all` | `all`, `team`, `player`, `tournament`, `event` |
+| `sports` | array | `["football"]` | Sports for live/scheduled modes |
+| `date` | string | – | Start date for fixtures, `YYYY-MM-DD`; defaults to today UTC (mode=scheduled) |
+| `daysAhead` | integer | `0` | Extra days after `date` (0–31) |
+| `teamIds` | array | – | Team IDs or URLs (mode=team) |
+| `playerIds` | array | – | Player IDs or URLs (mode=player) |
+| `tournamentIds` | array | – | Tournament IDs or URLs (modes tournament, standings) |
+| `eventIds` | array | – | Match IDs or URLs (mode=event) |
+| `seasonId` | integer | – | Optional season for standings/tournament |
+| `tableType` | string | `total` | `total`, `home`, `away` |
+| `rankingType` | string | `fifa` | FIFA, UEFA, ATP, WTA, UTR, FIP, rugby, UFC or FNC table. SofaScore publishes at most 500 rows per table. |
+| `includeStatistics` | boolean | `true` | Match statistics |
+| `includeLineups` | boolean | `true` | Lineups and player ratings |
+| `includeIncidents` | boolean | `true` | Goals, cards and substitutions |
+| `includeOdds` | boolean | `false` | Pre-match odds markets |
+| `includeVotes` | boolean | `false` | Crowd prediction polls |
+| `includeH2h` | boolean | `false` | Head-to-head tallies |
+| `includeAdvanced` | boolean | `false` | Shotmap, momentum, positions, best players, win probability, managers, streaks, pre-game form |
+| `includeComments` | boolean | `false` | Text commentary (large payload) |
+| `includeSquad` | boolean | `false` | Full squad on team records |
+| `includePlayerStats` | boolean | `false` | Per-competition season stats on player records |
+| `includeStandings` | boolean | `false` | League table on tournament records |
+| `includeEvents` | boolean | `false` | Recent/upcoming events on team records |
+| `maxItems` | integer | `50` | Record cap; `0` means no user limit (hard cap 10,000) |
 
-### Example: live football scores
+### Example: live football and basketball
 
 ```json
 {
-  "mode": "liveEvents",
-  "sport": "football",
-  "maxItems": 50
+  "mode": "live",
+  "sports": ["football", "basketball"],
+  "maxItems": 30
 }
 ```
 
-### Example: search for a team
+### Example: a day of fixtures
 
 ```json
 {
-  "mode": "search",
-  "searchQuery": "Real Madrid",
-  "maxItems": 10
+  "mode": "scheduled",
+  "sports": ["football", "tennis"],
+  "date": "2026-10-28",
+  "daysAhead": 1,
+  "maxItems": 100
 }
 ```
 
-### Example: Premier League standings
+### Example: a match with all detail
+
+```json
+{
+  "mode": "event",
+  "eventIds": ["13981670"],
+  "includeStatistics": true,
+  "includeLineups": true,
+  "includeIncidents": true,
+  "includeOdds": true,
+  "includeH2h": true,
+  "includeAdvanced": true
+}
+```
+
+### Example: Premier League table
 
 ```json
 {
   "mode": "standings",
-  "tournamentId": 17,
-  "maxItems": 20
+  "tournamentIds": ["17"],
+  "seasonId": 76986,
+  "tableType": "total",
+  "maxItems": 30
+}
+```
+
+### Example: FIFA rankings
+
+```json
+{
+  "mode": "rankings",
+  "rankingType": "fifa",
+  "maxItems": 200
 }
 ```
 
 ## Use cases
 
-- **Live score boards** — power a scoreboard widget or alert feed for one or more sports
-- **Team and player lookup** — resolve a name into its SofaScore ID for use in other modes
-- **League table tracking** — pull standings for a tournament and track how they change over time
-- **Fixture aggregation** — collect a date's full schedule across one or more sports
-- **Team form tracking** — watch a specific team's recent results and upcoming matches
+- **Live scoreboards** — poll live matches and push score/status updates to a dashboard or alerting pipeline.
+- **Fixture calendars** — build daily or multi-day schedules across several sports.
+- **Betting research** — combine odds, votes, head-to-head and match statistics in one row per game.
+- **Team and player scouting** — pull squads, market values, contracts and season statistics.
+- **League monitoring** — track overall, home and away tables over time.
+- **Ranking trackers** — follow FIFA, UEFA, ATP, WTA, UTR, FIP, rugby and UFC standings.
 
 ## FAQ
 
-**Do I need an account or API key?**
-No. SofaScore's public match and search data is accessible without authentication.
+### Do I need a SofaScore account, API key or proxy?
 
-**Why does `liveEvents` return 0 records?**
-There may simply be no live matches for the chosen sport right now. Try `eventsByDate` with a recent date, or `search` to confirm a team exists.
+No. The actor handles access automatically and needs no login, API key or proxy setup.
 
-**How do I find a team or tournament ID?**
-Run `mode=search` with the team or tournament name, then use the `id` from the result as `teamId` or `tournamentId` in another mode.
+### Which sports are supported?
 
-**Can I get historical fixtures?**
-Yes — use `eventsByDate` with any past date to fetch the events scheduled or finished on that day.
+Football, basketball, tennis, American football, Australian rules, ice hockey, handball, rugby, futsal, minifootball, floorball, volleyball, badminton, table tennis, padel, snooker, baseball, cricket, esports, darts, MMA, cycling, motorsport, water polo and bandy. Live coverage varies by time of day.
 
-**What does `teamEvents` actually return?**
-A team's recent past results and its next scheduled matches, rather than its entire season history. For broader date coverage, run `eventsByDate` across multiple dates instead.
+### Why does `live` return no rows?
 
-**Why are some fields, like `venue` or `roundName`, missing from an event?**
-Not every match on SofaScore has that detail published; when it's missing, the field is left out of the record rather than filled with a placeholder.
+There may simply be no match in progress for the selected sports. Use `scheduled` with today's date or `search` to confirm a team exists.
 
-**Is this affiliated with SofaScore?**
-No. This actor reads SofaScore's public data and is not affiliated with, endorsed by, or sponsored by SofaScore.
+### How do I find a team, player or tournament ID?
+
+Run `mode=search` with the name and use the `id` from the result, or paste the SofaScore page URL directly into `teamIds`, `playerIds`, `tournamentIds` or `eventIds`.
+
+### Why do ranking tables stop at 500 rows?
+
+SofaScore publishes at most 500 rows per ranking table, so `maxItems` above 500 cannot add more. A row's `position` is its place in that table.
+
+### Why are some fields missing?
+
+SofaScore does not publish every field for every match, competition or sport. Missing fields are omitted; they are not replaced with nulls or placeholders.
+
+### Are scores live?
+
+`live` returns the current score and status at the moment the actor runs. It polls SofaScore; it is not a push/streaming feed.
+
+### Can I get historical fixtures?
+
+Yes. Use `scheduled` with a past `date` and `daysAhead: 0`.
+
+### Why do season IDs change?
+
+SofaScore creates a new season ID each year. The actor resolves the latest season automatically for standings and tournaments; pass `seasonId` only when you need a specific historical season.
+
+### Is this affiliated with SofaScore?
+
+No. This is an independent third-party actor that reads publicly available SofaScore data. It is not affiliated with, endorsed by or sponsored by SofaScore.

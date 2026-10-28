@@ -1,129 +1,174 @@
 # Yandex News Story Clusters Across Russia & the CIS
 
-Yandex News clusters coverage of the same event from many outlets into a single story, across Russian, Kazakh, Belarusian, Uzbek and international editions. This actor searches, browses by category, or reads the trending homepage, and returns both the story clusters and the individual articles inside each one.
+Yandex News groups coverage of the same event from many outlets into a story cluster. This actor reads the public Dzen News surface that now serves Yandex News, returns the clusters, and lists every linked article inside each one. Search by keyword, browse a category, read the homepage sections, or paste a story URL. No login, API key, or proxy is needed.
 
 ## What this actor does
 
-- Searches Yandex News by keyword or phrase, in Russian or English
-- Browses a specific news category page, such as politics, sport, or technology
-- Reads the trending homepage for its real-time trending topic list and top story clusters
-- Links every article record back to its parent story via a shared `storyId`
-- Omits any field that has no value for a given record rather than returning an empty placeholder
+- **Four ways to collect news:** keyword search, 16 category feeds, the 15 homepage sections, or specific story URLs and cluster IDs.
+- **Story clusters, not just headlines:** each story carries its cluster ID, source-reported coverage count, actual article count, unique source list, topics, image, country/region and timestamps.
+- **Every linked article:** article records include the publisher, headline, clean article URL, publication date, image and source flags.
+- **Filters and sorting** on the returned set: date window, source domain, publisher, keyword, relevance, newest, oldest or most covered.
+- **Automatic deduplication** by story ID and article ID, and empty fields are omitted rather than stored as nulls.
 
-## Output per record
-
-Records carry a `recordType` of `story`, `article`, or `trending`.
-
-### Story record
+## Output per story
 
 | Field | Description |
 |---|---|
 | `recordType` | `"story"` |
-| `storyId` | Identifier shared with that story's article records |
-| `storyUrl` | Link to the story cluster on Yandex News |
-| `headline` | Story headline |
-| `summary` | Short summary text, when shown |
-| `category` | News category, when shown |
-| `topicTags` | Topic keyword tags attached to the story |
-| `articleCount` | Total number of publications Yandex reports for the story — not limited by `maxStories` |
-| `domain` | The regional edition this record came from |
-| `scrapedAt` | UTC timestamp when the record was scraped |
+| `storyId` | Story cluster ID (UUID); shared with its article records |
+| `persistentId` | Yandex's numeric story ID |
+| `storyUrl` | Canonical story page on Dzen News |
+| `headline` | Cluster headline |
+| `summary` | Short cluster summary, when Yandex provides one |
+| `category` | Broad rubric name, when available |
+| `topics` / `topicTags` | Rubric or topic labels attached to the cluster |
+| `topicIds` | Numeric rubric IDs |
+| `articleCount` | Number of publications Yandex reports for the cluster |
+| `articlesReturned` | Number of article records actually collected |
+| `sourceCount` | Number of distinct outlet names among the collected articles |
+| `sources` | Outlet names, when articles were collected |
+| `leadSource` | Outlet behind the lead article |
+| `leadArticleUrl` | Publisher URL of the lead article |
+| `publishedAt` | Cluster timestamp, ISO UTC |
+| `publishedAtRaw` | Timestamp label as shown by Yandex |
+| `imageUrl` | Cluster image, when present |
+| `country` / `region` | Story location, when Yandex reports it |
+| `importance` / `relatedStories` | Yandex story metrics |
+| `commentsCount` / `likesCount` | Interaction counts, when present |
+| `domain` | `ru` |
+| `scrapedAt` | UTC timestamp when collected |
 
-### Article record
+`articlesReturned`, `sourceCount` and `sources` are emitted only when `includeArticles` is true. With it off, no article records are fetched, so those article-derived fields are omitted.
+
+## Output per article
 
 | Field | Description |
 |---|---|
 | `recordType` | `"article"` |
-| `storyId` | Identifier of the parent story record |
-| `headline` | This outlet's version of the headline |
-| `summary` | Short summary text, when shown |
-| `sourceName` | Publishing outlet's name |
-| `sourceUrl` | Publishing outlet's own site, when resolvable |
-| `articleUrl` | Direct link to the article on the outlet's site |
-| `publishedAt` | Publication date |
-| `domain` | The regional edition this record came from |
-| `scrapedAt` | UTC timestamp when the record was scraped |
+| `storyId` | Parent story cluster ID |
+| `docId` | Yandex document ID |
+| `headline` | Outlet's headline |
+| `summary` | Article snippet, when Yandex provides one |
+| `sourceName` | Outlet name |
+| `sourceUrl` | Outlet site root |
+| `articleUrl` | Clean link to the article |
+| `publishedAt` | Publication date (`YYYY-MM-DD`) |
+| `publishedAtIso` | Publication timestamp, ISO UTC |
+| `publishedAtRaw` | Timestamp label as shown by Yandex |
+| `imageUrl` | Outlet logo or article image |
+| `isForeignAgent` / `isDzenArticle` | Yandex flags |
+| `agencyId` | Yandex outlet ID |
+| `domain` | `ru` |
+| `scrapedAt` | UTC timestamp when collected |
 
-### Trending record
+## Output per homepage record
 
-| Field | Description |
-|---|---|
-| `recordType` | `"trending"` |
-| `topics` | List of trending topic keywords from the homepage panel |
-| `domain` | The regional edition this record came from |
-| `scrapedAt` | UTC timestamp when the record was scraped |
+`topStories` (and the legacy `getTrending` mode) emits one `recordType: "trending"` record with `topics` (homepage section names), `sectionCounts`, `domain` and `scrapedAt`, followed by the story records for those sections.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string (required) | searchNews | searchNews (keyword search), browseCategory (browse a category page), or getTrending (homepage trending + top stories) |
-| `searchQueries` | array of strings | – | One or more search queries — used in `searchNews` mode |
-| `categoryUrls` | array of strings | – | Category page URLs to browse — used in `browseCategory` mode. Confirmed working slugs include computers, politics, world, sport, business, science, society, culture, auto, and health. |
-| `domain` | string | ru | Regional edition: ru (Russia), kz (Kazakhstan), by (Belarus), uz (Uzbekistan), or com (international) |
-| `maxStories` | integer | 20 | Maximum number of story clusters to scrape per query or category (1-200) |
-| `sortOrder` | string | newest | Result order: newest or popular |
-| `language` | string | ru | Content language: ru, kk, be, uz, or en |
-| `proxyConfiguration` | object | Apify Residential, country RU | Yandex News only serves Russian IP ranges reliably, so a Russia-located proxy is set by default |
+| `mode` | string | `searchNews` | `searchNews`, `browseCategory`, `topStories` or `byStoryUrls` |
+| `searchQueries` | array | – | Keywords or phrases (mode=searchNews); the daily-test prefill uses `["Яндекс"]` |
+| `category` | string | `politics` | Rubric slug or `all` (mode=browseCategory) |
+| `storyUrls` | array | – | Story/instory URLs or cluster UUIDs (mode=byStoryUrls) |
+| `maxStories` | integer | `20` | Maximum story clusters across the run (1–500) |
+| `sortOrder` | string | `newest` | `relevance`, `newest`, `oldest` or `mostCovered` (mode=searchNews) |
+| `timeRange` | string | `any` | `any`, `day`, `week` or `month` (mode=searchNews) |
+| `publishedAfter` | string | – | Inclusive `YYYY-MM-DD` start date (mode=searchNews) |
+| `publishedBefore` | string | – | Inclusive `YYYY-MM-DD` end date (mode=searchNews) |
+| `includeDomains` | array | `[]` | Keep clusters with an article from any listed domain |
+| `excludeDomains` | array | `[]` | Drop clusters with an article from any listed domain |
+| `includePublishers` | array | `[]` | Keep clusters matching any outlet name substring |
+| `excludePublishers` | array | `[]` | Drop clusters matching any outlet name substring |
+| `includeKeywords` | array | `[]` | Keep clusters matching any keyword in the title, summary or articles |
+| `excludeKeywords` | array | `[]` | Drop clusters matching any keyword |
+| `includeDetails` | boolean | `true` | Fetch cluster details such as topics, reported count, image and metrics |
+| `includeArticles` | boolean | `true` | Emit one record per linked article; when off, article-derived story fields are omitted |
+| `maxArticlesPerStory` | integer | `100` | Maximum articles collected per cluster (1–1000) |
 
-### Example: search by keyword
+### Example: brand monitoring by keyword
 
 ```json
 {
   "mode": "searchNews",
-  "searchQueries": ["Яндекс", "Apple"],
-  "maxStories": 20
+  "searchQueries": ["Яндекс", "Яндекс Такси"],
+  "maxStories": 50,
+  "timeRange": "week",
+  "includeArticles": true
 }
 ```
 
-### Example: browse a category in Kazakhstan's edition
+### Example: all categories, story records only
 
 ```json
 {
   "mode": "browseCategory",
-  "categoryUrls": ["https://dzen.ru/news/rubric/business"],
-  "domain": "kz",
-  "maxStories": 10
+  "category": "all",
+  "maxStories": 200,
+  "includeArticles": false
 }
 ```
 
-### Example: trending homepage
+### Example: homepage top stories
 
 ```json
 {
-  "mode": "getTrending",
-  "domain": "ru",
-  "maxStories": 15
+  "mode": "topStories",
+  "maxStories": 40
+}
+```
+
+### Example: resolve specific story clusters
+
+```json
+{
+  "mode": "byStoryUrls",
+  "storyUrls": [
+    "https://dzen.ru/news/story/85c864f8-36d7-5b96-ab8d-937bea5d9c9b",
+    "c29b2d3c-c183-546b-9a23-b9aba12e981e"
+  ],
+  "maxArticlesPerStory": 300
 }
 ```
 
 ## Use cases
 
-- **Brand and reputation monitoring** — track Russian and CIS press coverage of a company, product, or public figure
-- **Share-of-voice measurement** — use `articleCount` to see how widely a topic was picked up across outlets
-- **Cross-market media comparison** — run the same search across the ru, kz, by, and uz editions
-- **News-cycle tracking** — use `getTrending` to see what's rising on the homepage right now
-- **Academic and journalism research** — build a dataset of Russian-language coverage for systematic analysis
+- **Media monitoring:** follow a company, person or event across many Russian outlets.
+- **Share-of-voice measurement:** use the reported and returned article counts to size coverage.
+- **PR and communications:** see which outlets picked up a story and how the headline evolved.
+- **Newsroom research:** export a cluster's full article list with dates and publisher links.
+- **Risk and compliance:** monitor keywords, source domains and publication windows.
 
 ## FAQ
 
-**Which Yandex News editions are supported?**
-Five: ru (Russia), kz (Kazakhstan), by (Belarus), uz (Uzbekistan), and com (international).
+**What happened to Yandex News?**
+The public Yandex News pages now redirect to Dzen News, which provides the same story-cluster model. This actor reads that public surface.
 
-**How do story and article records connect?**
-Every `article` record carries a `storyId` that matches its parent `story` record's `storyId`; filter by `recordType` to separate story clusters from individual articles.
+**How many stories can one search return?**
+Yandex search returns 20 clusters per page and its depth varies by query; observed runs reached 9–22 pages (roughly 175–400 unique clusters) before the result set ended. `maxStories` is a hard run-wide cap.
 
-**What does `articleCount` actually measure?**
-It's the total number of publications Yandex reports for that story cluster, independent of `maxStories` — a useful signal of how widely a story was covered even if you only collected a handful of articles from it.
+**Why is `articleCount` different from `articlesReturned`?**
+`articleCount` is the number Yandex reports for the cluster, while `articlesReturned` is the number of article records actually collected. The two can differ in either direction: Yandex's live count changes as outlets publish or remove articles (observed 96 reported vs 122 returned, and 246 vs 362), and very large clusters may be capped by `maxArticlesPerStory`.
 
-**Can I search in English?**
-Yes — set `language` to `en` and use English search queries; results include English-language sources Yandex News indexes.
+**Are the date and sort filters applied by Yandex?**
+Yandex's public search page applies them in the browser rather than in the server response. This actor applies the same filters and sorting to the set it returns, so a very old custom date range may return fewer results than a dedicated archive search.
 
-**Why do some stories list fewer articles than `articleCount` suggests?**
-Yandex's reported total can include articles that are paywalled, geo-restricted, or no longer listed; the actor returns only what's actually rendered on the page.
+**Which categories are available?**
+All, politics, society, SVO, business, world, sport, incidents, culture, technology, science, cars, army, show business, health, Moscow and interesting. `all` reads every feed.
 
-**Do I need to configure a proxy myself?**
-No — a Russia-located residential proxy is set by default since Yandex News is not reliably reachable from most other regions. You can override it in `proxyConfiguration` if needed.
+**Do I need a proxy or login?**
+No. The actor connects directly and handles the site's anonymous session automatically. No cookies or credentials are required.
 
-**Is this affiliated with Yandex?**
-No. This actor reads Yandex News's public pages and is not affiliated with, endorsed by, or sponsored by Yandex.
+**Can I search other regional editions or languages?**
+The current public surface serves one Russian-language feed; the old `ru/kz/by/uz/com` edition selector no longer changes the content. Search queries can still be written in Russian, English or any language Yandex indexes.
+
+**Why is there no trending keyword list?**
+The old “what people discuss” panel is no longer present on the homepage. `topStories` returns the homepage sections and their top clusters instead.
+
+**Does this actor download full article text?**
+No. It returns article metadata and the publisher's URL. Full text stays on the publisher's site and may be paywalled or geo-restricted.
+
+**Is this affiliated with Yandex or Dzen?**
+No. This is a third-party actor reading public pages; it is not affiliated with, endorsed by, or sponsored by Yandex or Dzen.

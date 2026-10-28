@@ -10,25 +10,17 @@
             "format": "link",
             "label": "Article URL"
           },
-          "domain": {
-            "format": "text",
-            "label": "Domain"
-          },
           "headline": {
             "format": "text",
             "label": "Headline"
           },
+          "imageUrl": {
+            "format": "link",
+            "label": "Image"
+          },
           "publishedAt": {
             "format": "text",
             "label": "Published"
-          },
-          "recordType": {
-            "format": "text",
-            "label": "Type"
-          },
-          "scrapedAt": {
-            "format": "text",
-            "label": "Scraped At"
           },
           "sourceName": {
             "format": "text",
@@ -45,11 +37,13 @@
         "fields": [
           "recordType",
           "storyId",
+          "docId",
           "headline",
           "sourceName",
           "articleUrl",
           "publishedAt",
-          "domain",
+          "publishedAtIso",
+          "imageUrl",
           "scrapedAt"
         ]
       }
@@ -60,27 +54,27 @@
         "properties": {
           "articleCount": {
             "format": "number",
-            "label": "Sources"
+            "label": "Sources (reported)"
+          },
+          "articlesReturned": {
+            "format": "number",
+            "label": "Articles returned"
           },
           "category": {
             "format": "text",
             "label": "Category"
           },
-          "domain": {
-            "format": "text",
-            "label": "Domain"
-          },
           "headline": {
             "format": "text",
             "label": "Headline"
           },
-          "recordType": {
+          "publishedAt": {
             "format": "text",
-            "label": "Type"
+            "label": "Published"
           },
-          "scrapedAt": {
-            "format": "text",
-            "label": "Scraped At"
+          "sourceCount": {
+            "format": "number",
+            "label": "Unique sources"
           },
           "storyId": {
             "format": "text",
@@ -90,9 +84,9 @@
             "format": "link",
             "label": "Story URL"
           },
-          "topicTags": {
+          "topics": {
             "format": "array",
-            "label": "Topic Tags"
+            "label": "Topics"
           }
         }
       },
@@ -101,11 +95,15 @@
         "fields": [
           "recordType",
           "storyId",
+          "persistentId",
           "headline",
           "category",
-          "topicTags",
+          "topics",
           "articleCount",
-          "domain",
+          "articlesReturned",
+          "sourceCount",
+          "leadSource",
+          "publishedAt",
           "storyUrl",
           "scrapedAt"
         ]
@@ -115,29 +113,22 @@
       "display": {
         "component": "table",
         "properties": {
-          "domain": {
+          "sectionCounts": {
             "format": "text",
-            "label": "Domain"
-          },
-          "recordType": {
-            "format": "text",
-            "label": "Type"
-          },
-          "scrapedAt": {
-            "format": "text",
-            "label": "Scraped At"
+            "label": "Counts"
           },
           "topics": {
             "format": "array",
-            "label": "Trending Topics"
+            "label": "Sections"
           }
         }
       },
-      "title": "Trending Topics",
+      "title": "Homepage sections",
       "transformation": {
         "fields": [
           "recordType",
           "topics",
+          "sectionCounts",
           "domain",
           "scrapedAt"
         ]
