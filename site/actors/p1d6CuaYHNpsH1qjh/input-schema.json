@@ -1,0 +1,134 @@
+{
+  "description": "Search products on Trendyol, fetch product details, browse categories, or get trending/new items.",
+  "properties": {
+    "categoryUrl": {
+      "description": "Trendyol category path, e.g. `erkek-spor-ayakkabi-x-c87` or full URL.",
+      "editor": "textfield",
+      "title": "Category URL path (mode=categoryBrowse)",
+      "type": "string"
+    },
+    "gender": {
+      "default": "",
+      "description": "Filter results by gender.",
+      "editor": "select",
+      "enum": [
+        "",
+        "kadin",
+        "erkek",
+        "unisex",
+        "cocuk"
+      ],
+      "enumTitles": [
+        "Any",
+        "Women",
+        "Men",
+        "Unisex",
+        "Kids"
+      ],
+      "prefill": "",
+      "title": "Gender filter",
+      "type": "string"
+    },
+    "keyword": {
+      "default": "sneakers",
+      "description": "Search term for mode=search.",
+      "editor": "textfield",
+      "prefill": "sneakers",
+      "title": "Search keyword",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Maximum number of products to return.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Maximum price filter in Turkish Lira.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Max price (TRY)",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Minimum price filter in Turkish Lira.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Min price (TRY)",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to scrape.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "productDetails",
+        "categoryBrowse",
+        "trendingItems",
+        "newArrivals"
+      ],
+      "enumTitles": [
+        "Search products by keyword",
+        "Fetch product details by URL or ID",
+        "Browse a category listing",
+        "Trending / best-seller items",
+        "New arrival items"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "productUrls": {
+      "default": [],
+      "description": "List of Trendyol product URLs to fetch details for.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Product URLs (mode=productDetails)",
+      "type": "array"
+    },
+    "proxyConfiguration": {
+      "default": {
+        "useApifyProxy": true
+      },
+      "description": "Proxy settings. Trendyol is geo-restricted to Turkish IPs — enable Apify proxy for reliable access.",
+      "editor": "proxy",
+      "prefill": {
+        "useApifyProxy": true
+      },
+      "title": "Proxy configuration",
+      "type": "object"
+    },
+    "sortBy": {
+      "default": "BEST_SELLER",
+      "description": "Sort order for search and category browse.",
+      "editor": "select",
+      "enum": [
+        "BEST_SELLER",
+        "MOST_RATED",
+        "PRICE_BY_ASC",
+        "PRICE_BY_DESC",
+        "MOST_FAVOURITE"
+      ],
+      "enumTitles": [
+        "Best Seller",
+        "Most Rated",
+        "Price: Low to High",
+        "Price: High to Low",
+        "Most Favourited"
+      ],
+      "prefill": "BEST_SELLER",
+      "title": "Sort by (search/category)",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Trendyol Scraper Input",
+  "type": "object"
+}
