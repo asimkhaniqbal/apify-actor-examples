@@ -4,115 +4,191 @@
 
 # New Jersey Business Registry Lookup & Name Checker
 
-New Jersey's Division of Revenue and Enterprise Services runs a free, public name-search tool for every business registered in the state. This actor queries that tool on your behalf — searching by business name, keyword or exact entity ID, or checking whether a name you want to file is still available — and returns the matches as clean records.
+Look up New Jersey registered businesses in the state's free public registry, clear a candidate name before filing, or trace a company through its principal, registered agent or previous name. The actor also lists the free document index for any entity, including the document names, filing years and whether certified or non-certified copies can be ordered. No login, account, API key or proxy setup is required.
 
 ## What this actor does
 
-- **Four lookup modes**: search by name (contains match), search by up to five keywords, look up an exact 10-digit entity ID, or check whether a candidate name is available for a new filing
-- **Returns both the short and full entity type** for every registered business, e.g. `LLC` alongside `Domestic Limited Liability Company`
-- **Surfaces conflicting names** when an availability check fails, so you can see exactly what's blocking your chosen name
-- **Narrows results client-side** by entity-type substring or exact city, on top of the name/keyword search
-- Fields New Jersey's registry doesn't return for a record are left out rather than sent empty
+- **Six modes:** `byName`, `byKeyword`, `byEntityId`, `byLinkedName`, `availability`, and `documents`
+- **Batch lookups:** up to 50 names, 20 keyword phrases or 200 entity IDs per run
+- **Reverse searches:** find entities by principal/officer name, registered-agent name or associated/previous name, with 17 entity-type codes and an exact city filter
+- **Name availability:** see whether a candidate name is free, plus the source's list of similar registered names
+- **Free document index:** list every orderable charter document with its filing year and copy options
+- **Provenance:** every business record says which mode and search term produced it
+- Fields the source does not publish for a record are omitted rather than sent empty
 
-## Output per record
+## Services
 
-### Registered-business modes (`byName`, `byKeyword`, `byEntityId`)
+| Service | What you get | Cost |
+|---|---|---|
+| New Jersey Business Name Search | Name, keyword, entity ID and name-availability results | Free, no login |
+| Business Records Service (BRS) | Reverse search by principal, registered agent or associated name; 10 results per page | Free, no login |
+| BRS document index | Document names, filing years, certified/non-certified copy availability | Free, no login |
+| Status reports, standing certificates, document copies, bulk lists | Not accessed by this actor | Paid state products |
 
-- `businessName` — name as filed with the state
-- `entityId` — 10-digit New Jersey entity ID
-- `city` — on-file city, when present
-- `entityTypeAbbr` — short entity-type code, e.g. `LLC`, `DP`, `FLC`
-- `entityTypeFull` — full entity-type description, e.g. `Domestic Limited Liability Company`
-- `incorporatedDate` — incorporation date in `YYYY-MM-DD` format
-- `sourceUrl` — the registry URL the record was read from
-- `recordType` — `"business"`
-- `scrapedAt` — ISO 8601 timestamp of the lookup
+## How it works
 
-### Availability mode (`availability`)
+The actor queries the New Jersey Division of Revenue and Enterprise Services' own public search pages, reads the result tables, and returns them as clean JSON records. Name and keyword searches are single-page queries; reverse searches walk the source's 10-row pages until your `maxItems` is reached or the source runs out. Each business is deduplicated by its 10-digit entity ID, so batch queries never repeat a company.
 
-- `queriedName` — the candidate name that was checked
-- `isAvailable` — `true` or `false`
-- `message` — the registry's own explanation of the result
-- `similarBusinesses` — conflicting or similar registered names on file (only present when `isAvailable` is `false`)
-- `sourceUrl` — the registry URL the record was read from
-- `recordType` — `"availability"`
-- `scrapedAt` — ISO 8601 timestamp of the lookup
+The state site answers US addresses only, so the actor selects a working US connection automatically. You do not configure a proxy or supply credentials.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `byName` | `byName` (contains-match search) / `byKeyword` (multi-keyword search) / `byEntityId` (exact lookup) / `availability` (name-availability check). |
-| `businessName` | string | `Amazon` | Name to search for (mode=`byName`), or candidate name without a designator like `LLC`/`Inc`/`Corp` (mode=`availability`). |
-| `keywords` | array | `["Amazon"]` | 1–5 keywords that must all appear in the business name, in any order (mode=`byKeyword`). |
-| `entityIds` | array | – | Exact 10-digit New Jersey entity IDs to look up (mode=`byEntityId`). |
-| `entityTypeContains` | string | – | Case-insensitive substring filter on the full entity type, e.g. `Limited Liability` (mode=`byName`, `byKeyword`). |
-| `cityFilter` | string | – | Exact, case-insensitive city match (mode=`byName`, `byKeyword`). |
-| `maxItems` | integer | `25` | Hard cap on records returned (1–200), applied after fetching all matches. |
-| `proxyConfiguration` | object | `{"useApifyProxy": true}` | Apify datacenter proxy configuration, used to spread requests across IPs if rate-limited. |
+| `mode` | string | `byName` | `byName` / `byKeyword` / `byEntityId` / `byLinkedName` / `availability` / `documents` |
+| `businessNames` | array | `["Amazon"]` | Names to search (mode=`byName`) or candidate names to check (mode=`availability`). Up to 50. |
+| `keywordSearches` | array | – | Keyword phrases (mode=`byKeyword`); every word in a phrase must appear in the name. Up to 5 words per phrase, 20 phrases. |
+| `entityIds` | array | – | Exact 10-digit entity IDs (mode=`byEntityId`, `documents`). Up to 200. |
+| `linkType` | string | `principal` | `principal` / `registeredAgent` / `associatedName` (mode=`byLinkedName`) |
+| `linkedName` | string | – | Last name, business name, agent name, or previous/alternate name (mode=`byLinkedName`) |
+| `linkedFirstName` | string | – | Optional first name for a principal search |
+| `linkedMiddleName` | string | – | Optional middle name for a principal search |
+| `linkedCity` | string | – | Optional city for a principal or registered-agent search |
+| `entityTypes` | array | – | Keep only these 17 codes: `NP`, `FR`, `DB`, `LF`, `DP`, `LP`, `NF`, `PA`, `LLC`, `FLC`, `LLP`, `FLP`, `GP`, `FGP`, `AUT`, `NJR`, `BDP` |
+| `cityFilter` | string | – | Exact, case-insensitive on-file city match |
+| `maxItems` | integer | `100` | Hard cap on emitted records, 1–500 |
 
-### Example: search registered businesses by name
-
-```json
-{
-    "mode": "byName",
-    "businessName": "Amazon",
-    "entityTypeContains": "Limited Liability",
-    "maxItems": 25
-}
-```
-
-### Example: check if a name is available to file
+### Example: batch name search with filters
 
 ```json
 {
-    "mode": "availability",
-    "businessName": "My Brand New Startup Idea"
+  "mode": "byName",
+  "businessNames": ["Amazon", "Prudential", "PURE"],
+  "entityTypes": ["LLC", "DP"],
+  "cityFilter": "NEWARK",
+  "maxItems": 100
 }
 ```
 
-### Example: search by multiple keywords
+### Example: check a name before filing
 
 ```json
 {
-    "mode": "byKeyword",
-    "keywords": ["Amazon", "LLC"]
+  "mode": "availability",
+  "businessNames": ["My Brand New Startup Idea"]
 }
 ```
 
-### Example: look up exact entity IDs
+### Example: find entities by registered agent
 
 ```json
 {
-    "mode": "byEntityId",
-    "entityIds": ["0450567823"]
+  "mode": "byLinkedName",
+  "linkType": "registeredAgent",
+  "linkedName": "CT CORPORATION SYSTEM",
+  "maxItems": 50
 }
 ```
+
+### Example: list a document index
+
+```json
+{
+  "mode": "documents",
+  "entityIds": ["5106301000", "0450567823"]
+}
+```
+
+### Example: keyword phrase search
+
+```json
+{
+  "mode": "byKeyword",
+  "keywordSearches": ["Pizza NJ", "Garden Landscaping"],
+  "maxItems": 50
+}
+```
+
+## Output
+
+### Registered-business records (`byName`, `byKeyword`, `byEntityId`, `byLinkedName`)
+
+- `businessName` — name as filed with the state
+- `entityId` — 10-digit New Jersey entity ID
+- `city` — on-file city, when published
+- `entityTypeAbbr` — short type code such as `LLC`, `DP` or `FLC`
+- `entityTypeFull` — full type description; omitted for the rare `NV` rows that have none
+- `incorporatedDate` — full incorporation date (`YYYY-MM-DD`) on name/keyword/ID searches
+- `incorporatedMonth` — incorporation month (`YYYY-MM`) on reverse searches, which publish month/year only
+- `searchMode`, `searchTerm` — which query produced the record
+- `linkType` — `principal`, `registeredAgent` or `associatedName` on reverse searches
+- `sourceUrl` — the registry page that produced the record
+- `recordType` — `"business"`, `scrapedAt` — ISO 8601 lookup time
+
+### Availability records (`availability`)
+
+- `queriedName` — the candidate name that was checked
+- `isAvailable` — `true` or `false`
+- `message` — the registry's explanation as plain text
+- `similarBusinesses` — up to 50 similar registered names when the name is unavailable
+- `sourceUrl`, `recordType: "availability"`, `scrapedAt`
+
+Validation responses (name too short or containing a designator) produce no record and are reported in the run status.
+
+### Document-index records (`documents`)
+
+- `entityId`, `businessName`
+- `documents[]` — `documentName`, `filingYear`, `certifiedAvailable`, `nonCertifiedAvailable`
+- `documentCount` — number of documents found; `0` is a real value
+- `searchMode: "documents"`, `searchTerm`, `sourceUrl`, `recordType: "documentIndex"`, `scrapedAt`
 
 ## Use cases
 
-- **New-business filing prep** — clear a candidate name before submitting a New Jersey formation filing
-- **Vendor and counterparty checks** — confirm a business's entity ID, filing type and incorporation date before signing a contract
-- **Lead list building** — collect New Jersey-registered businesses that match a name, keyword or industry-type filter
-- **Registry data enrichment** — append New Jersey entity details to an existing company dataset by entity ID
-- **Compliance and legal research** — verify the exact legal entity type behind a known New Jersey entity ID
+- **New-business filing prep** — clear a candidate name and see conflicting registrations before filing
+- **Vendor and counterparty checks** — confirm legal name, entity type, city and incorporation date
+- **Lead list building** — collect New Jersey businesses by name prefix, keyword or entity type
+- **Registry enrichment** — append state entity details to an existing company dataset by entity ID
+- **Compliance and legal research** — trace a company through a principal, registered agent or previous name, and inspect its charter-document history
+- **Name-change and merger research** — find entities that used an earlier or alternate name
+
+## Usage cost
+
+Runs are billed in Apify platform compute units for the time the actor is running. The default prefill performs one search and returns one record, so a scheduled run costs a fraction of a cent. Larger batch or reverse-lookup runs take longer because the source serves 10 rows per page. The US connection is included in the platform's proxy allowance; the actor does not purchase paid state reports, certificates or document copies.
 
 ## FAQ
 
 **Is this an official New Jersey state tool?**
-No. This is an independent, third-party actor built on New Jersey Division of Revenue and Enterprise Services' own free, public, no-login business search. It is not affiliated with or endorsed by the State of New Jersey.
+No. It is an independent, third-party actor that reads the state's free public search pages. It is not affiliated with or endorsed by the State of New Jersey.
 
-**Does `availability` mode accept names with "LLC" or "Inc" already in them?**
-No — the state's own availability tool rejects names that include a business designator, since it's meant to validate the base name before you pick an entity type during filing.
+**Does a name search find the word anywhere in the name?**
+No. New Jersey's name search is a prefix match: `Amazon` finds names that begin with Amazon, and a leading `The` is ignored. `mazon` will not find Amazon. Keyword search is different — every keyword word can appear anywhere in the name, in any order.
 
-**Can I get a business's officers or registered agent from this?**
-No. New Jersey's free search only returns business name, entity ID, city, entity type and incorporation date — officer, registered-agent and filing-history data require the state's separate paid status products, which this actor doesn't access.
+**Why do I get exactly 500 rows for a broad query?**
+The state's public search displays at most 500 rows per query. That is the source's limit, not a cap added by this actor. Use a longer name prefix, more specific keywords, or a list of entity IDs to reach other records.
 
-**Why is there no active/inactive status field?**
-The free registry search New Jersey exposes doesn't include an operating-status column at all, so there's nothing for this actor to extract for that field.
+**What is the difference between a reverse search and an officer/agent field?**
+The free BRS search can find businesses by a principal or registered-agent name, but it does not publish the officer or agent values for a company. Those values are inside the state's paid status report, which this actor never requests.
 
-**Why might `similarBusinesses` be capped around 50 entries?**
-New Jersey's own availability-check conflict list caps itself at the first 50 matches, so the actor can't return more than the source provides.
+**Can I download the actual documents?**
+No. The free document index lists document names, filing years and whether certified/non-certified copies are orderable. The copies themselves are paid state products.
 
-**How many results can one search return?**
-Registered-business searches return all of New Jersey's matches in one response; `maxItems` (up to 200) then caps how many of those are kept in your output.
+**Why is there no active/inactive status?**
+The free search does not include an operating-status or standing column. Status reports are a separate paid product.
+
+**Why does an availability check reject a name that looks fine?**
+The availability tool requires at least four effective characters after ignoring articles, conjunctions, spaces and punctuation, and it rejects names that already contain a designator such as LLC or Inc. Both cases are reported in the run status, not as a false "not available" result.
+
+**Do I need to set up a proxy?**
+No. The actor chooses a working US connection automatically. Just fill in the input and run it.
+
+**How fresh is the data?**
+The state says electronic filings are reflected within about two business days. County-level DBAs and trade names are separate registries and are not part of this dataset.
+
+## Notes
+
+- The 10-digit entity ID is the natural key; duplicate rows in a batch are collapsed to one record.
+- Name and keyword searches return full dates; BRS reverse searches publish month and year only.
+- Cities are published for about two-thirds of entities; missing cities are omitted, not empty strings.
+- The rare `NV` entity type has no full description and is returned with the code alone.
+- Invalid entity IDs and source validation messages are listed in the run status instead of being silently dropped.
+
+## Limitations
+
+- **500-row display limit** on every free search surface; broad prefixes cannot be exhausted in one query.
+- **No status, standing, officers, directors, registered-agent values or street address** — these live in paid state reports.
+- **No document downloads** — only the free index is available.
+- **No bulk entity list** by filing date or type — the state sells that list.
+- **No county-clerk DBAs** — they are not part of the state registry.
+- **No trade-name/trade-mark search** in this version.
+- **Reverse searches return month/year only**, not a full incorporation date.
+- **Result ordering follows the source** and can shift between runs for common names.

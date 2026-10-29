@@ -1,0 +1,102 @@
+# Naver Shopping Price Comparison Scraper
+
+Naver Shopping aggregates the same product across thousands of Korean online stores and shows the price spread between sellers. This actor queries it the same way a shopper would — by keyword, product ID, category or the trending list — and returns each product with its price range, brand, mall and popularity signals.
+
+## What this actor does
+
+- **Four modes**: keyword search, product lookup by ID, category browsing, and trending products
+- **Reports a price range, not just one number** — the lowest price across sellers, the highest, and a primary `price` set to the lowest
+- **Strips Naver's highlight markup** from product names so you get plain Korean/English text instead of `<b>` tags
+- **Filters by price range** (`minPrice`/`maxPrice` in Korean Won) and lets you choose the sort order Naver applies
+- Fields a product listing doesn't carry (such as `brand` or `category`) are left out of that record rather than sent empty
+
+## Output per product
+
+- `productId` — Naver Shopping's unique product identifier
+- `productName` — product name with HTML highlight tags stripped
+- `price` — the product's lowest available price in KRW (same as `lowPrice`)
+- `lowPrice` — lowest price found across sellers
+- `highPrice` — highest price found across sellers, when more than one seller is listed
+- `brand` — product brand or maker
+- `mallName` — name of the store/mall selling the product
+- `reviewCount` — number of customer reviews
+- `purchaseCount` — number of recorded purchases
+- `category` — category breadcrumb, e.g. `전자제품 > 스마트폰`
+- `imageUrl` — product image URL
+- `productUrl` — link to the product's Naver Shopping page
+- `recordType` — set to `product` for every record
+- `scrapedAt` — ISO 8601 timestamp of the scrape
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `mode` | string | `search` | `search` (by keyword) / `productDetails` (by ID) / `categoryBrowse` (by category) / `trending`. |
+| `keyword` | string | – | Search term (mode=`search`). |
+| `productIds` | array | `[]` | Naver Shopping product IDs to fetch (mode=`productDetails`). |
+| `categoryId` | string | – | Naver Shopping category ID to browse (mode=`categoryBrowse`). |
+| `sortBy` | string | `score` | `score` (relevance) / `rel` (ranking) / `price_asc` / `price_dsc` / `review` (most reviews) / `date` (newest) — used in `search` and `categoryBrowse`; `trending` always sorts by relevance and `productDetails` ignores it. |
+| `minPrice` | integer | – | Minimum product price in KRW; applied to results from every mode. |
+| `maxPrice` | integer | – | Maximum product price in KRW; applied to results from every mode. |
+| `maxItems` | integer | `20` | Maximum number of products to return (1–500). |
+
+### Example: keyword search with price ceiling
+
+```json
+{
+    "mode": "search",
+    "keyword": "smartphone",
+    "sortBy": "price_asc",
+    "maxPrice": 1000000,
+    "maxItems": 30
+}
+```
+
+### Example: product lookup by ID
+
+```json
+{
+    "mode": "productDetails",
+    "productIds": ["9876543210"]
+}
+```
+
+### Example: trending products
+
+```json
+{
+    "mode": "trending",
+    "maxItems": 50
+}
+```
+
+## Use cases
+
+- **Price comparison** — track the lowest and highest price for a product across all the stores Naver aggregates
+- **Market research** — see which brands and malls dominate a Korean product category
+- **Dropshipping sourcing** — find popular, high-review products at a given price point before listing them elsewhere
+- **Trend monitoring** — pull Naver's trending list regularly to catch rising products early
+- **Catalog enrichment** — attach Naver pricing and review data to products you already track by ID
+
+## FAQ
+
+**What is Naver Shopping?**
+It's South Korea's largest shopping search engine, aggregating listings for the same product from many different online stores so shoppers can compare prices.
+
+**Why do some products have both `lowPrice` and `highPrice`?**
+Naver shows the same product listed by multiple sellers at different prices. `lowPrice` is the cheapest offer found, `highPrice` the most expensive; `price` always mirrors `lowPrice`.
+
+**Can I restrict results to a price range?**
+Yes — set `minPrice` and/or `maxPrice` in Korean Won; the filter applies to results from every mode, not just `search`.
+
+**What do the sort options mean?**
+`score` ranks by Naver's relevance score, `rel` by its own ranking signal, `price_asc`/`price_dsc` by price, `review` by review count, and `date` by newest listing.
+
+**Why might `brand` or `category` be missing from a product?**
+Not every Naver listing carries a brand tag or category breadcrumb; when the source doesn't supply one, the actor leaves that field out rather than guessing.
+
+**How many results can one run return?**
+Up to 500 products via `maxItems`, pulled across Naver's result pages (40 products per page).
+
+**Is this affiliated with Naver?**
+No, this is an independent, third-party actor that reads Naver Shopping's public search results. It is not affiliated with or endorsed by Naver Corporation.
