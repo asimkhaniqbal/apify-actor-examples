@@ -1,106 +1,325 @@
 {
-  "description": "Search products, get item details, browse categories on MercadoLibre across 9 country sites.",
+  "description": "Search products, fetch full product details, reviews, questions, seller catalogs, categories, best sellers or deals across 18 MercadoLibre country sites.",
   "properties": {
     "categoryId": {
-      "description": "MercadoLibre category ID (mode=searchByCategory), e.g. MLA1051.",
+      "description": "Category to browse or use as a filter (mode=search/categories/bestSellers/deals). Example: MLM1652.",
       "editor": "textfield",
-      "title": "Category ID",
+      "title": "Category ID or URL",
+      "type": "string"
+    },
+    "categoryQuery": {
+      "description": "Find matching categories from a keyword (mode=categories). Example: laptop.",
+      "editor": "textfield",
+      "title": "Category discovery keyword",
       "type": "string"
     },
     "condition": {
-      "default": "all",
-      "description": "Filter results by item condition.",
+      "default": "any",
+      "description": "Filter products by condition (mode=search/seller).",
       "editor": "select",
       "enum": [
         "all",
+        "any",
         "new",
-        "used"
+        "used",
+        "refurbished",
+        "open_box"
       ],
       "enumTitles": [
-        "All conditions",
-        "New only",
-        "Used only"
+        "All conditions (legacy)",
+        "Any condition",
+        "New",
+        "Used",
+        "Refurbished",
+        "Open box"
       ],
-      "prefill": "all",
-      "title": "Condition filter",
+      "prefill": "any",
+      "title": "Item condition",
       "type": "string"
     },
-    "itemId": {
-      "description": "MercadoLibre item ID(s) for detail lookup (mode=getProductDetails). Comma-separate multiple IDs, e.g. MLA1234567890,MLA9876543210.",
-      "editor": "textfield",
-      "title": "Item ID(s)",
-      "type": "string"
+    "freeShippingOnly": {
+      "default": false,
+      "description": "Keep products with free shipping (mode=search/seller).",
+      "prefill": false,
+      "title": "Free shipping only",
+      "type": "boolean"
+    },
+    "fullShippingOnly": {
+      "default": false,
+      "description": "Keep products fulfilled by MercadoLibre FULL (mode=search/seller).",
+      "prefill": false,
+      "title": "MercadoLibre FULL only",
+      "type": "boolean"
+    },
+    "includeAttributes": {
+      "default": false,
+      "description": "Attach the attribute schema to a category record (mode=categories with categoryId).",
+      "prefill": false,
+      "title": "Include category attributes",
+      "type": "boolean"
+    },
+    "includeDetails": {
+      "default": false,
+      "description": "Fetch the full detail page for every search or seller result (mode=search/seller). Slower, more fields.",
+      "prefill": false,
+      "title": "Enrich with product details",
+      "type": "boolean"
+    },
+    "includeQuestions": {
+      "default": false,
+      "description": "Attach buyer questions and answers to product records (mode=product).",
+      "prefill": false,
+      "title": "Include questions",
+      "type": "boolean"
+    },
+    "includeReviews": {
+      "default": false,
+      "description": "Attach review summary and review rows to product records (mode=product).",
+      "prefill": false,
+      "title": "Include reviews",
+      "type": "boolean"
+    },
+    "includeSellerProfile": {
+      "default": false,
+      "description": "Emit a seller profile row before the catalog (mode=seller).",
+      "prefill": false,
+      "title": "Include seller profile",
+      "type": "boolean"
+    },
+    "includeSponsored": {
+      "default": true,
+      "description": "Include paid placements in search and seller results.",
+      "prefill": true,
+      "title": "Include sponsored products",
+      "type": "boolean"
     },
     "maxItems": {
+      "default": 50,
+      "description": "Maximum records to return. Product queries stop at the source's 2,000-row window.",
+      "maximum": 10000,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Maximum items",
+      "type": "integer"
+    },
+    "maxQuestions": {
       "default": 20,
-      "description": "Maximum number of records to return.",
+      "description": "Maximum buyer questions per product (mode=questions/product).",
       "maximum": 500,
       "minimum": 1,
       "prefill": 20,
-      "title": "Max items",
+      "title": "Maximum questions",
+      "type": "integer"
+    },
+    "maxReviews": {
+      "default": 30,
+      "description": "Maximum review rows per product (mode=reviews). Values above 330 sweep every rating bucket.",
+      "maximum": 1650,
+      "minimum": 1,
+      "prefill": 30,
+      "title": "Maximum reviews",
+      "type": "integer"
+    },
+    "minDiscount": {
+      "default": 0,
+      "description": "Keep products discounted by at least this percentage (mode=search/seller/deals). 0 disables it.",
+      "maximum": 100,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum discount %",
       "type": "integer"
     },
     "mode": {
-      "default": "searchProducts",
-      "description": "What to fetch from MercadoLibre.",
+      "default": "search",
+      "description": "Choose the kind of MercadoLibre data you need.",
       "editor": "select",
       "enum": [
+        "search",
+        "product",
+        "reviews",
+        "questions",
+        "seller",
+        "categories",
+        "bestSellers",
+        "deals",
         "searchProducts",
-        "getProductDetails",
         "searchByCategory",
+        "getProductDetails",
         "getCategories"
       ],
       "enumTitles": [
-        "Search products by keyword",
-        "Get full product details by item ID",
-        "Search products by category",
-        "Browse all categories for a site"
+        "Search products",
+        "Product details",
+        "Product reviews",
+        "Buyer questions and answers",
+        "Seller catalog",
+        "Categories and attributes",
+        "Best sellers",
+        "Live deals",
+        "Search products (legacy task)",
+        "Search by category (legacy task)",
+        "Product details (legacy task)",
+        "Categories (legacy task)"
       ],
-      "prefill": "searchProducts",
-      "title": "Mode",
+      "prefill": "search",
+      "title": "What to scrape",
       "type": "string"
     },
-    "query": {
+    "officialStoresOnly": {
+      "default": false,
+      "description": "Keep products sold by official stores (mode=search/seller).",
+      "prefill": false,
+      "title": "Official stores only",
+      "type": "boolean"
+    },
+    "priceMax": {
+      "default": 0,
+      "description": "Highest price in the country currency (mode=search/seller). 0 means no maximum.",
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Maximum price",
+      "type": "number"
+    },
+    "priceMin": {
+      "default": 0,
+      "description": "Lowest price in the country currency (mode=search/seller). 0 means no minimum.",
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum price",
+      "type": "number"
+    },
+    "productUrls": {
+      "default": [],
+      "description": "Product, catalog or item URLs or IDs (mode=product/reviews/questions). One per line.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Product URLs or IDs",
+      "type": "array"
+    },
+    "reviewRating": {
+      "default": "all",
+      "description": "Only collect reviews with this star rating (mode=reviews).",
+      "editor": "select",
+      "enum": [
+        "all",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "enumTitles": [
+        "All ratings",
+        "1 star",
+        "2 stars",
+        "3 stars",
+        "4 stars",
+        "5 stars"
+      ],
+      "prefill": "all",
+      "title": "Review rating filter",
+      "type": "string"
+    },
+    "searchQuery": {
       "default": "laptop",
-      "description": "Keyword to search for products (mode=searchProducts).",
+      "description": "Keyword to search for (mode=search). Example: laptop.",
       "editor": "textfield",
       "prefill": "laptop",
-      "title": "Search query",
+      "title": "Search keywords",
+      "type": "string"
+    },
+    "searchUrls": {
+      "default": [],
+      "description": "Paste MercadoLibre search, category or seller listing URLs (mode=search/seller). One per line.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Listing URLs",
+      "type": "array"
+    },
+    "sellerId": {
+      "description": "Seller to catalog (mode=seller/search). Numeric ID, _CustId_ URL or seller_id URL.",
+      "editor": "textfield",
+      "title": "Seller ID or URL",
       "type": "string"
     },
     "siteId": {
       "default": "MLA",
-      "description": "MercadoLibre country site to query.",
+      "description": "MercadoLibre country marketplace to query.",
       "editor": "select",
       "enum": [
         "MLA",
         "MLB",
+        "MLM",
         "MLC",
         "MCO",
-        "MLM",
         "MPE",
         "MLU",
+        "MEC",
         "MLV",
+        "MBO",
+        "MPY",
+        "MGT",
+        "MHN",
+        "MNI",
+        "MSV",
+        "MCR",
+        "MPA",
+        "MRD",
         "MLO"
       ],
       "enumTitles": [
         "Argentina (MLA)",
         "Brazil (MLB)",
+        "Mexico (MLM)",
         "Chile (MLC)",
         "Colombia (MCO)",
-        "Mexico (MLM)",
         "Peru (MPE)",
         "Uruguay (MLU)",
+        "Ecuador (MEC)",
         "Venezuela (MLV)",
-        "Dominican Republic (MLO)"
+        "Bolivia (MBO)",
+        "Paraguay (MPY)",
+        "Guatemala (MGT)",
+        "Honduras (MHN)",
+        "Nicaragua (MNI)",
+        "El Salvador (MSV)",
+        "Costa Rica (MCR)",
+        "Panama (MPA)",
+        "Dominican Republic (MRD)",
+        "Dominican Republic (legacy MLO)"
       ],
       "prefill": "MLA",
-      "title": "Site / Country",
+      "title": "Country site",
+      "type": "string"
+    },
+    "sort": {
+      "default": "relevance",
+      "description": "How to order search and seller results.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "price_asc",
+        "price_desc"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Price: low to high",
+        "Price: high to low"
+      ],
+      "prefill": "relevance",
+      "title": "Sort order",
       "type": "string"
     }
   },
   "required": [
-    "mode"
+    "mode",
+    "siteId"
   ],
   "schemaVersion": 1,
   "title": "MercadoLibre Marketplace Scraper Input",

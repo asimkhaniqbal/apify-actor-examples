@@ -1,116 +1,133 @@
-# MercadoLibre Multi-Country Marketplace Scraper
+# MercadoLibre Marketplace Scraper
 
-MercadoLibre runs separate marketplaces for each Latin American country it serves, from Argentina to the Dominican Republic. This actor queries whichever country site you pick — by keyword, by category, or by exact item ID — and also lets you pull a country's full top-level category tree to discover IDs for further searches.
+Collect real marketplace data from MercadoLibre in Argentina, Brazil, Mexico, Chile, Colombia, Peru, Uruguay, Ecuador, Venezuela, Bolivia, Paraguay, Guatemala, Honduras, Nicaragua, El Salvador, Costa Rica, Panama and the Dominican Republic. Search products, open full product pages, read reviews and buyer questions, walk seller catalogs, browse categories, and track best sellers and deals.
 
-## What this actor does
+No account, cookies, login or API key is required.
 
-- **Four modes**: keyword search, category search, item-detail lookup by ID, and listing a site's top-level categories
-- **Covers 9 country sites** (Argentina, Brazil, Chile, Colombia, Mexico, Peru, Uruguay, Venezuela, Dominican Republic) through one consistent interface
-- **Enriches every product with seller data** — nickname and reputation level — fetched alongside the listing
-- **Filters by item condition** (new or used) on search modes
-- Fields a listing or seller doesn't expose (such as `officialStoreId` or `warranty`) are left out of that record rather than sent empty
+## What it does
 
-## Output per product (`searchProducts`, `searchByCategory`, `getProductDetails`)
+- **Search** by keyword, category, seller or a pasted listing URL, with condition, sort, price range, free shipping, MercadoLibre FULL, official-store and discount filters.
+- **Product** pages by catalog URL, item URL, user-product URL or bare ID, with gallery, specs, variations, seller, shipping, payment methods, warranty and returns.
+- **Reviews** with rating filters and an optional deep sweep across rating buckets.
+- **Questions** with buyer questions and seller answers.
+- **Seller** catalogs and an optional seller profile row.
+- **Categories** as the 24 root departments, a category tree with attributes, or keyword-to-category discovery.
+- **Best sellers** ranked per category and **live deals**, both as product rows.
 
-- `itemId` — MercadoLibre item ID, e.g. `MLA123456789`
-- `title` — product title
-- `price` — numeric price
-- `currency` — currency code, e.g. `ARS`, `BRL`, `MXN`
-- `condition` — `new` or `used`
-- `availableQuantity` — units available
-- `soldQuantity` — units sold
-- `sellerId` — MercadoLibre's internal seller/user ID
-- `sellerName` — seller nickname
-- `sellerReputation` — seller reputation level, e.g. `5_green`
-- `imageUrl` — high-resolution product image URL
-- `categoryId` — the item's category ID
-- `categoryPath` — full category breadcrumb, e.g. `["Electronics", "Computers", "Laptops"]`
-- `freeShipping` — `true` when free shipping is offered
-- `officialStoreId` — official store ID, when the seller is an official store
-- `itemUrl` — direct link to the product page
-- `warranty` — warranty description (only returned by `getProductDetails`)
-- `listingTypeId` — listing tier such as `gold_special` (only returned by `getProductDetails`)
-- `siteId` — the country site the record came from
-- `scrapedAt` — ISO 8601 timestamp of the scrape
+## Services
 
-## Output per category (`getCategories`)
+Every run covers one country site at a time and one mode at a time. The actor returns JSON records in the default dataset, ready for spreadsheets, BI tools, price monitoring, catalog enrichment and competitor research. The output is omit-empty: fields the source does not expose for a record are left out rather than filled with empty values.
 
-- `categoryId` — MercadoLibre category ID, e.g. `MLA1051`
-- `categoryName` — category display name
-- `siteId` — the country site the category belongs to
-- `scrapedAt` — ISO 8601 timestamp of the scrape
+## How it works
+
+The actor reads the public mobile web pages that MercadoLibre serves to its own app and extracts the embedded page state. That cookieless route exposes the same products, prices, reviews and questions a shopper sees, without an OAuth application or an API token. Product searches are paginated in pages of 50 up to the source window, and duplicate item IDs are removed before records are pushed.
 
 ## Input
 
-| Field | Type | Default | Description |
+| Field | Used by | Default | Notes |
 |---|---|---|---|
-| `mode` | string | `searchProducts` | `searchProducts` (keyword) / `getProductDetails` (by item ID) / `searchByCategory` / `getCategories` (list a site's top-level categories). |
-| `siteId` | string | `MLA` | Country site: `MLA` Argentina, `MLB` Brazil, `MLC` Chile, `MCO` Colombia, `MLM` Mexico, `MPE` Peru, `MLU` Uruguay, `MLV` Venezuela, `MLO` Dominican Republic. |
-| `query` | string | `laptop` | Keyword to search for (mode=`searchProducts`). |
-| `categoryId` | string | – | Category ID to browse, e.g. `MLA1051` (mode=`searchByCategory`). |
-| `itemId` | string | – | One or more item IDs, comma-separated, e.g. `MLA1234567890,MLA9876543210` (mode=`getProductDetails`). |
-| `condition` | string | `all` | Filter by item condition: `all`, `new` or `used`. |
-| `maxItems` | integer | `20` | Maximum number of records to return (1–500). |
+| `mode` | all | `search` | `search`, `product`, `reviews`, `questions`, `seller`, `categories`, `bestSellers`, `deals` |
+| `siteId` | all | `MLA` | 18 country sites |
+| `searchQuery` | search | `laptop` | Keyword to search for |
+| `searchUrls` | search, seller | – | Pasted search/category/seller listing URLs |
+| `categoryId` | search, categories, bestSellers, deals | – | Category ID or URL |
+| `categoryQuery` | categories | – | Keyword for category discovery |
+| `sellerId` | seller, search | – | Numeric seller ID or seller URL |
+| `productUrls` | product, reviews, questions | – | Product/catalog/item URLs or IDs, one per line |
+| `sort` | search, seller | `relevance` | Relevance, price ascending or price descending |
+| `condition` | search, seller | `any` | Any, new, used, refurbished or open box |
+| `priceMin`, `priceMax` | search, seller | `0` | Price range in the country currency; 0 = open |
+| `freeShippingOnly` | search, seller | `false` | Keep free-shipping products |
+| `fullShippingOnly` | search, seller | `false` | Keep MercadoLibre FULL products |
+| `officialStoresOnly` | search, seller | `false` | Keep official-store products |
+| `minDiscount` | search, seller, deals | `0` | Minimum discount percentage |
+| `includeSponsored` | search, seller | `true` | Include or remove paid placements |
+| `includeDetails` | search, seller | `false` | Enrich every result with the full product page |
+| `includeReviews`, `includeQuestions` | product | `false` | Attach review or Q&A data to product records |
+| `includeSellerProfile` | seller | `false` | Emit a seller profile before the catalog |
+| `includeAttributes` | categories | `false` | Attach the category attribute schema |
+| `maxItems` | most modes | `50` | Maximum records; product queries stop at 2,000 |
+| `maxReviews`, `reviewRating` | reviews | `30`, `all` | Review ceiling and optional star filter |
+| `maxQuestions` | questions, product | `20` | Question ceiling |
 
-### Example: keyword search in Argentina
-
-```json
-{
-    "mode": "searchProducts",
-    "siteId": "MLA",
-    "query": "laptop",
-    "condition": "new",
-    "maxItems": 50
-}
-```
-
-### Example: browse a category in Brazil
-
-```json
-{
-    "mode": "searchByCategory",
-    "siteId": "MLB",
-    "categoryId": "MLB1648",
-    "maxItems": 30
-}
-```
-
-### Example: discover category IDs for Mexico
+Example: search used laptops in Mexico with free shipping, sorted by price.
 
 ```json
 {
-    "mode": "getCategories",
-    "siteId": "MLM"
+  "mode": "search",
+  "siteId": "MLM",
+  "searchQuery": "laptop",
+  "condition": "used",
+  "freeShippingOnly": true,
+  "sort": "price_asc",
+  "maxItems": 50
 }
 ```
 
-## Use cases
+Example: fetch one product by URL and include its reviews and questions.
 
-- **Cross-country price comparison** — track the same product's price across Argentina, Brazil and Mexico
-- **Seller research** — find top sellers for a keyword and compare reputation levels
-- **Category discovery** — list a country's category tree before running a targeted category search
-- **Market research** — compare product availability, pricing and shipping offers across Latin American markets
-- **Catalog monitoring** — periodically re-fetch item details by ID to track price or stock changes
+```json
+{
+  "mode": "product",
+  "siteId": "MLM",
+  "productUrls": ["https://www.mercadolibre.com.mx/p/MLM1081091201"],
+  "includeReviews": true,
+  "includeQuestions": true,
+  "maxReviews": 30,
+  "maxQuestions": 20
+}
+```
+
+## Output
+
+Every row has `recordType`, `siteId` and `scrapedAt`. Product-like rows keep the legacy fields `itemId`, `title`, `price`, `currency`, `condition`, `availableQuantity`, `soldQuantity`, `sellerId`, `sellerName`, `sellerReputation`, `imageUrl`, `categoryId`, `categoryPath`, `freeShipping`, `officialStoreId`, `itemUrl`, `warranty`, `listingTypeId`, plus the new detail fields:
+
+- **Price and stock:** `originalPrice`, `discountPercent`, `installments`, `hasStock`, `availableQuantity`, `soldText`.
+- **Seller and shipping:** `sellerPowerStatus`, `sellerStoreType`, `sellerSales`, `sellerFollowers`, `sellerProducts`, `fullShipping`, `logisticType`, `shippingMode`, `shippingText`, `localPickup`, `storePickup`, `isOfficialStore`.
+- **Content:** `specs`, `specGroups`, `description`, `images`, `variations`, `warranty`, `returns`, `benefits`, `paymentMethods`, `rating`, `promotions`.
+- **Search:** `position`, `searchQuery`, `totalResults`, `sponsored`, `catalogProductId`, `userProductId`, `domainId`.
+
+Review rows carry `reviewId`, `rating`, `text`, `date`, `relativeDate`, `country`, `variant`, `likes` and `media`. Question rows carry `questionId`, `question`, `answer` and `answerDate`. Category rows carry `categoryId`, `categoryName`, `categoryPath`, `totalItems`, `children`, `attributes` and `permalink`. Best-seller and deal rows add `rank` and `dealType`.
+
+## Usage cost
+
+The actor runs in a 1 GB container. Search and product pages are large (roughly 1.5–2.7 MB each), so cost scales with the number of pages opened and details requested. Start with `maxItems` 50 and `includeDetails` off, then raise it only when needed. Deep review sweeps make extra requests; `maxReviews` 330 is the normal ceiling and values above that intentionally sweep rating buckets.
 
 ## FAQ
 
-**Do I need an API key or account?**
-No. This actor reads MercadoLibre's own public product data; no login, API key or proxy is required.
+**Do I need a MercadoLibre account or API key?** No. The actor reads public pages without credentials.
 
-**Can I search every Latin American country MercadoLibre serves?**
-This actor covers 9 MercadoLibre country sites: Argentina, Brazil, Chile, Colombia, Mexico, Peru, Uruguay, Venezuela and the Dominican Republic.
+**Can I paste a product link instead of an ID?** Yes. Product, catalog and user-product URLs are accepted, as are bare IDs.
 
-**How do I find a category ID to search by?**
-Run `mode: getCategories` for your target site first; it returns every top-level category ID and name, which you can then pass into `searchByCategory`.
+**Can I get more than 50 products?** Yes. Results are paginated up to the source's 2,000-row window per query. For more, split the search by category, price range or condition.
 
-**Why are `warranty` and `listingTypeId` only present sometimes?**
-Those two fields are only returned by `getProductDetails`, since they come from the full item-detail response rather than the lighter search result.
+**Why do some products have no condition or shipping field?** Search cards omit those labels for some listings. Turn on `includeDetails` to read the product page and fill them whenever the source exposes them.
 
-**Why might a run take longer with many results?**
-Seller nickname and reputation are fetched per product, so larger `maxItems` values on search modes mean more individual lookups.
+**How many reviews can I collect?** A single review query returns up to 330 rows. Setting `maxReviews` above 330 sweeps every star rating and can return over 1,000 unique reviews on popular products. Ratings without text are not review rows.
 
-**What's the maximum number of results per run?**
-Up to 500 records via `maxItems`.
+**Does it support official store URLs?** Seller catalogs work with seller IDs. A store-slug landing page does not expose its catalog server-side, so use the seller ID or `_CustId_`/`seller_id` URL.
 
-**Is this affiliated with MercadoLibre?**
-No, this is an independent, third-party actor that reads MercadoLibre's public product data. It is not affiliated with or endorsed by MercadoLibre.
+**Can I use it for cars or real estate?** This actor covers marketplace products. Vehicles and real estate are separate MercadoLibre verticals with different listing pages.
+
+**Which countries are supported?** All 18 current MercadoLibre country sites listed in the input schema.
+
+**Are prices converted?** No. Prices stay in the local currency shown on the site.
+
+## Notes
+
+- Category browse uses the official category metadata service, which is public; product, review and question data comes from the same pages shoppers use.
+- Search cards are the fastest source. Detail enrichment fills specs, gallery, seller reputation and stock but costs one page per product.
+- Costa Rica uses the `mercadolibre.co.cr` domain. The old `MLO` site code maps to `MRD` for backward compatibility.
+- The `mode`, `siteId` and `condition` dropdowns keep the legacy values `searchProducts`, `searchByCategory`, `getProductDetails`, `getCategories`, `MLO` and `all` so existing saved tasks and API payloads stay valid. The actor maps them in code; new runs should use the current values.
+
+## Limitations
+
+- Search and seller catalogs stop at the source's 2,000-row window per query.
+- Review queries cap at 330 rows per star bucket; deep sweeps deduplicate across buckets.
+- Buyer questions are served 20 per page and some products stop earlier than their displayed count.
+- Store-slug catalogs are not exposed; use a seller ID or seller URL instead.
+- Seller catalog rows keep the catalog owner in `sellerId`/`sellerName`; an item card can show a brand sub-store label instead.
+- Category API totals can differ from the number of active listings, so category totals are shown as metadata.
+- Sponsored placements are visible on some surfaces but not all; the `includeSponsored` toggle can only remove placements the source marks.
+- The deals page is a cross-category feed. A `categoryId` filter keeps matching deals from that feed and may return no rows when the category has no active deal. The feed follows the source's 20-page window.
+- Autosuggest and verified-purchase flags are not exposed on this route.

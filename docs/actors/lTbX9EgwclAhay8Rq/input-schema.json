@@ -1,0 +1,130 @@
+{
+  "description": "Search Ozon.ru, browse a category, or fetch full details for specific products.",
+  "properties": {
+    "categoryUrl": {
+      "description": "A full Ozon category URL (e.g. `https://www.ozon.ru/category/smartfony-15502/`) or a bare category slug (e.g. `smartfony-15502`).",
+      "editor": "textfield",
+      "title": "Category URL or slug (mode=byCategory)",
+      "type": "string"
+    },
+    "inStockOnly": {
+      "default": false,
+      "description": "Only emit products that are not marked out of stock / sold out.",
+      "prefill": false,
+      "title": "In-stock only",
+      "type": "boolean"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Hard cap on emitted records.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Drop products pricier than this (in Russian rubles).",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Maximum price (RUB)",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Drop products cheaper than this (in Russian rubles).",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Minimum price (RUB)",
+      "type": "integer"
+    },
+    "minRating": {
+      "description": "Drop products rated below this (0-5 scale).",
+      "maximum": 5,
+      "minimum": 0,
+      "title": "Minimum rating",
+      "type": "number"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byCategory",
+        "productDetails"
+      ],
+      "enumTitles": [
+        "Search products by keyword",
+        "Browse a category listing",
+        "Fetch full product details (by URL or SKU)"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "productUrls": {
+      "default": [],
+      "description": "Full Ozon product URLs, or bare numeric SKU/product IDs.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Product URLs or SKUs (mode=productDetails)",
+      "type": "array"
+    },
+    "proxyConfiguration": {
+      "default": {
+        "apifyProxyCountry": "RU",
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "description": "Apify RESIDENTIAL proxy (Russia) is required to bypass Ozon's anti-bot edge block, which returns a hard 403/captcha challenge to datacenter IPs outside Russia.",
+      "editor": "proxy",
+      "prefill": {
+        "apifyProxyCountry": "RU",
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "title": "Proxy configuration",
+      "type": "object"
+    },
+    "searchQuery": {
+      "description": "Free-text keyword search, e.g. `iphone`, `телевизор`.",
+      "editor": "textfield",
+      "prefill": "iphone",
+      "title": "Search query (mode=search)",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "",
+      "description": "Result ordering for search mode. Leave as relevance for the default ranking.",
+      "editor": "select",
+      "enum": [
+        "",
+        "price",
+        "-price",
+        "rating",
+        "new"
+      ],
+      "enumTitles": [
+        "Relevance (default)",
+        "Price: low to high",
+        "Price: high to low",
+        "Rating",
+        "Newest"
+      ],
+      "prefill": "",
+      "title": "Sort order (mode=search)",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode",
+    "proxyConfiguration"
+  ],
+  "schemaVersion": 1,
+  "title": "Ozon Scraper Input",
+  "type": "object"
+}
