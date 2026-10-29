@@ -1,98 +1,67 @@
 {
-  "description": "Search Naver Shopping products, get product details, browse categories, or fetch trending products.",
+  "description": "Search Naver Shopping by keyword and collect product prices, ratings, reviews, sellers, delivery and variants.",
   "properties": {
-    "categoryId": {
-      "description": "Naver Shopping category ID to browse.",
-      "editor": "textfield",
-      "title": "Category ID (mode=categoryBrowse)",
-      "type": "string"
-    },
-    "keyword": {
-      "description": "Keyword to search for products (mode=search).",
-      "editor": "textfield",
-      "prefill": "smartphone",
-      "title": "Search keyword",
-      "type": "string"
+    "includeAds": {
+      "default": true,
+      "description": "Keep sponsored product cards in the results. Ads take a large share of the up to 90 cards, so ads-off runs return the organic subset. Every record carries `isAd`.",
+      "prefill": false,
+      "title": "Include paid ads",
+      "type": "boolean"
     },
     "maxItems": {
-      "default": 20,
-      "description": "Maximum number of products to return.",
-      "maximum": 500,
+      "default": 100,
+      "description": "Total products to save across all keywords, after ad and price filtering (1–1000). The source still caps each keyword at 90 cards.",
+      "maximum": 1000,
       "minimum": 1,
-      "prefill": 20,
-      "title": "Max items",
+      "prefill": 2,
+      "title": "Max products",
       "type": "integer"
     },
     "maxPrice": {
-      "description": "Maximum product price in Korean Won.",
+      "description": "Drop fetched products more expensive than this price in Korean Won. Applied after collection, to the products this run fetched.",
       "maximum": 100000000,
       "minimum": 0,
       "title": "Maximum price (KRW)",
       "type": "integer"
     },
     "minPrice": {
-      "description": "Minimum product price in Korean Won.",
+      "description": "Drop fetched products cheaper than this price in Korean Won. Applied after collection, to the products this run fetched.",
       "maximum": 100000000,
       "minimum": 0,
       "title": "Minimum price (KRW)",
       "type": "integer"
     },
-    "mode": {
-      "default": "search",
-      "description": "What to fetch from Naver Shopping.",
-      "editor": "select",
-      "enum": [
-        "search",
-        "productDetails",
-        "categoryBrowse",
-        "trending"
-      ],
-      "enumTitles": [
-        "Search products by keyword",
-        "Get product details by product ID",
-        "Browse products by category",
-        "Trending products"
-      ],
-      "prefill": "search",
-      "title": "Mode",
-      "type": "string"
-    },
-    "productIds": {
+    "searchQueries": {
       "default": [],
-      "description": "List of Naver Shopping product IDs to fetch details for.",
+      "description": "One Naver Shopping search per keyword, in Korean or English. Each keyword returns up to 90 product cards, including ads. Leave empty only when an old task supplies a single `keyword`.",
       "editor": "stringList",
-      "prefill": [],
-      "title": "Product IDs (mode=productDetails)",
+      "prefill": [
+        "스마트폰"
+      ],
+      "title": "Search keywords",
       "type": "array"
     },
-    "sortBy": {
-      "default": "score",
-      "description": "Sort order for search results.",
+    "sort": {
+      "default": "relevance",
+      "description": "Order the products this run fetched. Naver's mobile page does not accept a server-side sort, so this is a local sort, not a re-query.",
       "editor": "select",
       "enum": [
-        "score",
-        "rel",
-        "price_asc",
-        "price_dsc",
-        "review",
-        "date"
+        "relevance",
+        "priceLow",
+        "priceHigh",
+        "reviews"
       ],
       "enumTitles": [
-        "Relevance (default)",
-        "Ranking",
-        "Price: Low to High",
-        "Price: High to Low",
-        "Most Reviews",
-        "Newest"
+        "Relevance (Naver's order)",
+        "Price: low to high",
+        "Price: high to low",
+        "Most reviews"
       ],
-      "prefill": "score",
-      "title": "Sort by",
+      "prefill": "relevance",
+      "title": "Sort products",
       "type": "string"
     }
   },
-  "required": [
-    "mode"
-  ],
   "schemaVersion": 1,
   "title": "Naver Shopping Scraper Input",
   "type": "object"
