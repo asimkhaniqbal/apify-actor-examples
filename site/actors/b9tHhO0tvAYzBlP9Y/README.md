@@ -1,0 +1,114 @@
+# New Jersey Business Registry Lookup & Name Checker
+
+New Jersey's Division of Revenue and Enterprise Services runs a free, public name-search tool for every business registered in the state. This actor queries that tool on your behalf — searching by business name, keyword or exact entity ID, or checking whether a name you want to file is still available — and returns the matches as clean records.
+
+## What this actor does
+
+- **Four lookup modes**: search by name (contains match), search by up to five keywords, look up an exact 10-digit entity ID, or check whether a candidate name is available for a new filing
+- **Returns both the short and full entity type** for every registered business, e.g. `LLC` alongside `Domestic Limited Liability Company`
+- **Surfaces conflicting names** when an availability check fails, so you can see exactly what's blocking your chosen name
+- **Narrows results client-side** by entity-type substring or exact city, on top of the name/keyword search
+- Fields New Jersey's registry doesn't return for a record are left out rather than sent empty
+
+## Output per record
+
+### Registered-business modes (`byName`, `byKeyword`, `byEntityId`)
+
+- `businessName` — name as filed with the state
+- `entityId` — 10-digit New Jersey entity ID
+- `city` — on-file city, when present
+- `entityTypeAbbr` — short entity-type code, e.g. `LLC`, `DP`, `FLC`
+- `entityTypeFull` — full entity-type description, e.g. `Domestic Limited Liability Company`
+- `incorporatedDate` — incorporation date in `YYYY-MM-DD` format
+- `sourceUrl` — the registry URL the record was read from
+- `recordType` — `"business"`
+- `scrapedAt` — ISO 8601 timestamp of the lookup
+
+### Availability mode (`availability`)
+
+- `queriedName` — the candidate name that was checked
+- `isAvailable` — `true` or `false`
+- `message` — the registry's own explanation of the result
+- `similarBusinesses` — conflicting or similar registered names on file (only present when `isAvailable` is `false`)
+- `sourceUrl` — the registry URL the record was read from
+- `recordType` — `"availability"`
+- `scrapedAt` — ISO 8601 timestamp of the lookup
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `mode` | string | `byName` | `byName` (contains-match search) / `byKeyword` (multi-keyword search) / `byEntityId` (exact lookup) / `availability` (name-availability check). |
+| `businessName` | string | `Amazon` | Name to search for (mode=`byName`), or candidate name without a designator like `LLC`/`Inc`/`Corp` (mode=`availability`). |
+| `keywords` | array | `["Amazon"]` | 1–5 keywords that must all appear in the business name, in any order (mode=`byKeyword`). |
+| `entityIds` | array | – | Exact 10-digit New Jersey entity IDs to look up (mode=`byEntityId`). |
+| `entityTypeContains` | string | – | Case-insensitive substring filter on the full entity type, e.g. `Limited Liability` (mode=`byName`, `byKeyword`). |
+| `cityFilter` | string | – | Exact, case-insensitive city match (mode=`byName`, `byKeyword`). |
+| `maxItems` | integer | `25` | Hard cap on records returned (1–200), applied after fetching all matches. |
+| `proxyConfiguration` | object | `{"useApifyProxy": true}` | Apify datacenter proxy configuration, used to spread requests across IPs if rate-limited. |
+
+### Example: search registered businesses by name
+
+```json
+{
+    "mode": "byName",
+    "businessName": "Amazon",
+    "entityTypeContains": "Limited Liability",
+    "maxItems": 25
+}
+```
+
+### Example: check if a name is available to file
+
+```json
+{
+    "mode": "availability",
+    "businessName": "My Brand New Startup Idea"
+}
+```
+
+### Example: search by multiple keywords
+
+```json
+{
+    "mode": "byKeyword",
+    "keywords": ["Amazon", "LLC"]
+}
+```
+
+### Example: look up exact entity IDs
+
+```json
+{
+    "mode": "byEntityId",
+    "entityIds": ["0450567823"]
+}
+```
+
+## Use cases
+
+- **New-business filing prep** — clear a candidate name before submitting a New Jersey formation filing
+- **Vendor and counterparty checks** — confirm a business's entity ID, filing type and incorporation date before signing a contract
+- **Lead list building** — collect New Jersey-registered businesses that match a name, keyword or industry-type filter
+- **Registry data enrichment** — append New Jersey entity details to an existing company dataset by entity ID
+- **Compliance and legal research** — verify the exact legal entity type behind a known New Jersey entity ID
+
+## FAQ
+
+**Is this an official New Jersey state tool?**
+No. This is an independent, third-party actor built on New Jersey Division of Revenue and Enterprise Services' own free, public, no-login business search. It is not affiliated with or endorsed by the State of New Jersey.
+
+**Does `availability` mode accept names with "LLC" or "Inc" already in them?**
+No — the state's own availability tool rejects names that include a business designator, since it's meant to validate the base name before you pick an entity type during filing.
+
+**Can I get a business's officers or registered agent from this?**
+No. New Jersey's free search only returns business name, entity ID, city, entity type and incorporation date — officer, registered-agent and filing-history data require the state's separate paid status products, which this actor doesn't access.
+
+**Why is there no active/inactive status field?**
+The free registry search New Jersey exposes doesn't include an operating-status column at all, so there's nothing for this actor to extract for that field.
+
+**Why might `similarBusinesses` be capped around 50 entries?**
+New Jersey's own availability-check conflict list caps itself at the first 50 matches, so the actor can't return more than the source provides.
+
+**How many results can one search return?**
+Registered-business searches return all of New Jersey's matches in one response; `maxItems` (up to 200) then caps how many of those are kept in your output.

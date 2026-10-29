@@ -1,0 +1,96 @@
+{
+  "description": "Search the New Jersey Division of Revenue and Enterprise Services' free public Business Name Search (njportal.com/DOR/BusinessNameSearch). No login required.",
+  "properties": {
+    "businessName": {
+      "default": "Amazon",
+      "description": "For mode=byName: name or partial name to search for, e.g. `Amazon` (contains match). For mode=availability: a candidate name WITHOUT a business designator (no `LLC`, `Inc`, `Corp`, etc. -- the source rejects those) to check whether it conflicts with an already-registered name.",
+      "editor": "textfield",
+      "prefill": "Amazon",
+      "title": "Business name (mode=byName, availability)",
+      "type": "string"
+    },
+    "cityFilter": {
+      "default": "",
+      "description": "Exact (case-insensitive) match against the registered business's on-file city. Leave blank for no filter.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "City filter (mode=byName, byKeyword)",
+      "type": "string"
+    },
+    "entityIds": {
+      "default": [],
+      "description": "Exact 10-digit New Jersey entity ID(s) to look up, e.g. `0450567823`.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Entity IDs (mode=byEntityId)",
+      "type": "array"
+    },
+    "entityTypeContains": {
+      "default": "",
+      "description": "Case-insensitive substring filter against the full entity type description, e.g. `Limited Liability` or `Corporation`. Leave blank for no filter.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Entity type contains (mode=byName, byKeyword)",
+      "type": "string"
+    },
+    "keywords": {
+      "default": [
+        "Amazon"
+      ],
+      "description": "1-5 keywords; results contain ALL of them (in any order) somewhere in the registered business name, e.g. `[\"Amazon\", \"LLC\"]`.",
+      "editor": "stringList",
+      "prefill": [
+        "Amazon"
+      ],
+      "title": "Keywords (mode=byKeyword)",
+      "type": "array"
+    },
+    "maxItems": {
+      "default": 25,
+      "description": "Hard cap on emitted records. The source's registered-business searches return all matches in a single response (no server pagination); this cap is applied client-side.",
+      "maximum": 200,
+      "minimum": 1,
+      "prefill": 25,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "byName",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "byName",
+        "byKeyword",
+        "byEntityId",
+        "availability"
+      ],
+      "enumTitles": [
+        "Search registered businesses by name (contains)",
+        "Search registered businesses by up to 5 keywords",
+        "Lookup registered business by exact 10-digit entity ID",
+        "Check if a business name is available for a new filing"
+      ],
+      "prefill": "byName",
+      "title": "Mode",
+      "type": "string"
+    },
+    "proxyConfiguration": {
+      "default": {
+        "useApifyProxy": true
+      },
+      "description": "Uses Apify's free datacenter (AUTO) proxy group to get a fresh IP if a request is rate-limited by the source. Residential proxy is never used by this actor.",
+      "editor": "proxy",
+      "prefill": {
+        "useApifyProxy": true
+      },
+      "title": "Proxy configuration",
+      "type": "object"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "New Jersey DOR Business Name Search Scraper Input",
+  "type": "object"
+}
