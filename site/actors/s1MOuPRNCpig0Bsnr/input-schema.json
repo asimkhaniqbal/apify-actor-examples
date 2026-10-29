@@ -1,0 +1,108 @@
+{
+  "description": "Search products, get item details, browse categories on MercadoLibre across 9 country sites.",
+  "properties": {
+    "categoryId": {
+      "description": "MercadoLibre category ID (mode=searchByCategory), e.g. MLA1051.",
+      "editor": "textfield",
+      "title": "Category ID",
+      "type": "string"
+    },
+    "condition": {
+      "default": "all",
+      "description": "Filter results by item condition.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "new",
+        "used"
+      ],
+      "enumTitles": [
+        "All conditions",
+        "New only",
+        "Used only"
+      ],
+      "prefill": "all",
+      "title": "Condition filter",
+      "type": "string"
+    },
+    "itemId": {
+      "description": "MercadoLibre item ID(s) for detail lookup (mode=getProductDetails). Comma-separate multiple IDs, e.g. MLA1234567890,MLA9876543210.",
+      "editor": "textfield",
+      "title": "Item ID(s)",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Maximum number of records to return.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "searchProducts",
+      "description": "What to fetch from MercadoLibre.",
+      "editor": "select",
+      "enum": [
+        "searchProducts",
+        "getProductDetails",
+        "searchByCategory",
+        "getCategories"
+      ],
+      "enumTitles": [
+        "Search products by keyword",
+        "Get full product details by item ID",
+        "Search products by category",
+        "Browse all categories for a site"
+      ],
+      "prefill": "searchProducts",
+      "title": "Mode",
+      "type": "string"
+    },
+    "query": {
+      "default": "laptop",
+      "description": "Keyword to search for products (mode=searchProducts).",
+      "editor": "textfield",
+      "prefill": "laptop",
+      "title": "Search query",
+      "type": "string"
+    },
+    "siteId": {
+      "default": "MLA",
+      "description": "MercadoLibre country site to query.",
+      "editor": "select",
+      "enum": [
+        "MLA",
+        "MLB",
+        "MLC",
+        "MCO",
+        "MLM",
+        "MPE",
+        "MLU",
+        "MLV",
+        "MLO"
+      ],
+      "enumTitles": [
+        "Argentina (MLA)",
+        "Brazil (MLB)",
+        "Chile (MLC)",
+        "Colombia (MCO)",
+        "Mexico (MLM)",
+        "Peru (MPE)",
+        "Uruguay (MLU)",
+        "Venezuela (MLV)",
+        "Dominican Republic (MLO)"
+      ],
+      "prefill": "MLA",
+      "title": "Site / Country",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "MercadoLibre Marketplace Scraper Input",
+  "type": "object"
+}

@@ -1,0 +1,116 @@
+# MercadoLibre Multi-Country Marketplace Scraper
+
+MercadoLibre runs separate marketplaces for each Latin American country it serves, from Argentina to the Dominican Republic. This actor queries whichever country site you pick — by keyword, by category, or by exact item ID — and also lets you pull a country's full top-level category tree to discover IDs for further searches.
+
+## What this actor does
+
+- **Four modes**: keyword search, category search, item-detail lookup by ID, and listing a site's top-level categories
+- **Covers 9 country sites** (Argentina, Brazil, Chile, Colombia, Mexico, Peru, Uruguay, Venezuela, Dominican Republic) through one consistent interface
+- **Enriches every product with seller data** — nickname and reputation level — fetched alongside the listing
+- **Filters by item condition** (new or used) on search modes
+- Fields a listing or seller doesn't expose (such as `officialStoreId` or `warranty`) are left out of that record rather than sent empty
+
+## Output per product (`searchProducts`, `searchByCategory`, `getProductDetails`)
+
+- `itemId` — MercadoLibre item ID, e.g. `MLA123456789`
+- `title` — product title
+- `price` — numeric price
+- `currency` — currency code, e.g. `ARS`, `BRL`, `MXN`
+- `condition` — `new` or `used`
+- `availableQuantity` — units available
+- `soldQuantity` — units sold
+- `sellerId` — MercadoLibre's internal seller/user ID
+- `sellerName` — seller nickname
+- `sellerReputation` — seller reputation level, e.g. `5_green`
+- `imageUrl` — high-resolution product image URL
+- `categoryId` — the item's category ID
+- `categoryPath` — full category breadcrumb, e.g. `["Electronics", "Computers", "Laptops"]`
+- `freeShipping` — `true` when free shipping is offered
+- `officialStoreId` — official store ID, when the seller is an official store
+- `itemUrl` — direct link to the product page
+- `warranty` — warranty description (only returned by `getProductDetails`)
+- `listingTypeId` — listing tier such as `gold_special` (only returned by `getProductDetails`)
+- `siteId` — the country site the record came from
+- `scrapedAt` — ISO 8601 timestamp of the scrape
+
+## Output per category (`getCategories`)
+
+- `categoryId` — MercadoLibre category ID, e.g. `MLA1051`
+- `categoryName` — category display name
+- `siteId` — the country site the category belongs to
+- `scrapedAt` — ISO 8601 timestamp of the scrape
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `mode` | string | `searchProducts` | `searchProducts` (keyword) / `getProductDetails` (by item ID) / `searchByCategory` / `getCategories` (list a site's top-level categories). |
+| `siteId` | string | `MLA` | Country site: `MLA` Argentina, `MLB` Brazil, `MLC` Chile, `MCO` Colombia, `MLM` Mexico, `MPE` Peru, `MLU` Uruguay, `MLV` Venezuela, `MLO` Dominican Republic. |
+| `query` | string | `laptop` | Keyword to search for (mode=`searchProducts`). |
+| `categoryId` | string | – | Category ID to browse, e.g. `MLA1051` (mode=`searchByCategory`). |
+| `itemId` | string | – | One or more item IDs, comma-separated, e.g. `MLA1234567890,MLA9876543210` (mode=`getProductDetails`). |
+| `condition` | string | `all` | Filter by item condition: `all`, `new` or `used`. |
+| `maxItems` | integer | `20` | Maximum number of records to return (1–500). |
+
+### Example: keyword search in Argentina
+
+```json
+{
+    "mode": "searchProducts",
+    "siteId": "MLA",
+    "query": "laptop",
+    "condition": "new",
+    "maxItems": 50
+}
+```
+
+### Example: browse a category in Brazil
+
+```json
+{
+    "mode": "searchByCategory",
+    "siteId": "MLB",
+    "categoryId": "MLB1648",
+    "maxItems": 30
+}
+```
+
+### Example: discover category IDs for Mexico
+
+```json
+{
+    "mode": "getCategories",
+    "siteId": "MLM"
+}
+```
+
+## Use cases
+
+- **Cross-country price comparison** — track the same product's price across Argentina, Brazil and Mexico
+- **Seller research** — find top sellers for a keyword and compare reputation levels
+- **Category discovery** — list a country's category tree before running a targeted category search
+- **Market research** — compare product availability, pricing and shipping offers across Latin American markets
+- **Catalog monitoring** — periodically re-fetch item details by ID to track price or stock changes
+
+## FAQ
+
+**Do I need an API key or account?**
+No. This actor reads MercadoLibre's own public product data; no login, API key or proxy is required.
+
+**Can I search every Latin American country MercadoLibre serves?**
+This actor covers 9 MercadoLibre country sites: Argentina, Brazil, Chile, Colombia, Mexico, Peru, Uruguay, Venezuela and the Dominican Republic.
+
+**How do I find a category ID to search by?**
+Run `mode: getCategories` for your target site first; it returns every top-level category ID and name, which you can then pass into `searchByCategory`.
+
+**Why are `warranty` and `listingTypeId` only present sometimes?**
+Those two fields are only returned by `getProductDetails`, since they come from the full item-detail response rather than the lighter search result.
+
+**Why might a run take longer with many results?**
+Seller nickname and reputation are fetched per product, so larger `maxItems` values on search modes mean more individual lookups.
+
+**What's the maximum number of results per run?**
+Up to 500 records via `maxItems`.
+
+**Is this affiliated with MercadoLibre?**
+No, this is an independent, third-party actor that reads MercadoLibre's public product data. It is not affiliated with or endorsed by MercadoLibre.
