@@ -1,7 +1,7 @@
 {
   "actorSpecification": 1,
   "views": {
-    "overview": {
+    "products": {
       "display": {
         "component": "table",
         "properties": {}
@@ -9,15 +9,88 @@
       "title": "Products",
       "transformation": {
         "fields": [
+          "recordType",
+          "sku",
           "name",
           "brand",
           "price",
           "originalPrice",
           "discountPercent",
+          "cardPrice",
+          "currency",
           "rating",
           "reviewCount",
           "sellerName",
+          "sellerLegalName",
+          "availability",
+          "productUrl",
+          "storefront"
+        ]
+      }
+    },
+    "questions": {
+      "display": {
+        "component": "table",
+        "properties": {}
+      },
+      "title": "Buyer questions",
+      "transformation": {
+        "fields": [
+          "recordType",
+          "questionId",
+          "sku",
+          "text",
+          "authorName",
+          "createdAt",
+          "answers",
           "productUrl"
+        ]
+      }
+    },
+    "reviews": {
+      "display": {
+        "component": "table",
+        "properties": {}
+      },
+      "title": "Reviews",
+      "transformation": {
+        "fields": [
+          "recordType",
+          "reviewId",
+          "sku",
+          "rating",
+          "authorName",
+          "publishedAt",
+          "comment",
+          "photos",
+          "videos",
+          "usefulCount",
+          "isPurchaseVerified",
+          "productUrl"
+        ]
+      }
+    },
+    "sellers": {
+      "display": {
+        "component": "table",
+        "properties": {}
+      },
+      "title": "Sellers",
+      "transformation": {
+        "fields": [
+          "recordType",
+          "sellerId",
+          "name",
+          "rating",
+          "reviewsCount",
+          "ordersCount",
+          "yearsOnOzon",
+          "isPremium",
+          "legalName",
+          "registrationNumber",
+          "address",
+          "confirmedBrands",
+          "url"
         ]
       }
     }

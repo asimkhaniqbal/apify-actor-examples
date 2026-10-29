@@ -1,44 +1,92 @@
 {
-  "description": "Search Ozon.ru, browse a category, or fetch full details for specific products.",
+  "description": "Search Ozon, browse a category, fetch product details, inspect a seller, or collect reviews and buyer questions for RU, BY, or KZ.",
   "properties": {
-    "categoryUrl": {
-      "description": "A full Ozon category URL (e.g. `https://www.ozon.ru/category/smartfony-15502/`) or a bare category slug (e.g. `smartfony-15502`).",
-      "editor": "textfield",
-      "title": "Category URL or slug (mode=byCategory)",
-      "type": "string"
+    "categoryUrls": {
+      "default": [],
+      "description": "Full Ozon category/brand URLs or bare slugs, e.g. `https://www.ozon.ru/category/smartfony-15502/` or `smartfony-15502`.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Category URLs or slugs (mode=byCategory)",
+      "type": "array"
     },
     "inStockOnly": {
       "default": false,
-      "description": "Only emit products that are not marked out of stock / sold out.",
+      "description": "Only keep products that are currently available.",
       "prefill": false,
-      "title": "In-stock only",
+      "title": "In stock only",
+      "type": "boolean"
+    },
+    "includeOtherSellers": {
+      "default": false,
+      "description": "Add the buybox list of other sellers for each product.",
+      "prefill": false,
+      "title": "Include competing seller offers",
+      "type": "boolean"
+    },
+    "includeProductDetails": {
+      "default": false,
+      "description": "For search and category rows, also fetch the product page for description, full specifications, gallery, and variants.",
+      "prefill": false,
+      "title": "Enrich listing rows with full details",
+      "type": "boolean"
+    },
+    "includeQuestions": {
+      "default": false,
+      "description": "Also emit buyer questions and their answers for each product.",
+      "prefill": false,
+      "title": "Include buyer questions (mode=reviews)",
+      "type": "boolean"
+    },
+    "includeSellerDetails": {
+      "default": false,
+      "description": "Add the seller's legal name, registration number, address, and confirmed brands to product rows.",
+      "prefill": false,
+      "title": "Include seller legal details",
+      "type": "boolean"
+    },
+    "includeSellerProducts": {
+      "default": true,
+      "description": "Emit the seller's catalog products as product rows in addition to the seller profile.",
+      "prefill": true,
+      "title": "Include seller catalog products (mode=seller)",
       "type": "boolean"
     },
     "maxItems": {
-      "default": 20,
-      "description": "Hard cap on emitted records.",
-      "maximum": 500,
+      "default": 50,
+      "description": "Hard cap on emitted records. In seller mode this includes the seller profile row.",
+      "maximum": 1000,
       "minimum": 1,
-      "prefill": 10,
-      "title": "Max items",
+      "prefill": 3,
+      "title": "Maximum records",
       "type": "integer"
     },
     "maxPrice": {
-      "description": "Drop products pricier than this (in Russian rubles).",
+      "description": "Drop products pricier than this amount in the selected storefront currency.",
       "maximum": 100000000,
       "minimum": 0,
-      "title": "Maximum price (RUB)",
+      "title": "Maximum price",
+      "type": "integer"
+    },
+    "maxReviewsPerProduct": {
+      "default": 30,
+      "description": "How many review rows to collect for each product. Set 0 to collect only question rows.",
+      "maximum": 1000,
+      "minimum": 0,
+      "prefill": 1,
+      "title": "Maximum reviews per product (mode=reviews)",
       "type": "integer"
     },
     "minPrice": {
-      "description": "Drop products cheaper than this (in Russian rubles).",
+      "default": 0,
+      "description": "Drop products cheaper than this amount in the selected storefront currency.",
       "maximum": 100000000,
       "minimum": 0,
-      "title": "Minimum price (RUB)",
+      "prefill": 0,
+      "title": "Minimum price",
       "type": "integer"
     },
     "minRating": {
-      "description": "Drop products rated below this (0-5 scale).",
+      "description": "Drop products rated below this value on the 0-5 scale.",
       "maximum": 5,
       "minimum": 0,
       "title": "Minimum rating",
@@ -46,17 +94,21 @@
     },
     "mode": {
       "default": "search",
-      "description": "What to fetch.",
+      "description": "What to collect.",
       "editor": "select",
       "enum": [
         "search",
         "byCategory",
-        "productDetails"
+        "productDetails",
+        "seller",
+        "reviews"
       ],
       "enumTitles": [
         "Search products by keyword",
-        "Browse a category listing",
-        "Fetch full product details (by URL or SKU)"
+        "Browse category or brand listings",
+        "Fetch full product details by URL or SKU",
+        "Seller profile and catalog",
+        "Product reviews and buyer questions"
       ],
       "prefill": "search",
       "title": "Mode",
@@ -64,65 +116,95 @@
     },
     "productUrls": {
       "default": [],
-      "description": "Full Ozon product URLs, or bare numeric SKU/product IDs.",
+      "description": "Full Ozon product URLs, short `ozon.ru/t/...` links, or bare numeric SKU/product IDs.",
       "editor": "stringList",
       "prefill": [],
-      "title": "Product URLs or SKUs (mode=productDetails)",
+      "title": "Product URLs or SKUs (mode=productDetails or reviews)",
       "type": "array"
     },
-    "proxyConfiguration": {
-      "default": {
-        "apifyProxyCountry": "RU",
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
-        ],
-        "useApifyProxy": true
-      },
-      "description": "Apify RESIDENTIAL proxy (Russia) is required to bypass Ozon's anti-bot edge block, which returns a hard 403/captcha challenge to datacenter IPs outside Russia.",
-      "editor": "proxy",
-      "prefill": {
-        "apifyProxyCountry": "RU",
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
-        ],
-        "useApifyProxy": true
-      },
-      "title": "Proxy configuration",
-      "type": "object"
+    "searchQueries": {
+      "default": [
+        "iphone"
+      ],
+      "description": "One or more keywords, e.g. `iphone`, `телевизор`, `кофемашина`. Each query is collected in order.",
+      "editor": "stringList",
+      "prefill": [
+        "iphone"
+      ],
+      "title": "Search queries (mode=search)",
+      "type": "array"
     },
-    "searchQuery": {
-      "description": "Free-text keyword search, e.g. `iphone`, `телевизор`.",
-      "editor": "textfield",
-      "prefill": "iphone",
-      "title": "Search query (mode=search)",
-      "type": "string"
+    "sellerUrls": {
+      "default": [],
+      "description": "Ozon seller storefront URLs, slugs, or numeric seller IDs, e.g. `https://www.ozon.ru/seller/dubaidutyfree/`.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Seller URLs or IDs (mode=seller)",
+      "type": "array"
     },
     "sortBy": {
-      "default": "",
-      "description": "Result ordering for search mode. Leave as relevance for the default ranking.",
+      "default": "relevance",
+      "description": "Result ordering for search, category, and seller catalog listings.",
       "editor": "select",
       "enum": [
-        "",
-        "price",
-        "-price",
+        "relevance",
+        "price_asc",
+        "price_desc",
         "rating",
-        "new"
+        "new",
+        "discount"
       ],
       "enumTitles": [
         "Relevance (default)",
         "Price: low to high",
         "Price: high to low",
-        "Rating",
-        "Newest"
+        "Highest rated",
+        "Newest",
+        "Biggest discounts"
       ],
-      "prefill": "",
-      "title": "Sort order (mode=search)",
+      "prefill": "relevance",
+      "title": "Sort order",
+      "type": "string"
+    },
+    "sortReviews": {
+      "default": "usefulness_desc",
+      "description": "How product reviews are ordered.",
+      "editor": "select",
+      "enum": [
+        "usefulness_desc",
+        "score_desc",
+        "score_asc"
+      ],
+      "enumTitles": [
+        "Most useful first",
+        "Highest rating first",
+        "Lowest rating first"
+      ],
+      "prefill": "usefulness_desc",
+      "title": "Review order (mode=reviews)",
+      "type": "string"
+    },
+    "storefront": {
+      "default": "ru",
+      "description": "Which Ozon market to read. Prices use the local currency: RUB for Russia, BYN for Belarus, KZT for Kazakhstan.",
+      "editor": "select",
+      "enum": [
+        "ru",
+        "by",
+        "kz"
+      ],
+      "enumTitles": [
+        "Ozon Russia (RUB)",
+        "Ozon Belarus (BYN)",
+        "Ozon Kazakhstan (KZT)"
+      ],
+      "prefill": "ru",
+      "title": "Storefront",
       "type": "string"
     }
   },
   "required": [
-    "mode",
-    "proxyConfiguration"
+    "mode"
   ],
   "schemaVersion": 1,
   "title": "Ozon Scraper Input",

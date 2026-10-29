@@ -1,11 +1,29 @@
 {
   "actorOutputSchemaVersion": 1,
-  "description": "Products from Ozon.ru — name, brand, pricing, discounts, ratings, star-rating breakdown, reviews, seller (name, storefront URL, rating, orders), full spec/characteristics table, category breadcrumbs, other colors/configurations, similar/alternative products, Q&A count, other-seller offers, images, product videos, marketing/promo labels, availability and delivery info.",
+  "description": "Ozon products, seller profiles, buyer reviews, and questions with local-currency pricing, full specifications, variants, buybox offers, and legal seller details.",
   "properties": {
     "products": {
-      "description": "Dataset containing all scraped Ozon products.",
+      "description": "Dataset view of product rows.",
       "template": "{{links.apiDefaultDatasetUrl}}/items",
       "title": "Ozon products",
+      "type": "string"
+    },
+    "questions": {
+      "description": "Dataset view of buyer question and answer rows.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items",
+      "title": "Ozon buyer questions",
+      "type": "string"
+    },
+    "reviews": {
+      "description": "Dataset view of product review rows.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items",
+      "title": "Ozon reviews",
+      "type": "string"
+    },
+    "sellers": {
+      "description": "Dataset view of seller profile rows.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items",
+      "title": "Ozon sellers",
       "type": "string"
     }
   },
