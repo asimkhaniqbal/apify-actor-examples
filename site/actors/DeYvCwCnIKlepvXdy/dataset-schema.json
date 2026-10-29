@@ -1,1 +1,144 @@
-null
+{
+  "actorSpecification": 1,
+  "fields": {
+    "properties": {
+      "badges": {
+        "description": "Promotional labels shown on the product card.",
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "brand": {
+        "description": "Brand name when the feed carries one.",
+        "nullable": true,
+        "type": "string"
+      },
+      "catId": {
+        "description": "SHEIN category ID.",
+        "nullable": true,
+        "type": "string"
+      },
+      "countryCode": {
+        "description": "Storefront code the record came from (US, UK, DE, ...).",
+        "type": "string"
+      },
+      "currency": {
+        "description": "ISO currency code of the storefront.",
+        "type": "string"
+      },
+      "discountPercentage": {
+        "description": "Discount percentage shown by SHEIN.",
+        "nullable": true,
+        "type": "integer"
+      },
+      "images": {
+        "description": "Gallery image URLs when the feed provides them.",
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "isOnSale": {
+        "description": "Whether SHEIN marks the product as on sale (home feed only).",
+        "nullable": true,
+        "type": "boolean"
+      },
+      "mainImage": {
+        "description": "Main product image URL.",
+        "nullable": true,
+        "type": "string"
+      },
+      "position": {
+        "description": "1-based position in that storefront's returned records (home-feed records come first in all mode).",
+        "type": "integer"
+      },
+      "priceUsd": {
+        "description": "SHEIN's USD equivalent of the sale price.",
+        "nullable": true,
+        "type": "number"
+      },
+      "productId": {
+        "description": "SHEIN goods ID.",
+        "type": "string"
+      },
+      "productSku": {
+        "description": "SHEIN SKU code (home feed only).",
+        "nullable": true,
+        "type": "string"
+      },
+      "rating": {
+        "description": "Average customer rating when the product has reviews.",
+        "nullable": true,
+        "type": "number"
+      },
+      "recordType": {
+        "description": "Which feed produced the record.",
+        "enum": [
+          "featured",
+          "homeFeed"
+        ],
+        "type": "string"
+      },
+      "retailPrice": {
+        "description": "Retail (list) price in the local currency.",
+        "nullable": true,
+        "type": "number"
+      },
+      "retailPriceText": {
+        "description": "Retail price formatted with the local currency symbol.",
+        "nullable": true,
+        "type": "string"
+      },
+      "retailPriceUsd": {
+        "description": "SHEIN's USD equivalent of the retail price.",
+        "nullable": true,
+        "type": "number"
+      },
+      "reviewCount": {
+        "description": "Number of customer reviews when available.",
+        "nullable": true,
+        "type": "integer"
+      },
+      "salePrice": {
+        "description": "Current sale price in the local currency.",
+        "nullable": true,
+        "type": "number"
+      },
+      "salePriceText": {
+        "description": "Sale price formatted with the local currency symbol.",
+        "nullable": true,
+        "type": "string"
+      },
+      "salesLabel": {
+        "description": "Sales label shown by SHEIN, e.g. 800+ sold.",
+        "nullable": true,
+        "type": "string"
+      },
+      "scrapedAt": {
+        "description": "UTC timestamp of the scrape in ISO 8601 format.",
+        "type": "string"
+      },
+      "soldCount": {
+        "description": "Units sold as shown on the card (home feed only); a 1.5k+ sold label becomes 1500.",
+        "nullable": true,
+        "type": "integer"
+      },
+      "spu": {
+        "description": "SHEIN SPU identifier (home feed only).",
+        "nullable": true,
+        "type": "string"
+      },
+      "title": {
+        "description": "Product name exactly as shown on the feed.",
+        "type": "string"
+      },
+      "url": {
+        "description": "Product URL on the matching storefront. Uses the canonical slug when the feed provides one.",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "title": "Shein Homepage & Home Feed Products"
+}

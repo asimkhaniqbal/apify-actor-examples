@@ -1,128 +1,287 @@
 {
-  "description": "Search products on Trendyol, fetch product details, browse categories, or get trending/new items.",
+  "description": "Choose a mode, market and optional filters to collect Trendyol products, reviews or answered questions.",
   "properties": {
-    "categoryUrl": {
-      "description": "Trendyol category path, e.g. `erkek-spor-ayakkabi-x-c87` or full URL.",
-      "editor": "textfield",
-      "title": "Category URL path (mode=categoryBrowse)",
-      "type": "string"
+    "categoryUrls": {
+      "default": [],
+      "description": "(mode=category, bestSellers, newArrivals) Paste Trendyol category, brand or campaign URLs, or a category ID.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Category, brand or campaign URLs",
+      "type": "array"
+    },
+    "couponsOnly": {
+      "default": false,
+      "description": "Keep products that show a coupon or discount code.",
+      "prefill": false,
+      "title": "With coupons only",
+      "type": "boolean"
+    },
+    "discountedOnly": {
+      "default": false,
+      "description": "Keep products whose displayed price is below a higher reference price.",
+      "prefill": false,
+      "title": "Discounted only",
+      "type": "boolean"
+    },
+    "fastDeliveryOnly": {
+      "default": false,
+      "description": "Keep products with same-day, next-day or express delivery.",
+      "prefill": false,
+      "title": "Fast delivery only",
+      "type": "boolean"
+    },
+    "freeShippingOnly": {
+      "default": false,
+      "description": "Keep products with free shipping.",
+      "prefill": false,
+      "title": "Free shipping only",
+      "type": "boolean"
     },
     "gender": {
       "default": "",
-      "description": "Filter results by gender.",
+      "description": "Optional gender filter for listing modes.",
       "editor": "select",
       "enum": [
         "",
         "kadin",
         "erkek",
-        "unisex",
-        "cocuk"
+        "cocuk",
+        "unisex"
       ],
       "enumTitles": [
         "Any",
         "Women",
         "Men",
-        "Unisex",
-        "Kids"
+        "Kids",
+        "Unisex (legacy: same as Any)"
       ],
       "prefill": "",
-      "title": "Gender filter",
+      "title": "Gender",
       "type": "string"
     },
-    "keyword": {
-      "default": "sneakers",
-      "description": "Search term for mode=search.",
-      "editor": "textfield",
-      "prefill": "sneakers",
-      "title": "Search keyword",
+    "inStockOnly": {
+      "default": false,
+      "description": "Keep products marked as available.",
+      "prefill": false,
+      "title": "In stock only",
+      "type": "boolean"
+    },
+    "includeDetails": {
+      "default": false,
+      "description": "For listing modes, open each product page to add variants, attributes, seller details, delivery estimates and social proof.",
+      "prefill": false,
+      "title": "Enrich with product details",
+      "type": "boolean"
+    },
+    "includeQna": {
+      "default": false,
+      "description": "Collect answered question rows for each product, in addition to product records.",
+      "prefill": false,
+      "title": "Include answered questions",
+      "type": "boolean"
+    },
+    "includeReviews": {
+      "default": false,
+      "description": "Collect review rows for each product, in addition to product records.",
+      "prefill": false,
+      "title": "Include reviews",
+      "type": "boolean"
+    },
+    "market": {
+      "default": "TR",
+      "description": "Trendyol storefront to use. Prices and currency follow this market.",
+      "editor": "select",
+      "enum": [
+        "TR",
+        "DE",
+        "AE",
+        "SA"
+      ],
+      "enumTitles": [
+        "Turkey (TRY)",
+        "Germany (EUR)",
+        "United Arab Emirates (AED)",
+        "Saudi Arabia (SAR)"
+      ],
+      "prefill": "TR",
+      "title": "Storefront",
       "type": "string"
     },
     "maxItems": {
       "default": 20,
-      "description": "Maximum number of products to return.",
-      "maximum": 500,
+      "description": "Maximum product records for listing and product modes, or product sources processed in reviews/qna modes.",
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 20,
-      "title": "Max items",
+      "prefill": 3,
+      "title": "Max products",
       "type": "integer"
     },
     "maxPrice": {
-      "description": "Maximum price filter in Turkish Lira.",
+      "description": "Maximum displayed price in the selected market's currency.",
       "maximum": 1000000,
       "minimum": 0,
-      "title": "Max price (TRY)",
+      "title": "Maximum price",
+      "type": "integer"
+    },
+    "maxQna": {
+      "default": 20,
+      "description": "Answered question rows to collect per product.",
+      "maximum": 100,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Max answered questions per product",
+      "type": "integer"
+    },
+    "maxReviews": {
+      "default": 20,
+      "description": "Review rows to collect per product.",
+      "maximum": 100,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Max reviews per product",
       "type": "integer"
     },
     "minPrice": {
-      "description": "Minimum price filter in Turkish Lira.",
+      "description": "Minimum displayed price in the selected market's currency.",
       "maximum": 1000000,
       "minimum": 0,
-      "title": "Min price (TRY)",
+      "title": "Minimum price",
       "type": "integer"
+    },
+    "minRating": {
+      "default": "",
+      "description": "Optional minimum average rating, applied after the listing is fetched.",
+      "editor": "select",
+      "enum": [
+        "",
+        "3",
+        "4",
+        "4.5"
+      ],
+      "enumTitles": [
+        "Any",
+        "3 stars and up",
+        "4 stars and up",
+        "4.5 stars and up"
+      ],
+      "prefill": "",
+      "title": "Minimum rating",
+      "type": "string"
     },
     "mode": {
       "default": "search",
-      "description": "What to scrape.",
+      "description": "What to collect. Search, category, store, best-seller and new-arrival modes return products; product returns full details; reviews and qna return those record types.",
       "editor": "select",
       "enum": [
         "search",
+        "category",
+        "store",
+        "product",
+        "reviews",
+        "qna",
+        "bestSellers",
+        "newArrivals",
         "productDetails",
         "categoryBrowse",
-        "trendingItems",
-        "newArrivals"
+        "trendingItems"
       ],
       "enumTitles": [
-        "Search products by keyword",
-        "Fetch product details by URL or ID",
-        "Browse a category listing",
-        "Trending / best-seller items",
-        "New arrival items"
+        "Search products",
+        "Browse a category, brand or campaign",
+        "Browse a seller store",
+        "Get product details",
+        "Get product reviews",
+        "Get answered questions",
+        "Best-selling products",
+        "Newest products",
+        "Product details (legacy alias)",
+        "Browse category (legacy alias)",
+        "Trending items (legacy alias for best sellers)"
       ],
       "prefill": "search",
       "title": "Mode",
       "type": "string"
     },
+    "newlyReleasedOnly": {
+      "default": false,
+      "description": "Keep products tagged as new by Trendyol.",
+      "prefill": false,
+      "title": "New releases only",
+      "type": "boolean"
+    },
+    "officialSellerOnly": {
+      "default": false,
+      "description": "Keep products from sellers marked as official.",
+      "prefill": false,
+      "title": "Official sellers only",
+      "type": "boolean"
+    },
     "productUrls": {
       "default": [],
-      "description": "List of Trendyol product URLs to fetch details for.",
+      "description": "(mode=product, reviews, qna) Paste product URLs, product paths or numeric product IDs.",
       "editor": "stringList",
       "prefill": [],
-      "title": "Product URLs (mode=productDetails)",
+      "title": "Product URLs or IDs",
       "type": "array"
     },
-    "proxyConfiguration": {
-      "default": {
-        "useApifyProxy": true
-      },
-      "description": "Proxy settings. Trendyol is geo-restricted to Turkish IPs — enable Apify proxy for reliable access.",
-      "editor": "proxy",
-      "prefill": {
-        "useApifyProxy": true
-      },
-      "title": "Proxy configuration",
-      "type": "object"
+    "searchQueries": {
+      "default": [],
+      "description": "(mode=search, bestSellers, newArrivals) One or more keywords, e.g. sneakers, coffee machine, iPhone.",
+      "editor": "stringList",
+      "prefill": [
+        "sneakers"
+      ],
+      "title": "Search queries",
+      "type": "array"
+    },
+    "searchUrls": {
+      "default": [],
+      "description": "(mode=search, bestSellers, newArrivals) Paste Trendyol search result URLs. Their query filters are preserved.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Search URLs",
+      "type": "array"
     },
     "sortBy": {
-      "default": "BEST_SELLER",
-      "description": "Sort order for search and category browse.",
+      "default": "SCORE",
+      "description": "Sort order for listing modes. Best-seller and new-arrival modes force their own sort.",
       "editor": "select",
       "enum": [
+        "SCORE",
         "BEST_SELLER",
         "MOST_RATED",
+        "MOST_FAVOURITE",
         "PRICE_BY_ASC",
         "PRICE_BY_DESC",
-        "MOST_FAVOURITE"
+        "MOST_RECENT"
       ],
       "enumTitles": [
-        "Best Seller",
-        "Most Rated",
-        "Price: Low to High",
-        "Price: High to Low",
-        "Most Favourited"
+        "Relevance",
+        "Best sellers",
+        "Most rated",
+        "Most favourited",
+        "Price: low to high",
+        "Price: high to low",
+        "Newest"
       ],
-      "prefill": "BEST_SELLER",
-      "title": "Sort by (search/category)",
+      "prefill": "SCORE",
+      "title": "Sort by",
       "type": "string"
+    },
+    "specialOffersOnly": {
+      "default": false,
+      "description": "Keep products that show a promotion, flash sale or bundle offer.",
+      "prefill": false,
+      "title": "With special offers only",
+      "type": "boolean"
+    },
+    "storeUrls": {
+      "default": [],
+      "description": "(mode=store) Paste seller store URLs or seller IDs.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Seller store URLs",
+      "type": "array"
     }
   },
   "required": [
