@@ -1,111 +1,410 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-LaAbkQOdsAdTxsGs5umJdAwENLckHNpy+kp5xq5tC4k=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Pinterest Trending Topics &amp; Shopping Category Scraper | Vexaloom Labs</title><meta name="description" content="Collect Pinterest&#x27;s public featured and editorial trend topics, its shopping category taxonomy, and shopping-category click metrics with history and forecast, by region."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/"><meta property="og:title" content="Pinterest Trending Topics &amp; Shopping Category Scraper | Vexaloom Labs"><meta property="og:description" content="Collect Pinterest&#x27;s public featured and editorial trend topics, its shopping category taxonomy, and shopping-category click metrics with history and forecast, by region."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/#webpage","name":"Pinterest Trending Topics & Shopping Category Scraper","description":"Collect Pinterest's public featured and editorial trend topics, its shopping category taxonomy, and shopping-category click metrics with history and forecast, by region.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/#article","headline":"Pinterest Trending Topics & Shopping Category Scraper","name":"Pinterest Trending Topics & Shopping Category Scraper","description":"Collect Pinterest's public featured and editorial trend topics, its shopping category taxonomy, and shopping-category click metrics with history and forecast, by region.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Pinterest Trending Topics & Shopping Category Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Pinterest Trending Topics &amp; Shopping Category Scraper</span></div><section id="overview"><h1 class="doc-title">Pinterest Trending Topics &amp; Shopping Category Scraper</h1><p class="lede">Collect Pinterest&#x27;s public featured and editorial trend topics, its shopping category taxonomy, and shopping-category click metrics with history and forecast, by region.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/pinterest-trending-topics-and-shopping-category">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/i5MAeZzs7WKBrkouR/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>Choose a public Pinterest Trends dataset.</td></tr><tr><td><code>region</code></td><td>string</td><td>optional</td><td>Pinterest Trends region. `GB+IE` is Pinterest&#x27;s combined Great Britain and Ireland region.</td></tr><tr><td><code>event</code></td><td>string</td><td>optional</td><td>Pinterest event used for shopping category metrics.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>Choose a public Pinterest Trends dataset.</td></tr><tr><td><code>region</code></td><td>string</td><td>optional</td><td>Pinterest Trends region. `GB+IE` is Pinterest&#x27;s combined Great Britain and Ireland region.</td></tr><tr><td><code>event</code></td><td>string</td><td>optional</td><td>Pinterest event used for shopping category metrics.</td></tr><tr><td><code>categoryNames</code></td><td>array</td><td>optional</td><td>Friendly Pinterest shopping category names for `shoppingMetrics`, such as `Sofas` or `Wedding dress`. Leave empty to use Pinterest&#x27;s currently featured shopping categories.</td></tr><tr><td><code>days</code></td><td>integer</td><td>optional</td><td>Number of historical days returned for shopping metrics.</td></tr><tr><td><code>predictedDays</code></td><td>integer</td><td>optional</td><td>Number of future days Pinterest supplies in shopping metrics. If a region has no forecast, real historical values are returned instead.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum trend/category records returned.</td></tr><tr><td><code>cookies</code></td><td>array</td><td>optional</td><td>Optional Cookie Editor JSON export for account-relative trend context. Public Trends work without cookies; never share this secret publicly.</td></tr><tr><td><code>cookiesJson</code></td><td>string</td><td>optional</td><td>Compatibility alias for pasting a Cookie Editor JSON export.</td></tr><tr><td><code>proxyConfiguration</code></td><td>object</td><td>optional</td><td>Optional Apify proxy settings. The actor tries a free AUTO proxy fallback and then direct public access.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;description&quot;: &quot;Explore public Pinterest trend topics and shopping trend data by region.&quot;,
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-LaAbkQOdsAdTxsGs5umJdAwENLckHNpy+kp5xq5tC4k=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Pinterest Trending Topics &amp; Shopping Category Scraper | Vexaloom Labs</title><meta name="description" content="Collect Pinterest&#x27;s public featured and editorial trend topics, its shopping category taxonomy, and shopping-category click metrics with history and forecast, by region."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/"><meta property="og:title" content="Pinterest Trending Topics &amp; Shopping Category Scraper | Vexaloom Labs"><meta property="og:description" content="Collect Pinterest&#x27;s public featured and editorial trend topics, its shopping category taxonomy, and shopping-category click metrics with history and forecast, by region."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/#webpage","name":"Pinterest Trending Topics & Shopping Category Scraper","description":"Collect Pinterest's public featured and editorial trend topics, its shopping category taxonomy, and shopping-category click metrics with history and forecast, by region.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/#article","headline":"Pinterest Trending Topics & Shopping Category Scraper","name":"Pinterest Trending Topics & Shopping Category Scraper","description":"Collect Pinterest's public featured and editorial trend topics, its shopping category taxonomy, and shopping-category click metrics with history and forecast, by region.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Pinterest Trending Topics & Shopping Category Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/i5MAeZzs7WKBrkouR/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Pinterest Trending Topics &amp; Shopping Category Scraper</span></div><section id="overview"><h1 class="doc-title">Pinterest Trending Topics &amp; Shopping Category Scraper</h1><p class="lede">Collect Pinterest&#x27;s public featured and editorial trend topics, its shopping category taxonomy, and shopping-category click metrics with history and forecast, by region.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/pinterest-trending-topics-and-shopping-category">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/i5MAeZzs7WKBrkouR/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>Choose a Pinterest Trends dataset.</td></tr><tr><td><code>region</code></td><td>string</td><td>optional</td><td>Pinterest Trends market. Combined codes such as `GB+IE` cover Pinterest&#x27;s published regional groups.</td></tr><tr><td><code>trendType</code></td><td>string</td><td>optional</td><td>Trending list to collect (mode=trendingSearches).</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>Choose a Pinterest Trends dataset.</td></tr><tr><td><code>region</code></td><td>string</td><td>optional</td><td>Pinterest Trends market. Combined codes such as `GB+IE` cover Pinterest&#x27;s published regional groups.</td></tr><tr><td><code>trendType</code></td><td>string</td><td>optional</td><td>Trending list to collect (mode=trendingSearches).</td></tr><tr><td><code>lookbackWindow</code></td><td>string</td><td>optional</td><td>Comparison window used by Pinterest for trending searches (mode=trendingSearches).</td></tr><tr><td><code>endDate</code></td><td>string</td><td>optional</td><td>Historical end date in `YYYY-MM-DD` format. Leave empty for Pinterest&#x27;s latest available date (mode=trendingSearches, keywordResearch, shoppingCategories, shoppingMetrics).</td></tr><tr><td><code>interest</code></td><td>string</td><td>optional</td><td>Pinterest interest filter for trending searches (mode=trendingSearches).</td></tr><tr><td><code>moment</code></td><td>string</td><td>optional</td><td>Pinterest seasonal moment filter for trending searches (mode=trendingSearches).</td></tr><tr><td><code>keywordsToInclude</code></td><td>array</td><td>optional</td><td>Only keep trending searches containing at least one of these words (mode=trendingSearches).</td></tr><tr><td><code>keywordsToExclude</code></td><td>array</td><td>optional</td><td>Drop trending searches containing any of these words (mode=trendingSearches).</td></tr><tr><td><code>ageGroup</code></td><td>string</td><td>optional</td><td>Pinterest audience age filter for trending searches and keyword research.</td></tr><tr><td><code>gender</code></td><td>string</td><td>optional</td><td>Pinterest audience gender filter for trending searches and keyword research.</td></tr><tr><td><code>keywords</code></td><td>array</td><td>optional</td><td>Terms to research (mode=keywordResearch). Leave empty to use Pinterest&#x27;s current top trending searches.</td></tr><tr><td><code>days</code></td><td>integer</td><td>optional</td><td>History length in days for keyword research and shopping metrics.</td></tr><tr><td><code>predictedDays</code></td><td>integer</td><td>optional</td><td>Pinterest forecast horizon. Forecasts are published for the US only (mode=keywordResearch, shoppingMetrics).</td></tr><tr><td><code>includeRelated</code></td><td>boolean</td><td>optional</td><td>Add Pinterest&#x27;s related terms and their weekly history for each keyword (mode=keywordResearch).</td></tr><tr><td><code>includeAudience</code></td><td>boolean</td><td>optional</td><td>Add age and gender distributions for each keyword (mode=keywordResearch).</td></tr><tr><td><code>includeImages</code></td><td>boolean</td><td>optional</td><td>Add a representative Pinterest image for each keyword (mode=keywordResearch).</td></tr><tr><td><code>includeSuggestions</code></td><td>boolean</td><td>optional</td><td>Add Pinterest search suggestions for each keyword (mode=keywordResearch).</td></tr><tr><td><code>shoppingEvent</code></td><td>string</td><td>optional</td><td>Pinterest shopping signal used for category metrics and ranked shopping trends.</td></tr><tr><td><code>includeTopCategories</code></td><td>boolean</td><td>optional</td><td>Add Pinterest&#x27;s fastest-growing shopping categories with related searches (mode=shoppingCategories).</td></tr><tr><td><code>categoryNames</code></td><td>array</td><td>optional</td><td>Exact Pinterest shopping category names for metrics, such as `Sofas` or `Wedding dress` (mode=shoppingMetrics). Leave empty to use Pinterest&#x27;s featured level-2 categories.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum records to return. Trending lists are partitioned by interest to go beyond Pinterest&#x27;s 100-term list ceiling.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Collect public Pinterest trending searches, keyword history and supporting trend content by market.&quot;,
   &quot;properties&quot;: {
+    &quot;ageGroup&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;Pinterest audience age filter for trending searches and keyword research.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
+        &quot;18-20&quot;,
+        &quot;18-24&quot;,
+        &quot;21-24&quot;,
+        &quot;25-34&quot;,
+        &quot;35-44&quot;,
+        &quot;45-49&quot;,
+        &quot;50-54&quot;,
+        &quot;55-64&quot;,
+        &quot;65+&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All ages&quot;,
+        &quot;18-20&quot;,
+        &quot;18-24&quot;,
+        &quot;21-24&quot;,
+        &quot;25-34&quot;,
+        &quot;35-44&quot;,
+        &quot;45-49&quot;,
+        &quot;50-54&quot;,
+        &quot;55-64&quot;,
+        &quot;65+&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Audience age&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
     &quot;categoryNames&quot;: {
       &quot;default&quot;: [],
-      &quot;description&quot;: &quot;Friendly Pinterest shopping category names for `shoppingMetrics`, such as `Sofas` or `Wedding dress`. Leave empty to use Pinterest&#x27;s currently featured shopping categories.&quot;,
+      &quot;description&quot;: &quot;Exact Pinterest shopping category names for metrics, such as `Sofas` or `Wedding dress` (mode=shoppingMetrics). Leave empty to use Pinterest&#x27;s featured level-2 categories.&quot;,
       &quot;editor&quot;: &quot;stringList&quot;,
       &quot;prefill&quot;: [],
       &quot;title&quot;: &quot;Shopping category names&quot;,
       &quot;type&quot;: &quot;array&quot;
     },
-    &quot;cookies&quot;: {
-      &quot;description&quot;: &quot;Optional Cookie Editor JSON export for account-relative trend context. Public Trends work without cookies; never share this secret publicly.&quot;,
-      &quot;editor&quot;: &quot;json&quot;,
-      &quot;isSecret&quot;: true,
-      &quot;title&quot;: &quot;Optional Pinterest cookies&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;cookiesJson&quot;: {
-      &quot;description&quot;: &quot;Compatibility alias for pasting a Cookie Editor JSON export.&quot;,
-      &quot;editor&quot;: &quot;textarea&quot;,
-      &quot;isSecret&quot;: true,
-      &quot;title&quot;: &quot;Optional cookies JSON (alias)&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
     &quot;days&quot;: {
-      &quot;default&quot;: 60,
-      &quot;description&quot;: &quot;Number of historical days returned for shopping metrics.&quot;,
-      &quot;maximum&quot;: 90,
-      &quot;minimum&quot;: 7,
-      &quot;prefill&quot;: 60,
-      &quot;title&quot;: &quot;History days&quot;,
+      &quot;default&quot;: 90,
+      &quot;description&quot;: &quot;History length in days for keyword research and shopping metrics.&quot;,
+      &quot;maximum&quot;: 730,
+      &quot;minimum&quot;: 30,
+      &quot;prefill&quot;: 90,
+      &quot;title&quot;: &quot;History window&quot;,
       &quot;type&quot;: &quot;integer&quot;
     },
-    &quot;event&quot;: {
-      &quot;default&quot;: &quot;OUTBOUND_CLICK&quot;,
-      &quot;description&quot;: &quot;Pinterest event used for shopping category metrics.&quot;,
+    &quot;endDate&quot;: {
+      &quot;description&quot;: &quot;Historical end date in `YYYY-MM-DD` format. Leave empty for Pinterest&#x27;s latest available date (mode=trendingSearches, keywordResearch, shoppingCategories, shoppingMetrics).&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;End date&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;gender&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;Pinterest audience gender filter for trending searches and keyword research.&quot;,
       &quot;editor&quot;: &quot;select&quot;,
       &quot;enum&quot;: [
-        &quot;OUTBOUND_CLICK&quot;
+        &quot;all&quot;,
+        &quot;female&quot;,
+        &quot;male&quot;,
+        &quot;unspecified&quot;
       ],
       &quot;enumTitles&quot;: [
-        &quot;Outbound clicks&quot;
+        &quot;All genders&quot;,
+        &quot;Female&quot;,
+        &quot;Male&quot;,
+        &quot;Unspecified&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Audience gender&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;includeAudience&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Add age and gender distributions for each keyword (mode=keywordResearch).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include audience demographics&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeImages&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Add a representative Pinterest image for each keyword (mode=keywordResearch).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include images&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeRelated&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Add Pinterest&#x27;s related terms and their weekly history for each keyword (mode=keywordResearch).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include related terms&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeSuggestions&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Add Pinterest search suggestions for each keyword (mode=keywordResearch).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include search suggestions&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeTopCategories&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Add Pinterest&#x27;s fastest-growing shopping categories with related searches (mode=shoppingCategories).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include ranked shopping categories&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;interest&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;Pinterest interest filter for trending searches (mode=trendingSearches).&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
+        &quot;Food and drinks&quot;,
+        &quot;Beauty&quot;,
+        &quot;Home decor&quot;,
+        &quot;Fashion&quot;,
+        &quot;Men&#x27;s fashion&quot;,
+        &quot;Children&#x27;s fashion&quot;,
+        &quot;Travel&quot;,
+        &quot;Art&quot;,
+        &quot;Quotes&quot;,
+        &quot;Entertainment&quot;,
+        &quot;DIY and crafts&quot;,
+        &quot;Health&quot;,
+        &quot;Wedding&quot;,
+        &quot;Event planning&quot;,
+        &quot;Gardening&quot;,
+        &quot;Animals&quot;,
+        &quot;Parenting&quot;,
+        &quot;Education&quot;,
+        &quot;Vehicles&quot;,
+        &quot;Design&quot;,
+        &quot;Sport&quot;,
+        &quot;Electronics&quot;,
+        &quot;Finance&quot;,
+        &quot;Architecture&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All interests&quot;,
+        &quot;Food and drinks&quot;,
+        &quot;Beauty&quot;,
+        &quot;Home decor&quot;,
+        &quot;Fashion&quot;,
+        &quot;Men&#x27;s fashion&quot;,
+        &quot;Children&#x27;s fashion&quot;,
+        &quot;Travel&quot;,
+        &quot;Art&quot;,
+        &quot;Quotes&quot;,
+        &quot;Entertainment&quot;,
+        &quot;DIY and crafts&quot;,
+        &quot;Health&quot;,
+        &quot;Wedding&quot;,
+        &quot;Event planning&quot;,
+        &quot;Gardening&quot;,
+        &quot;Animals&quot;,
+        &quot;Parenting&quot;,
+        &quot;Education&quot;,
+        &quot;Vehicles&quot;,
+        &quot;Design&quot;,
+        &quot;Sport&quot;,
+        &quot;Electronics&quot;,
+        &quot;Finance&quot;,
+        &quot;Architecture&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Interest category&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;keywords&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Terms to research (mode=keywordResearch). Leave empty to use Pinterest&#x27;s current top trending searches.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Keywords&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;keywordsToExclude&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Drop trending searches containing any of these words (mode=trendingSearches).&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Exclude keywords&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;keywordsToInclude&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Only keep trending searches containing at least one of these words (mode=trendingSearches).&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Include keywords&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;lookbackWindow&quot;: {
+      &quot;default&quot;: &quot;30D&quot;,
+      &quot;description&quot;: &quot;Comparison window used by Pinterest for trending searches (mode=trendingSearches).&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;7D&quot;,
+        &quot;30D&quot;,
+        &quot;90D&quot;,
+        &quot;180D&quot;,
+        &quot;365D&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;7 days&quot;,
+        &quot;30 days&quot;,
+        &quot;90 days&quot;,
+        &quot;180 days&quot;,
+        &quot;365 days&quot;
+      ],
+      &quot;prefill&quot;: &quot;30D&quot;,
+      &quot;title&quot;: &quot;Lookback window&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 100,
+      &quot;description&quot;: &quot;Maximum records to return. Trending lists are partitioned by interest to go beyond Pinterest&#x27;s 100-term list ceiling.&quot;,
+      &quot;maximum&quot;: 10000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 3,
+      &quot;title&quot;: &quot;Maximum records&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;trendingSearches&quot;,
+      &quot;description&quot;: &quot;Choose a Pinterest Trends dataset.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;trendingSearches&quot;,
+        &quot;keywordResearch&quot;,
+        &quot;featuredTopics&quot;,
+        &quot;editorialStories&quot;,
+        &quot;shoppingCategories&quot;,
+        &quot;shoppingMetrics&quot;,
+        &quot;moments&quot;,
+        &quot;featured&quot;,
+        &quot;editorial&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Trending searches&quot;,
+        &quot;Keyword research&quot;,
+        &quot;Featured topics&quot;,
+        &quot;Editorial stories&quot;,
+        &quot;Shopping categories&quot;,
+        &quot;Shopping category metrics&quot;,
+        &quot;Seasonal moments&quot;,
+        &quot;Featured topics (legacy, mapped)&quot;,
+        &quot;Editorial stories (legacy, mapped)&quot;
+      ],
+      &quot;prefill&quot;: &quot;trendingSearches&quot;,
+      &quot;title&quot;: &quot;What to collect&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;moment&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;Pinterest seasonal moment filter for trending searches (mode=trendingSearches).&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
+        &quot;thanksgiving&quot;,
+        &quot;valentines day&quot;,
+        &quot;independence day&quot;,
+        &quot;memorial day&quot;,
+        &quot;fathers day&quot;,
+        &quot;hanukkah&quot;,
+        &quot;new years eve&quot;,
+        &quot;easter&quot;,
+        &quot;st patricks day&quot;,
+        &quot;summer&quot;,
+        &quot;christmas&quot;,
+        &quot;mothers day&quot;,
+        &quot;halloween&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All moments&quot;,
+        &quot;Thanksgiving&quot;,
+        &quot;Valentine&#x27;s Day&quot;,
+        &quot;Independence Day&quot;,
+        &quot;Memorial Day&quot;,
+        &quot;Father&#x27;s Day&quot;,
+        &quot;Hanukkah&quot;,
+        &quot;New Year&#x27;s Eve&quot;,
+        &quot;Easter&quot;,
+        &quot;St Patrick&#x27;s Day&quot;,
+        &quot;Summer&quot;,
+        &quot;Christmas&quot;,
+        &quot;Mother&#x27;s Day&quot;,
+        &quot;Halloween&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Seasonal moment&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;predictedDays&quot;: {
+      &quot;default&quot;: 0,
+      &quot;description&quot;: &quot;Pinterest forecast horizon. Forecasts are published for the US only (mode=keywordResearch, shoppingMetrics).&quot;,
+      &quot;maximum&quot;: 28,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 0,
+      &quot;title&quot;: &quot;Forecast days&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;region&quot;: {
+      &quot;default&quot;: &quot;US&quot;,
+      &quot;description&quot;: &quot;Pinterest Trends market. Combined codes such as `GB+IE` cover Pinterest&#x27;s published regional groups.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;US&quot;,
+        &quot;GB+IE&quot;,
+        &quot;CA&quot;,
+        &quot;IT+ES+PT+GR+MT&quot;,
+        &quot;IT&quot;,
+        &quot;ES&quot;,
+        &quot;DE+AT+CH&quot;,
+        &quot;DE&quot;,
+        &quot;FR&quot;,
+        &quot;SE+DK+FI+NO&quot;,
+        &quot;NL+BE+LU&quot;,
+        &quot;PL+RO+HU+SK+CZ&quot;,
+        &quot;MX+AR+CO+CL&quot;,
+        &quot;CO&quot;,
+        &quot;AR&quot;,
+        &quot;MX&quot;,
+        &quot;BR&quot;,
+        &quot;AU+NZ&quot;,
+        &quot;MY&quot;,
+        &quot;PH&quot;,
+        &quot;TH&quot;,
+        &quot;EG&quot;,
+        &quot;TR&quot;,
+        &quot;KR&quot;,
+        &quot;CR+DO+EC+GT+PE&quot;,
+        &quot;CY+CZ+GR+HU+MT+PL+RO+SK&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;United States&quot;,
+        &quot;Great Britain + Ireland&quot;,
+        &quot;Canada&quot;,
+        &quot;Italy, Spain, Portugal, Greece + Malta&quot;,
+        &quot;Italy&quot;,
+        &quot;Spain&quot;,
+        &quot;Germany, Austria + Switzerland&quot;,
+        &quot;Germany&quot;,
+        &quot;France&quot;,
+        &quot;Sweden, Denmark, Finland + Norway&quot;,
+        &quot;Netherlands, Belgium + Luxembourg&quot;,
+        &quot;Poland, Romania, Hungary, Slovakia + Czechia&quot;,
+        &quot;Mexico, Argentina, Colombia + Chile&quot;,
+        &quot;Colombia&quot;,
+        &quot;Argentina&quot;,
+        &quot;Mexico&quot;,
+        &quot;Brazil&quot;,
+        &quot;Australia + New Zealand&quot;,
+        &quot;Malaysia&quot;,
+        &quot;Philippines&quot;,
+        &quot;Thailand&quot;,
+        &quot;Egypt&quot;,
+        &quot;Türkiye&quot;,
+        &quot;South Korea&quot;,
+        &quot;Costa Rica, Dominican Republic, Ecuador, Guatemala + Peru&quot;,
+        &quot;Cyprus, Czechia, Greece, Hungary, Malta, Poland, Romania + Slovakia&quot;
+      ],
+      &quot;prefill&quot;: &quot;US&quot;,
+      &quot;title&quot;: &quot;Region&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;shoppingEvent&quot;: {
+      &quot;default&quot;: &quot;OUTBOUND_CLICK&quot;,
+      &quot;description&quot;: &quot;Pinterest shopping signal used for category metrics and ranked shopping trends.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;OUTBOUND_CLICK&quot;,
+        &quot;SAVE&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Outbound clicks&quot;,
+        &quot;Saves&quot;
       ],
       &quot;prefill&quot;: &quot;OUTBOUND_CLICK&quot;,
       &quot;title&quot;: &quot;Shopping signal&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
-    &quot;maxItems&quot;: {
-      &quot;default&quot;: 50,
-      &quot;description&quot;: &quot;Maximum trend/category records returned.&quot;,
-      &quot;maximum&quot;: 20000,
-      &quot;minimum&quot;: 1,
-      &quot;prefill&quot;: 10,
-      &quot;title&quot;: &quot;Maximum records&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;mode&quot;: {
-      &quot;default&quot;: &quot;featured&quot;,
-      &quot;description&quot;: &quot;Choose a public Pinterest Trends dataset.&quot;,
+    &quot;trendType&quot;: {
+      &quot;default&quot;: &quot;topMonthly&quot;,
+      &quot;description&quot;: &quot;Trending list to collect (mode=trendingSearches).&quot;,
       &quot;editor&quot;: &quot;select&quot;,
       &quot;enum&quot;: [
-        &quot;featured&quot;,
-        &quot;editorial&quot;,
-        &quot;shoppingCategories&quot;,
-        &quot;shoppingMetrics&quot;
+        &quot;topMonthly&quot;,
+        &quot;topYearly&quot;,
+        &quot;growing&quot;,
+        &quot;seasonal&quot;
       ],
       &quot;enumTitles&quot;: [
-        &quot;Featured topics&quot;,
-        &quot;Editorial trend stories&quot;,
-        &quot;Shopping categories&quot;,
-        &quot;Shopping category metrics&quot;
+        &quot;Top monthly searches&quot;,
+        &quot;Top yearly searches&quot;,
+        &quot;Fast-growing searches&quot;,
+        &quot;Seasonal searches&quot;
       ],
-      &quot;prefill&quot;: &quot;featured&quot;,
-      &quot;title&quot;: &quot;What to collect&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;predictedDays&quot;: {
-      &quot;default&quot;: 28,
-      &quot;description&quot;: &quot;Number of future days Pinterest supplies in shopping metrics. If a region has no forecast, real historical values are returned instead.&quot;,
-      &quot;maximum&quot;: 28,
-      &quot;minimum&quot;: 0,
-      &quot;prefill&quot;: 0,
-      &quot;title&quot;: &quot;Predicted days&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;proxyConfiguration&quot;: {
-      &quot;description&quot;: &quot;Optional Apify proxy settings. The actor tries a free AUTO proxy fallback and then direct public access.&quot;,
-      &quot;editor&quot;: &quot;proxy&quot;,
-      &quot;title&quot;: &quot;Optional proxy&quot;,
-      &quot;type&quot;: &quot;object&quot;
-    },
-    &quot;region&quot;: {
-      &quot;default&quot;: &quot;US&quot;,
-      &quot;description&quot;: &quot;Pinterest Trends region. `GB+IE` is Pinterest&#x27;s combined Great Britain and Ireland region.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;US&quot;,
-        &quot;GB+IE&quot;,
-        &quot;CA&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;United States&quot;,
-        &quot;Great Britain + Ireland&quot;,
-        &quot;Canada&quot;
-      ],
-      &quot;prefill&quot;: &quot;US&quot;,
-      &quot;title&quot;: &quot;Region&quot;,
+      &quot;prefill&quot;: &quot;topMonthly&quot;,
+      &quot;title&quot;: &quot;Trend list&quot;,
       &quot;type&quot;: &quot;string&quot;
     }
   },
@@ -118,7 +417,7 @@
 }
 </code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>trends</code></td><td>string</td><td>optional</td><td>Dataset containing Pinterest Trends records.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
   &quot;actorOutputSchemaVersion&quot;: 1,
-  &quot;description&quot;: &quot;Public Pinterest trend topics, editorial stories, shopping categories, and regional shopping-category time series.&quot;,
+  &quot;description&quot;: &quot;Public Pinterest trending searches, keyword history and forecasts, related terms, audience demographics, images, suggestions, seasonal moments, featured topics, editorial stories and shopping trends.&quot;,
   &quot;properties&quot;: {
     &quot;trends&quot;: {
       &quot;description&quot;: &quot;Dataset containing Pinterest Trends records.&quot;,
@@ -127,7 +426,7 @@
       &quot;type&quot;: &quot;string&quot;
     }
   },
-  &quot;title&quot;: &quot;Pinterest Trending Topics &amp; Shopping Category Scraper Output&quot;
+  &quot;title&quot;: &quot;Pinterest Search Demand &amp; Keyword Insights Output&quot;
 }
 </code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
   &quot;actorSpecification&quot;: 1,
@@ -141,38 +440,81 @@
       &quot;transformation&quot;: {
         &quot;fields&quot;: [
           &quot;recordType&quot;,
-          &quot;name&quot;,
+          &quot;term&quot;,
           &quot;title&quot;,
+          &quot;name&quot;,
           &quot;region&quot;,
-          &quot;growthPercentMonth&quot;,
+          &quot;trendType&quot;,
+          &quot;rank&quot;,
+          &quot;weekOverWeekChange&quot;,
           &quot;sourceUrl&quot;
         ]
       }
     }
   }
 }
-</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-pinterest-trending-topics-shopping-category-scraper">Pinterest Trending Topics &amp; Shopping Category Scraper</h2>
-<p>Pinterest publishes its own Trends site with featured topics, editorial trend stories, and a shopping category taxonomy with click-based metrics by region. This actor reads those public pages directly, by region and time window, and returns exactly what Pinterest published — it never invents search volume, forecasts, rankings, or private account analytics.</p>
-<h2 id="readme-what-this-actor-does">What this actor does</h2>
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-pinterest-search-demand-keyword-insights">Pinterest Search Demand &amp; Keyword Insights</h2>
+<p>Pinterest publishes a public Trends site with ranked search terms, interest-over-time charts, related queries, audience distributions, seasonal moments, editorial stories and shopping signals. This actor reads those first-party public endpoints and returns the published values without estimating search volume or inventing forecasts.</p>
+<h2 id="readme-what-it-does">What it does</h2>
 <ul>
-<li><strong>Four public modes:</strong> featured topics, editorial stories, shopping categories, and shopping metrics.</li>
-<li><strong>Regional results:</strong> supports the public <code>US</code>, <code>GB+IE</code>, and <code>CA</code> choices.</li>
-<li><strong>Time windows:</strong> requests published historical and forecast periods for shopping metrics.</li>
-<li><strong>Rich trend context:</strong> includes public examples, related searches, category hierarchy, and time-series values when supplied.</li>
-<li><strong>Truthful output:</strong> preserves published zeroes and <code>false</code> values and omits unavailable data.</li>
+<li><strong>Seven modes:</strong> trending searches, keyword research, featured topics, editorial stories, shopping categories, shopping metrics and seasonal moments.</li>
+<li><strong>26 markets:</strong> the regional codes Pinterest exposes, including combined groups such as <code>GB+IE</code>, <code>DE+AT+CH</code> and <code>SE+DK+FI+NO</code>.</li>
+<li><strong>Four trend lists:</strong> top monthly, top yearly, growing and seasonal searches.</li>
+<li><strong>Filters:</strong> interest category, lookback window, historical end date, audience age, gender, keyword include/exclude and seasonal moment.</li>
+<li><strong>Keyword research:</strong> weekly interest history from 30 to 730 days, US forecasts, related terms, audience demographics, representative images and search suggestions.</li>
+<li><strong>Partitioned volume:</strong> trending lists are split by interest and trend type, so a run can collect thousands of unique terms per market instead of stopping at Pinterest's 100-term list ceiling.</li>
+<li><strong>Additive output:</strong> every record carries <code>recordType</code>, the market and a source URL. Existing featured, editorial and shopping fields keep their original names.</li>
 </ul>
-<h2 id="readme-output-per-record">Output per record</h2>
-<p>Every row includes <code>sourceUrl</code> and <code>recordType</code>. Depending on the selected mode, rows are <code>trendFeatured</code>, <code>trendEditorial</code>, <code>shoppingCategory</code>, or <code>shoppingMetric</code>.</p>
-<h3 id="readme-featured-topic-fields">Featured topic fields</h3>
-<p><code>trendId</code>, <code>name</code>, <code>description</code>, <code>region</code>, <code>isPublished</code>, <code>growthPercentMonth</code>, <code>interestIds</code>, <code>relatedSearches</code>, <code>examplePins</code>, <code>timeSeries</code>, and <code>sourceUrl</code>.</p>
-<p>Each <code>examplePins</code> item can contain <code>pinId</code>, <code>pinUrl</code>, <code>imageUrl</code>, <code>width</code>, <code>height</code>, <code>color</code>, and <code>verticalOffset</code>. Each <code>timeSeries</code> item can contain <code>date</code>, <code>count</code>, <code>normalizedCount</code>, <code>normalizedPredictedLowerBound</code>, and <code>normalizedPredictedUpperBound</code>.</p>
-<h3 id="readme-editorial-story-fields">Editorial story fields</h3>
-<p><code>trendId</code>, <code>title</code>, <code>body</code>, <code>trendType</code>, <code>region</code>, <code>regions</code>, <code>interestIds</code>, <code>keywordsByRegion</code>, <code>startDate</code>, <code>endDate</code>, <code>isPublished</code>, <code>isReadyForTranslation</code>, <code>examplePins</code>, and <code>sourceUrl</code>.</p>
-<h3 id="readme-shopping-category-fields">Shopping category fields</h3>
-<p><code>categoryId</code>, <code>name</code>, <code>level</code>, <code>parentCategoryId</code>, <code>childCategoryIds</code>, and <code>sourceUrl</code>.</p>
-<h3 id="readme-shopping-metric-fields">Shopping metric fields</h3>
-<p><code>categoryId</code>, <code>name</code>, <code>region</code>, <code>event</code>, <code>dailyValues</code>, <code>growthRates</code>, and <code>sourceUrl</code>.</p>
-<p>Missing values are omitted. Pinterest-published zero counts, dates, and boolean <code>false</code> values are retained. Metric arrays and category names are copied from Pinterest and are not transformed into estimates.</p>
+<h2 id="readme-services">Services</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>What you get</th>
+<th>Markets</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>trendingSearches</code></td>
+<td>Ranked search terms with relative search index, normalized index, week/month/year change, seasonality score and breakout flag.</td>
+<td>26</td>
+</tr>
+<tr>
+<td><code>keywordResearch</code></td>
+<td>One row per keyword with weekly history, latest/peak/average counts, changes, forecast flag and optional related terms, audience, image and suggestions.</td>
+<td>26 (forecasts US only)</td>
+</tr>
+<tr>
+<td><code>featuredTopics</code></td>
+<td>Pinterest's featured topic cards with descriptions, related searches and example pins.</td>
+<td>US, GB+IE, CA</td>
+</tr>
+<tr>
+<td><code>editorialStories</code></td>
+<td>Editorial trend stories with body copy, regions, keywords by region and example pins.</td>
+<td>US, GB+IE, CA</td>
+</tr>
+<tr>
+<td><code>shoppingCategories</code></td>
+<td>Pinterest's full shopping category taxonomy; optionally ranked <code>shoppingTrend</code> rows with related searches and click/save/engagement summaries.</td>
+<td>US, GB+IE, CA</td>
+</tr>
+<tr>
+<td><code>shoppingMetrics</code></td>
+<td>Time series and growth rates for named shopping categories.</td>
+<td>US, GB+IE, CA</td>
+</tr>
+<tr>
+<td><code>moments</code></td>
+<td>Seasonal moments with peak date, takeoff date and peak length.</td>
+<td>Available Pinterest markets</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="readme-how-it-works">How it works</h2>
+<p>The actor calls Pinterest's public Trends JSON endpoints directly. It resolves the latest available date from Pinterest's own <code>latest_available_date</code> endpoint, so historical windows are aligned with the week Pinterest actually publishes instead of an estimated date. Trending queries are partitioned by trend type and interest and deduplicated by term and market. Keyword requests are batched in groups of 100 terms, demographics in groups of 100 and images in groups of 30.</p>
+<p>No account, cookies, API key or proxy configuration is required. The actor uses only the anonymous public session that Pinterest issues for image lookup. If Pinterest temporarily rate-limits a request, the actor retries with backoff and can switch to an alternate HTTP route automatically. Individual failed partitions are skipped and reported in the run status instead of failing the whole run.</p>
 <h2 id="readme-input">Input</h2>
 <div class="table-wrap"><table>
 <thead>
@@ -180,119 +522,219 @@
 <th>Field</th>
 <th>Type</th>
 <th>Default</th>
-<th>Description</th>
+<th>Applies to</th>
+<th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>mode</code></td>
-<td>choice</td>
-<td><code>featured</code></td>
-<td><code>featured</code>, <code>editorial</code>, <code>shoppingCategories</code>, or <code>shoppingMetrics</code>.</td>
+<td>select</td>
+<td><code>trendingSearches</code></td>
+<td>all</td>
+<td>Seven modes listed above.</td>
 </tr>
 <tr>
 <td><code>region</code></td>
-<td>choice</td>
+<td>select</td>
 <td><code>US</code></td>
-<td>Public Trends region: <code>US</code>, <code>GB+IE</code>, or <code>CA</code>.</td>
+<td>all</td>
+<td>26 Pinterest markets.</td>
 </tr>
 <tr>
-<td><code>event</code></td>
-<td>choice</td>
-<td><code>OUTBOUND_CLICK</code></td>
-<td>Shopping event currently exposed by Pinterest.</td>
+<td><code>trendType</code></td>
+<td>select</td>
+<td><code>topMonthly</code></td>
+<td>trendingSearches</td>
+<td><code>topMonthly</code>, <code>topYearly</code>, <code>growing</code> or <code>seasonal</code>.</td>
 </tr>
 <tr>
-<td><code>categoryNames</code></td>
-<td>array of text</td>
-<td>—</td>
-<td>Public shopping category names for metrics, such as <code>Sofas</code>.</td>
+<td><code>lookbackWindow</code></td>
+<td>select</td>
+<td><code>30D</code></td>
+<td>trendingSearches</td>
+<td><code>7D</code>, <code>30D</code>, <code>90D</code>, <code>180D</code> or <code>365D</code>.</td>
 </tr>
 <tr>
-<td><code>maxItems</code></td>
-<td>integer</td>
-<td><code>50</code></td>
-<td>Maximum records to return.</td>
+<td><code>endDate</code></td>
+<td>text</td>
+<td>–</td>
+<td>trendingSearches, keywordResearch, shoppingCategories, shoppingMetrics</td>
+<td><code>YYYY-MM-DD</code>; leave empty for Pinterest's latest week.</td>
+</tr>
+<tr>
+<td><code>interest</code></td>
+<td>select</td>
+<td><code>all</code></td>
+<td>trendingSearches</td>
+<td>24 Pinterest interest categories plus all.</td>
+</tr>
+<tr>
+<td><code>moment</code></td>
+<td>select</td>
+<td><code>all</code></td>
+<td>trendingSearches</td>
+<td>13 seasonal moment slugs plus all.</td>
+</tr>
+<tr>
+<td><code>keywordsToInclude</code></td>
+<td>list</td>
+<td>empty</td>
+<td>trendingSearches</td>
+<td>Keep terms containing at least one word.</td>
+</tr>
+<tr>
+<td><code>keywordsToExclude</code></td>
+<td>list</td>
+<td>empty</td>
+<td>trendingSearches</td>
+<td>Drop terms containing any word.</td>
+</tr>
+<tr>
+<td><code>ageGroup</code></td>
+<td>select</td>
+<td><code>all</code></td>
+<td>trendingSearches, keywordResearch</td>
+<td>Nine Pinterest age buckets.</td>
+</tr>
+<tr>
+<td><code>gender</code></td>
+<td>select</td>
+<td><code>all</code></td>
+<td>trendingSearches, keywordResearch</td>
+<td>Female, male, unspecified or all.</td>
+</tr>
+<tr>
+<td><code>keywords</code></td>
+<td>list</td>
+<td>empty</td>
+<td>keywordResearch</td>
+<td>Empty uses Pinterest's current top terms.</td>
 </tr>
 <tr>
 <td><code>days</code></td>
 <td>integer</td>
-<td><code>60</code></td>
-<td>Historical metric window, from 7 to 90 days.</td>
+<td><code>90</code></td>
+<td>keywordResearch, shoppingMetrics</td>
+<td>30–730 days; values are clamped to that range.</td>
 </tr>
 <tr>
 <td><code>predictedDays</code></td>
 <td>integer</td>
-<td><code>28</code></td>
-<td>Optional Pinterest forecast window, from 0 to 28 days.</td>
+<td><code>0</code></td>
+<td>keywordResearch, shoppingMetrics</td>
+<td>0, 14 or 28 days; other values fall back to 0. US forecasts only.</td>
 </tr>
 <tr>
-<td><code>cookies</code> / <code>cookiesJson</code></td>
-<td>array/string</td>
-<td>—</td>
-<td>Optional Cookie-Editor export; public Trends does not require it.</td>
+<td><code>includeRelated</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>keywordResearch</td>
+<td>One extra request per keyword.</td>
 </tr>
 <tr>
-<td><code>proxyConfiguration</code></td>
-<td>object</td>
-<td>—</td>
-<td>Optional Apify proxy configuration.</td>
+<td><code>includeAudience</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>keywordResearch</td>
+<td>Age and gender distributions.</td>
+</tr>
+<tr>
+<td><code>includeImages</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>keywordResearch</td>
+<td>One representative image per keyword.</td>
+</tr>
+<tr>
+<td><code>includeSuggestions</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>keywordResearch</td>
+<td>Pinterest search suggestions per keyword.</td>
+</tr>
+<tr>
+<td><code>shoppingEvent</code></td>
+<td>select</td>
+<td><code>OUTBOUND_CLICK</code></td>
+<td>shoppingCategories, shoppingMetrics</td>
+<td>Outbound clicks or saves.</td>
+</tr>
+<tr>
+<td><code>includeTopCategories</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>shoppingCategories</td>
+<td>Adds ranked <code>shoppingTrend</code> rows.</td>
+</tr>
+<tr>
+<td><code>categoryNames</code></td>
+<td>list</td>
+<td>empty</td>
+<td>shoppingMetrics</td>
+<td>Exact Pinterest category names; empty uses featured level-2 categories.</td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>integer</td>
+<td><code>100</code></td>
+<td>all</td>
+<td>1 to 10,000 records.</td>
 </tr>
 </tbody>
 </table></div>
-<h3 id="readme-example-featured-topics">Example: featured topics</h3>
-<pre><code class="language-json">{
-  &quot;mode&quot;: &quot;featured&quot;,
-  &quot;region&quot;: &quot;US&quot;,
-  &quot;maxItems&quot;: 25
-}
-</code></pre>
-<h3 id="readme-example-editorial-stories">Example: editorial stories</h3>
-<pre><code class="language-json">{
-  &quot;mode&quot;: &quot;editorial&quot;,
-  &quot;region&quot;: &quot;GB+IE&quot;,
-  &quot;maxItems&quot;: 25
-}
-</code></pre>
-<h3 id="readme-example-shopping-taxonomy">Example: shopping taxonomy</h3>
-<pre><code class="language-json">{
-  &quot;mode&quot;: &quot;shoppingCategories&quot;,
-  &quot;maxItems&quot;: 1000
-}
-</code></pre>
-<h3 id="readme-example-shopping-history-and-forecast">Example: shopping history and forecast</h3>
-<pre><code class="language-json">{
-  &quot;mode&quot;: &quot;shoppingMetrics&quot;,
-  &quot;region&quot;: &quot;US&quot;,
-  &quot;categoryNames&quot;: [&quot;Sofas&quot;, &quot;Wedding dress&quot;],
-  &quot;days&quot;: 60,
-  &quot;predictedDays&quot;: 14,
-  &quot;maxItems&quot;: 50
-}
-</code></pre>
-<h2 id="readme-use-cases">Use cases</h2>
+<p>Legacy task inputs are still accepted in code: <code>mode=featured</code> maps to <code>featuredTopics</code>, <code>mode=editorial</code> maps to <code>editorialStories</code>, and <code>event</code> maps to <code>shoppingEvent</code>. Removed keys <code>cookies</code>, <code>cookiesJson</code> and <code>proxyConfiguration</code> are ignored with a status warning.</p>
+<h2 id="readme-output">Output</h2>
+<p>Every record includes <code>recordType</code> and <code>sourceUrl</code>. Missing values are omitted at every depth; published zeroes and <code>false</code> values are preserved.</p>
+<h3 id="readme-trend"><code>trend</code></h3>
+<p><code>term</code>, <code>region</code>, <code>trendType</code>, <code>rank</code>, <code>searchCount</code>, <code>normalizedCount</code>, <code>weekOverWeekChange</code>, <code>monthOverMonthChange</code>, <code>yearOverYearChange</code>, <code>seasonalityScore</code>, <code>isBreakout</code>, <code>interestIds</code>, <code>endDate</code>, <code>trendsUrl</code>, <code>pinterestSearchUrl</code>, <code>sourceUrl</code>.</p>
+<p>Changes are percentages derived from Pinterest's published ratios. Pinterest caps changes at <code>100.01</code>; those rows carry <code>isBreakout: true</code>.</p>
+<h3 id="readme-keyword"><code>keyword</code></h3>
+<p><code>term</code>, <code>region</code>, <code>periodStart</code>, <code>periodEnd</code>, <code>days</code>, <code>aggregation</code>, <code>timeSeries[]</code>, <code>latestCount</code>, <code>peakCount</code>, <code>peakDate</code>, <code>averageCount</code>, <code>weekOverWeekChange</code>, <code>monthOverMonthChange</code>, <code>yearOverYearChange</code>, <code>hasPrediction</code>, optional <code>relatedTerms[]</code>, <code>audience{}</code>, <code>imageUrl</code>, <code>suggestions[]</code>, <code>trendsUrl</code>, <code>sourceUrl</code>.</p>
+<p><code>latestCount</code>, <code>peakCount</code>, <code>peakDate</code>, <code>averageCount</code> and <code>periodStart</code>/<code>periodEnd</code> are computed from the observed history only; Pinterest's forecast points remain in <code>timeSeries</code> with their predicted bounds. Each <code>timeSeries</code> point can contain <code>date</code>, <code>count</code>, <code>normalizedCount</code>, <code>predictedLowerBound</code> and <code>predictedUpperBound</code>. Related terms contain <code>term</code>, <code>counts[]</code> and <code>hasPrediction</code>. Audience contains <code>genderDistribution</code> and <code>ageDistribution</code>. Suggestions contain <code>query</code> and <code>url</code>.</p>
+<h3 id="readme-shoppingtrend"><code>shoppingTrend</code></h3>
+<p><code>categoryId</code>, <code>name</code>, <code>region</code>, <code>rank</code>, <code>parentCategoryIds[]</code>, <code>relatedSearches[]</code>, <code>outboundClicks{}</code>, <code>saves{}</code>, <code>engagement{}</code>, <code>endDate</code>, <code>sourceUrl</code>. Each summary contains <code>total</code>, <code>percentGrowth</code>, <code>percentRelativeVolume</code> and <code>lookback</code>.</p>
+<h3 id="readme-moment"><code>moment</code></h3>
+<p><code>name</code>, <code>region</code>, <code>peakDate</code>, <code>takeoffDate</code>, <code>peakLengthDays</code>, <code>sourceUrl</code>.</p>
+<h3 id="readme-legacy-records">Legacy records</h3>
 <ul>
-<li>Discover emerging public Pinterest topics by region.</li>
-<li>Build editorial trend calendars from Pinterest story content.</li>
-<li>Map Pinterest's public product-category hierarchy.</li>
-<li>Compare public shopping interest over a selected historical window.</li>
-<li>Feed real Pinterest examples and time series into planning or reporting workflows.</li>
+<li><code>trendFeatured</code>: <code>trendId</code>, <code>name</code>, <code>description</code>, <code>region</code>, <code>isPublished</code>, <code>growthPercentMonth</code>, <code>interestIds</code>, <code>relatedSearches</code>, <code>examplePins[]</code>, <code>timeSeries[]</code>, <code>sourceUrl</code>.</li>
+<li><code>trendEditorial</code>: <code>trendId</code>, <code>title</code>, <code>body</code>, <code>trendType</code>, <code>region</code>, <code>regions</code>, <code>interestIds</code>, <code>keywordsByRegion</code>, <code>startDate</code>, <code>endDate</code>, <code>isPublished</code>, <code>isReadyForTranslation</code>, <code>examplePins[]</code>, <code>sourceUrl</code>.</li>
+<li><code>shoppingCategory</code>: <code>categoryId</code>, <code>name</code>, <code>level</code>, <code>parentCategoryId</code>, <code>childCategoryIds[]</code>, <code>sourceUrl</code>.</li>
+<li><code>shoppingMetric</code>: <code>categoryId</code>, <code>name</code>, <code>region</code>, <code>event</code>, <code>dailyValues[]</code>, <code>growthRates</code>, <code>endDate</code>, <code>sourceUrl</code>.</li>
 </ul>
+<h2 id="readme-usage-cost">Usage cost</h2>
+<p>Apify usage is charged for compute time, dataset storage and any automatically selected proxy traffic. A typical trending run uses a small number of JSON requests per market; keyword research costs one request per 100 keywords plus one request per enabled enrichment and keyword. Large partitioned sweeps over many markets cost proportionally more. Set <code>maxItems</code> and leave optional enrichments off when you only need a quick sample.</p>
 <h2 id="readme-faq">FAQ</h2>
-<h3 id="readme-is-this-pinterest-ads-analytics">Is this Pinterest Ads analytics?</h3>
-<p>No. It collects public Trends responses. Private business analytics, advertiser accounts, and exact private audience volumes are not promised.</p>
-<h3 id="readme-is-growthpercentmonth-a-calculated-estimate">Is <code>growthPercentMonth</code> a calculated estimate?</h3>
-<p>No. It is emitted only when Pinterest supplies the value for a featured topic.</p>
-<h3 id="readme-why-are-there-fewer-rows-than-maxitems">Why are there fewer rows than <code>maxItems</code>?</h3>
-<p>The public Trends source may publish fewer topics, categories, or metric terms than the requested cap. The actor does not duplicate or invent rows.</p>
-<h3 id="readme-why-did-a-forecast-disappear">Why did a forecast disappear?</h3>
-<p>Some region/category combinations publish history but no forecast. The actor returns real historical values and does not substitute a prediction.</p>
-<h3 id="readme-can-i-use-another-region">Can I use another region?</h3>
-<p>Use the regions exposed by the actor input. The currently verified public choices are <code>US</code>, <code>GB+IE</code>, and <code>CA</code>.</p>
-<h3 id="readme-do-category-names-need-an-exact-match">Do category names need an exact match?</h3>
-<p>Names are matched against Pinterest's public category dictionary. If no requested name matches, the actor uses publicly returned categories when available.</p>
-<h3 id="readme-do-i-need-cookies">Do I need cookies?</h3>
-<p>No. Public Trends data is collected without login cookies. Optional cookies can be supplied for a permitted session.</p>
-<h3 id="readme-can-this-actor-return-10-000-rows">Can this actor return 10,000 rows?</h3>
-<p>The input supports a large cap and emits progressively, but verified public Trends modes currently contain far fewer categories/topics/terms. The actor returns the complete source-bounded result.</p>
-</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/i5MAeZzs7WKBrkouR/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>Igcqc95EPt04nCTI6</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
+<h3 id="readme-what-does-the-0-100-index-mean">What does the 0–100 index mean?</h3>
+<p>Pinterest publishes a relative index, not absolute search volume. <code>searchCount</code> and <code>normalizedCount</code> are Pinterest's own 0–100 scale for the selected market and period. The actor does not convert them into estimated monthly searches.</p>
+<h3 id="readme-why-do-forecasts-only-appear-for-the-us">Why do forecasts only appear for the US?</h3>
+<p>Pinterest currently publishes forecast bounds only for the US market. For other markets the actor returns real history and sets or omits <code>hasPrediction</code> according to the source; it never invents a forecast.</p>
+<h3 id="readme-why-does-one-trend-list-stop-at-100-terms">Why does one trend list stop at 100 terms?</h3>
+<p>A single Pinterest list returns at most 100 terms. The actor partitions top monthly, top yearly, growing and seasonal lists by interest category, then removes duplicates, so multiple partitions can return several thousand unique terms for one market.</p>
+<h3 id="readme-can-i-request-a-historical-week">Can I request a historical week?</h3>
+<p>Yes. Set <code>endDate</code> to a <code>YYYY-MM-DD</code> value. Pinterest returns its nearest available week, and the actor reports the date Pinterest returned in each record. Leave <code>endDate</code> empty to use the latest published week.</p>
+<h3 id="readme-why-did-my-shopping-category-return-no-rows">Why did my shopping category return no rows?</h3>
+<p>Category names must match Pinterest's taxonomy exactly, ignoring case. If none match, the actor reports a warning instead of silently substituting unrelated categories. Call <code>shoppingCategories</code> first to see valid names.</p>
+<h3 id="readme-does-this-actor-need-a-pinterest-account">Does this actor need a Pinterest account?</h3>
+<p>No. It reads public Pinterest Trends data without a login, cookies, API key or proxy setup. The anonymous session is used only to request public term images.</p>
+<h2 id="readme-notes">Notes</h2>
+<ul>
+<li>Pinterest's combined market codes are preserved exactly as published, for example <code>GB+IE</code> and <code>DE+AT+CH</code>.</li>
+<li>Editorial stories and shopping taxonomy are published for US, GB+IE and CA only. Other markets return a status warning for those modes.</li>
+<li>Related terms are unavailable for the combined <code>DE+AT+CH</code> market; keyword research still returns history and other enrichments there.</li>
+<li>The actor reports partial failures in the run status message and keeps any records that were successfully collected.</li>
+<li>No cookies, login or proxy configuration are required.</li>
+<li>Output is written to a single dataset; use the <code>recordType</code> field to separate record families.</li>
+</ul>
+<h2 id="readme-limitations">Limitations</h2>
+<ul>
+<li>Pinterest does not publish absolute search volume, private account analytics or ad performance data through these public endpoints.</li>
+<li>Forecast coverage is partial even inside the US: some terms have no prediction bounds. The actor reports the source's <code>hasPrediction</code> value and omits empty bounds.</li>
+<li>A single Pinterest list is capped at 100 terms. Higher totals depend on partitioning across interests and trend types; highly overlapping partitions can yield fewer unique terms than the sum of their caps.</li>
+<li>Shopping taxonomy and ranked shopping categories are limited to US, GB+IE and CA.</li>
+<li>Related terms are omitted for keywords without Pinterest trend history, because the source returns unrelated popular terms for unknown seeds.</li>
+<li>Search suggestions are not market-scoped by Pinterest; they reflect Pinterest's global search autocomplete.</li>
+<li>Undocumented Pinterest endpoints can change without notice. The actor treats unexpected shapes as empty results and reports them rather than fabricating values.</li>
+</ul>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/i5MAeZzs7WKBrkouR/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>LAKEQaRBcKlEf3ayl</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

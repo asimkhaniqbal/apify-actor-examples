@@ -1,0 +1,178 @@
+{
+  "description": "Collect public LinkedIn posts for one or more hashtags. No LinkedIn login or cookie is needed.",
+  "properties": {
+    "authorType": {
+      "default": "",
+      "description": "Keep only posts written by a person or by a company page. Author type is read from the public author profile link.",
+      "editor": "select",
+      "enum": [
+        "",
+        "PERSON",
+        "COMPANY"
+      ],
+      "enumTitles": [
+        "Anyone",
+        "People",
+        "Companies"
+      ],
+      "prefill": "",
+      "title": "Author Type",
+      "type": "string"
+    },
+    "datePosted": {
+      "default": "",
+      "description": "Restrict posts to a recent window. Applied by the search index and re-checked against each post's published date.",
+      "editor": "select",
+      "enum": [
+        "",
+        "r86400",
+        "r604800",
+        "r2592000"
+      ],
+      "enumTitles": [
+        "Any time",
+        "Past 24 hours",
+        "Past week",
+        "Past month"
+      ],
+      "prefill": "",
+      "title": "Date Posted",
+      "type": "string"
+    },
+    "dedupeAcrossHashtags": {
+      "default": false,
+      "description": "Return each post once even when it appears under several requested hashtags. By default a post is returned once per hashtag.",
+      "prefill": false,
+      "title": "Dedupe Across Hashtags",
+      "type": "boolean"
+    },
+    "excludeReposts": {
+      "default": false,
+      "description": "Drop posts that reshare another post.",
+      "prefill": false,
+      "title": "Exclude Reposts",
+      "type": "boolean"
+    },
+    "hashtags": {
+      "description": "Hashtags to collect. Accepts #AI, AI, artificial-intelligence, https://www.linkedin.com/feed/hashtag/ai/ or .../feed/hashtag/?keywords=ai. Duplicates are removed.",
+      "editor": "stringList",
+      "maxItems": 20,
+      "minItems": 1,
+      "prefill": [
+        "AI"
+      ],
+      "title": "Hashtags",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "includeComments": {
+      "default": true,
+      "description": "Include the first public page of comments (up to 10) with each post. No extra request is made.",
+      "prefill": true,
+      "title": "Include Comments",
+      "type": "boolean"
+    },
+    "includeVideoTranscript": {
+      "default": false,
+      "description": "Add the public transcript and caption URL when a video post publishes them.",
+      "prefill": false,
+      "title": "Include Video Transcript",
+      "type": "boolean"
+    },
+    "maxPostsPerHashtag": {
+      "default": 50,
+      "description": "Maximum posts to keep for each hashtag after the hashtag check and filters are applied.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Max Posts Per Hashtag",
+      "type": "integer"
+    },
+    "mediaTypeFilter": {
+      "default": "",
+      "description": "Keep only one post type. Text, image, video, article and repost are the types public posts expose most often.",
+      "editor": "select",
+      "enum": [
+        "",
+        "text",
+        "image",
+        "video",
+        "article",
+        "document",
+        "repost",
+        "poll"
+      ],
+      "enumTitles": [
+        "All types",
+        "Text only",
+        "Image",
+        "Video",
+        "Article",
+        "Document",
+        "Repost",
+        "Poll"
+      ],
+      "prefill": "",
+      "title": "Media Type",
+      "type": "string"
+    },
+    "minComments": {
+      "default": 0,
+      "description": "Drop posts with fewer than this many comments. A post with no visible comment count is treated as 0.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum Comments",
+      "type": "integer"
+    },
+    "minReactions": {
+      "default": 0,
+      "description": "Drop posts with fewer than this many reactions. A post with no visible reaction count is treated as 0.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum Reactions",
+      "type": "integer"
+    },
+    "postedAfter": {
+      "default": "",
+      "description": "Keep posts published on or after this date (YYYY-MM-DD, UTC day). Leave empty to disable.",
+      "editor": "datepicker",
+      "prefill": "",
+      "title": "Posted After",
+      "type": "string"
+    },
+    "postedBefore": {
+      "default": "",
+      "description": "Keep posts published on or before this date (YYYY-MM-DD, whole UTC day). Leave empty to disable.",
+      "editor": "datepicker",
+      "prefill": "",
+      "title": "Posted Before",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Order the posts found in this run. Relevance keeps the search index order; date and engagement sort only the posts that were found, not all of LinkedIn.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "date",
+        "engagement"
+      ],
+      "enumTitles": [
+        "Relevance (index order)",
+        "Newest first",
+        "Most engagement first"
+      ],
+      "prefill": "relevance",
+      "title": "Sort By",
+      "type": "string"
+    }
+  },
+  "required": [
+    "hashtags"
+  ],
+  "schemaVersion": 1,
+  "title": "LinkedIn Hashtag Posts Scraper Input",
+  "type": "object"
+}

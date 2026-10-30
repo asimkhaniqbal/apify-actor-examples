@@ -1,111 +1,410 @@
 {
-  "description": "Explore public Pinterest trend topics and shopping trend data by region.",
+  "description": "Collect public Pinterest trending searches, keyword history and supporting trend content by market.",
   "properties": {
+    "ageGroup": {
+      "default": "all",
+      "description": "Pinterest audience age filter for trending searches and keyword research.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "18-20",
+        "18-24",
+        "21-24",
+        "25-34",
+        "35-44",
+        "45-49",
+        "50-54",
+        "55-64",
+        "65+"
+      ],
+      "enumTitles": [
+        "All ages",
+        "18-20",
+        "18-24",
+        "21-24",
+        "25-34",
+        "35-44",
+        "45-49",
+        "50-54",
+        "55-64",
+        "65+"
+      ],
+      "prefill": "all",
+      "title": "Audience age",
+      "type": "string"
+    },
     "categoryNames": {
       "default": [],
-      "description": "Friendly Pinterest shopping category names for `shoppingMetrics`, such as `Sofas` or `Wedding dress`. Leave empty to use Pinterest's currently featured shopping categories.",
+      "description": "Exact Pinterest shopping category names for metrics, such as `Sofas` or `Wedding dress` (mode=shoppingMetrics). Leave empty to use Pinterest's featured level-2 categories.",
       "editor": "stringList",
       "prefill": [],
       "title": "Shopping category names",
       "type": "array"
     },
-    "cookies": {
-      "description": "Optional Cookie Editor JSON export for account-relative trend context. Public Trends work without cookies; never share this secret publicly.",
-      "editor": "json",
-      "isSecret": true,
-      "title": "Optional Pinterest cookies",
-      "type": "array"
-    },
-    "cookiesJson": {
-      "description": "Compatibility alias for pasting a Cookie Editor JSON export.",
-      "editor": "textarea",
-      "isSecret": true,
-      "title": "Optional cookies JSON (alias)",
-      "type": "string"
-    },
     "days": {
-      "default": 60,
-      "description": "Number of historical days returned for shopping metrics.",
-      "maximum": 90,
-      "minimum": 7,
-      "prefill": 60,
-      "title": "History days",
+      "default": 90,
+      "description": "History length in days for keyword research and shopping metrics.",
+      "maximum": 730,
+      "minimum": 30,
+      "prefill": 90,
+      "title": "History window",
       "type": "integer"
     },
-    "event": {
-      "default": "OUTBOUND_CLICK",
-      "description": "Pinterest event used for shopping category metrics.",
+    "endDate": {
+      "description": "Historical end date in `YYYY-MM-DD` format. Leave empty for Pinterest's latest available date (mode=trendingSearches, keywordResearch, shoppingCategories, shoppingMetrics).",
+      "editor": "textfield",
+      "title": "End date",
+      "type": "string"
+    },
+    "gender": {
+      "default": "all",
+      "description": "Pinterest audience gender filter for trending searches and keyword research.",
       "editor": "select",
       "enum": [
-        "OUTBOUND_CLICK"
+        "all",
+        "female",
+        "male",
+        "unspecified"
       ],
       "enumTitles": [
-        "Outbound clicks"
+        "All genders",
+        "Female",
+        "Male",
+        "Unspecified"
+      ],
+      "prefill": "all",
+      "title": "Audience gender",
+      "type": "string"
+    },
+    "includeAudience": {
+      "default": false,
+      "description": "Add age and gender distributions for each keyword (mode=keywordResearch).",
+      "prefill": false,
+      "title": "Include audience demographics",
+      "type": "boolean"
+    },
+    "includeImages": {
+      "default": false,
+      "description": "Add a representative Pinterest image for each keyword (mode=keywordResearch).",
+      "prefill": false,
+      "title": "Include images",
+      "type": "boolean"
+    },
+    "includeRelated": {
+      "default": false,
+      "description": "Add Pinterest's related terms and their weekly history for each keyword (mode=keywordResearch).",
+      "prefill": false,
+      "title": "Include related terms",
+      "type": "boolean"
+    },
+    "includeSuggestions": {
+      "default": false,
+      "description": "Add Pinterest search suggestions for each keyword (mode=keywordResearch).",
+      "prefill": false,
+      "title": "Include search suggestions",
+      "type": "boolean"
+    },
+    "includeTopCategories": {
+      "default": false,
+      "description": "Add Pinterest's fastest-growing shopping categories with related searches (mode=shoppingCategories).",
+      "prefill": false,
+      "title": "Include ranked shopping categories",
+      "type": "boolean"
+    },
+    "interest": {
+      "default": "all",
+      "description": "Pinterest interest filter for trending searches (mode=trendingSearches).",
+      "editor": "select",
+      "enum": [
+        "all",
+        "Food and drinks",
+        "Beauty",
+        "Home decor",
+        "Fashion",
+        "Men's fashion",
+        "Children's fashion",
+        "Travel",
+        "Art",
+        "Quotes",
+        "Entertainment",
+        "DIY and crafts",
+        "Health",
+        "Wedding",
+        "Event planning",
+        "Gardening",
+        "Animals",
+        "Parenting",
+        "Education",
+        "Vehicles",
+        "Design",
+        "Sport",
+        "Electronics",
+        "Finance",
+        "Architecture"
+      ],
+      "enumTitles": [
+        "All interests",
+        "Food and drinks",
+        "Beauty",
+        "Home decor",
+        "Fashion",
+        "Men's fashion",
+        "Children's fashion",
+        "Travel",
+        "Art",
+        "Quotes",
+        "Entertainment",
+        "DIY and crafts",
+        "Health",
+        "Wedding",
+        "Event planning",
+        "Gardening",
+        "Animals",
+        "Parenting",
+        "Education",
+        "Vehicles",
+        "Design",
+        "Sport",
+        "Electronics",
+        "Finance",
+        "Architecture"
+      ],
+      "prefill": "all",
+      "title": "Interest category",
+      "type": "string"
+    },
+    "keywords": {
+      "default": [],
+      "description": "Terms to research (mode=keywordResearch). Leave empty to use Pinterest's current top trending searches.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Keywords",
+      "type": "array"
+    },
+    "keywordsToExclude": {
+      "default": [],
+      "description": "Drop trending searches containing any of these words (mode=trendingSearches).",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Exclude keywords",
+      "type": "array"
+    },
+    "keywordsToInclude": {
+      "default": [],
+      "description": "Only keep trending searches containing at least one of these words (mode=trendingSearches).",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Include keywords",
+      "type": "array"
+    },
+    "lookbackWindow": {
+      "default": "30D",
+      "description": "Comparison window used by Pinterest for trending searches (mode=trendingSearches).",
+      "editor": "select",
+      "enum": [
+        "7D",
+        "30D",
+        "90D",
+        "180D",
+        "365D"
+      ],
+      "enumTitles": [
+        "7 days",
+        "30 days",
+        "90 days",
+        "180 days",
+        "365 days"
+      ],
+      "prefill": "30D",
+      "title": "Lookback window",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 100,
+      "description": "Maximum records to return. Trending lists are partitioned by interest to go beyond Pinterest's 100-term list ceiling.",
+      "maximum": 10000,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Maximum records",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "trendingSearches",
+      "description": "Choose a Pinterest Trends dataset.",
+      "editor": "select",
+      "enum": [
+        "trendingSearches",
+        "keywordResearch",
+        "featuredTopics",
+        "editorialStories",
+        "shoppingCategories",
+        "shoppingMetrics",
+        "moments",
+        "featured",
+        "editorial"
+      ],
+      "enumTitles": [
+        "Trending searches",
+        "Keyword research",
+        "Featured topics",
+        "Editorial stories",
+        "Shopping categories",
+        "Shopping category metrics",
+        "Seasonal moments",
+        "Featured topics (legacy, mapped)",
+        "Editorial stories (legacy, mapped)"
+      ],
+      "prefill": "trendingSearches",
+      "title": "What to collect",
+      "type": "string"
+    },
+    "moment": {
+      "default": "all",
+      "description": "Pinterest seasonal moment filter for trending searches (mode=trendingSearches).",
+      "editor": "select",
+      "enum": [
+        "all",
+        "thanksgiving",
+        "valentines day",
+        "independence day",
+        "memorial day",
+        "fathers day",
+        "hanukkah",
+        "new years eve",
+        "easter",
+        "st patricks day",
+        "summer",
+        "christmas",
+        "mothers day",
+        "halloween"
+      ],
+      "enumTitles": [
+        "All moments",
+        "Thanksgiving",
+        "Valentine's Day",
+        "Independence Day",
+        "Memorial Day",
+        "Father's Day",
+        "Hanukkah",
+        "New Year's Eve",
+        "Easter",
+        "St Patrick's Day",
+        "Summer",
+        "Christmas",
+        "Mother's Day",
+        "Halloween"
+      ],
+      "prefill": "all",
+      "title": "Seasonal moment",
+      "type": "string"
+    },
+    "predictedDays": {
+      "default": 0,
+      "description": "Pinterest forecast horizon. Forecasts are published for the US only (mode=keywordResearch, shoppingMetrics).",
+      "maximum": 28,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Forecast days",
+      "type": "integer"
+    },
+    "region": {
+      "default": "US",
+      "description": "Pinterest Trends market. Combined codes such as `GB+IE` cover Pinterest's published regional groups.",
+      "editor": "select",
+      "enum": [
+        "US",
+        "GB+IE",
+        "CA",
+        "IT+ES+PT+GR+MT",
+        "IT",
+        "ES",
+        "DE+AT+CH",
+        "DE",
+        "FR",
+        "SE+DK+FI+NO",
+        "NL+BE+LU",
+        "PL+RO+HU+SK+CZ",
+        "MX+AR+CO+CL",
+        "CO",
+        "AR",
+        "MX",
+        "BR",
+        "AU+NZ",
+        "MY",
+        "PH",
+        "TH",
+        "EG",
+        "TR",
+        "KR",
+        "CR+DO+EC+GT+PE",
+        "CY+CZ+GR+HU+MT+PL+RO+SK"
+      ],
+      "enumTitles": [
+        "United States",
+        "Great Britain + Ireland",
+        "Canada",
+        "Italy, Spain, Portugal, Greece + Malta",
+        "Italy",
+        "Spain",
+        "Germany, Austria + Switzerland",
+        "Germany",
+        "France",
+        "Sweden, Denmark, Finland + Norway",
+        "Netherlands, Belgium + Luxembourg",
+        "Poland, Romania, Hungary, Slovakia + Czechia",
+        "Mexico, Argentina, Colombia + Chile",
+        "Colombia",
+        "Argentina",
+        "Mexico",
+        "Brazil",
+        "Australia + New Zealand",
+        "Malaysia",
+        "Philippines",
+        "Thailand",
+        "Egypt",
+        "Türkiye",
+        "South Korea",
+        "Costa Rica, Dominican Republic, Ecuador, Guatemala + Peru",
+        "Cyprus, Czechia, Greece, Hungary, Malta, Poland, Romania + Slovakia"
+      ],
+      "prefill": "US",
+      "title": "Region",
+      "type": "string"
+    },
+    "shoppingEvent": {
+      "default": "OUTBOUND_CLICK",
+      "description": "Pinterest shopping signal used for category metrics and ranked shopping trends.",
+      "editor": "select",
+      "enum": [
+        "OUTBOUND_CLICK",
+        "SAVE"
+      ],
+      "enumTitles": [
+        "Outbound clicks",
+        "Saves"
       ],
       "prefill": "OUTBOUND_CLICK",
       "title": "Shopping signal",
       "type": "string"
     },
-    "maxItems": {
-      "default": 50,
-      "description": "Maximum trend/category records returned.",
-      "maximum": 20000,
-      "minimum": 1,
-      "prefill": 10,
-      "title": "Maximum records",
-      "type": "integer"
-    },
-    "mode": {
-      "default": "featured",
-      "description": "Choose a public Pinterest Trends dataset.",
+    "trendType": {
+      "default": "topMonthly",
+      "description": "Trending list to collect (mode=trendingSearches).",
       "editor": "select",
       "enum": [
-        "featured",
-        "editorial",
-        "shoppingCategories",
-        "shoppingMetrics"
+        "topMonthly",
+        "topYearly",
+        "growing",
+        "seasonal"
       ],
       "enumTitles": [
-        "Featured topics",
-        "Editorial trend stories",
-        "Shopping categories",
-        "Shopping category metrics"
+        "Top monthly searches",
+        "Top yearly searches",
+        "Fast-growing searches",
+        "Seasonal searches"
       ],
-      "prefill": "featured",
-      "title": "What to collect",
-      "type": "string"
-    },
-    "predictedDays": {
-      "default": 28,
-      "description": "Number of future days Pinterest supplies in shopping metrics. If a region has no forecast, real historical values are returned instead.",
-      "maximum": 28,
-      "minimum": 0,
-      "prefill": 0,
-      "title": "Predicted days",
-      "type": "integer"
-    },
-    "proxyConfiguration": {
-      "description": "Optional Apify proxy settings. The actor tries a free AUTO proxy fallback and then direct public access.",
-      "editor": "proxy",
-      "title": "Optional proxy",
-      "type": "object"
-    },
-    "region": {
-      "default": "US",
-      "description": "Pinterest Trends region. `GB+IE` is Pinterest's combined Great Britain and Ireland region.",
-      "editor": "select",
-      "enum": [
-        "US",
-        "GB+IE",
-        "CA"
-      ],
-      "enumTitles": [
-        "United States",
-        "Great Britain + Ireland",
-        "Canada"
-      ],
-      "prefill": "US",
-      "title": "Region",
+      "prefill": "topMonthly",
+      "title": "Trend list",
       "type": "string"
     }
   },
