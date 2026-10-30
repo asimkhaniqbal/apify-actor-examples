@@ -1,0 +1,138 @@
+{
+  "description": "Scrape organic results, ads, knowledge graph, images, and videos from Yandex search.",
+  "properties": {
+    "lang": {
+      "default": "en",
+      "description": "UI language for Yandex search. Affects result language and UI text.",
+      "editor": "textfield",
+      "title": "Language",
+      "type": "string"
+    },
+    "lr": {
+      "default": "",
+      "description": "Yandex region filter. Use named shortcut (e.g. 'ru', 'moscow', 'tr', 'us') or a numeric Yandex region ID.",
+      "editor": "textfield",
+      "title": "Region",
+      "type": "string"
+    },
+    "maxPages": {
+      "default": 3,
+      "description": "Maximum number of SERP pages to scrape per query.",
+      "maximum": 10,
+      "minimum": 1,
+      "title": "Max Pages Per Query",
+      "type": "integer"
+    },
+    "noReask": {
+      "default": false,
+      "description": "Disable Yandex's automatic query correction (noreask=1). Use for exact-match searches.",
+      "title": "Disable Spell Correction",
+      "type": "boolean"
+    },
+    "proxyConfiguration": {
+      "description": "Recommended. Yandex triggers SmartCaptcha on datacenter IPs. Use residential proxies for best results.",
+      "editor": "proxy",
+      "prefill": {
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "resultsPerPage": {
+      "default": 10,
+      "description": "Number of organic results per page. Yandex supports 10, 20, 30, or 50.",
+      "maximum": 50,
+      "minimum": 10,
+      "title": "Results Per Page",
+      "type": "integer"
+    },
+    "searchQueries": {
+      "description": "One or more Yandex search queries. Each query is processed separately.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "prefill": [
+        "python programming"
+      ],
+      "title": "Search Queries",
+      "type": "array"
+    },
+    "timeFilter": {
+      "default": "any",
+      "description": "Filter results by recency.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "day",
+        "week",
+        "month",
+        "year"
+      ],
+      "enumTitles": [
+        "Any time",
+        "Past day",
+        "Past week",
+        "Past month",
+        "Past year"
+      ],
+      "title": "Time Filter",
+      "type": "string"
+    },
+    "yandexDomain": {
+      "default": "yandex.com",
+      "description": "The Yandex regional domain to use. If SmartCaptcha blocks the chosen domain (common on datacenter IPs), the scraper falls back to a captcha-free domain and labels the record via `search_metadata.locale_switched` (the fallback domains render their own country's UI language, e.g. Turkish for yandex.com.tr, even though the organic results stay in your requested language).",
+      "editor": "select",
+      "enum": [
+        "yandex.com",
+        "yandex.ru",
+        "yandex.by",
+        "yandex.kz",
+        "yandex.uz",
+        "yandex.com.tr",
+        "yandex.ua",
+        "yandex.fr",
+        "yandex.de",
+        "yandex.com.ge",
+        "yandex.am",
+        "yandex.az",
+        "yandex.md",
+        "yandex.tj",
+        "yandex.lt",
+        "yandex.lv",
+        "yandex.ee"
+      ],
+      "enumTitles": [
+        "International (yandex.com)",
+        "Russia (yandex.ru)",
+        "Belarus (yandex.by)",
+        "Kazakhstan (yandex.kz)",
+        "Uzbekistan (yandex.uz)",
+        "Turkey (yandex.com.tr)",
+        "Ukraine (yandex.ua)",
+        "France (yandex.fr)",
+        "Germany (yandex.de)",
+        "Georgia (yandex.com.ge)",
+        "Armenia (yandex.am)",
+        "Azerbaijan (yandex.az)",
+        "Moldova (yandex.md)",
+        "Tajikistan (yandex.tj)",
+        "Lithuania (yandex.lt)",
+        "Latvia (yandex.lv)",
+        "Estonia (yandex.ee)"
+      ],
+      "title": "Yandex Domain",
+      "type": "string"
+    }
+  },
+  "required": [
+    "searchQueries"
+  ],
+  "schemaVersion": 1,
+  "title": "Yandex Search Scraper Input",
+  "type": "object"
+}

@@ -1,0 +1,135 @@
+{
+  "actorSpecification": 1,
+  "title": "Yandex Search Results",
+  "views": {
+    "detailed": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "ads_results": {
+            "format": "array",
+            "label": "Ads"
+          },
+          "domain": {
+            "format": "text",
+            "label": "Domain"
+          },
+          "inline_images": {
+            "format": "array",
+            "label": "Images"
+          },
+          "inline_videos": {
+            "format": "array",
+            "label": "Videos"
+          },
+          "knowledge_graph": {
+            "format": "object",
+            "label": "Knowledge Graph"
+          },
+          "lang": {
+            "format": "text",
+            "label": "Language"
+          },
+          "organic_results": {
+            "format": "array",
+            "label": "Organic Results"
+          },
+          "page": {
+            "format": "number",
+            "label": "Page"
+          },
+          "pagination_info": {
+            "format": "object",
+            "label": "Pagination"
+          },
+          "query": {
+            "format": "text",
+            "label": "Query"
+          },
+          "related_searches": {
+            "format": "array",
+            "label": "Related Searches"
+          },
+          "scraped_at": {
+            "format": "text",
+            "label": "Scraped At"
+          },
+          "search_metadata": {
+            "format": "object",
+            "label": "Metadata"
+          },
+          "total_results_text": {
+            "format": "text",
+            "label": "Total Results"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          }
+        }
+      },
+      "title": "Detailed View",
+      "transformation": {
+        "fields": [
+          "query",
+          "page",
+          "url",
+          "domain",
+          "lang",
+          "total_results_text",
+          "organic_results",
+          "ads_results",
+          "knowledge_graph",
+          "inline_images",
+          "inline_videos",
+          "related_searches",
+          "search_metadata",
+          "pagination_info",
+          "scraped_at"
+        ]
+      }
+    },
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "domain": {
+            "format": "text",
+            "label": "Domain"
+          },
+          "organic_results": {
+            "format": "array",
+            "label": "Organic Results"
+          },
+          "page": {
+            "format": "number",
+            "label": "Page"
+          },
+          "query": {
+            "format": "text",
+            "label": "Query"
+          },
+          "scraped_at": {
+            "format": "text",
+            "label": "Scraped At"
+          },
+          "total_results_text": {
+            "format": "text",
+            "label": "Total Results"
+          }
+        }
+      },
+      "title": "Results Overview",
+      "transformation": {
+        "fields": [
+          "query",
+          "page",
+          "domain",
+          "total_results_text",
+          "organic_results",
+          "scraped_at"
+        ]
+      }
+    }
+  }
+}
