@@ -1,0 +1,142 @@
+{
+  "description": "Search unclaimed money by owner name, or browse a state's unclaimed-property register.",
+  "properties": {
+    "jurisdiction": {
+      "default": "ALL",
+      "description": "Narrow to one specific government source's dataset (useful when a state has more than one, e.g. California or Massachusetts). 'All jurisdictions' queries every source in the selected state(s).",
+      "editor": "select",
+      "enum": [
+        "ALL",
+        "tx_austin",
+        "tx_corpuschristi",
+        "ri_providence",
+        "ca_marin",
+        "ca_roseville",
+        "md_montgomery",
+        "mn_ramsey",
+        "ma_framingham_payroll",
+        "ma_framingham_vendor"
+      ],
+      "enumTitles": [
+        "All jurisdictions in the selected state(s)",
+        "City of Austin, TX — Unclaimed Property (Municipal)",
+        "City of Corpus Christi, TX — Unclaimed Property (Municipal)",
+        "City of Providence, RI — Uncashed Municipal Check",
+        "Marin County, CA — Uncashed County Check",
+        "City of Roseville, CA — Stale-Dated Check (Municipal)",
+        "Montgomery County, MD — Unclaimed Vendor Payment (County)",
+        "Ramsey County, MN — Unclaimed Money (County)",
+        "Town of Framingham, MA — Unclaimed Payroll Check (Municipal)",
+        "Town of Framingham, MA — Unclaimed Resident/Vendor/AP Check (Municipal)"
+      ],
+      "prefill": "ALL",
+      "title": "Jurisdiction",
+      "type": "string"
+    },
+    "maxAmountUsd": {
+      "description": "Only include records worth at most this much (where the source discloses an amount). Leave unset for no maximum.",
+      "editor": "number",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Maximum amount (USD)",
+      "type": "integer"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Hard cap on emitted records.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "minAmountUsd": {
+      "default": 0,
+      "description": "Only include records worth at least this much (where the source discloses an amount). 0 = no minimum.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum amount (USD)",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "search: find records by owner name. browse: list a state's register without a name filter.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "browse"
+      ],
+      "enumTitles": [
+        "Search by owner name",
+        "Browse a state's register"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "ownerName": {
+      "default": "Johnson",
+      "description": "Full or partial owner/payee name to search for (case-insensitive substring match), e.g. `Johnson` or `Smith LLC`.",
+      "editor": "textfield",
+      "prefill": "Johnson",
+      "title": "Owner name (mode=search)",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "amountDesc",
+      "description": "How to order results. Falls back to whatever field a jurisdiction actually provides.",
+      "editor": "select",
+      "enum": [
+        "amountDesc",
+        "amountAsc",
+        "dateDesc",
+        "dateAsc",
+        "relevance"
+      ],
+      "enumTitles": [
+        "Highest amount first",
+        "Lowest amount first",
+        "Most recent first",
+        "Oldest first",
+        "Relevance (source order)"
+      ],
+      "prefill": "amountDesc",
+      "title": "Sort by",
+      "type": "string"
+    },
+    "state": {
+      "default": "MN",
+      "description": "Which state's unclaimed-property source(s) to query. 'All states' fans out to every supported source in one run.",
+      "editor": "select",
+      "enum": [
+        "ALL",
+        "CA",
+        "MA",
+        "MD",
+        "MN",
+        "RI",
+        "TX"
+      ],
+      "enumTitles": [
+        "All states (multi-state search)",
+        "California",
+        "Massachusetts",
+        "Maryland",
+        "Minnesota",
+        "Rhode Island",
+        "Texas"
+      ],
+      "prefill": "MN",
+      "title": "State",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode",
+    "state"
+  ],
+  "schemaVersion": 1,
+  "title": "US Unclaimed Property Scraper Input",
+  "type": "object"
+}
