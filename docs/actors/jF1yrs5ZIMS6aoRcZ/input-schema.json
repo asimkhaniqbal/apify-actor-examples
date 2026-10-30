@@ -1,0 +1,509 @@
+{
+  "description": "Search HelloWork.com by keyword, or browse French job listings by region/city or by sector/function.",
+  "properties": {
+    "city": {
+      "default": "",
+      "description": "French city or commune name to browse jobs in (e.g. `Lyon`, `Bordeaux`). Takes priority over `region` when both are set. Required for mode=byLocation unless `region` is set; optional filter on other modes.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "City (mode=byLocation)",
+      "type": "string"
+    },
+    "companyTypes": {
+      "default": [],
+      "description": "Filter by the type of hiring organization (optional, all modes).",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "Entreprises",
+          "Cabinet_recr",
+          "SSII",
+          "Travail_temporaire",
+          "Centre_formation"
+        ],
+        "enumTitles": [
+          "Direct employer",
+          "Recruitment agency",
+          "IT services company (ESN)",
+          "Temp staffing agency",
+          "Training center"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Company type",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "contractTypes": {
+      "default": [],
+      "description": "Filter by one or more contract types (optional, all modes).",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "CDI",
+          "CDD",
+          "Travail_temp",
+          "Stage",
+          "Alternance",
+          "Independant",
+          "Franchise",
+          "Associe",
+          "Fonctionnaire",
+          "Freelance",
+          "Stage_de_lycee"
+        ],
+        "enumTitles": [
+          "CDI (permanent contract)",
+          "CDD (fixed-term contract)",
+          "Intérim (temp work)",
+          "Stage (internship)",
+          "Alternance (apprenticeship)",
+          "Indépendant (self-employed)",
+          "Franchise",
+          "Associé (partner)",
+          "Fonctionnaire (civil servant)",
+          "Freelance",
+          "Stage de lycée (high-school internship)"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Contract type",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "csrLabels": {
+      "default": [],
+      "description": "Filter to employers holding a specific CSR (corporate social responsibility) certification (optional, all modes).",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "_10556393",
+          "_b64a8fe7",
+          "_9ffe5c83",
+          "_3a9a1663",
+          "_a2f6a46f",
+          "_2d67f571",
+          "_79347e6b",
+          "_e7ce5995",
+          "_7b05b6d4",
+          "d5bab309073b"
+        ],
+        "enumTitles": [
+          "B Corp",
+          "Ecocert 26000",
+          "EcoVadis",
+          "Engagé RSE",
+          "For Life",
+          "Lucie 26000",
+          "PME+",
+          "Positive Company",
+          "Responsible Care",
+          "Safe Place"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "CSR / sustainability label",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "employmentType": {
+      "default": [],
+      "description": "Filter by employment schedule -- full-time vs part-time (optional, all modes).",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "ft",
+          "pt",
+          "np"
+        ],
+        "enumTitles": [
+          "Temps plein (full-time)",
+          "Temps partiel (part-time)",
+          "Non précisé (unspecified)"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Employment time (temps de travail)",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "experienceLevels": {
+      "default": [],
+      "description": "Filter by the years of experience the employer asks for (optional, all modes).",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "0-1y",
+          "2-3y",
+          "4-5y",
+          "6-10y",
+          "gt10y",
+          "unknown"
+        ],
+        "enumTitles": [
+          "0-1 year (débutants accepted)",
+          "2-3 years",
+          "4-5 years",
+          "6-10 years",
+          "10+ years",
+          "Not specified"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Experience level required",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "jobFunction": {
+      "default": "",
+      "description": "Job function (métier) to browse jobs in. Alternative/complement to `sector` for mode=bySector; optional filter on other modes.",
+      "editor": "select",
+      "enum": [
+        "",
+        "Achat",
+        "Assistanat_admin_accueil",
+        "BTP_gros_second_oeuvre",
+        "Bureau_etude_R_D",
+        "Commercial_particulier",
+        "Commercial_professionnel",
+        "Commercial_technico_com",
+        "Commercial_vendeur",
+        "Compta_gestion_finance_audit",
+        "Dir_management_resp",
+        "Dir_resp_centre_profit",
+        "Import_export_inter",
+        "Informatique_dev",
+        "Informatique_dev_hard",
+        "Informatique_syst_info",
+        "Informatique_syst_reseaux",
+        "Ingenierie_agro_agri",
+        "Ingenierie_chimie_pharma_bio",
+        "Ingenierie_electro_tech",
+        "Ingenierie_meca_aero",
+        "Ingenierie_telecom",
+        "Juridique_droit",
+        "Logistique_metiers_transport",
+        "Marketing_com_graphisme",
+        "Metiers_fonction_publique",
+        "Negociation_gest_immo",
+        "Production_gestion",
+        "Production_operateur",
+        "Qualite_securite_environnement",
+        "RH_Personnel_Formation",
+        "Restauration_hotellerie_tourisme",
+        "SAV_Hotline",
+        "Sante_social",
+        "Services_pers_entreprises"
+      ],
+      "enumTitles": [
+        "(none)",
+        "Achat",
+        "Assistanat / Adm. ventes / Accueil",
+        "BTP / Gros Oeuvre / Second Oeuvre",
+        "Bureau d'Etudes / R&D / BTP archi",
+        "Commercial auprès des particuliers",
+        "Commercial auprès des professionnels",
+        "Commercial / Technico-commercial",
+        "Commercial / Vendeur en magasin",
+        "Compta / Gestion / Finance / Audit",
+        "Métiers de la distribution / Management",
+        "Direction / Resp. Co. et Centre de Profit",
+        "Import / Export / International",
+        "Informatique / Développement",
+        "Informatique / Dével. Hardware",
+        "Informatique / Systèmes d'Information",
+        "Informatique / Systèmes / Réseaux",
+        "Ingénierie / Agro / Agri",
+        "Ingénierie / Chimie / Pharmacie / Bio.",
+        "Ingénierie / Electro-tech. / Automat.",
+        "Ingénierie / Mécanique / Aéron.",
+        "Ingénierie / Telecoms / Electronique",
+        "Juridique / Droit",
+        "Logistique / Métiers du Transport",
+        "Marketing / Communication / Graphisme",
+        "Métiers de la Fonction Publique",
+        "Négociation / Gestion immobilière",
+        "Production / Gestion / Maintenance",
+        "Production / Opérateur / Manoeuvre",
+        "Qualité / Hygiène / Sécurité / Environnement",
+        "RH / Personnel / Formation",
+        "Restauration / Tourisme / Hôtellerie / Loisirs",
+        "SAV / Hotline / Téléconseiller",
+        "Santé / Social",
+        "Services à la personne / aux entreprises"
+      ],
+      "prefill": "",
+      "title": "Job function / métier (mode=bySector)",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Hard cap on the number of job listings to emit.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 30,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "minSalary": {
+      "default": 0,
+      "description": "Only include jobs whose disclosed salary meets this yearly gross EUR floor (optional, all modes). Matches HelloWork's own \"Salaire minimum\" slider (0-100,000, steps of 1,000).",
+      "maximum": 100000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum annual salary (EUR)",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byLocation",
+        "bySector"
+      ],
+      "enumTitles": [
+        "Search jobs by keyword",
+        "Browse jobs by region / city",
+        "Browse jobs by sector / function"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "postedWithin": {
+      "default": "all",
+      "description": "Only include jobs posted within this time window (optional, all modes).",
+      "editor": "select",
+      "enum": [
+        "all",
+        "h",
+        "d",
+        "w",
+        "m"
+      ],
+      "enumTitles": [
+        "Any time (no filter)",
+        "Last 24 hours",
+        "Last 3 days",
+        "Last week",
+        "Last month"
+      ],
+      "prefill": "all",
+      "title": "Posted within",
+      "type": "string"
+    },
+    "radiusKm": {
+      "default": "20",
+      "description": "Widen or narrow the search radius around `city` (ignored when only `region` is set -- HelloWork's radius filter only applies to a specific city/commune).",
+      "editor": "select",
+      "enum": [
+        "0",
+        "5",
+        "10",
+        "20",
+        "50"
+      ],
+      "enumTitles": [
+        "0 km (exact city only)",
+        "5 km",
+        "10 km",
+        "20 km (default)",
+        "50 km"
+      ],
+      "prefill": "20",
+      "title": "Search radius in km (mode=byLocation with city)",
+      "type": "string"
+    },
+    "region": {
+      "default": "",
+      "description": "French administrative region to browse jobs in. Required for mode=byLocation unless `city` is set; optional filter on other modes.",
+      "editor": "select",
+      "enum": [
+        "",
+        "Auvergne-Rhône-Alpes",
+        "Bourgogne-Franche-Comté",
+        "Bretagne",
+        "Centre-Val de Loire",
+        "Corse",
+        "Grand Est",
+        "Hauts-de-France",
+        "Île-de-France",
+        "Normandie",
+        "Nouvelle-Aquitaine",
+        "Occitanie",
+        "Pays de la Loire",
+        "Provence-Alpes-Côte d'Azur",
+        "Guadeloupe",
+        "Martinique",
+        "Guyane",
+        "La Réunion",
+        "Mayotte"
+      ],
+      "enumTitles": [
+        "(none)",
+        "Auvergne-Rhône-Alpes",
+        "Bourgogne-Franche-Comté",
+        "Bretagne",
+        "Centre-Val de Loire",
+        "Corse",
+        "Grand Est",
+        "Hauts-de-France",
+        "Île-de-France",
+        "Normandie",
+        "Nouvelle-Aquitaine",
+        "Occitanie",
+        "Pays de la Loire",
+        "Provence-Alpes-Côte d'Azur",
+        "Guadeloupe",
+        "Martinique",
+        "Guyane",
+        "La Réunion",
+        "Mayotte"
+      ],
+      "prefill": "",
+      "title": "Region (mode=byLocation)",
+      "type": "string"
+    },
+    "remoteWork": {
+      "default": [],
+      "description": "Filter by disclosed remote-work (télétravail) frequency (optional, all modes).",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "Complet",
+          "Partiel",
+          "Occasionnel",
+          "Pas_teletravail"
+        ],
+        "enumTitles": [
+          "Télétravail complet (fully remote)",
+          "Télétravail partiel (hybrid remote)",
+          "Télétravail occasionnel (occasional remote)",
+          "Pas de télétravail (no remote work)"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Remote work (télétravail)",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "salaryOnly": {
+      "default": false,
+      "description": "Only include job listings that disclose a salary range (optional, all modes).",
+      "prefill": false,
+      "title": "Only offers with disclosed salary",
+      "type": "boolean"
+    },
+    "searchQuery": {
+      "default": "",
+      "description": "Free-text keyword search (job title, skill, company, etc.) (mode=search). Can be combined with the filters below.",
+      "editor": "textfield",
+      "prefill": "developpeur",
+      "title": "Search query",
+      "type": "string"
+    },
+    "sector": {
+      "default": "",
+      "description": "Industry sector to browse jobs in. Required for mode=bySector unless `jobFunction` is set; optional filter on other modes.",
+      "editor": "select",
+      "enum": [
+        "",
+        "Agri_peche",
+        "BTP",
+        "Banq_assur_finan",
+        "Distrib_commerce",
+        "Energie_envir",
+        "Enseign_forma",
+        "Immo",
+        "Ind_aero",
+        "Ind_agro",
+        "Ind_auto_meca_nav",
+        "Ind_hightech_telecom",
+        "Ind_manufact",
+        "Ind_petro",
+        "Ind_pharma_bio_chim",
+        "Inform_SSII",
+        "Media_internet_com",
+        "Resto",
+        "Sante_social",
+        "Serv_entreprise",
+        "Serv_pers_part",
+        "Serv_public_autre",
+        "Serv_public_collec_terri",
+        "Serv_public_etat",
+        "Serv_public_hosp",
+        "Tourism_hotel_loisir",
+        "Transport_logist"
+      ],
+      "enumTitles": [
+        "(none)",
+        "Agriculture / Pêche",
+        "BTP",
+        "Banque / Assurance / Finance",
+        "Distribution / Commerce de gros",
+        "Energie / Environnement",
+        "Enseignement / Formation",
+        "Immobilier",
+        "Industrie Aéronautique / Aérospatial",
+        "Industrie Agro-alimentaire",
+        "Industrie Auto / Méca / Navale",
+        "Industrie high-tech / Telecom",
+        "Industrie Manufacturière",
+        "Industrie Pétrolière / Pétrochimie",
+        "Industrie Pharmaceutique / Biotechn. / Chimie",
+        "Informatique / ESN",
+        "Média / Internet / Communication",
+        "Restauration",
+        "Santé / Social / Association",
+        "Services aux Entreprises",
+        "Services aux Personnes / Particuliers",
+        "Service public autres",
+        "Service public des collectivités territoriales",
+        "Service public d'état",
+        "Service public hospitalier",
+        "Tourisme / Hôtellerie / Loisirs",
+        "Transport / Logistique"
+      ],
+      "prefill": "",
+      "title": "Sector (mode=bySector)",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Result ordering.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "date"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Newest first"
+      ],
+      "prefill": "relevance",
+      "title": "Sort by",
+      "type": "string"
+    },
+    "superRecruiterOnly": {
+      "default": false,
+      "description": "Only include job listings from HelloWork-verified \"super recruiter\" companies (optional, all modes).",
+      "prefill": false,
+      "title": "Only \"super recruiter\" offers",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "HelloWork Jobs Scraper Input",
+  "type": "object"
+}
