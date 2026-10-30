@@ -1,56 +1,171 @@
 {
-  "description": "Scrape organic results, ads, knowledge graph, images, and videos from Yandex search.",
+  "description": "Search Yandex or parse Yandex SERP URLs and collect organic results, ads, knowledge graph and AI answers, inline images and videos, products, local companies, weather, and related searches.",
   "properties": {
-    "lang": {
+    "domain": {
+      "default": "yandex.com",
+      "description": "Regional Yandex front. yandex.com is the international entry point; Yandex may serve it from its Russia front (reported as servedDomain).",
+      "editor": "select",
+      "enum": [
+        "yandex.com",
+        "yandex.by",
+        "yandex.kz",
+        "yandex.uz",
+        "yandex.com.tr",
+        "yandex.com.ge",
+        "yandex.az",
+        "yandex.md",
+        "yandex.tj"
+      ],
+      "enumTitles": [
+        "International (yandex.com)",
+        "Belarus (yandex.by)",
+        "Kazakhstan (yandex.kz)",
+        "Uzbekistan (yandex.uz)",
+        "Turkey (yandex.com.tr)",
+        "Georgia (yandex.com.ge)",
+        "Azerbaijan (yandex.az)",
+        "Moldova (yandex.md)",
+        "Tajikistan (yandex.tj)"
+      ],
+      "title": "Yandex Domain",
+      "type": "string"
+    },
+    "failIfEmpty": {
+      "default": false,
+      "description": "Fail the run when no records were produced, instead of finishing with an empty dataset.",
+      "prefill": false,
+      "title": "Fail If Empty",
+      "type": "boolean"
+    },
+    "fixTypos": {
+      "default": true,
+      "description": "Let Yandex correct misspelled queries. Turn it off for exact-match searches.",
+      "prefill": true,
+      "title": "Fix Typos",
+      "type": "boolean"
+    },
+    "includeAds": {
+      "default": true,
+      "description": "Include sponsored Yandex Direct rows with their click URL and displayed domain.",
+      "prefill": true,
+      "title": "Include Ads",
+      "type": "boolean"
+    },
+    "includeBlocks": {
+      "default": true,
+      "description": "Include knowledge graph, AI answer, inline images, inline videos, products, local companies and weather when present.",
+      "prefill": true,
+      "title": "Include SERP Blocks",
+      "type": "boolean"
+    },
+    "includeRelatedSearches": {
+      "default": true,
+      "description": "Include the related-search suggestions shown below the results (requires Include SERP Blocks).",
+      "prefill": true,
+      "title": "Include Related Searches",
+      "type": "boolean"
+    },
+    "language": {
       "default": "en",
-      "description": "UI language for Yandex search. Affects result language and UI text.",
-      "editor": "textfield",
+      "description": "Yandex interface and search language. Match it to your query language to keep result text untranslated.",
+      "editor": "select",
+      "enum": [
+        "en",
+        "ru",
+        "tr",
+        "kk",
+        "uz",
+        "az",
+        "be",
+        "uk",
+        "de",
+        "fr",
+        "es",
+        "it",
+        "pt",
+        "pl",
+        "cs",
+        "ar",
+        "he",
+        "fa",
+        "id"
+      ],
+      "enumTitles": [
+        "English",
+        "Russian",
+        "Turkish",
+        "Kazakh",
+        "Uzbek",
+        "Azerbaijani",
+        "Belarusian",
+        "Ukrainian",
+        "German",
+        "French",
+        "Spanish",
+        "Italian",
+        "Portuguese",
+        "Polish",
+        "Czech",
+        "Arabic",
+        "Hebrew",
+        "Persian",
+        "Indonesian"
+      ],
       "title": "Language",
       "type": "string"
     },
-    "lr": {
-      "default": "",
-      "description": "Yandex region filter. Use named shortcut (e.g. 'ru', 'moscow', 'tr', 'us') or a numeric Yandex region ID.",
-      "editor": "textfield",
-      "title": "Region",
-      "type": "string"
+    "maxItems": {
+      "default": 100,
+      "description": "Global cap on unique items across all queries and pages (1-10,000). In rows mode this is the row count; in pages mode it caps the items inside page records.",
+      "maximum": 10000,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Max Items",
+      "type": "integer"
     },
     "maxPages": {
       "default": 3,
-      "description": "Maximum number of SERP pages to scrape per query.",
-      "maximum": 10,
+      "description": "Number of result pages to read per query (1-25). Yandex serves at most 25 pages.",
+      "maximum": 25,
       "minimum": 1,
+      "prefill": 1,
       "title": "Max Pages Per Query",
       "type": "integer"
     },
-    "noReask": {
-      "default": false,
-      "description": "Disable Yandex's automatic query correction (noreask=1). Use for exact-match searches.",
-      "title": "Disable Spell Correction",
-      "type": "boolean"
+    "mode": {
+      "default": "search",
+      "description": "Search by keyword or parse existing Yandex SERP URLs.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byUrls"
+      ],
+      "enumTitles": [
+        "Search by keyword",
+        "Scrape Yandex SERP URLs"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
     },
-    "proxyConfiguration": {
-      "description": "Recommended. Yandex triggers SmartCaptcha on datacenter IPs. Use residential proxies for best results.",
-      "editor": "proxy",
-      "prefill": {
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
-        ],
-        "useApifyProxy": true
-      },
-      "title": "Proxy Configuration",
-      "type": "object"
+    "outputFormat": {
+      "default": "pages",
+      "description": "Page records preserve the existing dataset shape; rows emit one flat record per result or block item.",
+      "editor": "select",
+      "enum": [
+        "pages",
+        "rows"
+      ],
+      "enumTitles": [
+        "One record per SERP page",
+        "One record per result item"
+      ],
+      "prefill": "pages",
+      "title": "Output Format",
+      "type": "string"
     },
-    "resultsPerPage": {
-      "default": 10,
-      "description": "Number of organic results per page. Yandex supports 10, 20, 30, or 50.",
-      "maximum": 50,
-      "minimum": 10,
-      "title": "Results Per Page",
-      "type": "integer"
-    },
-    "searchQueries": {
-      "description": "One or more Yandex search queries. Each query is processed separately.",
+    "queries": {
+      "description": "One or more search queries (mode=search). Each query is processed separately.",
       "editor": "stringList",
       "items": {
         "type": "string"
@@ -62,77 +177,129 @@
       "title": "Search Queries",
       "type": "array"
     },
+    "region": {
+      "default": "",
+      "description": "Named Yandex region preset. Leave empty to use Yandex's default region. regionId overrides this value.",
+      "editor": "select",
+      "enum": [
+        "",
+        "ru",
+        "moscow",
+        "spb",
+        "novosibirsk",
+        "yekaterinburg",
+        "kazan",
+        "nizhny-novgorod",
+        "chelyabinsk",
+        "omsk",
+        "samara",
+        "rostov-on-don",
+        "ufa",
+        "krasnoyarsk",
+        "voronezh",
+        "perm",
+        "volgograd",
+        "by",
+        "minsk",
+        "kz",
+        "almaty",
+        "astana",
+        "uz",
+        "tashkent",
+        "tr",
+        "istanbul",
+        "ankara",
+        "izmir",
+        "ge",
+        "az",
+        "md",
+        "tj"
+      ],
+      "enumTitles": [
+        "Any region (default)",
+        "Russia",
+        "Moscow",
+        "Saint Petersburg",
+        "Novosibirsk",
+        "Yekaterinburg",
+        "Kazan",
+        "Nizhny Novgorod",
+        "Chelyabinsk",
+        "Omsk",
+        "Samara",
+        "Rostov-on-Don",
+        "Ufa",
+        "Krasnoyarsk",
+        "Voronezh",
+        "Perm",
+        "Volgograd",
+        "Belarus",
+        "Minsk",
+        "Kazakhstan",
+        "Almaty",
+        "Astana",
+        "Uzbekistan",
+        "Tashkent",
+        "Turkey",
+        "Istanbul",
+        "Ankara",
+        "Izmir",
+        "Georgia",
+        "Azerbaijan",
+        "Moldova",
+        "Tajikistan"
+      ],
+      "title": "Region",
+      "type": "string"
+    },
+    "regionId": {
+      "description": "Numeric Yandex region ID (lr). Overrides the Region preset. For example 213 is Moscow and 983 is Turkey.",
+      "maximum": 3000000,
+      "minimum": 1,
+      "title": "Region ID",
+      "type": "integer"
+    },
+    "serpUrls": {
+      "description": "Yandex search-result URLs, one per page (mode=byUrls). Direct Yandex URLs and translated Yandex URLs are accepted.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Yandex SERP URLs",
+      "type": "array"
+    },
+    "startPage": {
+      "default": 0,
+      "description": "Zero-based page to start from (0-24). Use it to resume a deep result window.",
+      "maximum": 24,
+      "minimum": 0,
+      "title": "Start Page",
+      "type": "integer"
+    },
     "timeFilter": {
       "default": "any",
-      "description": "Filter results by recency.",
+      "description": "Limit results by recency. The values map to Yandex's own past-day, past-two-weeks and past-month filters.",
       "editor": "select",
       "enum": [
         "any",
         "day",
-        "week",
-        "month",
-        "year"
+        "twoWeeks",
+        "month"
       ],
       "enumTitles": [
         "Any time",
-        "Past day",
-        "Past week",
-        "Past month",
-        "Past year"
+        "Past 24 hours",
+        "Past two weeks",
+        "Past month"
       ],
       "title": "Time Filter",
-      "type": "string"
-    },
-    "yandexDomain": {
-      "default": "yandex.com",
-      "description": "The Yandex regional domain to use. If SmartCaptcha blocks the chosen domain (common on datacenter IPs), the scraper falls back to a captcha-free domain and labels the record via `search_metadata.locale_switched` (the fallback domains render their own country's UI language, e.g. Turkish for yandex.com.tr, even though the organic results stay in your requested language).",
-      "editor": "select",
-      "enum": [
-        "yandex.com",
-        "yandex.ru",
-        "yandex.by",
-        "yandex.kz",
-        "yandex.uz",
-        "yandex.com.tr",
-        "yandex.ua",
-        "yandex.fr",
-        "yandex.de",
-        "yandex.com.ge",
-        "yandex.am",
-        "yandex.az",
-        "yandex.md",
-        "yandex.tj",
-        "yandex.lt",
-        "yandex.lv",
-        "yandex.ee"
-      ],
-      "enumTitles": [
-        "International (yandex.com)",
-        "Russia (yandex.ru)",
-        "Belarus (yandex.by)",
-        "Kazakhstan (yandex.kz)",
-        "Uzbekistan (yandex.uz)",
-        "Turkey (yandex.com.tr)",
-        "Ukraine (yandex.ua)",
-        "France (yandex.fr)",
-        "Germany (yandex.de)",
-        "Georgia (yandex.com.ge)",
-        "Armenia (yandex.am)",
-        "Azerbaijan (yandex.az)",
-        "Moldova (yandex.md)",
-        "Tajikistan (yandex.tj)",
-        "Lithuania (yandex.lt)",
-        "Latvia (yandex.lv)",
-        "Estonia (yandex.ee)"
-      ],
-      "title": "Yandex Domain",
       "type": "string"
     }
   },
   "required": [
-    "searchQueries"
+    "mode"
   ],
   "schemaVersion": 1,
-  "title": "Yandex Search Scraper Input",
+  "title": "Yandex SERP & Knowledge Graph Scraper Input",
   "type": "object"
 }

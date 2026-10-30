@@ -1,9 +1,56 @@
 {
-  "description": "Search unclaimed money by owner name, or browse a state's unclaimed-property register.",
+  "description": "Search unclaimed money and uncashed checks by owner name or property ID, or browse a state's public register. Sources include California and Iowa statewide files plus municipal open-data registers.",
   "properties": {
+    "dateFrom": {
+      "description": "Earliest check/warrant issue date (YYYY-MM-DD). Only sources that disclose dates are searched; California's statewide file has no date field and is skipped.",
+      "editor": "textfield",
+      "title": "Date from",
+      "type": "string"
+    },
+    "dateTo": {
+      "description": "Latest check/warrant issue date, inclusive (YYYY-MM-DD).",
+      "editor": "textfield",
+      "title": "Date to",
+      "type": "string"
+    },
+    "iaFiscalYear": {
+      "default": "latest",
+      "description": "Which Iowa DAS outdated-warrant file(s) to read. `Latest` is the newest posted fiscal year.",
+      "editor": "select",
+      "enum": [
+        "latest",
+        "all",
+        "2027",
+        "2026",
+        "2025",
+        "2024",
+        "2023",
+        "2022"
+      ],
+      "enumTitles": [
+        "Latest posted fiscal year",
+        "All fiscal years",
+        "FY2027",
+        "FY2026",
+        "FY2025",
+        "FY2024",
+        "FY2023",
+        "FY2022"
+      ],
+      "prefill": "latest",
+      "title": "Iowa fiscal year",
+      "type": "string"
+    },
+    "includeUnknownAmount": {
+      "default": false,
+      "description": "When an amount filter is active, also keep records whose source publishes no dollar amount (for example City of Austin, TX).",
+      "prefill": false,
+      "title": "Include records with no disclosed amount",
+      "type": "boolean"
+    },
     "jurisdiction": {
       "default": "ALL",
-      "description": "Narrow to one specific government source's dataset (useful when a state has more than one, e.g. California or Massachusetts). 'All jurisdictions' queries every source in the selected state(s).",
+      "description": "Narrow to one specific government source (useful when a state has more than one, e.g. California or Massachusetts). 'All jurisdictions' queries every source in the selected state(s).",
       "editor": "select",
       "enum": [
         "ALL",
@@ -12,10 +59,13 @@
         "ri_providence",
         "ca_marin",
         "ca_roseville",
+        "ca_sco",
+        "ca_sonoma",
         "md_montgomery",
         "mn_ramsey",
         "ma_framingham_payroll",
-        "ma_framingham_vendor"
+        "ma_framingham_vendor",
+        "ia_das"
       ],
       "enumTitles": [
         "All jurisdictions in the selected state(s)",
@@ -24,74 +74,126 @@
         "City of Providence, RI — Uncashed Municipal Check",
         "Marin County, CA — Uncashed County Check",
         "City of Roseville, CA — Stale-Dated Check (Municipal)",
+        "California State Controller — Statewide Unclaimed Property",
+        "Sonoma County, CA — Stale-Dated Check (County)",
         "Montgomery County, MD — Unclaimed Vendor Payment (County)",
         "Ramsey County, MN — Unclaimed Money (County)",
         "Town of Framingham, MA — Unclaimed Payroll Check (Municipal)",
-        "Town of Framingham, MA — Unclaimed Resident/Vendor/AP Check (Municipal)"
+        "Town of Framingham, MA — Unclaimed Resident/Vendor/AP Check (Municipal)",
+        "State of Iowa (DAS) — Outdated State Warrant"
       ],
       "prefill": "ALL",
       "title": "Jurisdiction",
       "type": "string"
     },
     "maxAmountUsd": {
-      "description": "Only include records worth at most this much (where the source discloses an amount). Leave unset for no maximum.",
+      "description": "Only include records worth at most this much. Leave unset for no maximum.",
       "editor": "number",
-      "maximum": 1000000,
+      "maximum": 100000000,
       "minimum": 0,
       "title": "Maximum amount (USD)",
-      "type": "integer"
+      "type": "number"
     },
     "maxItems": {
       "default": 20,
-      "description": "Hard cap on emitted records.",
-      "maximum": 1000,
+      "description": "Hard cap on emitted records (1–50,000).",
+      "maximum": 50000,
       "minimum": 1,
-      "prefill": 20,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
     "minAmountUsd": {
       "default": 0,
-      "description": "Only include records worth at least this much (where the source discloses an amount). 0 = no minimum.",
-      "maximum": 1000000,
+      "description": "Only include records worth at least this much. 0 = no minimum. When an amount filter is active, records whose source discloses no amount are excluded unless `includeUnknownAmount` is on.",
+      "maximum": 100000000,
       "minimum": 0,
       "prefill": 0,
       "title": "Minimum amount (USD)",
-      "type": "integer"
+      "type": "number"
     },
     "mode": {
       "default": "search",
-      "description": "search: find records by owner name. browse: list a state's register without a name filter.",
+      "description": "search: find records by owner name or property ID. browse: list a register without a name filter. byPropertyId: exact property/warrant/check lookup.",
       "editor": "select",
       "enum": [
         "search",
-        "browse"
+        "browse",
+        "byPropertyId"
       ],
       "enumTitles": [
         "Search by owner name",
-        "Browse a state's register"
+        "Browse a register",
+        "Look up a property ID"
       ],
       "prefill": "search",
       "title": "Mode",
       "type": "string"
     },
     "ownerName": {
-      "default": "Johnson",
-      "description": "Full or partial owner/payee name to search for (case-insensitive substring match), e.g. `Johnson` or `Smith LLC`.",
+      "description": "Full or partial owner/payee name (case-insensitive). Words can be in any order and commas are ignored, so `Smith, John` and `John Smith` both work.",
       "editor": "textfield",
       "prefill": "Johnson",
-      "title": "Owner name (mode=search)",
+      "title": "Owner name",
+      "type": "string"
+    },
+    "propertyId": {
+      "description": "Exact property ID, warrant number or check number. Works in every mode; `byPropertyId` is the dedicated lookup mode.",
+      "editor": "textfield",
+      "title": "Property ID",
+      "type": "string"
+    },
+    "propertyType": {
+      "default": "ALL",
+      "description": "Broad property-type group. California's 190 raw NAUPA codes are mapped into these groups; use `propertyTypeContains` for an exact raw-string filter.",
+      "editor": "select",
+      "enum": [
+        "ALL",
+        "bankAccounts",
+        "securities",
+        "uncashedChecks",
+        "insurance",
+        "refunds",
+        "wages",
+        "pensions",
+        "trusts",
+        "safeDeposit",
+        "other"
+      ],
+      "enumTitles": [
+        "All property types",
+        "Bank accounts",
+        "Securities & dividends",
+        "Uncashed checks & warrants",
+        "Insurance & annuities",
+        "Refunds & rebates",
+        "Wages & payroll",
+        "Pensions & retirement",
+        "Trusts & estates",
+        "Safe-deposit boxes",
+        "Other"
+      ],
+      "prefill": "ALL",
+      "title": "Property type",
+      "type": "string"
+    },
+    "propertyTypeContains": {
+      "description": "Advanced: keep only records whose raw source type contains this text, e.g. `Dividend` or `Endowment`. Combined with the group filter.",
+      "editor": "textfield",
+      "title": "Raw property type contains",
       "type": "string"
     },
     "sortBy": {
       "default": "amountDesc",
-      "description": "How to order results. Falls back to whatever field a jurisdiction actually provides.",
+      "description": "How to order results. `relevance` preserves source and file order. Records missing the chosen field sink to the bottom.",
       "editor": "select",
       "enum": [
         "amountDesc",
         "amountAsc",
         "dateDesc",
         "dateAsc",
+        "ownerNameAsc",
+        "ownerNameDesc",
         "relevance"
       ],
       "enumTitles": [
@@ -99,6 +201,8 @@
         "Lowest amount first",
         "Most recent first",
         "Oldest first",
+        "Owner name A–Z",
+        "Owner name Z–A",
         "Relevance (source order)"
       ],
       "prefill": "amountDesc",
@@ -112,6 +216,7 @@
       "enum": [
         "ALL",
         "CA",
+        "IA",
         "MA",
         "MD",
         "MN",
@@ -121,6 +226,7 @@
       "enumTitles": [
         "All states (multi-state search)",
         "California",
+        "Iowa",
         "Massachusetts",
         "Maryland",
         "Minnesota",
@@ -129,6 +235,28 @@
       ],
       "prefill": "MN",
       "title": "State",
+      "type": "string"
+    },
+    "valueRange": {
+      "default": "500plus",
+      "description": "Which California State Controller archive to scan for browsing and name searches. Exact property-ID lookups scan all four ranges (smallest first) so lower balances are not missed, then stop at the matching range. `All value ranges` scans four range files one at a time and is much heavier than the default.",
+      "editor": "select",
+      "enum": [
+        "500plus",
+        "100to500",
+        "10to100",
+        "under10",
+        "all"
+      ],
+      "enumTitles": [
+        "$500 and above",
+        "$100 to $499.99",
+        "$10 to $99.99",
+        "Under $10",
+        "All value ranges"
+      ],
+      "prefill": "500plus",
+      "title": "California value range",
       "type": "string"
     }
   },

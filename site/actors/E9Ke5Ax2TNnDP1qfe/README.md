@@ -1,166 +1,151 @@
-# US County & City Unclaimed Funds Scraper
+# US Unclaimed Property & Funds Scraper
 
-Many US counties and cities publish their own unclaimed-funds ledgers as open data, separately from (and often more accessible than) their state's official Treasury search. This actor searches those ledgers by owner name, or lets you browse a state's register outright, returning amount, holder, property type and dates wherever the source discloses them.
+Search unclaimed money and uncashed checks across 12 public US registers in one run. The actor reads statewide bulk files from California and Iowa plus municipal open-data registers, then returns owner, amount, holder, property type, dates and property IDs where the source discloses them.
 
-## What this actor does
+## What it does
 
-- **Two modes:** `search` (owner name) and `browse` (list a state's register)
-- **6 states covered, 9 government sources:** California, Maryland, Massachusetts,
-  Minnesota, Rhode Island, Texas
-- **Multi-state in one run** — set `state` to `ALL` to search every source at once
-- **Jurisdiction filter** — narrow to one specific government source (useful when a
-  state has more than one, e.g. California or Massachusetts)
-- **Sorting** — highest/lowest amount, most/least recent, or source order
-- **Minimum- and maximum-amount filters** to bracket a balance range
-- **Empty fields are omitted** — a source is never forced to report a field it doesn't disclose
+- **Three modes:** `search` by owner name, `browse` a register, and `byPropertyId` for an exact property, warrant or check lookup.
+- **12 sources in 7 states:** California, Iowa, Massachusetts, Maryland, Minnesota, Rhode Island and Texas.
+- **Up to 50,000 records per run** — the old 1,000-row ceiling is gone, and every source is paginated or streamed to its own limit.
+- **Useful filters:** amount range, include/exclude records with no disclosed amount, date range, broad property-type groups, raw type text and property ID.
+- **Seven sort orders:** amount, date, owner name and source order.
+- **Empty fields are omitted** — the actor never invents a value for a field a source does not publish.
 
-## Data source
+## Services covered
 
-This actor aggregates **public, unauthenticated Socrata (SODA) open-data APIs**
-published directly by 9 US county/city treasuries as their official unclaimed-funds /
-uncashed-check registers:
-
-| State | Jurisdiction | Property type |
+| State | Source | What it publishes |
 |---|---|---|
-| California | Marin County | Uncashed county checks |
-| California | City of Roseville | Stale-dated municipal checks |
-| Maryland | Montgomery County | Unclaimed vendor payments |
-| Massachusetts | Town of Framingham | Unclaimed payroll checks |
-| Massachusetts | Town of Framingham | Unclaimed resident/vendor/AP checks |
-| Minnesota | Ramsey County | Unclaimed money |
-| Rhode Island | City of Providence | Uncashed municipal checks |
-| Texas | City of Austin | Unclaimed property |
-| Texas | City of Corpus Christi | Unclaimed property |
+| CA | California State Controller (SCO) | Statewide unclaimed property, weekly ZIP/CSV archive |
+| CA | Marin County | Uncashed county checks |
+| CA | City of Roseville | Stale-dated municipal checks |
+| CA | Sonoma County | Stale-dated county checks |
+| IA | Iowa Department of Administrative Services | Outdated state warrants by fiscal year |
+| MA | Town of Framingham | Unclaimed payroll checks |
+| MA | Town of Framingham | Unclaimed resident/vendor/AP checks |
+| MD | Montgomery County | Unclaimed vendor payments |
+| MN | Ramsey County | Unclaimed money |
+| RI | City of Providence | Uncashed municipal checks |
+| TX | City of Austin | Unclaimed property |
+| TX | City of Corpus Christi | Unclaimed property |
 
-**Why not a state-level Treasury / MissingMoney.com?** We researched this thoroughly
-before building. The obvious "one-stop" target — MissingMoney.com, the NAUPA-endorsed
-multi-state search — is blocked behind three layered anti-bot systems (a Cloudflare
-Turnstile challenge injected into every page, AWS WAF Bot Control 403s, and a
-`__cf_bm` bot-detection cookie); this holds for plain HTTP clients, TLS-impersonating
-clients, and full headless browsers alike. The same problem exists further down the
-list: FDIC's national unclaimed-funds search requires a validated Google reCAPTCHA
-token; PBGC's pension search requires the claimant's own Social Security number;
-Texas's own state-level open-data unclaimed-property dataset returns `403` to
-anonymous requests and requires emailing the Comptroller's office for an access
-grant. In short, **every state's live name-search portal is CAPTCHA/WAF-gated** —
-that's exactly why third-party "finder" sites merely deep-link into those portals
-instead of scraping them.
+## How it works
 
-What *is* reliably open is the layer beneath the search UI: many county and city
-treasuries publish their own unclaimed-funds ledgers as public Socrata datasets with
-anonymous API access (no key, no login, no CAPTCHA) — the same open-data
-infrastructure many US cities use for budgets, permits, and 311 data. This actor
-aggregates 9 such datasets across 6 states into a single multi-state search/browse
-tool. It complements, and does not duplicate, this repo's `CAUnclaimedPropertyScraper`
-(which is single-state, sourced from the California State Controller's own bulk CSV
-export of its statewide database — a different tier of source entirely).
+Municipal registers are queried through their public Socrata (SODA) JSON APIs with `$limit`, `$offset`, deterministic `$order` and server-side filters. California publishes four value-range ZIP archives (plus an all-records archive the actor does not download); the actor streams the selected range file to a temporary file with HTTP Range resume, scans the CSV parts line by line, and deletes the file. Iowa publishes one XLSX per fiscal year, read in openpyxl's read-only mode and deleted after the scan. All sources are anonymous: no account, cookie, API key or proxy setup is required.
 
-## Output per record
-
-| Field | Description |
-|---|---|
-| `ownerName` | Owner/payee name on the unclaimed funds |
-| `amountUsd` | Dollar amount, where the source discloses one |
-| `reportedDate` | Check/transaction date (`YYYY-MM-DD`), where disclosed |
-| `address` | Last-known street address, where disclosed (joins multi-line addresses, e.g. Providence's suite/floor lines, into one string) |
-| `city` | City, where disclosed |
-| `postalCode` | ZIP code, where disclosed |
-| `recordId` | Source's own record/check ID, where disclosed |
-| `vendorId` | Source's own vendor/payee ID, where disclosed — currently only Montgomery County, MD |
-| `invoiceDate` | Underlying invoice date (`YYYY-MM-DD`), where disclosed separately from `reportedDate` — currently only Montgomery County, MD |
-| `state` | 2-letter state code |
-| `jurisdiction` | The specific county/city government holding the funds |
-| `holderName` | Same as `jurisdiction` — the entity holding the money |
-| `propertyType` | Category, e.g. "Unclaimed Vendor Payment (County)" |
-| `paymentStatus` | Bank/ERP status of the payment (e.g. "Negotiable", "Void"), where disclosed — currently only Montgomery County, MD |
-| `sourceUrl` | The government's own open-data page for this dataset |
-| `recordType` | Always `"unclaimedProperty"` |
-| `scrapedAt` | UTC timestamp of the scrape |
-
-Not every jurisdiction discloses every field — e.g. the City of Austin's dataset lists
-owner names only, with no amount or date. Fields that aren't disclosed are simply
-omitted, never faked.
+The California statewide file has no date field. When a date filter is set, California statewide and the other date-less registers are skipped and the status message says so. The default California range is `$500 and above` (about 163 MB); choosing all value ranges scans four files one at a time, which takes much longer. A property-ID lookup always checks every California range, smallest archive first, and stops once the bucket containing the ID has been scanned, so an ID below `$500` is never hidden by the default.
 
 ## Input
 
-| Field | Type | Default | Description |
+| Field | Type | Default | Notes |
 |---|---|---|---|
-| `mode` | select | `search` | `search` (by owner name) or `browse` (no name filter) |
-| `state` | select | `MN` | `ALL`, `CA`, `MA`, `MD`, `MN`, `RI`, or `TX` |
-| `jurisdiction` | select | `ALL` | Narrow to one specific government source's dataset (e.g. just Marin County, not all of CA) |
-| `ownerName` | string | `Johnson` | Required for `mode=search`; case-insensitive substring match |
-| `minAmountUsd` | int | `0` | Only include records at least this large (where amount is disclosed) |
-| `maxAmountUsd` | int | unset | Only include records at most this large (where amount is disclosed) |
-| `sortBy` | select | `amountDesc` | `amountDesc` / `amountAsc` / `dateDesc` / `dateAsc` / `relevance` |
-| `maxItems` | int | `20` | Hard cap on emitted records (1–1000) |
+| `mode` | select | `search` | `search`, `browse` or `byPropertyId` |
+| `state` | select | `MN` | `ALL`, `CA`, `IA`, `MA`, `MD`, `MN`, `RI`, `TX` |
+| `jurisdiction` | select | `ALL` | Narrow to one of the 12 sources |
+| `ownerName` | text | — | Case-insensitive; word order and commas do not matter |
+| `propertyId` | text | — | Exact property ID, warrant or check number |
+| `minAmountUsd` | number | `0` | Amount floor; `0` means no floor |
+| `maxAmountUsd` | number | — | Amount ceiling |
+| `includeUnknownAmount` | boolean | `false` | Keep records with no amount when an amount filter is active |
+| `dateFrom` | text | — | Earliest date, `YYYY-MM-DD` |
+| `dateTo` | text | — | Latest date, inclusive, `YYYY-MM-DD` |
+| `propertyType` | select | `ALL` | 10 broad groups over raw NAUPA codes and source categories |
+| `propertyTypeContains` | text | — | Raw type substring filter, e.g. `Dividend` |
+| `sortBy` | select | `amountDesc` | Amount, date, owner name or source order |
+| `maxItems` | integer | `20` | `1`–`50,000` |
+| `valueRange` | select | `500plus` | California archive range; ignored for property-ID lookups, which scan all ranges |
+| `iaFiscalYear` | select | `latest` | Iowa fiscal year, `all`, or a specific year |
 
-### Example: search by name across all states
+### Examples
 
-```json
-{
-  "mode": "search",
-  "state": "ALL",
-  "ownerName": "Smith",
-  "maxItems": 50
-}
-```
-
-### Example: browse California's highest-value unclaimed funds
-
-```json
-{
-  "mode": "browse",
-  "state": "CA",
-  "sortBy": "amountDesc",
-  "minAmountUsd": 1000,
-  "maxItems": 100
-}
-```
-
-### Example: recent unclaimed payroll checks in Massachusetts
+Search one name across every state:
 
 ```json
-{
-  "mode": "browse",
-  "state": "MA",
-  "sortBy": "dateDesc",
-  "maxItems": 25
-}
+{"mode": "search", "state": "ALL", "ownerName": "Smith", "maxItems": 50}
 ```
 
-## Use cases
+Browse California's largest balances:
 
-- **Asset-recovery researchers** — screen multiple states' unclaimed-funds ledgers by name in one run
-- **Genealogy / heir-search firms** — sweep county-level registers for a family surname
-- **Finance / fraud investigators** — cross-reference vendor payment records with known entities
-- **Local journalism** — surface large uncashed municipal payments for public-interest reporting
-- **Personal finance tools** — let users check multiple jurisdictions for money owed to them
+```json
+{"mode": "browse", "state": "CA", "jurisdiction": "ca_sco", "minAmountUsd": 1000, "maxItems": 100}
+```
+
+Look up a California property ID:
+
+```json
+{"mode": "byPropertyId", "state": "CA", "propertyId": "13755891"}
+```
+
+Browse Iowa warrants from FY2026 with dates:
+
+```json
+{"mode": "browse", "state": "IA", "iaFiscalYear": "2026", "dateFrom": "2025-07-01", "sortBy": "dateDesc", "maxItems": 100}
+```
+
+## Output
+
+Every record contains the fields the source actually discloses. Existing fields are unchanged; the revamp adds richer fields beside them.
+
+| Field | Description |
+|---|---|
+| `ownerName` | Owner/payee name |
+| `amountUsd` | Current cash balance or warrant/check amount |
+| `reportedDate` | Check, warrant or payment date (`YYYY-MM-DD`) |
+| `address`, `city`, `postalCode` | Owner last-known address, where disclosed |
+| `ownerState`, `ownerCountry` | Owner state/country, where disclosed (California) |
+| `recordId` | Source record/check/warrant ID |
+| `propertyId` | California property ID |
+| `checkNumber`, `warrantNumber` | Source check or warrant number |
+| `departmentCode` | Issuing Iowa department |
+| `vendorId`, `invoiceDate`, `paymentStatus` | Montgomery County vendor-payment fields |
+| `holderName` | Entity holding the funds |
+| `holderAddress`, `holderCity`, `holderState`, `holderZip` | Holder location, where disclosed (California) |
+| `propertyType` | Raw source category or NAUPA property-type string |
+| `cashReported`, `sharesReported` | Reported cash and share counts (California) |
+| `securitiesName`, `cusip` | Security description and CUSIP (California) |
+| `numberOfOwners`, `pendingClaims`, `paidClaims` | Ownership and claim counts (California) |
+| `valueRange` | California archive range the row came from |
+| `state`, `jurisdiction` | Two-letter state and source name |
+| `sourceKey`, `sourceName`, `sourceType` | Source traceability |
+| `sourceUpdatedAt` | Source file date (California/Iowa) |
+| `sourceUrl`, `claimUrl` | Public dataset page and official claim/search page |
+| `recordType` | Always `unclaimedProperty` |
+| `scrapedAt` | UTC scrape timestamp |
+
+## Usage cost
+
+The actor runs on Apify's standard compute pricing. It uses no paid proxy and no external API key, so the only cost is the run's memory and compute time plus Apify's usual dataset/result charges. The default 2 GB memory is sized for the California ZIP streaming path. Start with a small `maxItems` and the default `$500+` range for browsing; a full California `all` scan is intentionally expensive in time because it reads four multi-hundred-megabyte archives.
 
 ## FAQ
 
-**Does this cover my state's full unclaimed-property database?** No — this actor
-covers county/city government ledgers that publish open Socrata data, not each
-state's complete Treasury database (those require going through the state's own
-CAPTCHA-protected search, which this project does not bypass). For California
-specifically, see this repo's separate `CAUnclaimedPropertyScraper`, sourced from the
-CA State Controller's full statewide bulk CSV export.
+**Does this search every US state?** No. It covers the 7 states listed above. Most other states publish their live search only through CAPTCHA- or WAF-gated portals, and this actor does not attempt to bypass those. The official state claim portals remain the right place to file a claim.
 
-**Why is `amountUsd` missing on some records?** The source jurisdiction (currently
-only the City of Austin, TX) publishes owner names without a disclosed dollar amount.
-We never fabricate a placeholder value — the field is simply omitted.
+**Why are some records missing an amount?** A few registers publish names without a dollar value. When an amount filter is active, those records are excluded unless `includeUnknownAmount` is enabled.
 
-**What does `paymentStatus` mean?** Montgomery County, MD is the only jurisdiction
-that discloses this — it's the bank/ERP status of the payment (e.g. "Negotiable"
-means the check can still be cashed; "Void" or "Reconciled" means it can't). No
-other source in this actor publishes an equivalent field.
+**Why does a date filter drop California results?** The California statewide file has 25 columns but no date field. Date filters therefore skip it rather than guessing a date.
 
-**How do I claim money I find?** This actor surfaces public record data only; it does
-not file claims. Contact the `jurisdiction`/`holderName` government office directly,
-or visit the `sourceUrl` dataset page for the office's own contact information.
+**What is the difference between `search` and `byPropertyId`?** `search` treats the name as words in any order. `byPropertyId` performs an exact match against property IDs, warrants and check numbers. Both accept the other field as an additional filter. A California property-ID lookup scans all four value-range archives because an ID lives in only one of them; this can take several minutes.
 
-**How often is the underlying data refreshed?** Each government body refreshes its
-own Socrata dataset on its own schedule (typically daily-to-monthly); the actor always
-queries the live API, so results reflect whatever is currently published.
+**How fresh is the data?** Municipal Socrata registers refresh on their own schedules, California posts new archives weekly (usually Thursday), and Iowa adds fiscal-year files as warrants are cancelled. The actor always reads the currently published source.
 
-**Can I search all 6 states in a single run?** Yes — set `state` to `ALL`; the actor
-queries all 9 sources concurrently and merges/sorts the results.
+**Can I get more than 5,000 rows from multiple sources at once?** Yes, up to 50,000, but a multi-source run keeps at most 5,000 candidates per source so memory stays bounded. To take a single source deeper, select that jurisdiction alone.
+
+**How do I claim money I find?** This actor only reports public records. Contact the `jurisdiction`/`holderName` office or use the `claimUrl` on the record.
+
+**Are the addresses and names personal data?** Yes — they are public-record claimant data. Use them only with a lawful basis, and do not combine them with other datasets to re-identify people.
+
+## Notes
+
+- Public-record data only: owner names and last-known addresses as published by government offices. No SSN, phone, email or claimant identity is collected.
+- No CAPTCHA solving, no login, no credentials, and no proxy configuration are required or supported.
+- California and Iowa archives are streamed and deleted per run; rows are never materialised in memory all at once.
+- Duplicate rows are removed by source + record identity, while legitimate co-owners on one property ID are preserved.
+- Invalid dates and inverted ranges produce a clear status message and a clean zero-record run rather than a crash.
+
+## Limitations
+
+- **7 states, not 50.** MissingMoney.com and most state live-search portals are behind CloudFront/WAF/Turnstile blocks. The actor links users to the official portals instead of bypassing them.
+- **No date for California statewide records.** The source does not publish one.
+- **California property-ID lookups are slower.** They must check every value-range archive (smallest first) and stop only after the matching bucket, because the default `$500+` range would otherwise hide lower balances.
+- **The California all-records archive is large.** The default `$500+` file is about 163 MB compressed; the full all-records ZIP is 3.25 GB, which is why the actor scans the four smaller range files instead.
+- **Some municipal datasets change schema.** Column names are verified against the live APIs; a renamed column causes that source to be skipped with a status note rather than returning wrong data.
+- **Amounts can be stale.** A published balance is the holder's last report, not a live claim valuation.
