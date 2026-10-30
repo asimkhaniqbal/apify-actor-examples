@@ -1,0 +1,118 @@
+{
+  "description": "Explore public Pinterest trend topics and shopping trend data by region.",
+  "properties": {
+    "categoryNames": {
+      "default": [],
+      "description": "Friendly Pinterest shopping category names for `shoppingMetrics`, such as `Sofas` or `Wedding dress`. Leave empty to use Pinterest's currently featured shopping categories.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Shopping category names",
+      "type": "array"
+    },
+    "cookies": {
+      "description": "Optional Cookie Editor JSON export for account-relative trend context. Public Trends work without cookies; never share this secret publicly.",
+      "editor": "json",
+      "isSecret": true,
+      "title": "Optional Pinterest cookies",
+      "type": "array"
+    },
+    "cookiesJson": {
+      "description": "Compatibility alias for pasting a Cookie Editor JSON export.",
+      "editor": "textarea",
+      "isSecret": true,
+      "title": "Optional cookies JSON (alias)",
+      "type": "string"
+    },
+    "days": {
+      "default": 60,
+      "description": "Number of historical days returned for shopping metrics.",
+      "maximum": 90,
+      "minimum": 7,
+      "prefill": 60,
+      "title": "History days",
+      "type": "integer"
+    },
+    "event": {
+      "default": "OUTBOUND_CLICK",
+      "description": "Pinterest event used for shopping category metrics.",
+      "editor": "select",
+      "enum": [
+        "OUTBOUND_CLICK"
+      ],
+      "enumTitles": [
+        "Outbound clicks"
+      ],
+      "prefill": "OUTBOUND_CLICK",
+      "title": "Shopping signal",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum trend/category records returned.",
+      "maximum": 20000,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Maximum records",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "featured",
+      "description": "Choose a public Pinterest Trends dataset.",
+      "editor": "select",
+      "enum": [
+        "featured",
+        "editorial",
+        "shoppingCategories",
+        "shoppingMetrics"
+      ],
+      "enumTitles": [
+        "Featured topics",
+        "Editorial trend stories",
+        "Shopping categories",
+        "Shopping category metrics"
+      ],
+      "prefill": "featured",
+      "title": "What to collect",
+      "type": "string"
+    },
+    "predictedDays": {
+      "default": 28,
+      "description": "Number of future days Pinterest supplies in shopping metrics. If a region has no forecast, real historical values are returned instead.",
+      "maximum": 28,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Predicted days",
+      "type": "integer"
+    },
+    "proxyConfiguration": {
+      "description": "Optional Apify proxy settings. The actor tries a free AUTO proxy fallback and then direct public access.",
+      "editor": "proxy",
+      "title": "Optional proxy",
+      "type": "object"
+    },
+    "region": {
+      "default": "US",
+      "description": "Pinterest Trends region. `GB+IE` is Pinterest's combined Great Britain and Ireland region.",
+      "editor": "select",
+      "enum": [
+        "US",
+        "GB+IE",
+        "CA"
+      ],
+      "enumTitles": [
+        "United States",
+        "Great Britain + Ireland",
+        "Canada"
+      ],
+      "prefill": "US",
+      "title": "Region",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Pinterest Trends Input",
+  "type": "object"
+}
