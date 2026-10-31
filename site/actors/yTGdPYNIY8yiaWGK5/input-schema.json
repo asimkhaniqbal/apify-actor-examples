@@ -1,0 +1,131 @@
+{
+  "description": "Scrape product listings from Allegro.pl by search query, category URL, or direct offer URLs.",
+  "properties": {
+    "categoryUrl": {
+      "description": "Full Allegro category URL, e.g. https://allegro.pl/kategoria/laptopy-491 (mode=byCategory)",
+      "editor": "textfield",
+      "title": "Category URL",
+      "type": "string"
+    },
+    "conditionFilter": {
+      "default": "all",
+      "description": "Filter by product condition.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "new",
+        "used"
+      ],
+      "enumTitles": [
+        "All conditions",
+        "New only",
+        "Used only"
+      ],
+      "prefill": "all",
+      "title": "Condition Filter",
+      "type": "string"
+    },
+    "freeShippingOnly": {
+      "default": false,
+      "description": "If true, only include listings with free shipping.",
+      "prefill": false,
+      "title": "Free Shipping Only",
+      "type": "boolean"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Maximum number of listings to scrape (1–500).",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Maximum price in PLN. Leave empty for no maximum.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Maximum Price (PLN)",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Minimum price in PLN. Leave empty for no minimum.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Minimum Price (PLN)",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "How to find products on Allegro.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byCategory",
+        "byUrl"
+      ],
+      "enumTitles": [
+        "Search products by keyword",
+        "Browse a category page",
+        "Fetch specific offer URLs"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "proxyConfiguration": {
+      "default": {
+        "useApifyProxy": true
+      },
+      "description": "Apify proxy settings. AUTO datacenter proxy is recommended to bypass anti-bot protection.",
+      "editor": "proxy",
+      "prefill": {
+        "useApifyProxy": true
+      },
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "searchQuery": {
+      "description": "Keyword(s) to search for on Allegro. (mode=search)",
+      "editor": "textfield",
+      "prefill": "laptop",
+      "title": "Search Query",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Sort order for search/category results. (mode=search, byCategory)",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "price_asc",
+        "price_desc",
+        "popularity",
+        "newest"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Price: Low to High",
+        "Price: High to Low",
+        "Popularity",
+        "Newest first"
+      ],
+      "prefill": "relevance",
+      "title": "Sort By",
+      "type": "string"
+    },
+    "startUrls": {
+      "description": "List of Allegro offer URLs to scrape, e.g. https://allegro.pl/oferta/... (mode=byUrl)",
+      "editor": "requestListSources",
+      "prefill": [],
+      "title": "Start URLs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Allegro Scraper Input",
+  "type": "object"
+}
