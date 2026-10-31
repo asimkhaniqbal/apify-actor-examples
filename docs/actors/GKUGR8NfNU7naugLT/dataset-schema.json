@@ -1,11 +1,19 @@
 {
   "actorSpecification": 1,
-  "title": "LinkedIn Top Content Posts",
+  "title": "LinkedIn Top Content & Top Voices",
   "views": {
-    "overview": {
+    "posts": {
       "display": {
         "component": "table",
         "properties": {
+          "authorFollowers": {
+            "format": "number",
+            "label": "Followers"
+          },
+          "authorIsInfluencer": {
+            "format": "boolean",
+            "label": "Influencer"
+          },
           "authorName": {
             "format": "text",
             "label": "Author"
@@ -18,9 +26,13 @@
             "format": "text",
             "label": "Content"
           },
+          "headline": {
+            "format": "text",
+            "label": "Headline"
+          },
           "mediaType": {
             "format": "text",
-            "label": "Media Type"
+            "label": "Media"
           },
           "postUrl": {
             "format": "link",
@@ -34,23 +46,78 @@
             "format": "number",
             "label": "Reactions"
           },
-          "repostsCount": {
+          "topicRank": {
             "format": "number",
-            "label": "Reposts"
+            "label": "Rank"
+          },
+          "topicTitle": {
+            "format": "text",
+            "label": "Topic"
           }
         }
       },
-      "title": "Posts",
+      "title": "Top Content Posts",
       "transformation": {
         "fields": [
           "authorName",
+          "authorFollowers",
+          "authorIsInfluencer",
           "postedAt",
+          "headline",
           "content",
           "mediaType",
           "reactionsCount",
           "commentsCount",
-          "repostsCount",
+          "topicTitle",
+          "topicRank",
           "postUrl"
+        ]
+      }
+    },
+    "voices": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "voiceBadge": {
+            "format": "text",
+            "label": "Badge"
+          },
+          "voiceClass": {
+            "format": "text",
+            "label": "Class"
+          },
+          "voiceFollowers": {
+            "format": "number",
+            "label": "Followers"
+          },
+          "voiceHeadline": {
+            "format": "text",
+            "label": "Headline"
+          },
+          "voiceName": {
+            "format": "text",
+            "label": "Name"
+          },
+          "voiceProfileUrl": {
+            "format": "link",
+            "label": "Profile URL"
+          },
+          "voiceRegion": {
+            "format": "text",
+            "label": "Region"
+          }
+        }
+      },
+      "title": "Top Voices Honorees",
+      "transformation": {
+        "fields": [
+          "voiceName",
+          "voiceHeadline",
+          "voiceFollowers",
+          "voiceBadge",
+          "voiceClass",
+          "voiceRegion",
+          "voiceProfileUrl"
         ]
       }
     }
