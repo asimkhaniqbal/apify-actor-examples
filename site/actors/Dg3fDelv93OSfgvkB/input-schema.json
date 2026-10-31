@@ -1,0 +1,127 @@
+{
+  "properties": {
+    "channelUrls": {
+      "description": "Channel handles, URLs, or channel IDs. When set, the actor lists every public playlist on each channel (playlist discovery mode). Combine with Playlist URLs to also scrape videos inside specific playlists.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Channel URLs (list their playlists)",
+      "type": "array"
+    },
+    "includeUnavailableVideos": {
+      "default": false,
+      "description": "When videos are hidden/private in a playlist, emit placeholder rows with isAvailable=false.",
+      "prefill": false,
+      "title": "Show Unavailable Video Placeholders",
+      "type": "boolean"
+    },
+    "market": {
+      "default": "US",
+      "description": "YouTube market/region for playlist page language. Affects the language of metadata returned.",
+      "editor": "select",
+      "enum": [
+        "US",
+        "GB",
+        "CA",
+        "AU",
+        "DE",
+        "FR",
+        "JP",
+        "KR",
+        "BR",
+        "IN",
+        "MX",
+        "IT",
+        "ES",
+        "NL",
+        "PL",
+        "RU",
+        "SE",
+        "NO",
+        "DK",
+        "FI",
+        "ZA",
+        "SG",
+        "HK",
+        "TW",
+        "ID",
+        "MY",
+        "TH",
+        "PH",
+        "AR",
+        "CO",
+        "CL"
+      ],
+      "enumTitles": [
+        "United States",
+        "United Kingdom",
+        "Canada",
+        "Australia",
+        "Germany",
+        "France",
+        "Japan",
+        "South Korea",
+        "Brazil",
+        "India",
+        "Mexico",
+        "Italy",
+        "Spain",
+        "Netherlands",
+        "Poland",
+        "Russia",
+        "Sweden",
+        "Norway",
+        "Denmark",
+        "Finland",
+        "South Africa",
+        "Singapore",
+        "Hong Kong",
+        "Taiwan",
+        "Indonesia",
+        "Malaysia",
+        "Thailand",
+        "Philippines",
+        "Argentina",
+        "Colombia",
+        "Chile"
+      ],
+      "title": "Market / Region",
+      "type": "string"
+    },
+    "maxPlaylists": {
+      "default": 100,
+      "description": "Maximum number of playlists to list per channel in channel mode.",
+      "editor": "number",
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Max Playlists Per Channel",
+      "type": "integer"
+    },
+    "maxVideos": {
+      "default": 0,
+      "description": "Maximum number of videos to scrape per playlist. Set to 0 to get all videos.",
+      "editor": "number",
+      "maximum": 10000,
+      "minimum": 0,
+      "prefill": 10,
+      "title": "Max Videos Per Playlist",
+      "type": "integer"
+    },
+    "playlistUrls": {
+      "description": "YouTube playlist URLs or playlist IDs whose videos you want. Supports full URLs (youtube.com/playlist?list=...) or bare playlist IDs (PLxxxxxx). Use this or Channel URLs.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "https://www.youtube.com/playlist?list=PLgzTt0k8mXzEk586ze4BjvDXR7c-TUSnx"
+      ],
+      "title": "Playlist URLs",
+      "type": "array"
+    }
+  },
+  "schemaVersion": 1,
+  "title": "YouTube Playlist Scraper Input",
+  "type": "object"
+}
