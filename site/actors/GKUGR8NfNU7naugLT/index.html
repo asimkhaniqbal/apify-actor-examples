@@ -1,0 +1,323 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-v9Ta3Tiuq/7itQ39nWhFj8b/p9nKCYJWsScBeS3PZuk=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>LinkedIn Trending Posts &amp; Top Voices Feed Scraper | Vexaloom Labs</title><meta name="description" content="Pull LinkedIn&#x27;s trending and top-performing posts by topic keyword, with reaction/comment/repost counts, a per-reaction-type breakdown, author headline, and media type, so you can "><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/GKUGR8NfNU7naugLT/"><meta property="og:title" content="LinkedIn Trending Posts &amp; Top Voices Feed Scraper | Vexaloom Labs"><meta property="og:description" content="Pull LinkedIn&#x27;s trending and top-performing posts by topic keyword, with reaction/comment/repost counts, a per-reaction-type breakdown, author headline, and media type, so you can "><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/GKUGR8NfNU7naugLT/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/GKUGR8NfNU7naugLT/#webpage","name":"LinkedIn Trending Posts & Top Voices Feed Scraper","description":"Pull LinkedIn's trending and top-performing posts by topic keyword, with reaction/comment/repost counts, a per-reaction-type breakdown, author headline, and media type, so you can filter by engagement thresholds, date window, or media type.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/GKUGR8NfNU7naugLT/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/GKUGR8NfNU7naugLT/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/GKUGR8NfNU7naugLT/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/GKUGR8NfNU7naugLT/#article","headline":"LinkedIn Trending Posts & Top Voices Feed Scraper","name":"LinkedIn Trending Posts & Top Voices Feed Scraper","description":"Pull LinkedIn's trending and top-performing posts by topic keyword, with reaction/comment/repost counts, a per-reaction-type breakdown, author headline, and media type, so you can filter by engagement thresholds, date window, or media type.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/GKUGR8NfNU7naugLT/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/GKUGR8NfNU7naugLT/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/GKUGR8NfNU7naugLT/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"LinkedIn Trending Posts & Top Voices Feed Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/GKUGR8NfNU7naugLT/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>LinkedIn Trending Posts &amp; Top Voices Feed Scraper</span></div><section id="overview"><h1 class="doc-title">LinkedIn Trending Posts &amp; Top Voices Feed Scraper</h1><p class="lede">Pull LinkedIn&#x27;s trending and top-performing posts by topic keyword, with reaction/comment/repost counts, a per-reaction-type breakdown, author headline, and media type, so you can filter by engagement thresholds, date window, or media type.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/linkedin-trending-posts-and-top-voices-feed">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/GKUGR8NfNU7naugLT/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>maxPosts</code></td><td>integer</td><td>optional</td><td>Maximum number of top content posts to scrape.</td></tr><tr><td><code>category</code></td><td>string</td><td>optional</td><td>Optional topic keyword to filter top content (e.g. &#x27;AI&#x27;, &#x27;leadership&#x27;, &#x27;marketing&#x27;). Leave empty to scrape general trending posts.</td></tr><tr><td><code>dateRange</code></td><td>string</td><td>optional</td><td>Only return posts published in the selected window (LinkedIn&#x27;s own time bucket). Leave empty for any time.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>maxPosts</code></td><td>integer</td><td>optional</td><td>Maximum number of top content posts to scrape.</td></tr><tr><td><code>category</code></td><td>string</td><td>optional</td><td>Optional topic keyword to filter top content (e.g. &#x27;AI&#x27;, &#x27;leadership&#x27;, &#x27;marketing&#x27;). Leave empty to scrape general trending posts.</td></tr><tr><td><code>dateRange</code></td><td>string</td><td>optional</td><td>Only return posts published in the selected window (LinkedIn&#x27;s own time bucket). Leave empty for any time.</td></tr><tr><td><code>language</code></td><td>string</td><td>optional</td><td>Preferred response language for LinkedIn API requests (affects post translation and surfaced posts).</td></tr><tr><td><code>mediaTypeFilter</code></td><td>string</td><td>optional</td><td>Only return posts of a specific media type. Leave empty to return all types.</td></tr><tr><td><code>minReactions</code></td><td>integer</td><td>optional</td><td>Only return posts with at least this many reactions. Leave empty (or 0) for no minimum.</td></tr><tr><td><code>minComments</code></td><td>integer</td><td>optional</td><td>Only return posts with at least this many comments. Leave empty (or 0) for no minimum.</td></tr><tr><td><code>cookie</code></td><td>string</td><td>optional</td><td>LinkedIn session cookie for authenticated access to more posts. Accepts: (1) the li_at value, or (2) full cookies JSON array from an export extension. Without cookie, only the public trending feed is available.</td></tr><tr><td><code>proxyConfiguration</code></td><td>object</td><td>optional</td><td>Optional Apify proxy configuration. Residential proxy recommended for better results with cookie-based access.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;properties&quot;: {
+    &quot;category&quot;: {
+      &quot;description&quot;: &quot;Optional topic keyword to filter top content (e.g. &#x27;AI&#x27;, &#x27;leadership&#x27;, &#x27;marketing&#x27;). Leave empty to scrape general trending posts.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Category / Topic Keyword&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;cookie&quot;: {
+      &quot;description&quot;: &quot;LinkedIn session cookie for authenticated access to more posts. Accepts: (1) the li_at value, or (2) full cookies JSON array from an export extension. Without cookie, only the public trending feed is available.&quot;,
+      &quot;editor&quot;: &quot;textarea&quot;,
+      &quot;isSecret&quot;: true,
+      &quot;prefill&quot;: &quot;AQEDATVc5uMEM5s_AAABnro67cYAAAGe3kdxxk0Ajoj1en-Axa4lUoxvqVMAsMpFO2u4rOjJfIS1U1wrBETHJHqkj5i6KReB53dmYSZDgX9K4XnaFLmn7vE30gVWegfZltSOZVu_-Ny8sl4-aAKzeN-H&quot;,
+      &quot;title&quot;: &quot;LinkedIn Cookie (optional)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;dateRange&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Only return posts published in the selected window (LinkedIn&#x27;s own time bucket). Leave empty for any time.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;24h&quot;,
+        &quot;7d&quot;,
+        &quot;30d&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any time&quot;,
+        &quot;Past 24 hours&quot;,
+        &quot;Past week&quot;,
+        &quot;Past month&quot;
+      ],
+      &quot;title&quot;: &quot;Date Range&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;language&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Preferred response language for LinkedIn API requests (affects post translation and surfaced posts).&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;en&quot;,
+        &quot;es&quot;,
+        &quot;fr&quot;,
+        &quot;de&quot;,
+        &quot;pt&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Auto / English&quot;,
+        &quot;English&quot;,
+        &quot;Spanish&quot;,
+        &quot;French&quot;,
+        &quot;German&quot;,
+        &quot;Portuguese&quot;
+      ],
+      &quot;title&quot;: &quot;Language&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;maxPosts&quot;: {
+      &quot;default&quot;: 50,
+      &quot;description&quot;: &quot;Maximum number of top content posts to scrape.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 500,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 25,
+      &quot;title&quot;: &quot;Max Posts&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mediaTypeFilter&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Only return posts of a specific media type. Leave empty to return all types.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;text&quot;,
+        &quot;image&quot;,
+        &quot;video&quot;,
+        &quot;article&quot;,
+        &quot;document&quot;,
+        &quot;repost&quot;,
+        &quot;poll&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All types&quot;,
+        &quot;Text only&quot;,
+        &quot;Image&quot;,
+        &quot;Video&quot;,
+        &quot;Article&quot;,
+        &quot;Document&quot;,
+        &quot;Repost&quot;,
+        &quot;Poll&quot;
+      ],
+      &quot;title&quot;: &quot;Media Type Filter&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;minComments&quot;: {
+      &quot;description&quot;: &quot;Only return posts with at least this many comments. Leave empty (or 0) for no minimum.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Minimum Comments&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;minReactions&quot;: {
+      &quot;description&quot;: &quot;Only return posts with at least this many reactions. Leave empty (or 0) for no minimum.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Minimum Reactions&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;proxyConfiguration&quot;: {
+      &quot;description&quot;: &quot;Optional Apify proxy configuration. Residential proxy recommended for better results with cookie-based access.&quot;,
+      &quot;editor&quot;: &quot;proxy&quot;,
+      &quot;title&quot;: &quot;Proxy Configuration&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    }
+  },
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;LinkedIn Top Content Scraper Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>posts</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped trending LinkedIn posts.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;One record per trending LinkedIn post, with author, content, media type, reaction/comment/repost counts, and a per-reaction-type breakdown.&quot;,
+  &quot;properties&quot;: {
+    &quot;posts&quot;: {
+      &quot;description&quot;: &quot;Dataset containing all scraped trending LinkedIn posts.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Trending Posts&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;LinkedIn Trending Posts &amp; Top Voices Feed Scraper Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;title&quot;: &quot;LinkedIn Top Content Posts&quot;,
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;authorName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Author&quot;
+          },
+          &quot;commentsCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Comments&quot;
+          },
+          &quot;content&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Content&quot;
+          },
+          &quot;mediaType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Media Type&quot;
+          },
+          &quot;postUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Post URL&quot;
+          },
+          &quot;postedAt&quot;: {
+            &quot;format&quot;: &quot;datetime&quot;,
+            &quot;label&quot;: &quot;Posted At&quot;
+          },
+          &quot;reactionsCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Reactions&quot;
+          },
+          &quot;repostsCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Reposts&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Posts&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;authorName&quot;,
+          &quot;postedAt&quot;,
+          &quot;content&quot;,
+          &quot;mediaType&quot;,
+          &quot;reactionsCount&quot;,
+          &quot;commentsCount&quot;,
+          &quot;repostsCount&quot;,
+          &quot;postUrl&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-linkedin-trending-posts-top-voices-feed-scraper">LinkedIn Trending Posts &amp; Top Voices Feed Scraper</h2>
+<p>Find out what's actually trending on LinkedIn right now. This actor pulls posts from LinkedIn's own trending/top-content surfaces — optionally narrowed to a topic keyword such as &quot;AI&quot; or &quot;leadership&quot; — and returns each post with its author, full text, media type, and engagement numbers so you can see what's winning attention in a niche without scrolling the feed yourself.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li>Fetches currently trending LinkedIn posts, optionally filtered to a single topic keyword</li>
+<li>Narrows results by publish-date window, media type, and minimum reaction/comment thresholds</li>
+<li>Returns reaction, comment, and repost totals plus a breakdown by reaction type (like, celebrate, love, insightful, support, funny, curious)</li>
+<li>Includes the author's name, profile URL, and headline for every post</li>
+<li>Omits any field it could not find data for — you will not see empty strings or nulls in a record</li>
+</ul>
+<h2 id="readme-output-per-post">Output per post</h2>
+<ul>
+<li><code>postId</code> — LinkedIn activity ID of the post</li>
+<li><code>postUrl</code> — direct link to the post</li>
+<li><code>authorName</code> — full name of the author</li>
+<li><code>authorProfileUrl</code> — author's LinkedIn profile URL</li>
+<li><code>authorHeadline</code> — author's headline or job title</li>
+<li><code>postedAt</code> — ISO 8601 UTC timestamp the post was published</li>
+<li><code>content</code> — full text of the post</li>
+<li><code>mediaType</code> — <code>text</code>, <code>image</code>, <code>video</code>, <code>article</code>, <code>document</code>, <code>carousel</code>, <code>repost</code>, <code>poll</code>, or <code>event</code></li>
+<li><code>mediaUrls</code> — CDN URLs of attached images (when the post has image media)</li>
+<li><code>articleTitle</code> / <code>articleUrl</code> — title and link of a shared article (when <code>mediaType</code> is <code>article</code>)</li>
+<li><code>reactionsCount</code> — total reactions on the post</li>
+<li><code>commentsCount</code> — total comments on the post</li>
+<li><code>repostsCount</code> — total reposts/shares</li>
+<li><code>reactionBreakdown</code> — per-type counts (like, celebrate, love, insightful, support, funny, curious)</li>
+<li><code>scrapedAt</code> — ISO 8601 UTC timestamp when the record was scraped</li>
+</ul>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>maxPosts</code></td>
+<td>integer</td>
+<td><code>50</code></td>
+<td>Maximum number of posts to return (1–500)</td>
+</tr>
+<tr>
+<td><code>category</code></td>
+<td>string</td>
+<td>–</td>
+<td>Topic keyword to narrow results (e.g. <code>AI</code>, <code>leadership</code>, <code>marketing</code>); leave empty for general trending posts</td>
+</tr>
+<tr>
+<td><code>dateRange</code></td>
+<td>string</td>
+<td><code>&quot;&quot;</code> (any time)</td>
+<td>Publish window: any time, past 24 hours, past week, or past month</td>
+</tr>
+<tr>
+<td><code>language</code></td>
+<td>string</td>
+<td><code>&quot;&quot;</code> (auto/English)</td>
+<td>Preferred response language: English, Spanish, French, German, or Portuguese</td>
+</tr>
+<tr>
+<td><code>mediaTypeFilter</code></td>
+<td>string</td>
+<td><code>&quot;&quot;</code> (all types)</td>
+<td>Return only one media type: text, image, video, article, document, repost, or poll</td>
+</tr>
+<tr>
+<td><code>minReactions</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Only return posts with at least this many reactions</td>
+</tr>
+<tr>
+<td><code>minComments</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Only return posts with at least this many comments</td>
+</tr>
+<tr>
+<td><code>cookie</code></td>
+<td>string</td>
+<td>–</td>
+<td>LinkedIn session cookie (<code>li_at</code> value or exported cookies JSON array) for access to more posts</td>
+</tr>
+<tr>
+<td><code>proxyConfiguration</code></td>
+<td>object</td>
+<td>–</td>
+<td>Apify proxy configuration</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-example-general-trending-feed">Example: general trending feed</h3>
+<pre><code class="language-json">{
+    &quot;maxPosts&quot;: 50
+}
+</code></pre>
+<h3 id="readme-example-ai-posts-from-the-last-week-with-a-reaction-floor">Example: AI posts from the last week with a reaction floor</h3>
+<pre><code class="language-json">{
+    &quot;category&quot;: &quot;AI&quot;,
+    &quot;dateRange&quot;: &quot;7d&quot;,
+    &quot;minReactions&quot;: 500,
+    &quot;maxPosts&quot;: 100
+}
+</code></pre>
+<h3 id="readme-example-video-posts-only-in-spanish">Example: video posts only, in Spanish</h3>
+<pre><code class="language-json">{
+    &quot;mediaTypeFilter&quot;: &quot;video&quot;,
+    &quot;language&quot;: &quot;es&quot;,
+    &quot;maxPosts&quot;: 30
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>Content strategists</strong> spotting which post formats and topics are winning engagement before planning next week's calendar</li>
+<li><strong>Social listening</strong> teams tracking how a topic (e.g. &quot;layoffs&quot;, &quot;AI agents&quot;) is trending on LinkedIn over the past day or week</li>
+<li><strong>Influencer research</strong> — finding Top Voices and high-engagement authors inside a given niche</li>
+<li><strong>Agencies</strong> building swipe files of real, currently-trending posts for client pitches</li>
+<li><strong>Analysts</strong> comparing reaction-type mixes (celebratory vs. insightful) across topics or time windows</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Do I need a LinkedIn account?</strong> No. The actor can run with no cookie and still returns trending posts, though supplying a session cookie typically surfaces more results.</p>
+<p><strong>What does <code>category</code> actually filter?</strong> It's a topic keyword — the same kind of term you'd type into LinkedIn's own trending-topics browser, like <code>AI</code> or <code>marketing</code>. Leave it empty for the general, unfiltered trending feed.</p>
+<p><strong>Why is <code>reactionBreakdown</code> sometimes missing a reaction type?</strong> LinkedIn only reports counts for reaction types that were actually used on that post; a type with zero reactions is left out rather than shown as <code>0</code>.</p>
+<p><strong>Can I combine <code>minReactions</code> and <code>minComments</code>?</strong> Yes — both thresholds apply together, so a post must clear both minimums to be returned.</p>
+<p><strong>Why don't all posts have <code>articleTitle</code> or <code>mediaUrls</code>?</strong> Those fields only apply to posts whose <code>mediaType</code> is <code>article</code> or <code>image</code>; a text-only or video post simply won't have them.</p>
+<p><strong>How fresh is the data?</strong> Every run queries LinkedIn's trending surfaces live — there's no cached or delayed dataset behind this actor.</p>
+<p><strong>Is this affiliated with LinkedIn?</strong> No. This is an independent actor that reads LinkedIn's public and session-authenticated trending-content surfaces; it is not endorsed by or affiliated with LinkedIn Corporation.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/GKUGR8NfNU7naugLT/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>LRp1qzZVjrhkttzYZ</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

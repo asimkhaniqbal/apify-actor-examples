@@ -1,0 +1,120 @@
+{
+  "properties": {
+    "category": {
+      "description": "Optional topic keyword to filter top content (e.g. 'AI', 'leadership', 'marketing'). Leave empty to scrape general trending posts.",
+      "editor": "textfield",
+      "title": "Category / Topic Keyword",
+      "type": "string"
+    },
+    "cookie": {
+      "description": "LinkedIn session cookie for authenticated access to more posts. Accepts: (1) the li_at value, or (2) full cookies JSON array from an export extension. Without cookie, only the public trending feed is available.",
+      "editor": "textarea",
+      "isSecret": true,
+      "prefill": "AQEDATVc5uMEM5s_AAABnro67cYAAAGe3kdxxk0Ajoj1en-Axa4lUoxvqVMAsMpFO2u4rOjJfIS1U1wrBETHJHqkj5i6KReB53dmYSZDgX9K4XnaFLmn7vE30gVWegfZltSOZVu_-Ny8sl4-aAKzeN-H",
+      "title": "LinkedIn Cookie (optional)",
+      "type": "string"
+    },
+    "dateRange": {
+      "default": "",
+      "description": "Only return posts published in the selected window (LinkedIn's own time bucket). Leave empty for any time.",
+      "editor": "select",
+      "enum": [
+        "",
+        "24h",
+        "7d",
+        "30d"
+      ],
+      "enumTitles": [
+        "Any time",
+        "Past 24 hours",
+        "Past week",
+        "Past month"
+      ],
+      "title": "Date Range",
+      "type": "string"
+    },
+    "language": {
+      "default": "",
+      "description": "Preferred response language for LinkedIn API requests (affects post translation and surfaced posts).",
+      "editor": "select",
+      "enum": [
+        "",
+        "en",
+        "es",
+        "fr",
+        "de",
+        "pt"
+      ],
+      "enumTitles": [
+        "Auto / English",
+        "English",
+        "Spanish",
+        "French",
+        "German",
+        "Portuguese"
+      ],
+      "title": "Language",
+      "type": "string"
+    },
+    "maxPosts": {
+      "default": 50,
+      "description": "Maximum number of top content posts to scrape.",
+      "editor": "number",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 25,
+      "title": "Max Posts",
+      "type": "integer"
+    },
+    "mediaTypeFilter": {
+      "default": "",
+      "description": "Only return posts of a specific media type. Leave empty to return all types.",
+      "editor": "select",
+      "enum": [
+        "",
+        "text",
+        "image",
+        "video",
+        "article",
+        "document",
+        "repost",
+        "poll"
+      ],
+      "enumTitles": [
+        "All types",
+        "Text only",
+        "Image",
+        "Video",
+        "Article",
+        "Document",
+        "Repost",
+        "Poll"
+      ],
+      "title": "Media Type Filter",
+      "type": "string"
+    },
+    "minComments": {
+      "description": "Only return posts with at least this many comments. Leave empty (or 0) for no minimum.",
+      "editor": "number",
+      "minimum": 0,
+      "title": "Minimum Comments",
+      "type": "integer"
+    },
+    "minReactions": {
+      "description": "Only return posts with at least this many reactions. Leave empty (or 0) for no minimum.",
+      "editor": "number",
+      "minimum": 0,
+      "title": "Minimum Reactions",
+      "type": "integer"
+    },
+    "proxyConfiguration": {
+      "description": "Optional Apify proxy configuration. Residential proxy recommended for better results with cookie-based access.",
+      "editor": "proxy",
+      "title": "Proxy Configuration",
+      "type": "object"
+    }
+  },
+  "schemaVersion": 1,
+  "title": "LinkedIn Top Content Scraper Input",
+  "type": "object"
+}
