@@ -1,0 +1,56 @@
+{
+  "description": "Scrape TikTok music/sound metadata and the videos that use a particular sound. Provide music page URLs or bare numeric IDs.",
+  "properties": {
+    "includeMusicMetadata": {
+      "default": true,
+      "description": "Emit a metadata row for each music/sound with title, author, duration, cover images, DSP links, and video count.",
+      "prefill": true,
+      "title": "Include Music Metadata",
+      "type": "boolean"
+    },
+    "includePosts": {
+      "default": true,
+      "description": "Emit post rows for videos that use each sound. Posts include full video metadata, author info, and engagement stats.",
+      "prefill": true,
+      "title": "Include Posts Using This Sound",
+      "type": "boolean"
+    },
+    "maxPostsPerSound": {
+      "default": 30,
+      "description": "Maximum number of video posts to scrape per music/sound. Set to 0 to skip post scraping (equivalent to includePosts: false).",
+      "maximum": 500,
+      "minimum": 0,
+      "prefill": 5,
+      "title": "Max Posts Per Sound",
+      "type": "integer"
+    },
+    "musicIds": {
+      "description": "Numeric TikTok music/sound IDs as strings (15–20 digits). Alternative to providing full URLs.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "7595604258835401494"
+      ],
+      "title": "Music IDs",
+      "type": "array"
+    },
+    "musicUrls": {
+      "description": "TikTok music page URLs. Example: https://www.tiktok.com/music/original-sound-7653138974420077343",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "https://www.tiktok.com/music/original-sound-7595604258835401494"
+      ],
+      "title": "Music/Sound URLs",
+      "type": "array"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "TikTok Music/Sound Scraper Input",
+  "type": "object"
+}

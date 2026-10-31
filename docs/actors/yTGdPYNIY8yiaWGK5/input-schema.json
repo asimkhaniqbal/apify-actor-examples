@@ -1,125 +1,187 @@
 {
-  "description": "Scrape product listings from Allegro.pl by search query, category URL, or direct offer URLs.",
+  "description": "Choose what to scrape on Allegro.pl: keyword searches, category pages, seller storefronts, offer or product URLs, product reviews, or seller profiles.",
   "properties": {
-    "categoryUrl": {
-      "description": "Full Allegro category URL, e.g. https://allegro.pl/kategoria/laptopy-491 (mode=byCategory)",
-      "editor": "textfield",
-      "title": "Category URL",
-      "type": "string"
+    "buyNowOnly": {
+      "default": false,
+      "description": "Exclude auctions and keep only offers you can buy immediately.",
+      "prefill": false,
+      "title": "Buy Now Only",
+      "type": "boolean"
     },
-    "conditionFilter": {
+    "categoryUrls": {
+      "description": "Allegro category URLs, or category ids/aliases. (mode=byCategory)",
+      "editor": "requestListSources",
+      "prefill": [],
+      "title": "Category URLs",
+      "type": "array"
+    },
+    "condition": {
       "default": "all",
-      "description": "Filter by product condition.",
+      "description": "Filter listings by item condition.",
       "editor": "select",
       "enum": [
         "all",
         "new",
-        "used"
+        "used",
+        "refurbished",
+        "damaged"
       ],
       "enumTitles": [
-        "All conditions",
-        "New only",
-        "Used only"
+        "Any condition",
+        "New",
+        "Used",
+        "Refurbished",
+        "Damaged"
       ],
       "prefill": "all",
-      "title": "Condition Filter",
+      "title": "Condition",
       "type": "string"
     },
     "freeShippingOnly": {
       "default": false,
-      "description": "If true, only include listings with free shipping.",
+      "description": "Use Allegro's free-delivery (Smart!) filter for listing modes.",
       "prefill": false,
-      "title": "Free Shipping Only",
+      "title": "Free Delivery Only",
       "type": "boolean"
     },
+    "includeDetails": {
+      "default": false,
+      "description": "Open each offer from search, category, seller and product-offer listings to add stock, GTIN, full specs, company identity, warranty and returns. Slower and uses more requests.",
+      "prefill": false,
+      "title": "Enrich With Offer Details",
+      "type": "boolean"
+    },
+    "includeSponsored": {
+      "default": true,
+      "description": "Include sponsored placements in listing results. Turn off for organic results only.",
+      "prefill": true,
+      "title": "Include Sponsored Offers",
+      "type": "boolean"
+    },
+    "market": {
+      "default": "pl",
+      "description": "Allegro marketplace. Only Poland (allegro.pl) is supported.",
+      "editor": "select",
+      "enum": [
+        "pl"
+      ],
+      "enumTitles": [
+        "Poland (allegro.pl)"
+      ],
+      "prefill": "pl",
+      "title": "Market",
+      "type": "string"
+    },
     "maxItems": {
-      "default": 20,
-      "description": "Maximum number of listings to scrape (1–500).",
-      "maximum": 500,
+      "default": 100,
+      "description": "Maximum records to return. Listing modes cap each source at 6,000 offers (100 pages).",
+      "maximum": 6000,
       "minimum": 1,
-      "prefill": 20,
+      "prefill": 2,
       "title": "Max Items",
       "type": "integer"
     },
     "maxPrice": {
-      "description": "Maximum price in PLN. Leave empty for no maximum.",
+      "description": "Highest price in PLN. Leave empty for no maximum.",
       "maximum": 1000000,
       "minimum": 0,
-      "title": "Maximum Price (PLN)",
+      "title": "Maximum Price",
+      "type": "integer"
+    },
+    "maxReviewsPerProduct": {
+      "default": 100,
+      "description": "Maximum reviews to collect for each product in reviews mode.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 100,
+      "title": "Max Reviews Per Product",
       "type": "integer"
     },
     "minPrice": {
-      "description": "Minimum price in PLN. Leave empty for no minimum.",
+      "description": "Lowest price in PLN. Leave empty for no minimum.",
       "maximum": 1000000,
       "minimum": 0,
-      "title": "Minimum Price (PLN)",
+      "title": "Minimum Price",
       "type": "integer"
     },
     "mode": {
       "default": "search",
-      "description": "How to find products on Allegro.",
+      "description": "What to scrape. Search by keyword, browse categories or sellers, fetch specific offer/product URLs, get every seller for a product, read product reviews, or build seller profiles.",
       "editor": "select",
       "enum": [
         "search",
         "byCategory",
-        "byUrl"
+        "bySeller",
+        "byUrl",
+        "byProduct",
+        "reviews",
+        "sellerProfiles"
       ],
       "enumTitles": [
-        "Search products by keyword",
-        "Browse a category page",
-        "Fetch specific offer URLs"
+        "Search by keyword",
+        "Browse category pages",
+        "Browse seller storefronts",
+        "Fetch offer or product URLs",
+        "Every seller for a product",
+        "Product reviews",
+        "Seller profiles"
       ],
       "prefill": "search",
       "title": "Mode",
       "type": "string"
     },
-    "proxyConfiguration": {
-      "default": {
-        "useApifyProxy": true
-      },
-      "description": "Apify proxy settings. AUTO datacenter proxy is recommended to bypass anti-bot protection.",
-      "editor": "proxy",
-      "prefill": {
-        "useApifyProxy": true
-      },
-      "title": "Proxy Configuration",
-      "type": "object"
-    },
-    "searchQuery": {
-      "description": "Keyword(s) to search for on Allegro. (mode=search)",
-      "editor": "textfield",
-      "prefill": "laptop",
-      "title": "Search Query",
-      "type": "string"
+    "searchQueries": {
+      "description": "Keywords to search for. One query per line. (mode=search)",
+      "editor": "stringList",
+      "prefill": [
+        "laptop"
+      ],
+      "title": "Search Queries",
+      "type": "array"
     },
     "sortBy": {
       "default": "relevance",
-      "description": "Sort order for search/category results. (mode=search, byCategory)",
+      "description": "Order of results for search, category, seller and product-offer listings.",
       "editor": "select",
       "enum": [
         "relevance",
         "price_asc",
         "price_desc",
+        "price_with_delivery_asc",
+        "price_with_delivery_desc",
         "popularity",
-        "newest"
+        "ending_soonest",
+        "newest",
+        "product_rating"
       ],
       "enumTitles": [
         "Relevance",
-        "Price: Low to High",
-        "Price: High to Low",
+        "Price: low to high",
+        "Price: high to low",
+        "Price with delivery: low to high",
+        "Price with delivery: high to low",
         "Popularity",
-        "Newest first"
+        "Ending soonest",
+        "Newest first",
+        "Product rating"
       ],
       "prefill": "relevance",
       "title": "Sort By",
       "type": "string"
     },
     "startUrls": {
-      "description": "List of Allegro offer URLs to scrape, e.g. https://allegro.pl/oferta/... (mode=byUrl)",
+      "description": "Offer, product, product-offers, seller or review target URLs. Use this for byUrl, bySeller, byProduct, reviews and sellerProfiles.",
       "editor": "requestListSources",
       "prefill": [],
       "title": "Start URLs",
       "type": "array"
+    },
+    "superSellerOnly": {
+      "default": false,
+      "description": "Keep only offers from Allegro Super Sellers.",
+      "prefill": false,
+      "title": "Super Seller Only",
+      "type": "boolean"
     }
   },
   "required": [
