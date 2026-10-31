@@ -5,73 +5,65 @@
       "display": {
         "component": "table",
         "properties": {
+          "channelName": {
+            "format": "text",
+            "label": "Channel"
+          },
           "duration": {
             "format": "text",
             "label": "Duration"
-          },
-          "durationSeconds": {
-            "format": "number",
-            "label": "Duration (s)"
           },
           "isAvailable": {
             "format": "boolean",
             "label": "Available"
           },
-          "lastUpdated": {
-            "format": "text",
-            "label": "Last Updated"
-          },
-          "playlistDescription": {
-            "format": "text",
-            "label": "Description"
-          },
-          "playlistId": {
-            "format": "text",
-            "label": "Playlist ID"
+          "likeCount": {
+            "format": "number",
+            "label": "Likes"
           },
           "playlistOwner": {
             "format": "text",
-            "label": "Playlist Owner"
-          },
-          "playlistOwnerChannelId": {
-            "format": "text",
-            "label": "Owner Channel ID"
-          },
-          "playlistOwnerHandle": {
-            "format": "text",
-            "label": "Owner Handle"
+            "label": "Owner"
           },
           "playlistTitle": {
             "format": "text",
             "label": "Playlist"
           },
-          "playlistUrl": {
-            "format": "link",
-            "label": "Playlist URL"
+          "playlistType": {
+            "format": "text",
+            "label": "Collection Type"
+          },
+          "playlistUnavailableVideoCount": {
+            "format": "number",
+            "label": "Unavailable"
           },
           "playlistVideoCount": {
             "format": "number",
             "label": "Playlist Videos"
           },
-          "playlistViewCount": {
-            "format": "number",
-            "label": "Playlist Views"
-          },
           "position": {
             "format": "number",
             "label": "#"
           },
-          "publishedTimeText": {
+          "publishedAt": {
             "format": "text",
             "label": "Published"
+          },
+          "recordType": {
+            "format": "text",
+            "label": "Type"
           },
           "scrapedAt": {
             "format": "text",
             "label": "Scraped At"
           },
-          "thumbnailUrl": {
-            "format": "link",
-            "label": "Thumbnail"
+          "searchQuery": {
+            "format": "text",
+            "label": "Search Query"
+          },
+          "searchRank": {
+            "format": "number",
+            "label": "Rank"
           },
           "title": {
             "format": "text",
@@ -81,54 +73,69 @@
             "format": "link",
             "label": "URL"
           },
-          "videoChannelId": {
-            "format": "text",
-            "label": "Channel ID"
-          },
-          "videoChannelName": {
-            "format": "text",
-            "label": "Channel"
-          },
-          "videoChannelUrl": {
-            "format": "link",
-            "label": "Channel URL"
+          "videoCount": {
+            "format": "number",
+            "label": "Collection Videos"
           },
           "videoId": {
             "format": "text",
             "label": "Video ID"
           },
-          "viewCountText": {
-            "format": "text",
-            "label": "View Count"
+          "viewCount": {
+            "format": "number",
+            "label": "Views"
           }
         }
       },
       "title": "Detailed",
       "transformation": {
         "fields": [
+          "recordType",
           "position",
           "videoId",
           "title",
           "url",
           "duration",
           "durationSeconds",
-          "thumbnailUrl",
           "isAvailable",
+          "isLiveContent",
+          "viewCount",
+          "viewCountText",
+          "likeCount",
+          "publishedAt",
+          "publishedTimeText",
+          "videoDescription",
+          "videoCategory",
+          "videoKeywords",
           "videoChannelName",
           "videoChannelId",
+          "videoChannelHandle",
           "videoChannelUrl",
-          "viewCountText",
-          "publishedTimeText",
           "playlistId",
           "playlistTitle",
           "playlistUrl",
+          "playlistType",
           "playlistVideoCount",
+          "playlistAvailableVideoCount",
+          "playlistUnavailableVideoCount",
+          "playlistTotalDuration",
+          "playlistTotalDurationSeconds",
           "playlistOwner",
           "playlistOwnerChannelId",
           "playlistOwnerHandle",
           "playlistDescription",
           "playlistViewCount",
+          "playlistVisibility",
           "lastUpdated",
+          "lastUpdatedDate",
+          "channelName",
+          "channelId",
+          "channelHandle",
+          "channelUrl",
+          "videoCount",
+          "videoCountText",
+          "searchQuery",
+          "searchRank",
           "scrapedAt"
         ]
       }
@@ -141,17 +148,25 @@
             "format": "text",
             "label": "Duration"
           },
-          "isAvailable": {
-            "format": "boolean",
-            "label": "Available"
-          },
           "playlistTitle": {
             "format": "text",
             "label": "Playlist"
           },
+          "playlistType": {
+            "format": "text",
+            "label": "Collection Type"
+          },
           "position": {
             "format": "number",
             "label": "#"
+          },
+          "recordType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "searchQuery": {
+            "format": "text",
+            "label": "Search Query"
           },
           "title": {
             "format": "text",
@@ -165,22 +180,34 @@
             "format": "text",
             "label": "Channel"
           },
+          "videoCount": {
+            "format": "number",
+            "label": "Videos"
+          },
           "videoId": {
             "format": "text",
             "label": "Video ID"
+          },
+          "viewCount": {
+            "format": "number",
+            "label": "Views"
           }
         }
       },
       "title": "Overview",
       "transformation": {
         "fields": [
+          "recordType",
           "position",
           "title",
           "videoId",
+          "playlistTitle",
+          "playlistType",
+          "viewCount",
           "duration",
           "videoChannelName",
-          "isAvailable",
-          "playlistTitle",
+          "videoCount",
+          "searchQuery",
           "url"
         ]
       }

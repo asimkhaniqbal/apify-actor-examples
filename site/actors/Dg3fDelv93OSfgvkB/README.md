@@ -1,112 +1,156 @@
 # YouTube Playlist Contents & Channel Playlist Finder
 
-Pull every video inside a YouTube playlist, or flip it around and list every public playlist a channel has published — podcasts, courses, releases, radio mixes, and ordinary playlists alike. Combine both in one run to go straight from a channel to the full contents of each of its playlists.
+Collect every video in a YouTube playlist, discover all of a channel's public collections, and search YouTube for playlists by keyword. Every available video can carry exact views, likes, publish date, description, category, and tags, while deleted or private entries can be returned as clearly marked placeholders with their real positions.
 
 ## What this actor does
 
-- Lists every video in one or more playlists, with position, duration, and view/publish signals
-- Discovers every public playlist on a channel, classified by type (playlist, course, podcast, release, radio mix, store)
-- Accepts full URLs, watch URLs with a `list=` parameter, or bare playlist IDs
-- Marks deleted or private playlist entries as unavailable instead of silently dropping them
-- Empty fields are omitted from every record
+- **Playlist contents** — every public video in one or many playlists, including 1,000+ item playlists
+- **Hidden unavailable entries** — optional placeholder rows for deleted, private, or removed videos, preserving their true position
+- **Exact video details** — views, likes, ISO publish date, description, category, tags, live status, and all thumbnail sizes
+- **Channel collections** — playlists, shows, courses, podcasts, and albums with their real video/episode counts
+- **Playlist search** — keyword search across public playlists and courses, ranked per query
+- **Mixed runs** — combine playlist URLs, channel URLs, and search queries in one input
+- **Empty fields are omitted** from every record
 
 ## Output: per video (`playlistUrls` mode)
 
-- `position` — position in the playlist (1-based)
-- `videoId`, `title`, `url`
-- `thumbnailUrl`
+- `recordType` — `video`
+- `position` — the video's real position in the playlist, counting hidden entries
+- `videoId`, `title`, `url`, `thumbnailUrl`, `thumbnails[]`
 - `duration`, `durationSeconds`
-- `isAvailable` — whether the video is still playable
-- `viewCountText`, `publishedTimeText`
-- `videoChannelName`, `videoChannelId`, `videoChannelUrl` — the video's uploader
-- `playlistId`, `playlistTitle`, `playlistUrl`, `playlistVideoCount`, `playlistViewCount`
-- `playlistOwner`, `playlistOwnerChannelId`, `playlistOwnerHandle`, `playlistDescription`, `lastUpdated`
+- `isAvailable` — `false` for placeholder rows
+- `viewCount`, `viewCountText` — exact views from the video page
+- `likeCount` — exact likes when YouTube exposes them
+- `publishedAt` — ISO 8601 date/time
+- `publishedTimeText` — the relative label shown in the playlist
+- `videoDescription`, `videoCategory`, `videoKeywords[]`, `isLiveContent`
+- `videoChannelName`, `videoChannelId`, `videoChannelHandle`, `videoChannelUrl` — the video's uploader
+- `playlistId`, `playlistTitle`, `playlistUrl`, `playlistType`
+- `playlistVideoCount` — the count YouTube declares for the playlist
+- `playlistAvailableVideoCount`, `playlistUnavailableVideoCount`
+- `playlistTotalDurationSeconds`, `playlistTotalDuration`
+- `playlistOwner`, `playlistOwnerChannelId`, `playlistOwnerHandle`, `playlistDescription`, `playlistViewCount`
+- `playlistThumbnailUrl`, `playlistVisibility`
+- `lastUpdated`, `lastUpdatedDate` — the latter only when the label contains an exact date
 - `scrapedAt`
+
+Placeholder rows keep `recordType`, `videoId`, `position`, `thumbnailUrl`, playlist context, and `isAvailable: false`. YouTube does not reveal the title or channel of a hidden entry, so those fields are omitted.
 
 ## Output: per playlist (`channelUrls` mode)
 
-- `playlistId`, `playlistUrl`, `title`
-- `playlistType` — `playlist`, `radio_mix`, `course`, `podcast`, `release`, or `store`
-- `videoCount`, `videoCountText`
+- `recordType` — `playlist`
+- `playlistId`, `playlistUrl`, `title`, `playlistType` — `playlist`, `show`, `course`, `podcast`, `album`, `radio_mix`, or `uploads`
+- `videoCount`, `videoCountText` — for example `28` and `"28 episodes"`
 - `thumbnailUrl`
-- `firstVideoId`, `firstVideoUrl`
-- `channelName`, `channelId`, `channelHandle`
+- `firstVideoId`, `firstVideoUrl` — where the collection starts
+- `channelName`, `channelId`, `channelHandle`, `channelUrl`, `channelAvatarUrl`
+- `lastUpdated` — when the card shows an update label
 - `scrapedAt`
 
-A channel with no public playlists produces a single `recordType: "status"` row (`status: "no_public_playlists"`, with `channelUrl`, `channelHandle`, `channelId`, `scrapedAt`) instead of an empty result; a channel page that fails to load after retries produces the same `recordType: "status"` shape with `status: "failed"`, `channelUrl`, and an `error` message.
+## Output: per search result (`searchQueries` mode)
+
+- `recordType` — `playlist`
+- `searchQuery`, `searchRank`
+- `playlistId`, `playlistUrl`, `title`, `playlistType`
+- `channelName`, `channelId`, `channelHandle`, `channelUrl`
+- `thumbnailUrl`, `firstVideoId`, `firstVideoUrl`
+- `scrapedAt`
+
+Search cards do not show a reliable video count, so `videoCount` is omitted. Pass a returned playlist ID to `playlistUrls` to collect its contents.
+
+## Output: status and error rows
+
+If a playlist, channel, or query cannot be read, the dataset still receives a row with `recordType: "status"` or `"error"`, the relevant input, and a plain-language message, so an empty dataset never hides a failure.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `playlistUrls` | array | – | Playlist URLs or bare playlist IDs to list videos from |
-| `channelUrls` | array | – | Channel handles/URLs/IDs to discover every public playlist from |
-| `maxPlaylists` | integer | `100` | Max playlists to list per channel (channel mode) |
-| `maxVideos` | integer | `0` | Max videos per playlist; `0` returns all |
-| `includeUnavailableVideos` | boolean | `false` | Emit placeholder rows (`isAvailable=false`) for hidden/private videos |
-| `market` | string | `US` | Region code controlling the language of returned metadata |
+| `playlistUrls` | array | – | Playlist URLs, watch URLs with `list=`, or bare playlist IDs |
+| `channelUrls` | array | – | Channel handles, URLs, or channel IDs whose collections you want |
+| `searchQueries` | array | – | Playlist search terms, up to 20 per run |
+| `maxPlaylists` | integer | `100` | Maximum collections to list per channel |
+| `maxSearchResults` | integer | `20` | Maximum results per search query |
+| `maxVideos` | integer | `0` | Maximum rows per playlist; `0` returns everything |
+| `includeUnavailableVideos` | boolean | `false` | Emit placeholder rows for hidden playlist entries |
+| `includeVideoDetails` | boolean | `true` | Add exact per-video metrics, dates, descriptions, categories, and tags |
 
-Provide `playlistUrls`, `channelUrls`, or both in the same run.
+Supported playlist formats include `youtube.com/playlist?list=...`, `youtube.com/watch?v=...&list=...`, `music.youtube.com/playlist?list=...`, `youtu.be/...?list=...`, and bare IDs such as `PL...`, `UU...`, `RD...`, or `OL...`.
 
-Supported playlist formats: `https://www.youtube.com/playlist?list=...`, `https://www.youtube.com/watch?v=...&list=...`, or a bare ID (`PL`, `RD`, `UU`, `OL`, `LL`, `FL`, `WL` prefixes).
-
-### Example: full contents of a specific playlist
+### Example: full playlist with exact video details
 
 ```json
 {
     "playlistUrls": ["https://www.youtube.com/playlist?list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU"],
-    "maxVideos": 50
+    "maxVideos": 50,
+    "includeVideoDetails": true
 }
 ```
 
-### Example: discover every playlist on a channel
+### Example: recover hidden entries from a damaged playlist
 
 ```json
 {
-    "channelUrls": ["@Apify"],
-    "maxPlaylists": 10
+    "playlistUrls": ["PLhMDlPcDRBKQsawQMVty_dNztC8QgppML"],
+    "includeUnavailableVideos": true,
+    "includeVideoDetails": false
 }
 ```
 
-### Example: channel discovery plus video listings in one run
+### Example: discover every collection on a channel
 
 ```json
 {
-    "channelUrls": ["@Apify"],
-    "playlistUrls": ["PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf"],
-    "maxPlaylists": 20,
-    "maxVideos": 100,
-    "market": "GB"
+    "channelUrls": ["@kurzgesagt"],
+    "maxPlaylists": 50
+}
+```
+
+### Example: search playlists and collect one result in the same run
+
+```json
+{
+    "searchQueries": ["python course", "lofi study music"],
+    "maxSearchResults": 10,
+    "playlistUrls": ["PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU"],
+    "maxVideos": 20
 }
 ```
 
 ## Use cases
 
-- **Course cataloging** — list every lesson video in an educational playlist with position and duration
-- **Playlist backups** — snapshot your saved playlists' contents before videos get removed
-- **Podcast indexing** — pull episode titles and durations from a channel's podcast-type playlists
-- **Channel content audits** — discover every playlist a competitor or partner channel has published
-- **Series tracking** — find every episode of a multi-part video series in order
+- **Course catalogs** — export every lesson, its position, duration, and publish date from an educational playlist
+- **Playlist backups** — snapshot a playlist's contents and see which entries have disappeared
+- **Podcast and show indexing** — discover a channel's podcast, show, and course collections with episode counts
+- **Content research** — search a topic, compare playlist titles and owners, then pull the winners' full contents
+- **Channel audits** — inventory every public collection a creator has published
+- **Viewership analysis** — compare exact views and likes across videos in the same playlist
 
 ## FAQ
 
 **How many videos can one playlist return?**
-YouTube allows up to 5,000 videos in a public playlist, and the actor paginates through all of them automatically (subject to `maxVideos`).
+YouTube allows up to 5,000 entries in a public playlist. The actor reads through the entire list and reports what the source actually exposes.
 
-**What's the `UU` playlist prefix I see mentioned?**
-Every channel has a hidden "uploads" playlist whose ID starts with `UU` instead of `PL` — pass it as a `playlistUrls` entry to get every public upload from that channel without using channel-discovery mode.
+**Why is `playlistVideoCount` larger than the number of rows?**
+The declared count includes entries YouTube hides from the normal list. Set `includeUnavailableVideos` to `true` to receive a placeholder for each hidden entry. `playlistAvailableVideoCount` and `playlistUnavailableVideoCount` show the split.
 
-**Why do some videos show `isAvailable: false`?**
-They were deleted or made private after being added to the playlist. These only appear when `includeUnavailableVideos` is enabled.
+**Why do some exact fields appear on one video but not another?**
+YouTube hides like counts on some videos and does not publish a category or tags for every upload. Those fields are omitted rather than estimated; the rest of the record stays intact. `publishedAt` contains a full timestamp when YouTube exposes one and a calendar date when only the date is available.
 
-**Does this need a YouTube API key or login?**
-No. It reads YouTube's public playlist and channel pages directly.
+**Do I need a YouTube API key, login, or proxy?**
+No. The actor reads public YouTube data with no account, key, cookie, or proxy setup.
 
-**What's the difference between the two modes?**
-`playlistUrls` returns the videos inside specific playlists. `channelUrls` returns the list of playlists a channel owns, not their video contents — combine both inputs to get a channel's playlists and the videos inside a particular one in a single run.
+**Why is `playlistViewCount` missing on some playlists?**
+YouTube does not display an aggregate view count for every collection type, such as auto-generated radio mixes. When the source has no count, the field is omitted.
 
-**Why is `playlistViewCount` missing on some rows?**
-YouTube doesn't expose an aggregate view count for every playlist type (for example, auto-generated release or radio-mix playlists) — it's omitted rather than estimated.
+**Can I scrape private or personal playlists?**
+No. Playlists such as Watch Later, Liked Videos, and other account-only lists are not publicly readable and are out of scope.
 
-**Is this affiliated with YouTube?**
-No. This is an independent actor that reads YouTube's public pages and is not operated or endorsed by YouTube or Google.
+**Why do search results omit `videoCount`?**
+Playlist search cards do not show a video count. The actor returns the result identity and ranking; use the returned playlist ID with `playlistUrls` to get the full contents and counts.
+
+**What does `playlistOwner` contain?**
+The owner's display name without the interface prefix, for example `Timeline - World History Documentaries` rather than `by Timeline - World History Documentaries`.
+
+**Is this actor affiliated with YouTube?**
+No. It is an independent tool that reads publicly visible YouTube pages and is not operated or endorsed by YouTube or Google.

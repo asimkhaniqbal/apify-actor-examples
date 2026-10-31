@@ -1,116 +1,156 @@
 # TikTok Sound Lookup: Metadata & Videos Using It
 
-Give this actor a TikTok sound — by page URL or bare numeric ID — and it returns two things: a metadata row describing the sound itself (title, creator, duration, cover art, streaming links), and a row for every video currently using that sound, complete with caption, hashtags, and engagement counts. No TikTok login or cookies needed.
+Give this actor a TikTok sound — by page URL, numeric ID, or a keyword search — and it returns the sound's own metadata and the videos using it. Sound rows carry title, creator and artist, duration, cover art, DSP/streaming IDs, licensing flags, tags and total video count. Video rows carry the author, caption, hashtags, mentions, location, effects, slideshow images and engagement counters. No TikTok login, cookies or API key needed.
 
 ## What this actor does
 
-- Resolves TikTok music/sound page URLs or raw numeric sound IDs
-- Emits one metadata row per sound with title, creator, duration, cover images, video count, and (for licensed tracks) streaming-service links
-- Paginates the sound's "videos using this sound" list and emits one row per video, up to your limit
-- Lets you fetch metadata only, posts only, or both independently
-- Omits any field TikTok did not return for that record — no nulls or empty placeholders
+- **Two modes:** `bySound` resolves one or more sound URLs/IDs; `searchSounds` discovers sounds from one or more keywords.
+- **Complete sound metadata:** title, author name, credited `artist`/`artists`, owner handle, language, release info, tags, licensing flags, covers and video count.
+- **DSP and partner IDs:** `dspLinks` and `externalSongInfo` expose the IDs TikTok holds for Spotify, Apple Music and other partners, without inventing links.
+- **Every video using the sound:** request up to 500 per sound, collected 30 at a time and deduplicated by video ID. TikTok can cap the public feed per run, so the actor returns what it can read and reports any shortfall.
+- **Slideshow-aware:** photo posts are labelled `postType: "slideshow"` and include their `images` array.
+- **Client-side filters:** publish window, minimum plays, minimum likes and one-video-per-creator, applied after collection.
+- **Opt-in error rows:** turn on `includeErrorRows` when you want a machine-readable row for each failed input.
+- Every empty field is omitted — no nulls or blank placeholders.
 
-## Output per sound metadata row (`rowType: "music"`)
+## Output per sound (`rowType: "music"`)
 
-- `musicId` — unique TikTok sound ID
-- `musicTitle` — sound/track title
-- `authorName` — credited creator name
-- `duration` / `shootDuration` — track length and the clip length TikTok allows creators to use
-- `isCopyrighted` / `isCommerceMusic` / `isUnlimitedMusic` / `isOriginal` / `isPrivate` — flags describing the sound's licensing and visibility
-- `album` — album name, for commercial tracks that have one
-- `playUrl` — streamable (time-limited) audio URL
-- `coverLarge` / `coverMedium` / `coverThumb` — cover art at three sizes
-- `videoCount` — total videos on TikTok currently using this sound
-- `musicUrl` — canonical TikTok page URL for the sound
-- `dspLinks` — streaming-platform links (Spotify, Apple Music, etc.), present only for licensed commercial tracks
-- `shareMeta` — object with `title` and `desc`, the text TikTok uses when the sound page is shared
-- `author` — object with `id`, `username`, `displayName`, `verified`, `avatarUrl`, `followerCount`, `heartCount` for the sound's credited creator
+- `musicId`, `musicUrl` — sound ID and canonical TikTok page URL
+- `musicTitle`, `authorName`, `album` — track identity
+- `artist` — credited artist profile snapshot (id, secUid, username, displayName, bio, verified, avatarUrl)
+- `artists` — every credited artist TikTok returns
+- `ownerHandle`, `ownerNickname` — sound owner identity, when TikTok exposes one
+- `duration`, `durationHighPrecision`, `shootDuration` — track length and allowed clip length
+- `language`, `createTime`, `createdAt`, `musicReleaseInfo` — release and language metadata
+- `isCopyrighted`, `isCommerceMusic`, `isUnlimitedMusic`, `isOriginal`, `isPrivate` — licensing and visibility flags
+- `isPgc`, `isAuthorArtist`, `hasCommerceRight`, `commercialRightType` — commercial-use classification
+- `playUrl`, `coverLarge`, `coverMedium`, `coverThumb` — signed audio and cover URLs
+- `videoCount` — number of videos using the sound (kept as a string for very large counts)
+- `dspLinks` — streaming-platform IDs, names and links derived from TikTok's partner data
+- `externalSongInfo` — raw partner IDs (partnerName, partnerSongId, externalSongKey, links)
+- `tagList`, `themeTags` — mood, genre and theme tags
+- `matchedSongId`, `shareMeta` — matched licensed track ID and share text
+- `searchKeyword`, `searchPosition` — lineage when the sound came from `searchSounds`
+- `author` — creator profile snapshot for the sound
+- `rowType: "music"`
 
-## Output per video row (`rowType: "post"`)
+## Output per video (`rowType: "post"`)
 
-- `postId`, `postType`, `postUrl` — video identifier, type (`video` or `slideshow`), and link
-- `matchedMusicId` — the sound ID this video was found under
-- `caption`, `textLanguage` — video caption text and its detected language
-- `locationCreated`, `createTime`, `createdAt` — where and when the video was posted
-- `stitchEnabled`, `shareEnabled`, `duetEnabled`, `isAd` — platform interaction flags
+- `postId`, `postType`, `postUrl` — video identifier, `video` or `slideshow`, and link
+- `matchedMusicId` — the sound this video was collected under
+- `searchKeyword`, `searchPosition` — search lineage when applicable
+- `caption`, `textLanguage`, `createTime`, `createdAt` — caption and publish time
+- `locationCreated`, `poi` — country and point-of-interest tag, when present
+- `stitchEnabled`, `shareEnabled`, `duetEnabled`, `isAd` — interaction and ad flags
 - `playCount`, `likeCount`, `commentCount`, `shareCount`, `collectCount`, `repostCount` — engagement counters
-- `hashtags` — array of `{name, id, isCommerce}` entries parsed from the caption
-- `mentions` — array of `{username, start, end, awemeId}` entries for @-mentions in the caption
-- `author` — object with `id`, `secUid`, `username`, `displayName`, `bio`, `verified`, `privateAccount`, `roomId`, `avatarUrl`, `followerCount`, `followingCount`, `heartCount`, `videoCount`
-- `music` — object with `id`, `title`, `authorName`, `original`, `duration`, `album`, `playUrl`, `coverUrl` for the sound used in this video
-- `video` — object with `width`, `height`, `duration`, `ratio`, `playUrl`, `cover` describing the video file itself
+- `hashtags` — `{name, id, isCommerce}` entries
+- `mentions` — `{username, userId, secUid, userUniqueId, start, end}` entries from TikTok's mention metadata
+- `author` — full author snapshot with bio, avatar and follower/heart/video counts
+- `music` — the sound object embedded in the video (id, title, authorName, album, playUrl, coverUrl, dspLinks)
+- `video` — width, height, duration, ratio, definition, bitrate, codec, format, size, quality and cover URLs
+- `images` — slideshow image URLs with width/height for `postType: "slideshow"`
+- `effectStickers` — effects used in the video
+- `mediaUrlExpiresAt` — expiry timestamp for signed media URLs
+- `rowType: "post"`
+
+## Output per failed input (`rowType: "error"`, opt-in)
+
+- `errorCode` — `invalid_music_input`, `sound_unavailable`, `no_search_results`, `feed_blocked` or `blocked`
+- `errorMessage` — plain-language explanation
+- `inputValue`, `musicId`, `searchKeyword` — which input failed
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `musicUrls` | array | – | TikTok music page URLs, e.g. `https://www.tiktok.com/music/original-sound-7595604258835401494` |
-| `musicIds` | array | – | Bare numeric sound IDs (15–20 digits), as an alternative to full URLs |
-| `maxPostsPerSound` | integer | `30` | Maximum videos to collect per sound (0–500); `0` skips video collection entirely |
-| `includeMusicMetadata` | boolean | `true` | Emit the metadata row for each sound |
-| `includePosts` | boolean | `true` | Emit video rows for each sound |
+| `mode` | string | `bySound` | `bySound` / `searchSounds` |
+| `musicUrls` | array | – | Sound page URLs (mode=bySound) |
+| `musicIds` | array | – | Numeric sound IDs, 15–20 digits (mode=bySound) |
+| `searchQueries` | array | – | Keywords to search (mode=searchSounds) |
+| `maxSoundsPerQuery` | integer | `10` | Sounds kept per keyword, 1–30 |
+| `maxPostsPerSound` | integer | `30` | Videos per sound, 0–500; `0` means metadata only |
+| `includeMusicMetadata` | boolean | `true` | Emit sound metadata rows |
+| `includePosts` | boolean | `true` | Emit video rows |
+| `includeErrorRows` | boolean | `false` | Emit rows for failed inputs |
+| `publishedWithin` | string | `all` | `all` / `day` / `week` / `month` / `year` (video rows) |
+| `minPlayCount` | integer | `0` | Drop videos below this play count |
+| `minLikeCount` | integer | `0` | Drop videos below this like count |
+| `uniqueCreatorsOnly` | boolean | `false` | Keep the highest-play video per author |
 
-### Example: look up one sound by URL
+### Example: one sound by URL
 
 ```json
 {
-    "musicUrls": ["https://www.tiktok.com/music/original-sound-7595604258835401494"],
-    "maxPostsPerSound": 30
+  "mode": "bySound",
+  "musicUrls": ["https://www.tiktok.com/music/original-sound-7595604258835401494"],
+  "maxPostsPerSound": 100
 }
 ```
 
-### Example: multiple sounds by ID
+### Example: several sounds by ID
 
 ```json
 {
-    "musicIds": ["7595604258835401494", "7234567890123456789"],
-    "maxPostsPerSound": 50
+  "mode": "bySound",
+  "musicIds": ["6799585653702019073", "7181527934435117058"],
+  "maxPostsPerSound": 50,
+  "includeErrorRows": true
 }
 ```
 
-### Example: metadata only, skip videos
+### Example: keyword discovery with filters
 
 ```json
 {
-    "musicIds": ["7595604258835401494"],
-    "includeMusicMetadata": true,
-    "includePosts": false
+  "mode": "searchSounds",
+  "searchQueries": ["lofi", "phonk", "afrobeats"],
+  "maxSoundsPerQuery": 10,
+  "maxPostsPerSound": 30,
+  "publishedWithin": "month",
+  "minPlayCount": 10000,
+  "uniqueCreatorsOnly": true
 }
 ```
 
-### Example: large video pull for a viral sound
+### Example: metadata only
 
 ```json
 {
-    "musicUrls": ["https://www.tiktok.com/music/original-sound-7595604258835401494"],
-    "includeMusicMetadata": false,
-    "includePosts": true,
-    "maxPostsPerSound": 500
+  "mode": "bySound",
+  "musicIds": ["6799585653702019073"],
+  "includeMusicMetadata": true,
+  "includePosts": false,
+  "maxPostsPerSound": 0
 }
 ```
 
 ## Use cases
 
-- **A&R and label teams** tracking how a track is spreading on TikTok and which creators are driving it
-- **Brand and marketing teams** scouting trending sounds before planning a campaign video
-- **Trend researchers** pulling every video using a sound to study format and content patterns
-- **Rights-management teams** auditing how widely a licensed or copyrighted track is being reused
-- **Creator-discovery platforms** finding accounts that build an audience around a specific sound or niche
+- **A&R and label teams** tracking how a track spreads and which creators are driving it
+- **Brand and campaign teams** checking a sound's licensing flags, DSP IDs and audience before using it
+- **Trend researchers** discovering sounds by keyword and pulling the videos that define each trend
+- **Rights-management teams** auditing reuse of licensed or copyrighted tracks
+- **Creator-discovery platforms** finding the highest-performing video per creator for a sound
+- **Music catalogues** enriching tracks with TikTok's artist, release and streaming-partner identifiers
 
 ## FAQ
 
-**Do I need a TikTok account or cookies?** No — sound metadata and the videos-using-this-sound list are both public data, so no login is required.
+**Do I need a TikTok account or cookies?** No. The actor reads public sound and video data without a login, cookie or API key.
 
-**Where do I find a sound's numeric ID?** Open the sound's page on TikTok; the URL ends in `.../music/<name>-<digits>`. The trailing digits are the ID — you can pass the full URL or just that number.
+**Where do I find a sound's ID?** Open the sound page on TikTok; the URL ends in `/music/<name>-<digits>`. The trailing digits are the ID, and you can paste either the full URL or the number.
 
-**Why is `dspLinks` missing for some sounds?** Streaming-platform links only exist for licensed commercial tracks; sounds a user recorded themselves (`isOriginal: true`) never have them.
+**What is the difference between `authorName` and `artist`?** `authorName` is the label TikTok shows for the sound. `artist` and `artists` are the credited performer profiles TikTok returns for licensed tracks. For user-recorded sounds the artist fields are usually absent.
 
-**Can I get just the sound's stats without pulling any videos?** Yes — set `includePosts` to `false` and leave `includeMusicMetadata` as `true`.
+**Why are `dspLinks` or `externalSongInfo` missing for some sounds?** Streaming-partner IDs only exist for licensed commercial tracks. Original user sounds do not have them, and the field is omitted rather than filled with a guess.
 
-**Why don't post rows carry a `scrapedAt` timestamp?** This actor keeps the record shape close to what TikTok returns and doesn't add that bookkeeping field; use the dataset's own run metadata if you need a collection timestamp.
+**How many sounds can one keyword return?** TikTok returns up to 30 sounds per query and does not paginate this catalogue, so `maxSoundsPerQuery` is capped at 30. Use several keywords to broaden coverage; duplicates are removed across queries.
 
-**Are `playUrl` links permanent?** No — TikTok signs its audio and video URLs with a short-lived token, so treat them as temporary and download promptly if you need the actual media file.
+**Why did I get fewer videos than the sound's video count?** The actor collects up to `maxPostsPerSound` (maximum 500) from the public feed. TikTok may return fewer items for very old, private or region-restricted posts, and it can cap anonymous feed pages per IP. When that happens the actor returns everything it could read and reports the shortfall in the run status. Large pulls are read 30 videos at a time and can take several minutes to finish.
 
-**What does `matchedMusicId` tell me?** It ties every video row back to the sound it was collected under in that run, which matters when you request multiple sounds at once.
+**Why do some slideshow videos have no playback URL?** Photo posts use `images` instead of a video file; their `postType` is `slideshow` and the `video` object may only carry covers and dimensions.
+
+**Are `playUrl`, covers and video URLs permanent?** No. TikTok signs media URLs with a short expiry. Treat them as temporary and download promptly if you need the media itself.
+
+**Do the filters apply to sound rows too?** No. `publishedWithin`, `minPlayCount`, `minLikeCount` and `uniqueCreatorsOnly` apply to video rows after collection. Sound rows are always returned for the inputs you asked for.
 
 **Is this affiliated with TikTok?** No. This is an independent actor that reads TikTok's public sound and video data; it is not endorsed by or affiliated with TikTok or ByteDance.

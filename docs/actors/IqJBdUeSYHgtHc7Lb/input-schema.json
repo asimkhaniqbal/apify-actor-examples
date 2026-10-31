@@ -1,31 +1,78 @@
 {
-  "description": "Scrape TikTok music/sound metadata and the videos that use a particular sound. Provide music page URLs or bare numeric IDs.",
+  "description": "Look up TikTok sounds by URL/ID or search by keyword. Returns sound metadata, artist and DSP details, plus the videos using each sound.",
   "properties": {
+    "includeErrorRows": {
+      "default": false,
+      "description": "Emit a row with rowType='error' when an input cannot be read, instead of only logging it. Off by default.",
+      "prefill": false,
+      "title": "Include Error Rows",
+      "type": "boolean"
+    },
     "includeMusicMetadata": {
       "default": true,
-      "description": "Emit a metadata row for each music/sound with title, author, duration, cover images, DSP links, and video count.",
+      "description": "Emit a metadata row per sound with title, creator/artist, duration, covers, DSP IDs, tags and video count.",
       "prefill": true,
-      "title": "Include Music Metadata",
+      "title": "Include Sound Metadata",
       "type": "boolean"
     },
     "includePosts": {
       "default": true,
-      "description": "Emit post rows for videos that use each sound. Posts include full video metadata, author info, and engagement stats.",
+      "description": "Emit one row per video that uses the sound, with author, caption, hashtags, mentions, POI, effects, slideshow images and engagement counts.",
       "prefill": true,
-      "title": "Include Posts Using This Sound",
+      "title": "Include Videos Using The Sound",
       "type": "boolean"
     },
     "maxPostsPerSound": {
       "default": 30,
-      "description": "Maximum number of video posts to scrape per music/sound. Set to 0 to skip post scraping (equivalent to includePosts: false).",
+      "description": "Videos to collect per sound (0-500). Set 0 for sound metadata only. TikTok can cap the public feed per run, so fewer rows may be returned and the run status reports any shortfall.",
       "maximum": 500,
       "minimum": 0,
       "prefill": 5,
-      "title": "Max Posts Per Sound",
+      "title": "Max Videos Per Sound",
       "type": "integer"
     },
+    "maxSoundsPerQuery": {
+      "default": 10,
+      "description": "(mode=searchSounds) Keep at most this many sounds per keyword. TikTok returns a maximum of 30.",
+      "maximum": 30,
+      "minimum": 1,
+      "title": "Max Sounds Per Query",
+      "type": "integer"
+    },
+    "minLikeCount": {
+      "default": 0,
+      "description": "Drop videos below this like count. 0 keeps everything. Videos without a like count are kept only when this is 0.",
+      "maximum": 1000000000000,
+      "minimum": 0,
+      "title": "Minimum Like Count",
+      "type": "integer"
+    },
+    "minPlayCount": {
+      "default": 0,
+      "description": "Drop videos below this play count. 0 keeps everything. Videos without a play count are kept only when this is 0.",
+      "maximum": 1000000000000,
+      "minimum": 0,
+      "title": "Minimum Play Count",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "bySound",
+      "description": "Choose how to find sounds: by sound URL/ID, or by keyword search.",
+      "editor": "select",
+      "enum": [
+        "bySound",
+        "searchSounds"
+      ],
+      "enumTitles": [
+        "Look up sounds by URL or ID",
+        "Search sounds by keyword"
+      ],
+      "prefill": "bySound",
+      "title": "Mode",
+      "type": "string"
+    },
     "musicIds": {
-      "description": "Numeric TikTok music/sound IDs as strings (15–20 digits). Alternative to providing full URLs.",
+      "description": "(mode=bySound) Numeric TikTok sound IDs, 15-20 digits, as an alternative to full URLs.",
       "editor": "stringList",
       "items": {
         "type": "string"
@@ -33,24 +80,59 @@
       "prefill": [
         "7595604258835401494"
       ],
-      "title": "Music IDs",
+      "title": "Sound IDs",
       "type": "array"
     },
     "musicUrls": {
-      "description": "TikTok music page URLs. Example: https://www.tiktok.com/music/original-sound-7653138974420077343",
+      "description": "(mode=bySound) TikTok sound page URLs. Example: https://www.tiktok.com/music/original-sound-7595604258835401494",
       "editor": "stringList",
       "items": {
         "type": "string"
       },
-      "prefill": [
-        "https://www.tiktok.com/music/original-sound-7595604258835401494"
-      ],
-      "title": "Music/Sound URLs",
+      "title": "Sound URLs",
       "type": "array"
+    },
+    "publishedWithin": {
+      "default": "all",
+      "description": "Keep only videos published inside this window. Applied after collection, to video rows.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "day",
+        "week",
+        "month",
+        "year"
+      ],
+      "enumTitles": [
+        "Any time",
+        "Last 24 hours",
+        "Last 7 days",
+        "Last 30 days",
+        "Last 365 days"
+      ],
+      "prefill": "all",
+      "title": "Published Within",
+      "type": "string"
+    },
+    "searchQueries": {
+      "description": "(mode=searchSounds) Keywords to search in TikTok's sound catalogue, e.g. lofi, phonk, afrobeats. Each query returns up to 30 sounds; duplicates are removed across queries.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Sound Search Queries",
+      "type": "array"
+    },
+    "uniqueCreatorsOnly": {
+      "default": false,
+      "description": "Keep only the highest-play video per author across the run. Useful for audience and creator discovery.",
+      "prefill": false,
+      "title": "One Video Per Creator",
+      "type": "boolean"
     }
   },
   "required": [],
   "schemaVersion": 1,
-  "title": "TikTok Music/Sound Scraper Input",
+  "title": "TikTok Sound & Music Scraper Input",
   "type": "object"
 }

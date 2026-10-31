@@ -2,27 +2,37 @@
   "actorSpecification": 1,
   "fields": {
     "album": {
-      "description": "Album name if this music belongs to a released album",
+      "description": "Album name when the track belongs to a release",
       "title": "Album",
       "type": "string"
     },
+    "artist": {
+      "description": "Artist profile snapshot for a credited/licensed track (id, secUid, username, displayName, bio, verified, avatarUrl)",
+      "title": "Artist",
+      "type": "object"
+    },
+    "artists": {
+      "description": "All credited artists returned for a licensed track",
+      "title": "Artists",
+      "type": "array"
+    },
     "author": {
-      "description": "Post author snapshot (id, username, displayName, verified, followerCount, avatarUrl)",
+      "description": "Profile snapshot for the sound's creator/artist or the video author (id, secUid, username, displayName, bio, verified, avatarUrl, followerCount, followingCount, heartCount, videoCount)",
       "title": "Author",
       "type": "object"
     },
     "authorName": {
-      "description": "Display name of the music author/creator",
+      "description": "Credited creator or artist name for the sound",
       "title": "Author Name",
       "type": "string"
     },
     "caption": {
-      "description": "Post caption/description text",
+      "description": "Video caption text",
       "title": "Caption",
       "type": "string"
     },
     "collectCount": {
-      "description": "Number of times post was saved/collected",
+      "description": "Number of times the video was saved",
       "title": "Collect Count",
       "type": "integer"
     },
@@ -31,8 +41,13 @@
       "title": "Comment Count",
       "type": "integer"
     },
+    "commercialRightType": {
+      "description": "TikTok's commercial-right category code",
+      "title": "Commercial Right Type",
+      "type": "integer"
+    },
     "coverLarge": {
-      "description": "Large cover image URL for the music",
+      "description": "Large cover image URL",
       "title": "Cover Large",
       "type": "string"
     },
@@ -47,32 +62,62 @@
       "type": "string"
     },
     "createTime": {
-      "description": "Unix timestamp when the post was created",
+      "description": "Unix timestamp when the sound or video was created",
       "title": "Create Time",
       "type": "integer"
     },
     "createdAt": {
-      "description": "ISO 8601 UTC timestamp of post creation",
+      "description": "ISO 8601 UTC timestamp when the sound or video was created",
       "title": "Created At",
       "type": "string"
     },
     "dspLinks": {
-      "description": "Links to streaming platforms (Spotify, Apple Music, etc.) if available",
+      "description": "Streaming-platform IDs and links derived from TikTok's DSP partner data (platform, platformName, songId, metaSongId, url)",
       "title": "DSP Links",
-      "type": "object"
+      "type": "array"
     },
     "duetEnabled": {
-      "description": "Whether duets are allowed on this post",
+      "description": "Whether duets are allowed on this video",
       "title": "Duet Enabled",
       "type": "boolean"
     },
     "duration": {
-      "description": "Duration of the music in seconds",
+      "description": "Duration of the sound in seconds",
       "title": "Duration",
       "type": "integer"
     },
+    "durationHighPrecision": {
+      "description": "Higher-precision sound duration in seconds when available",
+      "title": "Duration High Precision",
+      "type": "number"
+    },
+    "effectStickers": {
+      "description": "Effect stickers used in the video",
+      "title": "Effect Stickers",
+      "type": "array"
+    },
+    "errorCode": {
+      "description": "Machine-readable failure code on opt-in error rows",
+      "title": "Error Code",
+      "type": "string"
+    },
+    "errorMessage": {
+      "description": "Plain-language failure description on opt-in error rows",
+      "title": "Error Message",
+      "type": "string"
+    },
+    "externalSongInfo": {
+      "description": "Raw partner IDs TikTok returns for the track (partnerName, partnerSongId, externalSongKey, h5Url, appLink, deepLink)",
+      "title": "External Song Info",
+      "type": "array"
+    },
+    "hasCommerceRight": {
+      "description": "Whether the sound carries commercial usage rights",
+      "title": "Has Commerce Right",
+      "type": "boolean"
+    },
     "hashtags": {
-      "description": "Hashtags used in the post",
+      "description": "Hashtags used in the caption",
       "title": "Hashtags",
       "type": "array"
     },
@@ -81,35 +126,55 @@
       "title": "Images",
       "type": "array"
     },
+    "inputValue": {
+      "description": "The URL, ID or keyword that could not be read",
+      "title": "Input Value",
+      "type": "string"
+    },
     "isAd": {
-      "description": "Whether the post is a paid advertisement",
+      "description": "Whether the video is a paid advertisement",
       "title": "Is Ad",
       "type": "boolean"
     },
+    "isAuthorArtist": {
+      "description": "Whether the credited author is the artist",
+      "title": "Is Author Artist",
+      "type": "boolean"
+    },
     "isCommerceMusic": {
-      "description": "Whether this is a commercial music track",
+      "description": "Whether the sound is a commercial music track",
       "title": "Is Commerce Music",
       "type": "boolean"
     },
     "isCopyrighted": {
-      "description": "Whether the music is under copyright",
+      "description": "Whether the sound is under copyright",
       "title": "Is Copyrighted",
       "type": "boolean"
     },
     "isOriginal": {
-      "description": "Whether this is an original sound created by a user",
+      "description": "Whether this is an original sound recorded by a user",
       "title": "Is Original Sound",
       "type": "boolean"
     },
+    "isPgc": {
+      "description": "Whether TikTok classifies the sound as professionally generated content",
+      "title": "Is PGC",
+      "type": "boolean"
+    },
     "isPrivate": {
-      "description": "Whether the music is private",
+      "description": "Whether the sound is private",
       "title": "Is Private",
       "type": "boolean"
     },
     "isUnlimitedMusic": {
-      "description": "Whether this is an unlimited-use music track",
+      "description": "Whether the sound is an unlimited-use music track",
       "title": "Is Unlimited Music",
       "type": "boolean"
+    },
+    "language": {
+      "description": "Language code of the sound when TikTok returns one",
+      "title": "Language",
+      "type": "string"
     },
     "likeCount": {
       "description": "Number of likes",
@@ -117,43 +182,63 @@
       "type": "integer"
     },
     "locationCreated": {
-      "description": "Country code where the post was created",
+      "description": "Country code where the video was created, when TikTok returns it",
       "title": "Location Created",
       "type": "string"
     },
     "matchedMusicId": {
-      "description": "The music/sound ID that this post was found under (post rows only)",
+      "description": "Sound ID this video was collected under (video rows only)",
       "title": "Matched Music ID",
       "type": "string"
     },
+    "matchedSongId": {
+      "description": "Internal TikTok matched-song ID for licensed tracks",
+      "title": "Matched Song ID",
+      "type": "string"
+    },
     "mediaUrlExpiresAt": {
-      "description": "ISO 8601 UTC timestamp when signed media URLs expire",
+      "description": "ISO 8601 UTC timestamp when signed video or cover URLs expire",
       "title": "Media URL Expires At",
       "type": "string"
     },
     "mentions": {
-      "description": "@mentions in the post caption",
+      "description": "@mentions in the caption with username, userId, secUid, userUniqueId and caption offsets",
       "title": "Mentions",
       "type": "array"
     },
     "music": {
-      "description": "The sound/music used in this post (post rows only). Contains id, title, authorName, duration, playUrl, coverUrl.",
+      "description": "The sound used in this video (id, title, authorName, original, duration, album, playUrl, coverUrl, dspLinks)",
       "title": "Music",
       "type": "object"
     },
     "musicId": {
-      "description": "Unique TikTok music/sound ID (string, 15–20 digits)",
+      "description": "Unique TikTok sound ID (string, 15-20 digits)",
       "title": "Music ID",
       "type": "string"
     },
+    "musicReleaseInfo": {
+      "description": "Release metadata TikTok returns for licensed tracks",
+      "title": "Music Release Info",
+      "type": "object"
+    },
     "musicTitle": {
-      "description": "Title of the music or sound",
+      "description": "Title of the sound or track",
       "title": "Music Title",
       "type": "string"
     },
     "musicUrl": {
-      "description": "Canonical TikTok URL for this sound",
+      "description": "Canonical TikTok page URL for this sound",
       "title": "Music URL",
+      "type": "string"
+    },
+    "ownerHandle": {
+      "description": "TikTok handle of the sound owner when TikTok returns one",
+      "title": "Owner Handle",
+      "type": "string"
+    },
+    "ownerNickname": {
+      "description": "Display name of the sound owner when TikTok returns one",
+      "title": "Owner Nickname",
       "type": "string"
     },
     "playCount": {
@@ -162,12 +247,17 @@
       "type": "integer"
     },
     "playUrl": {
-      "description": "Signed CDN URL to stream the music audio (expires)",
+      "description": "Signed CDN URL for the sound audio (time-limited)",
       "title": "Play URL",
       "type": "string"
     },
+    "poi": {
+      "description": "Point-of-interest object when the video is tagged with a location",
+      "title": "POI",
+      "type": "object"
+    },
     "postId": {
-      "description": "Unique TikTok post/video ID (string)",
+      "description": "Unique TikTok video/post ID (string)",
       "title": "Post ID",
       "type": "string"
     },
@@ -177,7 +267,7 @@
       "type": "string"
     },
     "postUrl": {
-      "description": "Direct URL to the TikTok post",
+      "description": "Direct URL to the TikTok video or photo post",
       "title": "Post URL",
       "type": "string"
     },
@@ -187,9 +277,19 @@
       "type": "integer"
     },
     "rowType": {
-      "description": "Discriminator: 'music' for music metadata rows; absent for post rows",
+      "description": "Discriminator: 'music' for sound metadata, 'post' for videos using a sound, 'error' for opt-in failure rows.",
       "title": "Row Type",
       "type": "string"
+    },
+    "searchKeyword": {
+      "description": "Keyword that surfaced this sound or video (searchSounds mode only)",
+      "title": "Search Keyword",
+      "type": "string"
+    },
+    "searchPosition": {
+      "description": "1-based position of the sound in its keyword's result list (searchSounds mode only)",
+      "title": "Search Position",
+      "type": "integer"
     },
     "shareCount": {
       "description": "Number of shares",
@@ -197,50 +297,106 @@
       "type": "integer"
     },
     "shareEnabled": {
-      "description": "Whether sharing is enabled on this post",
+      "description": "Whether sharing is enabled on this video",
       "title": "Share Enabled",
       "type": "boolean"
     },
     "shareMeta": {
-      "description": "Share title and description for this music",
+      "description": "Share title and description TikTok uses for the sound page",
       "title": "Share Meta",
       "type": "object"
     },
     "shootDuration": {
-      "description": "Recommended shoot duration in seconds",
+      "description": "Clip length TikTok allows creators to use with this sound",
       "title": "Shoot Duration",
       "type": "integer"
     },
     "stitchEnabled": {
-      "description": "Whether stitching is allowed on this post",
+      "description": "Whether stitching is allowed on this video",
       "title": "Stitch Enabled",
       "type": "boolean"
     },
+    "tagList": {
+      "description": "Mood/genre tags TikTok returns for the sound",
+      "title": "Tag List",
+      "type": "array"
+    },
     "textLanguage": {
-      "description": "Language code of the caption text",
+      "description": "Language code of the caption",
       "title": "Text Language",
       "type": "string"
     },
+    "themeTags": {
+      "description": "Theme tags TikTok returns for the sound",
+      "title": "Theme Tags",
+      "type": "array"
+    },
     "video": {
-      "description": "Video metadata (width, height, duration, ratio, playUrl, cover, etc.)",
+      "description": "Video file metadata (width, height, duration, ratio, definition, bitrate, codecType, format, size, videoQuality, playUrl, cover, originCover, dynamicCover)",
       "title": "Video",
       "type": "object"
     },
     "videoCount": {
-      "description": "Number of TikTok videos using this sound (string from statsV2 to avoid int overflow for viral sounds)",
+      "description": "Number of TikTok videos using this sound, kept as a string to avoid integer overflow for viral sounds",
       "title": "Video Count",
       "type": "string"
     }
   },
-  "title": "TikTok Music/Sound Scraper Dataset",
+  "title": "TikTok Sound & Music Scraper Dataset",
   "views": {
+    "errors": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "errorCode": {
+            "format": "text",
+            "label": "Error Code"
+          },
+          "errorMessage": {
+            "format": "text",
+            "label": "Error Message"
+          },
+          "inputValue": {
+            "format": "text",
+            "label": "Input"
+          },
+          "musicId": {
+            "format": "text",
+            "label": "Sound ID"
+          },
+          "rowType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "searchKeyword": {
+            "format": "text",
+            "label": "Search Keyword"
+          }
+        }
+      },
+      "title": "Errors",
+      "transformation": {
+        "fields": [
+          "rowType",
+          "errorCode",
+          "errorMessage",
+          "inputValue",
+          "musicId",
+          "searchKeyword"
+        ]
+      }
+    },
     "overview": {
       "display": {
         "component": "table",
         "properties": {
+          "artist": {
+            "format": "object",
+            "label": "Artist"
+          },
           "authorName": {
             "format": "text",
-            "label": "Author"
+            "label": "Sound Author"
           },
           "caption": {
             "format": "text",
@@ -256,11 +412,11 @@
           },
           "matchedMusicId": {
             "format": "text",
-            "label": "Music ID"
+            "label": "Sound ID"
           },
           "musicTitle": {
             "format": "text",
-            "label": "Music Title"
+            "label": "Sound Title"
           },
           "playCount": {
             "format": "number",
@@ -268,28 +424,33 @@
           },
           "postId": {
             "format": "text",
-            "label": "Post ID"
+            "label": "Video ID"
           },
           "postUrl": {
             "format": "link",
-            "label": "Post URL"
+            "label": "Video URL"
           },
           "rowType": {
             "format": "text",
             "label": "Type"
           },
+          "searchKeyword": {
+            "format": "text",
+            "label": "Search Keyword"
+          },
           "videoCount": {
             "format": "text",
-            "label": "Video Count"
+            "label": "Videos Using Sound"
           }
         }
       },
-      "title": "Overview",
+      "title": "Sounds and Videos",
       "transformation": {
         "fields": [
           "rowType",
           "musicTitle",
           "authorName",
+          "artist",
           "duration",
           "videoCount",
           "postId",
@@ -297,6 +458,7 @@
           "likeCount",
           "playCount",
           "matchedMusicId",
+          "searchKeyword",
           "postUrl"
         ]
       }

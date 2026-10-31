@@ -1,13 +1,13 @@
 {
   "actorOutputSchemaVersion": 1,
-  "description": "Rows of two kinds: sound metadata (rowType=\"music\") and videos that use the sound (rowType=\"post\"), joined by matchedMusicId.",
+  "description": "Sound metadata rows (rowType=music), videos using each sound (rowType=post), and optional error rows (rowType=error), joined by matchedMusicId and searchKeyword.",
   "properties": {
     "data": {
-      "description": "Dataset containing music metadata rows (rowType='music') and/or post rows (rowType='post'). Use the 'rowType' field to distinguish: music rows have musicTitle, videoCount, coverLarge; post rows have postId, caption, likeCount.",
+      "description": "Dataset containing sound metadata, videos using the sounds, and opt-in error rows. Use rowType to distinguish them.",
       "template": "{{links.apiDefaultDatasetUrl}}/items",
-      "title": "Music and Post Data",
+      "title": "Sounds, Videos and Errors",
       "type": "string"
     }
   },
-  "title": "TikTok Sound Lookup: Metadata & Videos Using It Output"
+  "title": "TikTok Sound & Music Scraper Output"
 }
