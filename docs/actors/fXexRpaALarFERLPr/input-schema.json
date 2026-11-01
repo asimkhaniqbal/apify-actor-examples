@@ -1,0 +1,60 @@
+{
+  "description": "Search Naver (Korean web search) and get organic results with title, URL, domain, snippet and source name. Web / blog / cafe / news tabs are server-rendered and work without login.",
+  "properties": {
+    "containsKeyword": {
+      "description": "Only keep results whose title, snippet, domain or source name contains this substring (case-insensitive).",
+      "editor": "textfield",
+      "title": "Result keyword filter",
+      "type": "string"
+    },
+    "domain": {
+      "description": "Only keep results from this domain (exact host or suffix, e.g. `naver.com` or `blog.naver.com`).",
+      "editor": "textfield",
+      "title": "Domain filter",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Hard cap on emitted records.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "webSearch",
+      "description": "Which Naver search tab to scrape.",
+      "editor": "select",
+      "enum": [
+        "webSearch",
+        "blogSearch",
+        "cafeSearch",
+        "newsSearch"
+      ],
+      "enumTitles": [
+        "Web search (organic results)",
+        "Blog search",
+        "Cafe search",
+        "News search"
+      ],
+      "prefill": "webSearch",
+      "title": "Search tab",
+      "type": "string"
+    },
+    "searchQuery": {
+      "default": "비비바",
+      "description": "Korean or any-language query, e.g. `비비바` or `서울 맛집`.",
+      "editor": "textfield",
+      "prefill": "비비바",
+      "title": "Search query",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Naver Search Scraper Input",
+  "type": "object"
+}
