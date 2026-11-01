@@ -1,0 +1,109 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "properties": {
+      "matchedKeyword": {
+        "description": "The keyword that matched this result",
+        "type": "string"
+      },
+      "scrapedAt": {
+        "description": "ISO 8601 timestamp when the result was scraped",
+        "type": "string"
+      },
+      "snippet": {
+        "description": "Excerpt from the paste content (as shown in search results)",
+        "type": "string"
+      },
+      "source": {
+        "description": "Source platform (pastebin, gist, ideone, paste_org, textbin)",
+        "type": "string"
+      },
+      "title": {
+        "description": "Title, filename, or identifier of the paste",
+        "type": "string"
+      },
+      "url": {
+        "description": "Direct URL to the paste or gist",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "title": "OSINT Results",
+  "views": {
+    "detailed": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "matchedKeyword": {
+            "format": "text",
+            "label": "Keyword"
+          },
+          "scrapedAt": {
+            "format": "text",
+            "label": "Scraped At"
+          },
+          "snippet": {
+            "format": "text",
+            "label": "Snippet"
+          },
+          "source": {
+            "format": "text",
+            "label": "Source"
+          },
+          "title": {
+            "format": "text",
+            "label": "Title"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          }
+        }
+      },
+      "title": "Detailed Results",
+      "transformation": {
+        "fields": [
+          "source",
+          "title",
+          "url",
+          "snippet",
+          "matchedKeyword",
+          "scrapedAt"
+        ]
+      }
+    },
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "matchedKeyword": {
+            "format": "text",
+            "label": "Keyword"
+          },
+          "source": {
+            "format": "text",
+            "label": "Source"
+          },
+          "title": {
+            "format": "text",
+            "label": "Title"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          }
+        }
+      },
+      "title": "Overview",
+      "transformation": {
+        "fields": [
+          "source",
+          "title",
+          "matchedKeyword",
+          "url"
+        ]
+      }
+    }
+  }
+}

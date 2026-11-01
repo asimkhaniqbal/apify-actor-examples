@@ -1,0 +1,48 @@
+{
+  "properties": {
+    "maxItemsPerSource": {
+      "default": 10,
+      "description": "Maximum number of results to collect per source (per keyword).",
+      "maximum": 100,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Max Items per Source",
+      "type": "integer"
+    },
+    "searchKeywords": {
+      "description": "Keywords to search across OSINT paste sources. Each keyword is searched individually.",
+      "editor": "stringList",
+      "prefill": [
+        "example"
+      ],
+      "title": "Search Keywords",
+      "type": "array"
+    },
+    "sources": {
+      "default": [
+        "pastebin",
+        "gist",
+        "ideone",
+        "paste_org",
+        "textbin"
+      ],
+      "description": "Paste sources to search. Defaults to all supported.",
+      "editor": "stringList",
+      "prefill": [
+        "pastebin",
+        "gist",
+        "ideone",
+        "paste_org",
+        "textbin"
+      ],
+      "title": "Sources",
+      "type": "array"
+    }
+  },
+  "required": [
+    "searchKeywords"
+  ],
+  "schemaVersion": 1,
+  "title": "OSINT Scraper Input",
+  "type": "object"
+}
