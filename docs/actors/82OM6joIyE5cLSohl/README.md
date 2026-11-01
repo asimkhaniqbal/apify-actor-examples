@@ -146,7 +146,8 @@ Hashtag searches emit one metadata row (`rowType: "hashtag"`) before the tag's p
 ### Do I need a TikTok account or cookies?
 
 No. The actor reads the search results TikTok shows to signed-out visitors. There is no cookie,
-token or proxy field to fill in.
+token or proxy field to fill in. TikTok sometimes asks anonymous cloud IPs to log in; the actor
+automatically retries with a different proxy session and never asks you for credentials.
 
 ### How many results can I get per query?
 
