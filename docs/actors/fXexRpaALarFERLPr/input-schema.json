@@ -1,10 +1,34 @@
 {
-  "description": "Search Naver (Korean web search) and get organic results with title, URL, domain, snippet and source name. Web / blog / cafe / news tabs are server-rendered and work without login.",
+  "description": "Search Naver web, blog, cafe, news, image, video, integrated and autocomplete results. Returns exact destination URLs, titles, snippets, dates, thumbnails and vertical-specific fields. No login, cookies or proxy setup required.",
   "properties": {
     "containsKeyword": {
-      "description": "Only keep results whose title, snippet, domain or source name contains this substring (case-insensitive).",
+      "description": "Only keep results whose title, snippet, domain, source name, cafe name or suggestion contains this text (case-insensitive).",
       "editor": "textfield",
       "title": "Result keyword filter",
+      "type": "string"
+    },
+    "dateRange": {
+      "default": "any",
+      "description": "Only return results published inside this window. Applies to blog, cafe, news, image and video modes; web and integrated modes do not support a date filter.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "1d",
+        "1w",
+        "1m",
+        "6m",
+        "1y"
+      ],
+      "enumTitles": [
+        "Any time",
+        "Past 24 hours",
+        "Past week",
+        "Past month",
+        "Past 6 months",
+        "Past year"
+      ],
+      "prefill": "any",
+      "title": "Date range",
       "type": "string"
     },
     "domain": {
@@ -13,41 +37,108 @@
       "title": "Domain filter",
       "type": "string"
     },
+    "includeAds": {
+      "default": true,
+      "description": "Keep paid blog placements and integrated-search ads, marked with `isAd`. (Blog and integrated modes.)",
+      "prefill": false,
+      "title": "Include ads",
+      "type": "boolean"
+    },
+    "includeContent": {
+      "default": false,
+      "description": "Fetch the post or article body, inline images and author for blog and news results. One extra request per result; unavailable bodies are omitted. (Blog and news modes.)",
+      "prefill": false,
+      "title": "Include full content",
+      "type": "boolean"
+    },
+    "includeSerpFeatures": {
+      "default": true,
+      "description": "Include place cards and AI briefing blocks from the integrated results page, when Naver shows them. (Integrated mode.)",
+      "prefill": false,
+      "title": "Include SERP features",
+      "type": "boolean"
+    },
     "maxItems": {
-      "default": 20,
-      "description": "Hard cap on emitted records.",
-      "maximum": 500,
+      "default": 100,
+      "description": "Hard cap on all normal result records across every query (error records are extra).",
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 20,
+      "prefill": 3,
       "title": "Max items",
+      "type": "integer"
+    },
+    "maxItemsPerQuery": {
+      "default": 100,
+      "description": "Hard cap on normal result records produced by each query.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Max items per query",
+      "type": "integer"
+    },
+    "maxPagesPerQuery": {
+      "default": 10,
+      "description": "Page ceiling for paginated modes (blog, cafe, news, image, video). Collection also stops when Naver runs out of results.",
+      "maximum": 50,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Max pages per query",
       "type": "integer"
     },
     "mode": {
       "default": "webSearch",
-      "description": "Which Naver search tab to scrape.",
+      "description": "Which Naver result surface to collect.",
       "editor": "select",
       "enum": [
         "webSearch",
         "blogSearch",
         "cafeSearch",
-        "newsSearch"
+        "newsSearch",
+        "imageSearch",
+        "videoSearch",
+        "integratedSearch",
+        "autocomplete"
       ],
       "enumTitles": [
-        "Web search (organic results)",
-        "Blog search",
-        "Cafe search",
-        "News search"
+        "Web documents",
+        "Blog posts",
+        "Cafe posts",
+        "News articles",
+        "Images",
+        "Videos",
+        "Integrated SERP blocks (web, place, AI briefing, ads)",
+        "Autocomplete suggestions"
       ],
       "prefill": "webSearch",
-      "title": "Search tab",
+      "title": "Search mode",
       "type": "string"
     },
-    "searchQuery": {
-      "default": "비비바",
-      "description": "Korean or any-language query, e.g. `비비바` or `서울 맛집`.",
-      "editor": "textfield",
-      "prefill": "비비바",
-      "title": "Search query",
+    "searchQueries": {
+      "default": [
+        "비비바"
+      ],
+      "description": "One or more Korean or any-language queries, e.g. `비비바` or `서울 맛집`. Duplicates and blank entries are removed. (Legacy `searchQuery` and `query` keys are still accepted.)",
+      "editor": "stringList",
+      "prefill": [
+        "비비바"
+      ],
+      "title": "Search queries",
+      "type": "array"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Relevance or newest first. Applies to blog, cafe, news, image and video modes; web and integrated modes use Naver's default order.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "date"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Newest first"
+      ],
+      "prefill": "relevance",
+      "title": "Sort results by",
       "type": "string"
     }
   },
