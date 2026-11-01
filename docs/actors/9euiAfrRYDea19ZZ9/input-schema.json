@@ -1,0 +1,126 @@
+{
+  "description": "Scrape ESPN — scoreboards, standings, teams, news, and game details for major sports leagues worldwide.",
+  "properties": {
+    "eventId": {
+      "description": "ESPN numeric event ID. Required for mode=gameDetail. Find it from mode=scoreboard output (eventId field).",
+      "editor": "textfield",
+      "title": "Event ID (mode=gameDetail)",
+      "type": "string"
+    },
+    "league": {
+      "default": "nba",
+      "description": "League slug. Must be compatible with the selected Sport.",
+      "editor": "select",
+      "enum": [
+        "nfl",
+        "college-football",
+        "nba",
+        "mens-college-basketball",
+        "mlb",
+        "nhl",
+        "usa.1",
+        "eng.1",
+        "esp.1",
+        "ger.1",
+        "atp",
+        "pga",
+        "ufc",
+        "f1"
+      ],
+      "enumTitles": [
+        "NFL (football)",
+        "NCAAF College Football (football)",
+        "NBA (basketball)",
+        "NCAAB College Basketball (basketball)",
+        "MLB (baseball)",
+        "NHL (hockey)",
+        "MLS — Major League Soccer (soccer)",
+        "Premier League (soccer)",
+        "La Liga (soccer)",
+        "Bundesliga (soccer)",
+        "ATP Tennis (tennis)",
+        "PGA Tour Golf (golf)",
+        "UFC (mma)",
+        "Formula 1 (racing)"
+      ],
+      "prefill": "nba",
+      "title": "League",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Maximum number of records to emit. Applies to scoreboard, teams, news, and standings modes.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "news",
+      "description": "What data to fetch from ESPN.",
+      "editor": "select",
+      "enum": [
+        "scoreboard",
+        "standings",
+        "teams",
+        "teamDetail",
+        "news",
+        "gameDetail"
+      ],
+      "enumTitles": [
+        "Scoreboard — live and recent game scores",
+        "Standings — league/conference rankings",
+        "Teams — list all teams in a league",
+        "Team Detail — full info for one team",
+        "News — latest headlines for a sport/league",
+        "Game Detail — full boxscore and recap for one game"
+      ],
+      "prefill": "news",
+      "title": "Mode",
+      "type": "string"
+    },
+    "sport": {
+      "default": "basketball",
+      "description": "Sport category (must match the league you choose).",
+      "editor": "select",
+      "enum": [
+        "football",
+        "basketball",
+        "baseball",
+        "hockey",
+        "soccer",
+        "tennis",
+        "golf",
+        "mma",
+        "racing"
+      ],
+      "enumTitles": [
+        "Football",
+        "Basketball",
+        "Baseball",
+        "Hockey",
+        "Soccer",
+        "Tennis",
+        "Golf",
+        "MMA",
+        "Racing"
+      ],
+      "prefill": "basketball",
+      "title": "Sport",
+      "type": "string"
+    },
+    "teamId": {
+      "description": "ESPN numeric team ID. Required for mode=teamDetail. Find it from mode=teams output (teamId field).",
+      "editor": "textfield",
+      "title": "Team ID (mode=teamDetail)",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "ESPN Scraper Input",
+  "type": "object"
+}

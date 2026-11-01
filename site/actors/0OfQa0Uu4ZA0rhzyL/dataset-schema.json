@@ -2,54 +2,209 @@
   "actorSpecification": 1,
   "fields": {
     "properties": {
-      "matchedKeyword": {
-        "description": "The keyword that matched this result",
+      "author": {
+        "description": "Public author or owner name.",
         "type": "string"
+      },
+      "category": {
+        "description": "Pastebin category label.",
+        "type": "string"
+      },
+      "comments": {
+        "description": "Gist comment count.",
+        "type": "integer"
+      },
+      "content": {
+        "description": "Paste text when full text is enabled, capped by maxContentChars.",
+        "type": "string"
+      },
+      "contentLength": {
+        "description": "Original paste text length before truncation.",
+        "type": "integer"
+      },
+      "contentTruncated": {
+        "description": "Whether returned content was shortened.",
+        "type": "boolean"
+      },
+      "description": {
+        "description": "Gist or paste.gg description.",
+        "type": "string"
+      },
+      "expiresAt": {
+        "description": "Expiry time in ISO 8601 UTC.",
+        "type": "string"
+      },
+      "expiryText": {
+        "description": "Expiry text as shown by the source.",
+        "type": "string"
+      },
+      "fileCount": {
+        "description": "Number of files in the paste.",
+        "type": "integer"
+      },
+      "files": {
+        "description": "Files contained in a gist or paste.gg paste.",
+        "items": {
+          "properties": {
+            "language": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "rawUrl": {
+              "type": "string"
+            },
+            "size": {
+              "type": "integer"
+            }
+          },
+          "type": "object"
+        },
+        "type": "array"
+      },
+      "forks": {
+        "description": "Gist fork count.",
+        "type": "integer"
+      },
+      "gistId": {
+        "description": "GitHub Gist identifier.",
+        "type": "string"
+      },
+      "language": {
+        "description": "Programming or paste language.",
+        "type": "string"
+      },
+      "matchedKeyword": {
+        "description": "First keyword that matched this record.",
+        "type": "string"
+      },
+      "matchedKeywords": {
+        "description": "All keywords that matched this record.",
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "pasteId": {
+        "description": "Native paste identifier where the source exposes one.",
+        "type": "string"
+      },
+      "postedAt": {
+        "description": "Creation time in ISO 8601 UTC.",
+        "type": "string"
+      },
+      "postedAtText": {
+        "description": "Creation time as shown by the source.",
+        "type": "string"
+      },
+      "rawUrl": {
+        "description": "Direct raw-text URL where the source exposes one.",
+        "type": "string"
+      },
+      "recordType": {
+        "description": "Record type, either paste or gist.",
+        "type": "string"
+      },
+      "regexMatchCount": {
+        "description": "Number of regex matches returned.",
+        "type": "integer"
+      },
+      "regexMatches": {
+        "description": "Matches for the requested regular expressions.",
+        "items": {
+          "properties": {
+            "match": {
+              "type": "string"
+            },
+            "pattern": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "type": "array"
       },
       "scrapedAt": {
-        "description": "ISO 8601 timestamp when the result was scraped",
+        "description": "ISO 8601 timestamp when the record was collected.",
         "type": "string"
       },
+      "sizeBytes": {
+        "description": "Paste or file size in bytes.",
+        "type": "integer"
+      },
       "snippet": {
-        "description": "Excerpt from the paste content (as shown in search results)",
+        "description": "Keyword-centred excerpt from the paste or its search preview.",
         "type": "string"
       },
       "source": {
-        "description": "Source platform (pastebin, gist, ideone, paste_org, textbin)",
+        "description": "Paste site: pastebin, gist, ideone, paste_org, or paste_gg.",
+        "type": "string"
+      },
+      "sourceQuery": {
+        "description": "Keyword search that discovered this record.",
+        "type": "string"
+      },
+      "stars": {
+        "description": "Gist star count.",
+        "type": "integer"
+      },
+      "syntax": {
+        "description": "Pastebin syntax label.",
         "type": "string"
       },
       "title": {
-        "description": "Title, filename, or identifier of the paste",
+        "description": "Paste title, gist description, or first file name.",
         "type": "string"
       },
       "url": {
-        "description": "Direct URL to the paste or gist",
+        "description": "Canonical public URL of the paste or gist.",
+        "type": "string"
+      },
+      "views": {
+        "description": "Public view count where the source exposes one.",
+        "type": "integer"
+      },
+      "visibility": {
+        "description": "Public visibility flag reported by the source.",
         "type": "string"
       }
     },
     "type": "object"
   },
-  "title": "OSINT Results",
+  "title": "OSINT Paste Results",
   "views": {
     "detailed": {
       "display": {
         "component": "table",
         "properties": {
-          "matchedKeyword": {
+          "author": {
             "format": "text",
-            "label": "Keyword"
+            "label": "Author"
           },
-          "scrapedAt": {
+          "language": {
             "format": "text",
-            "label": "Scraped At"
+            "label": "Language"
           },
-          "snippet": {
+          "matchedKeywords": {
             "format": "text",
-            "label": "Snippet"
+            "label": "Keywords"
+          },
+          "postedAt": {
+            "format": "text",
+            "label": "Posted"
+          },
+          "rawUrl": {
+            "format": "link",
+            "label": "Raw URL"
           },
           "source": {
             "format": "text",
             "label": "Source"
+          },
+          "syntax": {
+            "format": "text",
+            "label": "Syntax"
           },
           "title": {
             "format": "text",
@@ -58,6 +213,10 @@
           "url": {
             "format": "link",
             "label": "URL"
+          },
+          "views": {
+            "format": "number",
+            "label": "Views"
           }
         }
       },
@@ -66,10 +225,14 @@
         "fields": [
           "source",
           "title",
+          "author",
+          "postedAt",
+          "syntax",
+          "language",
+          "views",
+          "matchedKeywords",
           "url",
-          "snippet",
-          "matchedKeyword",
-          "scrapedAt"
+          "rawUrl"
         ]
       }
     },
@@ -77,9 +240,17 @@
       "display": {
         "component": "table",
         "properties": {
+          "author": {
+            "format": "text",
+            "label": "Author"
+          },
           "matchedKeyword": {
             "format": "text",
             "label": "Keyword"
+          },
+          "postedAt": {
+            "format": "text",
+            "label": "Posted"
           },
           "source": {
             "format": "text",
@@ -100,6 +271,8 @@
         "fields": [
           "source",
           "title",
+          "author",
+          "postedAt",
           "matchedKeyword",
           "url"
         ]

@@ -1,68 +1,140 @@
 # Paste Site Keyword Leak Finder (Pastebin, Gist & More)
 
-Check whether a keyword — an API key, an email domain, a company name — shows up on one of the internet's most-used paste sites. Built for security researchers, threat-intel analysts, and compliance teams who need to know if something sensitive has leaked into public paste content.
+Check whether a keyword — an API key, an email domain, a company name — has surfaced on public paste sites. Search **Pastebin**, **GitHub Gist**, **Ideone**, **Paste.org**, and **paste.gg** in one run, or fetch a known paste URL, and get back the paste link, author, dates, syntax, views, raw link, and an optional full-text excerpt. Built for security researchers, threat-intel teams, and compliance monitoring.
 
 ## What this actor does
 
-- Searches five paste and code-sharing sites at once: Pastebin, GitHub Gist, Ideone, Paste.org, and Textbin
-- Accepts any number of keywords and searches each one individually across your chosen sources
-- Returns the matching paste's URL, title, a text snippet, and which keyword triggered the match
-- Lets you cap how many results come back per source per keyword
+- **Three modes:** `searchKeywords` for keyword hunting, `byUrls` for checking specific public pastes, and `recentPastes` for scanning the newest public posts
+- **Five live sources:** Pastebin archive and raw text, GitHub Gist search and metadata, Ideone recent codes, Paste.org trending, and paste.gg's public list
+- **Rich metadata:** author, posted date, expiry, syntax, category, views, language, file list, and direct raw link where the source exposes them
+- **Optional full text and regex extraction:** return the paste body up to a character limit and pull out emails, keys, URLs, or any pattern you define
+- **No credentials or proxy setup:** public data only; empty fields are omitted rather than returned as null
 
-## Output per result
+## Output per paste
 
-- `source` — which paste site the result came from (`pastebin`, `gist`, `ideone`, `paste_org`, or `textbin`)
-- `url` — direct link to the paste
-- `title` — the paste's title or identifier
-- `snippet` — a text excerpt from the paste showing where the keyword appears; left as an empty string when Google's search result didn't carry a usable excerpt for that paste
-- `matchedKeyword` — the keyword from your `searchKeywords` list that produced this result
-- `scrapedAt` — ISO 8601 timestamp of when the record was collected
+- `source` — `pastebin`, `gist`, `ideone`, `paste_org`, or `paste_gg`
+- `url` — canonical public paste URL
+- `title` — paste title, gist description, or first file name
+- `snippet` — keyword-centred excerpt, or the first part of the text when no keyword applies
+- `matchedKeyword`, `matchedKeywords[]` — first and all keywords that matched
+- `sourceQuery` — keyword search that discovered the record
+- `recordType` — `paste` or `gist`
+- `pasteId`, `gistId` — native identifiers where available
+- `author` — public author or owner name
+- `postedAt`, `postedAtText` — creation time in ISO 8601 UTC and as shown on the site
+- `expiresAt`, `expiryText` — expiry where the source reports one
+- `syntax`, `category` — Pastebin syntax and category labels
+- `views` — public view count
+- `sizeBytes`, `language`, `visibility` — content and listing metadata
+- `rawUrl` — direct raw-text link where available
+- `files[]`, `fileCount` — gist or paste.gg file names, sizes, languages, and raw links
+- `description`, `stars`, `forks`, `comments` — gist and paste.gg metadata
+- `content`, `contentLength`, `contentTruncated` — only when `includeContent` is enabled
+- `regexMatches[]`, `regexMatchCount` — only when `extractPatterns` is set
+- `scrapedAt` — ISO 8601 collection timestamp
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `searchKeywords` | array | – | **Required.** Keywords to search; each one is searched individually across your chosen sources |
-| `sources` | array | `["pastebin","gist","ideone","paste_org","textbin"]` | Which paste sites to search |
-| `maxItemsPerSource` | integer | `10` | Maximum results to collect per source, per keyword |
+| `mode` | string | `searchKeywords` | `searchKeywords`, `byUrls`, or `recentPastes` |
+| `searchKeywords` | array | – | Keywords to search (mode=searchKeywords) |
+| `startUrls` | array | – | Public paste URLs to fetch (mode=byUrls) |
+| `sources` | array | `pastebin`, `gist`, `ideone`, `paste_org`, `paste_gg` | Which sites to search |
+| `maxItems` | integer | `50` | Overall record limit (1–1000) |
+| `maxItemsPerSource` | integer | `10` | Record limit per site (1–500) |
+| `maxPastesToScan` | integer | `250` | Recent pastes to inspect per site; Pastebin archive scans cap at 250 keys |
+| `syntaxes` | array | `[]` | Extra Pastebin syntax archives to scan; empty uses the main archive |
+| `includeContent` | boolean | `false` | Return paste text in addition to metadata |
+| `maxContentChars` | integer | `5000` | Text character limit when content is enabled |
+| `extractPatterns` | array | `[]` | Regular expressions to extract from paste text |
 
-### Example: search two keywords across two sites
+### Example: search two keywords on Gist and Pastebin
 
 ```json
 {
-    "searchKeywords": ["api_key", "password"],
-    "sources": ["pastebin", "gist"],
-    "maxItemsPerSource": 5
+  "mode": "searchKeywords",
+  "searchKeywords": ["api_key", "password"],
+  "sources": ["gist", "pastebin"],
+  "maxItems": 40,
+  "maxItemsPerSource": 10
 }
 ```
 
-### Example: broad sweep across every supported source
+### Example: inspect specific public pastes
 
 ```json
 {
-    "searchKeywords": ["internal-config-leak"],
-    "maxItemsPerSource": 20
+  "mode": "byUrls",
+  "startUrls": [
+    {"url": "https://pastebin.com/xdGpC3wH"},
+    {"url": "https://gist.github.com/fagoner/71c75995cf81fdc9e32fd17c1b5a43a0"}
+  ],
+  "includeContent": true,
+  "maxContentChars": 3000
+}
+```
+
+### Example: extract emails from the newest Gists
+
+```json
+{
+  "mode": "recentPastes",
+  "sources": ["gist"],
+  "maxItems": 20,
+  "maxItemsPerSource": 20,
+  "includeContent": true,
+  "extractPatterns": ["[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"]
+}
+```
+
+### Example: scan older Pastebin syntax archives
+
+```json
+{
+  "mode": "searchKeywords",
+  "searchKeywords": ["internal-config"],
+  "sources": ["pastebin"],
+  "syntaxes": ["python", "javascript", "bash"],
+  "maxPastesToScan": 250,
+  "maxItemsPerSource": 25
 }
 ```
 
 ## Use cases
 
-- **Threat intelligence** — watch for a company's credentials or internal terms showing up in public pastes
-- **Breach detection** — search for employee email addresses or domain names across paste sites
-- **Security research** — find public proof-of-concept code or exploit snippets tied to a keyword
-- **Compliance monitoring** — spot possible data exfiltration via paste-site posts
-- **Brand monitoring** — track public mentions of a product name or internal codename outside your own systems
+- **Threat intelligence** — watch for company credentials, internal hostnames, or codenames appearing in public pastes
+- **Breach detection** — check whether employee email addresses or customer domains have surfaced
+- **Incident response** — fetch a suspicious paste and inspect its metadata and text in one step
+- **Security research** — collect public proof-of-concept snippets and leaked configuration samples
+- **Compliance monitoring** — keep an audit trail of public paste hits tied to your organization
+- **Brand protection** — spot public mentions of a product, domain, or internal project name
 
 ## FAQ
 
-**Does this scrape the paste sites directly?** No — paste sites are reached through their publicly indexed search results, which sidesteps the anti-bot protection and rate limits those sites put on direct, repeated requests.
+**Which paste sites are covered?**
+Pastebin, GitHub Gist, Ideone, Paste.org, and paste.gg. Pastebin is searched through its public archive and raw paste pages, Gist through its public search and gist metadata, and the other three through their newest public listings.
 
-**Can I get the full paste content?** No — `snippet` is the excerpt surfaced in search results (roughly 100–500 characters), not the full paste body; many paste sites block bulk retrieval of complete content.
+**Does Pastebin search cover all of history?**
+No. Pastebin's archive shows recent public pastes and selected syntax archives, and it does not offer free pagination through its full history. A scan reaches up to 250 archive keys per run; older or already-deleted pastes may not appear.
 
-**Is this legal to use?** Searching publicly indexed content is legal, but use it responsibly — only search for information you're authorized to look up, such as your own organization's potential leaks or sanctioned security research.
+**How many Gist results can I get?**
+Gist search returns up to 10 results per page and up to 100 pages, so a single keyword is capped at roughly 1,000 search results. Use several specific keywords for broader coverage.
 
-**Why aren't sites like Dumpz or Codepad included?** Those sites are defunct or no longer publicly reachable; this actor only covers sources that are actually live.
+**Why do Ideone, Paste.org, and paste.gg return fewer hits?**
+Those sites do not expose a public keyword search. The actor scans their newest public listings and checks the paste text for your keywords, so coverage depends on how many recent pastes are scanned. paste.gg's public list API returns at most 100 entries per request, and unauthenticated Gist API calls are rate-limited.
 
-**Why did a keyword return zero results?** It simply may not appear on any of the selected paste sites right now — an empty result for a keyword is good news, not an error.
+**Does this need cookies, an account, or a proxy?**
+No. Only public pages are read, and the actor chooses a working connection automatically. You do not need to configure a proxy, log in, or supply an API key.
 
-**Is this affiliated with Pastebin, GitHub, or the other sites it searches?** No. This is an independent actor that reads public search results pointing at these sites; it is not endorsed by or affiliated with any of them.
+**Does it return private or deleted pastes?**
+No. Private, unlisted, password-protected, and deleted pastes are out of scope. If a paste disappears between the archive listing and the content fetch, it is skipped.
+
+**Is the full paste text always returned?**
+Only when `includeContent` is enabled, and only up to `maxContentChars`. Paste text can contain sensitive material; handle it according to your organization's data-handling rules and report real leaks responsibly.
+
+**Can I extract only certain values, such as emails or keys?**
+Yes. Add regular expressions to `extractPatterns` and the actor returns every match in `regexMatches` without filtering out other pastes.
+
+**Is this affiliated with Pastebin, GitHub, or the other sites?**
+No. This is an independent actor that reads publicly accessible pages. It is not endorsed by or affiliated with any of the paste sites.

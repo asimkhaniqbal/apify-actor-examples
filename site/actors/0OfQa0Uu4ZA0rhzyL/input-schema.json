@@ -1,21 +1,89 @@
 {
+  "description": "Search public pastes by keyword, fetch known paste URLs, or scan the newest public pastes.",
   "properties": {
-    "maxItemsPerSource": {
-      "default": 10,
-      "description": "Maximum number of results to collect per source (per keyword).",
-      "maximum": 100,
-      "minimum": 1,
-      "prefill": 3,
-      "title": "Max Items per Source",
+    "extractPatterns": {
+      "default": [],
+      "description": "Optional regular expressions to run over paste text. Matches are returned in `regexMatches`; this does not filter results.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Extract regex patterns",
+      "type": "array"
+    },
+    "includeContent": {
+      "default": false,
+      "description": "Return the paste text (up to the character limit) in addition to the metadata. Leave off for a smaller dataset.",
+      "prefill": false,
+      "title": "Include full paste text",
+      "type": "boolean"
+    },
+    "maxContentChars": {
+      "default": 5000,
+      "description": "Character limit for the returned paste text when full text is enabled.",
+      "maximum": 50000,
+      "minimum": 100,
+      "prefill": 1000,
+      "title": "Maximum content characters",
       "type": "integer"
     },
-    "searchKeywords": {
-      "description": "Keywords to search across OSINT paste sources. Each keyword is searched individually.",
-      "editor": "stringList",
-      "prefill": [
-        "example"
+    "maxItems": {
+      "default": 50,
+      "description": "Hard limit on the total number of paste records returned.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Maximum results",
+      "type": "integer"
+    },
+    "maxItemsPerSource": {
+      "default": 10,
+      "description": "Limit on how many matching pastes or recent pastes are returned from each site.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Maximum results per site",
+      "type": "integer"
+    },
+    "maxPastesToScan": {
+      "default": 250,
+      "description": "How many recent public pastes to inspect per site. Pastebin archive scans are capped at 250 keys per run.",
+      "maximum": 2000,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Maximum pastes to scan",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "searchKeywords",
+      "description": "Choose how to find public pastes.",
+      "editor": "select",
+      "enum": [
+        "searchKeywords",
+        "byUrls",
+        "recentPastes"
       ],
-      "title": "Search Keywords",
+      "enumTitles": [
+        "Search by keyword",
+        "Fetch these paste URLs",
+        "Scan the newest public pastes"
+      ],
+      "prefill": "searchKeywords",
+      "title": "Mode",
+      "type": "string"
+    },
+    "searchKeywords": {
+      "default": [],
+      "description": "Words or phrases to look for in public paste content (mode=searchKeywords). Each keyword is searched independently.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "test"
+      ],
+      "title": "Search keywords",
       "type": "array"
     },
     "sources": {
@@ -24,25 +92,119 @@
         "gist",
         "ideone",
         "paste_org",
-        "textbin"
+        "paste_gg"
       ],
-      "description": "Paste sources to search. Defaults to all supported.",
+      "description": "Which public paste sites to include: pastebin, gist, ideone, paste_org, paste_gg. The default is all five.",
       "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
       "prefill": [
-        "pastebin",
-        "gist",
-        "ideone",
-        "paste_org",
-        "textbin"
+        "gist"
       ],
-      "title": "Sources",
+      "title": "Paste sites",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "startUrls": {
+      "default": [],
+      "description": "Direct links to public Pastebin, Gist, Ideone, Paste.org, or paste.gg pastes (mode=byUrls).",
+      "editor": "requestListSources",
+      "items": {
+        "properties": {
+          "url": {
+            "description": "Public paste URL.",
+            "title": "Paste URL",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "prefill": [],
+      "title": "Paste URLs",
       "type": "array"
+    },
+    "syntaxes": {
+      "default": [],
+      "description": "Optional Pastebin syntax archives to scan in addition to the main archive. Leave empty for the main archive only.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "text",
+          "python",
+          "javascript",
+          "json",
+          "sql",
+          "xml",
+          "bash",
+          "c",
+          "cpp",
+          "csharp",
+          "java",
+          "php",
+          "css",
+          "html",
+          "ruby",
+          "perl",
+          "go",
+          "rust",
+          "typescript",
+          "yaml",
+          "markdown",
+          "diff",
+          "nginx",
+          "docker",
+          "powershell",
+          "lua",
+          "kotlin",
+          "swift",
+          "scala",
+          "haskell"
+        ],
+        "enumTitles": [
+          "Text",
+          "Python",
+          "JavaScript",
+          "JSON",
+          "SQL",
+          "XML",
+          "Bash",
+          "C",
+          "C++",
+          "C#",
+          "Java",
+          "PHP",
+          "CSS",
+          "HTML",
+          "Ruby",
+          "Perl",
+          "Go",
+          "Rust",
+          "TypeScript",
+          "YAML",
+          "Markdown",
+          "Diff",
+          "Nginx",
+          "Docker",
+          "PowerShell",
+          "Lua",
+          "Kotlin",
+          "Swift",
+          "Scala",
+          "Haskell"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Pastebin syntax archives",
+      "type": "array",
+      "uniqueItems": true
     }
   },
   "required": [
-    "searchKeywords"
+    "mode"
   ],
   "schemaVersion": 1,
-  "title": "OSINT Scraper Input",
+  "title": "Paste Site Keyword Leak Finder Input",
   "type": "object"
 }
