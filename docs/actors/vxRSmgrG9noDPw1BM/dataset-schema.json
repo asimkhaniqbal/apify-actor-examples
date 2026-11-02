@@ -2,6 +2,21 @@
   "actorSpecification": 1,
   "fields": {
     "properties": {
+      "applyType": {
+        "description": "external, quick_apply or internal",
+        "type": "string"
+      },
+      "applyUrl": {
+        "description": "Apply URL, decoded to the employer when external",
+        "type": "string"
+      },
+      "benefits": {
+        "description": "Benefits shown for the job",
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
       "city": {
         "description": "City",
         "type": "string"
@@ -10,110 +25,355 @@
         "description": "Hiring company name",
         "type": "string"
       },
+      "companyAbout": {
+        "description": "Company description",
+        "type": "string"
+      },
+      "companyFoundedYear": {
+        "description": "Company founding year when shown",
+        "type": "string"
+      },
+      "companyHqLocation": {
+        "description": "Company headquarters",
+        "type": "string"
+      },
+      "companyId": {
+        "description": "ZipRecruiter company id",
+        "type": "string"
+      },
+      "companyIndustries": {
+        "description": "Company industries",
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
       "companyLogo": {
         "description": "Company logo image URL",
+        "type": "string"
+      },
+      "companyRating": {
+        "description": "Breakroom company rating",
+        "type": "number"
+      },
+      "companySize": {
+        "description": "Company size label",
         "type": "string"
       },
       "companyUrl": {
         "description": "Company profile URL",
         "type": "string"
       },
-      "id": {
-        "description": "Job-card ID token",
+      "companyWebsite": {
+        "description": "Company website URL",
         "type": "string"
       },
+      "country": {
+        "description": "Country name",
+        "type": "string"
+      },
+      "countryCode": {
+        "description": "ISO country code",
+        "type": "string"
+      },
+      "county": {
+        "description": "County",
+        "type": "string"
+      },
+      "description": {
+        "description": "Full description as plain text",
+        "type": "string"
+      },
+      "descriptionFetchFailed": {
+        "description": "True when a requested description could not be fetched",
+        "type": "boolean"
+      },
+      "descriptionHtml": {
+        "description": "Full description as HTML",
+        "type": "string"
+      },
+      "directApply": {
+        "description": "True for 1-Click Apply",
+        "type": "boolean"
+      },
+      "educationLevels": {
+        "description": "Education expectations",
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "employmentTypes": {
+        "description": "full_time, part_time, contract and so on",
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "experienceMonths": {
+        "description": "Required experience in months",
+        "type": "integer"
+      },
+      "id": {
+        "description": "Job identity: open seat id, listing key or canonical URL",
+        "type": "string"
+      },
+      "industry": {
+        "description": "Job industry from JSON-LD",
+        "type": "string"
+      },
+      "inputUrl": {
+        "description": "Search or job URL that produced the row",
+        "type": "string"
+      },
+      "isActive": {
+        "description": "Whether the listing is active",
+        "type": "boolean"
+      },
+      "isEstimatedSalary": {
+        "description": "True when the pay is estimated",
+        "type": "boolean"
+      },
       "isHybrid": {
-        "description": "Whether hybrid",
+        "description": "True when the job is hybrid",
+        "type": "boolean"
+      },
+      "isNew": {
+        "description": "Whether ZipRecruiter marks the listing new",
         "type": "boolean"
       },
       "isRemote": {
-        "description": "Whether remote/hybrid",
+        "description": "True when the job is remote",
         "type": "boolean"
       },
       "jid": {
-        "description": "ZipRecruiter job ID (from url)",
+        "description": "ZipRecruiter job id from the jid parameter",
+        "type": "string"
+      },
+      "listingKey": {
+        "description": "ZipRecruiter listing key",
         "type": "string"
       },
       "location": {
-        "description": "Full location text",
+        "description": "Display location",
+        "type": "string"
+      },
+      "locationId": {
+        "description": "ZipRecruiter location id",
+        "type": "string"
+      },
+      "matchId": {
+        "description": "ZipRecruiter match id",
+        "type": "string"
+      },
+      "occupationalCategory": {
+        "description": "O*NET occupational category",
+        "type": "string"
+      },
+      "openSeatId": {
+        "description": "ZipRecruiter open seat id",
+        "type": "string"
+      },
+      "postalCode": {
+        "description": "Postal code",
+        "type": "string"
+      },
+      "postedAgo": {
+        "description": "Human posting age",
+        "type": "string"
+      },
+      "postedAt": {
+        "description": "Original posting timestamp",
+        "type": "string"
+      },
+      "recordType": {
+        "description": "job or salary",
+        "type": "string"
+      },
+      "relatedTitles": {
+        "description": "Related job titles and their average annual pay",
+        "items": {
+          "properties": {
+            "annualSalary": {
+              "type": "number"
+            },
+            "title": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "type": "array"
+      },
+      "rollingPostedAt": {
+        "description": "Rolling refresh timestamp",
         "type": "string"
       },
       "salary": {
-        "description": "Formatted salary text",
+        "description": "Salary text as shown",
+        "type": "string"
+      },
+      "salaryAverage": {
+        "description": "Average annual pay from the FAQ",
+        "type": "number"
+      },
+      "salaryAverageHourly": {
+        "description": "Average hourly pay from the FAQ",
+        "type": "number"
+      },
+      "salaryCurrency": {
+        "description": "Pay currency code",
+        "type": "string"
+      },
+      "salaryLocation": {
+        "description": "Location for a salary row",
         "type": "string"
       },
       "salaryMax": {
-        "description": "Maximum salary (USD)",
+        "description": "Maximum pay in the displayed period",
+        "type": "number"
+      },
+      "salaryMaxAnnual": {
+        "description": "Annualized maximum pay",
+        "type": "number"
+      },
+      "salaryMedian": {
+        "description": "Median annual pay",
         "type": "number"
       },
       "salaryMin": {
-        "description": "Minimum salary (USD)",
+        "description": "Minimum pay in the displayed period",
+        "type": "number"
+      },
+      "salaryMinAnnual": {
+        "description": "Annualized minimum pay",
+        "type": "number"
+      },
+      "salaryP10": {
+        "description": "10th percentile annual pay",
+        "type": "number"
+      },
+      "salaryP25": {
+        "description": "25th percentile annual pay",
+        "type": "number"
+      },
+      "salaryP75": {
+        "description": "75th percentile annual pay",
+        "type": "number"
+      },
+      "salaryP90": {
+        "description": "90th percentile annual pay",
         "type": "number"
       },
       "salaryPeriod": {
-        "description": "year / hour / month",
+        "description": "hour, day, week, month or year",
+        "type": "string"
+      },
+      "salaryRole": {
+        "description": "Role title for a salary row",
+        "type": "string"
+      },
+      "salarySource": {
+        "description": "provided, parsed, predicted or missing",
+        "type": "string"
+      },
+      "salaryUrl": {
+        "description": "Salary page URL",
         "type": "string"
       },
       "scrapedAt": {
-        "description": "ISO 8601 scrape timestamp",
+        "description": "ISO scrape timestamp",
         "type": "string"
       },
+      "searchQuery": {
+        "description": "Keyword that produced the row",
+        "type": "string"
+      },
+      "shareUrl": {
+        "description": "Short share URL",
+        "type": "string"
+      },
+      "shortDescription": {
+        "description": "Search-card teaser",
+        "type": "string"
+      },
+      "skills": {
+        "description": "Skills listed in JSON-LD",
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
       "state": {
-        "description": "State abbreviation",
+        "description": "State or region code",
         "type": "string"
       },
       "title": {
         "description": "Job title",
         "type": "string"
       },
-      "url": {
-        "description": "Full job posting URL",
+      "topPayingCities": {
+        "description": "Cities with the highest pay for the role",
+        "items": {
+          "properties": {
+            "annualSalary": {
+              "type": "number"
+            },
+            "location": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "type": "array"
+      },
+      "type": {
+        "description": "job_ziprecruiter or salary_ziprecruiter",
         "type": "string"
+      },
+      "url": {
+        "description": "Canonical job page URL",
+        "type": "string"
+      },
+      "validThrough": {
+        "description": "Posting expiry date",
+        "type": "string"
+      },
+      "workplaceTypes": {
+        "description": "onsite, remote or hybrid",
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
       }
     },
     "type": "object"
   },
-  "title": "ZipRecruiter Jobs",
+  "title": "ZipRecruiter jobs and salary benchmarks",
   "views": {
-    "detailed": {
+    "jobs": {
       "display": {
         "component": "table",
         "properties": {
-          "city": {
-            "format": "text",
-            "label": "City"
+          "applyUrl": {
+            "format": "link",
+            "label": "Apply"
           },
           "company": {
             "format": "text",
             "label": "Company"
           },
-          "companyLogo": {
-            "format": "link",
-            "label": "Logo"
-          },
-          "companyUrl": {
-            "format": "link",
-            "label": "Company URL"
-          },
-          "id": {
+          "employmentTypes": {
             "format": "text",
-            "label": "ID"
-          },
-          "isHybrid": {
-            "format": "boolean",
-            "label": "Hybrid"
-          },
-          "isRemote": {
-            "format": "boolean",
-            "label": "Remote"
-          },
-          "jid": {
-            "format": "text",
-            "label": "JID"
+            "label": "Employment"
           },
           "location": {
             "format": "text",
             "label": "Location"
+          },
+          "postedAt": {
+            "format": "text",
+            "label": "Posted"
           },
           "salary": {
             "format": "text",
@@ -131,13 +391,9 @@
             "format": "text",
             "label": "Period"
           },
-          "scrapedAt": {
+          "salarySource": {
             "format": "text",
-            "label": "Scraped At"
-          },
-          "state": {
-            "format": "text",
-            "label": "State"
+            "label": "Pay source"
           },
           "title": {
             "format": "text",
@@ -145,30 +401,30 @@
           },
           "url": {
             "format": "link",
-            "label": "URL"
+            "label": "Job URL"
+          },
+          "workplaceTypes": {
+            "format": "text",
+            "label": "Workplace"
           }
         }
       },
-      "title": "Detailed Results",
+      "title": "Jobs",
       "transformation": {
         "fields": [
-          "id",
-          "jid",
           "title",
           "company",
-          "companyUrl",
           "location",
-          "city",
-          "state",
-          "isRemote",
-          "isHybrid",
           "salary",
           "salaryMin",
           "salaryMax",
           "salaryPeriod",
-          "companyLogo",
-          "url",
-          "scrapedAt"
+          "salarySource",
+          "employmentTypes",
+          "workplaceTypes",
+          "postedAt",
+          "applyUrl",
+          "url"
         ]
       }
     },
@@ -183,10 +439,6 @@
           "company": {
             "format": "text",
             "label": "Company"
-          },
-          "isRemote": {
-            "format": "boolean",
-            "label": "Remote"
           },
           "salary": {
             "format": "text",
@@ -203,10 +455,14 @@
           "url": {
             "format": "link",
             "label": "URL"
+          },
+          "workplaceTypes": {
+            "format": "text",
+            "label": "Workplace"
           }
         }
       },
-      "title": "Overview",
+      "title": "Job overview",
       "transformation": {
         "fields": [
           "title",
@@ -214,8 +470,75 @@
           "city",
           "state",
           "salary",
-          "isRemote",
+          "workplaceTypes",
           "url"
+        ]
+      }
+    },
+    "salaries": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "salaryAverage": {
+            "format": "number",
+            "label": "Average"
+          },
+          "salaryAverageHourly": {
+            "format": "number",
+            "label": "Average hourly"
+          },
+          "salaryCurrency": {
+            "format": "text",
+            "label": "Currency"
+          },
+          "salaryLocation": {
+            "format": "text",
+            "label": "Location"
+          },
+          "salaryMedian": {
+            "format": "number",
+            "label": "Median"
+          },
+          "salaryP10": {
+            "format": "number",
+            "label": "P10"
+          },
+          "salaryP25": {
+            "format": "number",
+            "label": "P25"
+          },
+          "salaryP75": {
+            "format": "number",
+            "label": "P75"
+          },
+          "salaryP90": {
+            "format": "number",
+            "label": "P90"
+          },
+          "salaryRole": {
+            "format": "text",
+            "label": "Role"
+          },
+          "salaryUrl": {
+            "format": "link",
+            "label": "Salary URL"
+          }
+        }
+      },
+      "title": "Salary benchmarks",
+      "transformation": {
+        "fields": [
+          "salaryRole",
+          "salaryLocation",
+          "salaryMedian",
+          "salaryP10",
+          "salaryP25",
+          "salaryP75",
+          "salaryP90",
+          "salaryAverage",
+          "salaryAverageHourly",
+          "salaryCurrency",
+          "salaryUrl"
         ]
       }
     }

@@ -1,58 +1,253 @@
 {
+  "description": "Search ZipRecruiter jobs by keyword, location or company, scrape exact URLs, or read salary benchmarks. Descriptions, benefits, company profiles and structured pay are optional.",
   "properties": {
-    "location": {
-      "description": "City/state to combine with 'search'. Ignored if startUrls is provided.",
+    "companyName": {
+      "default": "",
+      "description": "Only jobs from this employer, e.g. `Visa`. Leave the keywords empty to browse every open role at the company.",
       "editor": "textfield",
-      "title": "Location (optional)",
+      "title": "Company name",
       "type": "string"
+    },
+    "daysPosted": {
+      "default": 0,
+      "description": "Only jobs posted within the last N days. 0 means any time.",
+      "maximum": 30,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Posted within (days)",
+      "type": "integer"
+    },
+    "experienceLevels": {
+      "default": [],
+      "description": "Restrict to one or more seniority levels. Empty means no filter.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "no_experience",
+          "junior",
+          "mid",
+          "senior"
+        ],
+        "enumTitles": [
+          "No experience",
+          "Junior",
+          "Mid",
+          "Senior"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Experience levels",
+      "type": "array"
+    },
+    "fetchDescriptions": {
+      "default": true,
+      "description": "Fetch each posting's detail page for the complete description, benefits, company profile and apply details. Off gives faster card-only rows.",
+      "prefill": false,
+      "title": "Fetch full descriptions",
+      "type": "boolean"
+    },
+    "includeCompanyProfile": {
+      "default": true,
+      "description": "Add industry, website, size, headquarters, rating and about text from the posting's company data.",
+      "prefill": false,
+      "title": "Include company profile",
+      "type": "boolean"
+    },
+    "jobType": {
+      "default": "any",
+      "description": "Employment-type filter for keyword searches.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "full_time",
+        "part_time",
+        "contract",
+        "contract_to_hire",
+        "temporary",
+        "as_needed",
+        "other",
+        "internship"
+      ],
+      "enumTitles": [
+        "Any",
+        "Full-time",
+        "Part-time",
+        "Contract",
+        "Contract to hire",
+        "Temporary",
+        "As needed",
+        "Other",
+        "Internship"
+      ],
+      "prefill": "any",
+      "title": "Job type",
+      "type": "string"
+    },
+    "locations": {
+      "default": [
+        "United States"
+      ],
+      "description": "Cities, states, ZIP codes or `United States` for a nationwide search. Every keyword is searched in every location.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "Chicago, IL"
+      ],
+      "title": "Locations",
+      "type": "array"
     },
     "maxItems": {
       "default": 50,
-      "description": "Maximum number of job postings to return.",
-      "maximum": 500,
+      "description": "Maximum number of job or salary records to return across all searches and URLs.",
+      "maximum": 10000,
       "minimum": 1,
       "prefill": 3,
-      "title": "Max Items",
+      "title": "Max records",
       "type": "integer"
     },
-    "proxyConfiguration": {
-      "default": {
-        "apifyProxyCountry": "US",
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
-        ],
-        "useApifyProxy": true
-      },
-      "description": "ZipRecruiter blocks datacenter IPs; hardcoded to RESIDENTIAL US. Do not disable.",
-      "editor": "proxy",
-      "prefill": {
-        "apifyProxyCountry": "US",
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
-        ],
-        "useApifyProxy": true
-      },
-      "title": "Proxy Configuration",
-      "type": "object"
+    "maxSearches": {
+      "default": 100,
+      "description": "Cap on keyword × location combinations in search mode.",
+      "maximum": 100,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Max searches",
+      "type": "integer"
     },
-    "search": {
-      "description": "Alternative shortcut — keyword (e.g., 'nurse') combined with 'location' to build a default ZipRecruiter URL.",
-      "editor": "textfield",
-      "title": "Search Keyword (optional)",
+    "mode": {
+      "default": "search",
+      "description": "Search job postings, scrape URLs you already have, or get salary benchmarks for a role and location.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byUrls",
+        "salary"
+      ],
+      "enumTitles": [
+        "Search jobs",
+        "Scrape specific URLs",
+        "Salary benchmarks"
+      ],
+      "prefill": "search",
+      "title": "What do you want to scrape?",
       "type": "string"
     },
-    "startUrls": {
-      "description": "ZipRecruiter search URLs (e.g., https://www.ziprecruiter.com/jobs-search?search=software+engineer&location=New+York%2C+NY). Any filters applied in the URL are preserved.",
-      "editor": "stringList",
-      "prefill": [
-        "https://www.ziprecruiter.com/jobs-search?search=software+engineer&location=New+York%2C+NY"
+    "radiusMiles": {
+      "default": 0,
+      "description": "Distance around each location. 0 uses ZipRecruiter's default.",
+      "maximum": 100,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Search radius (miles)",
+      "type": "integer"
+    },
+    "salaryLocations": {
+      "default": [
+        "United States"
       ],
-      "title": "Start URLs",
+      "description": "Cities, states or `United States` for salary benchmarks. Every role is looked up in every location.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "Chicago, IL"
+      ],
+      "title": "Salary locations",
       "type": "array"
+    },
+    "salaryMax": {
+      "default": 0,
+      "description": "Only jobs whose advertised annual pay stays at or below this amount. Best effort; 0 means no upper bound.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Maximum annual salary (USD)",
+      "type": "integer"
+    },
+    "salaryMin": {
+      "default": 0,
+      "description": "Only jobs whose advertised annual pay reaches this amount. 0 means no lower bound.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum annual salary (USD)",
+      "type": "integer"
+    },
+    "salaryRoles": {
+      "default": [],
+      "description": "Job titles for salary benchmarks, e.g. `registered nurse` or `data analyst`. Used in salary mode.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "registered nurse"
+      ],
+      "title": "Salary roles",
+      "type": "array"
+    },
+    "salaryUrls": {
+      "default": [],
+      "description": "Exact ZipRecruiter `/Salaries/...` URLs. When set, these are used instead of role and location pairs.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Salary page URLs",
+      "type": "array"
+    },
+    "searchQueries": {
+      "default": [],
+      "description": "Job titles or keywords, e.g. `registered nurse` or `software engineer`. Every keyword is searched in every location below.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "registered nurse"
+      ],
+      "title": "Search keywords",
+      "type": "array"
+    },
+    "startUrls": {
+      "default": [],
+      "description": "Search, job, company or salary URLs. Use this with `Scrape specific URLs`; filters already in a search URL are kept.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "ZipRecruiter URLs",
+      "type": "array"
+    },
+    "workplace": {
+      "default": "any",
+      "description": "Work arrangement for keyword searches.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "remote",
+        "hybrid",
+        "onsite"
+      ],
+      "enumTitles": [
+        "Any",
+        "Remote",
+        "Hybrid",
+        "On-site"
+      ],
+      "prefill": "any",
+      "title": "Workplace type",
+      "type": "string"
     }
   },
   "required": [],
   "schemaVersion": 1,
-  "title": "ZipRecruiter Scraper Input",
+  "title": "ZipRecruiter Jobs & Salary Scraper Input",
   "type": "object"
 }

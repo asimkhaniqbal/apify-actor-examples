@@ -1,13 +1,20 @@
 {
   "actorOutputSchemaVersion": 1,
-  "description": "Job listings scraped from ZipRecruiter search results — title, company, location, parsed salary range, remote/hybrid flag and apply URL.",
+  "description": "One flat dataset with job postings and salary benchmark records. Job rows carry the full description, structured pay, company profile, benefits, dates and apply link; salary rows carry median, percentile and average pay.",
   "properties": {
     "jobs": {
-      "description": "Dataset containing all scraped ZipRecruiter job listings.",
-      "template": "{{links.apiDefaultDatasetUrl}}/items",
-      "title": "ZipRecruiter job listings",
+      "description": "Job rows (type `job_ziprecruiter`) with description, pay, company, location, benefits, dates and apply details.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?view=jobs",
+      "title": "ZipRecruiter job postings",
+      "type": "string"
+    },
+    "salaries": {
+      "description": "Salary rows (type `salary_ziprecruiter`) with median, percentile, average, related titles and top-paying cities.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?view=salaries",
+      "title": "Salary benchmarks",
       "type": "string"
     }
   },
-  "title": "ZipRecruiter Job Search Results & Salary Scraper Output"
+  "title": "ZipRecruiter Jobs & Salary Scraper Output",
+  "type": "object"
 }
