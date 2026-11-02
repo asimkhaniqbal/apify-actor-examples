@@ -1,77 +1,71 @@
 {
-  "description": "Search and browse job listings on jobs.ch, Switzerland's largest job board.",
+  "description": "Search and browse jobs.ch job listings, resolve companies, or paste jobs.ch search and detail URLs.",
   "properties": {
-    "category": {
-      "default": "",
-      "description": "Browse/filter by occupational field — the job's function (e.g. IT, Sales, Finance), distinct from `industry` (the employer's business sector). Required for mode=byCategory; optional filter in every other mode.",
-      "editor": "select",
-      "enum": [
-        "",
-        "100",
-        "101",
-        "102",
-        "103",
-        "104",
-        "105",
-        "106",
-        "107",
-        "108",
-        "109",
-        "110",
-        "111",
-        "112",
-        "113",
-        "114",
-        "115",
-        "116",
-        "117"
-      ],
-      "enumTitles": [
-        "(All occupational fields)",
-        "Admin. / HR / Consulting / CEO",
-        "Finance / Trusts / Real Estate",
-        "Banking / Insurance",
-        "Purchasing / Logistics / Trading",
-        "Marketing / Communications / Editorial",
-        "Sales / Customer Service / Admin.",
-        "Information Technology / Telecom.",
-        "Chemical / Pharma / Biotechnology",
-        "Electronics / Engineering / Watches",
-        "Machine / Plant Engin. / Manufacturing",
-        "Construction / Architecture / Engineer",
-        "Vehicles / Craft / Warehouse / Transport",
-        "Medicine / Care / Therapy",
-        "Public Admin. / Education / Social",
-        "Catering / Food / Tourism",
-        "Graphic Art / Typography / Printing",
-        "Surveillance / Police / Customs / Rescue",
-        "Sport / Spas&Wellness / Culture"
-      ],
-      "prefill": "",
-      "title": "Occupational field / job function",
-      "type": "string"
+    "categories": {
+      "default": [],
+      "description": "Filter by one or more occupational fields / job functions (multi-value OR). Allowed IDs: 97-261 (165 jobs.ch categories; labels in README). Required for mode=byCategory.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Occupational fields",
+      "type": "array"
     },
-    "companySegment": {
-      "default": "",
-      "description": "Optional filter by employer size/segment.",
+    "companyIds": {
+      "default": [],
+      "description": "jobs.ch company IDs (mode=byCompany). IDs are the most reliable company filter and take priority over names.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Company IDs",
+      "type": "array"
+    },
+    "companyNames": {
+      "default": [],
+      "description": "Company names to resolve against jobs.ch's company directory (mode=byCompany). Exact names are preferred; unmatched names fall back to a keyword search filtered by company name.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Company names",
+      "type": "array"
+    },
+    "companySegments": {
+      "default": [],
+      "description": "Filter by employer segment (multi-value OR). Allowed values: gu (large company), kmu (SME), pdl (personnel-service provider).",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Company size",
+      "type": "array"
+    },
+    "descriptionFormat": {
+      "default": "text",
+      "description": "Format of the enriched description: plain text, original HTML, or both.",
       "editor": "select",
       "enum": [
-        "",
-        "gu",
-        "kmu"
+        "text",
+        "html",
+        "both"
       ],
       "enumTitles": [
-        "(Any company size)",
-        "Large company",
-        "Small / medium-sized company (SME)"
+        "Plain text",
+        "HTML",
+        "Both"
       ],
-      "prefill": "",
-      "title": "Company size",
+      "prefill": "text",
+      "title": "Description format",
       "type": "string"
     },
     "employmentGradeMax": {
       "default": 100,
-      "description": "Upper bound of the workload/employment-grade range, in percent.",
+      "description": "Upper bound of the workload range in percent.",
       "maximum": 100,
       "minimum": 0,
       "prefill": 100,
@@ -80,133 +74,63 @@
     },
     "employmentGradeMin": {
       "default": 0,
-      "description": "Lower bound of the workload/employment-grade range, in percent (e.g. 80 for an 80-100% role).",
+      "description": "Lower bound of the workload range in percent.",
       "maximum": 100,
       "minimum": 0,
       "prefill": 0,
       "title": "Workload % — minimum",
       "type": "integer"
     },
-    "employmentType": {
-      "default": "",
-      "description": "Browse/filter by contract type (required for mode=byEmploymentType; optional filter in every other mode).",
-      "editor": "select",
-      "enum": [
-        "",
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6"
-      ],
-      "enumTitles": [
-        "(All contract types)",
-        "Temporary",
-        "Freelance",
-        "Internship",
-        "Supplementary income",
-        "Permanent position",
-        "Apprenticeship"
-      ],
-      "prefill": "",
-      "title": "Employment (contract) type",
-      "type": "string"
+    "employmentTypes": {
+      "default": [],
+      "description": "Filter by one or more contract types (multi-value OR). Allowed IDs: 1 Temporary, 2 Freelance, 3 Internship, 4 Supplementary income, 5 Permanent position, 6 Apprenticeship. Required for mode=byEmploymentType.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Employment types",
+      "type": "array"
     },
-    "includeDescription": {
+    "includeDetails": {
       "default": false,
-      "description": "When enabled, fetches each job's detail page to add the full job description, benefits, required skills, apply URL and salary (only when the employer discloses it — most Swiss listings do not). This roughly doubles the number of requests per run.",
+      "description": "Fetch each job's detail page for full description, apply URL/method, salary estimate, contacts, languages, categories, regions, deadline, benefits and company profile/ratings. Adds one request per job plus one cached request per company.",
       "prefill": false,
-      "title": "Include full description & salary (slower)",
+      "title": "Include job details & company profile",
       "type": "boolean"
     },
-    "industry": {
-      "default": "",
-      "description": "Browse jobs by industry sector (required for mode=byIndustry; optional filter in every other mode).",
-      "editor": "select",
-      "enum": [
-        "",
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-        "10",
-        "11",
-        "12",
-        "13",
-        "14",
-        "15",
-        "16",
-        "17",
-        "18",
-        "19",
-        "20",
-        "21",
-        "22",
-        "23",
-        "24"
-      ],
-      "enumTitles": [
-        "(All industries)",
-        "Banking / Financial institutions",
-        "Building trade / Real estate",
-        "Consulting various",
-        "Education",
-        "Chemicals / Pharmaceuticals",
-        "Retail trade / Wholesaling",
-        "Service sector in general",
-        "Utilities",
-        "Catering / Hotel",
-        "Health care / Social services",
-        "Commercial operation / Skilled crafts",
-        "Industry various",
-        "Information technology / Telecom.",
-        "Agriculture / Forestry / Wood",
-        "Media / Printing / Publishing",
-        "Public administration / Associations",
-        "Tourism / Travel / Recreation",
-        "Transport / Logistics",
-        "Legal / Business advice",
-        "Insurance",
-        "Consumer / Luxury goods industry",
-        "Machine / System construction",
-        "Medical Technology",
-        "Recruitment agency / Staffing"
-      ],
-      "prefill": "",
-      "title": "Industry / category",
-      "type": "string"
+    "incrementalMode": {
+      "default": false,
+      "description": "When enabled, only new or changed jobs are pushed. State is stored under `stateKey` in the key-value store.",
+      "prefill": false,
+      "title": "Incremental mode",
+      "type": "boolean"
     },
-    "languageSkill": {
-      "default": "",
-      "description": "Optional filter to only return jobs that require this working language.",
-      "editor": "select",
-      "enum": [
-        "",
-        "de",
-        "en",
-        "fr",
-        "it"
-      ],
-      "enumTitles": [
-        "(Any language)",
-        "German",
-        "English",
-        "French",
-        "Italian"
-      ],
-      "prefill": "",
-      "title": "Required language",
-      "type": "string"
+    "industries": {
+      "default": [],
+      "description": "Filter by one or more employer industries (multi-value OR). Allowed IDs: 1-24. Required for mode=byIndustry; optional elsewhere.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Industries",
+      "type": "array"
+    },
+    "languageSkills": {
+      "default": [],
+      "description": "Filter by one or more required working languages (multi-value OR). Allowed values: de, en, fr, it.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Required languages",
+      "type": "array"
     },
     "locale": {
       "default": "en",
-      "description": "Language of the jobs.ch site to scrape from — affects the language of translated fields (title/company are unaffected; job counts and set are identical across locales).",
+      "description": "jobs.ch site language for URLs and translated labels.",
       "editor": "select",
       "enum": [
         "en",
@@ -224,27 +148,48 @@
     },
     "location": {
       "default": "",
-      "description": "Optional free-text refinement by city or place name (e.g. \"Zürich\", \"Geneva\", \"Basel\"). Combinable with `region`.",
+      "description": "Optional free-text city/place refinement (e.g. Zürich, Geneva, Basel).",
       "editor": "textfield",
       "prefill": "",
-      "title": "City / place (free text)",
+      "title": "City / place",
       "type": "string"
+    },
+    "maxDescriptionLength": {
+      "default": 0,
+      "description": "Truncate descriptions to this many characters (0 = no truncation).",
+      "maximum": 50000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Max description length",
+      "type": "integer"
     },
     "maxItems": {
       "default": 20,
-      "description": "Maximum number of job listings to return. jobs.ch returns 20 listings per page.",
-      "maximum": 1000,
+      "description": "Maximum number of jobs to return. jobs.ch serves 20 rows per page and caps each search at 2,000 rows.",
+      "maximum": 2000,
       "minimum": 1,
-      "prefill": 20,
+      "prefill": 3,
       "title": "Max items",
+      "type": "integer"
+    },
+    "maxPages": {
+      "default": 100,
+      "description": "Maximum result pages to request per query/filter combination (jobs.ch caps searches at 100 pages).",
+      "maximum": 100,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Max pages",
       "type": "integer"
     },
     "mode": {
       "default": "search",
-      "description": "What to fetch. `search` runs a free-text keyword search (leave the query blank to browse every job). `byRegion` browses a Swiss canton/language-region. `byIndustry` browses an industry/category. `byEmploymentType` browses a contract type. `byCategory` browses an occupational field / job function.",
+      "description": "What to fetch. `search` runs classic keyword search (or semantic with `searchMode=semantic`). `browse` uses filters only. `byCompany` resolves company names/IDs. `byUrls` accepts jobs.ch search or job-detail URLs. The `byRegion`/`byIndustry`/`byEmploymentType`/`byCategory` modes are kept for backward compatibility and require their matching filter.",
       "editor": "select",
       "enum": [
         "search",
+        "browse",
+        "byCompany",
+        "byUrls",
         "byRegion",
         "byIndustry",
         "byEmploymentType",
@@ -252,50 +197,32 @@
       ],
       "enumTitles": [
         "Keyword search",
+        "Browse all jobs by filters",
+        "Jobs at specific companies",
+        "Search or job URLs",
         "Browse by canton / region",
-        "Browse by industry / category",
-        "Browse by employment (contract) type",
-        "Browse by occupational field / job function"
+        "Browse by industry",
+        "Browse by employment type",
+        "Browse by occupational field"
       ],
       "prefill": "search",
       "title": "Mode",
       "type": "string"
     },
-    "position": {
-      "default": "",
-      "description": "Optional filter by seniority/position level.",
-      "editor": "select",
-      "enum": [
-        "",
-        "1",
-        "2",
-        "3"
-      ],
-      "enumTitles": [
-        "(Any level)",
-        "Executive position",
-        "Specialist",
-        "Employee"
-      ],
-      "prefill": "",
-      "title": "Seniority level",
-      "type": "string"
-    },
-    "proxyConfiguration": {
-      "default": {
-        "useApifyProxy": true
+    "positions": {
+      "default": [],
+      "description": "Filter by one or more seniority levels (multi-value OR). Allowed IDs: 1 Executive position, 2 Specialist, 3 Employee.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
       },
-      "description": "Optional. jobs.ch is a plain public site that normally does not require a proxy; this is used only as an automatic fallback if the datacenter IP gets temporarily rate-limited.",
-      "editor": "proxy",
-      "prefill": {
-        "useApifyProxy": true
-      },
-      "title": "Proxy configuration",
-      "type": "object"
+      "prefill": [],
+      "title": "Seniority levels",
+      "type": "array"
     },
     "publishedSince": {
       "default": "",
-      "description": "Optional filter to only return jobs first published within this time window.",
+      "description": "Only jobs first published within this time window.",
       "editor": "select",
       "enum": [
         "",
@@ -315,74 +242,89 @@
       "title": "Published since",
       "type": "string"
     },
-    "region": {
-      "default": "",
-      "description": "Browse jobs by Swiss canton / language-region (required for mode=byRegion; optional filter in every other mode).",
+    "regions": {
+      "default": [],
+      "description": "Filter by one or more Swiss canton/language-regions (multi-value OR). Allowed IDs: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25. Required for mode=byRegion; optional elsewhere.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Cantons / regions",
+      "type": "array"
+    },
+    "searchMode": {
+      "default": "classic",
+      "description": "`classic` uses jobs.ch's exact keyword API with all filters and sort. `semantic` uses the site's fuzzy, cross-language search page (filters still apply; sort is relevance-only).",
       "editor": "select",
       "enum": [
-        "",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-        "10",
-        "11",
-        "12",
-        "13",
-        "14",
-        "15",
-        "16",
-        "17",
-        "18",
-        "19",
-        "20",
-        "21",
-        "22",
-        "23",
-        "24",
-        "25"
+        "classic",
+        "semantic"
       ],
       "enumTitles": [
-        "(All regions)",
-        "German-speaking Switzerland",
-        "Western Switzerland (French-speaking)",
-        "Ticino",
-        "Abroad",
-        "Region of Geneva",
-        "Region of Zurich / Schaffhausen",
-        "Region of Neuchâtel / Jura",
-        "Region of Fribourg",
-        "Region of Vaud / Valais",
-        "Eastern Switzerland / Graubünden / Liechtenstein",
-        "Mittelland (Aargau / Solothurn)",
-        "Region of Bern",
-        "Region of Basel",
-        "Central Switzerland",
-        "Oberwallis",
-        "Wil / Toggenburg",
-        "Thurgau / Lake Constance",
-        "City of Zurich / Lake Zurich",
-        "Zurich Oberland",
-        "St. Gallen / Appenzell",
-        "Zurich Unterland / Limmattal",
-        "Rheintal / Liechtenstein / Sargans / Linth",
-        "Graubünden",
-        "Region of Winterthur / Schaffhausen"
+        "Classic (exact keyword)",
+        "Semantic (fuzzy, cross-language)"
       ],
-      "prefill": "",
-      "title": "Canton / region",
+      "prefill": "classic",
+      "title": "Search relevance",
       "type": "string"
     },
-    "searchQuery": {
+    "searchQueries": {
+      "default": [],
+      "description": "One or more free-text keywords (mode=search). Multiple queries are run in order and deduplicated by job ID. Leave empty to browse all jobs matching the filters.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "software engineer"
+      ],
+      "title": "Search queries",
+      "type": "array"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Classic search sort order: relevance or newest-first. Semantic search always uses relevance.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "date"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Newest first"
+      ],
+      "prefill": "relevance",
+      "title": "Sort order",
+      "type": "string"
+    },
+    "startUrls": {
+      "default": [],
+      "description": "jobs.ch search URLs or job-detail URLs (mode=byUrls). Search URLs carry their own filters; invalid or non-jobs.ch URLs are skipped.",
+      "editor": "requestListSources",
+      "items": {
+        "properties": {
+          "url": {
+            "description": "jobs.ch search or job-detail URL.",
+            "title": "URL",
+            "type": "string"
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "type": "object"
+      },
+      "prefill": [],
+      "title": "Start URLs",
+      "type": "array"
+    },
+    "stateKey": {
       "default": "",
-      "description": "Free-text keyword to search job titles/descriptions (mode=search). Leave blank to browse all jobs matching the other filters. Combinable with every filter below in any mode.",
+      "description": "Key-value store key for incremental state (default `jobs_ch_incremental_state`). Only used when `incrementalMode` is true.",
       "editor": "textfield",
-      "prefill": "python developer",
-      "title": "Search query",
+      "prefill": "",
+      "title": "Incremental state key",
       "type": "string"
     }
   },

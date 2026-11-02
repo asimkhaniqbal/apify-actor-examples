@@ -4,155 +4,201 @@
 
 # Jobs.ch Swiss Job Listings by Region & Industry
 
-Scrape **jobs.ch** — Switzerland's largest job board. Search by keyword, browse by canton/language-region, industry/category, occupational field, or employment (contract) type, and refine with a workload-percentage range, seniority level, required language, company size, and published-since date. Returns title, company, location, contract type, workload, posted date, and the job URL — with an optional deeper mode that adds the full job description, benefits, required skills, and salary when the employer discloses it. HTTP-only, no auth, no cookies required.
+Scrape **jobs.ch**, Switzerland's largest job board, through its public search and company APIs. Run classic keyword searches, browse by filters, resolve employers by name or company ID, or paste jobs.ch search/job URLs. Listings can be enriched with the full description, apply URL and method, jobs.ch salary estimate, contacts, language requirements, occupational categories, regions, locations, application deadline, benefits and employer profile/ratings.
 
-## What this actor does
+No login, cookies, API key or proxy is needed.
 
-- **Five modes:** `search` (keyword), `byRegion` (canton/language-region browse), `byIndustry` (category browse), `byEmploymentType` (contract-type browse), `byCategory` (occupational field / job function browse) — every filter below is combinable in any mode
-- **Filters:** city/place, canton/region, industry, occupational field, employment (contract) type, workload % range, seniority level, required language, company size, published-since date
-- **Three site languages:** English, German, French
-- **Optional enrichment:** full job description, benefits, required skills, apply URL, and salary (when disclosed)
-- **Empty fields are omitted**
+## Modes
 
-## Output per job
+| Mode | What it does |
+|---|---|
+| `search` | Classic keyword search across one or more queries. With `searchMode: "semantic"` it uses jobs.ch's fuzzy, cross-language search page instead. |
+| `browse` | Filter-only browsing with no keyword. |
+| `byCompany` | Resolves company names through jobs.ch's company directory and searches all openings. Company IDs are also accepted and are the most reliable option. |
+| `byUrls` | Accepts jobs.ch search URLs (their filters are preserved) and job-detail URLs. Detail URLs report `jobStatus`: `online`, `offline`, `expired` or `unknown`. |
+| `byRegion` | Legacy mode: requires at least one value in `regions`; filters only. |
+| `byIndustry` | Legacy mode: requires at least one value in `industries`; filters only. |
+| `byEmploymentType` | Legacy mode: requires at least one value in `employmentTypes`; filters only. |
+| `byCategory` | Legacy mode: requires at least one value in `categories`; filters only. |
 
-- `jobId`, `title`
+## Filters (all multi-value)
+
+- `regions` — 24 Swiss canton/language-region values.
+- `industries` — 24 employer-industry values.
+- `categories` — all **165** jobs.ch occupational categories (job function, distinct from employer industry).
+- `employmentTypes` — temporary, freelance, internship, supplementary income, permanent, apprenticeship.
+- `positions` — executive, specialist, employee.
+- `languageSkills` — German, English, French, Italian.
+- `companySegments` — large company, SME, personnel-service provider.
+- `location` — free-text city/place.
+- `employmentGradeMin` / `employmentGradeMax` — workload range in percent.
+- `publishedSince` — last 1, 3, 7 or 30 days.
+- `sortBy` — relevance or newest-first (classic search).
+
+Multiple values in one filter are combined with OR; different filters are combined with AND. Jobs.ch caps every search at **2,000 rows / 100 pages of 20**. Use narrower filters, date windows or several queries to get past the cap.
+
+## Output fields
+
+Every record includes the job identity and listing fields:
+
+- `jobId`, `title`, `searchQuery` (when a keyword was used), `jobStatus` (URL mode only)
 - `companyId`, `companyName`, `companySlug`, `companyUrl`, `companyLogoUrl`
-- `location` — primary place name (e.g. `Zürich`)
-- `locationDetails[]` — canton code, city, postal code, country code, latitude/longitude (present on jobs with more than one workplace)
-- `workloadMin`, `workloadMax`, `workloadText` — employment grade in percent (e.g. `80 – 100%`)
-- `contractType`, `contractTypes[]` — e.g. `Permanent position`, `Freelance`, `Internship`
-- `seniorityLevel` — `Executive position` / `Specialist` / `Employee`
-- `tags[]` — badges jobs.ch shows on the listing, e.g. `Easy apply`, `Quick apply` (present only when the listing carries one)
-- `benefitTags[]` — employer-disclosed perks shown on the listing itself (e.g. `Working from home`, `Flexible working hours`) — present only on the share of listings that have any; a larger, differently-sourced `benefits[]` list is also available via `includeDescription`
-- `postedDate`, `initialPostedDate`, `postedRelative`, `initialPostedRelative` (present only on reposted/republished listings where it differs from `postedRelative`, or when jobs.ch echoes the same value)
+- `location`, `locationDetails[]` (street, city, postal-code, canton, country, latitude, longitude)
+- `workloadMin`, `workloadMax`, `workloadText`
+- `contractType`, `contractTypes[]`, `seniorityLevel`
+- `tags[]`, `benefitTags[]`, `easyApply`, `quickApply`, `homeOfficeOffered`
+- `postedDate`, `initialPostedDate`, `postedRelative`, `initialPostedRelative`
 - `isNew`, `isBoosted`, `isPaid`, `isActive`, `headhunterApplicationAllowed`
-- `jobUrl`
-- With `includeDescription: true` — `description`, `roleSummary` (short, normalized job title, e.g. `"Consultant Finance"` — this is jobs.ch's own internal role-taxonomy label, so it can occasionally read as a broader category than the literal posted title), `industry` (employer's business sector as text, distinct from the job's `category`), `benefits[]`, `skills[]`, `workHoursText`, `category`, `totalOpenings`, `startDate`, `jobImmediateStart`, `directApply`, `companyWebsite` (the employer's own site, distinct from `companyUrl`), `companyOverview`, `contactName`, `contactPhone`, `streetAddress`, `jobImageUrl` (the job posting's own banner/cover image, when the employer supplied one), `applicantLocationRequirement` (e.g. `Switzerland` / `Abroad` — the employer's stated eligibility requirement for applicants), and `salaryMin` / `salaryMax` / `salaryCurrency` / `salaryPeriod` when the employer discloses a salary range. With `includeDescription: true`, `companyUrl` is also refined to the canonical URL the job posting itself declares (jobs.ch occasionally serves a listing-level company slug that only 301-redirects to this canonical one). Use `jobUrl` as the apply entry point — see Limitations below for why a separate `applyUrl` isn't offered.
-- `recordType: "job"`, `scrapedAt`
+- `jobUrl`, `recordType`, `scrapedAt`
 
-## Input
+With `includeDetails: true`:
+
+- `description` (plain text), `descriptionHtml` (original HTML), `descriptionSnippet`
+- `applyUrl`, `applyMethod` (`external` or `form`), `applicationDeadline`
+- `salaryMin`, `salaryMax`, `salaryCurrency`, `salaryPeriod`, `salaryIsEstimate`
+- `contacts[]` (`name`, `firstName`, `lastName`, `role`, `phone`), plus `contactName` / `contactPhone`
+- `languageSkills[]` (`language`, `level`), `skills[]`, `benefits[]`
+- `category` (full taxonomy path), `categories[]`, `regions[]`, `cantonCode`
+- `roleSummary`, `industry`, `workHoursText`, `totalOpenings`, `startDate`, `jobImmediateStart`
+- `companyWebsite`, `companyOverview`, `companyDescription`
+- `companySize`, `companySegment`, `companyIndustry`, `companyRating`, `companyReviewCount`,
+  `companyOpenJobs`, `companySocialLinks[]`, `companyAddress`
+- `applicantLocationRequirement`, `streetAddress`, `jobImageUrl`, `directApply`
+
+Empty values are omitted at every depth. `0` and `false` are preserved when they are real values.
+
+## Input reference
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `search` | `search` / `byRegion` / `byIndustry` / `byEmploymentType` / `byCategory` |
-| `searchQuery` | string | – | Free-text keyword (mode=search); leave blank to browse all jobs |
-| `region` | string | – | Canton / language-region (required for mode=byRegion) |
-| `location` | string | – | Free-text city/place refinement, e.g. `Zürich` |
-| `industry` | string | – | Industry / employer sector (required for mode=byIndustry) |
-| `category` | string | – | Occupational field / job function (required for mode=byCategory) — distinct from `industry` |
-| `employmentType` | string | – | Contract type (required for mode=byEmploymentType) |
-| `employmentGradeMin` | int | `0` | Workload % lower bound |
-| `employmentGradeMax` | int | `100` | Workload % upper bound |
-| `position` | string | – | Seniority level filter |
-| `publishedSince` | string | – | Only jobs first published in the last 24h / 3 / 7 / 30 days |
-| `languageSkill` | string | – | Only jobs that require this working language: `de` / `en` / `fr` / `it` |
-| `companySegment` | string | – | Only jobs at large companies (`gu`) or SMEs (`kmu`) |
-| `includeDescription` | bool | `false` | Fetch each job's detail page for description/benefits/skills/salary |
-| `locale` | string | `en` | Site language: `en` / `de` / `fr` |
-| `maxItems` | int | `20` | Hard cap (1–1000) |
-| `proxyConfiguration` | object | AUTO | Used first for keyword (`searchQuery`) searches — jobs.ch's own IP reputation narrows relevance for the raw datacenter IP; used only as an automatic fallback for browse/filter modes |
+| `mode` | select | `search` | See modes above. |
+| `searchMode` | select | `classic` | `classic` or `semantic`. |
+| `searchQueries` | string list | `[]` | One or more keyword queries; deduplicated by job ID. |
+| `companyNames` | string list | `[]` | Company names for `byCompany`. |
+| `companyIds` | string list | `[]` | jobs.ch company IDs for `byCompany`. |
+| `startUrls` | URL list | `[]` | jobs.ch search or job-detail URLs for `byUrls`. |
+| `regions` | string list | `[]` | Region/canton IDs. |
+| `industries` | string list | `[]` | Industry IDs. |
+| `categories` | string list | `[]` | Occupational category IDs (all 165). |
+| `employmentTypes` | string list | `[]` | Contract-type IDs. |
+| `positions` | string list | `[]` | Seniority IDs. |
+| `languageSkills` | string list | `[]` | `de`, `en`, `fr`, `it`. |
+| `companySegments` | string list | `[]` | `gu`, `kmu`, `pdl`. |
+| `location` | text | `""` | City/place refinement. |
+| `employmentGradeMin` | integer | `0` | Minimum workload %. |
+| `employmentGradeMax` | integer | `100` | Maximum workload %. |
+| `publishedSince` | select | `""` | `1`, `3`, `7`, `30` days. |
+| `sortBy` | select | `relevance` | `relevance` or `date`. |
+| `includeDetails` | boolean | `false` | Fetch job detail and company profile. |
+| `descriptionFormat` | select | `text` | `text`, `html` or `both`. |
+| `maxDescriptionLength` | integer | `0` | Truncate descriptions; `0` = no limit. |
+| `maxItems` | integer | `20` | 1–2,000. |
+| `maxPages` | integer | `100` | 1–100 pages per query/filter combination. |
+| `locale` | select | `en` | `en`, `de`, `fr`. |
+| `incrementalMode` | boolean | `false` | Push only new/changed jobs. |
+| `stateKey` | text | `""` | Key-value store key for incremental state. |
 
-### Example: keyword search
+## Examples
+
+### Classic keyword search
 
 ```json
 {
   "mode": "search",
-  "searchQuery": "data engineer",
+  "searchQueries": ["software engineer", "data engineer"],
+  "regions": ["19"],
   "employmentGradeMin": 80,
-  "employmentGradeMax": 100,
-  "maxItems": 50
-}
-```
-
-### Example: browse a canton/region
-
-```json
-{
-  "mode": "byRegion",
-  "region": "7",
-  "employmentType": "5",
   "maxItems": 100
 }
 ```
 
-### Example: browse an industry with full descriptions
+### Semantic, cross-language search
 
 ```json
 {
-  "mode": "byIndustry",
-  "industry": "13",
-  "includeDescription": true,
+  "mode": "search",
+  "searchMode": "semantic",
+  "searchQueries": ["pflege"],
+  "location": "Genève",
+  "maxItems": 50
+}
+```
+
+### Company openings with full profiles
+
+```json
+{
+  "mode": "byCompany",
+  "companyNames": ["Swiss Medical Network"],
+  "includeDetails": true,
   "maxItems": 25
 }
 ```
 
-### Example: browse by contract type
+### Paste search and detail URLs
 
 ```json
 {
-  "mode": "byEmploymentType",
-  "employmentType": "6",
-  "location": "Zürich"
+  "mode": "byUrls",
+  "startUrls": [
+    {"url": "https://www.jobs.ch/en/vacancies/?term=pflege&region=19"},
+    {"url": "https://www.jobs.ch/en/vacancies/detail/e5ce43b5-b97a-46cc-a783-93eff2bf064f/"}
+  ],
+  "includeDetails": true
 }
 ```
 
-### Example: browse by occupational field, published in the last week
+### Browse by occupational field, newest first
 
 ```json
 {
-  "mode": "byCategory",
-  "category": "106",
+  "mode": "browse",
+  "categories": ["175", "176"],
   "publishedSince": "7",
-  "languageSkill": "en",
-  "companySegment": "gu"
+  "sortBy": "date",
+  "maxItems": 200
 }
 ```
 
 ## Use cases
 
-- **Recruiting intelligence** — track how many roles a canton or industry is hiring for
-- **Labour-market research** — analyse workload/contract-type distribution across Switzerland
-- **Job aggregators** — feed jobs.ch listings into a meta-search product
-- **Salary benchmarking** — collect the (rare) publicly disclosed salary ranges
-- **Company monitoring** — watch a specific employer's open roles via `searchQuery`
+- Recruiting and labour-market monitoring by canton, industry or occupational field.
+- Company hiring-tracker dashboards built on stable `jobId` values.
+- Job-board aggregation with full descriptions and apply links.
+- Salary research using jobs.ch's own annual CHF estimates (always labelled as estimates).
+- Incremental monitoring of new or changed postings.
+
+## Data source
+
+The actor reads jobs.ch's public search API, its server-rendered search pages for semantic mode, its company directory/profile API, and the job-detail pages' embedded React Query state plus schema.org `JobPosting` JSON-LD. All requests are anonymous, cookieless and direct.
+
+## Limitations
+
+- **2,000-row search ceiling.** jobs.ch returns at most 100 pages of 20 rows per search. Partition by filters, date windows or queries to collect more.
+- **Salary is an estimate.** The salary fields come from jobs.ch's own salary-estimation endpoint, are annual CHF, and are marked `salaryIsEstimate: true`. They are not employer-disclosed salaries.
+- **Contacts are partial.** Job-level contacts appear on a minority of postings (about 7 of 48 in testing); phone numbers are rarer and email addresses are not exposed.
+- **Apply links are external only.** About three-quarters of sampled jobs had an external apply URL. The rest use jobs.ch's on-site form; for those, `applyMethod` is `form` and `jobUrl` is the apply entry point.
+- **Company matching is best-effort.** Exact company names resolve first; otherwise prefix/contains matching is used. Company IDs are the reliable option.
+- **Semantic search is fuzzy by design.** It mirrors jobs.ch's own relevance engine, does not support date sorting, and can return off-topic rows for an unmatched query.
 
 ## FAQ
 
-**What's the data source?**  The public jobs.ch job-search results page, in the same language/data the site itself renders. No login, no API key.
+**Do I need a proxy, cookie or API key?** No. Every request is anonymous and direct. Existing tasks that still send a proxy object keep running; the value is ignored.
 
-**Is this affiliated with jobs.ch?**  No — this is a third-party actor that reads jobs.ch's publicly accessible pages.
+**What is the difference between `industry` and `category`?** `industry` is the employer's business sector; `category` is the job's occupational function. A bank can post an IT-category job, so the two taxonomies are independent.
 
-**Why is `location` free text but `region` a dropdown?**  jobs.ch's canton/language-regions are a fixed, documented list of ~24 options, so they're a dropdown. City/place names are effectively unbounded, so `location` stays free text and is combinable with `region`.
+**Why did I get fewer rows than `maxItems`?** Either jobs.ch had no more matches, the 2,000-row cap was reached, or `maxPages` stopped the crawl. The run's status message says which.
 
-**Why is salary often missing?**  Most Swiss employers do not publish a salary range on their listings. The `salaryMin`/`salaryMax`/`salaryCurrency` fields only appear on the small share of jobs where the employer disclosed one, and only when `includeDescription` is enabled.
+**Why are some fields missing on some jobs?** jobs.ch does not include every field on every posting, and the actor omits empty values rather than inventing placeholders. Detail fields require `includeDetails: true`.
 
-**What does `includeDescription` cost me?**  It fetches one extra page per job, roughly doubling the number of requests and the run time — leave it off for a fast listing-only scrape.
+**Are the salary figures employer-disclosed?** No. They are jobs.ch's annual CHF estimate and are always marked `salaryIsEstimate: true`.
 
-**Can I combine `region`, `industry`, `category`, `employmentType`, `publishedSince`, `languageSkill`, `companySegment` and `searchQuery` together?**  Yes — every filter is honoured in every mode; `mode` only controls which single field is mandatory.
+**How do I get past 2,000 rows?** Split the search into narrower slices — one region, category, company or publication window at a time — and combine the datasets. Deduplicate on `jobId`.
 
-**What's the difference between `industry` and `category`?**  `industry` is the *employer's* business sector (e.g. Banking, Retail, Healthcare). `category` is the *job's* occupational field / function (e.g. IT, Sales, Finance) — jobs.ch tracks these as two separate taxonomies, so a Banking-industry employer can post an IT-category job. Use whichever axis matches your research question, or combine both.
+**Does semantic search support sorting?** No. jobs.ch's semantic results page is relevance-only. Use classic search with `sortBy: "date"` for newest-first ordering.
 
-**How fresh is the data?**  Real-time — every run reads jobs.ch's live search results, not a cache.
+**What does incremental mode do?** With `incrementalMode: true`, the actor stores a signature per `jobId` under `stateKey` and pushes only new or changed records. Disable it for a full snapshot.
 
-**Do I need a proxy?**  No configuration needed — the free `AUTO` proxy group is on by default. For `byRegion`/`byIndustry`/`byEmploymentType`/`byCategory` browsing it's only used as an automatic fallback if a run gets temporarily rate-limited. For keyword (`searchQuery`) searches it's used proactively on every request, because jobs.ch's own search-relevance backend returns a smaller, less on-topic result set to plain datacenter IPs (still HTTP 200 — not a rate limit) unless the request goes through Apify's proxy pool.
+**Can I use job URLs from any jobs.ch language?** Yes. English, German and French detail/search URLs are accepted, and the record URLs follow the URL's language.
 
-**Why does an unusual `searchQuery` sometimes return a handful of unrelated jobs instead of 0?**  jobs.ch's own search engine is deliberately typo-tolerant/fuzzy rather than a literal substring match — verified by loading the same query directly on jobs.ch in a browser: it shows the identical small result count and titles. This actor faithfully mirrors whatever jobs.ch itself returns; it never fabricates results for an unmatched query.
-
-## Data source & limitations
-
-This actor reads jobs.ch's server-rendered search-results HTML (the same Redux state the site itself hydrates from) — not a private or authenticated API. Every filter and output field listed above comes from that public payload.
-
-Axes that exist on jobs.ch but are **not** exposed by this actor, and why:
-
-- **Company-name filter** — jobs.ch resolves a company filter to an internal `companyId` via an autocomplete lookup rather than a stable text/slug parameter, so it can't be driven reliably from a plain input field. Use `searchQuery` (jobs.ch's full-text search already matches company names) as a practical substitute.
-- **Sort order** (relevance / date) — the `sort=`/`order=` query parameters accepted by the results page are silently ignored by jobs.ch's backend (verified: identical `searchHash`/result order regardless of value), so no `sortBy` input is offered — it would not do anything.
-- **Benefit filter (`benefit=`)** — the results page recognizes a `benefit=` query parameter (both numeric ids and benefit slugs echo back into the embedded search state), but verified live: it makes the underlying search silently fail (`fetched: false`, 0 results, still HTTP 200) for every value tried, including the exact slugs jobs.ch's own listings emit (`training`, `flexible-working-hours`, `free-drinks`, ...). Unlike the `employment-grade-min=0` quirk (which has one clean, verified workaround value), no value makes this filter actually run a search, so it is not exposed as an input. The listing-level `benefitTags[]` output field is unaffected — that comes from each job's own record, not from filtering.
-- **Job "group" filter (`group=`)** — also recognized into the embedded search state and returns `fetched: true`, but every id from 1–200 tested returns exactly 0 hits with no documented id scheme; excluded as unreliable/undiscoverable rather than exposing a filter that always returns nothing.
-- **Listing "label" filter (`label=`)** — accepted into the embedded search state but verified to have zero effect on the result set or count (same `totalHits` with or without it, for both `new` and `boosted` values) — like `sort=`, it's a no-op parameter.
-- **`languageSkills`, `regions`, `contacts`, `applicationOptions`, `videos` fields** — jobs.ch's search-results payload declares these fields on every listing row, but they were empty (`[]`/`{}`) across every sampled query, filter and page during testing, including after filtering by `languageSkill`. They are intentionally omitted rather than emitted as always-null placeholders.
-- **A broader `benefits` vocabulary** — the listing-level `benefitTags[]` field reformats whatever slug jobs.ch already sent (e.g. `working-from-home` → `Working from home`) rather than mapping against a fixed lookup table, because jobs.ch's benefit-tag vocabulary is open-ended and grows over time; a hardcoded table would silently go stale.
-- **Job detail's `employmentUnit` field** — the detail page's ld+json block declares this, but verified live across dozens of listings: its value is always identical to the already-extracted `seniorityLevel` (`Employee` / `Specialist` / `Executive position`), just sourced from a second place. Omitted as a pure duplicate rather than a second field carrying the same information twice.
-- **Job detail's `identifier`/`additionalType`/`jobLocation.address.addressRegion`** — `identifier.value` duplicates `jobId`; `additionalType` is a constant boilerplate value (`https://schema.org/Product`) on every listing; `addressRegion` is mislabeled by jobs.ch's own markup (it holds the city name, duplicating `location`, not an actual canton/region). None carry information beyond what's already emitted.
-- **Job detail's `datePosted`/`employmentType` (schema.org fields)** — verified live across sampled listings: `datePosted` is always identical to the listing's own `publicationDate` (already emitted as `postedDate`); `employmentType`'s text value is always identical to the already-extracted, locale-translated `contractType`. Both are pure duplicates sourced from a second place on the detail page.
-- **Apply URL (`potentialAction.target.urlTemplate` in the detail page's ld+json)** — jobs.ch's own structured data declares this as a directly-fetchable "ApplyAction" URL, but verified live (both `curl -ILSs` with no cookies and a full JS-rendered browser navigation): it 404s. jobs.ch's real "Apply" button is a pure client-side modal — clicking it doesn't even change the browser's URL — so there is no working standalone apply link to expose. `jobUrl` (the job's own detail page, always reachable) is the correct entry point; a user reaches the same Apply button by opening it.
+**Is this affiliated with jobs.ch?** No. It is an independent third-party actor that reads publicly available jobs.ch data.
