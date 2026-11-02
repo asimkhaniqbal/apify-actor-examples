@@ -1,0 +1,364 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-IKEeTFvqh/GiCXf9ZT1qqhnP5Yd0JXzDdb2tzuNTxsw=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Lever Job Board Postings by Company Slug | Vexaloom Labs</title><meta name="description" content="Pull open job postings from one or more Lever.co company boards, or fetch specific postings by ID, with location, team, salary range, requirements, and apply links, filterable by t"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/YMM8oKkDKWReRyR5Z/"><meta property="og:title" content="Lever Job Board Postings by Company Slug | Vexaloom Labs"><meta property="og:description" content="Pull open job postings from one or more Lever.co company boards, or fetch specific postings by ID, with location, team, salary range, requirements, and apply links, filterable by t"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/YMM8oKkDKWReRyR5Z/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/YMM8oKkDKWReRyR5Z/#webpage","name":"Lever Job Board Postings by Company Slug","description":"Pull open job postings from one or more Lever.co company boards, or fetch specific postings by ID, with location, team, salary range, requirements, and apply links, filterable by team, location, and commitment type.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/YMM8oKkDKWReRyR5Z/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/YMM8oKkDKWReRyR5Z/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/YMM8oKkDKWReRyR5Z/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/YMM8oKkDKWReRyR5Z/#article","headline":"Lever Job Board Postings by Company Slug","name":"Lever Job Board Postings by Company Slug","description":"Pull open job postings from one or more Lever.co company boards, or fetch specific postings by ID, with location, team, salary range, requirements, and apply links, filterable by team, location, and commitment type.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/YMM8oKkDKWReRyR5Z/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/YMM8oKkDKWReRyR5Z/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/YMM8oKkDKWReRyR5Z/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Lever Job Board Postings by Company Slug","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/YMM8oKkDKWReRyR5Z/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Lever Job Board Postings by Company Slug</span></div><section id="overview"><h1 class="doc-title">Lever Job Board Postings by Company Slug</h1><p class="lede">Pull open job postings from one or more Lever.co company boards, or fetch specific postings by ID, with location, team, salary range, requirements, and apply links, filterable by team, location, and commitment type.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/lever-job-board-postings-by-company-slug">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/YMM8oKkDKWReRyR5Z/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to fetch: all postings from company boards, or a specific posting by ID.</td></tr><tr><td><code>companySlugs</code></td><td>array</td><td>optional</td><td>List of Lever company board slugs to scrape (e.g. [&quot;netflix&quot;, &quot;stripe&quot;]). Find the slug in the Lever URL: jobs.lever.co/{slug}</td></tr><tr><td><code>companySlug</code></td><td>string</td><td>optional</td><td>Single company slug for fetching a specific posting (e.g. &quot;stripe&quot;).</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to fetch: all postings from company boards, or a specific posting by ID.</td></tr><tr><td><code>companySlugs</code></td><td>array</td><td>optional</td><td>List of Lever company board slugs to scrape (e.g. [&quot;netflix&quot;, &quot;stripe&quot;]). Find the slug in the Lever URL: jobs.lever.co/{slug}</td></tr><tr><td><code>companySlug</code></td><td>string</td><td>optional</td><td>Single company slug for fetching a specific posting (e.g. &quot;stripe&quot;).</td></tr><tr><td><code>postingIds</code></td><td>array</td><td>optional</td><td>List of Lever posting UUIDs to fetch (e.g. [&quot;abc123-...&quot;]).</td></tr><tr><td><code>team</code></td><td>string</td><td>optional</td><td>Filter postings by team name (e.g. &quot;Engineering&quot;, &quot;Sales&quot;).</td></tr><tr><td><code>location</code></td><td>string</td><td>optional</td><td>Filter postings by location string (e.g. &quot;San Francisco&quot;, &quot;Remote&quot;).</td></tr><tr><td><code>commitment</code></td><td>string</td><td>optional</td><td>Filter postings by employment commitment type.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of posting records to emit.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Get all job postings from one or more Lever company boards, or fetch a specific posting by company + posting ID.&quot;,
+  &quot;properties&quot;: {
+    &quot;commitment&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Filter postings by employment commitment type.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;Full-time&quot;,
+        &quot;Part-time&quot;,
+        &quot;Contract&quot;,
+        &quot;Internship&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All types&quot;,
+        &quot;Full-time&quot;,
+        &quot;Part-time&quot;,
+        &quot;Contract&quot;,
+        &quot;Internship&quot;
+      ],
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Filter by commitment / job type&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;companySlug&quot;: {
+      &quot;description&quot;: &quot;Single company slug for fetching a specific posting (e.g. \&quot;stripe\&quot;).&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Company slug (mode=getJob)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;companySlugs&quot;: {
+      &quot;description&quot;: &quot;List of Lever company board slugs to scrape (e.g. [\&quot;netflix\&quot;, \&quot;stripe\&quot;]). Find the slug in the Lever URL: jobs.lever.co/{slug}&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [
+        &quot;wealthfront&quot;
+      ],
+      &quot;title&quot;: &quot;Company slugs (mode=getJobs)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;location&quot;: {
+      &quot;description&quot;: &quot;Filter postings by location string (e.g. \&quot;San Francisco\&quot;, \&quot;Remote\&quot;).&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Filter by location&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 500,
+      &quot;description&quot;: &quot;Maximum number of posting records to emit.&quot;,
+      &quot;maximum&quot;: 10000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 500,
+      &quot;title&quot;: &quot;Max items&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;getJobs&quot;,
+      &quot;description&quot;: &quot;What to fetch: all postings from company boards, or a specific posting by ID.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;getJobs&quot;,
+        &quot;getJob&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Get all job postings from company board(s)&quot;,
+        &quot;Get specific posting by company + posting ID&quot;
+      ],
+      &quot;prefill&quot;: &quot;getJobs&quot;,
+      &quot;title&quot;: &quot;Mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;postingIds&quot;: {
+      &quot;description&quot;: &quot;List of Lever posting UUIDs to fetch (e.g. [\&quot;abc123-...\&quot;]).&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;title&quot;: &quot;Posting IDs (mode=getJob)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;team&quot;: {
+      &quot;description&quot;: &quot;Filter postings by team name (e.g. \&quot;Engineering\&quot;, \&quot;Sales\&quot;).&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Filter by team&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;mode&quot;
+  ],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Lever Jobs Scraper Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>jobs</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped Lever job postings.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Job postings from Lever.co company boards — title, location, team, salary range, requirements, and apply links.&quot;,
+  &quot;properties&quot;: {
+    &quot;jobs&quot;: {
+      &quot;description&quot;: &quot;Dataset containing all scraped Lever job postings.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Lever job postings&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Lever Job Board Postings by Company Slug Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {}
+      },
+      &quot;title&quot;: &quot;Jobs&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;title&quot;,
+          &quot;companySlug&quot;,
+          &quot;categories&quot;,
+          &quot;state&quot;,
+          &quot;hostedUrl&quot;,
+          &quot;createdAt&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-lever-job-board-postings-by-company-slug">Lever Job Board Postings by Company Slug</h2>
+<p>Extract job postings from any <a href="https://www.lever.co/">Lever.co</a> company board. Get every open position for one or more companies, or fetch specific postings by ID — no account or authentication needed.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<p>Lever is an applicant tracking system used by companies like Netflix, Shopify, Duolingo, Coinbase, and many more. This actor lets you:</p>
+<ul>
+<li><strong>Scrape all open postings</strong> from one or more Lever company boards in a single run</li>
+<li><strong>Fetch specific postings</strong> by company slug and posting UUID for targeted lookups</li>
+<li><strong>Filter by team, location, or commitment type</strong> (Full-time, Part-time, Contract, Internship)</li>
+<li>Collect <strong>rich job metadata</strong>: title, location, team/department, salary range, requirements, responsibilities, and apply links</li>
+</ul>
+<h2 id="readme-output-data">Output Data</h2>
+<p>Each posting record contains:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>Lever posting UUID</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>Job title</td>
+</tr>
+<tr>
+<td><code>state</code></td>
+<td>Posting state (e.g., <code>published</code>)</td>
+</tr>
+<tr>
+<td><code>companySlug</code></td>
+<td>Lever company board slug</td>
+</tr>
+<tr>
+<td><code>companyName</code></td>
+<td>Company name, derived from the slug (e.g. <code>stripe</code> → <code>Stripe</code>) — a best-effort guess, not a field Lever's API publishes directly</td>
+</tr>
+<tr>
+<td><code>categories</code></td>
+<td>Object with <code>commitment</code>, <code>location</code>, <code>team</code>, <code>department</code></td>
+</tr>
+<tr>
+<td><code>descriptionPlain</code></td>
+<td>Plain-text job description</td>
+</tr>
+<tr>
+<td><code>lists</code></td>
+<td>Structured lists (requirements, responsibilities)</td>
+</tr>
+<tr>
+<td><code>additional</code></td>
+<td>Additional information text</td>
+</tr>
+<tr>
+<td><code>salaryRange</code></td>
+<td>Salary object with <code>min</code>, <code>max</code>, <code>currency</code>, <code>interval</code></td>
+</tr>
+<tr>
+<td><code>applyUrl</code></td>
+<td>Direct application URL</td>
+</tr>
+<tr>
+<td><code>hostedUrl</code></td>
+<td>Full Lever job listing URL</td>
+</tr>
+<tr>
+<td><code>sourceUrl</code></td>
+<td>Constructed Lever board URL</td>
+</tr>
+<tr>
+<td><code>createdAt</code></td>
+<td>ISO 8601 UTC timestamp when the posting was created</td>
+</tr>
+<tr>
+<td><code>recordType</code></td>
+<td>Always <code>&quot;job&quot;</code></td>
+</tr>
+<tr>
+<td><code>scrapedAt</code></td>
+<td>ISO 8601 UTC timestamp of scrape</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-sample-output">Sample Output</h3>
+<pre><code class="language-json">{
+  &quot;id&quot;: &quot;abc123-def456-ghi789&quot;,
+  &quot;title&quot;: &quot;Senior Software Engineer&quot;,
+  &quot;state&quot;: &quot;published&quot;,
+  &quot;companySlug&quot;: &quot;stripe&quot;,
+  &quot;companyName&quot;: &quot;Stripe&quot;,
+  &quot;categories&quot;: {
+    &quot;commitment&quot;: &quot;Full-time&quot;,
+    &quot;location&quot;: &quot;San Francisco, CA&quot;,
+    &quot;team&quot;: &quot;Engineering&quot;,
+    &quot;department&quot;: &quot;Product Engineering&quot;
+  },
+  &quot;descriptionPlain&quot;: &quot;We are looking for a Senior Software Engineer...&quot;,
+  &quot;salaryRange&quot;: {
+    &quot;min&quot;: 150000,
+    &quot;max&quot;: 200000,
+    &quot;currency&quot;: &quot;USD&quot;,
+    &quot;interval&quot;: &quot;per year&quot;
+  },
+  &quot;applyUrl&quot;: &quot;https://jobs.lever.co/stripe/abc123-def456-ghi789/apply&quot;,
+  &quot;hostedUrl&quot;: &quot;https://jobs.lever.co/stripe/abc123-def456-ghi789&quot;,
+  &quot;sourceUrl&quot;: &quot;https://jobs.lever.co/stripe/abc123-def456-ghi789&quot;,
+  &quot;createdAt&quot;: &quot;2024-06-01T08:00:00+00:00&quot;,
+  &quot;recordType&quot;: &quot;job&quot;,
+  &quot;scrapedAt&quot;: &quot;2026-05-30T12:00:00+00:00&quot;
+}
+</code></pre>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td>String (select)</td>
+<td><code>getJobs</code></td>
+<td><code>getJobs</code> — all postings from boards; <code>getJob</code> — specific posting by ID</td>
+</tr>
+<tr>
+<td><code>companySlugs</code></td>
+<td>Array</td>
+<td>–</td>
+<td>Lever company slugs to scrape when <code>mode=getJobs</code> (e.g. <code>[&quot;netflix&quot;, &quot;stripe&quot;]</code>)</td>
+</tr>
+<tr>
+<td><code>companySlug</code></td>
+<td>String</td>
+<td>–</td>
+<td>Single company slug for fetching a specific posting when <code>mode=getJob</code></td>
+</tr>
+<tr>
+<td><code>postingIds</code></td>
+<td>Array</td>
+<td>–</td>
+<td>List of Lever posting UUIDs to fetch when <code>mode=getJob</code></td>
+</tr>
+<tr>
+<td><code>team</code></td>
+<td>String</td>
+<td>–</td>
+<td>Filter postings by team name (e.g. <code>&quot;Engineering&quot;</code>)</td>
+</tr>
+<tr>
+<td><code>location</code></td>
+<td>String</td>
+<td>–</td>
+<td>Filter postings by location string (e.g. <code>&quot;San Francisco&quot;</code>, <code>&quot;Remote&quot;</code>)</td>
+</tr>
+<tr>
+<td><code>commitment</code></td>
+<td>String (select)</td>
+<td><code>&quot;&quot;</code> (All types)</td>
+<td>Filter by job type: Full-time, Part-time, Contract, Internship</td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>Integer</td>
+<td><code>500</code></td>
+<td>Maximum number of posting records to emit (1–10,000)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-how-to-find-a-company-slug">How to Find a Company Slug</h3>
+<p>The company slug appears in the Lever job board URL. For example:</p>
+<ul>
+<li><code>https://jobs.lever.co/stripe</code> → slug is <code>stripe</code></li>
+<li><code>https://jobs.lever.co/netflix</code> → slug is <code>netflix</code></li>
+</ul>
+<h2 id="readme-usage-examples">Usage Examples</h2>
+<h3 id="readme-get-all-jobs-from-multiple-companies">Get all jobs from multiple companies</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;getJobs&quot;,
+  &quot;companySlugs&quot;: [&quot;stripe&quot;, &quot;netflix&quot;, &quot;figma&quot;],
+  &quot;maxItems&quot;: 1000
+}
+</code></pre>
+<h3 id="readme-get-only-engineering-roles">Get only engineering roles</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;getJobs&quot;,
+  &quot;companySlugs&quot;: [&quot;coinbase&quot;, &quot;duolingo&quot;],
+  &quot;team&quot;: &quot;Engineering&quot;,
+  &quot;commitment&quot;: &quot;Full-time&quot;
+}
+</code></pre>
+<h3 id="readme-fetch-specific-postings-by-id">Fetch specific postings by ID</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;getJob&quot;,
+  &quot;companySlug&quot;: &quot;stripe&quot;,
+  &quot;postingIds&quot;: [&quot;abc123-def456-ghi789&quot;, &quot;xyz987-uvw654&quot;]
+}
+</code></pre>
+<h3 id="readme-get-remote-jobs-only">Get remote jobs only</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;getJobs&quot;,
+  &quot;companySlugs&quot;: [&quot;remote-company&quot;],
+  &quot;location&quot;: &quot;Remote&quot;,
+  &quot;maxItems&quot;: 200
+}
+</code></pre>
+<h2 id="readme-use-cases">Use Cases</h2>
+<ul>
+<li><strong>Job market research</strong> — track hiring trends across high-growth tech companies</li>
+<li><strong>Competitive intelligence</strong> — monitor which teams and roles competitors are building</li>
+<li><strong>Job aggregation</strong> — power job boards or career sites with real-time Lever data</li>
+<li><strong>Recruitment analytics</strong> — analyze salary ranges, team growth, and location trends</li>
+<li><strong>HR benchmarking</strong> — compare job requirements and compensation across companies</li>
+</ul>
+<h2 id="readme-frequently-asked-questions">Frequently Asked Questions</h2>
+<p><strong>Is authentication required?</strong>
+No. Lever's public postings are completely open — no account or key needed.</p>
+<p><strong>How do I find a company's Lever slug?</strong>
+Visit the company's job listings page. If it's hosted on Lever, the URL will contain <code>lever.co</code>. The slug is the part after <code>jobs.lever.co/</code>.</p>
+<p><strong>Can I filter by team, location, and commitment type together?</strong>
+Yes — all three filters can be combined, and a posting only comes through when it matches every filter you've set.</p>
+<p><strong>What is a posting UUID?</strong>
+Each Lever job posting has a unique UUID identifier (e.g., <code>abc123-def456-ghi789</code>). You can find it in the posting's URL on the company's Lever board.</p>
+<p><strong>Is salary data always available?</strong>
+No — <code>salaryRange</code> is only included when the company has actually published it on the posting. Many postings omit salary entirely.</p>
+<p><strong>How many postings can I scrape?</strong>
+Up to 10,000 postings per run, across as many company slugs as you list.</p>
+<p><strong>How fresh is the data?</strong>
+Every run reads the company board live, so results reflect whatever is currently posted. Each record also includes a <code>createdAt</code> timestamp set by Lever when the posting was created.</p>
+<p><strong>Is this affiliated with Lever?</strong>
+No. This is an independent actor that reads Lever's public job board data; it is not endorsed by or affiliated with Lever Inc.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/YMM8oKkDKWReRyR5Z/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>Gh62U2qCP4Fg7uo70</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

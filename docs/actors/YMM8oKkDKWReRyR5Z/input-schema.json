@@ -1,0 +1,91 @@
+{
+  "description": "Get all job postings from one or more Lever company boards, or fetch a specific posting by company + posting ID.",
+  "properties": {
+    "commitment": {
+      "default": "",
+      "description": "Filter postings by employment commitment type.",
+      "editor": "select",
+      "enum": [
+        "",
+        "Full-time",
+        "Part-time",
+        "Contract",
+        "Internship"
+      ],
+      "enumTitles": [
+        "All types",
+        "Full-time",
+        "Part-time",
+        "Contract",
+        "Internship"
+      ],
+      "prefill": "",
+      "title": "Filter by commitment / job type",
+      "type": "string"
+    },
+    "companySlug": {
+      "description": "Single company slug for fetching a specific posting (e.g. \"stripe\").",
+      "editor": "textfield",
+      "title": "Company slug (mode=getJob)",
+      "type": "string"
+    },
+    "companySlugs": {
+      "description": "List of Lever company board slugs to scrape (e.g. [\"netflix\", \"stripe\"]). Find the slug in the Lever URL: jobs.lever.co/{slug}",
+      "editor": "stringList",
+      "prefill": [
+        "wealthfront"
+      ],
+      "title": "Company slugs (mode=getJobs)",
+      "type": "array"
+    },
+    "location": {
+      "description": "Filter postings by location string (e.g. \"San Francisco\", \"Remote\").",
+      "editor": "textfield",
+      "title": "Filter by location",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 500,
+      "description": "Maximum number of posting records to emit.",
+      "maximum": 10000,
+      "minimum": 1,
+      "prefill": 500,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "getJobs",
+      "description": "What to fetch: all postings from company boards, or a specific posting by ID.",
+      "editor": "select",
+      "enum": [
+        "getJobs",
+        "getJob"
+      ],
+      "enumTitles": [
+        "Get all job postings from company board(s)",
+        "Get specific posting by company + posting ID"
+      ],
+      "prefill": "getJobs",
+      "title": "Mode",
+      "type": "string"
+    },
+    "postingIds": {
+      "description": "List of Lever posting UUIDs to fetch (e.g. [\"abc123-...\"]).",
+      "editor": "stringList",
+      "title": "Posting IDs (mode=getJob)",
+      "type": "array"
+    },
+    "team": {
+      "description": "Filter postings by team name (e.g. \"Engineering\", \"Sales\").",
+      "editor": "textfield",
+      "title": "Filter by team",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Lever Jobs Scraper Input",
+  "type": "object"
+}
