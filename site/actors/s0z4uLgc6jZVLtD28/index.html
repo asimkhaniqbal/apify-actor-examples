@@ -1,0 +1,650 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-FHhO4D2Y0Be7Q6lcFmnVU76dBtkOKcmMYSbBfo38Roo=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Jobs.ch Swiss Job Listings by Region &amp; Industry | Vexaloom Labs</title><meta name="description" content="Scrape job listings from jobs.ch, Switzerland&#x27;s largest job board. Search by keyword or browse by canton, industry, occupational field, or contract type, with filters for workload "><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/s0z4uLgc6jZVLtD28/"><meta property="og:title" content="Jobs.ch Swiss Job Listings by Region &amp; Industry | Vexaloom Labs"><meta property="og:description" content="Scrape job listings from jobs.ch, Switzerland&#x27;s largest job board. Search by keyword or browse by canton, industry, occupational field, or contract type, with filters for workload "><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/s0z4uLgc6jZVLtD28/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/s0z4uLgc6jZVLtD28/#webpage","name":"Jobs.ch Swiss Job Listings by Region & Industry","description":"Scrape job listings from jobs.ch, Switzerland's largest job board. Search by keyword or browse by canton, industry, occupational field, or contract type, with filters for workload and seniority. Returns title, company, location, and job URL.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/s0z4uLgc6jZVLtD28/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/s0z4uLgc6jZVLtD28/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/s0z4uLgc6jZVLtD28/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/s0z4uLgc6jZVLtD28/#article","headline":"Jobs.ch Swiss Job Listings by Region & Industry","name":"Jobs.ch Swiss Job Listings by Region & Industry","description":"Scrape job listings from jobs.ch, Switzerland's largest job board. Search by keyword or browse by canton, industry, occupational field, or contract type, with filters for workload and seniority. Returns title, company, location, and job URL.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/s0z4uLgc6jZVLtD28/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/s0z4uLgc6jZVLtD28/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/s0z4uLgc6jZVLtD28/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Jobs.ch Swiss Job Listings by Region & Industry","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/s0z4uLgc6jZVLtD28/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Jobs.ch Swiss Job Listings by Region &amp; Industry</span></div><section id="overview"><h1 class="doc-title">Jobs.ch Swiss Job Listings by Region &amp; Industry</h1><p class="lede">Scrape job listings from jobs.ch, Switzerland&#x27;s largest job board. Search by keyword or browse by canton, industry, occupational field, or contract type, with filters for workload and seniority. Returns title, company, location, and job URL.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/jobs-ch-swiss-job-listings-by-region-and-industry">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/s0z4uLgc6jZVLtD28/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to fetch. `search` runs a free-text keyword search (leave the query blank to browse every job). `byRegion` browses a Swiss canton/language-region. `byIndustry` browses an industry/category. `byEmploymentType` browses a contract type. `byCategory` browses an occupational field / job function.</td></tr><tr><td><code>searchQuery</code></td><td>string</td><td>optional</td><td>Free-text keyword to search job titles/descriptions (mode=search). Leave blank to browse all jobs matching the other filters. Combinable with every filter below in any mode.</td></tr><tr><td><code>region</code></td><td>string</td><td>optional</td><td>Browse jobs by Swiss canton / language-region (required for mode=byRegion; optional filter in every other mode).</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to fetch. `search` runs a free-text keyword search (leave the query blank to browse every job). `byRegion` browses a Swiss canton/language-region. `byIndustry` browses an industry/category. `byEmploymentType` browses a contract type. `byCategory` browses an occupational field / job function.</td></tr><tr><td><code>searchQuery</code></td><td>string</td><td>optional</td><td>Free-text keyword to search job titles/descriptions (mode=search). Leave blank to browse all jobs matching the other filters. Combinable with every filter below in any mode.</td></tr><tr><td><code>region</code></td><td>string</td><td>optional</td><td>Browse jobs by Swiss canton / language-region (required for mode=byRegion; optional filter in every other mode).</td></tr><tr><td><code>location</code></td><td>string</td><td>optional</td><td>Optional free-text refinement by city or place name (e.g. &quot;Zürich&quot;, &quot;Geneva&quot;, &quot;Basel&quot;). Combinable with `region`.</td></tr><tr><td><code>industry</code></td><td>string</td><td>optional</td><td>Browse jobs by industry sector (required for mode=byIndustry; optional filter in every other mode).</td></tr><tr><td><code>employmentType</code></td><td>string</td><td>optional</td><td>Browse/filter by contract type (required for mode=byEmploymentType; optional filter in every other mode).</td></tr><tr><td><code>employmentGradeMin</code></td><td>integer</td><td>optional</td><td>Lower bound of the workload/employment-grade range, in percent (e.g. 80 for an 80-100% role).</td></tr><tr><td><code>employmentGradeMax</code></td><td>integer</td><td>optional</td><td>Upper bound of the workload/employment-grade range, in percent.</td></tr><tr><td><code>position</code></td><td>string</td><td>optional</td><td>Optional filter by seniority/position level.</td></tr><tr><td><code>category</code></td><td>string</td><td>optional</td><td>Browse/filter by occupational field — the job&#x27;s function (e.g. IT, Sales, Finance), distinct from `industry` (the employer&#x27;s business sector). Required for mode=byCategory; optional filter in every other mode.</td></tr><tr><td><code>publishedSince</code></td><td>string</td><td>optional</td><td>Optional filter to only return jobs first published within this time window.</td></tr><tr><td><code>languageSkill</code></td><td>string</td><td>optional</td><td>Optional filter to only return jobs that require this working language.</td></tr><tr><td><code>companySegment</code></td><td>string</td><td>optional</td><td>Optional filter by employer size/segment.</td></tr><tr><td><code>includeDescription</code></td><td>boolean</td><td>optional</td><td>When enabled, fetches each job&#x27;s detail page to add the full job description, benefits, required skills, apply URL and salary (only when the employer discloses it — most Swiss listings do not). This roughly doubles the number of requests per run.</td></tr><tr><td><code>locale</code></td><td>string</td><td>optional</td><td>Language of the jobs.ch site to scrape from — affects the language of translated fields (title/company are unaffected; job counts and set are identical across locales).</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of job listings to return. jobs.ch returns 20 listings per page.</td></tr><tr><td><code>proxyConfiguration</code></td><td>object</td><td>optional</td><td>Optional. jobs.ch is a plain public site that normally does not require a proxy; this is used only as an automatic fallback if the datacenter IP gets temporarily rate-limited.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Search and browse job listings on jobs.ch, Switzerland&#x27;s largest job board.&quot;,
+  &quot;properties&quot;: {
+    &quot;category&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Browse/filter by occupational field — the job&#x27;s function (e.g. IT, Sales, Finance), distinct from `industry` (the employer&#x27;s business sector). Required for mode=byCategory; optional filter in every other mode.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;100&quot;,
+        &quot;101&quot;,
+        &quot;102&quot;,
+        &quot;103&quot;,
+        &quot;104&quot;,
+        &quot;105&quot;,
+        &quot;106&quot;,
+        &quot;107&quot;,
+        &quot;108&quot;,
+        &quot;109&quot;,
+        &quot;110&quot;,
+        &quot;111&quot;,
+        &quot;112&quot;,
+        &quot;113&quot;,
+        &quot;114&quot;,
+        &quot;115&quot;,
+        &quot;116&quot;,
+        &quot;117&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;(All occupational fields)&quot;,
+        &quot;Admin. / HR / Consulting / CEO&quot;,
+        &quot;Finance / Trusts / Real Estate&quot;,
+        &quot;Banking / Insurance&quot;,
+        &quot;Purchasing / Logistics / Trading&quot;,
+        &quot;Marketing / Communications / Editorial&quot;,
+        &quot;Sales / Customer Service / Admin.&quot;,
+        &quot;Information Technology / Telecom.&quot;,
+        &quot;Chemical / Pharma / Biotechnology&quot;,
+        &quot;Electronics / Engineering / Watches&quot;,
+        &quot;Machine / Plant Engin. / Manufacturing&quot;,
+        &quot;Construction / Architecture / Engineer&quot;,
+        &quot;Vehicles / Craft / Warehouse / Transport&quot;,
+        &quot;Medicine / Care / Therapy&quot;,
+        &quot;Public Admin. / Education / Social&quot;,
+        &quot;Catering / Food / Tourism&quot;,
+        &quot;Graphic Art / Typography / Printing&quot;,
+        &quot;Surveillance / Police / Customs / Rescue&quot;,
+        &quot;Sport / Spas&amp;Wellness / Culture&quot;
+      ],
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Occupational field / job function&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;companySegment&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Optional filter by employer size/segment.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;gu&quot;,
+        &quot;kmu&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;(Any company size)&quot;,
+        &quot;Large company&quot;,
+        &quot;Small / medium-sized company (SME)&quot;
+      ],
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Company size&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;employmentGradeMax&quot;: {
+      &quot;default&quot;: 100,
+      &quot;description&quot;: &quot;Upper bound of the workload/employment-grade range, in percent.&quot;,
+      &quot;maximum&quot;: 100,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 100,
+      &quot;title&quot;: &quot;Workload % — maximum&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;employmentGradeMin&quot;: {
+      &quot;default&quot;: 0,
+      &quot;description&quot;: &quot;Lower bound of the workload/employment-grade range, in percent (e.g. 80 for an 80-100% role).&quot;,
+      &quot;maximum&quot;: 100,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 0,
+      &quot;title&quot;: &quot;Workload % — minimum&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;employmentType&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Browse/filter by contract type (required for mode=byEmploymentType; optional filter in every other mode).&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;1&quot;,
+        &quot;2&quot;,
+        &quot;3&quot;,
+        &quot;4&quot;,
+        &quot;5&quot;,
+        &quot;6&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;(All contract types)&quot;,
+        &quot;Temporary&quot;,
+        &quot;Freelance&quot;,
+        &quot;Internship&quot;,
+        &quot;Supplementary income&quot;,
+        &quot;Permanent position&quot;,
+        &quot;Apprenticeship&quot;
+      ],
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Employment (contract) type&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;includeDescription&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;When enabled, fetches each job&#x27;s detail page to add the full job description, benefits, required skills, apply URL and salary (only when the employer discloses it — most Swiss listings do not). This roughly doubles the number of requests per run.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include full description &amp; salary (slower)&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;industry&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Browse jobs by industry sector (required for mode=byIndustry; optional filter in every other mode).&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;1&quot;,
+        &quot;2&quot;,
+        &quot;3&quot;,
+        &quot;4&quot;,
+        &quot;5&quot;,
+        &quot;6&quot;,
+        &quot;7&quot;,
+        &quot;8&quot;,
+        &quot;9&quot;,
+        &quot;10&quot;,
+        &quot;11&quot;,
+        &quot;12&quot;,
+        &quot;13&quot;,
+        &quot;14&quot;,
+        &quot;15&quot;,
+        &quot;16&quot;,
+        &quot;17&quot;,
+        &quot;18&quot;,
+        &quot;19&quot;,
+        &quot;20&quot;,
+        &quot;21&quot;,
+        &quot;22&quot;,
+        &quot;23&quot;,
+        &quot;24&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;(All industries)&quot;,
+        &quot;Banking / Financial institutions&quot;,
+        &quot;Building trade / Real estate&quot;,
+        &quot;Consulting various&quot;,
+        &quot;Education&quot;,
+        &quot;Chemicals / Pharmaceuticals&quot;,
+        &quot;Retail trade / Wholesaling&quot;,
+        &quot;Service sector in general&quot;,
+        &quot;Utilities&quot;,
+        &quot;Catering / Hotel&quot;,
+        &quot;Health care / Social services&quot;,
+        &quot;Commercial operation / Skilled crafts&quot;,
+        &quot;Industry various&quot;,
+        &quot;Information technology / Telecom.&quot;,
+        &quot;Agriculture / Forestry / Wood&quot;,
+        &quot;Media / Printing / Publishing&quot;,
+        &quot;Public administration / Associations&quot;,
+        &quot;Tourism / Travel / Recreation&quot;,
+        &quot;Transport / Logistics&quot;,
+        &quot;Legal / Business advice&quot;,
+        &quot;Insurance&quot;,
+        &quot;Consumer / Luxury goods industry&quot;,
+        &quot;Machine / System construction&quot;,
+        &quot;Medical Technology&quot;,
+        &quot;Recruitment agency / Staffing&quot;
+      ],
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Industry / category&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;languageSkill&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Optional filter to only return jobs that require this working language.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;de&quot;,
+        &quot;en&quot;,
+        &quot;fr&quot;,
+        &quot;it&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;(Any language)&quot;,
+        &quot;German&quot;,
+        &quot;English&quot;,
+        &quot;French&quot;,
+        &quot;Italian&quot;
+      ],
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Required language&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;locale&quot;: {
+      &quot;default&quot;: &quot;en&quot;,
+      &quot;description&quot;: &quot;Language of the jobs.ch site to scrape from — affects the language of translated fields (title/company are unaffected; job counts and set are identical across locales).&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;en&quot;,
+        &quot;de&quot;,
+        &quot;fr&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;English&quot;,
+        &quot;German (Deutsch)&quot;,
+        &quot;French (Français)&quot;
+      ],
+      &quot;prefill&quot;: &quot;en&quot;,
+      &quot;title&quot;: &quot;Language&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;location&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Optional free-text refinement by city or place name (e.g. \&quot;Zürich\&quot;, \&quot;Geneva\&quot;, \&quot;Basel\&quot;). Combinable with `region`.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;City / place (free text)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 20,
+      &quot;description&quot;: &quot;Maximum number of job listings to return. jobs.ch returns 20 listings per page.&quot;,
+      &quot;maximum&quot;: 1000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 20,
+      &quot;title&quot;: &quot;Max items&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;search&quot;,
+      &quot;description&quot;: &quot;What to fetch. `search` runs a free-text keyword search (leave the query blank to browse every job). `byRegion` browses a Swiss canton/language-region. `byIndustry` browses an industry/category. `byEmploymentType` browses a contract type. `byCategory` browses an occupational field / job function.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;search&quot;,
+        &quot;byRegion&quot;,
+        &quot;byIndustry&quot;,
+        &quot;byEmploymentType&quot;,
+        &quot;byCategory&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Keyword search&quot;,
+        &quot;Browse by canton / region&quot;,
+        &quot;Browse by industry / category&quot;,
+        &quot;Browse by employment (contract) type&quot;,
+        &quot;Browse by occupational field / job function&quot;
+      ],
+      &quot;prefill&quot;: &quot;search&quot;,
+      &quot;title&quot;: &quot;Mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;position&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Optional filter by seniority/position level.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;1&quot;,
+        &quot;2&quot;,
+        &quot;3&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;(Any level)&quot;,
+        &quot;Executive position&quot;,
+        &quot;Specialist&quot;,
+        &quot;Employee&quot;
+      ],
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Seniority level&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;proxyConfiguration&quot;: {
+      &quot;default&quot;: {
+        &quot;useApifyProxy&quot;: true
+      },
+      &quot;description&quot;: &quot;Optional. jobs.ch is a plain public site that normally does not require a proxy; this is used only as an automatic fallback if the datacenter IP gets temporarily rate-limited.&quot;,
+      &quot;editor&quot;: &quot;proxy&quot;,
+      &quot;prefill&quot;: {
+        &quot;useApifyProxy&quot;: true
+      },
+      &quot;title&quot;: &quot;Proxy configuration&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;publishedSince&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Optional filter to only return jobs first published within this time window.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;1&quot;,
+        &quot;3&quot;,
+        &quot;7&quot;,
+        &quot;30&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;(Any time)&quot;,
+        &quot;Last 24 hours&quot;,
+        &quot;Last 3 days&quot;,
+        &quot;Last 7 days&quot;,
+        &quot;Last 30 days&quot;
+      ],
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Published since&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;region&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Browse jobs by Swiss canton / language-region (required for mode=byRegion; optional filter in every other mode).&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;2&quot;,
+        &quot;3&quot;,
+        &quot;4&quot;,
+        &quot;5&quot;,
+        &quot;6&quot;,
+        &quot;7&quot;,
+        &quot;8&quot;,
+        &quot;9&quot;,
+        &quot;10&quot;,
+        &quot;11&quot;,
+        &quot;12&quot;,
+        &quot;13&quot;,
+        &quot;14&quot;,
+        &quot;15&quot;,
+        &quot;16&quot;,
+        &quot;17&quot;,
+        &quot;18&quot;,
+        &quot;19&quot;,
+        &quot;20&quot;,
+        &quot;21&quot;,
+        &quot;22&quot;,
+        &quot;23&quot;,
+        &quot;24&quot;,
+        &quot;25&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;(All regions)&quot;,
+        &quot;German-speaking Switzerland&quot;,
+        &quot;Western Switzerland (French-speaking)&quot;,
+        &quot;Ticino&quot;,
+        &quot;Abroad&quot;,
+        &quot;Region of Geneva&quot;,
+        &quot;Region of Zurich / Schaffhausen&quot;,
+        &quot;Region of Neuchâtel / Jura&quot;,
+        &quot;Region of Fribourg&quot;,
+        &quot;Region of Vaud / Valais&quot;,
+        &quot;Eastern Switzerland / Graubünden / Liechtenstein&quot;,
+        &quot;Mittelland (Aargau / Solothurn)&quot;,
+        &quot;Region of Bern&quot;,
+        &quot;Region of Basel&quot;,
+        &quot;Central Switzerland&quot;,
+        &quot;Oberwallis&quot;,
+        &quot;Wil / Toggenburg&quot;,
+        &quot;Thurgau / Lake Constance&quot;,
+        &quot;City of Zurich / Lake Zurich&quot;,
+        &quot;Zurich Oberland&quot;,
+        &quot;St. Gallen / Appenzell&quot;,
+        &quot;Zurich Unterland / Limmattal&quot;,
+        &quot;Rheintal / Liechtenstein / Sargans / Linth&quot;,
+        &quot;Graubünden&quot;,
+        &quot;Region of Winterthur / Schaffhausen&quot;
+      ],
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Canton / region&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;searchQuery&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Free-text keyword to search job titles/descriptions (mode=search). Leave blank to browse all jobs matching the other filters. Combinable with every filter below in any mode.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;python developer&quot;,
+      &quot;title&quot;: &quot;Search query&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;mode&quot;
+  ],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;jobs.ch Scraper Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>jobs</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped jobs.ch job listings.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Job listings scraped from jobs.ch — title, company, location, contract type, workload, seniority level, posted date and the job URL.&quot;,
+  &quot;properties&quot;: {
+    &quot;jobs&quot;: {
+      &quot;description&quot;: &quot;Dataset containing all scraped jobs.ch job listings.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;jobs.ch job listings&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Jobs.ch Swiss Job Listings by Region &amp; Industry Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {}
+      },
+      &quot;title&quot;: &quot;Jobs&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;title&quot;,
+          &quot;companyName&quot;,
+          &quot;location&quot;,
+          &quot;workloadText&quot;,
+          &quot;contractType&quot;,
+          &quot;postedDate&quot;,
+          &quot;jobUrl&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-jobs-ch-swiss-job-listings-by-region-industry">Jobs.ch Swiss Job Listings by Region &amp; Industry</h2>
+<p>Scrape <strong>jobs.ch</strong> — Switzerland's largest job board. Search by keyword, browse by canton/language-region, industry/category, occupational field, or employment (contract) type, and refine with a workload-percentage range, seniority level, required language, company size, and published-since date. Returns title, company, location, contract type, workload, posted date, and the job URL — with an optional deeper mode that adds the full job description, benefits, required skills, and salary when the employer discloses it. HTTP-only, no auth, no cookies required.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li><strong>Five modes:</strong> <code>search</code> (keyword), <code>byRegion</code> (canton/language-region browse), <code>byIndustry</code> (category browse), <code>byEmploymentType</code> (contract-type browse), <code>byCategory</code> (occupational field / job function browse) — every filter below is combinable in any mode</li>
+<li><strong>Filters:</strong> city/place, canton/region, industry, occupational field, employment (contract) type, workload % range, seniority level, required language, company size, published-since date</li>
+<li><strong>Three site languages:</strong> English, German, French</li>
+<li><strong>Optional enrichment:</strong> full job description, benefits, required skills, apply URL, and salary (when disclosed)</li>
+<li><strong>Empty fields are omitted</strong></li>
+</ul>
+<h2 id="readme-output-per-job">Output per job</h2>
+<ul>
+<li><code>jobId</code>, <code>title</code></li>
+<li><code>companyId</code>, <code>companyName</code>, <code>companySlug</code>, <code>companyUrl</code>, <code>companyLogoUrl</code></li>
+<li><code>location</code> — primary place name (e.g. <code>Zürich</code>)</li>
+<li><code>locationDetails[]</code> — canton code, city, postal code, country code, latitude/longitude (present on jobs with more than one workplace)</li>
+<li><code>workloadMin</code>, <code>workloadMax</code>, <code>workloadText</code> — employment grade in percent (e.g. <code>80 – 100%</code>)</li>
+<li><code>contractType</code>, <code>contractTypes[]</code> — e.g. <code>Permanent position</code>, <code>Freelance</code>, <code>Internship</code></li>
+<li><code>seniorityLevel</code> — <code>Executive position</code> / <code>Specialist</code> / <code>Employee</code></li>
+<li><code>tags[]</code> — badges jobs.ch shows on the listing, e.g. <code>Easy apply</code>, <code>Quick apply</code> (present only when the listing carries one)</li>
+<li><code>benefitTags[]</code> — employer-disclosed perks shown on the listing itself (e.g. <code>Working from home</code>, <code>Flexible working hours</code>) — present only on the share of listings that have any; a larger, differently-sourced <code>benefits[]</code> list is also available via <code>includeDescription</code></li>
+<li><code>postedDate</code>, <code>initialPostedDate</code>, <code>postedRelative</code>, <code>initialPostedRelative</code> (present only on reposted/republished listings where it differs from <code>postedRelative</code>, or when jobs.ch echoes the same value)</li>
+<li><code>isNew</code>, <code>isBoosted</code>, <code>isPaid</code>, <code>isActive</code>, <code>headhunterApplicationAllowed</code></li>
+<li><code>jobUrl</code></li>
+<li>With <code>includeDescription: true</code> — <code>description</code>, <code>roleSummary</code> (short, normalized job title, e.g. <code>&quot;Consultant Finance&quot;</code> — this is jobs.ch's own internal role-taxonomy label, so it can occasionally read as a broader category than the literal posted title), <code>industry</code> (employer's business sector as text, distinct from the job's <code>category</code>), <code>benefits[]</code>, <code>skills[]</code>, <code>workHoursText</code>, <code>category</code>, <code>totalOpenings</code>, <code>startDate</code>, <code>jobImmediateStart</code>, <code>directApply</code>, <code>companyWebsite</code> (the employer's own site, distinct from <code>companyUrl</code>), <code>companyOverview</code>, <code>contactName</code>, <code>contactPhone</code>, <code>streetAddress</code>, <code>jobImageUrl</code> (the job posting's own banner/cover image, when the employer supplied one), <code>applicantLocationRequirement</code> (e.g. <code>Switzerland</code> / <code>Abroad</code> — the employer's stated eligibility requirement for applicants), and <code>salaryMin</code> / <code>salaryMax</code> / <code>salaryCurrency</code> / <code>salaryPeriod</code> when the employer discloses a salary range. With <code>includeDescription: true</code>, <code>companyUrl</code> is also refined to the canonical URL the job posting itself declares (jobs.ch occasionally serves a listing-level company slug that only 301-redirects to this canonical one). Use <code>jobUrl</code> as the apply entry point — see Limitations below for why a separate <code>applyUrl</code> isn't offered.</li>
+<li><code>recordType: &quot;job&quot;</code>, <code>scrapedAt</code></li>
+</ul>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td>string</td>
+<td><code>search</code></td>
+<td><code>search</code> / <code>byRegion</code> / <code>byIndustry</code> / <code>byEmploymentType</code> / <code>byCategory</code></td>
+</tr>
+<tr>
+<td><code>searchQuery</code></td>
+<td>string</td>
+<td>–</td>
+<td>Free-text keyword (mode=search); leave blank to browse all jobs</td>
+</tr>
+<tr>
+<td><code>region</code></td>
+<td>string</td>
+<td>–</td>
+<td>Canton / language-region (required for mode=byRegion)</td>
+</tr>
+<tr>
+<td><code>location</code></td>
+<td>string</td>
+<td>–</td>
+<td>Free-text city/place refinement, e.g. <code>Zürich</code></td>
+</tr>
+<tr>
+<td><code>industry</code></td>
+<td>string</td>
+<td>–</td>
+<td>Industry / employer sector (required for mode=byIndustry)</td>
+</tr>
+<tr>
+<td><code>category</code></td>
+<td>string</td>
+<td>–</td>
+<td>Occupational field / job function (required for mode=byCategory) — distinct from <code>industry</code></td>
+</tr>
+<tr>
+<td><code>employmentType</code></td>
+<td>string</td>
+<td>–</td>
+<td>Contract type (required for mode=byEmploymentType)</td>
+</tr>
+<tr>
+<td><code>employmentGradeMin</code></td>
+<td>int</td>
+<td><code>0</code></td>
+<td>Workload % lower bound</td>
+</tr>
+<tr>
+<td><code>employmentGradeMax</code></td>
+<td>int</td>
+<td><code>100</code></td>
+<td>Workload % upper bound</td>
+</tr>
+<tr>
+<td><code>position</code></td>
+<td>string</td>
+<td>–</td>
+<td>Seniority level filter</td>
+</tr>
+<tr>
+<td><code>publishedSince</code></td>
+<td>string</td>
+<td>–</td>
+<td>Only jobs first published in the last 24h / 3 / 7 / 30 days</td>
+</tr>
+<tr>
+<td><code>languageSkill</code></td>
+<td>string</td>
+<td>–</td>
+<td>Only jobs that require this working language: <code>de</code> / <code>en</code> / <code>fr</code> / <code>it</code></td>
+</tr>
+<tr>
+<td><code>companySegment</code></td>
+<td>string</td>
+<td>–</td>
+<td>Only jobs at large companies (<code>gu</code>) or SMEs (<code>kmu</code>)</td>
+</tr>
+<tr>
+<td><code>includeDescription</code></td>
+<td>bool</td>
+<td><code>false</code></td>
+<td>Fetch each job's detail page for description/benefits/skills/salary</td>
+</tr>
+<tr>
+<td><code>locale</code></td>
+<td>string</td>
+<td><code>en</code></td>
+<td>Site language: <code>en</code> / <code>de</code> / <code>fr</code></td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>int</td>
+<td><code>20</code></td>
+<td>Hard cap (1–1000)</td>
+</tr>
+<tr>
+<td><code>proxyConfiguration</code></td>
+<td>object</td>
+<td>AUTO</td>
+<td>Used first for keyword (<code>searchQuery</code>) searches — jobs.ch's own IP reputation narrows relevance for the raw datacenter IP; used only as an automatic fallback for browse/filter modes</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-example-keyword-search">Example: keyword search</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;searchQuery&quot;: &quot;data engineer&quot;,
+  &quot;employmentGradeMin&quot;: 80,
+  &quot;employmentGradeMax&quot;: 100,
+  &quot;maxItems&quot;: 50
+}
+</code></pre>
+<h3 id="readme-example-browse-a-canton-region">Example: browse a canton/region</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;byRegion&quot;,
+  &quot;region&quot;: &quot;7&quot;,
+  &quot;employmentType&quot;: &quot;5&quot;,
+  &quot;maxItems&quot;: 100
+}
+</code></pre>
+<h3 id="readme-example-browse-an-industry-with-full-descriptions">Example: browse an industry with full descriptions</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;byIndustry&quot;,
+  &quot;industry&quot;: &quot;13&quot;,
+  &quot;includeDescription&quot;: true,
+  &quot;maxItems&quot;: 25
+}
+</code></pre>
+<h3 id="readme-example-browse-by-contract-type">Example: browse by contract type</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;byEmploymentType&quot;,
+  &quot;employmentType&quot;: &quot;6&quot;,
+  &quot;location&quot;: &quot;Zürich&quot;
+}
+</code></pre>
+<h3 id="readme-example-browse-by-occupational-field-published-in-the-last-week">Example: browse by occupational field, published in the last week</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;byCategory&quot;,
+  &quot;category&quot;: &quot;106&quot;,
+  &quot;publishedSince&quot;: &quot;7&quot;,
+  &quot;languageSkill&quot;: &quot;en&quot;,
+  &quot;companySegment&quot;: &quot;gu&quot;
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>Recruiting intelligence</strong> — track how many roles a canton or industry is hiring for</li>
+<li><strong>Labour-market research</strong> — analyse workload/contract-type distribution across Switzerland</li>
+<li><strong>Job aggregators</strong> — feed jobs.ch listings into a meta-search product</li>
+<li><strong>Salary benchmarking</strong> — collect the (rare) publicly disclosed salary ranges</li>
+<li><strong>Company monitoring</strong> — watch a specific employer's open roles via <code>searchQuery</code></li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>What's the data source?</strong>  The public jobs.ch job-search results page, in the same language/data the site itself renders. No login, no API key.</p>
+<p><strong>Is this affiliated with jobs.ch?</strong>  No — this is a third-party actor that reads jobs.ch's publicly accessible pages.</p>
+<p><strong>Why is <code>location</code> free text but <code>region</code> a dropdown?</strong>  jobs.ch's canton/language-regions are a fixed, documented list of ~24 options, so they're a dropdown. City/place names are effectively unbounded, so <code>location</code> stays free text and is combinable with <code>region</code>.</p>
+<p><strong>Why is salary often missing?</strong>  Most Swiss employers do not publish a salary range on their listings. The <code>salaryMin</code>/<code>salaryMax</code>/<code>salaryCurrency</code> fields only appear on the small share of jobs where the employer disclosed one, and only when <code>includeDescription</code> is enabled.</p>
+<p><strong>What does <code>includeDescription</code> cost me?</strong>  It fetches one extra page per job, roughly doubling the number of requests and the run time — leave it off for a fast listing-only scrape.</p>
+<p><strong>Can I combine <code>region</code>, <code>industry</code>, <code>category</code>, <code>employmentType</code>, <code>publishedSince</code>, <code>languageSkill</code>, <code>companySegment</code> and <code>searchQuery</code> together?</strong>  Yes — every filter is honoured in every mode; <code>mode</code> only controls which single field is mandatory.</p>
+<p><strong>What's the difference between <code>industry</code> and <code>category</code>?</strong>  <code>industry</code> is the <em>employer's</em> business sector (e.g. Banking, Retail, Healthcare). <code>category</code> is the <em>job's</em> occupational field / function (e.g. IT, Sales, Finance) — jobs.ch tracks these as two separate taxonomies, so a Banking-industry employer can post an IT-category job. Use whichever axis matches your research question, or combine both.</p>
+<p><strong>How fresh is the data?</strong>  Real-time — every run reads jobs.ch's live search results, not a cache.</p>
+<p><strong>Do I need a proxy?</strong>  No configuration needed — the free <code>AUTO</code> proxy group is on by default. For <code>byRegion</code>/<code>byIndustry</code>/<code>byEmploymentType</code>/<code>byCategory</code> browsing it's only used as an automatic fallback if a run gets temporarily rate-limited. For keyword (<code>searchQuery</code>) searches it's used proactively on every request, because jobs.ch's own search-relevance backend returns a smaller, less on-topic result set to plain datacenter IPs (still HTTP 200 — not a rate limit) unless the request goes through Apify's proxy pool.</p>
+<p><strong>Why does an unusual <code>searchQuery</code> sometimes return a handful of unrelated jobs instead of 0?</strong>  jobs.ch's own search engine is deliberately typo-tolerant/fuzzy rather than a literal substring match — verified by loading the same query directly on jobs.ch in a browser: it shows the identical small result count and titles. This actor faithfully mirrors whatever jobs.ch itself returns; it never fabricates results for an unmatched query.</p>
+<h2 id="readme-data-source-limitations">Data source &amp; limitations</h2>
+<p>This actor reads jobs.ch's server-rendered search-results HTML (the same Redux state the site itself hydrates from) — not a private or authenticated API. Every filter and output field listed above comes from that public payload.</p>
+<p>Axes that exist on jobs.ch but are <strong>not</strong> exposed by this actor, and why:</p>
+<ul>
+<li><strong>Company-name filter</strong> — jobs.ch resolves a company filter to an internal <code>companyId</code> via an autocomplete lookup rather than a stable text/slug parameter, so it can't be driven reliably from a plain input field. Use <code>searchQuery</code> (jobs.ch's full-text search already matches company names) as a practical substitute.</li>
+<li><strong>Sort order</strong> (relevance / date) — the <code>sort=</code>/<code>order=</code> query parameters accepted by the results page are silently ignored by jobs.ch's backend (verified: identical <code>searchHash</code>/result order regardless of value), so no <code>sortBy</code> input is offered — it would not do anything.</li>
+<li><strong>Benefit filter (<code>benefit=</code>)</strong> — the results page recognizes a <code>benefit=</code> query parameter (both numeric ids and benefit slugs echo back into the embedded search state), but verified live: it makes the underlying search silently fail (<code>fetched: false</code>, 0 results, still HTTP 200) for every value tried, including the exact slugs jobs.ch's own listings emit (<code>training</code>, <code>flexible-working-hours</code>, <code>free-drinks</code>, ...). Unlike the <code>employment-grade-min=0</code> quirk (which has one clean, verified workaround value), no value makes this filter actually run a search, so it is not exposed as an input. The listing-level <code>benefitTags[]</code> output field is unaffected — that comes from each job's own record, not from filtering.</li>
+<li><strong>Job &quot;group&quot; filter (<code>group=</code>)</strong> — also recognized into the embedded search state and returns <code>fetched: true</code>, but every id from 1–200 tested returns exactly 0 hits with no documented id scheme; excluded as unreliable/undiscoverable rather than exposing a filter that always returns nothing.</li>
+<li><strong>Listing &quot;label&quot; filter (<code>label=</code>)</strong> — accepted into the embedded search state but verified to have zero effect on the result set or count (same <code>totalHits</code> with or without it, for both <code>new</code> and <code>boosted</code> values) — like <code>sort=</code>, it's a no-op parameter.</li>
+<li><strong><code>languageSkills</code>, <code>regions</code>, <code>contacts</code>, <code>applicationOptions</code>, <code>videos</code> fields</strong> — jobs.ch's search-results payload declares these fields on every listing row, but they were empty (<code>[]</code>/<code>{}</code>) across every sampled query, filter and page during testing, including after filtering by <code>languageSkill</code>. They are intentionally omitted rather than emitted as always-null placeholders.</li>
+<li><strong>A broader <code>benefits</code> vocabulary</strong> — the listing-level <code>benefitTags[]</code> field reformats whatever slug jobs.ch already sent (e.g. <code>working-from-home</code> → <code>Working from home</code>) rather than mapping against a fixed lookup table, because jobs.ch's benefit-tag vocabulary is open-ended and grows over time; a hardcoded table would silently go stale.</li>
+<li><strong>Job detail's <code>employmentUnit</code> field</strong> — the detail page's ld+json block declares this, but verified live across dozens of listings: its value is always identical to the already-extracted <code>seniorityLevel</code> (<code>Employee</code> / <code>Specialist</code> / <code>Executive position</code>), just sourced from a second place. Omitted as a pure duplicate rather than a second field carrying the same information twice.</li>
+<li><strong>Job detail's <code>identifier</code>/<code>additionalType</code>/<code>jobLocation.address.addressRegion</code></strong> — <code>identifier.value</code> duplicates <code>jobId</code>; <code>additionalType</code> is a constant boilerplate value (<code>https://schema.org/Product</code>) on every listing; <code>addressRegion</code> is mislabeled by jobs.ch's own markup (it holds the city name, duplicating <code>location</code>, not an actual canton/region). None carry information beyond what's already emitted.</li>
+<li><strong>Job detail's <code>datePosted</code>/<code>employmentType</code> (schema.org fields)</strong> — verified live across sampled listings: <code>datePosted</code> is always identical to the listing's own <code>publicationDate</code> (already emitted as <code>postedDate</code>); <code>employmentType</code>'s text value is always identical to the already-extracted, locale-translated <code>contractType</code>. Both are pure duplicates sourced from a second place on the detail page.</li>
+<li><strong>Apply URL (<code>potentialAction.target.urlTemplate</code> in the detail page's ld+json)</strong> — jobs.ch's own structured data declares this as a directly-fetchable &quot;ApplyAction&quot; URL, but verified live (both <code>curl -ILSs</code> with no cookies and a full JS-rendered browser navigation): it 404s. jobs.ch's real &quot;Apply&quot; button is a pure client-side modal — clicking it doesn't even change the browser's URL — so there is no working standalone apply link to expose. <code>jobUrl</code> (the job's own detail page, always reachable) is the correct entry point; a user reaches the same Apply button by opening it.</li>
+</ul>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/s0z4uLgc6jZVLtD28/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>cgkRYCU3N7BSP43j3</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
