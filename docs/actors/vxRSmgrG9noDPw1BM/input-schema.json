@@ -1,0 +1,58 @@
+{
+  "properties": {
+    "location": {
+      "description": "City/state to combine with 'search'. Ignored if startUrls is provided.",
+      "editor": "textfield",
+      "title": "Location (optional)",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of job postings to return.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "proxyConfiguration": {
+      "default": {
+        "apifyProxyCountry": "US",
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "description": "ZipRecruiter blocks datacenter IPs; hardcoded to RESIDENTIAL US. Do not disable.",
+      "editor": "proxy",
+      "prefill": {
+        "apifyProxyCountry": "US",
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "search": {
+      "description": "Alternative shortcut — keyword (e.g., 'nurse') combined with 'location' to build a default ZipRecruiter URL.",
+      "editor": "textfield",
+      "title": "Search Keyword (optional)",
+      "type": "string"
+    },
+    "startUrls": {
+      "description": "ZipRecruiter search URLs (e.g., https://www.ziprecruiter.com/jobs-search?search=software+engineer&location=New+York%2C+NY). Any filters applied in the URL are preserved.",
+      "editor": "stringList",
+      "prefill": [
+        "https://www.ziprecruiter.com/jobs-search?search=software+engineer&location=New+York%2C+NY"
+      ],
+      "title": "Start URLs",
+      "type": "array"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "ZipRecruiter Scraper Input",
+  "type": "object"
+}

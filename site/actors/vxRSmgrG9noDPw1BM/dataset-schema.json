@@ -1,0 +1,223 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "properties": {
+      "city": {
+        "description": "City",
+        "type": "string"
+      },
+      "company": {
+        "description": "Hiring company name",
+        "type": "string"
+      },
+      "companyLogo": {
+        "description": "Company logo image URL",
+        "type": "string"
+      },
+      "companyUrl": {
+        "description": "Company profile URL",
+        "type": "string"
+      },
+      "id": {
+        "description": "Job-card ID token",
+        "type": "string"
+      },
+      "isHybrid": {
+        "description": "Whether hybrid",
+        "type": "boolean"
+      },
+      "isRemote": {
+        "description": "Whether remote/hybrid",
+        "type": "boolean"
+      },
+      "jid": {
+        "description": "ZipRecruiter job ID (from url)",
+        "type": "string"
+      },
+      "location": {
+        "description": "Full location text",
+        "type": "string"
+      },
+      "salary": {
+        "description": "Formatted salary text",
+        "type": "string"
+      },
+      "salaryMax": {
+        "description": "Maximum salary (USD)",
+        "type": "number"
+      },
+      "salaryMin": {
+        "description": "Minimum salary (USD)",
+        "type": "number"
+      },
+      "salaryPeriod": {
+        "description": "year / hour / month",
+        "type": "string"
+      },
+      "scrapedAt": {
+        "description": "ISO 8601 scrape timestamp",
+        "type": "string"
+      },
+      "state": {
+        "description": "State abbreviation",
+        "type": "string"
+      },
+      "title": {
+        "description": "Job title",
+        "type": "string"
+      },
+      "url": {
+        "description": "Full job posting URL",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "title": "ZipRecruiter Jobs",
+  "views": {
+    "detailed": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "city": {
+            "format": "text",
+            "label": "City"
+          },
+          "company": {
+            "format": "text",
+            "label": "Company"
+          },
+          "companyLogo": {
+            "format": "link",
+            "label": "Logo"
+          },
+          "companyUrl": {
+            "format": "link",
+            "label": "Company URL"
+          },
+          "id": {
+            "format": "text",
+            "label": "ID"
+          },
+          "isHybrid": {
+            "format": "boolean",
+            "label": "Hybrid"
+          },
+          "isRemote": {
+            "format": "boolean",
+            "label": "Remote"
+          },
+          "jid": {
+            "format": "text",
+            "label": "JID"
+          },
+          "location": {
+            "format": "text",
+            "label": "Location"
+          },
+          "salary": {
+            "format": "text",
+            "label": "Salary"
+          },
+          "salaryMax": {
+            "format": "number",
+            "label": "Max"
+          },
+          "salaryMin": {
+            "format": "number",
+            "label": "Min"
+          },
+          "salaryPeriod": {
+            "format": "text",
+            "label": "Period"
+          },
+          "scrapedAt": {
+            "format": "text",
+            "label": "Scraped At"
+          },
+          "state": {
+            "format": "text",
+            "label": "State"
+          },
+          "title": {
+            "format": "text",
+            "label": "Title"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          }
+        }
+      },
+      "title": "Detailed Results",
+      "transformation": {
+        "fields": [
+          "id",
+          "jid",
+          "title",
+          "company",
+          "companyUrl",
+          "location",
+          "city",
+          "state",
+          "isRemote",
+          "isHybrid",
+          "salary",
+          "salaryMin",
+          "salaryMax",
+          "salaryPeriod",
+          "companyLogo",
+          "url",
+          "scrapedAt"
+        ]
+      }
+    },
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "city": {
+            "format": "text",
+            "label": "City"
+          },
+          "company": {
+            "format": "text",
+            "label": "Company"
+          },
+          "isRemote": {
+            "format": "boolean",
+            "label": "Remote"
+          },
+          "salary": {
+            "format": "text",
+            "label": "Salary"
+          },
+          "state": {
+            "format": "text",
+            "label": "State"
+          },
+          "title": {
+            "format": "text",
+            "label": "Title"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          }
+        }
+      },
+      "title": "Overview",
+      "transformation": {
+        "fields": [
+          "title",
+          "company",
+          "city",
+          "state",
+          "salary",
+          "isRemote",
+          "url"
+        ]
+      }
+    }
+  }
+}
