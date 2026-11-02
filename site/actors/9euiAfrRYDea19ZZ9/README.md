@@ -1,259 +1,217 @@
-# ESPN Scores, Standings, Teams & News by League
+# ESPN Scores, Teams, Players, News & Odds
 
-Pull live scores, standings, team rosters, news, and game details straight from ESPN — covering NFL, NBA, MLB, NHL, MLS, Premier League, La Liga, Bundesliga, ATP Tennis, PGA Golf, UFC, Formula 1, and more.
+Scrape **ESPN** for live and historical scores, full game boxscores, league tables, team directories, rosters, player stats, schedules, college and individual-sport rankings, news, and the primary sportsbook line. Ten modes cover 36 leagues across football, basketball, baseball, hockey, soccer, tennis, golf, MMA and Formula 1 — all from public JSON endpoints with **no key, login, cookie or proxy setup**.
 
-**No sign-up, login, or proxy required.**
+Every row carries a `recordType`, so mixed datasets stay easy to filter: `game`, `event`, `gameDetail`, `standing`, `team`, `teamDetail`, `player`, `article`, `scheduleGame`, `ranking`, `oddsLine` and `notice`.
 
-## What you can scrape
+## What this actor does
 
-| Mode | Description |
-|------|-------------|
-| **Scoreboard** | Live and recent game scores with teams, venue, broadcast info |
-| **Standings** | League/conference rankings with wins, losses, win percentage |
-| **Teams** | Full team roster for any league with logos and records |
-| **Team Detail** | In-depth info for a single team (venue, colors, links) |
-| **News** | Latest headlines with descriptions, images, and author |
-| **Game Detail** | Full boxscore context — leaders, recap, venue, broadcast |
+- **Ten modes:** `scoreboard`, `gameDetail`, `standings`, `teams`, `teamDetail`, `news`, `players`, `schedule`, `rankings`, `odds`
+- **36 leagues:** US major leagues, college sports, 19 soccer competitions, ATP/WTA, PGA/LPGA, UFC/PFL and F1
+- **Dates and ranges:** today, tomorrow, yesterday, last/next seven days, or a custom range of up to 366 days, fetched one date per request
+- **Multi-league runs:** combine leagues in one scoreboard, odds, standings or news run
+- **Deep game detail:** team stats, optional player boxscore, leaders, officials, venue, injuries, series, scoring plays, win probability and news
+- **Player coverage:** team rosters (flat and grouped), athlete search, profiles, latest-season stats, game logs and rankings
+- **Primary odds:** provider, spread, total and moneyline from the first line ESPN publishes
+- **Clean output:** empty fields are omitted at every depth; no nulls or placeholder values
 
-## Supported Sports & Leagues
+## Supported leagues
 
-| Sport | League | Slug |
-|-------|--------|------|
-| Football | NFL | `football` / `nfl` |
-| Football | College Football | `football` / `college-football` |
-| Basketball | NBA | `basketball` / `nba` |
-| Basketball | College Basketball | `basketball` / `mens-college-basketball` |
-| Baseball | MLB | `baseball` / `mlb` |
-| Hockey | NHL | `hockey` / `nhl` |
-| Soccer | MLS | `soccer` / `usa.1` |
-| Soccer | Premier League | `soccer` / `eng.1` |
-| Soccer | La Liga | `soccer` / `esp.1` |
-| Soccer | Bundesliga | `soccer` / `ger.1` |
-| Tennis | ATP | `tennis` / `atp` |
-| Golf | PGA Tour | `golf` / `pga` |
-| MMA | UFC | `mma` / `ufc` |
-| Racing | Formula 1 | `racing` / `f1` |
+| Family | League slugs |
+|---|---|
+| Football | `nfl`, `college-football`, `ufl` |
+| Basketball | `nba`, `wnba`, `mens-college-basketball`, `womens-college-basketball` |
+| Baseball | `mlb`, `college-baseball` |
+| Hockey | `nhl` |
+| Soccer | `usa.1`, `eng.1`, `esp.1`, `ger.1`, `ita.1`, `fra.1`, `ned.1`, `por.1`, `mex.1`, `bra.1`, `arg.1`, `uefa.champions`, `uefa.europa`, `uefa.europa.conf`, `eng.fa`, `eng.league_cup`, `fifa.world`, `fifa.cwc`, `concacaf.champions` |
+| Tennis | `atp`, `wta` |
+| Golf | `pga`, `lpga` |
+| MMA | `ufc`, `pfl` |
+| Racing | `f1` |
+
+Mode coverage follows the data ESPN publishes: team leagues support every team mode; F1 supports scoreboard, teams, team detail and driver/constructor standings; tennis, golf and MMA return event records with matches, leaderboards or fight cards instead of home/away fields.
+
+## Output
+
+### Scoreboard and odds
+
+Team games include `eventId`, `name`, `shortName`, `url`, `date`, `dateLocal`, `seasonYear`, `seasonType`, `week`, `status`, `statusState`, `statusCompleted`, `venue`, `venueCity`, `venueState`, `venueCountry`, `venueIndoor`, `broadcast`, `broadcasts`, `attendance`, `headlines`, `notes`, `homeTeam`, `homeTeamId`, `homeAbbr`, `homeLogo`, `homeScore`, `homeWinner`, `homeRecord`, `homeForm`, `awayTeam`, `awayTeamId`, `awayAbbr`, `awayLogo`, `awayScore`, `awayWinner`, `awayRecord`, `awayForm`, `competitors[]` and `odds`.
+
+`odds` contains `provider`, `details`, `spread`, `overUnder`, `homeMoneyLine`, `awayMoneyLine`, `homeSpreadOdds`, `awaySpreadOdds`, `overOdds`, `underOdds`, `favoriteTeamId` and `underdogTeamId` when ESPN publishes them. The `odds` mode returns the same line as its own `oddsLine` row.
+
+Tennis rows add `groupings[]` and a flat `matches[]` list with `matchId`, `round`, `court`, `notes`, `status` and `competitors[]`. Golf rows add a ranked `competitors[]` leaderboard with `score` and round-by-round `rounds[]`, plus `leader`, `leaderScore` and `competitorCount`. UFC/PFL rows add `fights[]` with weight class, winner and fighter records. F1 rows add `raceName`, `raceDate`, `circuitName` and a `drivers[]` classification.
+
+### Game detail
+
+`gameDetail` includes the scoreboard identity fields plus `statusState`, `attendance`, `officials[]`, `teamStats[]`, `leaders[]`, `odds`, `winProbability[]`, `predictor`, `recentForm[]`, `scoringPlays[]`, `injuries[]`, `series`, `news[]`, `videos[]`, `recap` and `links`. `includePlayerStats` adds `playerStats[]` with per-athlete stat lines; `includePlayByPlay` adds the complete `plays[]` list.
+
+### Standings
+
+Standing rows keep `team`, `teamId`, `abbreviation`, `conference`, `wins`, `losses`, `winPct`, `rank`, `division`, `gamesBehind` and `pointDifferential`, and add `groupName`, `groupType`, `seasonYear`, `overall`, `gamesPlayed`, `ties`, `points`, `pointsFor`, `pointsAgainst`, `streak`, `homeRecord`, `awayRecord`, `divisionRecord`, `conferenceRecord`, `playoffSeed`, `rankChange`, `logoUrl`, `url` and a complete `stats` map.
+
+F1 driver rows use `athleteId`, `athleteName` and `championshipPoints`; constructor rows use `team`, `teamId` and `championshipPoints`.
+
+### Teams
+
+Team rows include `teamId`, `uid`, `name`, `shortDisplayName`, `abbreviation`, `location`, `color`, `alternateColor`, `slug`, `isActive`, `isAllStar`, `logoUrl`, `darkLogoUrl`, `url`, `rosterUrl`, `competitors`-style `links`, and — when details are fetched — `recordSummary`, `overallRecord`, `homeRecord`, `awayRecord`, `divisionRecord`, `conferenceRecord`, `wins`, `losses`, `winPct`, `gamesPlayed`, `pointsFor`, `pointsAgainst`, `standingSummary`, `conference`, `division`, `venueName`, `venueCity`, `venueState`, `venueIndoor`, `venueLocation`, `nextEvent` and `recordItems[]`.
+
+### Players
+
+Player rows include `athleteId`, `playerId`, `name`, `firstName`, `lastName`, `shortName`, `jersey`, `position`, `positionAbbr`, `age`, `dateOfBirth`, `height`, `displayHeight`, `weight`, `displayWeight`, `birthPlace`, `college`, `collegeId`, `headshot`, `status`, `experienceYears`, `displayExperience`, `debutYear`, `draft`, `teamId`, `teamName`, `teamAbbr`, `salary`, `contractYearsRemaining`, `contractSeason`, `statsSummary` and `url`. Search rows also carry `source: "search"` and `description`; ESPN search is global, so each result keeps the athlete's own `sport` and `league` even when you search from a different league. `stats[]` and `gameLog[]` are attached when the matching toggles are enabled; season stats are published for NBA, NFL, MLB and NHL, while game logs also work for soccer.
+
+### News
+
+Articles include `articleId`, `headline`, `description`, `publishDate`, `lastModified`, `url`, `imageUrl`, `imageCaption`, `imageCredit`, `author`, `category`, `type`, `section`, `source`, `teams[]`, `athletes[]`, `leagues[]`, `gameId`, `videoUrl`, `premium` and `links`. Set `newsScope: "global"` to page the wider ESPN feed; the actor filters those pages down to the selected league.
+
+### Schedule
+
+`scheduleGame` rows combine scoreboard-style fields with `teamId`, `team`, `teamAbbr`, `teamScore`, `teamRecord`, `homeAway`, `opponent`, `opponentId`, `opponentAbbr`, `opponentLogo`, `opponentScore`, `opponentRecord`, `forTeamResult` (`W`, `L` or `D`), `seasonType`, `seasonYear` and `ticketsAvailable`.
+
+### Rankings
+
+Ranking rows include `rankingId`, `rankingName`, `rankingShortName`, `rankingSourceType`, `rank`, `previousRank`, `trend`, `points`, `firstPlaceVotes`, `recordSummary`, `defenses`, `athleteId`, `athleteName`, `team`, `teamId`, `abbreviation`, `logoUrl`, `url`, `date`, `lastUpdated`, `occurrence` and `seasonYear`.
+
+### Notices
+
+When a request is valid but ESPN has nothing to return, or a mode does not apply to a league, the actor pushes a `notice` row with `code`, `message`, `mode`, `league`, `sport` and `hint`. The run still succeeds.
 
 ## Input
 
 | Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `mode` | select | `news` | What to fetch: `scoreboard`, `standings`, `teams`, `teamDetail`, `news`, `gameDetail` |
-| `sport` | select | `basketball` | Sport category (e.g. `basketball`). Must match the chosen league. |
-| `league` | select | `nba` | League slug (e.g. `nba`). |
-| `teamId` | string | – | ESPN numeric team ID, required for mode=`teamDetail` (get from `teams` mode output) |
-| `eventId` | string | – | ESPN numeric event ID, required for mode=`gameDetail` (get from `scoreboard` mode output) |
-| `maxItems` | integer | `20` | Max records to emit (1–500) |
+|---|---|---|---|
+| `mode` | select | `news` | One of the ten modes |
+| `league` | select | `nba` | League slug; the sport is derived automatically |
+| `leagues` | array | – | Extra leagues for multi-league runs |
+| `datePreset` | select | `today` | `today`, `tomorrow`, `yesterday`, `last7Days`, `next7Days`, `custom` |
+| `startDate` | string | – | First date for `custom`, as `YYYYMMDD` or `YYYY-MM-DD` |
+| `endDate` | string | – | Last date for `custom`, inclusive; maximum 366 days |
+| `season` | integer | – | Season year for standings, schedule, players and rankings; blank uses the current season |
+| `seasonType` | select | – | `preseason`, `regular`, `postseason` (schedule; ignored for soccer) |
+| `teamIds` | array | – | Team IDs, abbreviations or `league/id` references |
+| `eventIds` | array | – | Event IDs or `league/eventId` references |
+| `athleteQueries` | array | – | Player names to search |
+| `athleteIds` | array | – | ESPN athlete IDs for direct profiles |
+| `rankingType` | select | `all` | `all`, `ap`, `coaches`, `cfp`, `pound-for-pound` |
+| `statusFilter` | select | `all` | `all`, `pre`, `in`, `post` |
+| `liveOnly` | boolean | `false` | Keep only in-progress games |
+| `newsScope` | select | `league` | `league` or the paginated `global` feed |
+| `includeTeamDetails` | boolean | `true` | Fetch team record, venue and next event |
+| `includeGameDetails` | boolean | `false` | Attach full summaries to scoreboard games |
+| `includePlayerStats` | boolean | `false` | Add player stats / player boxscore |
+| `includeGameLog` | boolean | `false` | Add a player's current-season game log |
+| `includePlayByPlay` | boolean | `false` | Add every play to `gameDetail` |
+| `maxItems` | integer | `50` | Hard cap (1–5000); notices are metadata rows |
 
-### Example inputs
+### Example: scoreboard for two leagues
 
-**NBA Scoreboard (today's games):**
 ```json
 {
   "mode": "scoreboard",
-  "sport": "basketball",
+  "leagues": ["nba", "nfl"],
+  "datePreset": "yesterday",
+  "statusFilter": "post",
+  "maxItems": 40
+}
+```
+
+### Example: full NBA game detail
+
+```json
+{
+  "mode": "gameDetail",
   "league": "nba",
+  "eventIds": ["401909904"],
+  "includePlayerStats": true,
+  "includePlayByPlay": false,
+  "maxItems": 1
+}
+```
+
+### Example: Premier League schedule and standings
+
+```json
+{
+  "mode": "schedule",
+  "league": "eng.1",
+  "teamIds": ["eng.1/364"],
+  "seasonType": "regular",
+  "maxItems": 38
+}
+```
+
+```json
+{
+  "mode": "standings",
+  "league": "eng.1",
   "maxItems": 20
 }
 ```
 
-**NFL Standings:**
+### Example: player search with stats
+
 ```json
 {
-  "mode": "standings",
-  "sport": "football",
-  "league": "nfl",
-  "maxItems": 50
+  "mode": "players",
+  "league": "nba",
+  "athleteQueries": ["LeBron James", "Jannik Sinner"],
+  "includePlayerStats": true,
+  "maxItems": 10
 }
 ```
 
-**Premier League Teams:**
+### Example: F1 race and driver standings
+
 ```json
 {
-  "mode": "teams",
-  "sport": "soccer",
-  "league": "eng.1",
+  "mode": "scoreboard",
+  "league": "f1",
+  "datePreset": "yesterday",
+  "maxItems": 5
+}
+```
+
+```json
+{
+  "mode": "standings",
+  "league": "f1",
   "maxItems": 30
 }
 ```
 
-**NBA Game Detail (requires an eventId from scoreboard):**
-```json
-{
-  "mode": "gameDetail",
-  "sport": "basketball",
-  "league": "nba",
-  "eventId": "401873199"
-}
-```
+## Use cases
 
-## Output
+- **Fantasy and betting dashboards** — pull slates, primary lines and player boxscores into one normalized feed
+- **Media and newsroom bots** — monitor league headlines or the global ESPN feed and filter to the teams you cover
+- **Team and league trackers** — follow schedules, results, standings and roster changes across multiple leagues
+- **Sports research** — build historical datasets from date ranges and full game summaries
+- **Player scouting** — search athletes, compare latest-season stats and inspect game logs
+- **Broadcast graphics** — feed scoreboards, rankings and leaderboards into live displays
 
-All records include `mode`, `sport`, `league`, and `scrapedAt` fields.
+## FAQ
 
-### Scoreboard record
-```json
-{
-  "mode": "scoreboard",
-  "sport": "basketball",
-  "league": "nba",
-  "eventId": "401873199",
-  "name": "Oklahoma City Thunder at San Antonio Spurs",
-  "url": "https://www.espn.com/nba/game/_/gameId/401873199",
-  "date": "2026-05-23T00:30Z",
-  "homeTeam": "San Antonio Spurs",
-  "homeScore": "98",
-  "awayTeam": "Oklahoma City Thunder",
-  "awayScore": "110",
-  "status": "Final",
-  "venue": "Frost Bank Center, San Antonio, TX",
-  "broadcast": "TNT",
-  "scrapedAt": "2026-05-23T01:00:00+00:00"
-}
-```
+**Do I need an API key, account or proxy?**
+No. The actor reads ESPN's public JSON feeds anonymously. There is no credential or proxy input.
 
-### Standings record
-```json
-{
-  "mode": "standings",
-  "sport": "basketball",
-  "league": "nba",
-  "team": "Boston Celtics",
-  "teamId": "2",
-  "abbreviation": "BOS",
-  "conference": "Eastern Conference",
-  "wins": "64",
-  "losses": "18",
-  "winPct": ".780",
-  "rank": "1",
-  "division": "32-8",
-  "gamesBehind": "0",
-  "pointDifferential": "+8.2",
-  "scrapedAt": "2026-05-23T01:00:00+00:00"
-}
-```
+**Why did I get a notice row instead of games?**
+A notice explains the empty result: no games on that date, no odds published yet, an off-season schedule, or a mode ESPN does not support for that league. The notice `code` and `hint` tell you what to change.
 
-`division`, `gamesBehind`, and `pointDifferential` only appear when ESPN publishes that stat for the league/sport in question.
+**How many news articles can I get per league?**
+ESPN's league news endpoint returns at most 50 articles. Use `newsScope: "global"` to page the wider feed; the actor filters those pages client-side to the selected league.
 
-### Teams record
-```json
-{
-  "mode": "teams",
-  "sport": "basketball",
-  "league": "nba",
-  "teamId": "2",
-  "name": "Boston Celtics",
-  "abbreviation": "BOS",
-  "location": "Boston",
-  "color": "007A33",
-  "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500/bos.png",
-  "wins": 64,
-  "losses": 18,
-  "scrapedAt": "2026-05-23T01:00:00+00:00"
-}
-```
+**Why are some odds fields missing?**
+ESPN publishes a primary line for many upcoming games but not every game, and moneyline/spread components vary by sport and provider. Empty odds fields are omitted rather than guessed. The actor ships the first published line only; it does not promise open-line history or every sportsbook.
 
-### Team Detail record
-```json
-{
-  "mode": "teamDetail",
-  "sport": "basketball",
-  "league": "nba",
-  "teamId": "2",
-  "name": "Boston Celtics",
-  "abbreviation": "BOS",
-  "location": "Boston",
-  "color": "007A33",
-  "alternateColor": "BA9653",
-  "slug": "boston-celtics",
-  "isActive": true,
-  "logoUrl": "https://a.espncdn.com/i/teamlogos/nba/500/bos.png",
-  "venueName": "TD Garden",
-  "venueLocation": "Boston, MA",
-  "wins": 64,
-  "losses": 18,
-  "url": "https://www.espn.com/nba/team/_/name/bos/boston-celtics",
-  "scrapedAt": "2026-05-23T01:00:00+00:00"
-}
-```
+**Can I scrape tennis, golf, MMA or F1 game summaries?**
+Their scoreboards are fully supported with matches, leaderboards, fight cards and driver classifications. ESPN does not expose the same team-style summary for these sports, so `gameDetail` returns a notice for them.
 
-`isAllStar` can also appear (all-star-team flag); it, along with every other field above, is omitted when ESPN doesn't publish a value for that team.
+**Why is a team venue missing?**
+ESPN only includes venue details for some teams (for example, many NBA/NFL clubs). Soccer and F1 team endpoints commonly omit a home venue. The field is omitted when the source has no value.
 
-### News record
-```json
-{
-  "mode": "news",
-  "sport": "basketball",
-  "league": "nba",
-  "headline": "Celtics clinch Eastern Conference title",
-  "description": "Boston defeats Miami in six games.",
-  "publishDate": "2026-05-22T23:00:00Z",
-  "lastModified": "2026-05-22T23:15:00Z",
-  "url": "https://www.espn.com/nba/story/_/id/12345/celtics-clinch",
-  "imageUrl": "https://a.espncdn.com/photo/2026/0522/celtics.jpg",
-  "imageCaption": "Celtics celebrate on the court.",
-  "author": "Adrian Wojnarowski",
-  "category": "NBA",
-  "scrapedAt": "2026-05-23T01:00:00+00:00"
-}
-```
+**Can I fetch historical seasons and dates?**
+Yes. Scoreboard and odds accept a custom date range of up to 366 days. Standings, schedules, players and rankings accept a `season` year. Coverage depends on what ESPN keeps for each league.
 
-### Game Detail record
-```json
-{
-  "mode": "gameDetail",
-  "sport": "basketball",
-  "league": "nba",
-  "eventId": "401873199",
-  "name": "OKC at SA",
-  "date": "2026-05-23T00:30Z",
-  "homeTeam": "San Antonio Spurs",
-  "homeScore": "98",
-  "awayTeam": "Oklahoma City Thunder",
-  "awayScore": "110",
-  "status": "Final",
-  "venue": "Frost Bank Center, San Antonio, TX",
-  "broadcast": "TNT, ESPN+",
-  "leaders": [
-    {
-      "team": "Oklahoma City Thunder",
-      "category": "Points",
-      "athlete": "Shai Gilgeous-Alexander",
-      "value": "38"
-    }
-  ],
-  "recap": "Thunder take 3-1 series lead with impressive road win.",
-  "scrapedAt": "2026-05-23T01:00:00+00:00"
-}
-```
+**Does the actor return duplicate rows?**
+No. Rows are de-duplicated by their natural key (league + event, article, team, athlete or ranking), even when several leagues or player sources overlap.
 
-## Tips
-
-- Use `mode=teams` first to get valid `teamId` values for `mode=teamDetail`
-- Use `mode=scoreboard` to get valid `eventId` values for `mode=gameDetail`
-- The `sport` field is auto-corrected if it doesn't match the selected league
-- Scoreboard returns today's scheduled or completed games; off-season will return 0 events
-- Standings data may be limited or unavailable during off-season periods
-
-## FAQs
-
-**Q: Does this require an account or API key?**
-A: No. All six modes read publicly accessible ESPN data with no authentication.
-
-**Q: How often is the data updated?**
-A: ESPN updates scores in near real-time during games. News and standings reflect the latest available data at scrape time.
-
-**Q: Can I get historical game data?**
-A: The scoreboard endpoint shows current or recent games. For historical data, use `mode=gameDetail` with a specific `eventId`.
-
-**Q: Why is the scoreboard empty?**
-A: If there are no games today (off-season or no scheduled games), the scoreboard will return 0 records. This is expected behavior.
-
-**Q: How do I find a team's ID?**
-A: Run `mode=teams` for the relevant sport/league. The `teamId` field in each result is the ESPN numeric ID.
-
-**Q: Is there a rate limit?**
-A: ESPN is generally permissive, and the actor paces its requests to stay well within normal usage.
-
-**Q: Is this affiliated with ESPN?**
-A: No. This is an independent actor that reads publicly accessible ESPN data; it is not endorsed by or affiliated with ESPN, Inc.
+**Is this affiliated with ESPN?**
+No. This is an independent actor that reads publicly accessible ESPN data and is not endorsed by or affiliated with ESPN, Inc.

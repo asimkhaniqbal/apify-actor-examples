@@ -1,120 +1,334 @@
 {
-  "description": "Scrape ESPN — scoreboards, standings, teams, news, and game details for major sports leagues worldwide.",
+  "description": "Pull ESPN scores, game details, standings, teams, players, news, schedules, rankings and odds for 36 leagues — no key, cookie or proxy.",
   "properties": {
-    "eventId": {
-      "description": "ESPN numeric event ID. Required for mode=gameDetail. Find it from mode=scoreboard output (eventId field).",
-      "editor": "textfield",
-      "title": "Event ID (mode=gameDetail)",
+    "athleteIds": {
+      "description": "ESPN athlete IDs for direct profiles, e.g. [\"1966\"].",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Athlete IDs (mode=players)",
+      "type": "array"
+    },
+    "athleteQueries": {
+      "description": "Player names to search, e.g. [\"LeBron James\", \"Jannik Sinner\"].",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Athlete searches (mode=players)",
+      "type": "array"
+    },
+    "datePreset": {
+      "default": "today",
+      "description": "Date window for scoreboard and odds. ESPN accepts one date per request, so ranges are fetched one day at a time.",
+      "editor": "select",
+      "enum": [
+        "today",
+        "tomorrow",
+        "yesterday",
+        "last7Days",
+        "next7Days",
+        "custom"
+      ],
+      "enumTitles": [
+        "Today",
+        "Tomorrow",
+        "Yesterday",
+        "Last 7 days",
+        "Next 7 days",
+        "Custom range"
+      ],
+      "prefill": "today",
+      "title": "Date preset",
       "type": "string"
+    },
+    "endDate": {
+      "description": "Last date for datePreset=custom (inclusive), in YYYYMMDD or YYYY-MM-DD. Maximum 366 days.",
+      "editor": "textfield",
+      "title": "End date (custom)",
+      "type": "string"
+    },
+    "eventIds": {
+      "description": "Games for gameDetail/odds. Accepts 401909904 or nba/401909904. Get IDs from mode=scoreboard.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Event IDs",
+      "type": "array"
+    },
+    "includeGameDetails": {
+      "default": false,
+      "description": "Attach the full game summary to every team-sport game. Adds one request per game.",
+      "prefill": false,
+      "title": "Include game details (mode=scoreboard)",
+      "type": "boolean"
+    },
+    "includeGameLog": {
+      "default": false,
+      "description": "Attach the current-season game log to each player. Adds one request per athlete.",
+      "prefill": false,
+      "title": "Include game log (mode=players)",
+      "type": "boolean"
+    },
+    "includePlayByPlay": {
+      "default": false,
+      "description": "Include the full play-by-play list in gameDetail (scoring plays are always included).",
+      "prefill": false,
+      "title": "Include every play",
+      "type": "boolean"
+    },
+    "includePlayerStats": {
+      "default": false,
+      "description": "Attach latest season stats to player rows and the player box score to gameDetail. Adds requests per player.",
+      "prefill": false,
+      "title": "Include player stats",
+      "type": "boolean"
+    },
+    "includeTeamDetails": {
+      "default": true,
+      "description": "Fetch each team's record, venue and next event. Adds one request per team.",
+      "prefill": false,
+      "title": "Include team details (mode=teams)",
+      "type": "boolean"
     },
     "league": {
       "default": "nba",
-      "description": "League slug. Must be compatible with the selected Sport.",
+      "description": "League slug. The sport is derived automatically.",
       "editor": "select",
       "enum": [
         "nfl",
         "college-football",
+        "ufl",
         "nba",
+        "wnba",
         "mens-college-basketball",
+        "womens-college-basketball",
         "mlb",
+        "college-baseball",
         "nhl",
         "usa.1",
         "eng.1",
         "esp.1",
         "ger.1",
+        "ita.1",
+        "fra.1",
+        "ned.1",
+        "por.1",
+        "mex.1",
+        "bra.1",
+        "arg.1",
+        "uefa.champions",
+        "uefa.europa",
+        "uefa.europa.conf",
+        "eng.fa",
+        "eng.league_cup",
+        "fifa.world",
+        "fifa.cwc",
+        "concacaf.champions",
         "atp",
+        "wta",
         "pga",
+        "lpga",
         "ufc",
+        "pfl",
         "f1"
       ],
       "enumTitles": [
-        "NFL (football)",
-        "NCAAF College Football (football)",
-        "NBA (basketball)",
-        "NCAAB College Basketball (basketball)",
-        "MLB (baseball)",
-        "NHL (hockey)",
-        "MLS — Major League Soccer (soccer)",
-        "Premier League (soccer)",
-        "La Liga (soccer)",
-        "Bundesliga (soccer)",
-        "ATP Tennis (tennis)",
-        "PGA Tour Golf (golf)",
-        "UFC (mma)",
-        "Formula 1 (racing)"
+        "NFL",
+        "College Football",
+        "UFL",
+        "NBA",
+        "WNBA",
+        "Men's College Basketball",
+        "Women's College Basketball",
+        "MLB",
+        "College Baseball",
+        "NHL",
+        "MLS",
+        "English Premier League",
+        "Spanish La Liga",
+        "German Bundesliga",
+        "Italian Serie A",
+        "French Ligue 1",
+        "Dutch Eredivisie",
+        "Portuguese Primeira Liga",
+        "Mexican Liga MX",
+        "Brazilian Serie A",
+        "Argentine Liga Profesional",
+        "UEFA Champions League",
+        "UEFA Europa League",
+        "UEFA Conference League",
+        "English FA Cup",
+        "English Carabao Cup",
+        "FIFA World Cup",
+        "FIFA Club World Cup",
+        "Concacaf Champions Cup",
+        "ATP Tennis",
+        "WTA Tennis",
+        "PGA Tour Golf",
+        "LPGA Golf",
+        "UFC",
+        "PFL",
+        "Formula 1"
       ],
       "prefill": "nba",
       "title": "League",
       "type": "string"
     },
+    "leagues": {
+      "description": "Optional multi-league override for modes that iterate leagues (scoreboard, odds, standings, teams, teamDetail, news, players, schedule, rankings), e.g. [\"nba\",\"nfl\"].",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Extra leagues",
+      "type": "array"
+    },
+    "liveOnly": {
+      "default": false,
+      "description": "Keep only in-progress games (scoreboard and odds).",
+      "prefill": false,
+      "title": "Live only",
+      "type": "boolean"
+    },
     "maxItems": {
-      "default": 20,
-      "description": "Maximum number of records to emit. Applies to scoreboard, teams, news, and standings modes.",
-      "maximum": 500,
+      "default": 50,
+      "description": "Hard cap on data records. Notice rows explain unsupported or empty requests.",
+      "maximum": 5000,
       "minimum": 1,
-      "prefill": 20,
+      "prefill": 1,
       "title": "Max items",
       "type": "integer"
     },
     "mode": {
       "default": "news",
-      "description": "What data to fetch from ESPN.",
+      "description": "What to fetch from ESPN.",
       "editor": "select",
       "enum": [
         "scoreboard",
+        "gameDetail",
         "standings",
         "teams",
         "teamDetail",
         "news",
-        "gameDetail"
+        "players",
+        "schedule",
+        "rankings",
+        "odds"
       ],
       "enumTitles": [
-        "Scoreboard — live and recent game scores",
-        "Standings — league/conference rankings",
-        "Teams — list all teams in a league",
-        "Team Detail — full info for one team",
-        "News — latest headlines for a sport/league",
-        "Game Detail — full boxscore and recap for one game"
+        "Scoreboard — games, matches, leaderboards and fight cards",
+        "Game Detail — box score, player lines, odds and win probability",
+        "Standings — league tables plus F1 drivers and constructors",
+        "Teams — every team in a league",
+        "Team Detail — record, venue and next event for selected teams",
+        "News — league headlines or the global ESPN feed",
+        "Players — rosters, athlete search, profiles, stats and game logs",
+        "Schedule — a team's season schedule with results",
+        "Rankings — ATP, WTA, UFC and college polls",
+        "Odds — primary sportsbook line per game"
       ],
       "prefill": "news",
       "title": "Mode",
       "type": "string"
     },
-    "sport": {
-      "default": "basketball",
-      "description": "Sport category (must match the league you choose).",
+    "newsScope": {
+      "default": "league",
+      "description": "League news is capped at 50 articles by ESPN. Global pages the ESPN now feed and filters to the selected league.",
       "editor": "select",
       "enum": [
-        "football",
-        "basketball",
-        "baseball",
-        "hockey",
-        "soccer",
-        "tennis",
-        "golf",
-        "mma",
-        "racing"
+        "league",
+        "global"
       ],
       "enumTitles": [
-        "Football",
-        "Basketball",
-        "Baseball",
-        "Hockey",
-        "Soccer",
-        "Tennis",
-        "Golf",
-        "MMA",
-        "Racing"
+        "Selected league",
+        "Global ESPN feed (paginated)"
       ],
-      "prefill": "basketball",
-      "title": "Sport",
+      "prefill": "league",
+      "title": "News scope (mode=news)",
       "type": "string"
     },
-    "teamId": {
-      "description": "ESPN numeric team ID. Required for mode=teamDetail. Find it from mode=teams output (teamId field).",
-      "editor": "textfield",
-      "title": "Team ID (mode=teamDetail)",
+    "rankingType": {
+      "default": "all",
+      "description": "Which poll to return. 'all' includes every poll ESPN publishes for the league.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "ap",
+        "coaches",
+        "cfp",
+        "pound-for-pound"
+      ],
+      "enumTitles": [
+        "All rankings",
+        "AP Top 25",
+        "Coaches Poll",
+        "College Football Playoff",
+        "Pound-for-pound"
+      ],
+      "prefill": "all",
+      "title": "Ranking (mode=rankings)",
       "type": "string"
+    },
+    "season": {
+      "description": "ESPN season year for standings, schedule, players and rankings (e.g. 2025). Leave blank for the current season.",
+      "maximum": 2100,
+      "minimum": 1900,
+      "title": "Season year",
+      "type": "integer"
+    },
+    "seasonType": {
+      "description": "Filter a team schedule by season phase (ignored for soccer schedules, which ESPN reports as one league season).",
+      "editor": "select",
+      "enum": [
+        "preseason",
+        "regular",
+        "postseason"
+      ],
+      "enumTitles": [
+        "Preseason",
+        "Regular season",
+        "Postseason"
+      ],
+      "title": "Season type (mode=schedule)",
+      "type": "string"
+    },
+    "startDate": {
+      "description": "First date for datePreset=custom, in YYYYMMDD or YYYY-MM-DD.",
+      "editor": "textfield",
+      "title": "Start date (custom)",
+      "type": "string"
+    },
+    "statusFilter": {
+      "default": "all",
+      "description": "Filter scoreboard, odds or schedule rows by game state.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "pre",
+        "in",
+        "post"
+      ],
+      "enumTitles": [
+        "All games",
+        "Upcoming",
+        "Live",
+        "Completed"
+      ],
+      "prefill": "all",
+      "title": "Game status",
+      "type": "string"
+    },
+    "teamIds": {
+      "description": "Teams for teams/teamDetail/schedule/players. Accepts 2, BOS or nba/BOS. Get IDs from mode=teams.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Team IDs or abbreviations",
+      "type": "array"
     }
   },
   "required": [
