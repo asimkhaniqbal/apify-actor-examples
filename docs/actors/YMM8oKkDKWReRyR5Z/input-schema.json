@@ -1,47 +1,88 @@
 {
-  "description": "Get all job postings from one or more Lever company boards, or fetch a specific posting by company + posting ID.",
+  "description": "Collect open postings from Lever job boards by company slug, board URL, API URL or posting URL. Global and EU boards are supported; all filters run on the complete board data.",
   "properties": {
-    "commitment": {
-      "default": "",
-      "description": "Filter postings by employment commitment type.",
+    "boardRegion": {
+      "default": "auto",
+      "description": "Use auto to try the global board first and fall back to the EU board when global returns 404 or no postings.",
       "editor": "select",
       "enum": [
-        "",
-        "Full-time",
-        "Part-time",
-        "Contract",
-        "Internship"
+        "auto",
+        "global",
+        "eu"
       ],
       "enumTitles": [
-        "All types",
-        "Full-time",
-        "Part-time",
-        "Contract",
-        "Internship"
+        "Auto-detect",
+        "Global (api.lever.co)",
+        "EU (api.eu.lever.co)"
       ],
-      "prefill": "",
-      "title": "Filter by commitment / job type",
+      "prefill": "auto",
+      "title": "Lever region",
+      "type": "string"
+    },
+    "commitment": {
+      "description": "Keep postings whose commitment or normalized employment type matches this text, e.g. \"Full-time\", \"Contract\", \"Internship\".",
+      "editor": "textfield",
+      "title": "Commitment",
       "type": "string"
     },
     "companySlug": {
-      "description": "Single company slug for fetching a specific posting (e.g. \"stripe\").",
+      "description": "Company slug, board URL, API URL or posting URL used with postingIds (mode=getJob).",
       "editor": "textfield",
-      "title": "Company slug (mode=getJob)",
+      "title": "Company (mode=getJob)",
       "type": "string"
     },
     "companySlugs": {
-      "description": "List of Lever company board slugs to scrape (e.g. [\"netflix\", \"stripe\"]). Find the slug in the Lever URL: jobs.lever.co/{slug}",
+      "description": "Company slugs, board URLs, API URLs or posting URLs. Examples: \"wealthfront\", \"https://jobs.lever.co/wealthfront\", \"https://jobs.eu.lever.co/olx\", \"https://api.lever.co/v0/postings/wealthfront\".",
       "editor": "stringList",
       "prefill": [
         "wealthfront"
       ],
-      "title": "Company slugs (mode=getJobs)",
+      "title": "Companies (mode=getJobs)",
       "type": "array"
     },
-    "location": {
-      "description": "Filter postings by location string (e.g. \"San Francisco\", \"Remote\").",
+    "country": {
+      "description": "Keep postings for one ISO 3166-1 alpha-2 country code, e.g. \"US\", \"DE\" or \"IN\".",
       "editor": "textfield",
-      "title": "Filter by location",
+      "title": "Country",
+      "type": "string"
+    },
+    "department": {
+      "description": "Keep postings whose department contains this text (case-insensitive).",
+      "editor": "textfield",
+      "title": "Department",
+      "type": "string"
+    },
+    "excludeTitleKeywords": {
+      "description": "Drop postings whose title contains any word in this list.",
+      "editor": "stringList",
+      "title": "Title must not include",
+      "type": "array"
+    },
+    "hasSalaryOnly": {
+      "default": false,
+      "description": "Keep only postings with a structured salary range published by Lever.",
+      "prefill": false,
+      "title": "Has salary only",
+      "type": "boolean"
+    },
+    "includeDescription": {
+      "default": true,
+      "description": "Include full and section descriptions plus requirement lists.",
+      "prefill": true,
+      "title": "Include descriptions",
+      "type": "boolean"
+    },
+    "includeHtml": {
+      "default": false,
+      "description": "Add the original HTML for descriptions, additional text and list content.",
+      "prefill": false,
+      "title": "Include HTML",
+      "type": "boolean"
+    },
+    "location": {
+      "description": "Keep postings whose primary location or any additional location contains this text (case-insensitive), e.g. \"London\" or \"Remote\".",
+      "editor": "textfield",
+      "title": "Location",
       "type": "string"
     },
     "maxItems": {
@@ -49,36 +90,100 @@
       "description": "Maximum number of posting records to emit.",
       "maximum": 10000,
       "minimum": 1,
-      "prefill": 500,
+      "prefill": 3,
       "title": "Max items",
+      "type": "integer"
+    },
+    "maxItemsPerCompany": {
+      "default": 0,
+      "description": "Maximum records per company board; 0 means no per-company limit.",
+      "maximum": 10000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Max items per company",
       "type": "integer"
     },
     "mode": {
       "default": "getJobs",
-      "description": "What to fetch: all postings from company boards, or a specific posting by ID.",
+      "description": "Fetch every open posting from one or more boards, or fetch specific postings by ID or URL.",
       "editor": "select",
       "enum": [
         "getJobs",
         "getJob"
       ],
       "enumTitles": [
-        "Get all job postings from company board(s)",
-        "Get specific posting by company + posting ID"
+        "Get all postings from boards or URLs",
+        "Get specific postings by ID or URL"
       ],
       "prefill": "getJobs",
       "title": "Mode",
       "type": "string"
     },
+    "onlyNewSinceLastRun": {
+      "default": false,
+      "description": "Emit only postings not seen by an earlier run with the same query shape. The first run returns everything.",
+      "prefill": false,
+      "title": "Only new since last run",
+      "type": "boolean"
+    },
+    "postedAfter": {
+      "description": "Keep postings created on or after this date (YYYY-MM-DD).",
+      "editor": "textfield",
+      "title": "Posted after",
+      "type": "string"
+    },
     "postingIds": {
-      "description": "List of Lever posting UUIDs to fetch (e.g. [\"abc123-...\"]).",
+      "description": "Posting UUIDs or posting/apply URLs (mode=getJob).",
       "editor": "stringList",
       "title": "Posting IDs (mode=getJob)",
       "type": "array"
     },
+    "remoteOnly": {
+      "default": false,
+      "description": "Keep only postings marked remote or with a remote location.",
+      "prefill": false,
+      "title": "Remote only",
+      "type": "boolean"
+    },
+    "salaryMin": {
+      "description": "Keep postings whose structured salary range starts at or above this value (same currency and interval as the posting).",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Minimum salary",
+      "type": "integer"
+    },
     "team": {
-      "description": "Filter postings by team name (e.g. \"Engineering\", \"Sales\").",
+      "description": "Keep postings whose team contains this text (case-insensitive).",
       "editor": "textfield",
-      "title": "Filter by team",
+      "title": "Team",
+      "type": "string"
+    },
+    "titleKeywords": {
+      "description": "Keep postings whose title contains every word in this list, in any order.",
+      "editor": "stringList",
+      "title": "Title must include",
+      "type": "array"
+    },
+    "workplaceType": {
+      "default": "",
+      "description": "Keep postings with this exact workplace arrangement.",
+      "editor": "select",
+      "enum": [
+        "",
+        "remote",
+        "hybrid",
+        "onsite",
+        "unspecified"
+      ],
+      "enumTitles": [
+        "All workplaces",
+        "Remote",
+        "Hybrid",
+        "On-site",
+        "Unspecified"
+      ],
+      "prefill": "",
+      "title": "Workplace type",
       "type": "string"
     }
   },
