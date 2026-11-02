@@ -1,0 +1,784 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-++minnlBNdouHkg6fn7wDfrwMbUsQeVLXkY3Ree3HyY=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Ahrefs Domain Rating, Backlinks &amp; Traffic Lookup | Vexaloom Labs</title><meta name="description" content="Look up a domain&#x27;s public Ahrefs Domain Rating, linking-website count, global rank, and estimated organic traffic, with a mode to fetch just authority or just backlink metrics."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/gUzxxjRtJtq8KiIiG/"><meta property="og:title" content="Ahrefs Domain Rating, Backlinks &amp; Traffic Lookup | Vexaloom Labs"><meta property="og:description" content="Look up a domain&#x27;s public Ahrefs Domain Rating, linking-website count, global rank, and estimated organic traffic, with a mode to fetch just authority or just backlink metrics."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/gUzxxjRtJtq8KiIiG/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gUzxxjRtJtq8KiIiG/#webpage","name":"Ahrefs Domain Rating, Backlinks & Traffic Lookup","description":"Look up a domain's public Ahrefs Domain Rating, linking-website count, global rank, and estimated organic traffic, with a mode to fetch just authority or just backlink metrics.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gUzxxjRtJtq8KiIiG/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gUzxxjRtJtq8KiIiG/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gUzxxjRtJtq8KiIiG/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gUzxxjRtJtq8KiIiG/#article","headline":"Ahrefs Domain Rating, Backlinks & Traffic Lookup","name":"Ahrefs Domain Rating, Backlinks & Traffic Lookup","description":"Look up a domain's public Ahrefs Domain Rating, linking-website count, global rank, and estimated organic traffic, with a mode to fetch just authority or just backlink metrics.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gUzxxjRtJtq8KiIiG/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gUzxxjRtJtq8KiIiG/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gUzxxjRtJtq8KiIiG/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Ahrefs Domain Rating, Backlinks & Traffic Lookup","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/gUzxxjRtJtq8KiIiG/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Ahrefs Domain Rating, Backlinks &amp; Traffic Lookup</span></div><section id="overview"><h1 class="doc-title">Ahrefs Domain Rating, Backlinks &amp; Traffic Lookup</h1><p class="lede">Look up a domain&#x27;s public Ahrefs Domain Rating, linking-website count, global rank, and estimated organic traffic, with a mode to fetch just authority or just backlink metrics.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/ahrefs-domain-rating-backlinks-and-traffic-lookup">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/gUzxxjRtJtq8KiIiG/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to fetch. `domain` returns the full public profile; `competitors` returns one row per competitor; `topWebsites` returns the AhrefsTop ranking without needing domains. Legacy values `full`, `authority_only` and `backlinks_only` are accepted and mapped to `domain`, `authority` and `backlinks`.</td></tr><tr><td><code>domains</code></td><td>array</td><td>optional</td><td>Domains or full URLs (mode=domain/authority/backlinks/traffic/competitors). `www` and non-`www` forms are both tried. Duplicates are removed.</td></tr><tr><td><code>includeHistory</code></td><td>boolean</td><td>optional</td><td>Include monthly traffic, traffic-value and linking-website history (mode=domain/authority/backlinks/traffic).</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to fetch. `domain` returns the full public profile; `competitors` returns one row per competitor; `topWebsites` returns the AhrefsTop ranking without needing domains. Legacy values `full`, `authority_only` and `backlinks_only` are accepted and mapped to `domain`, `authority` and `backlinks`.</td></tr><tr><td><code>domains</code></td><td>array</td><td>optional</td><td>Domains or full URLs (mode=domain/authority/backlinks/traffic/competitors). `www` and non-`www` forms are both tried. Duplicates are removed.</td></tr><tr><td><code>includeHistory</code></td><td>boolean</td><td>optional</td><td>Include monthly traffic, traffic-value and linking-website history (mode=domain/authority/backlinks/traffic).</td></tr><tr><td><code>includeKeywords</code></td><td>boolean</td><td>optional</td><td>Include the top 5 keywords table (mode=domain/traffic).</td></tr><tr><td><code>includeCountries</code></td><td>boolean</td><td>optional</td><td>Include the top 5 traffic countries (mode=domain/traffic).</td></tr><tr><td><code>includeCompetitors</code></td><td>boolean</td><td>optional</td><td>Include the top 5 competing websites on the profile (mode=domain).</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Hard cap on emitted rows across all requested domains or ranking pages.</td></tr><tr><td><code>topWebsitesCountry</code></td><td>string</td><td>optional</td><td>(mode=topWebsites) Country ranking. `worldwide` uses the global top 1000; any other value uses that country&#x27;s top 100.</td></tr><tr><td><code>topWebsitesCategory</code></td><td>string</td><td>optional</td><td>(mode=topWebsites) Category filter. Combine with a country for that country&#x27;s category ranking.</td></tr><tr><td><code>topWebsitesRanking</code></td><td>string</td><td>optional</td><td>(mode=topWebsites) Position ranking or the monthly trending up/down list.</td></tr><tr><td><code>topWebsitesPage</code></td><td>integer</td><td>optional</td><td>(mode=topWebsites) Starting global ranking page (1 = ranks 1-100, 10 = ranks 901-1000). Country, category and trending rankings expose one page only.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Look up public AhrefsTop profiles, competitor rows and top-website rankings.&quot;,
+  &quot;properties&quot;: {
+    &quot;domains&quot;: {
+      &quot;description&quot;: &quot;Domains or full URLs (mode=domain/authority/backlinks/traffic/competitors). `www` and non-`www` forms are both tried. Duplicates are removed.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [
+        &quot;wikipedia.org&quot;
+      ],
+      &quot;title&quot;: &quot;Domains&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;includeCompetitors&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Include the top 5 competing websites on the profile (mode=domain).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include competitors&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeCountries&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Include the top 5 traffic countries (mode=domain/traffic).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include countries&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeHistory&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Include monthly traffic, traffic-value and linking-website history (mode=domain/authority/backlinks/traffic).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include history&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeKeywords&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Include the top 5 keywords table (mode=domain/traffic).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include keywords&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 50,
+      &quot;description&quot;: &quot;Hard cap on emitted rows across all requested domains or ranking pages.&quot;,
+      &quot;maximum&quot;: 1000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 1,
+      &quot;title&quot;: &quot;Max items&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;domain&quot;,
+      &quot;description&quot;: &quot;What to fetch. `domain` returns the full public profile; `competitors` returns one row per competitor; `topWebsites` returns the AhrefsTop ranking without needing domains. Legacy values `full`, `authority_only` and `backlinks_only` are accepted and mapped to `domain`, `authority` and `backlinks`.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;domain&quot;,
+        &quot;authority&quot;,
+        &quot;backlinks&quot;,
+        &quot;traffic&quot;,
+        &quot;competitors&quot;,
+        &quot;topWebsites&quot;,
+        &quot;full&quot;,
+        &quot;authority_only&quot;,
+        &quot;backlinks_only&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Full domain profile&quot;,
+        &quot;Authority (DR and linking sites)&quot;,
+        &quot;Backlinks (link summary and history)&quot;,
+        &quot;Traffic (rank, traffic, keywords, countries)&quot;,
+        &quot;Competitors (one row per competitor)&quot;,
+        &quot;Top websites ranking&quot;,
+        &quot;Legacy: full profile&quot;,
+        &quot;Legacy: authority only&quot;,
+        &quot;Legacy: backlinks only&quot;
+      ],
+      &quot;prefill&quot;: &quot;domain&quot;,
+      &quot;title&quot;: &quot;Mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;topWebsitesCategory&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;(mode=topWebsites) Category filter. Combine with a country for that country&#x27;s category ranking.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
+        &quot;arts-and-entertainment&quot;,
+        &quot;autos-and-vehicles&quot;,
+        &quot;beauty-and-fitness&quot;,
+        &quot;books-and-literature&quot;,
+        &quot;business&quot;,
+        &quot;computers-and-electronics&quot;,
+        &quot;finance&quot;,
+        &quot;food-and-drink&quot;,
+        &quot;games&quot;,
+        &quot;health&quot;,
+        &quot;hobbies-and-leisure&quot;,
+        &quot;home-and-garden&quot;,
+        &quot;internet-and-telecom&quot;,
+        &quot;jobs-and-education&quot;,
+        &quot;law-and-government&quot;,
+        &quot;news&quot;,
+        &quot;social-networks&quot;,
+        &quot;people-and-society&quot;,
+        &quot;pets-and-animals&quot;,
+        &quot;real-estate&quot;,
+        &quot;reference&quot;,
+        &quot;science&quot;,
+        &quot;shopping&quot;,
+        &quot;sports&quot;,
+        &quot;travel-and-transportation&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All categories&quot;,
+        &quot;Entertainment&quot;,
+        &quot;Vehicles&quot;,
+        &quot;Beauty &amp; Fitness&quot;,
+        &quot;Books &amp; Literature&quot;,
+        &quot;Business &amp; Industrial&quot;,
+        &quot;Computers &amp; Electronics&quot;,
+        &quot;Finance&quot;,
+        &quot;Food &amp; Drink&quot;,
+        &quot;Games&quot;,
+        &quot;Health&quot;,
+        &quot;Hobbies &amp; Leisure&quot;,
+        &quot;Home &amp; Garden&quot;,
+        &quot;Internet &amp; Telecom&quot;,
+        &quot;Jobs &amp; Education&quot;,
+        &quot;Law &amp; Government&quot;,
+        &quot;News&quot;,
+        &quot;Online Communities&quot;,
+        &quot;People &amp; Society&quot;,
+        &quot;Pets &amp; Animals&quot;,
+        &quot;Real Estate&quot;,
+        &quot;Reference&quot;,
+        &quot;Science&quot;,
+        &quot;Shopping&quot;,
+        &quot;Sports&quot;,
+        &quot;Travel&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Top websites category&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;topWebsitesCountry&quot;: {
+      &quot;default&quot;: &quot;worldwide&quot;,
+      &quot;description&quot;: &quot;(mode=topWebsites) Country ranking. `worldwide` uses the global top 1000; any other value uses that country&#x27;s top 100.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;worldwide&quot;,
+        &quot;afghanistan&quot;,
+        &quot;albania&quot;,
+        &quot;algeria&quot;,
+        &quot;andorra&quot;,
+        &quot;angola&quot;,
+        &quot;antigua-and-barbuda&quot;,
+        &quot;argentina&quot;,
+        &quot;armenia&quot;,
+        &quot;australia&quot;,
+        &quot;austria&quot;,
+        &quot;azerbaijan&quot;,
+        &quot;bahamas&quot;,
+        &quot;bahrain&quot;,
+        &quot;bangladesh&quot;,
+        &quot;belarus&quot;,
+        &quot;belgium&quot;,
+        &quot;belize&quot;,
+        &quot;benin&quot;,
+        &quot;bhutan&quot;,
+        &quot;bolivia&quot;,
+        &quot;bosnia-and-herzegovina&quot;,
+        &quot;botswana&quot;,
+        &quot;brazil&quot;,
+        &quot;brunei-darussalam&quot;,
+        &quot;bulgaria&quot;,
+        &quot;burkina-faso&quot;,
+        &quot;burundi&quot;,
+        &quot;cambodia&quot;,
+        &quot;cameroon&quot;,
+        &quot;canada&quot;,
+        &quot;cape-verde&quot;,
+        &quot;central-african-republic&quot;,
+        &quot;chad&quot;,
+        &quot;chile&quot;,
+        &quot;colombia&quot;,
+        &quot;congo&quot;,
+        &quot;congo-democratic-republic&quot;,
+        &quot;costa-rica&quot;,
+        &quot;cote-divoire&quot;,
+        &quot;croatia&quot;,
+        &quot;cyprus&quot;,
+        &quot;czech-republic&quot;,
+        &quot;denmark&quot;,
+        &quot;djibouti&quot;,
+        &quot;dominican-republic&quot;,
+        &quot;ecuador&quot;,
+        &quot;egypt&quot;,
+        &quot;el-salvador&quot;,
+        &quot;estonia&quot;,
+        &quot;ethiopia&quot;,
+        &quot;fiji&quot;,
+        &quot;finland&quot;,
+        &quot;france&quot;,
+        &quot;gabon&quot;,
+        &quot;gambia&quot;,
+        &quot;georgia&quot;,
+        &quot;germany&quot;,
+        &quot;ghana&quot;,
+        &quot;gibraltar&quot;,
+        &quot;greece&quot;,
+        &quot;greenland&quot;,
+        &quot;guadeloupe&quot;,
+        &quot;guatemala&quot;,
+        &quot;guernsey&quot;,
+        &quot;guyana&quot;,
+        &quot;haiti&quot;,
+        &quot;honduras&quot;,
+        &quot;hong-kong&quot;,
+        &quot;hungary&quot;,
+        &quot;iceland&quot;,
+        &quot;india&quot;,
+        &quot;indonesia&quot;,
+        &quot;iraq&quot;,
+        &quot;ireland&quot;,
+        &quot;isle-of-man&quot;,
+        &quot;israel&quot;,
+        &quot;italy&quot;,
+        &quot;jamaica&quot;,
+        &quot;japan&quot;,
+        &quot;jersey&quot;,
+        &quot;jordan&quot;,
+        &quot;kazakhstan&quot;,
+        &quot;kenya&quot;,
+        &quot;kuwait&quot;,
+        &quot;kyrgyzstan&quot;,
+        &quot;lao-peoples-democratic-republic&quot;,
+        &quot;latvia&quot;,
+        &quot;lebanon&quot;,
+        &quot;lesotho&quot;,
+        &quot;libyan-arab-jamahiriya&quot;,
+        &quot;liechtenstein&quot;,
+        &quot;lithuania&quot;,
+        &quot;luxembourg&quot;,
+        &quot;madagascar&quot;,
+        &quot;malawi&quot;,
+        &quot;malaysia&quot;,
+        &quot;maldives&quot;,
+        &quot;mali&quot;,
+        &quot;malta&quot;,
+        &quot;mauritius&quot;,
+        &quot;mexico&quot;,
+        &quot;moldova&quot;,
+        &quot;mongolia&quot;,
+        &quot;montenegro&quot;,
+        &quot;morocco&quot;,
+        &quot;mozambique&quot;,
+        &quot;myanmar&quot;,
+        &quot;namibia&quot;,
+        &quot;nepal&quot;,
+        &quot;netherlands&quot;,
+        &quot;new-zealand&quot;,
+        &quot;nicaragua&quot;,
+        &quot;niger&quot;,
+        &quot;nigeria&quot;,
+        &quot;north-macedonia&quot;,
+        &quot;norway&quot;,
+        &quot;oman&quot;,
+        &quot;pakistan&quot;,
+        &quot;palestine&quot;,
+        &quot;panama&quot;,
+        &quot;papua-new-guinea&quot;,
+        &quot;paraguay&quot;,
+        &quot;peru&quot;,
+        &quot;philippines&quot;,
+        &quot;poland&quot;,
+        &quot;portugal&quot;,
+        &quot;puerto-rico&quot;,
+        &quot;qatar&quot;,
+        &quot;romania&quot;,
+        &quot;russian-federation&quot;,
+        &quot;rwanda&quot;,
+        &quot;saint-vincent-and-grenadines&quot;,
+        &quot;saudi-arabia&quot;,
+        &quot;senegal&quot;,
+        &quot;serbia&quot;,
+        &quot;seychelles&quot;,
+        &quot;sierra-leone&quot;,
+        &quot;singapore&quot;,
+        &quot;slovakia&quot;,
+        &quot;slovenia&quot;,
+        &quot;somalia&quot;,
+        &quot;south-africa&quot;,
+        &quot;korea&quot;,
+        &quot;spain&quot;,
+        &quot;sri-lanka&quot;,
+        &quot;suriname&quot;,
+        &quot;sweden&quot;,
+        &quot;switzerland&quot;,
+        &quot;taiwan&quot;,
+        &quot;tajikistan&quot;,
+        &quot;tanzania&quot;,
+        &quot;thailand&quot;,
+        &quot;timor-leste&quot;,
+        &quot;togo&quot;,
+        &quot;trinidad-and-tobago&quot;,
+        &quot;tunisia&quot;,
+        &quot;turkey&quot;,
+        &quot;turkmenistan&quot;,
+        &quot;uganda&quot;,
+        &quot;ukraine&quot;,
+        &quot;united-arab-emirates&quot;,
+        &quot;united-kingdom&quot;,
+        &quot;united-states&quot;,
+        &quot;uruguay&quot;,
+        &quot;uzbekistan&quot;,
+        &quot;venezuela&quot;,
+        &quot;vietnam&quot;,
+        &quot;virgin-islands-us&quot;,
+        &quot;zambia&quot;,
+        &quot;zimbabwe&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Worldwide&quot;,
+        &quot;Afghanistan&quot;,
+        &quot;Albania&quot;,
+        &quot;Algeria&quot;,
+        &quot;Andorra&quot;,
+        &quot;Angola&quot;,
+        &quot;Antigua And Barbuda&quot;,
+        &quot;Argentina&quot;,
+        &quot;Armenia&quot;,
+        &quot;Australia&quot;,
+        &quot;Austria&quot;,
+        &quot;Azerbaijan&quot;,
+        &quot;Bahamas&quot;,
+        &quot;Bahrain&quot;,
+        &quot;Bangladesh&quot;,
+        &quot;Belarus&quot;,
+        &quot;Belgium&quot;,
+        &quot;Belize&quot;,
+        &quot;Benin&quot;,
+        &quot;Bhutan&quot;,
+        &quot;Bolivia&quot;,
+        &quot;Bosnia And Herzegovina&quot;,
+        &quot;Botswana&quot;,
+        &quot;Brazil&quot;,
+        &quot;Brunei Darussalam&quot;,
+        &quot;Bulgaria&quot;,
+        &quot;Burkina Faso&quot;,
+        &quot;Burundi&quot;,
+        &quot;Cambodia&quot;,
+        &quot;Cameroon&quot;,
+        &quot;Canada&quot;,
+        &quot;Cape Verde&quot;,
+        &quot;Central African Republic&quot;,
+        &quot;Chad&quot;,
+        &quot;Chile&quot;,
+        &quot;Colombia&quot;,
+        &quot;Congo&quot;,
+        &quot;Congo, Democratic Republic of the&quot;,
+        &quot;Costa Rica&quot;,
+        &quot;Cote D&#x27;Ivoire&quot;,
+        &quot;Croatia&quot;,
+        &quot;Cyprus&quot;,
+        &quot;Czech Republic&quot;,
+        &quot;Denmark&quot;,
+        &quot;Djibouti&quot;,
+        &quot;Dominican Republic&quot;,
+        &quot;Ecuador&quot;,
+        &quot;Egypt&quot;,
+        &quot;El Salvador&quot;,
+        &quot;Estonia&quot;,
+        &quot;Ethiopia&quot;,
+        &quot;Fiji&quot;,
+        &quot;Finland&quot;,
+        &quot;France&quot;,
+        &quot;Gabon&quot;,
+        &quot;Gambia&quot;,
+        &quot;Georgia&quot;,
+        &quot;Germany&quot;,
+        &quot;Ghana&quot;,
+        &quot;Gibraltar&quot;,
+        &quot;Greece&quot;,
+        &quot;Greenland&quot;,
+        &quot;Guadeloupe&quot;,
+        &quot;Guatemala&quot;,
+        &quot;Guernsey&quot;,
+        &quot;Guyana&quot;,
+        &quot;Haiti&quot;,
+        &quot;Honduras&quot;,
+        &quot;Hong Kong&quot;,
+        &quot;Hungary&quot;,
+        &quot;Iceland&quot;,
+        &quot;India&quot;,
+        &quot;Indonesia&quot;,
+        &quot;Iraq&quot;,
+        &quot;Ireland&quot;,
+        &quot;Isle of Man&quot;,
+        &quot;Israel&quot;,
+        &quot;Italy&quot;,
+        &quot;Jamaica&quot;,
+        &quot;Japan&quot;,
+        &quot;Jersey&quot;,
+        &quot;Jordan&quot;,
+        &quot;Kazakhstan&quot;,
+        &quot;Kenya&quot;,
+        &quot;Kuwait&quot;,
+        &quot;Kyrgyzstan&quot;,
+        &quot;Lao People&#x27;s Democratic Republic&quot;,
+        &quot;Latvia&quot;,
+        &quot;Lebanon&quot;,
+        &quot;Lesotho&quot;,
+        &quot;Libyan Arab Jamahiriya&quot;,
+        &quot;Liechtenstein&quot;,
+        &quot;Lithuania&quot;,
+        &quot;Luxembourg&quot;,
+        &quot;Madagascar&quot;,
+        &quot;Malawi&quot;,
+        &quot;Malaysia&quot;,
+        &quot;Maldives&quot;,
+        &quot;Mali&quot;,
+        &quot;Malta&quot;,
+        &quot;Mauritius&quot;,
+        &quot;Mexico&quot;,
+        &quot;Moldova&quot;,
+        &quot;Mongolia&quot;,
+        &quot;Montenegro&quot;,
+        &quot;Morocco&quot;,
+        &quot;Mozambique&quot;,
+        &quot;Myanmar&quot;,
+        &quot;Namibia&quot;,
+        &quot;Nepal&quot;,
+        &quot;Netherlands&quot;,
+        &quot;New Zealand&quot;,
+        &quot;Nicaragua&quot;,
+        &quot;Niger&quot;,
+        &quot;Nigeria&quot;,
+        &quot;North Macedonia&quot;,
+        &quot;Norway&quot;,
+        &quot;Oman&quot;,
+        &quot;Pakistan&quot;,
+        &quot;Palestine, State of&quot;,
+        &quot;Panama&quot;,
+        &quot;Papua New Guinea&quot;,
+        &quot;Paraguay&quot;,
+        &quot;Peru&quot;,
+        &quot;Philippines&quot;,
+        &quot;Poland&quot;,
+        &quot;Portugal&quot;,
+        &quot;Puerto Rico&quot;,
+        &quot;Qatar&quot;,
+        &quot;Romania&quot;,
+        &quot;Russian Federation&quot;,
+        &quot;Rwanda&quot;,
+        &quot;Saint Vincent And Grenadines&quot;,
+        &quot;Saudi Arabia&quot;,
+        &quot;Senegal&quot;,
+        &quot;Serbia&quot;,
+        &quot;Seychelles&quot;,
+        &quot;Sierra Leone&quot;,
+        &quot;Singapore&quot;,
+        &quot;Slovakia&quot;,
+        &quot;Slovenia&quot;,
+        &quot;Somalia&quot;,
+        &quot;South Africa&quot;,
+        &quot;Korea&quot;,
+        &quot;Spain&quot;,
+        &quot;Sri Lanka&quot;,
+        &quot;Suriname&quot;,
+        &quot;Sweden&quot;,
+        &quot;Switzerland&quot;,
+        &quot;Taiwan&quot;,
+        &quot;Tajikistan&quot;,
+        &quot;Tanzania&quot;,
+        &quot;Thailand&quot;,
+        &quot;Timor-Leste&quot;,
+        &quot;Togo&quot;,
+        &quot;Trinidad And Tobago&quot;,
+        &quot;Tunisia&quot;,
+        &quot;Turkey&quot;,
+        &quot;Turkmenistan&quot;,
+        &quot;Uganda&quot;,
+        &quot;Ukraine&quot;,
+        &quot;United Arab Emirates&quot;,
+        &quot;United Kingdom&quot;,
+        &quot;United States&quot;,
+        &quot;Uruguay&quot;,
+        &quot;Uzbekistan&quot;,
+        &quot;Venezuela&quot;,
+        &quot;Vietnam&quot;,
+        &quot;Virgin Islands, U.S.&quot;,
+        &quot;Zambia&quot;,
+        &quot;Zimbabwe&quot;
+      ],
+      &quot;prefill&quot;: &quot;worldwide&quot;,
+      &quot;title&quot;: &quot;Top websites country&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;topWebsitesPage&quot;: {
+      &quot;default&quot;: 1,
+      &quot;description&quot;: &quot;(mode=topWebsites) Starting global ranking page (1 = ranks 1-100, 10 = ranks 901-1000). Country, category and trending rankings expose one page only.&quot;,
+      &quot;maximum&quot;: 10,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 1,
+      &quot;title&quot;: &quot;Top websites page&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;topWebsitesRanking&quot;: {
+      &quot;default&quot;: &quot;ranking&quot;,
+      &quot;description&quot;: &quot;(mode=topWebsites) Position ranking or the monthly trending up/down list.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;ranking&quot;,
+        &quot;trending_up&quot;,
+        &quot;trending_down&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Ranking&quot;,
+        &quot;Trending up&quot;,
+        &quot;Trending down&quot;
+      ],
+      &quot;prefill&quot;: &quot;ranking&quot;,
+      &quot;title&quot;: &quot;Top websites ranking type&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;mode&quot;
+  ],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Ahrefs Domain Rating, Backlinks &amp; Traffic Lookup Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>results</code></td><td>string</td><td>optional</td><td>Dataset containing website profiles, competitor rows and top-website ranking rows.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;One dataset of public AhrefsTop website profiles, competitor rows and top-website rankings, including Domain Rating, traffic, traffic value, keyword counts, top keywords, countries, competitors, similar sites and monthly history.&quot;,
+  &quot;properties&quot;: {
+    &quot;results&quot;: {
+      &quot;description&quot;: &quot;Dataset containing website profiles, competitor rows and top-website ranking rows.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Ahrefs results&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Ahrefs Domain Rating, Backlinks &amp; Traffic Lookup Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {}
+      },
+      &quot;title&quot;: &quot;Ahrefs results&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;type&quot;,
+          &quot;domain&quot;,
+          &quot;sourceDomain&quot;,
+          &quot;rank&quot;,
+          &quot;domainRating&quot;,
+          &quot;organicTraffic&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-ahrefs-domain-rating-backlinks-traffic-lookup">Ahrefs Domain Rating, Backlinks &amp; Traffic Lookup</h2>
+<p>Scrape <strong>AhrefsTop</strong> website profiles — the public pages Ahrefs publishes at <code>ahrefs.com/websites/&lt;domain&gt;</code> — for Domain Rating, linking websites, search traffic, traffic value, keyword counts, top keywords, countries, competitors, similarly ranked sites and monthly history. Six modes cover full profiles, lean authority/backlink/traffic subsets, nine competitor cards per domain, and the AhrefsTop global, country and category rankings. No Ahrefs account, cookie or API key is needed.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li><strong>Six modes:</strong> <code>domain</code>, <code>authority</code>, <code>backlinks</code>, <code>traffic</code>, <code>competitors</code>, <code>topWebsites</code></li>
+<li><strong>Full public profile:</strong> Domain Rating, linking websites and their monthly change, site title and description, global/country/category ranks and changes, organic traffic, traffic value, keyword count and the data month</li>
+<li><strong>Deeper sections:</strong> top 5 keywords, top 5 traffic countries, top 5 competing websites, similarly ranked sites, and monthly traffic/value plus linking-website history (typically 10+ years)</li>
+<li><strong>Competitor rows:</strong> one flat row per competitor card with description, ranks, traffic, traffic value, pages and Domain Rating</li>
+<li><strong>Rankings:</strong> the global top 1000 (100 rows per page), country and category top 100 lists, combined country + category lists, and monthly trending up/down</li>
+<li><strong>Safe inputs and output:</strong> <code>www</code> and non-<code>www</code> hosts are both tried, duplicate domains are removed, every request is capped by <code>maxItems</code>, and empty fields are omitted instead of written as <code>null</code></li>
+</ul>
+<h2 id="readme-output-per-website-record">Output per website record</h2>
+<p>Used by <code>domain</code>, <code>authority</code>, <code>backlinks</code> and <code>traffic</code>. Each mode returns its own subset.</p>
+<ul>
+<li><code>type</code> — always <code>ahrefs_website_stats</code></li>
+<li><code>domain</code> — the normalised domain or host you requested</li>
+<li><code>resolvedDomain</code> — the exact host AhrefsTop served</li>
+<li><code>sourceUrl</code> — the public Ahrefs page the record came from</li>
+<li><code>scrapedAt</code> — ISO 8601 collection timestamp</li>
+<li><code>notFound</code> — <code>true</code> when AhrefsTop has no page for either host form</li>
+<li><code>fetchError</code> — a short failure reason (<code>HTTP 403</code>, <code>HTTP 429</code>, <code>timeout</code>, <code>network</code>) when no page could be read; no metrics are invented</li>
+<li><code>domainRating</code> — Domain Rating (0–100)</li>
+<li><code>linkingWebsites</code> / <code>linkingWebsitesText</code> — distinct linking websites, numeric and as displayed</li>
+<li><code>referringDomainsDelta</code> / <code>referringDomainsDeltaDirection</code> — month-over-month change and <code>increase</code>/<code>decrease</code></li>
+<li><code>siteTitle</code>, <code>siteDescription</code> — the site name and description shown on the profile</li>
+<li><code>descriptionMeta</code> — the description from the page's structured metadata</li>
+<li><code>globalRank</code> / <code>globalRankChange</code> — worldwide traffic rank and its monthly move</li>
+<li><code>countryRank</code>, <code>countryRankCountry</code> / <code>countryRankChange</code> — country rank, country name and move</li>
+<li><code>category</code>, <code>categoryRank</code> / <code>categoryRankChange</code> — category name, rank and move</li>
+<li><code>organicTraffic</code>, <code>organicTrafficText</code> / <code>organicTrafficChange</code> — estimated monthly organic visits, display text and change</li>
+<li><code>trafficValueUsd</code>, <code>trafficValueText</code> / <code>trafficValueChangeUsd</code> — estimated monthly traffic value in USD and its change</li>
+<li><code>organicKeywords</code> / <code>organicKeywordsText</code> — estimated organic keyword count</li>
+<li><code>asOf</code>, <code>trafficMonth</code>, <code>dataMonth</code> — snapshot month (display), traffic month and machine-readable <code>YYYY-MM</code> data month</li>
+<li><code>topKeywordCountry</code>, <code>topKeywords[]</code> — country used for the keyword table; each keyword has <code>keyword</code>, <code>volume</code>, <code>volumeChange</code>, <code>traffic</code>, <code>trafficChange</code>, <code>position</code> and <code>positionChange</code></li>
+<li><code>topCountries[]</code> — <code>country</code>, <code>visits</code>, <code>visitsChange</code>, <code>share</code> (percent)</li>
+<li><code>topCompetitors[]</code> — <code>domain</code>, <code>traffic</code>, <code>trafficChange</code>, <code>pages</code></li>
+<li><code>similarlyRanked[]</code> — <code>domain</code>, <code>traffic</code>, <code>trafficChange</code>, <code>rank</code>, <code>rankChange</code>; only when the requested site is actually in the worldwide top 1000</li>
+<li><code>trafficHistoryMonthly[]</code> — <code>month</code>, <code>organicTraffic</code>, <code>trafficValueUsd</code></li>
+<li><code>linkingWebsitesHistory[]</code> — <code>month</code>, <code>linkingWebsites</code></li>
+</ul>
+<p>Mode subsets: <code>authority</code> returns identity, Domain Rating/linking websites and their history; <code>backlinks</code> returns the same link-focused subset; <code>traffic</code> returns ranks, traffic, keywords, countries and traffic history; <code>domain</code> returns everything.</p>
+<h2 id="readme-output-per-competitor-record">Output per competitor record</h2>
+<p>Used by <code>competitors</code>. One row per competitor card, up to 10 per requested domain.</p>
+<ul>
+<li><code>type</code> — always <code>ahrefs_competitor</code></li>
+<li><code>sourceDomain</code> — the domain whose competitor page was read</li>
+<li><code>domain</code> — the competitor domain</li>
+<li><code>sourceUrl</code>, <code>scrapedAt</code></li>
+<li><code>notFound</code> / <code>fetchError</code> — only when the source page could not be read</li>
+<li><code>siteDescription</code> — the competitor's description</li>
+<li><code>globalRank</code>, <code>globalRankChange</code></li>
+<li><code>countryRank</code>, <code>countryRankCountry</code>, <code>countryRankChange</code></li>
+<li><code>category</code>, <code>categoryRank</code>, <code>categoryRankChange</code></li>
+<li><code>organicTraffic</code>, <code>organicTrafficChange</code></li>
+<li><code>trafficValueUsd</code>, <code>trafficValueChangeUsd</code></li>
+<li><code>pages</code></li>
+<li><code>domainRating</code></li>
+</ul>
+<h2 id="readme-output-per-top-website-record">Output per top-website record</h2>
+<p>Used by <code>topWebsites</code>. One row per ranked or trending website.</p>
+<ul>
+<li><code>type</code> — always <code>ahrefs_top_website</code></li>
+<li><code>sourceUrl</code>, <code>scrapedAt</code></li>
+<li><code>rank</code>, <code>rankChange</code></li>
+<li><code>domain</code></li>
+<li><code>category</code></li>
+<li><code>organicTraffic</code>, <code>organicTrafficText</code>, <code>organicTrafficChange</code></li>
+<li><code>rankingScope</code> — the requested scope: <code>global</code>, the country slug, the category slug, or <code>country/category</code> (for example <code>united-states</code>, <code>reference</code>, <code>united-states/reference</code>); on a country page, trending rows are country-level (see Limitations)</li>
+<li><code>rankingType</code> — <code>ranking</code>, <code>trending_up</code> or <code>trending_down</code></li>
+<li><code>rankingPage</code> — 1–10 for the global ranking, 1 for country/category and trending</li>
+<li><code>notFound</code> / <code>fetchError</code> — only when the ranking page could not be read</li>
+</ul>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td>string</td>
+<td><code>domain</code></td>
+<td><code>domain</code> (full profile), <code>authority</code> (DR + linking sites), <code>backlinks</code> (link summary + history), <code>traffic</code> (ranks/traffic/keywords/countries), <code>competitors</code> (one row per competitor), <code>topWebsites</code> (AhrefsTop rankings). Legacy values <code>full</code>, <code>authority_only</code> and <code>backlinks_only</code> are still accepted and mapped</td>
+</tr>
+<tr>
+<td><code>domains</code></td>
+<td>array</td>
+<td>–</td>
+<td>Domains or full URLs for every mode except <code>topWebsites</code>. <code>www</code> and non-<code>www</code> are both tried; duplicates are removed</td>
+</tr>
+<tr>
+<td><code>includeHistory</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Include monthly traffic/value and linking-website history (mode=domain/authority/backlinks/traffic)</td>
+</tr>
+<tr>
+<td><code>includeKeywords</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Include the top 5 keywords (mode=domain/traffic)</td>
+</tr>
+<tr>
+<td><code>includeCountries</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Include the top 5 traffic countries (mode=domain/traffic)</td>
+</tr>
+<tr>
+<td><code>includeCompetitors</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Include the top 5 competitors on the profile (mode=domain)</td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>integer</td>
+<td><code>50</code></td>
+<td>Hard cap on rows across all requested domains or ranking pages (1–1000)</td>
+</tr>
+<tr>
+<td><code>topWebsitesCountry</code></td>
+<td>string</td>
+<td><code>worldwide</code></td>
+<td>Country ranking (mode=topWebsites). <code>worldwide</code> uses the global top 1000</td>
+</tr>
+<tr>
+<td><code>topWebsitesCategory</code></td>
+<td>string</td>
+<td><code>all</code></td>
+<td>Category ranking (mode=topWebsites); combine with a country for that country's category list</td>
+</tr>
+<tr>
+<td><code>topWebsitesRanking</code></td>
+<td>string</td>
+<td><code>ranking</code></td>
+<td><code>ranking</code>, <code>trending_up</code> or <code>trending_down</code> (mode=topWebsites)</td>
+</tr>
+<tr>
+<td><code>topWebsitesPage</code></td>
+<td>integer</td>
+<td><code>1</code></td>
+<td>Starting global ranking page from 1 to 10 (mode=topWebsites); country/category/trending expose one page</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-example-full-profile-with-every-section">Example: full profile with every section</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;domain&quot;,
+  &quot;domains&quot;: [&quot;wikipedia.org&quot;, &quot;www.nhs.uk&quot;],
+  &quot;maxItems&quot;: 2
+}
+</code></pre>
+<h3 id="readme-example-authority-and-backlink-checks-only">Example: authority and backlink checks only</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;authority&quot;,
+  &quot;domains&quot;: [&quot;stripe.com&quot;, &quot;github.com&quot;, &quot;openai.com&quot;],
+  &quot;includeHistory&quot;: true,
+  &quot;maxItems&quot;: 3
+}
+</code></pre>
+<h3 id="readme-example-nine-competitor-rows-per-domain">Example: nine competitor rows per domain</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;competitors&quot;,
+  &quot;domains&quot;: [&quot;wikipedia.org&quot;],
+  &quot;maxItems&quot;: 9
+}
+</code></pre>
+<h3 id="readme-example-the-us-reference-ranking-then-trending-sites">Example: the US reference ranking, then trending sites</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;topWebsites&quot;,
+  &quot;topWebsitesCountry&quot;: &quot;united-states&quot;,
+  &quot;topWebsitesCategory&quot;: &quot;reference&quot;,
+  &quot;topWebsitesRanking&quot;: &quot;ranking&quot;,
+  &quot;maxItems&quot;: 100
+}
+</code></pre>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;topWebsites&quot;,
+  &quot;topWebsitesRanking&quot;: &quot;trending_up&quot;,
+  &quot;maxItems&quot;: 10
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>SEO audits</strong> — pull a client's Domain Rating, traffic, traffic value, keyword count and rank movement in one request</li>
+<li><strong>Link-building prospecting</strong> — compare linking-website counts and trends across a candidate list before outreach</li>
+<li><strong>Competitor benchmarking</strong> — export nine competitor cards per domain with traffic, traffic value, pages and DR</li>
+<li><strong>Market research</strong> — download the global top 1000 or a country/category top 100 for lead scoring and segmentation</li>
+<li><strong>Portfolio monitoring</strong> — schedule repeat runs and track monthly search traffic, traffic value and referring-site history</li>
+<li><strong>Content and keyword research</strong> — see the exact keywords a site earns the most traffic from, with volume, position and monthly change</li>
+</ul>
+<h2 id="readme-limitations">Limitations</h2>
+<ul>
+<li><strong>Ranking caps:</strong> the global ranking exposes ranks 1–1000 (ten pages of 100). Country, category and combined country + category rankings expose up to 100 rows; combined lists can be shorter when the source has fewer matches (for example, United States + Reference has 3). Trending exposes 10 rows per direction.</li>
+<li><strong>Country trending:</strong> on a country page the trending lists are country-level; the category filter applies only to the ranking table. On the worldwide page, category trending is category-specific.</li>
+<li><strong>Conditional ranks:</strong> global rank is printed only for sites in the worldwide top 1000 (<code>&gt;1000</code> is omitted). Country, category and keyword-count fields appear only when the source publishes them.</li>
+<li><strong>Stale data on quiet sites:</strong> some low-traffic profiles stop updating. <code>dataMonth</code> reports the real latest month rather than implying the data is current.</li>
+<li><strong>Public profile surface only:</strong> detailed backlink rows, top pages, keyword ideas, keyword difficulty/SERP, broken links, XML sitemaps and AI visibility are not included. Ahrefs' free tools for those require a Cloudflare Turnstile challenge, and the official free API requires an API key.</li>
+<li><strong>Third-party estimates:</strong> traffic, traffic value and keyword figures are Ahrefs' estimates, not analytics from the site owner.</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Do I need an Ahrefs subscription or API key?</strong> No. The actor reads the same public website profiles and rankings that any visitor can see on AhrefsTop. There is no login, cookie or token.</p>
+<p><strong>What is AhrefsTop?</strong> It is Ahrefs' public ranking site. Opening <code>ahrefs.com/websites/&lt;domain&gt;</code> redirects there; the actor reads the destination page directly.</p>
+<p><strong>Why are some fields missing from a record?</strong> Ahrefs only prints some values conditionally. A site outside the global top 1000 has no <code>globalRank</code>, a site without a country rank has no <code>countryRank</code>, and some profiles have no keyword count. Empty fields are omitted, never filled with <code>null</code> or a sentinel.</p>
+<p><strong>Why is <code>dataMonth</code> older than this month for some domains?</strong> Ahrefs stops refreshing profiles it considers inactive. The field shows the latest month the source actually publishes, so you can judge freshness instead of assuming the numbers are current.</p>
+<p><strong>How many rows can <code>topWebsites</code> return?</strong> Up to 1000 for the global ranking (start at page 1 and use <code>maxItems</code> up to 1000), up to 100 for a country, category or combined country + category list (combined lists can be shorter), and up to 10 for trending up or trending down.</p>
+<p><strong>Can I combine a country and a category?</strong> Yes. Set both <code>topWebsitesCountry</code> and <code>topWebsitesCategory</code>; the actor reads the combined list, which is capped by the source at 100 rows.</p>
+<p><strong>Do <code>www</code> and non-<code>www</code> domains both work?</strong> Yes. The actor tries the exact host first and falls back to the other form only when the first returns no page. <code>resolvedDomain</code> tells you which host was used.</p>
+<p><strong>How fresh is the data?</strong> Ahrefs updates these profiles monthly. <code>scrapedAt</code> records when you collected the row, while <code>asOf</code>, <code>trafficMonth</code> and <code>dataMonth</code> describe the source month.</p>
+<p><strong>Is this affiliated with Ahrefs?</strong> No. This is an independent actor that reads publicly available AhrefsTop pages. It is not endorsed by or affiliated with Ahrefs.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/gUzxxjRtJtq8KiIiG/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>1er5MI6BnUASyOt8P</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
