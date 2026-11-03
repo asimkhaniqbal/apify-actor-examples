@@ -1,55 +1,68 @@
 {
-  "description": "Search the General Osteopathic Council's public register (osteopathy.org.uk) by postcode/town, surname or practice features, or look up exact GOsC registration numbers.",
+  "description": "Search the General Osteopathic Council's public register by exact surname, town, postcode, practice features or registration number, or browse every practice-linked osteopath.",
   "properties": {
     "disabilityAccess": {
       "default": false,
-      "description": "Only return osteopaths practising at a location that reports disabled access.",
+      "description": "Only return osteopaths whose practice reports disabled access. Partial access counts as access, matching the register's own filter.",
       "prefill": false,
-      "title": "Has disabled access (mode=search)",
+      "title": "Requires disabled access",
       "type": "boolean"
+    },
+    "firstName": {
+      "description": "Optional case-insensitive contains filter applied to the first-name part of the register name.",
+      "editor": "textfield",
+      "title": "First name contains",
+      "type": "string"
     },
     "homeVisit": {
       "default": false,
-      "description": "Only return osteopaths practising at a location that offers home visits.",
+      "description": "Only return osteopaths whose practice reports home visits.",
       "prefill": false,
-      "title": "Does home visits (mode=search)",
+      "title": "Offers home visits",
       "type": "boolean"
     },
     "location": {
-      "description": "UK postcode or town/city name to search near, e.g. \"London\" or \"SW1A 1AA\". Leave blank to browse the whole register.",
+      "description": "Exact town, county or country name, or a UK postcode/outcode such as SW1A 1AA or SW1A. Town names must match the register's own location labels.",
       "editor": "textfield",
-      "prefill": "London",
-      "title": "Postcode or town (mode=search)",
+      "title": "Town, county, country or postcode",
       "type": "string"
     },
     "maxItems": {
-      "default": 20,
-      "description": "Maximum number of osteopath records to return in this run.",
-      "maximum": 2000,
+      "default": 50,
+      "description": "Hard cap on emitted osteopath records. The full practice-linked register currently holds about 5,688 unique registrants.",
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 20,
-      "title": "Max osteopaths to return",
+      "prefill": 3,
+      "title": "Maximum osteopaths",
       "type": "integer"
     },
     "mode": {
       "default": "search",
-      "description": "What to fetch.",
+      "description": "Choose how to query the register.",
       "editor": "select",
       "enum": [
         "search",
-        "byRegistrationNumbers"
+        "byRegistrationNumbers",
+        "fullRegister"
       ],
       "enumTitles": [
-        "Search the register (postcode / town / surname / practice features)",
-        "Lookup by exact GOsC registration number(s)"
+        "Search by surname, location or practice features",
+        "Look up exact GOsC registration numbers",
+        "Browse the full practice-linked register"
       ],
       "prefill": "search",
       "title": "Mode",
       "type": "string"
     },
+    "qualificationContains": {
+      "description": "Optional case-insensitive text filter over the published qualifications, for example Ost or DO.",
+      "editor": "textfield",
+      "title": "Qualification contains",
+      "type": "string"
+    },
     "radius": {
       "default": "10mi",
-      "description": "Distance from the postcode entered in `location`. Only applies when `location` is a postcode — ignored for town/city names.",
+      "description": "Radius used when location is a UK postcode or outcode. Town and county searches use the register's own boundary.",
       "editor": "select",
       "enum": [
         "5mi",
@@ -64,29 +77,68 @@
         "Within 50 miles"
       ],
       "prefill": "10mi",
-      "title": "Search radius (mode=search, postcode only)",
+      "title": "Distance from postcode",
+      "type": "string"
+    },
+    "registeredAfter": {
+      "description": "Optional ISO date (YYYY-MM-DD). Only return entries whose date of registration is on or after this date.",
+      "editor": "textfield",
+      "title": "Registered on or after",
+      "type": "string"
+    },
+    "registeredBefore": {
+      "description": "Optional ISO date (YYYY-MM-DD). Only return entries whose date of registration is on or before this date.",
+      "editor": "textfield",
+      "title": "Registered on or before",
       "type": "string"
     },
     "registrationNumbers": {
-      "description": "Exact GOsC registration numbers to look up, e.g. \"1766\".",
+      "description": "Exact registration numbers for byRegistrationNumbers mode. Strings or integers are accepted; duplicates and leading zeros are normalised. Only the first 10,000 unique numbers are read.",
       "editor": "stringList",
       "prefill": [
         "1766"
       ],
-      "title": "Registration numbers (mode=byRegistrationNumbers)",
+      "title": "GOsC registration numbers",
       "type": "array"
     },
+    "status": {
+      "default": "",
+      "description": "Optional exact status filter applied after each register entry is read. Leave blank for every status.",
+      "editor": "select",
+      "enum": [
+        "",
+        "Fully Registered",
+        "Non Practising",
+        "Practising Overseas",
+        "Suspended",
+        "Conditions of Practice",
+        "Undertaking"
+      ],
+      "enumTitles": [
+        "Any status",
+        "Fully Registered",
+        "Non Practising",
+        "Practising Overseas",
+        "Suspended",
+        "Conditions of Practice",
+        "Undertaking"
+      ],
+      "prefill": "",
+      "title": "Practising status",
+      "type": "string"
+    },
     "surname": {
-      "description": "Filter to osteopaths whose surname contains this text. Can be combined with `location`.",
+      "description": "Exact surname as held by the register, case-insensitive (for example Smith). Partial surnames such as Smit do not match. Combine with location or practice features to narrow results.",
       "editor": "textfield",
-      "title": "Osteopath surname (mode=search)",
+      "prefill": "Smith",
+      "title": "Exact surname",
       "type": "string"
     },
     "welshSpoken": {
       "default": false,
-      "description": "Only return osteopaths practising at a location where Welsh is spoken.",
+      "description": "Only return osteopaths whose practice reports that Welsh is spoken.",
       "prefill": false,
-      "title": "Welsh spoken (mode=search)",
+      "title": "Welsh spoken",
       "type": "boolean"
     }
   },

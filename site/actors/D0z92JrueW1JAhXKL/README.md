@@ -1,107 +1,169 @@
-# General Osteopathic Council Register Scraper
+# UK Osteopath Register (GOsC) Scraper
 
-Verify UK-registered osteopaths against the **General Osteopathic Council (GOsC)** official public register at `osteopathy.org.uk`. Search by postcode/town, surname, or practice features (disabled access, home visits, Welsh spoken) — or look up an exact GOsC registration number — to confirm whether an osteopath is currently registered and legally able to practise in the UK. No login, no cookies, no paid proxy required.
+Check UK osteopaths against the **General Osteopathic Council (GOsC)** statutory public register at `osteopathy.org.uk`. The actor reads the register's own server-rendered pages without a browser, login, cookie, API key or proxy, and returns structured records for patient checks, credentialing, directories and research.
 
-## What this actor does
+## What it returns
 
-- **Two lookup modes:** browse/filter the register, or exact registration-number lookup
-- **Search by any combination of:** postcode or town (with a configurable radius for postcode searches), surname, disabled access, home visits, Welsh spoken
-- **Browse the entire register** — leave all filters blank to page through every currently-registered osteopath
-- **Full result-set pagination** — follows the register's own paging so large matches are returned in full (bounded only by `maxItems`)
-- **Multiple practice addresses per osteopath** — many osteopaths practise at more than one clinic; every practice they are listed at is captured (address, opening hours, home visits, disabled access, Welsh spoken, website)
-- **Empty fields are never included** — only real, extracted data is emitted
+Each dataset item is one registrant:
 
-## Output per osteopath
+- **Identity**: `registrantId`, `registrationNumber`, `name`, `title`, `firstName`, `lastName`, `gender`
+- **Registration**: `practisingStatus`, `statusCategory`, `isPractising`, `hasConditions`, `sanction`, `dateOfRegistration`, `dateOfRegistrationRaw`
+- **Regulatory context**: `hasHearingNotes`, `hearingNotesUrl` (the GOsC hearing-decision page linked from the register entry)
+- **Education**: `qualifications`, `placeOfTraining`, `qualificationDate`, `qualificationYear`
+- **Contact**: `email`, `contactNumber`
+- **Practices**: `practices[]` with `name`, `practiceUrl`, `address`, `postcode`, `openingHours`, `email`, `phone`, `website`, `homeVisits`, `disabledAccess`, `welshSpoken`, plus optional `latitude`, `longitude`, `distanceMiles`
+- **Practice summary**: `primaryPracticeName`, `primaryPracticeTown`, `primaryPracticePostcode`, `practiceCount`, and `website` (the first available practice website, which may belong to a secondary practice)
+- **Provenance**: `sourceUrl`, `searchQuery`, `source`, `recordType`, `scrapedAt`
 
-- `registrantId` — GOsC internal registrant identifier
-- `registrationNumber` — unique GOsC registration number
-- `name` — full name as shown on the register (with courtesy title)
-- `gender`
-- `practisingStatus` — e.g. `Fully Registered`
-- `dateOfRegistration` — date first joined the register (ISO `YYYY-MM-DD`)
-- `qualifications` — post-nominal qualifications (e.g. `DO`, `BSc (Hons) Ost`)
-- `placeOfTraining` — institution where the osteopath trained
-- `qualificationDate` — month/year of qualification (ISO `YYYY-MM`)
-- `contactNumber` — personal contact phone number, when published on the register
-- `email` — personal contact email address, when published on the register
-- `practiceCount` — number of practices this osteopath is listed at
-- `practices[]` — one entry per practice: `name`, `practiceUrl`, `address`, `postcode`, `openingHours`, `email`, `phone`, `website`, `homeVisits` (boolean), `disabledAccess` (boolean), `welshSpoken` (boolean)
-- `sourceUrl` — direct link to the official GOsC register entry
-- `recordType`, `scrapedAt`
+Empty values are omitted at every depth. Boolean practice facilities and derived status flags are retained even when false.
 
-## Input
+## Three ways to query
 
-| Field | Type | Default | Description |
+| Mode | What it does | Best for |
+|---|---|---|
+| `search` | Exact surname, exact town/county/country, postcode/outcode with radius, and practice-feature filters | Finding one person, a local cluster, or accessible/home-visit practices |
+| `byRegistrationNumbers` | Looks up exact GOsC numbers, accepts strings or integers, strips leading zeros, ignores duplicates and invalid all-zero values | Verifying a list of practitioners from a spreadsheet or CRM |
+| `fullRegister` | Pages through every practice-linked registrant in the browse, currently about 5,688 unique people across 481 pages of practice cards | Building a complete UK osteopath directory |
+
+`search` with no surname or location behaves like the old browse-all search. `fullRegister` is the explicit heavy-crawl mode and ignores surname, location and registration inputs while still honouring practice-feature and post-fetch filters.
+
+## Inputs
+
+| Field | Type | Default | Notes |
 |---|---|---|---|
-| `mode` | select | `search` | `search` (browse/filter) or `byRegistrationNumbers` (exact lookup) |
-| `location` | string | – | UK postcode or town/city name (mode=search). Leave blank to browse the whole register |
-| `radius` | select | `10mi` | `5mi` / `10mi` / `25mi` / `50mi` — only applies when `location` is a postcode |
-| `surname` | string | – | Filter to osteopaths whose surname contains this text |
-| `disabilityAccess` | boolean | `false` | Only return osteopaths practising where disabled access is available |
-| `homeVisit` | boolean | `false` | Only return osteopaths who offer home visits |
-| `welshSpoken` | boolean | `false` | Only return osteopaths practising where Welsh is spoken |
-| `registrationNumbers` | array | – | Exact GOsC registration numbers (mode=byRegistrationNumbers) |
-| `maxItems` | integer | `20` | Maximum number of osteopath records to return (1–2000) |
+| `mode` | select | `search` | `search`, `byRegistrationNumbers` or `fullRegister` |
+| `surname` | text | – | Exact, case-insensitive surname; partial surnames do not match |
+| `location` | text | – | Exact town/county/country, or UK postcode/outcode |
+| `radius` | select | `10mi` | `5mi`, `10mi`, `25mi`, `50mi`; used for postcode/outcode searches |
+| `firstName` | text | – | Case-insensitive contains filter on the parsed first name |
+| `disabilityAccess` | boolean | `false` | Partial access counts as access, matching the register |
+| `homeVisit` | boolean | `false` | Practice reports home visits |
+| `welshSpoken` | boolean | `false` | Practice reports Welsh spoken |
+| `status` | select | any | Exact status filter: Fully Registered, Non Practising, Practising Overseas, Suspended, Conditions of Practice, Undertaking |
+| `registeredAfter` | text | – | ISO `YYYY-MM-DD`, inclusive |
+| `registeredBefore` | text | – | ISO `YYYY-MM-DD`, inclusive |
+| `qualificationContains` | text | – | Case-insensitive substring over qualifications |
+| `registrationNumbers` | array | – | Exact GOsC numbers for lookup mode |
+| `maxItems` | integer | `50` | 1–10,000 hard cap on emitted records |
 
-### Example: search osteopaths near a postcode
+Saved tasks that still send `postcode`, `name`, `registrationNumber` or `radiusMiles` keep working: those legacy keys are mapped in code, not shown as inputs.
+
+## Examples
+
+Find osteopaths with a surname near a postcode:
 
 ```json
 {
   "mode": "search",
+  "surname": "Smith",
   "location": "SW1A 1AA",
   "radius": "10mi",
   "maxItems": 25
 }
 ```
 
-### Example: filter by surname and practice features
-
-```json
-{
-  "mode": "search",
-  "surname": "Smith",
-  "homeVisit": true,
-  "disabilityAccess": true,
-  "maxItems": 25
-}
-```
-
-### Example: look up exact registration numbers
+Check a mixed list of registration numbers:
 
 ```json
 {
   "mode": "byRegistrationNumbers",
-  "registrationNumbers": ["1766", "7065", "8596"]
+  "registrationNumbers": ["1766", "8123", 10877, "99999999"],
+  "maxItems": 10
 }
 ```
 
-## Use cases
+Find regulatory cases:
 
-- **Employers & clinics** verifying a candidate osteopath's registration status before hiring
-- **Patients** confirming their osteopath is legitimately registered with the GOsC
-- **Insurers** cross-checking practitioner registration numbers
-- **Researchers** analysing the geographic distribution, qualifications, or training institutions of UK osteopaths
-- **Directory builders** enriching a UK health-practitioner dataset with official register data
+```json
+{
+  "mode": "search",
+  "status": "Conditions of Practice",
+  "maxItems": 50
+}
+```
+
+Build a directory sample:
+
+```json
+{
+  "mode": "fullRegister",
+  "disabilityAccess": true,
+  "maxItems": 500
+}
+```
+
+## Statuses and regulatory flags
+
+The register publishes six practising statuses. The actor keeps the original text in `practisingStatus` and adds a stable machine-readable layer:
+
+| Status | `statusCategory` | `isPractising` | `hasConditions` | `sanction` |
+|---|---|---|---|---|
+| Fully Registered | `practising` | true | false | – |
+| Non Practising | `nonPractising` | false | false | – |
+| Practising Overseas | `practisingOverseas` | true | false | – |
+| Suspended | `suspended` | false | false | `Suspended` |
+| Conditions of Practice | `conditions` | true | true | `Conditions of Practice` |
+| Undertaking | `undertaking` | true | true | `Undertaking` |
+
+An unrecognised future status is preserved in `practisingStatus`, mapped to `statusCategory: other`, and logged once. Regulatory entries carry `hearingNotesUrl` and `hasHearingNotes`; the linked PDF is not parsed.
+
+## Location and distance
+
+When `location` is supplied in `search` mode, the actor geocodes the origin through postcodes.io (postcode, outcode, then place-name lookup). Practice postcodes are geocoded in batches of 100, cached for the run, and used to add `latitude`, `longitude`, `distanceMiles` on each practice and the lowest distance on the record. Distance is haversine miles from the origin. If geocoding fails, records are still returned without distance fields; the run never fails because of the geocoder.
+
+## How pagination works
+
+The register shows 12 practice cards per page and states the total as `results of N`. The actor computes `ceil(N / 12)` pages, so the final unlinked page is included (the old actor missed it). It stops on `maxItems`, an empty page, a repeated page signature, no new registrant IDs, or the computed last page. It does not use the largest pagination link as the total. A full browse currently needs 481 pages; pages beyond the last repeat the last page.
+
+Practice cards can list several practitioners, so one page can yield more than 12 registrant IDs. Records are deduplicated by `registrantId`. The 5,761 browse figure is practices, not people; the current browse resolves to 5,688 unique registrant IDs.
+
+## Data quality
+
+- Placeholder practices such as `Practice Details`, `Practice Details Pending` and `Not Listed` are removed.
+- Practices are deduplicated by normalised name, address and phone, so legitimate branches at different addresses are kept.
+- Compact and oddly spaced postcodes are normalised; unparseable postcodes are omitted rather than guessed.
+- Websites gain `https://` when the source prints a bare domain; non-URL values are dropped.
+- `Not Listed`, `N/A`, punctuation-only phone numbers and other sentinels are omitted.
+
+## Limitations
+
+- The browse is practice-centric. Osteopaths with no practice listing, including some suspended registrants, do not appear in `fullRegister`; exact surname or registration lookup still finds them.
+- `status`, `firstName`, `qualificationContains`, `registeredAfter` and `registeredBefore` are post-fetch filters. A search that uses only those filters pages through the register to find matches, so it can be slow; combine them with a surname or location where possible. A status-only `Suspended` search cannot find practice-less suspended records in the browse; use a surname or registration number for those.
+- Removed or erased registrants are not returned by the public search at all.
+- The register's `robots.txt` disallows `/register-search/`. The actor uses low concurrency, polite pacing and only the pages needed for the requested records; it is intended for verification and directory use, not bulk republication.
+- Hearing-decision documents are linked, not downloaded or text-extracted.
+- Overseas practices often have no UK postcode, so distance and coordinates are omitted for them. Town and county extraction from overseas addresses is best-effort and may return a region or postal-code fragment when the source address has no clear town.
+- The full register is a large crawl: request `maxItems` deliberately and allow a generous run timeout for thousands of rows.
+
+## Performance and reliability
+
+The actor uses HTTP/2 server-rendered requests at 1024 MB, with detail concurrency 6 and 0.2–0.4 s pacing. It retries 403/429/5xx responses with exponential backoff, skips records that cannot be parsed, and resumes safely after a platform migration without duplicate rows or overshooting `maxItems`. It needs no browser, credentials or proxy.
 
 ## FAQ
 
-**Is this official data?**
-Yes — every record is scraped live from the General Osteopathic Council's own public register search at `osteopathy.org.uk/register-search/`. This is the same register the GOsC itself uses to let the public verify osteopaths.
+**Is this the official register?**
+Yes. Every record comes from the General Osteopathic Council's own public register search at `osteopathy.org.uk/register-search/`, the same register patients use to verify an osteopath.
 
-**Do I need an account, login, or cookies?**
-No. The register search is fully public; no login or paid proxy is required.
+**Why does a partial surname return nothing?**
+The register's surname search is exact and case-insensitive. `Smith` matches Smith, but `Smit` does not. Use the full surname, or combine a first-name filter with location or practice features.
 
-**What if my search returns 0 results?**
-Check the spelling of the surname/postcode, widen the `radius`, or remove filters. The actor sets a clear status message when a search or lookup finds no matches.
+**Why is the browse total 5,761 but the full register smaller?**
+The published 5,761 is the number of practice cards. Each card can list several practitioners, and many practitioners appear on more than one card. Deduplicating registrant IDs gives about 5,688 unique people today.
 
-**Why do some osteopaths have more than one entry in `practices[]`?**
-Many osteopaths work across multiple clinics. Every practice location currently listed against that osteopath on the register is captured in the `practices[]` array.
+**Can it find a suspended osteopath with no practice?**
+Yes, through exact surname or registration-number lookup. Such a person is absent from the practice-centric browse, so `fullRegister` cannot enumerate them.
 
-**Can I look up multiple registration numbers at once?**
-Yes — set `mode` to `byRegistrationNumbers` and pass an array of registration numbers.
+**Do I need a login, cookie, API key or proxy?**
+No. The register is public and the actor makes anonymous requests. Nothing is stored or sent to a third party except optional postcode geocoding through postcodes.io.
 
-**Why do `sourceUrl` and `practices[].practiceUrl` return a blank/challenge page with a plain HTTP request (e.g. `curl`)?**
-The GOsC register-search pages sit behind a JavaScript security check. They render correctly and instantly in any real browser (which is exactly how this actor reads them) but a plain HTTP client without JavaScript will see an interstitial instead of the page content. This does not affect the actor's own output — only manual `curl`/`wget` checks of these specific URLs.
+**What do the status flags mean?**
+`isPractising` is true for Fully Registered, Practising Overseas, Conditions of Practice and Undertaking, and false for Non Practising and Suspended. `hasConditions` is true for Conditions of Practice and Undertaking. `sanction` names the regulatory status for Suspended, Conditions of Practice and Undertaking.
 
-**How long does a run take?**
-Each osteopath record requires solving a JavaScript security check, so expect roughly 5-10 seconds per osteopath. For runs with a large `maxItems`, allow a generous run timeout (the platform default is usually sufficient, but very large runs — 100+ records — may need the timeout increased in Actor run settings).
+**Where do hearing notes come from?**
+Regulatory entries publish a `View hearing notes` link beside the status. The actor stores its absolute URL in `hearingNotesUrl`; it does not parse the linked decision document.
+
+**Why do some practices have no postcode or distance?**
+Overseas practices and some incomplete addresses do not contain a UK postcode. The actor keeps the address text and omits unparseable postcode, coordinate and distance fields rather than inventing values.
+
+**How long does a full-register run take?**
+The register has 481 pages of practice cards and about 5,688 unique registrants. Detail enrichment is concurrency-limited and paced politely, so a complete crawl takes minutes and should be run with a deliberate `maxItems` and an adequate timeout.
