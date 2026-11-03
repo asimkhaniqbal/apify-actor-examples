@@ -1,0 +1,55 @@
+{
+  "description": "Configure which Ecwid apps to scrape from the App Market.",
+  "properties": {
+    "category": {
+      "description": "App market category. Accepts slugs or display names (e.g. 'marketing', 'shipping', 'tools', 'store management', 'store-design', 'analytics', 'accounting', 'dropshipping', 'selling-on-marketplaces', 'customer-support', 'featured').",
+      "editor": "textfield",
+      "title": "Category",
+      "type": "string"
+    },
+    "includeFreeOnly": {
+      "default": false,
+      "description": "If true, only return apps marked as totally free.",
+      "prefill": false,
+      "title": "Free Apps Only",
+      "type": "boolean"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of apps to return (1–500).",
+      "editor": "number",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "browse",
+      "description": "Browse all apps, filter by category, or search by keyword.",
+      "editor": "select",
+      "enum": [
+        "browse",
+        "byCategory",
+        "search"
+      ],
+      "enumTitles": [
+        "Browse All Apps",
+        "Filter by Category",
+        "Search by Keyword"
+      ],
+      "prefill": "browse",
+      "title": "Scrape Mode",
+      "type": "string"
+    },
+    "searchQuery": {
+      "description": "Keyword to filter apps by name or description (used when mode is 'search').",
+      "editor": "textfield",
+      "title": "Search Query",
+      "type": "string"
+    }
+  },
+  "schemaVersion": 1,
+  "title": "Ecwid App Market Scraper Input",
+  "type": "object"
+}
