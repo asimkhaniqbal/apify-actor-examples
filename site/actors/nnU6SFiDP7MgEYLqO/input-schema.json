@@ -1,20 +1,15 @@
 {
-  "description": "Search the General Chiropractic Council (GCC) public register of UK chiropractors, or look up exact registration numbers.",
+  "description": "Search the General Chiropractic Council (GCC) public register by name, town or postcode, look up exact registration numbers, or browse the full register.",
   "properties": {
-    "city": {
-      "description": "Filter practices by city or town, e.g. `London`, `Manchester`, `Edinburgh`. GCC resolves this to a geographic area on their end, so nearby towns (e.g. `Didsbury`, `Sale` for `Manchester`) may also appear — matching the site's own \"Find a Chiropractor\" tool.",
-      "editor": "textfield",
-      "title": "City / town (mode=search)",
-      "type": "string"
-    },
-    "country": {
-      "description": "Filter practices by country, e.g. `United Kingdom`, `Ireland`, `Australia`, `Singapore` (GCC-registered chiropractors sometimes practise abroad).",
-      "editor": "textfield",
-      "title": "Country (mode=search)",
-      "type": "string"
+    "fetchDetails": {
+      "default": true,
+      "description": "Open each matching profile to collect gender, first-registered date, qualification, full practices, contacts, and regulatory actions. Turn off for a faster name/registration/status list.",
+      "prefill": false,
+      "title": "Fetch full detail pages",
+      "type": "boolean"
     },
     "gender": {
-      "description": "Only return chiropractors of this gender.",
+      "description": "Only return chiropractors of this gender. Gender is not published for removed or interim-suspended records.",
       "editor": "select",
       "enum": [
         "Male",
@@ -27,71 +22,87 @@
       "title": "Gender",
       "type": "string"
     },
+    "includeNonPractising": {
+      "default": false,
+      "description": "Include chiropractors who are registered but not currently practising in the UK.",
+      "prefill": false,
+      "title": "Include non-practising",
+      "type": "boolean"
+    },
+    "includeRemovedSuspended": {
+      "default": false,
+      "description": "Include chiropractors who have been removed from the register or are suspended.",
+      "prefill": false,
+      "title": "Include removed and suspended",
+      "type": "boolean"
+    },
+    "location": {
+      "description": "Town, city, or UK postcode such as `Manchester`, `Edinburgh`, or `CF10 1EP`. Results are nearest-first within the site's 30-mile radius.",
+      "editor": "textfield",
+      "title": "Town or postcode (mode=search)",
+      "type": "string"
+    },
     "maxItems": {
       "default": 50,
       "description": "Hard cap on emitted records.",
       "maximum": 5000,
       "minimum": 1,
-      "prefill": 50,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
     "mode": {
       "default": "search",
-      "description": "What to fetch.",
+      "description": "Choose how to query the register.",
       "editor": "select",
       "enum": [
         "search",
-        "byRegistrationNumber"
+        "byRegistrationNumber",
+        "fullRegister"
       ],
       "enumTitles": [
-        "Search the register (name / location filters)",
-        "Lookup by registration number"
+        "Search by name or location",
+        "Look up exact registration numbers",
+        "Browse the full register"
       ],
       "prefill": "search",
       "title": "Mode",
       "type": "string"
     },
     "name": {
-      "description": "Full or partial name to search for (matches first name, last name, or both, e.g. `Smith` or `Julia Smith`). Leave blank to browse the whole register.",
+      "description": "Full or partial name, e.g. `Smith` or `Julia Smith`. Use at least 3 characters. When combined with a location, the name is applied as a filter inside that area.",
       "editor": "textfield",
       "prefill": "Smith",
-      "title": "Name (mode=search)",
+      "title": "Chiropractor name (mode=search)",
       "type": "string"
     },
     "postcode": {
-      "description": "A UK postcode (e.g. `SW1A 1AA`). Results are geocoded and returned nearest-first, matching the site's own \"Find a Chiropractor\" tool.",
+      "description": "UK postcode such as `SW1A 1AA`. Results are returned nearest-first within the site's 30-mile radius.",
       "editor": "textfield",
       "title": "Near postcode (mode=search)",
       "type": "string"
     },
     "qualificationContains": {
-      "description": "Only return chiropractors whose listed qualification contains this text, e.g. `AECC`, `Doctor of Chiropractic`.",
+      "description": "Case-insensitive text filter on the qualification, e.g. `AECC`, `McTimoney`, or `Doctor of Chiropractic`.",
       "editor": "textfield",
       "title": "Qualification contains",
       "type": "string"
     },
-    "region": {
-      "description": "Filter practices by county or region, e.g. `Surrey`, `West Yorkshire`.",
-      "editor": "textfield",
-      "title": "County / region (mode=search)",
-      "type": "string"
-    },
     "registeredAfter": {
-      "description": "Only return chiropractors first registered on or after this date.",
+      "description": "ISO date `YYYY-MM-DD`; keeps chiropractors first registered on or after this date.",
       "editor": "textfield",
-      "title": "Registered after (YYYY-MM-DD)",
+      "title": "First registered after",
       "type": "string"
     },
     "registeredBefore": {
-      "description": "Only return chiropractors first registered on or before this date.",
+      "description": "ISO date `YYYY-MM-DD`; keeps chiropractors first registered on or before this date.",
       "editor": "textfield",
-      "title": "Registered before (YYYY-MM-DD)",
+      "title": "First registered before",
       "type": "string"
     },
     "registrationNumbers": {
       "default": [],
-      "description": "Exact GCC registration numbers to look up, e.g. `01913` or `1913`.",
+      "description": "Exact GCC registration numbers, e.g. `01913` or `1913`. Leading zeros are added automatically.",
       "editor": "stringList",
       "prefill": [
         "01913"
@@ -100,21 +111,23 @@
       "type": "array"
     },
     "registrationStatus": {
-      "description": "Only return chiropractors whose registration status contains this value.",
+      "description": "Only return records with this exact status. Non-practising and removed/suspended records are included automatically when their status is selected.",
       "editor": "select",
       "enum": [
         "Registered - Practising",
         "Registered - Non-Practising",
-        "Suspended",
         "Conditions of Practice",
-        "Erased/Struck Off"
+        "Suspended",
+        "Erased/Struck Off",
+        "Admonishment"
       ],
       "enumTitles": [
         "Registered - Practising",
         "Registered - Non-Practising",
-        "Suspended",
         "Conditions of Practice",
-        "Erased / Struck Off"
+        "Suspended or interim suspension",
+        "Removed from Register / Erased",
+        "Admonishment"
       ],
       "title": "Registration status",
       "type": "string"

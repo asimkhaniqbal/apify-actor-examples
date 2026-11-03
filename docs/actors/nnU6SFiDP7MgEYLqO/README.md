@@ -4,110 +4,130 @@
 
 # General Chiropractic Council Register Scraper
 
-Scrape the **General Chiropractic Council (GCC)** public register — the official, legally-mandated list of every chiropractor entitled to practise in the UK. Search by name, find chiropractors near a postcode, or look up exact registration numbers. Get practice addresses, phone/email/website, qualifications, registration status, and any published regulatory (fitness-to-practise) history. No login, no cookies, no proxy required.
+Scrape the **General Chiropractic Council (GCC)** public register — the statutory list of chiropractors registered to practise in the UK. Search by name or by town/postcode, look up exact registration numbers, or walk the full register. Records include registration status, qualification, every published practice with contact details, distance from a location, last-known practice flags, and published regulatory actions. No login, cookies, API key, or proxy setup required.
 
 ## What this actor does
 
-- **Two modes:** `search` (name / location / status filters, or browse the whole register) and `byRegistrationNumber` (exact lookup)
-- **"Near me" search:** give a UK postcode and get chiropractors nearest to it, exactly like the site's own "Find a Chiropractor" tool
-- **Global coverage:** most registrants practise in the UK, but the GCC also registers chiropractors practising in Ireland, Australia, New Zealand, Singapore, Spain, the Netherlands, Malaysia, Hong Kong, Israel, and elsewhere
-- **Multiple practices per chiropractor** are all captured, not just the first
-- **Regulatory history:** hearing decisions, findings and outcomes for chiropractors who have been the subject of GCC fitness-to-practise proceedings, with links to the official PDF notices
-- **Empty fields are omitted** — every record only contains data the GCC actually publishes
+- **Three modes:** `search` by name or location, `byRegistrationNumber` for exact five-digit lookups, and `fullRegister` to browse all 4,000+ records
+- **Status coverage:** practising, non-practising, conditions of practice, suspended/interim suspension, removed from register, and admonishment
+- **Complete practice data:** every published practice, address, phone, email, website, coordinates from the site's map index, and distance in miles
+- **Regulatory history:** action title, date, description, and a direct link to the published hearing decision
+- **Client-side refinement:** gender, first-registered date range, qualification text, and city/region/country legacy filters
+- **Empty fields are omitted** — records only contain values the GCC actually publishes
 
 ## Output per chiropractor
 
-- `fullName`
-- `gender`
-- `registrationNumber` — 5-digit GCC registration number
-- `registrationStatus` — e.g. `Registered - Practising`, `Registered - Non-Practising`, `Erased/Struck Off`
-- `isRegistered` — boolean, derived from `registrationStatus`
+- `fullName` — registered name
+- `gender` — `Male` or `Female` when published
+- `registrationNumber` — five-digit GCC number, zero-padded
+- `registrationStatus` — canonical status such as `Registered - Practising`
+- `registrationStatusRaw` — exact status text shown by the GCC, including en dashes
+- `statusCategory` — `practising`, `nonPractising`, `conditions`, `suspended`, `removed`, `admonishment`, or `other`
+- `isRegistered` — legacy flag: true when the canonical status starts with `Registered`
+- `isOnRegister` — false for removed and suspended records
+- `isPractising` — true for practising, conditions-of-practice, and admonishment records
+- `statusNote` — the GCC's explanation when a non-standard status is shown
+- `sanction` — short label for a non-standard status, e.g. `Removal`, `Interim suspension`, `Conditions of practice`
 - `dateFirstRegistered` — ISO date (`YYYY-MM-DD`)
-- `qualification` — chiropractic degree/diploma and awarding institution, where published
-- `practices[]` — one entry per practice: `name`, `street`, `city`, `region`, `postcode`, `country`, `phone`, `email`, `website`, `latitude`, `longitude`
-- `regulatoryActions[]` — only present if the GCC has published a hearing: `title`, `dateRange`, `finding`, `outcome`, `noticeUrl`, `decisionUrl`
-- `sourceUrl` — the exact GCC register page for this registration number
+- `qualification` — degree or diploma and awarding body, where published
+- `practices[]` — one entry per practice: `name`, `street`, `city`, `region`, `postcode`, `country`, `phone`, `email`, `website`, `latitude`, `longitude`, `distanceMiles`, `addressFull`, `isLastKnown`
+- `practiceCount` — number of published practices
+- `primaryPracticeName` — first practice name
+- `primaryPracticeAddress` — first practice address
+- `practicesAreLastKnown` — true when the profile says "Last known to be working at" and publishes at least one such practice
+- `distanceMiles` — nearest-result distance in location searches
+- `regulatoryActions[]` — `title`, `actionDate`, `description`, `decisionUrl`
+- `hasRegulatoryAction` — true when at least one action is published
+- `regulatoryActionCount` — number of published actions
+- `sourceUrl` — canonical GCC profile URL
+- `searchQuery` — name, location, registration number, or browse label that produced the record
 - `recordType: "chiropractor"`, `scrapedAt`
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | select | `search` | `search` / `byRegistrationNumber` |
-| `name` | string | – | Full or partial name (mode=search) |
-| `postcode` | string | – | UK postcode — returns nearest chiropractors first |
-| `city` | string | – | Filter by practice city/town |
-| `region` | string | – | Filter by county/region |
-| `country` | string | – | Filter by country (e.g. `United Kingdom`, `Ireland`, `Australia`) |
+| `mode` | select | `search` | `search` / `byRegistrationNumber` / `fullRegister` |
+| `name` | string | – | Full or partial name, e.g. `Smith` (mode=search; ignored by `fullRegister`) |
+| `postcode` | string | – | UK postcode; results nearest-first within 30 miles (mode=search) |
+| `location` | string | – | Town, city, or UK postcode; results nearest-first (mode=search) |
 | `gender` | select | – | `Male` / `Female` |
-| `registrationStatus` | select | – | Filter by registration status |
-| `registeredAfter` | string | – | ISO date; only chiropractors registered on/after this date |
-| `registeredBefore` | string | – | ISO date; only chiropractors registered on/before this date |
-| `qualificationContains` | string | – | Keyword filter on the qualification text |
+| `registrationStatus` | select | – | One of the six canonical register statuses |
+| `includeNonPractising` | boolean | `false` | Include registered but non-practising chiropractors |
+| `includeRemovedSuspended` | boolean | `false` | Include removed and suspended records |
+| `registeredAfter` | string | – | ISO date; first registered on or after this date |
+| `registeredBefore` | string | – | ISO date; first registered on or before this date |
+| `qualificationContains` | string | – | Text filter on the published qualification |
 | `registrationNumbers` | array | `[]` | Exact registration numbers (mode=byRegistrationNumber) |
-| `maxItems` | int | `50` | Hard cap on emitted records (1–5000) |
-
-### Example: browse the whole register
-
-```json
-{ "mode": "search", "maxItems": 100 }
-```
+| `fetchDetails` | boolean | `true` | Open each profile for full practice, contact, and action data |
+| `maxItems` | integer | `50` | Hard cap on emitted records (1–5000) |
 
 ### Example: search by surname
 
 ```json
-{ "mode": "search", "name": "Smith", "maxItems": 50 }
+{
+  "mode": "search",
+  "name": "Smith",
+  "maxItems": 25,
+  "fetchDetails": true
+}
 ```
 
 ### Example: chiropractors near a postcode
 
 ```json
-{ "mode": "search", "postcode": "SW1A 1AA", "maxItems": 20 }
-```
-
-### Example: currently-practising female chiropractors in Surrey
-
-```json
 {
   "mode": "search",
-  "region": "Surrey",
-  "gender": "Female",
-  "registrationStatus": "Registered - Practising",
-  "maxItems": 50
+  "postcode": "SW1A 1AA",
+  "maxItems": 20,
+  "fetchDetails": true
 }
 ```
 
 ### Example: exact registration-number lookup
 
 ```json
-{ "mode": "byRegistrationNumber", "registrationNumbers": ["01913", "00078", "05581"] }
+{
+  "mode": "byRegistrationNumber",
+  "registrationNumbers": ["01913", "00078", "02260"]
+}
+```
+
+### Example: browse the full register without detail requests
+
+```json
+{
+  "mode": "fullRegister",
+  "maxItems": 500,
+  "fetchDetails": false
+}
 ```
 
 ## Use cases
 
-- **Patient safety checks** — verify a chiropractor is currently registered before booking treatment
-- **Insurance & referral networks** — validate practitioner credentials in bulk
-- **Healthcare directories** — build a searchable UK chiropractor directory with live registration status
-- **Compliance monitoring** — track fitness-to-practise outcomes and registration changes over time
-- **Market research** — analyse practice density by region, qualification pathway, or registration year
-- **Lead generation** — find chiropractic practices near a location, with contact details
+- **Patient safety checks** — confirm a chiropractor's current registration status before booking
+- **Insurer and referral credentialing** — validate registration numbers and qualifications in bulk
+- **Healthcare directories** — build a UK chiropractor directory with live practice contacts
+- **Compliance monitoring** — track suspensions, removals, admonishments, and published decisions
+- **Practice-density research** — measure provision by town, region, qualification pathway, or registration year
+- **Recruitment and lead research** — find practices near a location with website, phone, and email where published
 
 ## FAQ
 
-**What is the GCC?** The General Chiropractic Council is the UK's independent statutory regulator for chiropractors, established under the Chiropractors Act 1994. It is a criminal offence to call yourself a "chiropractor" in the UK without being on this register.
+**What is the GCC register?** The General Chiropractic Council is the UK statutory regulator for chiropractors. Its public register lists everyone who may lawfully use the title "chiropractor" in the UK. The actor reads that same public register; it is not affiliated with the GCC.
 
-**Is this the same list patients see on gcc-uk.org?** Yes — the actor reads the exact same public search tool at gcc-uk.org, with no login or special access.
+**Why do some records have no gender, first-registered date, or qualification?** The GCC suppresses those fields on removed and interim-suspension profiles. The actor omits what the site does not publish rather than inferring it.
 
-**Why do some records have no practice address?** A small number of chiropractors (mostly `Registered - Non-Practising`) have no current practice on file with the GCC — the actor omits the `practices` field rather than fabricating one.
+**Why do non-practising records usually have no practices?** Non-practising chiropractors have told the GCC they are not currently working as chiropractors in the UK, so the register normally publishes no current practice for them. Last-known practices are kept where the site shows them.
 
-**How is `postcode` search matched to a location?** The actor geocodes the postcode via the free, public [postcodes.io](https://postcodes.io) API (no key required) and passes the coordinates to GCC's own proximity search, exactly as the site's UI does client-side.
+**Does `distanceMiles` appear for every search?** No. It is published on location searches (town or postcode) within the site's 30-mile radius. Name and registration-number searches do not produce a distance.
 
-**Why is `registrationStatus` a dropdown but `city`/`region`/`country` free text?** Registration status is a small, fixed set of values defined by the regulator. City, region, and country are open-ended place names (the GCC's own search form uses free-text boxes for these too).
+**What is the difference between `isRegistered`, `isOnRegister`, and `isPractising`?** `isRegistered` preserves the old rule "status starts with Registered". `isOnRegister` is false for removed and suspended records. `isPractising` is true for practising, conditions-of-practice, and admonishment records, and false for non-practising, suspended, and removed records.
 
-**What does `isRegistered` mean?** `true` for any status starting with "Registered" (Practising or Non-Practising); `false` for erased/struck-off registrants. Being "Non-Practising" still means the person is a registered chiropractor — they are simply not currently seeing patients.
+**Can I include removed or non-practising chiropractors?** Yes. Use `includeNonPractising` and `includeRemovedSuspended`, or select the matching `registrationStatus`; the relevant include flag is applied automatically.
 
-**Does the actor include historic/removed chiropractors?** Yes, where the GCC's own register still lists them (typically alongside their fitness-to-practise hearing outcome).
+**How complete is the full register?** The GCC currently returns 4,287 records, split across 429 result pages of 10. `maxItems` caps how many are emitted. Turning `fetchDetails` on adds one profile request per record and takes longer; turning it off emits the list fields only.
 
-**Why is `registrationStatus`/`gender`/date/qualification filtering sometimes slow?** GCC's own search form only filters by name, postcode, city, region, and country server-side — status, gender, registration date, and qualification are applied by the actor after fetching each page. `Registered - Practising`/`Registered - Non-Practising`/`Female`/`Male` are common (a match typically appears within the first page or two). `Erased/Struck Off` is rare — around 0.5% of the register — and the GCC's own listing order does not group by status, so the actor may need to page through hundreds of records before finding enough matches to reach `maxItems`. When filtering for a rare status with no `name`/`city`/`region`/`country`, set a generous run timeout (10+ minutes) and a small `maxItems` (1–5).
+**Are regulatory-action findings or outcomes structured?** The current GCC profile publishes a free-text description and a decision link. The actor captures `description` and `decisionUrl`; older structured fields such as `finding`, `outcome`, `dateRange`, and `noticeUrl` are no longer published and are therefore omitted.
 
-**How fresh is the data?** The GCC register is a live, continuously-updated official database — the actor always reads the current state at run time.
+**How fresh is the data?** Every run reads the live GCC register, so registration status and practice details reflect the site at run time.

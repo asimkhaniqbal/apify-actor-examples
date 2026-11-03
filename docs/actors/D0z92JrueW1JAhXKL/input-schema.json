@@ -1,0 +1,99 @@
+{
+  "description": "Search the General Osteopathic Council's public register (osteopathy.org.uk) by postcode/town, surname or practice features, or look up exact GOsC registration numbers.",
+  "properties": {
+    "disabilityAccess": {
+      "default": false,
+      "description": "Only return osteopaths practising at a location that reports disabled access.",
+      "prefill": false,
+      "title": "Has disabled access (mode=search)",
+      "type": "boolean"
+    },
+    "homeVisit": {
+      "default": false,
+      "description": "Only return osteopaths practising at a location that offers home visits.",
+      "prefill": false,
+      "title": "Does home visits (mode=search)",
+      "type": "boolean"
+    },
+    "location": {
+      "description": "UK postcode or town/city name to search near, e.g. \"London\" or \"SW1A 1AA\". Leave blank to browse the whole register.",
+      "editor": "textfield",
+      "prefill": "London",
+      "title": "Postcode or town (mode=search)",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Maximum number of osteopath records to return in this run.",
+      "maximum": 2000,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max osteopaths to return",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byRegistrationNumbers"
+      ],
+      "enumTitles": [
+        "Search the register (postcode / town / surname / practice features)",
+        "Lookup by exact GOsC registration number(s)"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "radius": {
+      "default": "10mi",
+      "description": "Distance from the postcode entered in `location`. Only applies when `location` is a postcode — ignored for town/city names.",
+      "editor": "select",
+      "enum": [
+        "5mi",
+        "10mi",
+        "25mi",
+        "50mi"
+      ],
+      "enumTitles": [
+        "Within 5 miles",
+        "Within 10 miles",
+        "Within 25 miles",
+        "Within 50 miles"
+      ],
+      "prefill": "10mi",
+      "title": "Search radius (mode=search, postcode only)",
+      "type": "string"
+    },
+    "registrationNumbers": {
+      "description": "Exact GOsC registration numbers to look up, e.g. \"1766\".",
+      "editor": "stringList",
+      "prefill": [
+        "1766"
+      ],
+      "title": "Registration numbers (mode=byRegistrationNumbers)",
+      "type": "array"
+    },
+    "surname": {
+      "description": "Filter to osteopaths whose surname contains this text. Can be combined with `location`.",
+      "editor": "textfield",
+      "title": "Osteopath surname (mode=search)",
+      "type": "string"
+    },
+    "welshSpoken": {
+      "default": false,
+      "description": "Only return osteopaths practising at a location where Welsh is spoken.",
+      "prefill": false,
+      "title": "Welsh spoken (mode=search)",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "UK Osteopath Register Scraper Input",
+  "type": "object"
+}
