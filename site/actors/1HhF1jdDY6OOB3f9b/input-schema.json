@@ -1,54 +1,248 @@
 {
-  "description": "Configure which Ecwid apps to scrape from the App Market.",
+  "description": "Choose which apps and reviews to collect from the Ecwid App Market.",
   "properties": {
+    "appIds": {
+      "description": "App namespaces or Ecwid marketplace URLs (mode=byApp or mode=reviews).",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "the-printful"
+      ],
+      "title": "App IDs or URLs",
+      "type": "array"
+    },
     "category": {
-      "description": "App market category. Accepts slugs or display names (e.g. 'marketing', 'shipping', 'tools', 'store management', 'store-design', 'analytics', 'accounting', 'dropshipping', 'selling-on-marketplaces', 'customer-support', 'featured').",
-      "editor": "textfield",
+      "default": "all",
+      "description": "Marketplace category or collection (mode=byCategory). Legacy names are accepted.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "featured",
+        "new",
+        "free",
+        "marketing",
+        "design",
+        "dropshipping",
+        "storemanagement",
+        "marketplaces",
+        "accounting",
+        "shipping",
+        "analytics",
+        "customersupport",
+        "tools",
+        "pos",
+        "cms",
+        "social",
+        "shipping-carriers",
+        "store-design",
+        "storedesign",
+        "customer-support",
+        "selling-on-marketplaces",
+        "store management",
+        "store-management",
+        "catalog-order-management",
+        "social-media",
+        "shipping carriers",
+        "store design",
+        "selling on marketplaces",
+        "customer support",
+        "customer support & rewards",
+        "analytics & reporting",
+        "point of sale (pos)",
+        "content management systems (cms)",
+        "all apps",
+        "catalog & order management",
+        "catalog and order management",
+        "social media",
+        "point of sale",
+        "content management systems",
+        "analytics and reporting",
+        "reporting"
+      ],
+      "enumTitles": [
+        "All apps",
+        "Featured",
+        "New",
+        "Free",
+        "Marketing",
+        "Store Design",
+        "Dropshipping",
+        "Catalog & Order Management",
+        "Selling on Marketplaces",
+        "Accounting",
+        "Shipping",
+        "Analytics & Reporting",
+        "Customer Support & Rewards",
+        "Tools",
+        "Point of Sale (POS)",
+        "Content Management Systems (CMS)",
+        "Social Media",
+        "Shipping carriers",
+        "Store Design (legacy alias)",
+        "Store Design (legacy alias)",
+        "Customer Support & Rewards (legacy alias)",
+        "Selling on Marketplaces (legacy alias)",
+        "Catalog & Order Management (legacy alias)",
+        "Catalog & Order Management (legacy alias)",
+        "Catalog & Order Management (legacy alias)",
+        "Social Media (legacy alias)",
+        "Shipping carriers (legacy alias)",
+        "Store Design (legacy alias)",
+        "Selling on Marketplaces (legacy alias)",
+        "Customer Support & Rewards (legacy alias)",
+        "Customer Support & Rewards (legacy alias)",
+        "Analytics & Reporting (legacy alias)",
+        "Point of Sale (POS) (legacy alias)",
+        "Content Management Systems (CMS) (legacy alias)",
+        "All apps (legacy alias)",
+        "Catalog & Order Management (legacy alias)",
+        "Catalog & Order Management (legacy alias)",
+        "Social Media (legacy alias)",
+        "Point of Sale (POS) (legacy alias)",
+        "Content Management Systems (CMS) (legacy alias)",
+        "Analytics & Reporting (legacy alias)",
+        "Analytics & Reporting (legacy alias)"
+      ],
+      "prefill": "all",
       "title": "Category",
       "type": "string"
     },
+    "emitReviewRecords": {
+      "default": false,
+      "description": "Also emit one dataset record per review when includeReviews is on.",
+      "prefill": false,
+      "title": "Emit Review Records",
+      "type": "boolean"
+    },
+    "includeDetails": {
+      "default": false,
+      "description": "Fetch each app's detail page for developer website, support contact, feature bullets and screenshots.",
+      "prefill": false,
+      "title": "Include App Details",
+      "type": "boolean"
+    },
     "includeFreeOnly": {
       "default": false,
-      "description": "If true, only return apps marked as totally free.",
+      "description": "Keep only apps whose listing is marked completely free. Overrides pricingType.",
       "prefill": false,
       "title": "Free Apps Only",
       "type": "boolean"
     },
+    "includeReviews": {
+      "default": false,
+      "description": "Attach up to maxReviewsPerApp reviews to each app record (app modes only).",
+      "prefill": false,
+      "title": "Attach Reviews",
+      "type": "boolean"
+    },
     "maxItems": {
-      "default": 50,
-      "description": "Maximum number of apps to return (1–500).",
+      "default": 100,
+      "description": "Maximum app records in app modes, or review records in reviews mode (1-1000).",
       "editor": "number",
-      "maximum": 500,
+      "maximum": 1000,
       "minimum": 1,
-      "prefill": 50,
+      "prefill": 3,
       "title": "Max Items",
+      "type": "integer"
+    },
+    "maxReviewsPerApp": {
+      "default": 10,
+      "description": "Review cap per app, 1-100 (includeReviews and reviews modes).",
+      "editor": "number",
+      "maximum": 100,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Max Reviews per App",
+      "type": "integer"
+    },
+    "minRating": {
+      "description": "Keep apps rated at or above this value (0-5). Apps without a rating are excluded when set.",
+      "maximum": 5,
+      "minimum": 0,
+      "title": "Minimum Rating",
+      "type": "number"
+    },
+    "minReviewCount": {
+      "description": "Keep apps with at least this many reviews. Apps without a review count count as zero.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Minimum Review Count",
       "type": "integer"
     },
     "mode": {
       "default": "browse",
-      "description": "Browse all apps, filter by category, or search by keyword.",
+      "description": "Browse all apps, filter by category, search by keyword, fetch exact apps, or collect reviews.",
       "editor": "select",
       "enum": [
         "browse",
         "byCategory",
-        "search"
+        "search",
+        "byApp",
+        "reviews"
       ],
       "enumTitles": [
-        "Browse All Apps",
-        "Filter by Category",
-        "Search by Keyword"
+        "Browse all apps",
+        "Filter by category",
+        "Search by keyword",
+        "Fetch exact apps",
+        "Collect reviews"
       ],
       "prefill": "browse",
-      "title": "Scrape Mode",
+      "title": "Mode",
+      "type": "string"
+    },
+    "pricingType": {
+      "default": "all",
+      "description": "Filter by free, freemium or paid pricing.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "free",
+        "freemium",
+        "paid"
+      ],
+      "enumTitles": [
+        "Any pricing",
+        "Free",
+        "Freemium",
+        "Paid"
+      ],
+      "prefill": "all",
+      "title": "Pricing Type",
       "type": "string"
     },
     "searchQuery": {
-      "description": "Keyword to filter apps by name or description (used when mode is 'search').",
+      "description": "Keyword matched against app name, tagline, description, developer and categories (mode=search).",
       "editor": "textfield",
       "title": "Search Query",
       "type": "string"
+    },
+    "sortBy": {
+      "default": "default",
+      "description": "Sort app records by source order, name, rating or review count.",
+      "editor": "select",
+      "enum": [
+        "default",
+        "name",
+        "rating",
+        "reviewCount"
+      ],
+      "enumTitles": [
+        "Source order",
+        "Name (A-Z)",
+        "Highest rating",
+        "Most reviews"
+      ],
+      "prefill": "default",
+      "title": "Sort By",
+      "type": "string"
     }
   },
+  "required": [
+    "mode"
+  ],
   "schemaVersion": 1,
   "title": "Ecwid App Market Scraper Input",
   "type": "object"

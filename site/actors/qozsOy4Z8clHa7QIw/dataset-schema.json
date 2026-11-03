@@ -1,0 +1,584 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "AIGCDescription": {
+      "description": "Description for AI-generated content label (post rows only)",
+      "title": "AIGC Description",
+      "type": "string"
+    },
+    "adLabelVersion": {
+      "description": "Ad label version; non-zero when the post is a sponsored ad (post rows only)",
+      "title": "Ad Label Version",
+      "type": "integer"
+    },
+    "author": {
+      "description": "Author/creator information at time of scraping (post rows only)",
+      "properties": {
+        "avatarUrl": {
+          "title": "Avatar URL",
+          "type": "string"
+        },
+        "bio": {
+          "title": "Bio",
+          "type": "string"
+        },
+        "displayName": {
+          "title": "Display Name",
+          "type": "string"
+        },
+        "followerCount": {
+          "title": "Followers",
+          "type": "integer"
+        },
+        "followingCount": {
+          "title": "Following",
+          "type": "integer"
+        },
+        "heartCount": {
+          "title": "Hearts/Likes",
+          "type": "integer"
+        },
+        "id": {
+          "title": "User ID",
+          "type": "string"
+        },
+        "privateAccount": {
+          "title": "Private Account",
+          "type": "boolean"
+        },
+        "roomId": {
+          "title": "Live Room ID (non-empty when live)",
+          "type": "string"
+        },
+        "secUid": {
+          "title": "Secure UID",
+          "type": "string"
+        },
+        "username": {
+          "title": "Username",
+          "type": "string"
+        },
+        "verified": {
+          "title": "Verified",
+          "type": "boolean"
+        },
+        "videoCount": {
+          "title": "Videos",
+          "type": "integer"
+        }
+      },
+      "title": "Author",
+      "type": "object"
+    },
+    "caption": {
+      "description": "Post caption/description text including hashtags and mentions (post rows only)",
+      "title": "Caption",
+      "type": "string"
+    },
+    "collectCount": {
+      "description": "Number of times post was bookmarked/collected (post rows only)",
+      "title": "Collect Count",
+      "type": "integer"
+    },
+    "commentCount": {
+      "description": "Number of comments (post rows only)",
+      "title": "Comment Count",
+      "type": "integer"
+    },
+    "commentStatus": {
+      "description": "Comment permission setting (0=all, 1=friends, 2=none) (post rows only)",
+      "title": "Comment Status",
+      "type": "integer"
+    },
+    "coverPostId": {
+      "description": "Post ID used as the playlist cover thumbnail (playlist rows only)",
+      "title": "Cover Post ID",
+      "type": "string"
+    },
+    "coverThumbnailUrl": {
+      "description": "Thumbnail image URL of the playlist cover (playlist rows only)",
+      "title": "Cover Thumbnail URL",
+      "type": "string"
+    },
+    "createTime": {
+      "description": "Unix timestamp (seconds) when the post was created (post rows only)",
+      "title": "Create Time (Unix)",
+      "type": "integer"
+    },
+    "createdAt": {
+      "description": "ISO 8601 UTC datetime when the post was created (post rows only)",
+      "title": "Created At",
+      "type": "string"
+    },
+    "creatorAvatarUrl": {
+      "description": "Avatar image URL of the playlist creator (playlist rows only)",
+      "title": "Creator Avatar URL",
+      "type": "string"
+    },
+    "creatorDisplayName": {
+      "description": "Display name (nickname) of the playlist creator (playlist rows only)",
+      "title": "Creator Display Name",
+      "type": "string"
+    },
+    "creatorId": {
+      "description": "TikTok user ID of the playlist creator (playlist rows only)",
+      "title": "Creator ID",
+      "type": "string"
+    },
+    "creatorUsername": {
+      "description": "TikTok @username of the playlist creator (playlist rows only)",
+      "title": "Creator Username",
+      "type": "string"
+    },
+    "creatorVerified": {
+      "description": "Whether the playlist creator has a verified badge (playlist rows only)",
+      "title": "Creator Verified",
+      "type": "boolean"
+    },
+    "duetEnabled": {
+      "description": "Whether the creator allows duets with this video (post rows only)",
+      "title": "Duet Enabled",
+      "type": "boolean"
+    },
+    "forFriend": {
+      "description": "Whether the post is restricted to friends only (post rows only)",
+      "title": "For Friend",
+      "type": "boolean"
+    },
+    "hashtags": {
+      "description": "Hashtags used in the post caption (post rows only)",
+      "items": {
+        "properties": {
+          "id": {
+            "title": "Hashtag ID",
+            "type": "string"
+          },
+          "isCommerce": {
+            "title": "Is Commerce",
+            "type": "boolean"
+          },
+          "name": {
+            "title": "Hashtag Name",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "title": "Hashtags",
+      "type": "array"
+    },
+    "images": {
+      "description": "Images for slideshow posts (postType='slideshow') (post rows only)",
+      "items": {
+        "properties": {
+          "height": {
+            "title": "Height",
+            "type": "integer"
+          },
+          "ordinal": {
+            "title": "Index",
+            "type": "integer"
+          },
+          "urlList": {
+            "title": "Image URLs",
+            "type": "array"
+          },
+          "width": {
+            "title": "Width",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "title": "Slideshow Images",
+      "type": "array"
+    },
+    "isAd": {
+      "description": "Whether this post is a paid advertisement (post rows only)",
+      "title": "Is Ad",
+      "type": "boolean"
+    },
+    "isAigc": {
+      "description": "Whether TikTok labels this as AI-generated content (post rows only)",
+      "title": "Is AI Generated Content",
+      "type": "boolean"
+    },
+    "isECVideo": {
+      "description": "Whether this is a shopping/e-commerce video (post rows only)",
+      "title": "Is E-Commerce Video",
+      "type": "boolean"
+    },
+    "likeCount": {
+      "description": "Number of likes/diggs (post rows only)",
+      "title": "Like Count",
+      "type": "integer"
+    },
+    "locationCreated": {
+      "description": "ISO country code where the post was created (post rows only)",
+      "title": "Location Created",
+      "type": "string"
+    },
+    "mediaUrlExpiresAt": {
+      "description": "ISO 8601 UTC datetime when signed media URLs expire (post rows only)",
+      "title": "Media URL Expires At",
+      "type": "string"
+    },
+    "mentions": {
+      "description": "@mentions in the post caption with text offsets (post rows only)",
+      "items": {
+        "properties": {
+          "awemeId": {
+            "title": "Mentioned Post ID (if any)",
+            "type": "string"
+          },
+          "end": {
+            "title": "End Offset",
+            "type": "integer"
+          },
+          "start": {
+            "title": "Start Offset",
+            "type": "integer"
+          },
+          "username": {
+            "title": "Username",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "title": "Mentions",
+      "type": "array"
+    },
+    "music": {
+      "description": "Sound/music used in the post (post rows only)",
+      "properties": {
+        "album": {
+          "title": "Album",
+          "type": "string"
+        },
+        "authorName": {
+          "title": "Author",
+          "type": "string"
+        },
+        "coverUrl": {
+          "title": "Cover URL",
+          "type": "string"
+        },
+        "dspLinks": {
+          "title": "DSP Links (Spotify, Apple Music, etc.)",
+          "type": "array"
+        },
+        "duration": {
+          "title": "Duration (s)",
+          "type": "integer"
+        },
+        "id": {
+          "title": "Music ID",
+          "type": "string"
+        },
+        "isCommerceMusic": {
+          "title": "Is Commerce Music",
+          "type": "boolean"
+        },
+        "isCopyrighted": {
+          "title": "Is Copyrighted",
+          "type": "boolean"
+        },
+        "isPrivate": {
+          "title": "Is Private Sound",
+          "type": "boolean"
+        },
+        "isUnlimitedMusic": {
+          "title": "Is Unlimited Music",
+          "type": "boolean"
+        },
+        "original": {
+          "title": "Original Sound",
+          "type": "boolean"
+        },
+        "playUrl": {
+          "title": "Play URL",
+          "type": "string"
+        },
+        "shootDuration": {
+          "title": "Shoot Duration (s)",
+          "type": "number"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "title": "Music",
+      "type": "object"
+    },
+    "originalItem": {
+      "description": "Whether this post is an original (non-duet, non-stitch) creation (post rows only)",
+      "title": "Original Item",
+      "type": "boolean"
+    },
+    "playCount": {
+      "description": "Number of video plays (post rows only)",
+      "title": "Play Count",
+      "type": "integer"
+    },
+    "playlistId": {
+      "description": "TikTok's unique playlist/mix ID (present on both row types)",
+      "title": "Playlist ID",
+      "type": "string"
+    },
+    "playlistName": {
+      "description": "Display name of the playlist (present on both row types)",
+      "title": "Playlist Name",
+      "type": "string"
+    },
+    "playlistUrl": {
+      "description": "Full URL to the TikTok playlist page (playlist rows only)",
+      "title": "Playlist URL",
+      "type": "string"
+    },
+    "positionInPlaylist": {
+      "description": "0-based position of the video within the playlist (post rows only)",
+      "title": "Position In Playlist",
+      "type": "integer"
+    },
+    "postId": {
+      "description": "TikTok's unique post/video ID (post rows only)",
+      "title": "Post ID",
+      "type": "string"
+    },
+    "postType": {
+      "description": "Either 'video' or 'slideshow' (post rows only)",
+      "title": "Post Type",
+      "type": "string"
+    },
+    "postUrl": {
+      "description": "Direct URL to the TikTok post (post rows only)",
+      "title": "Post URL",
+      "type": "string"
+    },
+    "privateItem": {
+      "description": "Whether the post is set to private (post rows only)",
+      "title": "Private Item",
+      "type": "boolean"
+    },
+    "repostCount": {
+      "description": "Number of reposts (post rows only)",
+      "title": "Repost Count",
+      "type": "integer"
+    },
+    "rowType": {
+      "description": "Discriminator field: 'playlist' for playlist metadata rows, 'post' for individual video rows",
+      "title": "Row Type",
+      "type": "string"
+    },
+    "scrapedAt": {
+      "description": "ISO 8601 UTC datetime when this row was generated (playlist rows only)",
+      "title": "Scraped At",
+      "type": "string"
+    },
+    "shareCount": {
+      "description": "Number of shares (post rows only)",
+      "title": "Share Count",
+      "type": "integer"
+    },
+    "shareEnabled": {
+      "description": "Whether sharing is enabled for this post (post rows only)",
+      "title": "Share Enabled",
+      "type": "boolean"
+    },
+    "shareMeta": {
+      "description": "TikTok's share title and description for the playlist (playlist rows only, when available)",
+      "properties": {
+        "desc": {
+          "title": "Share Description",
+          "type": "string"
+        },
+        "title": {
+          "title": "Share Title",
+          "type": "string"
+        }
+      },
+      "title": "Share Meta",
+      "type": "object"
+    },
+    "stitchEnabled": {
+      "description": "Whether the creator allows stitching this video (post rows only)",
+      "title": "Stitch Enabled",
+      "type": "boolean"
+    },
+    "textLanguage": {
+      "description": "Detected language code of the caption text (post rows only)",
+      "title": "Text Language",
+      "type": "string"
+    },
+    "video": {
+      "description": "Video technical metadata and signed play/cover URLs (post rows only)",
+      "properties": {
+        "bitrate": {
+          "title": "Bitrate",
+          "type": "integer"
+        },
+        "bitrateInfo": {
+          "description": "All available quality/bitrate variants with play URLs (post rows only)",
+          "title": "Bitrate Info",
+          "type": "array"
+        },
+        "codecType": {
+          "title": "Codec",
+          "type": "string"
+        },
+        "cover": {
+          "title": "Cover Image URL",
+          "type": "string"
+        },
+        "definition": {
+          "title": "Definition",
+          "type": "string"
+        },
+        "downloadAddr": {
+          "title": "Download URL",
+          "type": "string"
+        },
+        "duration": {
+          "title": "Duration (s)",
+          "type": "integer"
+        },
+        "dynamicCover": {
+          "title": "Dynamic Cover URL",
+          "type": "string"
+        },
+        "format": {
+          "title": "Format",
+          "type": "string"
+        },
+        "height": {
+          "title": "Height (px)",
+          "type": "integer"
+        },
+        "originCover": {
+          "title": "Original Cover URL",
+          "type": "string"
+        },
+        "playUrl": {
+          "title": "Play URL",
+          "type": "string"
+        },
+        "ratio": {
+          "title": "Aspect Ratio",
+          "type": "string"
+        },
+        "size": {
+          "title": "File Size (bytes)",
+          "type": "string"
+        },
+        "videoQuality": {
+          "title": "Video Quality Label",
+          "type": "string"
+        },
+        "volumeInfo": {
+          "description": "Audio loudness and peak level metadata (post rows only)",
+          "title": "Volume Info",
+          "type": "object"
+        },
+        "width": {
+          "title": "Width (px)",
+          "type": "integer"
+        }
+      },
+      "title": "Video",
+      "type": "object"
+    },
+    "videoCount": {
+      "description": "Total number of videos in the playlist as reported by TikTok (playlist rows only)",
+      "title": "Video Count",
+      "type": "integer"
+    },
+    "viewerRegion": {
+      "description": "ISO country code of the inferred viewer region (post rows only)",
+      "title": "Viewer Region",
+      "type": "string"
+    }
+  },
+  "title": "TikTok Playlists & Videos",
+  "views": {
+    "overview": {
+      "description": "Mixed dataset with two row types: 'playlist' rows for playlist metadata and 'post' rows for individual videos. Use the rowType field to distinguish them.",
+      "display": {
+        "component": "table",
+        "properties": {
+          "caption": {
+            "format": "text",
+            "label": "Caption"
+          },
+          "creatorUsername": {
+            "format": "text",
+            "label": "Creator"
+          },
+          "likeCount": {
+            "format": "number",
+            "label": "Likes"
+          },
+          "playCount": {
+            "format": "number",
+            "label": "Views"
+          },
+          "playlistId": {
+            "format": "text",
+            "label": "Playlist ID"
+          },
+          "playlistName": {
+            "format": "text",
+            "label": "Playlist Name"
+          },
+          "playlistUrl": {
+            "format": "link",
+            "label": "Playlist URL"
+          },
+          "positionInPlaylist": {
+            "format": "number",
+            "label": "Position"
+          },
+          "postId": {
+            "format": "text",
+            "label": "Post ID"
+          },
+          "postUrl": {
+            "format": "link",
+            "label": "Post URL"
+          },
+          "rowType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "scrapedAt": {
+            "format": "text",
+            "label": "Scraped At"
+          },
+          "videoCount": {
+            "format": "number",
+            "label": "Video Count"
+          }
+        }
+      },
+      "title": "Playlists & Posts Overview",
+      "transformation": {
+        "fields": [
+          "rowType",
+          "playlistId",
+          "playlistName",
+          "videoCount",
+          "creatorUsername",
+          "positionInPlaylist",
+          "postId",
+          "caption",
+          "playCount",
+          "likeCount",
+          "postUrl",
+          "playlistUrl",
+          "scrapedAt"
+        ]
+      }
+    }
+  }
+}
