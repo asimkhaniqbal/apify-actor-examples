@@ -1,0 +1,124 @@
+{
+  "description": "Search Fotocasa Spain for properties for sale or rent.",
+  "properties": {
+    "areaMax": {
+      "description": "Maximum built area in square meters (optional).",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Max Area (m²)",
+      "type": "integer"
+    },
+    "areaMin": {
+      "description": "Minimum built area in square meters (optional).",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Min Area (m²)",
+      "type": "integer"
+    },
+    "bedroomsMax": {
+      "description": "Maximum number of bedrooms (optional).",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Max Bedrooms",
+      "type": "integer"
+    },
+    "bedroomsMin": {
+      "description": "Minimum number of bedrooms (optional).",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Min Bedrooms",
+      "type": "integer"
+    },
+    "city": {
+      "default": "Barcelona",
+      "description": "City or location to search in (e.g. Barcelona, Madrid, Valencia, Sevilla).",
+      "editor": "textfield",
+      "prefill": "Barcelona",
+      "title": "City",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of listings to return.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "searchForSale",
+      "description": "What to search for.",
+      "editor": "select",
+      "enum": [
+        "searchForSale",
+        "searchForRent"
+      ],
+      "enumTitles": [
+        "Search properties for sale",
+        "Search properties for rent"
+      ],
+      "prefill": "searchForSale",
+      "title": "Mode",
+      "type": "string"
+    },
+    "neighborhood": {
+      "description": "Neighborhood or district filter (optional).",
+      "editor": "textfield",
+      "title": "Neighborhood / District",
+      "type": "string"
+    },
+    "priceMax": {
+      "description": "Maximum price in Euros (optional).",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Max Price (EUR)",
+      "type": "integer"
+    },
+    "priceMin": {
+      "description": "Minimum price in Euros (optional).",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Min Price (EUR)",
+      "type": "integer"
+    },
+    "propertyType": {
+      "default": "",
+      "description": "Filter by property type.",
+      "editor": "select",
+      "enum": [
+        "",
+        "homes",
+        "penthouse",
+        "studio",
+        "duplex",
+        "land",
+        "garage",
+        "office",
+        "premises",
+        "storage"
+      ],
+      "enumTitles": [
+        "All types",
+        "Flat / Apartment",
+        "Penthouse",
+        "Studio",
+        "Duplex",
+        "Land",
+        "Garage",
+        "Office",
+        "Commercial Premises",
+        "Storage Room"
+      ],
+      "prefill": "",
+      "title": "Property Type",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Fotocasa Scraper Input",
+  "type": "object"
+}

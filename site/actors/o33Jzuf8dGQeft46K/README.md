@@ -1,0 +1,108 @@
+# Fotocasa Spain Sale & Rental Listings Scraper
+
+Pull property listings from [Fotocasa](https://www.fotocasa.es), one of Spain's largest real-estate portals. Search for sale or rental properties in any Spanish city or neighborhood, narrow results by property type, price, bedrooms, and area, and get each listing's price, size, location, and photo.
+
+## What this actor does
+
+- Searches properties for sale or for rent in a given city
+- Narrows results by property type (flat, penthouse, studio, duplex, land, garage, office, commercial premises, storage room)
+- Filters by price range, bedroom count, and built area (m²)
+- Paginates through Fotocasa's results automatically up to your requested item count
+- Empty fields are omitted from records
+
+## Output per listing
+
+- `recordType` — always `property`
+- `listingId` — Fotocasa's unique listing identifier
+- `title` — listing title
+- `price` — price in euros
+- `currency` — always `EUR`
+- `area` — built area in m²
+- `bedrooms`, `bathrooms`
+- `propertyType` — e.g. `homes`, `penthouse`, `studio`
+- `city`, `neighborhood`, `province`, `postalCode`, `address`
+- `imageUrl` — primary property photo URL
+- `propertyUrl` — direct link to the listing on fotocasa.es
+- `description` — property description snippet
+- `isNewDevelopment` — whether the listing is flagged as a new-build development
+- `mode` — `searchForSale` or `searchForRent`
+- `scrapedAt` — ISO 8601 timestamp
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `mode` | string | `searchForSale` | `searchForSale` or `searchForRent` |
+| `city` | string | `Barcelona` | City or location to search in |
+| `neighborhood` | string | – | Neighborhood or district name (not currently applied as a filter) |
+| `propertyType` | string | – | `homes` / `penthouse` / `studio` / `duplex` / `land` / `garage` / `office` / `premises` / `storage` |
+| `priceMin` | integer | – | Minimum price in EUR |
+| `priceMax` | integer | – | Maximum price in EUR |
+| `bedroomsMin` | integer | – | Minimum number of bedrooms |
+| `bedroomsMax` | integer | – | Maximum number of bedrooms |
+| `areaMin` | integer | – | Minimum built area in m² |
+| `areaMax` | integer | – | Maximum built area in m² |
+| `maxItems` | integer | `50` | Maximum listings to return (1–1000) |
+
+### Example: apartments for sale with a budget and bedroom floor
+
+```json
+{
+  "mode": "searchForSale",
+  "city": "Barcelona",
+  "propertyType": "homes",
+  "priceMin": 200000,
+  "priceMax": 600000,
+  "bedroomsMin": 2,
+  "maxItems": 100
+}
+```
+
+### Example: rentals in a city under a price cap
+
+```json
+{
+  "mode": "searchForRent",
+  "city": "Madrid",
+  "priceMax": 1500,
+  "maxItems": 50
+}
+```
+
+### Example: land listings by minimum area
+
+```json
+{
+  "mode": "searchForSale",
+  "city": "Valencia",
+  "propertyType": "land",
+  "areaMin": 500,
+  "maxItems": 30
+}
+```
+
+## Use cases
+
+- **Buyer research** — compare prices and sizes across neighborhoods before making an offer
+- **Rental market tracking** — monitor asking rents for a city or district over time
+- **Investment analysis** — scan listings by price and area to spot undervalued properties
+- **Agency competitor tracking** — see which property types and price bands are most listed in an area
+- **Relocation planning** — survey available housing in a target city before moving
+
+## FAQ
+
+**Which Spanish cities can I search?**  Any city with Fotocasa listings — Barcelona, Madrid, Valencia, Sevilla, Bilbao, Málaga, Alicante, Murcia, Palma, and many more; just pass the city name in `city`.
+
+**What currency are prices in?**  Always euros (EUR), matching how Fotocasa itself displays prices.
+
+**Can I get rental instead of sale listings?**  Yes — set `mode` to `searchForRent`.
+
+**Do I need an account or API key?**  No, Fotocasa's public search results are read without any authentication.
+
+**Why is `neighborhood` sometimes missing from a record?**  Fotocasa doesn't always tag every listing with a specific neighborhood/district — when it doesn't, the field is left out rather than filled with a guess. Note that the input `neighborhood` field is not currently applied as a search filter.
+
+**Does every `propertyType` option return results?**  `homes`, `land`, `garage`, `office`, and `premises` reliably return listings. `penthouse`, `studio`, `duplex`, and `storage` currently return no matches — leave `propertyType` empty (or use `homes`) to search flats/apartments.
+
+**How many listings can I get in one run?**  Up to `maxItems`, capped at 1000; the actor pages through Fotocasa's own results automatically to reach that count.
+
+**Is this affiliated with Fotocasa?**  No. This is an independent actor that reads Fotocasa's public listing pages and is not affiliated with or endorsed by Fotocasa.
