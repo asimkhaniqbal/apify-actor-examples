@@ -1,27 +1,54 @@
 {
-  "description": "Scrape TikTok playlists — discover all playlists for a profile and extract all videos within them.",
+  "description": "Scrape TikTok playlists and public collections by URL, numeric ID, profile URL or @username.",
   "properties": {
+    "collectionIds": {
+      "description": "Numeric TikTok collection IDs (15–20 digits).",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Collection IDs",
+      "type": "array"
+    },
+    "collectionUrls": {
+      "description": "Public collection URLs, e.g. https://www.tiktok.com/@user/collection/places-to-go-7154034669288196891.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Collection URLs",
+      "type": "array"
+    },
+    "maxItems": {
+      "default": 0,
+      "description": "Stop after this many dataset rows across all targets, including status rows. Use 0 for no global limit.",
+      "maximum": 100000,
+      "minimum": 0,
+      "prefill": 1,
+      "title": "Max Rows (Global)",
+      "type": "integer"
+    },
     "maxPlaylistsPerProfile": {
       "default": 20,
-      "description": "Maximum number of playlists to scrape when discovering playlists for a profile.",
+      "description": "Maximum playlists to process for each profile or username target.",
       "maximum": 100,
       "minimum": 1,
-      "prefill": 5,
+      "prefill": 1,
       "title": "Max Playlists Per Profile",
       "type": "integer"
     },
     "maxPostsPerPlaylist": {
       "default": 100,
-      "description": "Maximum number of videos to extract per playlist. Higher values take longer but return more complete results.",
+      "description": "Maximum videos to return from each playlist or collection. Set high enough to cover the full list.",
       "maximum": 5000,
       "minimum": 1,
-      "prefill": 100,
-      "title": "Max Posts Per Playlist",
+      "prefill": 1,
+      "title": "Max Videos Per Playlist",
       "type": "integer"
     },
     "mode": {
       "default": "both",
-      "description": "Choose what data to return: playlist metadata rows only, post/video rows only, or both together.",
+      "description": "Return playlist/collection metadata rows, video rows, or both.",
       "editor": "select",
       "enum": [
         "metadata",
@@ -30,24 +57,24 @@
       ],
       "enumTitles": [
         "Playlist metadata only",
-        "Posts only",
-        "Both metadata and posts"
+        "Videos only",
+        "Metadata and videos"
       ],
       "prefill": "metadata",
-      "title": "Scraping Mode",
+      "title": "What to Return",
       "type": "string"
     },
     "playlistIds": {
-      "description": "Numeric playlist/mix IDs as strings (15–20 digits). Use instead of or together with Playlist URLs.",
+      "description": "Numeric TikTok playlist IDs (15–20 digits). If an ID belongs to a public collection, the collection route is tried automatically.",
       "editor": "stringList",
       "items": {
         "type": "string"
       },
-      "title": "Playlist IDs (Mix IDs)",
+      "title": "Playlist IDs",
       "type": "array"
     },
     "playlistUrls": {
-      "description": "TikTok playlist URLs to scrape. E.g. https://www.tiktok.com/@natgeo/playlist/Cinematic-7509464647364283178",
+      "description": "Playlist URLs, e.g. https://www.tiktok.com/@natgeo/playlist/Cinematic-7509464647364283178. Collection URLs pasted here are detected automatically.",
       "editor": "stringList",
       "items": {
         "type": "string"
@@ -59,7 +86,7 @@
       "type": "array"
     },
     "profileUrls": {
-      "description": "TikTok profile URLs. All playlists for each user will be discovered and scraped.",
+      "description": "TikTok profile URLs. Every public playlist on each profile is discovered, up to the per-profile limit.",
       "editor": "stringList",
       "items": {
         "type": "string"
@@ -68,20 +95,17 @@
       "type": "array"
     },
     "usernames": {
-      "description": "TikTok usernames (with or without @). All playlists for each user will be discovered and scraped.",
+      "description": "TikTok handles with or without @. Every public playlist on each profile is discovered.",
       "editor": "stringList",
       "items": {
         "type": "string"
       },
-      "prefill": [
-        "natgeo"
-      ],
       "title": "Usernames",
       "type": "array"
     }
   },
   "required": [],
   "schemaVersion": 1,
-  "title": "TikTok Playlist Scraper Input",
+  "title": "TikTok Playlist & Collection Scraper Input",
   "type": "object"
 }

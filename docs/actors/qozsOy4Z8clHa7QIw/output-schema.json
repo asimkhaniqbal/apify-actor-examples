@@ -1,13 +1,13 @@
 {
   "actorOutputSchemaVersion": 1,
-  "description": "Playlist metadata rows and video post rows",
+  "description": "Playlist and collection metadata rows, ordered video rows with engagement and media fields, and visible status rows.",
   "properties": {
-    "data": {
-      "description": "Dataset containing playlist metadata and video post records. Playlist rows have rowType='playlist' with playlistId, playlistName, videoCount, creatorUsername, playlistUrl. Post rows have rowType='post' with postId, caption, likeCount, playCount, commentCount, shareCount, createdAt, author, music, video, positionInPlaylist.",
+    "playlistsAndVideos": {
+      "description": "Dataset containing playlist/collection rows, ordered video rows and status rows.",
       "template": "{{links.apiDefaultDatasetUrl}}/items",
-      "title": "Playlist Data",
+      "title": "Playlists, collections & videos",
       "type": "string"
     }
   },
-  "title": "TikTok Playlist Discovery & Video Order Scraper Output"
+  "title": "TikTok Playlist & Collection Scraper Output"
 }

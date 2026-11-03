@@ -125,6 +125,29 @@
       "title": "Creator ID",
       "type": "string"
     },
+    "creatorStats": {
+      "description": "Creator profile counters at scrape time (playlist rows only, when available).",
+      "properties": {
+        "followerCount": {
+          "title": "Followers",
+          "type": "integer"
+        },
+        "followingCount": {
+          "title": "Following",
+          "type": "integer"
+        },
+        "heartCount": {
+          "title": "Hearts/Likes",
+          "type": "integer"
+        },
+        "videoCount": {
+          "title": "Videos",
+          "type": "integer"
+        }
+      },
+      "title": "Creator Stats",
+      "type": "object"
+    },
     "creatorUsername": {
       "description": "TikTok @username of the playlist creator (playlist rows only)",
       "title": "Creator Username",
@@ -134,6 +157,11 @@
       "description": "Whether the playlist creator has a verified badge (playlist rows only)",
       "title": "Creator Verified",
       "type": "boolean"
+    },
+    "diversificationLabels": {
+      "description": "TikTok topic labels attached to the video when present (post rows only).",
+      "title": "Diversification Labels",
+      "type": "array"
     },
     "duetEnabled": {
       "description": "Whether the creator allows duets with this video (post rows only)",
@@ -193,6 +221,11 @@
       "title": "Slideshow Images",
       "type": "array"
     },
+    "input": {
+      "description": "The original URL, ID or handle that produced this status row (status rows only).",
+      "title": "Input",
+      "type": "string"
+    },
     "isAd": {
       "description": "Whether this post is a paid advertisement (post rows only)",
       "title": "Is Ad",
@@ -248,6 +281,11 @@
       },
       "title": "Mentions",
       "type": "array"
+    },
+    "message": {
+      "description": "Human-readable explanation of the status outcome (status rows only).",
+      "title": "Message",
+      "type": "string"
     },
     "music": {
       "description": "Sound/music used in the post (post rows only)",
@@ -322,20 +360,35 @@
       "title": "Play Count",
       "type": "integer"
     },
+    "playlistCoverUrl": {
+      "description": "Cover image URL for the playlist or collection (playlist rows only; signed and expiring).",
+      "title": "Playlist Cover URL",
+      "type": "string"
+    },
     "playlistId": {
-      "description": "TikTok's unique playlist/mix ID (present on both row types)",
+      "description": "TikTok playlist or collection ID (playlist and post rows).",
       "title": "Playlist ID",
       "type": "string"
     },
     "playlistName": {
-      "description": "Display name of the playlist (present on both row types)",
+      "description": "Display name of the playlist or collection (playlist and post rows).",
       "title": "Playlist Name",
       "type": "string"
     },
+    "playlistType": {
+      "description": "Whether this row describes a playlist or a public collection (playlist and post rows).",
+      "title": "Playlist Type",
+      "type": "string"
+    },
     "playlistUrl": {
-      "description": "Full URL to the TikTok playlist page (playlist rows only)",
+      "description": "Canonical URL of the playlist or collection (playlist and post rows).",
       "title": "Playlist URL",
       "type": "string"
+    },
+    "poi": {
+      "description": "TikTok POI/location attachment when the video carries one (post rows only).",
+      "title": "Point of Interest",
+      "type": "object"
     },
     "positionInPlaylist": {
       "description": "0-based position of the video within the playlist (post rows only)",
@@ -368,12 +421,12 @@
       "type": "integer"
     },
     "rowType": {
-      "description": "Discriminator field: 'playlist' for playlist metadata rows, 'post' for individual video rows",
+      "description": "Discriminator: 'playlist', 'post' or 'status'.",
       "title": "Row Type",
       "type": "string"
     },
     "scrapedAt": {
-      "description": "ISO 8601 UTC datetime when this row was generated (playlist rows only)",
+      "description": "ISO 8601 UTC datetime when this row was generated (all row types).",
       "title": "Scraped At",
       "type": "string"
     },
@@ -388,7 +441,7 @@
       "type": "boolean"
     },
     "shareMeta": {
-      "description": "TikTok's share title and description for the playlist (playlist rows only, when available)",
+      "description": "TikTok's share title and description for a public collection (collection rows only).",
       "properties": {
         "desc": {
           "title": "Share Description",
@@ -401,6 +454,11 @@
       },
       "title": "Share Meta",
       "type": "object"
+    },
+    "status": {
+      "description": "Outcome for a failed or partial target: invalid, not_found, private, empty, blocked or partial (status rows only).",
+      "title": "Status",
+      "type": "string"
     },
     "stitchEnabled": {
       "description": "Whether the creator allows stitching this video (post rows only)",
@@ -470,7 +528,7 @@
         },
         "size": {
           "title": "File Size (bytes)",
-          "type": "string"
+          "type": "integer"
         },
         "videoQuality": {
           "title": "Video Quality Label",
@@ -500,10 +558,10 @@
       "type": "string"
     }
   },
-  "title": "TikTok Playlists & Videos",
+  "title": "TikTok Playlists, Collections & Videos",
   "views": {
     "overview": {
-      "description": "Mixed dataset with two row types: 'playlist' rows for playlist metadata and 'post' rows for individual videos. Use the rowType field to distinguish them.",
+      "description": "Mixed dataset with playlist, post and status rows. Use rowType to distinguish them.",
       "display": {
         "component": "table",
         "properties": {
@@ -530,6 +588,10 @@
           "playlistName": {
             "format": "text",
             "label": "Playlist Name"
+          },
+          "playlistType": {
+            "format": "text",
+            "label": "Playlist Type"
           },
           "playlistUrl": {
             "format": "link",
@@ -565,6 +627,7 @@
       "transformation": {
         "fields": [
           "rowType",
+          "playlistType",
           "playlistId",
           "playlistName",
           "videoCount",
@@ -576,6 +639,59 @@
           "likeCount",
           "postUrl",
           "playlistUrl",
+          "scrapedAt"
+        ]
+      }
+    },
+    "status": {
+      "description": "Visible outcomes for invalid, empty, private, blocked or partially fetched targets.",
+      "display": {
+        "component": "table",
+        "properties": {
+          "input": {
+            "format": "text",
+            "label": "Input"
+          },
+          "message": {
+            "format": "text",
+            "label": "Message"
+          },
+          "playlistId": {
+            "format": "text",
+            "label": "Playlist ID"
+          },
+          "playlistName": {
+            "format": "text",
+            "label": "Playlist Name"
+          },
+          "playlistType": {
+            "format": "text",
+            "label": "Target Type"
+          },
+          "rowType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "scrapedAt": {
+            "format": "text",
+            "label": "Scraped At"
+          },
+          "status": {
+            "format": "text",
+            "label": "Status"
+          }
+        }
+      },
+      "title": "Status Rows",
+      "transformation": {
+        "fields": [
+          "rowType",
+          "status",
+          "playlistType",
+          "playlistId",
+          "playlistName",
+          "input",
+          "message",
           "scrapedAt"
         ]
       }

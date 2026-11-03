@@ -1,27 +1,54 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-UbxvAbtq1LTKysgKXRvOP6n8iCCwwS41W7tkSmjPyHc=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>TikTok Playlist Discovery &amp; Video Order Scraper | Vexaloom Labs</title><meta name="description" content="Scrape TikTok playlists - discover all playlists for a profile, get playlist metadata, and extract all videos. Supports playlist URLs, IDs, and profile URLs. No cookies required."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/"><meta property="og:title" content="TikTok Playlist Discovery &amp; Video Order Scraper | Vexaloom Labs"><meta property="og:description" content="Scrape TikTok playlists - discover all playlists for a profile, get playlist metadata, and extract all videos. Supports playlist URLs, IDs, and profile URLs. No cookies required."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/#webpage","name":"TikTok Playlist Discovery & Video Order Scraper","description":"Scrape TikTok playlists - discover all playlists for a profile, get playlist metadata, and extract all videos. Supports playlist URLs, IDs, and profile URLs. No cookies required.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/#article","headline":"TikTok Playlist Discovery & Video Order Scraper","name":"TikTok Playlist Discovery & Video Order Scraper","description":"Scrape TikTok playlists - discover all playlists for a profile, get playlist metadata, and extract all videos. Supports playlist URLs, IDs, and profile URLs. No cookies required.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"TikTok Playlist Discovery & Video Order Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>TikTok Playlist Discovery &amp; Video Order Scraper</span></div><section id="overview"><h1 class="doc-title">TikTok Playlist Discovery &amp; Video Order Scraper</h1><p class="lede">Scrape TikTok playlists - discover all playlists for a profile, get playlist metadata, and extract all videos. Supports playlist URLs, IDs, and profile URLs. No cookies required.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/tiktok-playlist-discovery-and-video-order-scraper">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/qozsOy4Z8clHa7QIw/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>playlistUrls</code></td><td>array</td><td>optional</td><td>TikTok playlist URLs to scrape. E.g. https://www.tiktok.com/@natgeo/playlist/Cinematic-7509464647364283178</td></tr><tr><td><code>playlistIds</code></td><td>array</td><td>optional</td><td>Numeric playlist/mix IDs as strings (15–20 digits). Use instead of or together with Playlist URLs.</td></tr><tr><td><code>profileUrls</code></td><td>array</td><td>optional</td><td>TikTok profile URLs. All playlists for each user will be discovered and scraped.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>playlistUrls</code></td><td>array</td><td>optional</td><td>TikTok playlist URLs to scrape. E.g. https://www.tiktok.com/@natgeo/playlist/Cinematic-7509464647364283178</td></tr><tr><td><code>playlistIds</code></td><td>array</td><td>optional</td><td>Numeric playlist/mix IDs as strings (15–20 digits). Use instead of or together with Playlist URLs.</td></tr><tr><td><code>profileUrls</code></td><td>array</td><td>optional</td><td>TikTok profile URLs. All playlists for each user will be discovered and scraped.</td></tr><tr><td><code>usernames</code></td><td>array</td><td>optional</td><td>TikTok usernames (with or without @). All playlists for each user will be discovered and scraped.</td></tr><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>Choose what data to return: playlist metadata rows only, post/video rows only, or both together.</td></tr><tr><td><code>maxPostsPerPlaylist</code></td><td>integer</td><td>optional</td><td>Maximum number of videos to extract per playlist. Higher values take longer but return more complete results.</td></tr><tr><td><code>maxPlaylistsPerProfile</code></td><td>integer</td><td>optional</td><td>Maximum number of playlists to scrape when discovering playlists for a profile.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;description&quot;: &quot;Scrape TikTok playlists — discover all playlists for a profile and extract all videos within them.&quot;,
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-UbxvAbtq1LTKysgKXRvOP6n8iCCwwS41W7tkSmjPyHc=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>TikTok Playlist Discovery &amp; Video Order Scraper | Vexaloom Labs</title><meta name="description" content="Scrape TikTok playlists - discover all playlists for a profile, get playlist metadata, and extract all videos. Supports playlist URLs, IDs, and profile URLs. No cookies required."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/"><meta property="og:title" content="TikTok Playlist Discovery &amp; Video Order Scraper | Vexaloom Labs"><meta property="og:description" content="Scrape TikTok playlists - discover all playlists for a profile, get playlist metadata, and extract all videos. Supports playlist URLs, IDs, and profile URLs. No cookies required."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/#webpage","name":"TikTok Playlist Discovery & Video Order Scraper","description":"Scrape TikTok playlists - discover all playlists for a profile, get playlist metadata, and extract all videos. Supports playlist URLs, IDs, and profile URLs. No cookies required.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/#article","headline":"TikTok Playlist Discovery & Video Order Scraper","name":"TikTok Playlist Discovery & Video Order Scraper","description":"Scrape TikTok playlists - discover all playlists for a profile, get playlist metadata, and extract all videos. Supports playlist URLs, IDs, and profile URLs. No cookies required.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"TikTok Playlist Discovery & Video Order Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/qozsOy4Z8clHa7QIw/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>TikTok Playlist Discovery &amp; Video Order Scraper</span></div><section id="overview"><h1 class="doc-title">TikTok Playlist Discovery &amp; Video Order Scraper</h1><p class="lede">Scrape TikTok playlists - discover all playlists for a profile, get playlist metadata, and extract all videos. Supports playlist URLs, IDs, and profile URLs. No cookies required.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/tiktok-playlist-discovery-and-video-order-scraper">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/qozsOy4Z8clHa7QIw/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>playlistUrls</code></td><td>array</td><td>optional</td><td>Playlist URLs, e.g. https://www.tiktok.com/@natgeo/playlist/Cinematic-7509464647364283178. Collection URLs pasted here are detected automatically.</td></tr><tr><td><code>playlistIds</code></td><td>array</td><td>optional</td><td>Numeric TikTok playlist IDs (15–20 digits). If an ID belongs to a public collection, the collection route is tried automatically.</td></tr><tr><td><code>collectionUrls</code></td><td>array</td><td>optional</td><td>Public collection URLs, e.g. https://www.tiktok.com/@user/collection/places-to-go-7154034669288196891.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>playlistUrls</code></td><td>array</td><td>optional</td><td>Playlist URLs, e.g. https://www.tiktok.com/@natgeo/playlist/Cinematic-7509464647364283178. Collection URLs pasted here are detected automatically.</td></tr><tr><td><code>playlistIds</code></td><td>array</td><td>optional</td><td>Numeric TikTok playlist IDs (15–20 digits). If an ID belongs to a public collection, the collection route is tried automatically.</td></tr><tr><td><code>collectionUrls</code></td><td>array</td><td>optional</td><td>Public collection URLs, e.g. https://www.tiktok.com/@user/collection/places-to-go-7154034669288196891.</td></tr><tr><td><code>collectionIds</code></td><td>array</td><td>optional</td><td>Numeric TikTok collection IDs (15–20 digits).</td></tr><tr><td><code>profileUrls</code></td><td>array</td><td>optional</td><td>TikTok profile URLs. Every public playlist on each profile is discovered, up to the per-profile limit.</td></tr><tr><td><code>usernames</code></td><td>array</td><td>optional</td><td>TikTok handles with or without @. Every public playlist on each profile is discovered.</td></tr><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>Return playlist/collection metadata rows, video rows, or both.</td></tr><tr><td><code>maxPostsPerPlaylist</code></td><td>integer</td><td>optional</td><td>Maximum videos to return from each playlist or collection. Set high enough to cover the full list.</td></tr><tr><td><code>maxPlaylistsPerProfile</code></td><td>integer</td><td>optional</td><td>Maximum playlists to process for each profile or username target.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Stop after this many dataset rows across all targets, including status rows. Use 0 for no global limit.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Scrape TikTok playlists and public collections by URL, numeric ID, profile URL or @username.&quot;,
   &quot;properties&quot;: {
+    &quot;collectionIds&quot;: {
+      &quot;description&quot;: &quot;Numeric TikTok collection IDs (15–20 digits).&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Collection IDs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;collectionUrls&quot;: {
+      &quot;description&quot;: &quot;Public collection URLs, e.g. https://www.tiktok.com/@user/collection/places-to-go-7154034669288196891.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Collection URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 0,
+      &quot;description&quot;: &quot;Stop after this many dataset rows across all targets, including status rows. Use 0 for no global limit.&quot;,
+      &quot;maximum&quot;: 100000,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 1,
+      &quot;title&quot;: &quot;Max Rows (Global)&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
     &quot;maxPlaylistsPerProfile&quot;: {
       &quot;default&quot;: 20,
-      &quot;description&quot;: &quot;Maximum number of playlists to scrape when discovering playlists for a profile.&quot;,
+      &quot;description&quot;: &quot;Maximum playlists to process for each profile or username target.&quot;,
       &quot;maximum&quot;: 100,
       &quot;minimum&quot;: 1,
-      &quot;prefill&quot;: 5,
+      &quot;prefill&quot;: 1,
       &quot;title&quot;: &quot;Max Playlists Per Profile&quot;,
       &quot;type&quot;: &quot;integer&quot;
     },
     &quot;maxPostsPerPlaylist&quot;: {
       &quot;default&quot;: 100,
-      &quot;description&quot;: &quot;Maximum number of videos to extract per playlist. Higher values take longer but return more complete results.&quot;,
+      &quot;description&quot;: &quot;Maximum videos to return from each playlist or collection. Set high enough to cover the full list.&quot;,
       &quot;maximum&quot;: 5000,
       &quot;minimum&quot;: 1,
-      &quot;prefill&quot;: 100,
-      &quot;title&quot;: &quot;Max Posts Per Playlist&quot;,
+      &quot;prefill&quot;: 1,
+      &quot;title&quot;: &quot;Max Videos Per Playlist&quot;,
       &quot;type&quot;: &quot;integer&quot;
     },
     &quot;mode&quot;: {
       &quot;default&quot;: &quot;both&quot;,
-      &quot;description&quot;: &quot;Choose what data to return: playlist metadata rows only, post/video rows only, or both together.&quot;,
+      &quot;description&quot;: &quot;Return playlist/collection metadata rows, video rows, or both.&quot;,
       &quot;editor&quot;: &quot;select&quot;,
       &quot;enum&quot;: [
         &quot;metadata&quot;,
@@ -30,24 +57,24 @@
       ],
       &quot;enumTitles&quot;: [
         &quot;Playlist metadata only&quot;,
-        &quot;Posts only&quot;,
-        &quot;Both metadata and posts&quot;
+        &quot;Videos only&quot;,
+        &quot;Metadata and videos&quot;
       ],
       &quot;prefill&quot;: &quot;metadata&quot;,
-      &quot;title&quot;: &quot;Scraping Mode&quot;,
+      &quot;title&quot;: &quot;What to Return&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;playlistIds&quot;: {
-      &quot;description&quot;: &quot;Numeric playlist/mix IDs as strings (15–20 digits). Use instead of or together with Playlist URLs.&quot;,
+      &quot;description&quot;: &quot;Numeric TikTok playlist IDs (15–20 digits). If an ID belongs to a public collection, the collection route is tried automatically.&quot;,
       &quot;editor&quot;: &quot;stringList&quot;,
       &quot;items&quot;: {
         &quot;type&quot;: &quot;string&quot;
       },
-      &quot;title&quot;: &quot;Playlist IDs (Mix IDs)&quot;,
+      &quot;title&quot;: &quot;Playlist IDs&quot;,
       &quot;type&quot;: &quot;array&quot;
     },
     &quot;playlistUrls&quot;: {
-      &quot;description&quot;: &quot;TikTok playlist URLs to scrape. E.g. https://www.tiktok.com/@natgeo/playlist/Cinematic-7509464647364283178&quot;,
+      &quot;description&quot;: &quot;Playlist URLs, e.g. https://www.tiktok.com/@natgeo/playlist/Cinematic-7509464647364283178. Collection URLs pasted here are detected automatically.&quot;,
       &quot;editor&quot;: &quot;stringList&quot;,
       &quot;items&quot;: {
         &quot;type&quot;: &quot;string&quot;
@@ -59,7 +86,7 @@
       &quot;type&quot;: &quot;array&quot;
     },
     &quot;profileUrls&quot;: {
-      &quot;description&quot;: &quot;TikTok profile URLs. All playlists for each user will be discovered and scraped.&quot;,
+      &quot;description&quot;: &quot;TikTok profile URLs. Every public playlist on each profile is discovered, up to the per-profile limit.&quot;,
       &quot;editor&quot;: &quot;stringList&quot;,
       &quot;items&quot;: {
         &quot;type&quot;: &quot;string&quot;
@@ -68,35 +95,32 @@
       &quot;type&quot;: &quot;array&quot;
     },
     &quot;usernames&quot;: {
-      &quot;description&quot;: &quot;TikTok usernames (with or without @). All playlists for each user will be discovered and scraped.&quot;,
+      &quot;description&quot;: &quot;TikTok handles with or without @. Every public playlist on each profile is discovered.&quot;,
       &quot;editor&quot;: &quot;stringList&quot;,
       &quot;items&quot;: {
         &quot;type&quot;: &quot;string&quot;
       },
-      &quot;prefill&quot;: [
-        &quot;natgeo&quot;
-      ],
       &quot;title&quot;: &quot;Usernames&quot;,
       &quot;type&quot;: &quot;array&quot;
     }
   },
   &quot;required&quot;: [],
   &quot;schemaVersion&quot;: 1,
-  &quot;title&quot;: &quot;TikTok Playlist Scraper Input&quot;,
+  &quot;title&quot;: &quot;TikTok Playlist &amp; Collection Scraper Input&quot;,
   &quot;type&quot;: &quot;object&quot;
 }
-</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>data</code></td><td>string</td><td>optional</td><td>Dataset containing playlist metadata and video post records. Playlist rows have rowType=&#x27;playlist&#x27; with playlistId, playlistName, videoCount, creatorUsername, playlistUrl. Post rows have rowType=&#x27;post&#x27; with postId, caption, likeCount, playCount, commentCount, shareCount, createdAt, author, music, video, positionInPlaylist.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>playlistsAndVideos</code></td><td>string</td><td>optional</td><td>Dataset containing playlist/collection rows, ordered video rows and status rows.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
   &quot;actorOutputSchemaVersion&quot;: 1,
-  &quot;description&quot;: &quot;Playlist metadata rows and video post rows&quot;,
+  &quot;description&quot;: &quot;Playlist and collection metadata rows, ordered video rows with engagement and media fields, and visible status rows.&quot;,
   &quot;properties&quot;: {
-    &quot;data&quot;: {
-      &quot;description&quot;: &quot;Dataset containing playlist metadata and video post records. Playlist rows have rowType=&#x27;playlist&#x27; with playlistId, playlistName, videoCount, creatorUsername, playlistUrl. Post rows have rowType=&#x27;post&#x27; with postId, caption, likeCount, playCount, commentCount, shareCount, createdAt, author, music, video, positionInPlaylist.&quot;,
+    &quot;playlistsAndVideos&quot;: {
+      &quot;description&quot;: &quot;Dataset containing playlist/collection rows, ordered video rows and status rows.&quot;,
       &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
-      &quot;title&quot;: &quot;Playlist Data&quot;,
+      &quot;title&quot;: &quot;Playlists, collections &amp; videos&quot;,
       &quot;type&quot;: &quot;string&quot;
     }
   },
-  &quot;title&quot;: &quot;TikTok Playlist Discovery &amp; Video Order Scraper Output&quot;
+  &quot;title&quot;: &quot;TikTok Playlist &amp; Collection Scraper Output&quot;
 }
 </code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
   &quot;actorSpecification&quot;: 1,
@@ -225,6 +249,29 @@
       &quot;title&quot;: &quot;Creator ID&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
+    &quot;creatorStats&quot;: {
+      &quot;description&quot;: &quot;Creator profile counters at scrape time (playlist rows only, when available).&quot;,
+      &quot;properties&quot;: {
+        &quot;followerCount&quot;: {
+          &quot;title&quot;: &quot;Followers&quot;,
+          &quot;type&quot;: &quot;integer&quot;
+        },
+        &quot;followingCount&quot;: {
+          &quot;title&quot;: &quot;Following&quot;,
+          &quot;type&quot;: &quot;integer&quot;
+        },
+        &quot;heartCount&quot;: {
+          &quot;title&quot;: &quot;Hearts/Likes&quot;,
+          &quot;type&quot;: &quot;integer&quot;
+        },
+        &quot;videoCount&quot;: {
+          &quot;title&quot;: &quot;Videos&quot;,
+          &quot;type&quot;: &quot;integer&quot;
+        }
+      },
+      &quot;title&quot;: &quot;Creator Stats&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
     &quot;creatorUsername&quot;: {
       &quot;description&quot;: &quot;TikTok @username of the playlist creator (playlist rows only)&quot;,
       &quot;title&quot;: &quot;Creator Username&quot;,
@@ -234,6 +281,11 @@
       &quot;description&quot;: &quot;Whether the playlist creator has a verified badge (playlist rows only)&quot;,
       &quot;title&quot;: &quot;Creator Verified&quot;,
       &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;diversificationLabels&quot;: {
+      &quot;description&quot;: &quot;TikTok topic labels attached to the video when present (post rows only).&quot;,
+      &quot;title&quot;: &quot;Diversification Labels&quot;,
+      &quot;type&quot;: &quot;array&quot;
     },
     &quot;duetEnabled&quot;: {
       &quot;description&quot;: &quot;Whether the creator allows duets with this video (post rows only)&quot;,
@@ -293,6 +345,11 @@
       &quot;title&quot;: &quot;Slideshow Images&quot;,
       &quot;type&quot;: &quot;array&quot;
     },
+    &quot;input&quot;: {
+      &quot;description&quot;: &quot;The original URL, ID or handle that produced this status row (status rows only).&quot;,
+      &quot;title&quot;: &quot;Input&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
     &quot;isAd&quot;: {
       &quot;description&quot;: &quot;Whether this post is a paid advertisement (post rows only)&quot;,
       &quot;title&quot;: &quot;Is Ad&quot;,
@@ -348,6 +405,11 @@
       },
       &quot;title&quot;: &quot;Mentions&quot;,
       &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;message&quot;: {
+      &quot;description&quot;: &quot;Human-readable explanation of the status outcome (status rows only).&quot;,
+      &quot;title&quot;: &quot;Message&quot;,
+      &quot;type&quot;: &quot;string&quot;
     },
     &quot;music&quot;: {
       &quot;description&quot;: &quot;Sound/music used in the post (post rows only)&quot;,
@@ -422,20 +484,35 @@
       &quot;title&quot;: &quot;Play Count&quot;,
       &quot;type&quot;: &quot;integer&quot;
     },
+    &quot;playlistCoverUrl&quot;: {
+      &quot;description&quot;: &quot;Cover image URL for the playlist or collection (playlist rows only; signed and expiring).&quot;,
+      &quot;title&quot;: &quot;Playlist Cover URL&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
     &quot;playlistId&quot;: {
-      &quot;description&quot;: &quot;TikTok&#x27;s unique playlist/mix ID (present on both row types)&quot;,
+      &quot;description&quot;: &quot;TikTok playlist or collection ID (playlist and post rows).&quot;,
       &quot;title&quot;: &quot;Playlist ID&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;playlistName&quot;: {
-      &quot;description&quot;: &quot;Display name of the playlist (present on both row types)&quot;,
+      &quot;description&quot;: &quot;Display name of the playlist or collection (playlist and post rows).&quot;,
       &quot;title&quot;: &quot;Playlist Name&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
+    &quot;playlistType&quot;: {
+      &quot;description&quot;: &quot;Whether this row describes a playlist or a public collection (playlist and post rows).&quot;,
+      &quot;title&quot;: &quot;Playlist Type&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
     &quot;playlistUrl&quot;: {
-      &quot;description&quot;: &quot;Full URL to the TikTok playlist page (playlist rows only)&quot;,
+      &quot;description&quot;: &quot;Canonical URL of the playlist or collection (playlist and post rows).&quot;,
       &quot;title&quot;: &quot;Playlist URL&quot;,
       &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;poi&quot;: {
+      &quot;description&quot;: &quot;TikTok POI/location attachment when the video carries one (post rows only).&quot;,
+      &quot;title&quot;: &quot;Point of Interest&quot;,
+      &quot;type&quot;: &quot;object&quot;
     },
     &quot;positionInPlaylist&quot;: {
       &quot;description&quot;: &quot;0-based position of the video within the playlist (post rows only)&quot;,
@@ -468,12 +545,12 @@
       &quot;type&quot;: &quot;integer&quot;
     },
     &quot;rowType&quot;: {
-      &quot;description&quot;: &quot;Discriminator field: &#x27;playlist&#x27; for playlist metadata rows, &#x27;post&#x27; for individual video rows&quot;,
+      &quot;description&quot;: &quot;Discriminator: &#x27;playlist&#x27;, &#x27;post&#x27; or &#x27;status&#x27;.&quot;,
       &quot;title&quot;: &quot;Row Type&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;scrapedAt&quot;: {
-      &quot;description&quot;: &quot;ISO 8601 UTC datetime when this row was generated (playlist rows only)&quot;,
+      &quot;description&quot;: &quot;ISO 8601 UTC datetime when this row was generated (all row types).&quot;,
       &quot;title&quot;: &quot;Scraped At&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
@@ -488,7 +565,7 @@
       &quot;type&quot;: &quot;boolean&quot;
     },
     &quot;shareMeta&quot;: {
-      &quot;description&quot;: &quot;TikTok&#x27;s share title and description for the playlist (playlist rows only, when available)&quot;,
+      &quot;description&quot;: &quot;TikTok&#x27;s share title and description for a public collection (collection rows only).&quot;,
       &quot;properties&quot;: {
         &quot;desc&quot;: {
           &quot;title&quot;: &quot;Share Description&quot;,
@@ -501,6 +578,11 @@
       },
       &quot;title&quot;: &quot;Share Meta&quot;,
       &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;status&quot;: {
+      &quot;description&quot;: &quot;Outcome for a failed or partial target: invalid, not_found, private, empty, blocked or partial (status rows only).&quot;,
+      &quot;title&quot;: &quot;Status&quot;,
+      &quot;type&quot;: &quot;string&quot;
     },
     &quot;stitchEnabled&quot;: {
       &quot;description&quot;: &quot;Whether the creator allows stitching this video (post rows only)&quot;,
@@ -570,7 +652,7 @@
         },
         &quot;size&quot;: {
           &quot;title&quot;: &quot;File Size (bytes)&quot;,
-          &quot;type&quot;: &quot;string&quot;
+          &quot;type&quot;: &quot;integer&quot;
         },
         &quot;videoQuality&quot;: {
           &quot;title&quot;: &quot;Video Quality Label&quot;,
@@ -600,10 +682,10 @@
       &quot;type&quot;: &quot;string&quot;
     }
   },
-  &quot;title&quot;: &quot;TikTok Playlists &amp; Videos&quot;,
+  &quot;title&quot;: &quot;TikTok Playlists, Collections &amp; Videos&quot;,
   &quot;views&quot;: {
     &quot;overview&quot;: {
-      &quot;description&quot;: &quot;Mixed dataset with two row types: &#x27;playlist&#x27; rows for playlist metadata and &#x27;post&#x27; rows for individual videos. Use the rowType field to distinguish them.&quot;,
+      &quot;description&quot;: &quot;Mixed dataset with playlist, post and status rows. Use rowType to distinguish them.&quot;,
       &quot;display&quot;: {
         &quot;component&quot;: &quot;table&quot;,
         &quot;properties&quot;: {
@@ -630,6 +712,10 @@
           &quot;playlistName&quot;: {
             &quot;format&quot;: &quot;text&quot;,
             &quot;label&quot;: &quot;Playlist Name&quot;
+          },
+          &quot;playlistType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Playlist Type&quot;
           },
           &quot;playlistUrl&quot;: {
             &quot;format&quot;: &quot;link&quot;,
@@ -665,6 +751,7 @@
       &quot;transformation&quot;: {
         &quot;fields&quot;: [
           &quot;rowType&quot;,
+          &quot;playlistType&quot;,
           &quot;playlistId&quot;,
           &quot;playlistName&quot;,
           &quot;videoCount&quot;,
@@ -679,73 +766,75 @@
           &quot;scrapedAt&quot;
         ]
       }
+    },
+    &quot;status&quot;: {
+      &quot;description&quot;: &quot;Visible outcomes for invalid, empty, private, blocked or partially fetched targets.&quot;,
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;input&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Input&quot;
+          },
+          &quot;message&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Message&quot;
+          },
+          &quot;playlistId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Playlist ID&quot;
+          },
+          &quot;playlistName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Playlist Name&quot;
+          },
+          &quot;playlistType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Target Type&quot;
+          },
+          &quot;rowType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Type&quot;
+          },
+          &quot;scrapedAt&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Scraped At&quot;
+          },
+          &quot;status&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Status&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Status Rows&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;rowType&quot;,
+          &quot;status&quot;,
+          &quot;playlistType&quot;,
+          &quot;playlistId&quot;,
+          &quot;playlistName&quot;,
+          &quot;input&quot;,
+          &quot;message&quot;,
+          &quot;scrapedAt&quot;
+        ]
+      }
     }
   }
 }
-</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-tiktok-playlist-discovery-video-order-scraper">TikTok Playlist Discovery &amp; Video Order Scraper</h2>
-<p>Scrape TikTok playlists (called &quot;mixes&quot; in the API) by providing playlist URLs, playlist IDs, profile URLs, or plain usernames. The actor discovers all playlists for a profile or targets specific playlists directly, then returns playlist metadata rows and video post rows with each video's position in the playlist. No login or cookies required.</p>
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-tiktok-playlist-collection-scraper">TikTok Playlist &amp; Collection Scraper</h2>
+<p>Collect every public video in a TikTok playlist or collection, in the creator's order, plus the playlist details that make the data usable: cover image, owner, owner stats, view/like/comment counts, sound metadata, media URLs, hashtags, mentions and slideshow images.</p>
+<p>Give it a playlist URL, a collection URL, a numeric ID, a profile URL or a plain <code>@handle</code>. It returns one row per playlist or collection, one row per video, and clear status rows when a target cannot be read. No login, cookies or proxy setup are needed.</p>
 <h2 id="readme-what-this-actor-does">What this actor does</h2>
 <ul>
-<li>Accepts playlist URLs, raw playlist IDs, profile URLs, or usernames — any combination of these inputs</li>
-<li>Discovers all playlists for a given profile and scrapes each one up to a configurable limit</li>
-<li>Emits a metadata row per playlist with name, video count, creator info, cover thumbnail, and share metadata</li>
-<li>Emits a post row for every video in each playlist, including the video's position within the playlist</li>
-<li>Supports three modes: <code>metadata</code> (playlist info only), <code>posts</code> (videos only), and <code>both</code></li>
-<li>Empty fields are omitted</li>
-</ul>
-<h2 id="readme-output-per-playlist-metadata-record">Output per playlist metadata record</h2>
-<ul>
-<li><code>rowType</code> — always <code>&quot;playlist&quot;</code></li>
-<li><code>playlistId</code> — unique playlist/mix ID</li>
-<li><code>playlistName</code> — playlist name as set by the creator</li>
-<li><code>videoCount</code> — total number of videos in the playlist</li>
-<li><code>playlistUrl</code> — full URL to the playlist page</li>
-<li><code>creatorId</code> — creator's TikTok user ID</li>
-<li><code>creatorUsername</code> — creator handle</li>
-<li><code>creatorDisplayName</code> — creator display name</li>
-<li><code>creatorVerified</code> — whether the creator is verified</li>
-<li><code>coverPostId</code> — ID of the video used as the playlist cover</li>
-<li><code>coverThumbnailUrl</code> — thumbnail image URL of the cover video</li>
-<li><code>shareMeta.title</code> — share title text</li>
-<li><code>shareMeta.desc</code> — share description text</li>
-<li><code>scrapedAt</code> — ISO 8601 timestamp of when the record was collected</li>
-</ul>
-<h2 id="readme-output-per-post-record">Output per post record</h2>
-<ul>
-<li><code>rowType</code> — always <code>&quot;post&quot;</code></li>
-<li><code>playlistId</code> — ID of the playlist this post belongs to</li>
-<li><code>playlistName</code> — name of the playlist</li>
-<li><code>positionInPlaylist</code> — zero-based position of this video within the playlist</li>
-<li><code>postId</code> — unique TikTok video ID</li>
-<li><code>postType</code> — <code>&quot;video&quot;</code> or <code>&quot;slideshow&quot;</code></li>
-<li><code>postUrl</code> — direct URL to the video</li>
-<li><code>caption</code> — full caption text</li>
-<li><code>createTime</code> / <code>createdAt</code> — publish timestamp (epoch and ISO 8601)</li>
-<li><code>playCount</code>, <code>likeCount</code>, <code>commentCount</code>, <code>shareCount</code>, <code>collectCount</code>, <code>repostCount</code> — engagement counters (present when TikTok reports them)</li>
-<li><code>commentStatus</code> — comment-permission flag</li>
-<li><code>stitchEnabled</code>, <code>duetEnabled</code>, <code>shareEnabled</code> — which interactions are allowed on the video</li>
-<li><code>isAd</code> — whether the video is a paid/branded ad</li>
-<li><code>author.id</code> — author's TikTok user ID</li>
-<li><code>author.username</code> — author handle</li>
-<li><code>author.displayName</code> — author display name</li>
-<li><code>author.verified</code> — verification status</li>
-<li><code>author.avatarUrl</code> — author profile image URL</li>
-<li><code>author.followerCount</code>, <code>author.followingCount</code>, <code>author.heartCount</code>, <code>author.videoCount</code> — author stats snapshot at scrape time</li>
-<li><code>music.id</code> — sound ID</li>
-<li><code>music.title</code> — sound title</li>
-<li><code>music.authorName</code> — sound creator name</li>
-<li><code>music.duration</code> — sound length in seconds</li>
-<li><code>video.width</code> — video width in pixels</li>
-<li><code>video.height</code> — video height in pixels</li>
-<li><code>video.duration</code> — video duration in seconds</li>
-<li><code>video.ratio</code> — resolution tier reported by TikTok (e.g. <code>&quot;720p&quot;</code>)</li>
-<li><code>video.playUrl</code> — streamable video URL (expires)</li>
-<li><code>video.cover</code> — cover/thumbnail image URL</li>
-<li><code>mediaUrlExpiresAt</code> — when the signed video/cover URLs expire</li>
-<li><code>images</code> — for slideshow posts, the ordered list of image URLs</li>
-<li><code>hashtags</code> — array of hashtag names parsed from the caption</li>
-<li><code>mentions</code> — array of @-mentioned usernames parsed from the caption</li>
-<li><code>scrapedAt</code> — ISO 8601 timestamp of when the record was collected</li>
+<li>Scrapes <strong>playlists</strong> (<code>/@user/playlist/...</code>) and <strong>public collections</strong> (<code>/@user/collection/...</code>)</li>
+<li>Accepts full URLs, numeric playlist/collection IDs, profile URLs and handles — mix them in one run</li>
+<li>Returns the <strong>full ordered video list</strong>, not just the first visible page</li>
+<li>Discovers every public playlist on a profile, up to a limit you set</li>
+<li>Adds the playlist cover, creator identity, creator stats, <code>shareMeta</code> for collections and a <code>scrapedAt</code> timestamp</li>
+<li>Captures slideshow posts as slideshows with their ordered image URLs</li>
+<li>Reports invalid, private, empty, blocked and partial targets as <code>rowType: &quot;status&quot;</code> rows</li>
+<li>Deduplicates videos by post ID and omits empty fields at every depth</li>
 </ul>
 <h2 id="readme-input">Input</h2>
 <div class="table-wrap"><table>
@@ -761,100 +850,171 @@
 <tr>
 <td><code>playlistUrls</code></td>
 <td>string[]</td>
-<td>—</td>
-<td>Full TikTok playlist URLs. Example: <code>https://www.tiktok.com/@natgeo/playlist/Cinematic-7509464647364283178</code></td>
+<td>–</td>
+<td>Playlist URLs. Collection URLs pasted here are detected automatically.</td>
 </tr>
 <tr>
 <td><code>playlistIds</code></td>
 <td>string[]</td>
 <td>—</td>
-<td>Raw numeric playlist/mix IDs (15–20 digits).</td>
+<td>Numeric playlist IDs (15–20 digits). A collection ID is retried on the collection route.</td>
+</tr>
+<tr>
+<td><code>collectionUrls</code></td>
+<td>string[]</td>
+<td>—</td>
+<td>Public collection URLs.</td>
+</tr>
+<tr>
+<td><code>collectionIds</code></td>
+<td>string[]</td>
+<td>—</td>
+<td>Numeric collection IDs.</td>
 </tr>
 <tr>
 <td><code>profileUrls</code></td>
 <td>string[]</td>
 <td>—</td>
-<td>Profile URLs — all playlists for each user will be discovered and scraped.</td>
+<td>Profile URLs; every public playlist on the profile is discovered.</td>
 </tr>
 <tr>
 <td><code>usernames</code></td>
 <td>string[]</td>
 <td>—</td>
-<td>TikTok usernames (with or without <code>@</code>) — all playlists will be discovered and scraped.</td>
+<td>Handles with or without <code>@</code>.</td>
 </tr>
 <tr>
 <td><code>mode</code></td>
-<td>string</td>
-<td><code>&quot;both&quot;</code></td>
-<td><code>&quot;both&quot;</code> returns metadata + posts. <code>&quot;metadata&quot;</code> returns playlist info only. <code>&quot;posts&quot;</code> returns videos only.</td>
+<td>select</td>
+<td><code>both</code></td>
+<td><code>metadata</code>, <code>posts</code> or <code>both</code>.</td>
 </tr>
 <tr>
 <td><code>maxPostsPerPlaylist</code></td>
 <td>integer</td>
 <td>100</td>
-<td>Maximum videos to fetch per playlist (1–5000).</td>
+<td>Videos per playlist/collection (1–5000). Raise it for large playlists.</td>
 </tr>
 <tr>
 <td><code>maxPlaylistsPerProfile</code></td>
 <td>integer</td>
 <td>20</td>
-<td>Maximum playlists to scrape per profile when discovering from a username or profile URL (1–100).</td>
+<td>Playlists processed per profile (1–100).</td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>integer</td>
+<td>0</td>
+<td>Global row cap across all targets and status rows. <code>0</code> means no cap.</td>
 </tr>
 </tbody>
 </table></div>
-<h3 id="readme-example-discover-playlists-by-username-metadata-only">Example: discover playlists by username (metadata only)</h3>
+<h3 id="readme-example-one-playlist-metadata-only">Example: one playlist, metadata only</h3>
+<pre><code class="language-json">{
+  &quot;playlistUrls&quot;: [&quot;https://www.tiktok.com/@natgeo/playlist/Cinematic-7509464647364283178&quot;],
+  &quot;mode&quot;: &quot;metadata&quot;,
+  &quot;maxPostsPerPlaylist&quot;: 1
+}
+</code></pre>
+<h3 id="readme-example-full-playlist-in-creator-order">Example: full playlist in creator order</h3>
+<pre><code class="language-json">{
+  &quot;playlistUrls&quot;: [&quot;https://www.tiktok.com/@natgeo/playlist/Cinematic-7509464647364283178&quot;],
+  &quot;mode&quot;: &quot;posts&quot;,
+  &quot;maxPostsPerPlaylist&quot;: 500
+}
+</code></pre>
+<h3 id="readme-example-a-public-collection-by-url-or-id">Example: a public collection by URL or ID</h3>
+<pre><code class="language-json">{
+  &quot;collectionUrls&quot;: [&quot;https://www.tiktok.com/@aubreyisamess/collection/places%20to%20go-7154034669288196891&quot;],
+  &quot;mode&quot;: &quot;both&quot;,
+  &quot;maxPostsPerPlaylist&quot;: 1000
+}
+</code></pre>
+<h3 id="readme-example-discover-a-profile-s-playlists">Example: discover a profile's playlists</h3>
 <pre><code class="language-json">{
   &quot;usernames&quot;: [&quot;natgeo&quot;],
   &quot;mode&quot;: &quot;metadata&quot;,
-  &quot;maxPlaylistsPerProfile&quot;: 5
-}
-</code></pre>
-<h3 id="readme-example-scrape-a-specific-playlist-by-url">Example: scrape a specific playlist by URL</h3>
-<pre><code class="language-json">{
-  &quot;playlistUrls&quot;: [&quot;https://www.tiktok.com/@natgeo/playlist/Cinematic-7509464647364283178&quot;],
-  &quot;mode&quot;: &quot;both&quot;,
-  &quot;maxPostsPerPlaylist&quot;: 50
-}
-</code></pre>
-<h3 id="readme-example-multiple-profiles-full-video-archive">Example: multiple profiles — full video archive</h3>
-<pre><code class="language-json">{
-  &quot;usernames&quot;: [&quot;natgeo&quot;, &quot;nasa&quot;],
-  &quot;mode&quot;: &quot;both&quot;,
-  &quot;maxPostsPerPlaylist&quot;: 500,
   &quot;maxPlaylistsPerProfile&quot;: 20
 }
 </code></pre>
-<h3 id="readme-example-bare-playlist-ids">Example: bare playlist IDs</h3>
+<h3 id="readme-example-mixed-targets-with-a-global-cap">Example: mixed targets with a global cap</h3>
 <pre><code class="language-json">{
-  &quot;playlistIds&quot;: [&quot;7509464647364283178&quot;, &quot;7501234567890123456&quot;],
-  &quot;mode&quot;: &quot;posts&quot;,
-  &quot;maxPostsPerPlaylist&quot;: 100
+  &quot;playlistIds&quot;: [&quot;7509464647364283178&quot;],
+  &quot;collectionIds&quot;: [&quot;7154034669288196891&quot;],
+  &quot;usernames&quot;: [&quot;natgeo&quot;],
+  &quot;mode&quot;: &quot;both&quot;,
+  &quot;maxPostsPerPlaylist&quot;: 500,
+  &quot;maxPlaylistsPerProfile&quot;: 5,
+  &quot;maxItems&quot;: 250
 }
 </code></pre>
+<h2 id="readme-output">Output</h2>
+<p>All rows share <code>rowType</code>, <code>scrapedAt</code> and (when applicable) <code>playlistId</code>, <code>playlistName</code>, <code>playlistType</code> and <code>playlistUrl</code>.</p>
+<h3 id="readme-playlist-collection-row-rowtype-playlist">Playlist / collection row (<code>rowType: &quot;playlist&quot;</code>)</h3>
+<ul>
+<li><code>playlistType</code> — <code>&quot;playlist&quot;</code> or <code>&quot;collection&quot;</code></li>
+<li><code>playlistId</code>, <code>playlistName</code>, <code>videoCount</code></li>
+<li><code>playlistUrl</code> — canonical TikTok URL</li>
+<li><code>playlistCoverUrl</code> and <code>coverThumbnailUrl</code> — cover image (signed, expiring)</li>
+<li><code>coverPostId</code> — only when TikTok names a cover video</li>
+<li><code>creatorId</code>, <code>creatorUsername</code>, <code>creatorDisplayName</code>, <code>creatorVerified</code>, <code>creatorAvatarUrl</code></li>
+<li><code>creatorStats</code> — <code>followerCount</code>, <code>followingCount</code>, <code>heartCount</code>, <code>videoCount</code></li>
+<li><code>shareMeta</code> — <code>title</code> and <code>desc</code> for public collections</li>
+<li><code>scrapedAt</code> — ISO 8601 UTC timestamp</li>
+</ul>
+<h3 id="readme-video-row-rowtype-post">Video row (<code>rowType: &quot;post&quot;</code>)</h3>
+<ul>
+<li><code>playlistId</code>, <code>playlistName</code>, <code>playlistType</code>, <code>playlistUrl</code>, <code>positionInPlaylist</code> (zero-based, source order)</li>
+<li><code>postId</code>, <code>postType</code> (<code>video</code> or <code>slideshow</code>), <code>postUrl</code></li>
+<li><code>caption</code>, <code>textLanguage</code>, <code>createTime</code>, <code>createdAt</code></li>
+<li><code>playCount</code>, <code>likeCount</code>, <code>commentCount</code>, <code>shareCount</code>, <code>collectCount</code>, <code>repostCount</code></li>
+<li><code>commentStatus</code>, <code>shareEnabled</code>, <code>duetEnabled</code>, <code>stitchEnabled</code></li>
+<li><code>isAd</code>, <code>isECVideo</code>, <code>privateItem</code>, <code>forFriend</code>, <code>originalItem</code>, <code>isAigc</code>, <code>AIGCDescription</code></li>
+<li><code>author</code> — ID, secure ID, username, display name, bio, verified, avatar, follower/following/heart/video counts</li>
+<li><code>music</code> — ID, title, author, duration, original flag, cover URL and play URL when TikTok exposes it</li>
+<li><code>video</code> — dimensions, duration, ratio, definition, codec, bitrate info, play/download/cover URLs</li>
+<li><code>images</code> — ordered slideshow images with width, height and URL list</li>
+<li><code>hashtags</code>, <code>mentions</code></li>
+<li><code>mediaUrlExpiresAt</code> — when signed video/cover URLs expire</li>
+<li><code>scrapedAt</code></li>
+</ul>
+<h3 id="readme-status-row-rowtype-status">Status row (<code>rowType: &quot;status&quot;</code>)</h3>
+<ul>
+<li><code>status</code> — <code>invalid</code>, <code>not_found</code>, <code>private</code>, <code>empty</code>, <code>blocked</code> or <code>partial</code></li>
+<li><code>input</code> — the URL, ID or handle that produced the row</li>
+<li><code>playlistId</code>, <code>playlistName</code>, <code>playlistType</code> when known</li>
+<li><code>message</code> — plain-language explanation</li>
+<li><code>scrapedAt</code></li>
+</ul>
+<h2 id="readme-ordering-and-completeness">Ordering and completeness</h2>
+<p><code>positionInPlaylist</code> follows the order TikTok serves for that playlist or collection. It is not sorted by publish date, because creators deliberately order series, tutorials and trip lists. Every page is read until the source reports no more videos or your <code>maxPostsPerPlaylist</code> / <code>maxItems</code> limit is reached.</p>
+<p>Collections can report more videos than are publicly accessible (deleted, private or region-locked items are still counted). The actor returns every accessible video once and never invents filler rows.</p>
 <h2 id="readme-use-cases">Use cases</h2>
 <ul>
-<li><strong>Content archivists</strong> backing up all videos from a creator's curated playlists before content is deleted</li>
-<li><strong>Media researchers</strong> studying how creators organize their content into thematic series or collections</li>
-<li><strong>Brand teams</strong> auditing playlist-organized product review or tutorial content from influencers</li>
-<li><strong>Talent managers</strong> tracking playlist growth and video count over time to measure creator output</li>
-<li><strong>Developers</strong> building structured content libraries from TikTok playlist data for client apps</li>
-<li><strong>E-learning platforms</strong> collecting structured educational video series from knowledge-creator playlists</li>
+<li>Archiving a creator's series before videos disappear</li>
+<li>Researching how publishers group content into themed playlists</li>
+<li>Auditing collection-based campaigns and their engagement</li>
+<li>Building ordered video libraries from travel, education or recipe collections</li>
+<li>Tracking creator output, follower growth and playlist size over time</li>
+<li>Feeding ordered short-form video datasets into a CMS, dashboard or model</li>
 </ul>
 <h2 id="readme-faq">FAQ</h2>
-<p><strong>Q: Do I need login or cookies?</strong><br />
-A: No. The actor works without any credentials.</p>
-<p><strong>Q: How many playlists can a creator have?</strong><br />
-A: TikTok allows creators to have multiple playlists (called &quot;mixes&quot;). The <code>maxPlaylistsPerProfile</code> setting controls how many are scraped per profile.</p>
-<p><strong>Q: What is <code>mode: &quot;metadata&quot;</code> useful for?</strong><br />
-A: It fetches only playlist names, video counts, and creator info without loading any videos. This is the fastest way to audit which playlists a creator has and how large they are.</p>
-<p><strong>Q: What does <code>positionInPlaylist</code> mean?</strong><br />
-A: It is the zero-based index of the video within the playlist as returned by TikTok's API. Position 0 is the first video in the playlist.</p>
-<p><strong>Q: What if a playlist has no public videos?</strong><br />
-A: Playlists with no accessible videos return only a metadata row (when mode includes metadata) with <code>videoCount: 0</code> and no post rows.</p>
-<p><strong>Q: Are video URLs permanent?</strong><br />
-A: No. TikTok's video play and cover image URLs are signed and expire after several hours. Use <code>postUrl</code> as the stable reference.</p>
-<p><strong>Q: Can I mix different input types in one run?</strong><br />
-A: Yes. You can combine <code>playlistUrls</code>, <code>playlistIds</code>, <code>profileUrls</code>, and <code>usernames</code> in a single run. All are processed together.</p>
-<p><strong>Q: How many videos can I get per playlist?</strong><br />
-A: Up to 5,000 per playlist via the <code>maxPostsPerPlaylist</code> setting.</p>
-</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/qozsOy4Z8clHa7QIw/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>o2ednhdWUANUagcxJ</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
+<p><strong>Do I need cookies or a login?</strong>
+No. The actor reads public pages without credentials.</p>
+<p><strong>Do I need to configure a proxy?</strong>
+No. The actor chooses its own connection automatically.</p>
+<p><strong>Why is <code>positionInPlaylist</code> not sorted by date?</strong>
+Playlists and collections have a creator-defined order. The position preserves that order, which is usually the point of scraping a playlist.</p>
+<p><strong>How many videos will I get?</strong>
+All publicly accessible videos, up to <code>maxPostsPerPlaylist</code> per target and <code>maxItems</code> overall. A playlist reported as 34 videos with 34 public items returns 34 rows.</p>
+<p><strong>Why does a collection say 651 videos but return fewer?</strong>
+TikTok counts unavailable entries in the collection total. Only publicly accessible videos can be returned.</p>
+<p><strong>What happens with a bad or private target?</strong>
+The run finishes successfully and emits a status row explaining the outcome instead of a fake playlist row.</p>
+<p><strong>Are the video and image URLs permanent?</strong>
+No. TikTok's CDN URLs are signed and expire after a few hours. Use <code>postUrl</code> as the stable reference and re-run when you need fresh media URLs.</p>
+<p><strong>Can I combine playlists, collections and profiles in one run?</strong>
+Yes. Add any mix of the input arrays. Duplicate targets are processed once.</p>
+<p><strong>What does <code>maxItems</code> count?</strong>
+Every dataset row, including playlist, video and status rows.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/qozsOy4Z8clHa7QIw/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>Dawm0G9OaKftgReSB</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
