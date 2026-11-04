@@ -1,133 +1,392 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-ikWiV+9suq7DEZRNscZxVeA/UKjdi3zP3K2QzXdBU24=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Fotocasa Spain Sale &amp; Rental Listings Scraper | Vexaloom Labs</title><meta name="description" content="Search Fotocasa listings for sale or rent across Spain by city, property type, price range, and bedrooms. Each result includes price, size, bedrooms, bathrooms, location, images, a"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/"><meta property="og:title" content="Fotocasa Spain Sale &amp; Rental Listings Scraper | Vexaloom Labs"><meta property="og:description" content="Search Fotocasa listings for sale or rent across Spain by city, property type, price range, and bedrooms. Each result includes price, size, bedrooms, bathrooms, location, images, a"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/#webpage","name":"Fotocasa Spain Sale & Rental Listings Scraper","description":"Search Fotocasa listings for sale or rent across Spain by city, property type, price range, and bedrooms. Each result includes price, size, bedrooms, bathrooms, location, images, and the listing URL.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/#article","headline":"Fotocasa Spain Sale & Rental Listings Scraper","name":"Fotocasa Spain Sale & Rental Listings Scraper","description":"Search Fotocasa listings for sale or rent across Spain by city, property type, price range, and bedrooms. Each result includes price, size, bedrooms, bathrooms, location, images, and the listing URL.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Fotocasa Spain Sale & Rental Listings Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Fotocasa Spain Sale &amp; Rental Listings Scraper</span></div><section id="overview"><h1 class="doc-title">Fotocasa Spain Sale &amp; Rental Listings Scraper</h1><p class="lede">Search Fotocasa listings for sale or rent across Spain by city, property type, price range, and bedrooms. Each result includes price, size, bedrooms, bathrooms, location, images, and the listing URL.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/fotocasa-spain-sale-and-rental-listings-scraper">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/o33Jzuf8dGQeft46K/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to search for.</td></tr><tr><td><code>city</code></td><td>string</td><td>optional</td><td>City or location to search in (e.g. Barcelona, Madrid, Valencia, Sevilla).</td></tr><tr><td><code>neighborhood</code></td><td>string</td><td>optional</td><td>Neighborhood or district filter (optional).</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to search for.</td></tr><tr><td><code>city</code></td><td>string</td><td>optional</td><td>City or location to search in (e.g. Barcelona, Madrid, Valencia, Sevilla).</td></tr><tr><td><code>neighborhood</code></td><td>string</td><td>optional</td><td>Neighborhood or district filter (optional).</td></tr><tr><td><code>propertyType</code></td><td>string</td><td>optional</td><td>Filter by property type.</td></tr><tr><td><code>priceMin</code></td><td>integer</td><td>optional</td><td>Minimum price in Euros (optional).</td></tr><tr><td><code>priceMax</code></td><td>integer</td><td>optional</td><td>Maximum price in Euros (optional).</td></tr><tr><td><code>bedroomsMin</code></td><td>integer</td><td>optional</td><td>Minimum number of bedrooms (optional).</td></tr><tr><td><code>bedroomsMax</code></td><td>integer</td><td>optional</td><td>Maximum number of bedrooms (optional).</td></tr><tr><td><code>areaMin</code></td><td>integer</td><td>optional</td><td>Minimum built area in square meters (optional).</td></tr><tr><td><code>areaMax</code></td><td>integer</td><td>optional</td><td>Maximum built area in square meters (optional).</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of listings to return.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;description&quot;: &quot;Search Fotocasa Spain for properties for sale or rent.&quot;,
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-ikWiV+9suq7DEZRNscZxVeA/UKjdi3zP3K2QzXdBU24=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Fotocasa Spain Sale &amp; Rental Listings Scraper | Vexaloom Labs</title><meta name="description" content="Search Fotocasa listings for sale or rent across Spain by city, property type, price range, and bedrooms. Each result includes price, size, bedrooms, bathrooms, location, images, a"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/"><meta property="og:title" content="Fotocasa Spain Sale &amp; Rental Listings Scraper | Vexaloom Labs"><meta property="og:description" content="Search Fotocasa listings for sale or rent across Spain by city, property type, price range, and bedrooms. Each result includes price, size, bedrooms, bathrooms, location, images, a"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/#webpage","name":"Fotocasa Spain Sale & Rental Listings Scraper","description":"Search Fotocasa listings for sale or rent across Spain by city, property type, price range, and bedrooms. Each result includes price, size, bedrooms, bathrooms, location, images, and the listing URL.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/#article","headline":"Fotocasa Spain Sale & Rental Listings Scraper","name":"Fotocasa Spain Sale & Rental Listings Scraper","description":"Search Fotocasa listings for sale or rent across Spain by city, property type, price range, and bedrooms. Each result includes price, size, bedrooms, bathrooms, location, images, and the listing URL.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Fotocasa Spain Sale & Rental Listings Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/o33Jzuf8dGQeft46K/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Fotocasa Spain Sale &amp; Rental Listings Scraper</span></div><section id="overview"><h1 class="doc-title">Fotocasa Spain Sale &amp; Rental Listings Scraper</h1><p class="lede">Search Fotocasa listings for sale or rent across Spain by city, property type, price range, and bedrooms. Each result includes price, size, bedrooms, bathrooms, location, images, and the listing URL.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/fotocasa-spain-sale-and-rental-listings-scraper">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/o33Jzuf8dGQeft46K/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>How to find listings: search by location, scrape Fotocasa search URLs, or scrape individual property URLs/IDs.</td></tr><tr><td><code>location</code></td><td>string</td><td>optional</td><td>City, province, district, neighborhood, street or ZIP code, e.g. Madrid, Barcelona, Sitges, 28001. Used in Search by location mode.</td></tr><tr><td><code>locationType</code></td><td>string</td><td>optional</td><td>Narrow ambiguous place names to a level. Auto picks the best match (usually the municipality).</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>How to find listings: search by location, scrape Fotocasa search URLs, or scrape individual property URLs/IDs.</td></tr><tr><td><code>location</code></td><td>string</td><td>optional</td><td>City, province, district, neighborhood, street or ZIP code, e.g. Madrid, Barcelona, Sitges, 28001. Used in Search by location mode.</td></tr><tr><td><code>locationType</code></td><td>string</td><td>optional</td><td>Narrow ambiguous place names to a level. Auto picks the best match (usually the municipality).</td></tr><tr><td><code>operation</code></td><td>string</td><td>optional</td><td>Sale, rent, room share, rent-to-buy or business transfer.</td></tr><tr><td><code>propertyType</code></td><td>string</td><td>optional</td><td>Property category. Subtypes such as penthouses, studios and duplex are preserved instead of being collapsed into homes.</td></tr><tr><td><code>minPrice</code></td><td>integer</td><td>optional</td><td>Server-side minimum sale price or monthly rent.</td></tr><tr><td><code>maxPrice</code></td><td>integer</td><td>optional</td><td>Server-side maximum sale price or monthly rent.</td></tr><tr><td><code>minRooms</code></td><td>integer</td><td>optional</td><td>Server-side minimum number of bedrooms.</td></tr><tr><td><code>maxRooms</code></td><td>integer</td><td>optional</td><td>Server-side maximum number of bedrooms.</td></tr><tr><td><code>minBathrooms</code></td><td>integer</td><td>optional</td><td>Server-side minimum number of bathrooms.</td></tr><tr><td><code>maxBathrooms</code></td><td>integer</td><td>optional</td><td>Server-side maximum number of bathrooms.</td></tr><tr><td><code>minSurface</code></td><td>integer</td><td>optional</td><td>Server-side minimum built surface.</td></tr><tr><td><code>maxSurface</code></td><td>integer</td><td>optional</td><td>Server-side maximum built surface.</td></tr><tr><td><code>features</code></td><td>array</td><td>optional</td><td>Only listings with these features. Multiple selections are combined (AND). Leave empty for no feature filter.</td></tr><tr><td><code>publishedSince</code></td><td>string</td><td>optional</td><td>Only keep listings published inside this window. Searches newest-first and stops at the cutoff.</td></tr><tr><td><code>rentalType</code></td><td>string</td><td>optional</td><td>For rent searches only: long-term or temporary rental. Uses Fotocasa&#x27;s rental path filter.</td></tr><tr><td><code>ownerType</code></td><td>string</td><td>optional</td><td>Private owners or professional agencies. Private-only uses Fotocasa&#x27;s particulares path.</td></tr><tr><td><code>onlyPriceDrops</code></td><td>boolean</td><td>optional</td><td>Only emit listings that show a price reduction.</td></tr><tr><td><code>sortBy</code></td><td>string</td><td>optional</td><td>Verified Fotocasa sort orders.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Hard cap on emitted listings (1–10,000). Above ~9,900 rows the actor automatically splits the search into price buckets.</td></tr><tr><td><code>startUrls</code></td><td>array</td><td>optional</td><td>Fotocasa search URLs to scrape. Filters in each URL win over the form fields. Property URLs found here are routed to detail mode.</td></tr><tr><td><code>propertyUrls</code></td><td>array</td><td>optional</td><td>Individual Fotocasa detail URLs, new-construction project URLs, or numeric property IDs.</td></tr><tr><td><code>fetchDetails</code></td><td>boolean</td><td>optional</td><td>Fetch each listing&#x27;s detail page to add energy certificate, agency phone and registrations, exact street, ground surface and extra features. Slower and more requests.</td></tr><tr><td><code>maxDetails</code></td><td>integer</td><td>optional</td><td>Limit detail requests when Fetch details is on. 0 means all emitted listings.</td></tr><tr><td><code>monitorMode</code></td><td>boolean</td><td>optional</td><td>Emit only new listings and listings whose price changed, using Actor state between runs. The state key is namespaced by monitorKey or the search filters.</td></tr><tr><td><code>monitorKey</code></td><td>string</td><td>optional</td><td>Optional namespace for monitor state. Leave empty to derive it from the search filters.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Search Fotocasa by location or paste search/property URLs. Get full listing records with price, surface, rooms, location, agency, media, new-construction projects and optional detail enrichment.&quot;,
   &quot;properties&quot;: {
-    &quot;areaMax&quot;: {
-      &quot;description&quot;: &quot;Maximum built area in square meters (optional).&quot;,
-      &quot;maximum&quot;: 100000,
-      &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Max Area (m²)&quot;,
-      &quot;type&quot;: &quot;integer&quot;
+    &quot;features&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Only listings with these features. Multiple selections are combined (AND). Leave empty for no feature filter.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;items&quot;: {
+        &quot;enum&quot;: [
+          &quot;elevator&quot;,
+          &quot;terrace&quot;,
+          &quot;balcony&quot;,
+          &quot;pool&quot;,
+          &quot;garden&quot;,
+          &quot;parking&quot;,
+          &quot;storageRoom&quot;,
+          &quot;airConditioning&quot;,
+          &quot;heating&quot;,
+          &quot;furnished&quot;,
+          &quot;notFurnished&quot;,
+          &quot;internet&quot;,
+          &quot;petsAllowed&quot;,
+          &quot;bankOwned&quot;,
+          &quot;subsidised&quot;
+        ],
+        &quot;enumTitles&quot;: [
+          &quot;Lift&quot;,
+          &quot;Terrace&quot;,
+          &quot;Balcony&quot;,
+          &quot;Pool&quot;,
+          &quot;Garden&quot;,
+          &quot;Parking&quot;,
+          &quot;Storage room&quot;,
+          &quot;Air conditioning&quot;,
+          &quot;Heating&quot;,
+          &quot;Furnished&quot;,
+          &quot;Not furnished&quot;,
+          &quot;Internet&quot;,
+          &quot;Pets allowed&quot;,
+          &quot;Bank-owned&quot;,
+          &quot;Subsidised housing&quot;
+        ],
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Features&quot;,
+      &quot;type&quot;: &quot;array&quot;,
+      &quot;uniqueItems&quot;: true
     },
-    &quot;areaMin&quot;: {
-      &quot;description&quot;: &quot;Minimum built area in square meters (optional).&quot;,
-      &quot;maximum&quot;: 100000,
-      &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Min Area (m²)&quot;,
-      &quot;type&quot;: &quot;integer&quot;
+    &quot;fetchDetails&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Fetch each listing&#x27;s detail page to add energy certificate, agency phone and registrations, exact street, ground surface and extra features. Slower and more requests.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;sectionCaption&quot;: &quot;Details and monitoring&quot;,
+      &quot;title&quot;: &quot;Fetch details&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
     },
-    &quot;bedroomsMax&quot;: {
-      &quot;description&quot;: &quot;Maximum number of bedrooms (optional).&quot;,
-      &quot;maximum&quot;: 20,
-      &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Max Bedrooms&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;bedroomsMin&quot;: {
-      &quot;description&quot;: &quot;Minimum number of bedrooms (optional).&quot;,
-      &quot;maximum&quot;: 20,
-      &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Min Bedrooms&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;city&quot;: {
-      &quot;default&quot;: &quot;Barcelona&quot;,
-      &quot;description&quot;: &quot;City or location to search in (e.g. Barcelona, Madrid, Valencia, Sevilla).&quot;,
+    &quot;location&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;City, province, district, neighborhood, street or ZIP code, e.g. Madrid, Barcelona, Sitges, 28001. Used in Search by location mode.&quot;,
       &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;prefill&quot;: &quot;Barcelona&quot;,
-      &quot;title&quot;: &quot;City&quot;,
+      &quot;prefill&quot;: &quot;madrid&quot;,
+      &quot;title&quot;: &quot;Location&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
+    &quot;locationType&quot;: {
+      &quot;default&quot;: &quot;auto&quot;,
+      &quot;description&quot;: &quot;Narrow ambiguous place names to a level. Auto picks the best match (usually the municipality).&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;auto&quot;,
+        &quot;country&quot;,
+        &quot;autonomousCommunity&quot;,
+        &quot;province&quot;,
+        &quot;municipality&quot;,
+        &quot;district&quot;,
+        &quot;neighborhood&quot;,
+        &quot;locality&quot;,
+        &quot;street&quot;,
+        &quot;zipCode&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Auto&quot;,
+        &quot;Country&quot;,
+        &quot;Autonomous community&quot;,
+        &quot;Province&quot;,
+        &quot;Municipality&quot;,
+        &quot;District&quot;,
+        &quot;Neighborhood&quot;,
+        &quot;Locality&quot;,
+        &quot;Street&quot;,
+        &quot;ZIP code&quot;
+      ],
+      &quot;prefill&quot;: &quot;auto&quot;,
+      &quot;title&quot;: &quot;Location type&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;maxBathrooms&quot;: {
+      &quot;description&quot;: &quot;Server-side maximum number of bathrooms.&quot;,
+      &quot;maximum&quot;: 20,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Maximum bathrooms&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxDetails&quot;: {
+      &quot;default&quot;: 100,
+      &quot;description&quot;: &quot;Limit detail requests when Fetch details is on. 0 means all emitted listings.&quot;,
+      &quot;maximum&quot;: 10000,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 0,
+      &quot;title&quot;: &quot;Maximum detail pages&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
     &quot;maxItems&quot;: {
-      &quot;default&quot;: 50,
-      &quot;description&quot;: &quot;Maximum number of listings to return.&quot;,
-      &quot;maximum&quot;: 1000,
+      &quot;default&quot;: 100,
+      &quot;description&quot;: &quot;Hard cap on emitted listings (1–10,000). Above ~9,900 rows the actor automatically splits the search into price buckets.&quot;,
+      &quot;maximum&quot;: 10000,
       &quot;minimum&quot;: 1,
-      &quot;prefill&quot;: 50,
-      &quot;title&quot;: &quot;Max Items&quot;,
+      &quot;prefill&quot;: 3,
+      &quot;sectionCaption&quot;: &quot;Volume&quot;,
+      &quot;title&quot;: &quot;Maximum listings&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxPrice&quot;: {
+      &quot;description&quot;: &quot;Server-side maximum sale price or monthly rent.&quot;,
+      &quot;maximum&quot;: 100000000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Maximum price (EUR)&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxRooms&quot;: {
+      &quot;description&quot;: &quot;Server-side maximum number of bedrooms.&quot;,
+      &quot;maximum&quot;: 20,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Maximum bedrooms&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxSurface&quot;: {
+      &quot;description&quot;: &quot;Server-side maximum built surface.&quot;,
+      &quot;maximum&quot;: 100000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Maximum surface (m²)&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;minBathrooms&quot;: {
+      &quot;description&quot;: &quot;Server-side minimum number of bathrooms.&quot;,
+      &quot;maximum&quot;: 20,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Minimum bathrooms&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;minPrice&quot;: {
+      &quot;description&quot;: &quot;Server-side minimum sale price or monthly rent.&quot;,
+      &quot;maximum&quot;: 100000000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Minimum price (EUR)&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;minRooms&quot;: {
+      &quot;description&quot;: &quot;Server-side minimum number of bedrooms.&quot;,
+      &quot;maximum&quot;: 20,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Minimum bedrooms&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;minSurface&quot;: {
+      &quot;description&quot;: &quot;Server-side minimum built surface.&quot;,
+      &quot;maximum&quot;: 100000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Minimum surface (m²)&quot;,
       &quot;type&quot;: &quot;integer&quot;
     },
     &quot;mode&quot;: {
-      &quot;default&quot;: &quot;searchForSale&quot;,
-      &quot;description&quot;: &quot;What to search for.&quot;,
+      &quot;default&quot;: &quot;search&quot;,
+      &quot;description&quot;: &quot;How to find listings: search by location, scrape Fotocasa search URLs, or scrape individual property URLs/IDs.&quot;,
       &quot;editor&quot;: &quot;select&quot;,
       &quot;enum&quot;: [
-        &quot;searchForSale&quot;,
-        &quot;searchForRent&quot;
+        &quot;search&quot;,
+        &quot;startUrls&quot;,
+        &quot;propertyUrls&quot;
       ],
       &quot;enumTitles&quot;: [
-        &quot;Search properties for sale&quot;,
-        &quot;Search properties for rent&quot;
+        &quot;Search by location&quot;,
+        &quot;Search URLs&quot;,
+        &quot;Property URLs / IDs&quot;
       ],
-      &quot;prefill&quot;: &quot;searchForSale&quot;,
+      &quot;prefill&quot;: &quot;search&quot;,
+      &quot;sectionCaption&quot;: &quot;Mode&quot;,
       &quot;title&quot;: &quot;Mode&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
-    &quot;neighborhood&quot;: {
-      &quot;description&quot;: &quot;Neighborhood or district filter (optional).&quot;,
+    &quot;monitorKey&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Optional namespace for monitor state. Leave empty to derive it from the search filters.&quot;,
       &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;title&quot;: &quot;Neighborhood / District&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Monitor key&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
-    &quot;priceMax&quot;: {
-      &quot;description&quot;: &quot;Maximum price in Euros (optional).&quot;,
-      &quot;maximum&quot;: 100000000,
-      &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Max Price (EUR)&quot;,
-      &quot;type&quot;: &quot;integer&quot;
+    &quot;monitorMode&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Emit only new listings and listings whose price changed, using Actor state between runs. The state key is namespaced by monitorKey or the search filters.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Monitor mode&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
     },
-    &quot;priceMin&quot;: {
-      &quot;description&quot;: &quot;Minimum price in Euros (optional).&quot;,
-      &quot;maximum&quot;: 100000000,
-      &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Min Price (EUR)&quot;,
-      &quot;type&quot;: &quot;integer&quot;
+    &quot;onlyPriceDrops&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only emit listings that show a price reduction.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Only price drops&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
     },
-    &quot;propertyType&quot;: {
-      &quot;default&quot;: &quot;&quot;,
-      &quot;description&quot;: &quot;Filter by property type.&quot;,
+    &quot;operation&quot;: {
+      &quot;default&quot;: &quot;sale&quot;,
+      &quot;description&quot;: &quot;Sale, rent, room share, rent-to-buy or business transfer.&quot;,
       &quot;editor&quot;: &quot;select&quot;,
       &quot;enum&quot;: [
-        &quot;&quot;,
+        &quot;sale&quot;,
+        &quot;rent&quot;,
+        &quot;share&quot;,
+        &quot;rentToBuy&quot;,
+        &quot;transfer&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;For sale&quot;,
+        &quot;For rent&quot;,
+        &quot;Shared rent&quot;,
+        &quot;Rent to buy&quot;,
+        &quot;Business transfer&quot;
+      ],
+      &quot;prefill&quot;: &quot;sale&quot;,
+      &quot;sectionCaption&quot;: &quot;Search filters&quot;,
+      &quot;title&quot;: &quot;Operation&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;ownerType&quot;: {
+      &quot;default&quot;: &quot;any&quot;,
+      &quot;description&quot;: &quot;Private owners or professional agencies. Private-only uses Fotocasa&#x27;s particulares path.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;any&quot;,
+        &quot;private&quot;,
+        &quot;agency&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any&quot;,
+        &quot;Private owner&quot;,
+        &quot;Agency&quot;
+      ],
+      &quot;prefill&quot;: &quot;any&quot;,
+      &quot;title&quot;: &quot;Owner type&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;propertyType&quot;: {
+      &quot;default&quot;: &quot;homes&quot;,
+      &quot;description&quot;: &quot;Property category. Subtypes such as penthouses, studios and duplex are preserved instead of being collapsed into homes.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
         &quot;homes&quot;,
-        &quot;penthouse&quot;,
-        &quot;studio&quot;,
+        &quot;flats&quot;,
+        &quot;penthouses&quot;,
+        &quot;studios&quot;,
         &quot;duplex&quot;,
+        &quot;lofts&quot;,
+        &quot;chalets&quot;,
+        &quot;garages&quot;,
         &quot;land&quot;,
-        &quot;garage&quot;,
-        &quot;office&quot;,
         &quot;premises&quot;,
-        &quot;storage&quot;
+        &quot;offices&quot;,
+        &quot;storageRooms&quot;,
+        &quot;buildings&quot;,
+        &quot;newConstruction&quot;
       ],
       &quot;enumTitles&quot;: [
         &quot;All types&quot;,
-        &quot;Flat / Apartment&quot;,
-        &quot;Penthouse&quot;,
-        &quot;Studio&quot;,
+        &quot;Homes&quot;,
+        &quot;Flats / apartments&quot;,
+        &quot;Penthouses&quot;,
+        &quot;Studios&quot;,
         &quot;Duplex&quot;,
+        &quot;Lofts&quot;,
+        &quot;Chalets&quot;,
+        &quot;Garages&quot;,
         &quot;Land&quot;,
-        &quot;Garage&quot;,
-        &quot;Office&quot;,
-        &quot;Commercial Premises&quot;,
-        &quot;Storage Room&quot;
+        &quot;Commercial premises&quot;,
+        &quot;Offices&quot;,
+        &quot;Storage rooms&quot;,
+        &quot;Buildings&quot;,
+        &quot;New construction&quot;
       ],
-      &quot;prefill&quot;: &quot;&quot;,
-      &quot;title&quot;: &quot;Property Type&quot;,
+      &quot;prefill&quot;: &quot;homes&quot;,
+      &quot;title&quot;: &quot;Property type&quot;,
       &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;propertyUrls&quot;: {
+      &quot;description&quot;: &quot;Individual Fotocasa detail URLs, new-construction project URLs, or numeric property IDs.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;title&quot;: &quot;Property URLs or IDs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;publishedSince&quot;: {
+      &quot;default&quot;: &quot;any&quot;,
+      &quot;description&quot;: &quot;Only keep listings published inside this window. Searches newest-first and stops at the cutoff.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;any&quot;,
+        &quot;last24h&quot;,
+        &quot;last48h&quot;,
+        &quot;last7d&quot;,
+        &quot;last30d&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any time&quot;,
+        &quot;Last 24 hours&quot;,
+        &quot;Last 48 hours&quot;,
+        &quot;Last 7 days&quot;,
+        &quot;Last 30 days&quot;
+      ],
+      &quot;prefill&quot;: &quot;any&quot;,
+      &quot;title&quot;: &quot;Published since&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;rentalType&quot;: {
+      &quot;default&quot;: &quot;any&quot;,
+      &quot;description&quot;: &quot;For rent searches only: long-term or temporary rental. Uses Fotocasa&#x27;s rental path filter.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;any&quot;,
+        &quot;longTerm&quot;,
+        &quot;temporary&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any&quot;,
+        &quot;Long term&quot;,
+        &quot;Temporary&quot;
+      ],
+      &quot;prefill&quot;: &quot;any&quot;,
+      &quot;title&quot;: &quot;Rental duration&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;sortBy&quot;: {
+      &quot;default&quot;: &quot;relevance&quot;,
+      &quot;description&quot;: &quot;Verified Fotocasa sort orders.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;relevance&quot;,
+        &quot;newest&quot;,
+        &quot;oldest&quot;,
+        &quot;priceAsc&quot;,
+        &quot;priceDesc&quot;,
+        &quot;surfaceAsc&quot;,
+        &quot;surfaceDesc&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Relevance&quot;,
+        &quot;Newest first&quot;,
+        &quot;Oldest first&quot;,
+        &quot;Price: low to high&quot;,
+        &quot;Price: high to low&quot;,
+        &quot;Surface: low to high&quot;,
+        &quot;Surface: high to low&quot;
+      ],
+      &quot;prefill&quot;: &quot;relevance&quot;,
+      &quot;title&quot;: &quot;Sort by&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;startUrls&quot;: {
+      &quot;description&quot;: &quot;Fotocasa search URLs to scrape. Filters in each URL win over the form fields. Property URLs found here are routed to detail mode.&quot;,
+      &quot;editor&quot;: &quot;requestListSources&quot;,
+      &quot;sectionCaption&quot;: &quot;URLs&quot;,
+      &quot;title&quot;: &quot;Search URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
     }
   },
   &quot;required&quot;: [
     &quot;mode&quot;
   ],
   &quot;schemaVersion&quot;: 1,
-  &quot;title&quot;: &quot;Fotocasa Scraper Input&quot;,
+  &quot;title&quot;: &quot;Fotocasa Spain Sale &amp; Rental Listings Scraper&quot;,
   &quot;type&quot;: &quot;object&quot;
 }
-</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>listings</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped property listings from Fotocasa.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>listings</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped property listings, new-construction projects and monitor changes from Fotocasa.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
   &quot;actorOutputSchemaVersion&quot;: 1,
-  &quot;description&quot;: &quot;Real estate listings from Fotocasa Spain — title, price, area, bedrooms, bathrooms, city, neighborhood, property type, images, and property URLs.&quot;,
+  &quot;description&quot;: &quot;Fotocasa property and new-construction project records with transaction, price, surface, rooms, features, location hierarchy, coordinates, agency, media, dates, optional detail enrichment (energy certificate, exact street, agency phone/registrations) and optional monitor changes.&quot;,
   &quot;properties&quot;: {
     &quot;listings&quot;: {
-      &quot;description&quot;: &quot;Dataset containing all scraped property listings from Fotocasa.&quot;,
+      &quot;description&quot;: &quot;Dataset containing all scraped property listings, new-construction projects and monitor changes from Fotocasa.&quot;,
       &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
       &quot;title&quot;: &quot;Property Listings&quot;,
       &quot;type&quot;: &quot;string&quot;
@@ -148,12 +407,13 @@
         &quot;fields&quot;: [
           &quot;title&quot;,
           &quot;price&quot;,
-          &quot;area&quot;,
+          &quot;surface&quot;,
           &quot;bedrooms&quot;,
           &quot;bathrooms&quot;,
+          &quot;propertySubtype&quot;,
           &quot;city&quot;,
           &quot;neighborhood&quot;,
-          &quot;propertyType&quot;,
+          &quot;agencyName&quot;,
           &quot;propertyUrl&quot;
         ]
       }
@@ -161,32 +421,20 @@
   }
 }
 </code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-fotocasa-spain-sale-rental-listings-scraper">Fotocasa Spain Sale &amp; Rental Listings Scraper</h2>
-<p>Pull property listings from <a href="https://www.fotocasa.es">Fotocasa</a>, one of Spain's largest real-estate portals. Search for sale or rental properties in any Spanish city or neighborhood, narrow results by property type, price, bedrooms, and area, and get each listing's price, size, location, and photo.</p>
+<p>Scrape <a href="https://www.fotocasa.es">Fotocasa</a>, one of Spain's largest real-estate portals, without cookies, login, API keys or a proxy. Search any Spanish city, district, neighborhood, street or ZIP code, paste Fotocasa search URLs, or fetch individual property and new-construction project pages.</p>
 <h2 id="readme-what-this-actor-does">What this actor does</h2>
 <ul>
-<li>Searches properties for sale or for rent in a given city</li>
-<li>Narrows results by property type (flat, penthouse, studio, duplex, land, garage, office, commercial premises, storage room)</li>
-<li>Filters by price range, bedroom count, and built area (m²)</li>
-<li>Paginates through Fotocasa's results automatically up to your requested item count</li>
-<li>Empty fields are omitted from records</li>
-</ul>
-<h2 id="readme-output-per-listing">Output per listing</h2>
-<ul>
-<li><code>recordType</code> — always <code>property</code></li>
-<li><code>listingId</code> — Fotocasa's unique listing identifier</li>
-<li><code>title</code> — listing title</li>
-<li><code>price</code> — price in euros</li>
-<li><code>currency</code> — always <code>EUR</code></li>
-<li><code>area</code> — built area in m²</li>
-<li><code>bedrooms</code>, <code>bathrooms</code></li>
-<li><code>propertyType</code> — e.g. <code>homes</code>, <code>penthouse</code>, <code>studio</code></li>
-<li><code>city</code>, <code>neighborhood</code>, <code>province</code>, <code>postalCode</code>, <code>address</code></li>
-<li><code>imageUrl</code> — primary property photo URL</li>
-<li><code>propertyUrl</code> — direct link to the listing on fotocasa.es</li>
-<li><code>description</code> — property description snippet</li>
-<li><code>isNewDevelopment</code> — whether the listing is flagged as a new-build development</li>
-<li><code>mode</code> — <code>searchForSale</code> or <code>searchForRent</code></li>
-<li><code>scrapedAt</code> — ISO 8601 timestamp</li>
+<li><strong>Search by location</strong> — resolve city, province, autonomous community, district, neighborhood, locality, street or ZIP code through Fotocasa's own suggestion service.</li>
+<li><strong>Paste search URLs</strong> — every filter already in the URL (operation, property type, price, rooms, surface, features, sort) is preserved.</li>
+<li><strong>Paste property URLs or IDs</strong> — fetch individual listings and new-construction project pages directly.</li>
+<li><strong>Five operations</strong> — sale, rent, shared rent, rent-to-buy and business transfer.</li>
+<li><strong>Fifteen property categories</strong> — homes, flats, penthouses, studios, duplex, lofts, chalets, garages, land, commercial premises, offices, storage rooms, buildings and new construction. Subtypes are preserved, not collapsed into &quot;homes&quot;.</li>
+<li><strong>Server-side filters</strong> — price, bedrooms, bathrooms, surface, features and verified sort orders.</li>
+<li><strong>Special filters</strong> — published in the last 24/48 hours, last 7/30 days, rental duration, private-owner-only, bank-owned, subsidised housing and price drops.</li>
+<li><strong>New-construction projects</strong> — project name, URL, delivery date, promoter, price/room/bath/surface ranges, images and every unit.</li>
+<li><strong>Optional detail enrichment</strong> — energy certificate, exact street, ground surface, agency phone and official registrations, extra features and reference.</li>
+<li><strong>Optional monitor mode</strong> — emit only new listings and price changes using persisted Actor state.</li>
+<li><strong>Up to 10,000 rows</strong> — searches above Fotocasa's ~9,900-row API window are automatically split into price buckets and deduplicated.</li>
 </ul>
 <h2 id="readme-input">Input</h2>
 <div class="table-wrap"><table>
@@ -201,115 +449,225 @@
 <tbody>
 <tr>
 <td><code>mode</code></td>
-<td>string</td>
-<td><code>searchForSale</code></td>
-<td><code>searchForSale</code> or <code>searchForRent</code></td>
+<td>select</td>
+<td><code>search</code></td>
+<td><code>search</code>, <code>startUrls</code> or <code>propertyUrls</code></td>
 </tr>
 <tr>
-<td><code>city</code></td>
-<td>string</td>
-<td><code>Barcelona</code></td>
-<td>City or location to search in</td>
-</tr>
-<tr>
-<td><code>neighborhood</code></td>
+<td><code>location</code></td>
 <td>string</td>
 <td>–</td>
-<td>Neighborhood or district name (not currently applied as a filter)</td>
+<td>City, province, district, neighborhood, street or ZIP code</td>
+</tr>
+<tr>
+<td><code>locationType</code></td>
+<td>select</td>
+<td><code>auto</code></td>
+<td>Country, autonomous community, province, municipality, district, neighborhood, locality, street or ZIP code</td>
+</tr>
+<tr>
+<td><code>operation</code></td>
+<td>select</td>
+<td><code>sale</code></td>
+<td><code>sale</code>, <code>rent</code>, <code>share</code>, <code>rentToBuy</code>, <code>transfer</code></td>
 </tr>
 <tr>
 <td><code>propertyType</code></td>
-<td>string</td>
-<td>–</td>
-<td><code>homes</code> / <code>penthouse</code> / <code>studio</code> / <code>duplex</code> / <code>land</code> / <code>garage</code> / <code>office</code> / <code>premises</code> / <code>storage</code></td>
+<td>select</td>
+<td><code>homes</code></td>
+<td>All / homes / flats / penthouses / studios / duplex / lofts / chalets / garages / land / premises / offices / storageRooms / buildings / newConstruction</td>
 </tr>
 <tr>
-<td><code>priceMin</code></td>
+<td><code>minPrice</code>, <code>maxPrice</code></td>
 <td>integer</td>
 <td>–</td>
-<td>Minimum price in EUR</td>
+<td>EUR (monthly rent for rentals)</td>
 </tr>
 <tr>
-<td><code>priceMax</code></td>
+<td><code>minRooms</code>, <code>maxRooms</code></td>
 <td>integer</td>
 <td>–</td>
-<td>Maximum price in EUR</td>
+<td>Bedrooms</td>
 </tr>
 <tr>
-<td><code>bedroomsMin</code></td>
+<td><code>minBathrooms</code>, <code>maxBathrooms</code></td>
 <td>integer</td>
 <td>–</td>
-<td>Minimum number of bedrooms</td>
+<td>Bathrooms</td>
 </tr>
 <tr>
-<td><code>bedroomsMax</code></td>
+<td><code>minSurface</code>, <code>maxSurface</code></td>
 <td>integer</td>
 <td>–</td>
-<td>Maximum number of bedrooms</td>
+<td>Built surface in m²</td>
 </tr>
 <tr>
-<td><code>areaMin</code></td>
-<td>integer</td>
+<td><code>features</code></td>
+<td>multi-select</td>
 <td>–</td>
-<td>Minimum built area in m²</td>
+<td>elevator, terrace, balcony, pool, garden, parking, storageRoom, airConditioning, heating, furnished, notFurnished, internet, petsAllowed, bankOwned, subsidised</td>
 </tr>
 <tr>
-<td><code>areaMax</code></td>
-<td>integer</td>
-<td>–</td>
-<td>Maximum built area in m²</td>
+<td><code>publishedSince</code></td>
+<td>select</td>
+<td><code>any</code></td>
+<td><code>last24h</code>, <code>last48h</code>, <code>last7d</code>, <code>last30d</code></td>
+</tr>
+<tr>
+<td><code>rentalType</code></td>
+<td>select</td>
+<td><code>any</code></td>
+<td><code>longTerm</code> or <code>temporary</code> (rent only)</td>
+</tr>
+<tr>
+<td><code>ownerType</code></td>
+<td>select</td>
+<td><code>any</code></td>
+<td><code>private</code> or <code>agency</code></td>
+</tr>
+<tr>
+<td><code>onlyPriceDrops</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Only listings with a price reduction</td>
+</tr>
+<tr>
+<td><code>sortBy</code></td>
+<td>select</td>
+<td><code>relevance</code></td>
+<td>relevance, newest, oldest, priceAsc, priceDesc, surfaceAsc, surfaceDesc</td>
 </tr>
 <tr>
 <td><code>maxItems</code></td>
 <td>integer</td>
-<td><code>50</code></td>
-<td>Maximum listings to return (1–1000)</td>
+<td><code>100</code></td>
+<td>1–10,000</td>
+</tr>
+<tr>
+<td><code>startUrls</code></td>
+<td>array of <code>{ &quot;url&quot;: ... }</code></td>
+<td>–</td>
+<td>Fotocasa search URLs (or paste URLs in the UI)</td>
+</tr>
+<tr>
+<td><code>propertyUrls</code></td>
+<td>array</td>
+<td>–</td>
+<td>Detail URLs, project URLs or numeric IDs</td>
+</tr>
+<tr>
+<td><code>fetchDetails</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Enrich with detail-page fields</td>
+</tr>
+<tr>
+<td><code>maxDetails</code></td>
+<td>integer</td>
+<td><code>100</code></td>
+<td>0 = all emitted listings</td>
+</tr>
+<tr>
+<td><code>monitorMode</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Emit new/price-changed listings only</td>
+</tr>
+<tr>
+<td><code>monitorKey</code></td>
+<td>string</td>
+<td>–</td>
+<td>Optional state namespace</td>
 </tr>
 </tbody>
 </table></div>
-<h3 id="readme-example-apartments-for-sale-with-a-budget-and-bedroom-floor">Example: apartments for sale with a budget and bedroom floor</h3>
+<h2 id="readme-examples">Examples</h2>
+<h3 id="readme-sale-listings-in-madrid">Sale listings in Madrid</h3>
 <pre><code class="language-json">{
-  &quot;mode&quot;: &quot;searchForSale&quot;,
-  &quot;city&quot;: &quot;Barcelona&quot;,
-  &quot;propertyType&quot;: &quot;homes&quot;,
-  &quot;priceMin&quot;: 200000,
-  &quot;priceMax&quot;: 600000,
-  &quot;bedroomsMin&quot;: 2,
-  &quot;maxItems&quot;: 100
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;location&quot;: &quot;madrid&quot;,
+  &quot;operation&quot;: &quot;sale&quot;,
+  &quot;propertyType&quot;: &quot;flats&quot;,
+  &quot;minRooms&quot;: 2,
+  &quot;maxPrice&quot;: 450000,
+  &quot;sortBy&quot;: &quot;priceAsc&quot;,
+  &quot;maxItems&quot;: 200
 }
 </code></pre>
-<h3 id="readme-example-rentals-in-a-city-under-a-price-cap">Example: rentals in a city under a price cap</h3>
+<h3 id="readme-rentals-under-1-500-with-detail-enrichment">Rentals under €1,500 with detail enrichment</h3>
 <pre><code class="language-json">{
-  &quot;mode&quot;: &quot;searchForRent&quot;,
-  &quot;city&quot;: &quot;Madrid&quot;,
-  &quot;priceMax&quot;: 1500,
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;location&quot;: &quot;barcelona&quot;,
+  &quot;operation&quot;: &quot;rent&quot;,
+  &quot;maxPrice&quot;: 1500,
+  &quot;rentalType&quot;: &quot;longTerm&quot;,
+  &quot;fetchDetails&quot;: true,
+  &quot;maxDetails&quot;: 50,
   &quot;maxItems&quot;: 50
 }
 </code></pre>
-<h3 id="readme-example-land-listings-by-minimum-area">Example: land listings by minimum area</h3>
+<h3 id="readme-paste-a-fotocasa-search-url">Paste a Fotocasa search URL</h3>
 <pre><code class="language-json">{
-  &quot;mode&quot;: &quot;searchForSale&quot;,
-  &quot;city&quot;: &quot;Valencia&quot;,
-  &quot;propertyType&quot;: &quot;land&quot;,
-  &quot;areaMin&quot;: 500,
-  &quot;maxItems&quot;: 30
+  &quot;mode&quot;: &quot;startUrls&quot;,
+  &quot;startUrls&quot;: [
+    {&quot;url&quot;: &quot;https://www.fotocasa.es/es/comprar/viviendas/madrid/todas-las-zonas/l&quot;}
+  ],
+  &quot;maxItems&quot;: 100
 }
 </code></pre>
+<h3 id="readme-individual-property-or-project-urls">Individual property or project URLs</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;propertyUrls&quot;,
+  &quot;propertyUrls&quot;: [
+    &quot;https://www.fotocasa.es/es/comprar/vivienda/madrid/x/190909371/d&quot;,
+    &quot;https://www.fotocasa.es/es/comprar/obra-nueva/barcelona-capital/20517030&quot;
+  ]
+}
+</code></pre>
+<h3 id="readme-monitor-new-listings">Monitor new listings</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;location&quot;: &quot;valencia&quot;,
+  &quot;operation&quot;: &quot;rent&quot;,
+  &quot;monitorMode&quot;: true,
+  &quot;monitorKey&quot;: &quot;valencia-rentals&quot;,
+  &quot;maxItems&quot;: 100
+}
+</code></pre>
+<h2 id="readme-output">Output</h2>
+<p>Keep all legacy fields (<code>recordType</code>, <code>listingId</code>, <code>title</code>, <code>price</code>, <code>currency</code>, <code>area</code>, <code>bedrooms</code>, <code>bathrooms</code>, <code>propertyType</code>, <code>city</code>, <code>neighborhood</code>, <code>province</code>, <code>postalCode</code>, <code>address</code>, <code>imageUrl</code>, <code>propertyUrl</code>, <code>description</code>, <code>isNewDevelopment</code>, <code>mode</code>, <code>scrapedAt</code>) and add:</p>
+<ul>
+<li><strong>Identity</strong> — <code>recordType</code> (<code>property</code> or <code>newConstructionProject</code>), <code>propertyId</code>, <code>realEstateAdId</code>, <code>detailUrl</code>, <code>operation</code>, <code>transactionTypeId</code>, <code>propertySubtype</code>, <code>propertyTypeId</code>, <code>subtypeId</code>.</li>
+<li><strong>Price</strong> — <code>priceOnRequest</code>, <code>priceDropAmount</code>, <code>previousPrice</code>, <code>priceDropPercent</code>, <code>pricePerSquareMeter</code>, <code>pricePeriod</code>.</li>
+<li><strong>Property</strong> — <code>surface</code>, <code>plotArea</code>, <code>floor</code>, <code>floorType</code>, <code>orientation</code>, <code>orientationName</code>, <code>antiquity</code>, <code>antiquityName</code>, <code>condition</code>, <code>hotWater</code>, <code>heating</code>, <code>features</code>, <code>featureIds</code>, <code>amenities</code>, <code>hasLift</code>, <code>hasTerrace</code>, <code>hasBalcony</code>, <code>hasPool</code>, <code>hasGarden</code>, <code>hasParking</code>, <code>hasStorageRoom</code>, <code>hasAirConditioning</code>, <code>hasHeating</code>, <code>isFurnished</code>, <code>hasInternet</code>, <code>hasPetsAllowed</code>.</li>
+<li><strong>Media</strong> — <code>images</code>, <code>photoCount</code>, <code>videos</code>, <code>hasVideo</code>, <code>hasVirtualTour</code>, <code>hasFloorPlans</code>, <code>hasOnlineGuidedTour</code>, <code>media</code>.</li>
+<li><strong>Location</strong> — <code>street</code>, <code>streetNumber</code>, <code>municipality</code>, <code>district</code>, <code>region</code>, <code>country</code>, <code>locationText</code>, <code>latitude</code>, <code>longitude</code>, <code>coordinatesAccuracy</code>, <code>locationIds</code>, <code>addressVisibilityMode</code>.</li>
+<li><strong>Agency</strong> — <code>agencyName</code>, <code>agencyAlias</code>, <code>agencyId</code>, <code>agencyType</code>, <code>agencyUrl</code>, <code>agencyLogo</code>, <code>agencyPhone</code>, <code>agencyReference</code>, <code>agencyRegistrations</code>, <code>publisherId</code>, <code>isPrivateOwner</code>, <code>isBank</code>, <code>phone</code>, <code>hasPhoneVisibility</code>.</li>
+<li><strong>Dates and flags</strong> — <code>publishedAt</code>, <code>updatedAt</code>, <code>bumpedAt</code>, <code>isNewConstruction</code>, <code>isPromotion</code>, <code>isOpportunity</code>, <code>isAuctioned</code>, <code>isOccupied</code>, <code>isRentedWithTenants</code>, <code>isBareOwnership</code>, <code>isTemporaryRental</code>, <code>isTop</code>, <code>isPremium</code>, <code>hasSubsidies</code>, <code>isPhotoReport</code>.</li>
+<li><strong>Detail enrichment</strong> — <code>energyRating</code>, <code>energyConsumption</code>, <code>energyEmissions</code>, <code>energyCertificateStatus</code>, <code>groundSurface</code>, <code>extraFeatures</code>, <code>reference</code>, <code>keyDeliveryDate</code>, <code>constructionType</code>, <code>qualityRate</code>, <code>rentReferenceIndex</code>.</li>
+<li><strong>Projects</strong> — <code>projectId</code>, <code>projectName</code>, <code>projectUrl</code>, <code>projectKeyDeliveryDate</code>, <code>projectPromoterName</code>, <code>projectPromoterPhone</code>, <code>projectUnitCount</code>, <code>projectPriceMin</code>, <code>projectPriceMax</code>, <code>projectRoomsMin</code>, <code>projectRoomsMax</code>, <code>projectBathroomsMin</code>, <code>projectBathroomsMax</code>, <code>projectSurfaceMin</code>, <code>projectSurfaceMax</code>, <code>projectImages</code>, <code>projectUnits</code>, <code>promotionTypologies</code>.</li>
+<li><strong>Monitor</strong> — <code>changeType</code>, <code>previousPrice</code>, <code>firstSeenAt</code>, <code>lastSeenAt</code>.</li>
+</ul>
+<p>Empty fields are omitted at every level. Price <code>999999999</code> is treated as &quot;price on request&quot;, never as a real price.</p>
 <h2 id="readme-use-cases">Use cases</h2>
 <ul>
-<li><strong>Buyer research</strong> — compare prices and sizes across neighborhoods before making an offer</li>
-<li><strong>Rental market tracking</strong> — monitor asking rents for a city or district over time</li>
-<li><strong>Investment analysis</strong> — scan listings by price and area to spot undervalued properties</li>
-<li><strong>Agency competitor tracking</strong> — see which property types and price bands are most listed in an area</li>
-<li><strong>Relocation planning</strong> — survey available housing in a target city before moving</li>
+<li><strong>Buyer research</strong> — compare asking prices and surfaces across neighborhoods.</li>
+<li><strong>Rental tracking</strong> — watch long-term or temporary rental supply and rents.</li>
+<li><strong>Investor screening</strong> — filter by price, surface, rooms and features, then enrich energy and agency data.</li>
+<li><strong>Lead generation</strong> — agency name, phone, reference and registrations, private-vs-agency flags.</li>
+<li><strong>New-build monitoring</strong> — project names, promoters, delivery dates and unit inventories.</li>
+<li><strong>Market change alerts</strong> — schedule monitor mode to get only new and re-priced listings.</li>
 </ul>
 <h2 id="readme-faq">FAQ</h2>
-<p><strong>Which Spanish cities can I search?</strong>  Any city with Fotocasa listings — Barcelona, Madrid, Valencia, Sevilla, Bilbao, Málaga, Alicante, Murcia, Palma, and many more; just pass the city name in <code>city</code>.</p>
-<p><strong>What currency are prices in?</strong>  Always euros (EUR), matching how Fotocasa itself displays prices.</p>
-<p><strong>Can I get rental instead of sale listings?</strong>  Yes — set <code>mode</code> to <code>searchForRent</code>.</p>
-<p><strong>Do I need an account or API key?</strong>  No, Fotocasa's public search results are read without any authentication.</p>
-<p><strong>Why is <code>neighborhood</code> sometimes missing from a record?</strong>  Fotocasa doesn't always tag every listing with a specific neighborhood/district — when it doesn't, the field is left out rather than filled with a guess. Note that the input <code>neighborhood</code> field is not currently applied as a search filter.</p>
-<p><strong>Does every <code>propertyType</code> option return results?</strong>  <code>homes</code>, <code>land</code>, <code>garage</code>, <code>office</code>, and <code>premises</code> reliably return listings. <code>penthouse</code>, <code>studio</code>, <code>duplex</code>, and <code>storage</code> currently return no matches — leave <code>propertyType</code> empty (or use <code>homes</code>) to search flats/apartments.</p>
-<p><strong>How many listings can I get in one run?</strong>  Up to <code>maxItems</code>, capped at 1000; the actor pages through Fotocasa's own results automatically to reach that count.</p>
-<p><strong>Is this affiliated with Fotocasa?</strong>  No. This is an independent actor that reads Fotocasa's public listing pages and is not affiliated with or endorsed by Fotocasa.</p>
-</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/o33Jzuf8dGQeft46K/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>ekfxUn97lHBOlqYM2</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
+<p><strong>Do I need a Fotocasa account, cookie, API key or proxy?</strong> No. The actor uses Fotocasa's public search and SSR JSON endpoints directly, with no login, cookie, key or proxy input.</p>
+<p><strong>Which locations can I use?</strong> Any place Fotocasa recognizes: Spain, autonomous communities, provinces, municipalities, districts, neighborhoods, localities, streets and ZIP codes. Try <code>Madrid</code>, <code>Barcelona</code>, <code>Sitges</code>, <code>Eixample</code>, <code>28001</code> or a street name.</p>
+<p><strong>Can I paste a normal Fotocasa search URL?</strong> Yes. Use <code>startUrls</code> mode and paste the URL; the operation, property type, location and filters are read from the path and query string.</p>
+<p><strong>Why did I get fewer than <code>maxItems</code>?</strong> Three reasons: the search genuinely has fewer matches, Fotocasa's public API window is about 9,900 rows per query (the actor partitions above that only when <code>maxItems</code> is above 9,900), or a client-side filter such as price drops or private owners scanned its safety limit. The run status message always reports delivered vs reported counts.</p>
+<p><strong>How does detail enrichment work?</strong> With <code>fetchDetails: true</code> the actor fetches the listing detail page to add fields the search API does not carry: energy certificate, exact street, ground surface, agency phone/registrations and extra features. It is off by default because it adds one request per listing. <code>maxDetails: 0</code> enriches every emitted listing.</p>
+<p><strong>What happens with more than 10,000 results?</strong> <code>maxItems</code> is a hard cap at 10,000. For large searches the actor splits the query into the price buckets shown in the status message and deduplicates by property ID. To go deeper than the API window on a smaller request, add price or location filters yourself.</p>
+<p><strong>Does monitor mode need extra setup?</strong> No. It stores a compact map of property IDs and prices in Actor state, keyed by <code>monitorKey</code> (or a hash of your filters). The first run emits everything as <code>new</code>; later runs emit only <code>new</code> and <code>priceChanged</code> records.</p>
+<p><strong>Are rental duration, published date and private-owner filters server-side?</strong> Fotocasa's JSON search body ignores them. The actor applies them through Fotocasa's own path filters or client-side cutoffs, and says so in the run status when a scan limit is reached.</p>
+<p><strong>Why is <code>price</code> missing on some records?</strong> Fotocasa sometimes publishes &quot;price on request&quot; as <code>999999999</code> or a null. The actor omits <code>price</code> and sets <code>priceOnRequest: true</code> instead of inventing a value.</p>
+<p><strong>Why do private-owner searches return fewer listings?</strong> Fotocasa's <code>/particulares</code> page shows 15 private-owner listings per page and ignores extra query filters. The actor paginates that page, applies price/room/surface and price-drop filters client-side, and reports when the private page is exhausted; use a narrower location or price range to see different private listings. Rental-duration filtering is unavailable on the private page.</p>
+<p><strong>Is this affiliated with Fotocasa?</strong> No. It is an independent actor that reads publicly available Fotocasa data and is not affiliated with or endorsed by Fotocasa.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/o33Jzuf8dGQeft46K/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>5VP42leRffobQEC1N</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

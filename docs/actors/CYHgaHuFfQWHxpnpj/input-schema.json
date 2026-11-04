@@ -1,0 +1,303 @@
+{
+  "description": "Search German real-estate listings on Immowelt.de by city, property type, and filters — or scrape a specific Immowelt search-results URL directly.",
+  "properties": {
+    "city": {
+      "default": "Berlin",
+      "description": "German city or town name, e.g. `Berlin`, `München`, `Hamburg`, `Köln`, `Frankfurt am Main`.",
+      "editor": "textfield",
+      "prefill": "Berlin",
+      "title": "City (mode=search)",
+      "type": "string"
+    },
+    "distributionType": {
+      "default": "mieten",
+      "description": "Whether to search rental or for-sale listings.",
+      "editor": "select",
+      "enum": [
+        "mieten",
+        "kaufen"
+      ],
+      "enumTitles": [
+        "For rent (mieten)",
+        "For sale (kaufen)"
+      ],
+      "prefill": "mieten",
+      "title": "Rent or buy (mode=search)",
+      "type": "string"
+    },
+    "energyClass": {
+      "default": [],
+      "description": "Only keep listings with one of the selected German energy efficiency classes (A+ = most efficient, H = least efficient). Applied client-side against the energy class immowelt.de publishes for each listing — not every listing discloses one, so this filter drops listings with no disclosed energy class.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "A+",
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "H"
+        ],
+        "enumTitles": [
+          "A+ (most efficient)",
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "H (least efficient)"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Energy efficiency class",
+      "type": "array"
+    },
+    "estateSubType": {
+      "default": "",
+      "description": "Optional narrower property sub-type. Apartment sub-types only apply when Property type = Apartment; house sub-types only apply when Property type = House; plot sub-types only apply when Property type = Plot / land. Not applicable when Property type = Temporary / furnished living, any commercial category (Office, Retail, Storage / production, Gastronomy & hospitality), or Agricultural / forestry land.",
+      "editor": "select",
+      "enum": [
+        "",
+        "loft",
+        "maisonette",
+        "penthouse",
+        "terrace_apartment",
+        "single_family_house",
+        "semi_detached_house",
+        "multi_family_house",
+        "bungalow",
+        "villa",
+        "town_house",
+        "farm_house",
+        "manor_house",
+        "terrace_house",
+        "castle",
+        "leisure_land",
+        "commercial_land"
+      ],
+      "enumTitles": [
+        "Any sub-type",
+        "Loft (apartment)",
+        "Maisonette (apartment)",
+        "Penthouse (apartment)",
+        "Terrace apartment",
+        "Single-family house",
+        "Semi-detached house",
+        "Multi-family house",
+        "Bungalow",
+        "Villa",
+        "Town house",
+        "Farm house",
+        "Manor house",
+        "Terrace house",
+        "Castle / palace",
+        "Leisure/recreational land (plot)",
+        "Commercial land (plot)"
+      ],
+      "prefill": "",
+      "title": "Property sub-type (mode=search)",
+      "type": "string"
+    },
+    "estateType": {
+      "default": "wohnung",
+      "description": "Broad property category to search. 'Temporary / furnished living (Wohnen auf Zeit)' is immowelt's furnished short-/mid-term rental category (spans apartments and houses) — it is rent-only, so Rent or buy is automatically switched to 'For rent' for it. The four commercial categories (Office, Retail, Storage / production, Gastronomy & hospitality) are immowelt's business real-estate ('Gewerbeimmobilien') categories. 'Agricultural / forestry land' is a separate, low-volume category (typically a handful of listings per city, since farmland/forestry parcels are rural) for both buying and (rarely) renting land- and forestry-use plots. Property sub-type / Additional features are not applied server-side for 'Temporary / furnished living', any commercial category, or 'Agricultural / forestry land' (price/rooms/area filters still apply).",
+      "editor": "select",
+      "enum": [
+        "wohnung",
+        "haus",
+        "grundstueck",
+        "wohnen_auf_zeit",
+        "buero",
+        "einzelhandel",
+        "lager_produktion",
+        "gastronomie",
+        "landwirtschaft"
+      ],
+      "enumTitles": [
+        "Apartment / flat (Wohnung)",
+        "House (Haus)",
+        "Plot / land (Grundstück)",
+        "Temporary / furnished living (Wohnen auf Zeit)",
+        "Office / practice space (Büro & Praxis)",
+        "Retail / shop space (Einzelhandel)",
+        "Storage / production / industrial (Lager, Produktion & Hallen)",
+        "Gastronomy & hospitality (Gastronomie & Hotel)",
+        "Agricultural / forestry land (Land- & Forstwirtschaft)"
+      ],
+      "prefill": "wohnung",
+      "title": "Property type (mode=search)",
+      "type": "string"
+    },
+    "excludeGroundFloor": {
+      "default": false,
+      "description": "Skip apartments/houses located on the ground floor. Has no effect for property types that don't disclose a floor (Plot / land, commercial categories).",
+      "prefill": false,
+      "title": "Exclude ground-floor listings",
+      "type": "boolean"
+    },
+    "features": {
+      "default": [],
+      "description": "Extra amenity/feature to require (only one is applied per run — see note below, and the run's status message will say when the requested feature isn't filterable for the chosen property type). Verified reliable combinations: `Balcony / terrace`, `Garden`, and `Furnished` work for Apartment and House; `Parking space` only for House; `Fitted kitchen`, `Wheelchair accessible`, `WBS required`, `Shared flat (WG)`, `Swap apartment`, `Top floor`, and `Ground floor` only for Apartment. `Cellar / basement`, `Pool`, `Private offers only`, and `Needs renovation` are not reliably filterable by immowelt.de for any property type currently. None are supported for Plot / land, Temporary / furnished living, Agricultural / forestry land, or any commercial category.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "balcony_terrace",
+          "garden",
+          "cellar",
+          "parking",
+          "pool",
+          "new_build",
+          "private_offer_only",
+          "needs_renovation",
+          "fitted_kitchen",
+          "furnished",
+          "wheelchair_accessible",
+          "wbs_required",
+          "shared_flat",
+          "swap_apartment",
+          "top_floor",
+          "ground_floor"
+        ],
+        "enumTitles": [
+          "Balcony / terrace",
+          "Garden",
+          "Cellar / basement",
+          "Parking space",
+          "Pool",
+          "New build",
+          "Private offers only (no agents)",
+          "Needs renovation",
+          "Fitted kitchen",
+          "Furnished",
+          "Wheelchair accessible",
+          "WBS required (subsidized housing)",
+          "Shared flat (WG)",
+          "Swap apartment (Tauschwohnung)",
+          "Top floor",
+          "Ground floor"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Additional features",
+      "type": "array"
+    },
+    "maxArea": {
+      "description": "Drop listings larger than this, in square meters (living space for apartments/houses, usable floor area for commercial categories, plot size for Grundstück / Agricultural / forestry land — the latter can run into the millions of m² for large forest tracts).",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Max living space / plot size (m²)",
+      "type": "integer"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Hard cap on emitted records. Immowelt search-result pages return up to ~30-40 listings per query (varies by city/property type), so values above 40 have no additional effect.",
+      "maximum": 40,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Maximum monthly cold rent (mieten) or purchase price (kaufen) in EUR.",
+      "maximum": 50000000,
+      "minimum": 0,
+      "title": "Max price (EUR)",
+      "type": "integer"
+    },
+    "maxRooms": {
+      "description": "Only listings with at most this many rooms.",
+      "maximum": 20,
+      "minimum": 1,
+      "title": "Max rooms",
+      "type": "integer"
+    },
+    "minArea": {
+      "description": "Drop listings smaller than this, in square meters (living space for apartments/houses, usable floor area for commercial categories, plot size for Grundstück / Agricultural / forestry land — the latter can run into the millions of m² for large forest tracts).",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Min living space / plot size (m²)",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Minimum monthly cold rent (mieten) or purchase price (kaufen) in EUR.",
+      "maximum": 50000000,
+      "minimum": 0,
+      "title": "Min price (EUR)",
+      "type": "integer"
+    },
+    "minRooms": {
+      "description": "Only listings with at least this many rooms. Set equal to Max rooms for an exact room count.",
+      "maximum": 20,
+      "minimum": 1,
+      "title": "Min rooms",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "How to find listings.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byUrl"
+      ],
+      "enumTitles": [
+        "Search by city + filters",
+        "Scrape a specific Immowelt search URL"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "searchUrl": {
+      "description": "A full Immowelt search-results URL, e.g. `https://www.immowelt.de/suche/mieten/wohnung/berlin/berlin-10115/ad08de8634`. Build one on immowelt.de using any filter combination, then paste it here.",
+      "editor": "textfield",
+      "title": "Search URL (mode=byUrl)",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "",
+      "description": "Re-order the returned listings. Immowelt only returns its first results page over plain HTTP, so this sorts within that page (useful when Max items is lower than the page size) rather than re-querying the whole site.",
+      "editor": "select",
+      "enum": [
+        "",
+        "priceAsc",
+        "priceDesc",
+        "areaAsc",
+        "areaDesc",
+        "pricePerSqmAsc",
+        "pricePerSqmDesc",
+        "roomsAsc",
+        "roomsDesc",
+        "newest"
+      ],
+      "enumTitles": [
+        "Relevance (site default)",
+        "Price - low to high",
+        "Price - high to low",
+        "Living space / plot size - low to high",
+        "Living space / plot size - high to low",
+        "Price per m² - low to high",
+        "Price per m² - high to low",
+        "Rooms - fewest to most",
+        "Rooms - most to fewest",
+        "Newest listings first"
+      ],
+      "prefill": "",
+      "title": "Sort results by",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Immowelt Scraper Input",
+  "type": "object"
+}

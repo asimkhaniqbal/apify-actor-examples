@@ -1,124 +1,383 @@
 {
-  "description": "Search Fotocasa Spain for properties for sale or rent.",
+  "description": "Search Fotocasa by location or paste search/property URLs. Get full listing records with price, surface, rooms, location, agency, media, new-construction projects and optional detail enrichment.",
   "properties": {
-    "areaMax": {
-      "description": "Maximum built area in square meters (optional).",
-      "maximum": 100000,
-      "minimum": 0,
-      "title": "Max Area (m²)",
-      "type": "integer"
+    "features": {
+      "default": [],
+      "description": "Only listings with these features. Multiple selections are combined (AND). Leave empty for no feature filter.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "elevator",
+          "terrace",
+          "balcony",
+          "pool",
+          "garden",
+          "parking",
+          "storageRoom",
+          "airConditioning",
+          "heating",
+          "furnished",
+          "notFurnished",
+          "internet",
+          "petsAllowed",
+          "bankOwned",
+          "subsidised"
+        ],
+        "enumTitles": [
+          "Lift",
+          "Terrace",
+          "Balcony",
+          "Pool",
+          "Garden",
+          "Parking",
+          "Storage room",
+          "Air conditioning",
+          "Heating",
+          "Furnished",
+          "Not furnished",
+          "Internet",
+          "Pets allowed",
+          "Bank-owned",
+          "Subsidised housing"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Features",
+      "type": "array",
+      "uniqueItems": true
     },
-    "areaMin": {
-      "description": "Minimum built area in square meters (optional).",
-      "maximum": 100000,
-      "minimum": 0,
-      "title": "Min Area (m²)",
-      "type": "integer"
+    "fetchDetails": {
+      "default": false,
+      "description": "Fetch each listing's detail page to add energy certificate, agency phone and registrations, exact street, ground surface and extra features. Slower and more requests.",
+      "prefill": false,
+      "sectionCaption": "Details and monitoring",
+      "title": "Fetch details",
+      "type": "boolean"
     },
-    "bedroomsMax": {
-      "description": "Maximum number of bedrooms (optional).",
-      "maximum": 20,
-      "minimum": 0,
-      "title": "Max Bedrooms",
-      "type": "integer"
-    },
-    "bedroomsMin": {
-      "description": "Minimum number of bedrooms (optional).",
-      "maximum": 20,
-      "minimum": 0,
-      "title": "Min Bedrooms",
-      "type": "integer"
-    },
-    "city": {
-      "default": "Barcelona",
-      "description": "City or location to search in (e.g. Barcelona, Madrid, Valencia, Sevilla).",
+    "location": {
+      "default": "",
+      "description": "City, province, district, neighborhood, street or ZIP code, e.g. Madrid, Barcelona, Sitges, 28001. Used in Search by location mode.",
       "editor": "textfield",
-      "prefill": "Barcelona",
-      "title": "City",
+      "prefill": "madrid",
+      "title": "Location",
       "type": "string"
     },
+    "locationType": {
+      "default": "auto",
+      "description": "Narrow ambiguous place names to a level. Auto picks the best match (usually the municipality).",
+      "editor": "select",
+      "enum": [
+        "auto",
+        "country",
+        "autonomousCommunity",
+        "province",
+        "municipality",
+        "district",
+        "neighborhood",
+        "locality",
+        "street",
+        "zipCode"
+      ],
+      "enumTitles": [
+        "Auto",
+        "Country",
+        "Autonomous community",
+        "Province",
+        "Municipality",
+        "District",
+        "Neighborhood",
+        "Locality",
+        "Street",
+        "ZIP code"
+      ],
+      "prefill": "auto",
+      "title": "Location type",
+      "type": "string"
+    },
+    "maxBathrooms": {
+      "description": "Server-side maximum number of bathrooms.",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Maximum bathrooms",
+      "type": "integer"
+    },
+    "maxDetails": {
+      "default": 100,
+      "description": "Limit detail requests when Fetch details is on. 0 means all emitted listings.",
+      "maximum": 10000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Maximum detail pages",
+      "type": "integer"
+    },
     "maxItems": {
-      "default": 50,
-      "description": "Maximum number of listings to return.",
-      "maximum": 1000,
+      "default": 100,
+      "description": "Hard cap on emitted listings (1–10,000). Above ~9,900 rows the actor automatically splits the search into price buckets.",
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 50,
-      "title": "Max Items",
+      "prefill": 3,
+      "sectionCaption": "Volume",
+      "title": "Maximum listings",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Server-side maximum sale price or monthly rent.",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Maximum price (EUR)",
+      "type": "integer"
+    },
+    "maxRooms": {
+      "description": "Server-side maximum number of bedrooms.",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Maximum bedrooms",
+      "type": "integer"
+    },
+    "maxSurface": {
+      "description": "Server-side maximum built surface.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Maximum surface (m²)",
+      "type": "integer"
+    },
+    "minBathrooms": {
+      "description": "Server-side minimum number of bathrooms.",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Minimum bathrooms",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Server-side minimum sale price or monthly rent.",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Minimum price (EUR)",
+      "type": "integer"
+    },
+    "minRooms": {
+      "description": "Server-side minimum number of bedrooms.",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Minimum bedrooms",
+      "type": "integer"
+    },
+    "minSurface": {
+      "description": "Server-side minimum built surface.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Minimum surface (m²)",
       "type": "integer"
     },
     "mode": {
-      "default": "searchForSale",
-      "description": "What to search for.",
+      "default": "search",
+      "description": "How to find listings: search by location, scrape Fotocasa search URLs, or scrape individual property URLs/IDs.",
       "editor": "select",
       "enum": [
-        "searchForSale",
-        "searchForRent"
+        "search",
+        "startUrls",
+        "propertyUrls"
       ],
       "enumTitles": [
-        "Search properties for sale",
-        "Search properties for rent"
+        "Search by location",
+        "Search URLs",
+        "Property URLs / IDs"
       ],
-      "prefill": "searchForSale",
+      "prefill": "search",
+      "sectionCaption": "Mode",
       "title": "Mode",
       "type": "string"
     },
-    "neighborhood": {
-      "description": "Neighborhood or district filter (optional).",
+    "monitorKey": {
+      "default": "",
+      "description": "Optional namespace for monitor state. Leave empty to derive it from the search filters.",
       "editor": "textfield",
-      "title": "Neighborhood / District",
+      "prefill": "",
+      "title": "Monitor key",
       "type": "string"
     },
-    "priceMax": {
-      "description": "Maximum price in Euros (optional).",
-      "maximum": 100000000,
-      "minimum": 0,
-      "title": "Max Price (EUR)",
-      "type": "integer"
+    "monitorMode": {
+      "default": false,
+      "description": "Emit only new listings and listings whose price changed, using Actor state between runs. The state key is namespaced by monitorKey or the search filters.",
+      "prefill": false,
+      "title": "Monitor mode",
+      "type": "boolean"
     },
-    "priceMin": {
-      "description": "Minimum price in Euros (optional).",
-      "maximum": 100000000,
-      "minimum": 0,
-      "title": "Min Price (EUR)",
-      "type": "integer"
+    "onlyPriceDrops": {
+      "default": false,
+      "description": "Only emit listings that show a price reduction.",
+      "prefill": false,
+      "title": "Only price drops",
+      "type": "boolean"
     },
-    "propertyType": {
-      "default": "",
-      "description": "Filter by property type.",
+    "operation": {
+      "default": "sale",
+      "description": "Sale, rent, room share, rent-to-buy or business transfer.",
       "editor": "select",
       "enum": [
-        "",
+        "sale",
+        "rent",
+        "share",
+        "rentToBuy",
+        "transfer"
+      ],
+      "enumTitles": [
+        "For sale",
+        "For rent",
+        "Shared rent",
+        "Rent to buy",
+        "Business transfer"
+      ],
+      "prefill": "sale",
+      "sectionCaption": "Search filters",
+      "title": "Operation",
+      "type": "string"
+    },
+    "ownerType": {
+      "default": "any",
+      "description": "Private owners or professional agencies. Private-only uses Fotocasa's particulares path.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "private",
+        "agency"
+      ],
+      "enumTitles": [
+        "Any",
+        "Private owner",
+        "Agency"
+      ],
+      "prefill": "any",
+      "title": "Owner type",
+      "type": "string"
+    },
+    "propertyType": {
+      "default": "homes",
+      "description": "Property category. Subtypes such as penthouses, studios and duplex are preserved instead of being collapsed into homes.",
+      "editor": "select",
+      "enum": [
+        "all",
         "homes",
-        "penthouse",
-        "studio",
+        "flats",
+        "penthouses",
+        "studios",
         "duplex",
+        "lofts",
+        "chalets",
+        "garages",
         "land",
-        "garage",
-        "office",
         "premises",
-        "storage"
+        "offices",
+        "storageRooms",
+        "buildings",
+        "newConstruction"
       ],
       "enumTitles": [
         "All types",
-        "Flat / Apartment",
-        "Penthouse",
-        "Studio",
+        "Homes",
+        "Flats / apartments",
+        "Penthouses",
+        "Studios",
         "Duplex",
+        "Lofts",
+        "Chalets",
+        "Garages",
         "Land",
-        "Garage",
-        "Office",
-        "Commercial Premises",
-        "Storage Room"
+        "Commercial premises",
+        "Offices",
+        "Storage rooms",
+        "Buildings",
+        "New construction"
       ],
-      "prefill": "",
-      "title": "Property Type",
+      "prefill": "homes",
+      "title": "Property type",
       "type": "string"
+    },
+    "propertyUrls": {
+      "description": "Individual Fotocasa detail URLs, new-construction project URLs, or numeric property IDs.",
+      "editor": "stringList",
+      "title": "Property URLs or IDs",
+      "type": "array"
+    },
+    "publishedSince": {
+      "default": "any",
+      "description": "Only keep listings published inside this window. Searches newest-first and stops at the cutoff.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "last24h",
+        "last48h",
+        "last7d",
+        "last30d"
+      ],
+      "enumTitles": [
+        "Any time",
+        "Last 24 hours",
+        "Last 48 hours",
+        "Last 7 days",
+        "Last 30 days"
+      ],
+      "prefill": "any",
+      "title": "Published since",
+      "type": "string"
+    },
+    "rentalType": {
+      "default": "any",
+      "description": "For rent searches only: long-term or temporary rental. Uses Fotocasa's rental path filter.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "longTerm",
+        "temporary"
+      ],
+      "enumTitles": [
+        "Any",
+        "Long term",
+        "Temporary"
+      ],
+      "prefill": "any",
+      "title": "Rental duration",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Verified Fotocasa sort orders.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "newest",
+        "oldest",
+        "priceAsc",
+        "priceDesc",
+        "surfaceAsc",
+        "surfaceDesc"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Newest first",
+        "Oldest first",
+        "Price: low to high",
+        "Price: high to low",
+        "Surface: low to high",
+        "Surface: high to low"
+      ],
+      "prefill": "relevance",
+      "title": "Sort by",
+      "type": "string"
+    },
+    "startUrls": {
+      "description": "Fotocasa search URLs to scrape. Filters in each URL win over the form fields. Property URLs found here are routed to detail mode.",
+      "editor": "requestListSources",
+      "sectionCaption": "URLs",
+      "title": "Search URLs",
+      "type": "array"
     }
   },
   "required": [
     "mode"
   ],
   "schemaVersion": 1,
-  "title": "Fotocasa Scraper Input",
+  "title": "Fotocasa Spain Sale & Rental Listings Scraper",
   "type": "object"
 }
