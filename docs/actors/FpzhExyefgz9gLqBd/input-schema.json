@@ -1,0 +1,64 @@
+{
+  "properties": {
+    "includeActiveStory": {
+      "default": true,
+      "description": "When enabled, includes the list of currently active public story snaps (ephemeral, changes frequently).",
+      "title": "Include Active Story Snaps",
+      "type": "boolean"
+    },
+    "includeComments": {
+      "default": false,
+      "description": "When enabled, decodes and includes Spotlight comments embedded in the profile page. Can produce large records.",
+      "title": "Include Spotlight Comments",
+      "type": "boolean"
+    },
+    "includeLenses": {
+      "default": true,
+      "description": "When enabled, includes AR lenses created by the profile owner in the output.",
+      "title": "Include AR Lenses",
+      "type": "boolean"
+    },
+    "includeSpotlightMeta": {
+      "default": true,
+      "description": "When enabled, includes rich metadata for each Spotlight highlight (view counts, engagement stats, creator info, hashtags, etc.).",
+      "title": "Include Spotlight Metadata",
+      "type": "boolean"
+    },
+    "maxHighlightsPerUser": {
+      "description": "Maximum number of highlights (curated and spotlight) to include per profile. Set to 0 to exclude all highlights. Leave blank for no limit.",
+      "minimum": 0,
+      "nullable": true,
+      "title": "Max Highlights Per User",
+      "type": "integer"
+    },
+    "maxRelatedAccounts": {
+      "description": "Maximum number of related accounts to include per profile. Set to 0 to exclude related accounts entirely. Leave blank for no limit.",
+      "minimum": 0,
+      "nullable": true,
+      "title": "Max Related Accounts",
+      "type": "integer"
+    },
+    "proxyConfiguration": {
+      "description": "Optional Apify proxy configuration. Public Snapchat profiles work without proxy; include for resilience at scale.",
+      "editor": "proxy",
+      "nullable": true,
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "usernames": {
+      "description": "One or more Snapchat usernames or profile URLs. Accepted formats: bare username (brentrivera), @-prefixed (@brentrivera), add URL (https://www.snapchat.com/add/brentrivera), or profile URL (https://www.snapchat.com/@brentrivera).",
+      "editor": "stringList",
+      "prefill": [
+        "brentrivera"
+      ],
+      "title": "Usernames or Profile URLs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "usernames"
+  ],
+  "schemaVersion": 1,
+  "title": "Snapchat Profile Scraper Input",
+  "type": "object"
+}

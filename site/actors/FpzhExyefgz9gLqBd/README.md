@@ -1,0 +1,150 @@
+# Snapchat Creator Profile & Highlights Extractor
+
+Give this actor a list of Snapchat usernames or profile URLs and it fetches the public profile page for each one, turning the embedded data into structured records: bio, subscriber count, verification badge, story highlights, Spotlight videos, AR lenses, and the accounts Snapchat surfaces as related. No Snapchat account or login is used.
+
+## What this actor does
+
+- Accepts bare usernames, `@username`, or full profile/add URLs and normalizes them before fetching.
+- Pulls core profile metadata (display name, bio, category, subscriber count, verification, website) plus curated highlight albums and Spotlight highlights.
+- Optionally enriches each Spotlight video with view/share/engagement counts, hashtags, and AI-generated title/description/keywords.
+- Optionally includes AR lenses created by the profile and the currently active 24-hour story snaps.
+- Optionally decodes Spotlight comments embedded in the page; related accounts and highlight counts can be capped per profile.
+- Fields that are empty, null, or absent on the source page are left out of that record rather than written as blank values.
+
+## Output per profile
+
+### Core fields
+
+| Field | Description |
+|---|---|
+| `username` | Snapchat username. |
+| `displayName` | Public display name. |
+| `accountType` | `"public"` or `"private"`. |
+| `isVerified` | Whether the account has a verification badge. |
+| `subscriberCount` | Total subscriber/follower count. |
+| `bio` | Profile bio text. |
+| `profileUrl` | Full Snapchat profile URL. |
+| `profilePictureUrl` | Profile picture URL. |
+| `snapcodeImageUrl` | Snapcode image URL. |
+| `squareHeroImageUrl` | Square hero image for the profile. |
+| `websiteUrl` | External website linked on the profile. |
+| `category` / `subcategory` | Content category and sub-category string IDs. |
+| `publisherType` | Publisher type identifier, for show/publisher accounts. |
+| `businessProfileId` | Business profile identifier, when the account is a business profile. |
+| `hostUserId` | Internal host user ID. |
+| `shouldHideUsername` | Whether Snapchat hides the username in its own UI. |
+| `address` | Physical address, for creator/business profiles that list one. |
+| `mutableName` | Mutable display name, when different from `displayName`. |
+| `primaryColor` | Hex color used for profile theming. |
+| `hasStory` / `hasCuratedHighlights` / `hasSpotlightHighlights` | Flags for whether the profile currently has each content type. |
+| `createdAt` / `lastUpdatedAt` | Account creation and last-update timestamps (ISO 8601 UTC). |
+| `sameAsLinks` | Cross-platform profile links as returned by the source. |
+| `scrapedAt` | Timestamp this actor fetched the record (ISO 8601 UTC). |
+
+### `curatedHighlights[]` and `spotlightHighlights[]`
+
+Present when `hasCuratedHighlights`/`hasSpotlightHighlights` is true: `highlightId`, `storyTitle`, `thumbnailUrl`, `snapCount`, `firstSnapUrl`, `firstSnapType` (`video` or `image`).
+
+### `lenses[]` (when `includeLenses` is true)
+
+`scannableUuid`, `lensName`, `lensCreatorDisplayName`, `lensCreatorUsername`, `lensId`, `lensPreviewImageUrl`, `lensPreviewVideoUrl`, `iconUrl`, `unlockUrl`, `userProfileUrl`, `lensCreatorSearchTags`, `isOfficialSnapLens`, `lastUpdatedAt`, `lensUrl`.
+
+### `spotlightMetadata[]` (when `includeSpotlightMeta` is true)
+
+`name`, `thumbnailUrl`, `contentUrl`, `uploadedAt`, `durationMs`, `width`, `height`, `keywords`, `viewCount`, `shareCount`, `embeddedTextCaption`, `creatorUsername`, `creatorDisplayName`, `creatorFollowerCount`, `creatorWebsiteUrl`, `engagementViewCount`, `engagementShareCount`, `engagementCommentCount`, `engagementBoostCount`, `engagementRecommendCount`, `llmDescription`, `llmTitle`, `llmKeywords`, `textMetadataKeywords`, `hashtags`, `s2iTags`, `contextCards`, `detectedLanguages`.
+
+### `activeStorySnaps[]` and `activeStoryMeta` (when `includeActiveStory` is true)
+
+Per snap: `snapIndex`, `snapId`, `mediaUrl`, `mediaPreviewUrl`, `mediaType`, `postedAt`, `snapTitle`, `lat`, `lng`, `hasAttachment`, `audioTranscriptionObjectUrl`, `isSponsored`, `storySource`. When the profile exposes story-level metadata it also appears as an `activeStoryMeta` object with `storyTitle`, `storySubtitle`, `emoji`, `storyTapId`, `canonicalUrlSuffix`, `videoTrackUrl`, `isAttributed`.
+
+### `spotlightComments[]` (when `includeComments` is true)
+
+`commentId`, `snapId`, `replyText`, `reactionCounts`, `commenterDisplayName`, `commenterBitmojiAvatarId`, `commenterBitmojiSelfieId`, `commenterProfileLogoUrl`, `approvalState`, `postedAt`, `rankingScore`, `threadedReplyCount`, `reportCount`.
+
+### `relatedAccounts[]`
+
+`username`, `displayName`, `profileUrl`, `profilePictureUrl`, `isVerified`, `subscriberCount`, `bio`, `snapcodeImageUrl`, `category`, `websiteUrl`, `hasStory`, `hasCuratedHighlights`, `hasSpotlightHighlights`, `subscribeLink` (object with `oneLinkBaseUrl`, `deepLinkUrl`, `iosAppStoreUrl`).
+
+### `cursors`
+
+`curatedHighlightsCursor`, `spotlightHighlightsCursor`, `lensCursor` — pagination cursors Snapchat exposes for fetching more of each list beyond what's embedded on the page.
+
+### Error records
+
+If a username can't be scraped, the record instead contains `inputUsername`, `error`, and `scrapedAt`.
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `usernames` | Array of strings | – | Required. Snapchat usernames or profile URLs: bare (`brentrivera`), `@brentrivera`, `https://www.snapchat.com/add/brentrivera`, or `https://www.snapchat.com/@brentrivera`. |
+| `proxyConfiguration` | Object | – | Optional Apify proxy configuration. Public profiles work without one; add it for resilience on large batches. |
+| `includeLenses` | Boolean | `true` | Include AR lenses created by the profile owner. |
+| `includeSpotlightMeta` | Boolean | `true` | Include rich per-Spotlight metadata (views, engagement, hashtags, AI title/description). |
+| `includeActiveStory` | Boolean | `true` | Include the currently active public story snaps (ephemeral — changes frequently). |
+| `includeComments` | Boolean | `false` | Decode and include Spotlight comments embedded on the profile page. Can produce large records. |
+| `maxRelatedAccounts` | Integer | – (no limit) | Cap related accounts per profile. `0` excludes them entirely. |
+| `maxHighlightsPerUser` | Integer | – (no limit) | Cap curated + Spotlight highlights per profile. `0` excludes all highlights. |
+
+### Example: quick profile lookup
+
+```json
+{
+  "usernames": ["brentrivera", "https://www.snapchat.com/@khaby.lame"]
+}
+```
+
+### Example: lightweight run without ephemeral story data
+
+```json
+{
+  "usernames": ["teamsnapchat"],
+  "includeActiveStory": false,
+  "includeComments": false,
+  "maxRelatedAccounts": 5
+}
+```
+
+### Example: full enrichment with comments
+
+```json
+{
+  "usernames": ["@zachking"],
+  "includeLenses": true,
+  "includeSpotlightMeta": true,
+  "includeActiveStory": true,
+  "includeComments": true,
+  "maxHighlightsPerUser": 10
+}
+```
+
+## Use cases
+
+- **Influencer vetting** — check a creator's subscriber count, verification status, and recent Spotlight performance before a partnership.
+- **Competitor benchmarking** — compare highlight counts, lens activity, and engagement stats across a list of creator accounts.
+- **Brand monitoring** — track a brand's own Snapchat profile and the related accounts Snapchat associates it with.
+- **Content research** — pull AI-generated titles, descriptions, and hashtags from a creator's Spotlight catalog for trend analysis.
+- **Media archiving** — collect highlight, story, and Spotlight media URLs tied to a profile for a given point in time.
+
+## FAQ
+
+**Do I need to log in to Snapchat?**
+No. The actor reads the same public profile page anyone can open in a browser without an account.
+
+**What happens if I pass a private account?**
+Private profiles return a minimal record with only `accountType: "private"`, `username`, and `displayName` — highlights, lenses, and story data aren't exposed for private accounts.
+
+**Why does one Spotlight video have engagement counts and another doesn't?**
+Engagement and AI-generated metadata (`llmTitle`, `hashtags`, etc.) depend on what Snapchat's own metadata service has processed for that specific video; older or lower-traffic uploads sometimes have less of it.
+
+**Are the media URLs permanent?**
+No. Story, highlight, and Spotlight media links point to Snapchat's CDN and can include expiring tokens, so download or cache anything you need promptly after the run.
+
+**What's the difference between `curatedHighlights` and `spotlightHighlights`?**
+`curatedHighlights` are highlight albums the creator saved from their own story; `spotlightHighlights` are Spotlight videos the creator pinned to their profile. Both share the same record shape.
+
+**Can I skip the heavier fields to speed up a run?**
+Yes — set `includeSpotlightMeta`, `includeActiveStory`, and `includeComments` to `false`, and cap `maxHighlightsPerUser`/`maxRelatedAccounts` to keep records small.
+
+**Is this affiliated with Snapchat?**
+No. This actor reads public Snapchat profile pages and is not affiliated with, endorsed by, or supported by Snap Inc.

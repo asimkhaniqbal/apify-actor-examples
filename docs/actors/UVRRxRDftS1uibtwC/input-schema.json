@@ -1,19 +1,124 @@
 {
-  "description": "Search for usernames across 400+ social networks and websites.",
+  "description": "Look up one or more usernames across 400+ sites and return verified profiles with per-site status.",
   "properties": {
-    "usernames": {
-      "description": "List of usernames to search for across social networks. Supports wildcard expansion with {?} (e.g., 'john{?}doe' expands to 'johnadoe', 'johnbdoe', ..., 'john9doe').",
+    "categories": {
+      "description": "Only check sites in these categories. Combined with `sites` as a union. Leave empty for all categories.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "social",
+          "dev",
+          "gaming",
+          "forum",
+          "media",
+          "business",
+          "education",
+          "adult",
+          "other"
+        ],
+        "type": "string"
+      },
+      "title": "Categories",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "enrichProfiles": {
+      "default": true,
+      "description": "Add display name, bio, avatar, follower counts, join date, location, website and verified flag where the site exposes them.",
+      "prefill": false,
+      "title": "Extract profile fields",
+      "type": "boolean"
+    },
+    "includeAvailable": {
+      "default": false,
+      "description": "Also emit rows for sites where the handle is free, blocked, unknown or illegal. Useful for availability checks.",
+      "prefill": false,
+      "title": "Include available/blocked rows",
+      "type": "boolean"
+    },
+    "includeNsfw": {
+      "default": false,
+      "description": "Also check adult sites. Off by default.",
+      "prefill": false,
+      "title": "Include NSFW sites",
+      "type": "boolean"
+    },
+    "maxSitesPerUsername": {
+      "default": 0,
+      "description": "Check only the top N priority sites per handle. 0 checks every selected site (0–500).",
+      "maximum": 500,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Max sites per username",
+      "type": "integer"
+    },
+    "maxUsernames": {
+      "default": 100,
+      "description": "Cap the number of handles after wildcard expansion (1–100).",
+      "maximum": 100,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Max usernames",
+      "type": "integer"
+    },
+    "outputMode": {
+      "default": "perUsername",
+      "description": "How to shape dataset rows.",
+      "editor": "select",
+      "enum": [
+        "perUsername",
+        "perSite",
+        "perHit"
+      ],
+      "enumTitles": [
+        "One row per username (legacy links + profiles)",
+        "One row per username × site",
+        "One row per claimed profile"
+      ],
+      "prefill": "perUsername",
+      "title": "Output mode",
+      "type": "string"
+    },
+    "sites": {
+      "default": [],
+      "description": "Only check these sites. Accepts names (GitHub), domains (github.com) or profile URLs. Leave empty for every supported site.",
       "editor": "stringList",
       "items": {
         "type": "string"
       },
       "prefill": [
-        "johndoe"
+        "GitHub"
       ],
-      "sectionCaption": "Search Settings",
-      "sectionDescription": "Provide one or more usernames to search across 400+ social networks.",
+      "title": "Sites",
+      "type": "array"
+    },
+    "username": {
+      "description": "Optional single handle merged into `usernames`. The `usernames` array is still required.",
+      "editor": "textfield",
+      "title": "Single username",
+      "type": "string"
+    },
+    "usernames": {
+      "default": [
+        "octocat"
+      ],
+      "description": "Handles to look up. A leading @ is ignored. Use {?} to expand to _, - and . (e.g. john{?}doe).",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "octocat"
+      ],
       "title": "Usernames",
       "type": "array"
+    },
+    "verifyClaims": {
+      "default": true,
+      "description": "Re-check every generic claimed site with a random decoy handle. Sites that claim any handle are demoted to unverified and kept out of `links`.",
+      "prefill": true,
+      "title": "Verify claimed profiles",
+      "type": "boolean"
     }
   },
   "required": [

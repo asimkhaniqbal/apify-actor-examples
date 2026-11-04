@@ -2,13 +2,33 @@
   "actorSpecification": 1,
   "title": "Sherlock Results",
   "views": {
-    "overview": {
+    "byUsername": {
       "display": {
         "component": "table",
         "properties": {
           "links": {
             "format": "text",
-            "label": "Found Profiles"
+            "label": "Verified Links"
+          },
+          "profilesFound": {
+            "format": "number",
+            "label": "Found"
+          },
+          "sitesAvailable": {
+            "format": "number",
+            "label": "Available"
+          },
+          "sitesBlocked": {
+            "format": "number",
+            "label": "Blocked"
+          },
+          "sitesChecked": {
+            "format": "number",
+            "label": "Checked"
+          },
+          "sitesUnknown": {
+            "format": "number",
+            "label": "Unknown"
           },
           "username": {
             "format": "text",
@@ -16,11 +36,63 @@
           }
         }
       },
-      "title": "Username Search Results",
+      "title": "By Username",
       "transformation": {
         "fields": [
           "username",
-          "links"
+          "links",
+          "profilesFound",
+          "sitesChecked",
+          "sitesAvailable",
+          "sitesBlocked",
+          "sitesUnknown"
+        ]
+      }
+    },
+    "hits": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "category": {
+            "format": "text",
+            "label": "Category"
+          },
+          "httpStatus": {
+            "format": "number",
+            "label": "HTTP"
+          },
+          "site": {
+            "format": "text",
+            "label": "Site"
+          },
+          "status": {
+            "format": "text",
+            "label": "Status"
+          },
+          "url": {
+            "format": "link",
+            "label": "Profile URL"
+          },
+          "username": {
+            "format": "text",
+            "label": "Username"
+          },
+          "verified": {
+            "format": "boolean",
+            "label": "Verified"
+          }
+        }
+      },
+      "title": "Verified Profiles",
+      "transformation": {
+        "fields": [
+          "username",
+          "site",
+          "category",
+          "status",
+          "verified",
+          "httpStatus",
+          "url"
         ]
       }
     }
