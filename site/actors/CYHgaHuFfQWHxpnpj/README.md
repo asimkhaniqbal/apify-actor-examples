@@ -1,76 +1,74 @@
 # Immowelt Germany Rent & Buy Listings Scraper
 
-Scrape real-estate listings from [Immowelt.de](https://www.immowelt.de) — one of Germany's largest property portals. Search rental and for-sale apartments and houses by city, price range, rooms, living space, and amenities, or scrape any Immowelt search-results URL directly. No login, cookies, or API key required.
+Scrape property listings from [Immowelt.de](https://www.immowelt.de), one of Germany's largest real-estate portals. Search rentals, for-sale homes, plots, commercial space and parking by city, paste a prepared Immowelt search link, or look up specific listings by ID. The actor pages through the full result set, applies Immowelt's own filters and sort orders, and can add a detailed exposé record with construction year, heating, energy values, coordinates, amenities, price breakdown and documents.
 
 ## What this actor does
 
-- **Search by city** — free-text German city/town name (e.g. `Berlin`, `München`, `Hamburg`, `Köln`, `Frankfurt am Main`), combined with property type (apartment, house, plot/land, temporary/furnished living, a commercial category — office, retail, storage/production, gastronomy & hospitality — or agricultural/forestry land), rent/buy, price range, room count, living space, and amenity filters
-- **Scrape a specific URL** — paste any `immowelt.de/suche/...` search-results URL (built with any filter combination on the Immowelt website) and get every listing on that page as structured data
-- **Rich per-listing data** — price, rooms, living space, floor, full address, description, photo gallery, energy class, listing provider (agency or private), and more
-- **Real Germany-wide coverage** — works for any German city or town Immowelt indexes, not just a fixed list
-- **Empty fields are omitted** — only fields Immowelt actually publishes for a given listing are included, never a placeholder or `N/A`
+- **Three modes:** `search` by German city and filters, `byUrl` for a pasted Immowelt search link, and `byIds` for classified IDs or exposé URLs.
+- **Full result-set pagination:** the actor walks every results page instead of stopping at the first 30-40 cards, with a hard `maxItems` ceiling of 10,000.
+- **14 property categories:** apartment, house, plot, temporary/furnished living, office, retail, storage/production, gastronomy/hotel, agricultural/forestry land, parking, whole building, senior living, new-build projects and miscellaneous.
+- **Deep server-side filters:** price, rooms, living space, plot size, construction year, bedrooms, features, energy class, building condition, project type, seller type, WBS requirement and floor location, plus all nine Immowelt sort orders.
+- **Optional exposé enrichment:** construction year, condition, heating type, energy source/consumption/certificate, coordinates, amenities by category, deposit and running costs, videos, virtual tours, floor plans, PDF documents and the full multi-section description.
+- **Keywords and clean output:** include/exclude keyword filters run on the title and description; empty fields are omitted at every depth, never returned as `null`, `""` or `N/A`.
 
 ## Output per listing
 
-- `classifiedId`, `legacyId` — Immowelt listing IDs
-- `title`, `headline`, `description`
-- `distributionType` (`mieten`/`kaufen`), `estateType` (`wohnung`/`haus`/`grundstueck`/`buero`/`einzelhandel`/`lager_produktion`/`gastronomie`/`landwirtschaft`), `estateSubType` (human-readable label, e.g. "Villa", "Penthouse", "Maisonette", "Office space", "Restaurant", "Forestry" — only present when Immowelt discloses it for that listing)
-- `isTemporaryLiving` — present (`true`) only when found via the "Wohnen auf Zeit" temporary/furnished-living search
-- `priceCold` (net/base rent — "Kaltmiete" for residential, "Nettomiete" for commercial), `priceWarm` (rent including utilities, when disclosed), `purchasePrice` (for-sale), `currency`
-- `pricePerSqm` — computed from the listing's own price ÷ living space (or plot size for `grundstueck`), in €/m²
-- `quotedPricePerSqm` — Immowelt's own quoted €/m² rate, only present for commercial listings (office/retail/storage-production/gastronomy) that disclose solely a per-m² rent rate instead of a total monthly price (common for divisible office/industrial space) — distinct from the computed `pricePerSqm` since no total price exists to derive it from
-- `marketAvgPricePerSqm`, `marketPriceRangeLowPerSqm`, `marketPriceRangeHighPerSqm`, `marketPriceTrend1YearPct`, `marketPriceDate` — Immowelt's own city/region average €/m² benchmark (rent or purchase, matching the searched `distributionType`) for the searched property category, with its 1-year trend — useful to compare a listing's `pricePerSqm` against the local market; not available for `estateType=grundstueck` or `estateType=landwirtschaft` (no plot/land benchmark published)
-- `rooms`, `livingSpaceSqm`, `plotSqm`, `floor`
-- `availableFrom` — when the property becomes available (e.g. "Available immediately", "Available from 01.10.2026"), only present when Immowelt discloses it for that listing
-- `street`, `district` (neighborhood), `borough` (larger administrative subdivision within the city, e.g. a Berlin/Hamburg/Leipzig/Köln/Dresden/Stuttgart borough — only present for cities that have one), `city` (the city you searched, or resolved from the search URL), `zipCode`, `state` (German federal state / Bundesland), `country`
-- `energyClass` (`A+`–`H`), `buildingState` (e.g. "Fully renovated", "Mint condition")
-- `isNewListing`, `has3DVisit`, `hasBrokerageFee`, `isForeclosureAuction` (compulsory-auction plot listings)
-- `hasFloorPlan`, `hasVirtualTour` — whether a floor-plan image / virtual (3D) tour is available
-- `providerName`, `providerType` (`professional`/`private`), `providerContactPerson` (agent/seller name shown on the listing), `providerWebsite`, `providerPhone`, `providerAddress`, `providerProfileUrl`, `providerImprintUrl` (legal imprint/Impressum page), `providerLogoUrl`, `providerBadge` (e.g. "Platin Partner"), `providerBadgeImageUrl`
-- `providerRating` (0–5 star rating aggregated from Immowelt user reviews), `providerReviewCount`, `providerRatingUrl` — only present when the agency/provider has published reviews on Immowelt
-- `providerFeeScheduleUrl` — link to the agency's published brokerage-fee/price-list document, when disclosed
-- `projectUrl` — link to the parent new-build development/project page on Immowelt, only present when the listing is part of an active construction project
-- `images[]` (`url`, `caption`, `type` — AI-classified scene type such as "Kitchen", "Living room", "Exterior view", when Immowelt discloses one), `primaryImageUrl`, `imageCount`
-- `publishedAt`, `updatedAt`
-- `sourceUrl` — direct link to the listing on immowelt.de
+- `classifiedId`, `legacyId` - Immowelt listing identifiers
+- `publishedAt`, `updatedAt`, `listingStatus`, `isNewBuildProject`
+- `title`, `headline`, `description` (full text when detailed, otherwise the search-card summary)
+- `distributionType` (`mieten`/`kaufen`), `distributionSubType`, `estateType`, `estateSubType` (human-readable label), `isTemporaryLiving`
+- `priceCold` (net/base rent), `priceWarm` (rent including utilities), `purchasePrice`, `currency`
+- `pricePerSqm` (computed from the listing's own price and area), `quotedPricePerSqm` (Immowelt's quoted rate, when published)
+- `priceAdditionalInformation`, `priceNote`, `deposit`, `utilitiesCost`, `heatingCost`, `financingUrl`
+- `marketAvgPricePerSqm`, `marketPriceRangeLowPerSqm`, `marketPriceRangeHighPerSqm`, `marketPriceTrend1YearPct`, `marketPriceDate`
+- `rooms`, `bedrooms`, `livingSpaceSqm`, `plotSqm`, `floor`, `availableFrom`, `yearBuilt`, `condition`
+- `energyClass`, `energyCertificateClass`, `energyCertificateType`, `energyCertificateValidity`, `energyCertificateUrl`, `energyConsumption`, `heatingType`, `energySource`
+- `buildingState`, `isNewListing`, `has3DVisit`, `hasBrokerageFee`, `isForeclosureAuction`
+- `hasFloorPlan`, `hasVirtualTour`, `hasVideo`
+- `street`, `district`, `borough`, `city`, `zipCode`, `state`, `country`, `latitude`, `longitude`, `isAddressPublished`
+- `providerName`, `providerType`, `providerContactPerson`, `providerWebsite`, `providerPhone`, `providerAddress`, `providerProfileUrl`, `providerImprintUrl`, `providerLogoUrl`
+- `providerBadge`, `providerBadgeImageUrl`, `providerBadgeDescription`, `providerIsPrivateOwner`, `providerBadges[]`
+- `providerRating`, `providerReviewCount`, `providerRatingUrl`, `providerFeeScheduleUrl`, `projectUrl`
+- `images[]` (`url`, `caption`, `type` scene label), `primaryImageUrl`, `imageCount`
+- `videos[]`, `virtualTours[]`, `floorPlans[]`, `documents[]`
+- `amenities[]`, `amenitiesByCategory`, `aiFeatures`
+- `locationDescription`, `additionalDescription`, `extendedInfoDescription`
+- `detailsEnriched` (present only when an exposé page was merged), `sourceUrl`
 - `recordType: "listing"`, `scrapedAt`
-
-Only fields Immowelt actually publishes for a given listing are included — no placeholder or `N/A` values.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `search` | `search` (by city + filters) or `byUrl` (scrape a specific search URL) |
-| `city` | string | `Berlin` | German city/town name (mode=search) |
-| `distributionType` | string | `mieten` | `mieten` (for rent) or `kaufen` (for sale) |
-| `estateType` | string | `wohnung` | `wohnung` (apartment), `haus` (house), `grundstueck` (plot / land), `wohnen_auf_zeit` (temporary / furnished living — rent-only), `landwirtschaft` (agricultural / forestry land), or a commercial category: `buero` (office / practice space), `einzelhandel` (retail / shop space), `lager_produktion` (storage / production / industrial), `gastronomie` (gastronomy & hospitality) |
-| `estateSubType` | string | – | Optional narrower sub-type (loft, penthouse, villa, bungalow, leisure/commercial land, etc.) — must match `estateType` (e.g. `villa` requires `estateType=haus`); not applicable when `estateType=wohnen_auf_zeit`, `estateType=landwirtschaft`, or any commercial category |
-| `minPrice` / `maxPrice` | int | – | Price range in EUR (cold rent or purchase price) |
-| `minRooms` / `maxRooms` | int | – | Room count range (set both to the same value for an exact room count) |
-| `minArea` / `maxArea` | int | – | Living space (or plot / land size for `grundstueck` and `landwirtschaft`, which can run into the millions of m² for large forest tracts) range in m² |
-| `excludeGroundFloor` | bool | `false` | Skip ground-floor listings |
-| `features` | array | – | One amenity/feature to require (only the first is applied per run): balcony/terrace, garden, cellar, parking, pool, new build, private offers only, needs renovation, fitted kitchen, furnished, wheelchair accessible, WBS required, shared flat, swap apartment, top floor, ground floor; not applicable when `estateType=wohnen_auf_zeit` or `estateType=landwirtschaft` |
-| `energyClass` | array | – | Only keep listings with one of the selected German energy efficiency classes (`A+` most efficient – `H` least efficient). Enforced client-side against each listing's disclosed energy class; listings that don't disclose one are dropped when this filter is set |
-| `sortBy` | string | – | Re-order the returned listings: relevance (default), price low-to-high / high-to-low, living space (or plot size) low-to-high / high-to-low, price per m² low-to-high / high-to-low, rooms fewest-to-most / most-to-fewest, or newest first |
-| `searchUrl` | string | – | A full `immowelt.de/suche/...` URL (mode=byUrl) |
-| `maxItems` | int | `20` | Hard cap on emitted records (1–40) |
+| `mode` | string | `search` | `search` (city and filters), `byUrl` (pasted search link) or `byIds` (listing IDs / exposé URLs) |
+| `city` | string | `Berlin` | German city or town for `search`, e.g. `München`, `Hamburg`, `Köln`, `Frankfurt am Main` |
+| `distributionType` | string | `mieten` | `mieten` (rent), `kaufen` (buy) or `zwangsversteigerung` (compulsory auction) |
+| `estateType` | string | `wohnung` | One of the 14 Immowelt property categories |
+| `estateSubType` | string | - | Optional narrower sub-type; leave empty for any. Must belong to the selected property type |
+| `minPrice` / `maxPrice` | integer | - | Price range in EUR (cold rent or purchase price) |
+| `minRooms` / `maxRooms` | number | - | Room-count range |
+| `minArea` / `maxArea` | integer | - | Living-space range in m² |
+| `minPlotArea` / `maxPlotArea` | integer | - | Plot/land-size range in m² |
+| `minYearBuilt` / `maxYearBuilt` | integer | - | Construction-year range |
+| `minBedrooms` / `maxBedrooms` | integer | - | Bedroom-count range |
+| `features` | array | `[]` | Required amenities; all selected values must be present |
+| `energyClass` | array | `[]` | One or more energy classes from `A+` (best) to `H` |
+| `buildState` | array | `[]` | One or more building conditions, e.g. first occupancy, mint, well kept, needs renovation |
+| `projectTypes` | array | `[]` | One or more project/tenure types, e.g. new build, resale, investment, short-term rental |
+| `sellerType` | string | `any` | `any`, `private` or `professional` |
+| `wbsRequired` | boolean | `false` | Only listings that require a certificate of eligibility (WBS) |
+| `floorLocation` | array | `[]` | Ground floor, half basement or roof storey |
+| `excludeGroundFloor` | boolean | `false` | Skip ground-floor listings |
+| `includeKeywords` | array | `[]` | Keep only listings whose title/description contains every keyword |
+| `excludeKeywords` | array | `[]` | Drop listings whose title/description contains any keyword |
+| `sortBy` | string | – | All nine Immowelt orders: newest, price, area, rooms and price per m², ascending or descending |
+| `maxItems` | integer | `100` | Hard cap on emitted listings (1-10,000) |
+| `searchUrl` | string | - | Full Immowelt search URL for `byUrl` (modern `/classified-search` or `/suche/...`) |
+| `propertyIds` | array | `[]` | Classified IDs or exposé URLs for `byIds` |
+| `includeDetails` | boolean | `false` | Fetch each listing's exposé page for the extra detail fields |
+| `maxDetails` | integer | `0` | Number of listings to enrich; `0` means all emitted listings |
 
-**Note on filters:** Immowelt's search pages return up to ~30-40 listings per query (its first results page). When `estateType=wohnen_auf_zeit`, the temporary-living category always takes priority for the site query. Otherwise property sub-type takes priority (most selective), then an exact room count (only when `minRooms` equals `maxRooms`), then ground floor / feature. Price range, room count (range or exact), living space/plot size, ground-floor, and energy class filters are always enforced against every fetched listing (client-side, on top of the site query — Immowelt has no reliable server-side URL filter for price or energy class), so results always match those filters exactly.
-
-**Note on `estateSubType`:** the sub-type must belong to the selected `estateType` (apartment sub-types with `wohnung`, house sub-types with `haus`, plot sub-types with `grundstueck`) — Immowelt silently ignores a mismatched sub-type/property-type pairing and returns the unfiltered property-type results instead of erroring, so the actor detects this and the run's status message will say the results are NOT filtered by sub-type when that happens. When the pairing is valid, the sub-type is applied server-side, but Immowelt doesn't disclose a machine-readable sub-type on every matching listing, so `estateSubType` in the output is populated whenever Immowelt discloses it and omitted otherwise (never enforced as a hard client-side filter, unlike price/rooms/area).
-
-**Note on `estateType=wohnen_auf_zeit`:** "Wohnen auf Zeit" is Immowelt's own category for temporary/furnished short- and mid-term rentals, spanning both apartments and houses. It's rent-only — `distributionType` is automatically switched to `mieten` if `kaufen` was requested (the run's status message will say so), and `estateSubType`/`features` aren't applied server-side for it. Price, room count, and area filters still work normally.
-
-**Note on commercial property types (`buero`, `einzelhandel`, `lager_produktion`, `gastronomie`):** these are Immowelt's business real-estate ("Gewerbeimmobilien") categories — office/practice space, retail/shop space, storage/production/industrial space, and gastronomy & hospitality — available for both `mieten` and `kaufen`. `estateSubType` and `features` (both residential-only option sets) aren't applied for these; price, room count, and living-space filters still work normally wherever the listing discloses that data. `priceCold` for these categories reflects whatever net-rent label Immowelt discloses for the listing ("Nettomiete" for commercial vs. "Kaltmiete" for residential).
-
-**Note on `estateType=landwirtschaft`:** Immowelt's separate category for agricultural and forestry land — farmland, forest tracts, riding/equestrian land, and agricultural businesses — available for both `mieten` (renting) and `kaufen` (buying), though rental inventory is much sparser than for-sale. This is a genuinely low-volume category (typically single digits to a couple dozen listings per city, vs. dozens to thousands for `wohnung`/`haus`) since farmland and forestry parcels are inherently rural — a search returning few or zero results for a given city is expected site behavior, not a scraper error. `estateSubType` and `features` aren't applied for it; price and area filters still work normally (area is reported as `plotSqm`, never `livingSpaceSqm`, and can run from a few hundred to several million m² for large forest tracts).
-
-**Note on `features`:** unlike the other filters, a feature can't be double-checked against listing data (Immowelt doesn't expose it in the result payload), so it relies entirely on the site accepting it as a URL filter for the given property type — verified live across multiple German cities. `Balcony / terrace`, `Garden`, and `Furnished` are reliably supported for Apartment and House. `Parking space` is reliably supported for House only. `Fitted kitchen`, `Wheelchair accessible`, `WBS required`, `Shared flat`, `Swap apartment`, `Top floor`, and `Ground floor` are reliably supported for Apartment only. `Cellar / basement`, `Pool`, `Private offers only`, `New build`, and `Needs renovation` are not currently supported reliably by Immowelt for any property type. None of the features are supported for Plot / land or Agricultural / forestry land. When a requested feature isn't supported for the chosen property type, Immowelt silently ignores the filter and the run's status message will say the results are not filtered by that feature.
-
-**Note on `sortBy`:** ordering is applied to the fetched page of listings (useful when `maxItems` is lower than the number of matches on that page); it does not change which ~30-40 listings Immowelt returns for the query.
-
-### Example: 2-room apartments for rent in Berlin, €500–€2000
+### Example: apartments for rent in Berlin, 500-2,000 EUR
 
 ```json
 {
@@ -78,15 +76,15 @@ Only fields Immowelt actually publishes for a given listing are included — no 
   "city": "Berlin",
   "distributionType": "mieten",
   "estateType": "wohnung",
-  "minRooms": 2,
-  "maxRooms": 2,
   "minPrice": 500,
   "maxPrice": 2000,
-  "maxItems": 20
+  "minRooms": 2,
+  "maxItems": 500,
+  "sortBy": "priceAsc"
 }
 ```
 
-### Example: houses for sale in München
+### Example: houses for sale in München with a garden
 
 ```json
 {
@@ -94,97 +92,82 @@ Only fields Immowelt actually publishes for a given listing are included — no 
   "city": "München",
   "distributionType": "kaufen",
   "estateType": "haus",
-  "maxItems": 20
+  "features": ["garden", "parking"],
+  "maxItems": 300
 }
 ```
 
-### Example: commercial building plots for sale in Berlin
-
-```json
-{
-  "mode": "search",
-  "city": "Berlin",
-  "distributionType": "kaufen",
-  "estateType": "grundstueck",
-  "estateSubType": "commercial_land",
-  "maxItems": 20
-}
-```
-
-### Example: office space for rent in Frankfurt am Main, €1000–€5000
-
-```json
-{
-  "mode": "search",
-  "city": "Frankfurt am Main",
-  "distributionType": "mieten",
-  "estateType": "buero",
-  "minPrice": 1000,
-  "maxPrice": 5000,
-  "maxItems": 20
-}
-```
-
-### Example: furnished temporary-living rentals in Leipzig
-
-```json
-{
-  "mode": "search",
-  "city": "Leipzig",
-  "estateType": "wohnen_auf_zeit",
-  "minRooms": 1,
-  "maxRooms": 3,
-  "maxItems": 20
-}
-```
-
-### Example: agricultural / forestry land for sale near München
-
-```json
-{
-  "mode": "search",
-  "city": "München",
-  "distributionType": "kaufen",
-  "estateType": "landwirtschaft",
-  "maxItems": 20
-}
-```
-
-### Example: scrape a specific Immowelt search URL
+### Example: paste an Immowelt search link
 
 ```json
 {
   "mode": "byUrl",
   "searchUrl": "https://www.immowelt.de/suche/mieten/wohnung/berlin/berlin-10115/ad08de8634",
-  "maxItems": 20
+  "maxItems": 1000
+}
+```
+
+### Example: enrich specific listings by ID or exposé URL
+
+```json
+{
+  "mode": "byIds",
+  "propertyIds": [
+    "26XYAMX8494K",
+    "https://www.immowelt.de/expose/81052d86-9572-4815-a7e8-bea49be808b3"
+  ],
+  "includeDetails": true,
+  "maxItems": 10
 }
 ```
 
 ## Use cases
 
-- **Apartment hunting** — filter rentals by room count, price, and amenities across any German city
-- **Comparable-sales research** — pull purchase listings for a city to gauge current asking prices per m²
-- **Commercial site scouting** — search office, retail, or industrial space by city and price range
-- **Rural/agricultural land sourcing** — search farmland and forestry tracts by size and location
-- **Market monitoring** — compare a listing's price per m² against Immowelt's own local market benchmark
-- **Agency lead sourcing** — collect provider/agent contact details attached to active listings
+- **Rental-market research** - pull complete, filtered rent inventories for one city or many scheduled runs.
+- **Investment screening** - compare purchase prices, price per m² and local market benchmarks across German cities.
+- **Property alerts and lead generation** - monitor new listings that match a saved filter set.
+- **Agency and portfolio analysis** - analyse provider names, badges, ratings and listing volumes.
+- **Real-estate data platforms** - feed structured German property records into a search, valuation or CRM product.
+- **Commercial and land research** - collect office, retail, storage, gastronomy, parking and agricultural/forestry listings that consumer portals often omit.
 
-## FAQs
+## FAQ
 
-**Do I need an Immowelt account or API key?**
-No. This actor reads only public search-results pages that require no login, cookies, or API key.
+### Which German cities can I search?
 
-**Which cities are supported?**
-Any German city or town that Immowelt indexes — just enter its name (umlauts like ä/ö/ü/ß are handled automatically).
+Any city or town Immowelt indexes, including large cities and smaller municipalities. Use the German spelling without postcode; the actor resolves it on Immowelt. A handful of small towns that share a name with a district may not have their own working search page on the site, so a nearby larger town is the practical fallback.
 
-**Why does the actor return fewer than `maxItems` records?**
-Immowelt search-results pages surface up to ~30-40 listings per query. Narrow your city or widen your filters to see different listings; the `maxItems` cap reflects this page-1 limit.
+### How many listings can one run return?
 
-**Can I get every filter combination Immowelt supports?**
-Yes — use `mode=byUrl` with any URL built on immowelt.de's own filter UI, and the actor will extract structured data from it.
+Up to 10,000 when you set `maxItems` that high and the search has enough matches. The actor pages through the entire result set rather than taking only the first page. If a search has more matches than `maxItems`, the run reports the site's total count in its status message.
 
-**Does this actor use proxies?**
-No. Immowelt's public search pages are reachable directly, keeping runs fast and free of proxy costs.
+### Why are year built, heating, coordinates or documents missing on some records?
 
-**Why does `sourceUrl` (or `providerProfileUrl`, `providerRatingUrl`, `projectUrl`) sometimes show a verification page when I open it directly (e.g. via `curl`)?**
-These are the real, correctly-formed links to the listing/agency-profile/project page on immowelt.de. Immowelt's bot-protection can show a one-time verification challenge to anonymous/automated direct requests to individual pages (this does not affect the search-results data this actor extracts). Opening the same link in a normal web browser works as expected.
+Those values come from the listing's exposé page and are only fetched when `includeDetails` is enabled. Even then, Immowelt does not publish every detail for every property - for example, energy data or construction year may be absent on older or private listings. Missing values are omitted instead of being guessed.
+
+### What is the difference between priceCold, priceWarm and purchasePrice?
+
+`priceCold` is the net/base rent (Kaltmiete or Nettomiete), `priceWarm` is the rent including utilities (Warmmiete), and `purchasePrice` is the asking sale price. Only the values Immowelt publishes for that listing are included.
+
+### Are furnished, short-term, commercial and parking listings supported?
+
+Yes. Temporary/furnished living, office, retail, storage/production, gastronomy/hotel, agricultural/forestry land, parking, whole buildings, senior living, new-build projects and miscellaneous are all selectable property categories. The `features` filter adds individual amenities such as balcony, garden, lift, parking, cellar or a swimming pool.
+
+### Do I need a login, cookies or an API key?
+
+No. The actor works without an account, cookies or credentials. Everything it returns is publicly visible on Immowelt.de.
+
+### Do I need to configure a proxy?
+
+No. The actor chooses a working connection automatically and handles the site's bot protection itself. Just fill in the input and run it.
+
+### Why did a run stop before reaching my maxItems?
+
+Immowelt can temporarily limit a connection when it receives too many requests. The actor paces its requests, retries, and switches to its automatic fallback paths. If the site still blocks the run, already-collected rows are kept and the status message says that the first results page was used or that the run was interrupted.
+
+### How fresh is the data?
+
+Every record is read live from Immowelt during the run. `publishedAt`, `updatedAt` and `scrapedAt` show the listing's publication/update times and the time of the scrape.
+
+### Is this actor affiliated with Immowelt?
+
+No. This is an independent third-party tool that reads publicly available listing pages.
