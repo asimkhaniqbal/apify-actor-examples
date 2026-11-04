@@ -1,0 +1,112 @@
+# TikTok Anonymous For You Feed Snapshot Scraper
+
+TikTok's For You feed shows a personalized mix of videos to logged-in users, but an anonymous visitor gets a regionally-driven version of the same recommendation engine. This actor loads that anonymous feed and returns a structured snapshot of whatever posts it serves — useful as a read on what TikTok's algorithm is currently pushing in a given region, independent of any one account's watch history.
+
+## What this actor does
+
+- Loads TikTok's For You feed as an anonymous visitor and collects the posts the recommendation engine serves.
+- Scrolls through additional batches until the requested number of posts is collected.
+- Labels every post with `feedType`, the region label you provided, and a flag confirming the feed isn't tied to a personal account.
+- Captures per-post engagement counts, author profile, music/sound details, video technical metadata, hashtags, and @mentions.
+- Fields a given post doesn't carry (e.g. ad-only fields on an organic post) are left out of that post's record.
+
+## Output per post
+
+| Field | Description |
+|---|---|
+| `postId` | TikTok's unique post ID. |
+| `postUrl` | Direct URL to the post. |
+| `postType` | `"video"` or `"slideshow"`. |
+| `caption` | Caption text, including hashtags and mentions as typed. |
+| `feedType` | Always `"foryou"` for this actor. |
+| `observedRegion` | The ISO country code label you supplied via `regionObservation`. |
+| `isPersonalized` | Always `false` — this feed is anonymous, not tied to any logged-in account. |
+| `createTime` | Unix timestamp the post was created. |
+| `createdAt` | Same creation time as an ISO 8601 UTC string. |
+| `locationCreated` | ISO country code of where the post was created, when TikTok provides it. |
+| `playCount` / `likeCount` / `commentCount` / `shareCount` / `collectCount` / `repostCount` | Engagement counters. |
+| `textLanguage` | Language code detected for the caption. |
+| `stitchEnabled` / `duetEnabled` / `shareEnabled` | Whether each interaction type is enabled on the post. |
+| `isAd` | Whether the post is a paid advertisement. |
+| `author` | Object with `id`, `secUid`, `username`, `displayName`, `bio`, `verified`, `avatarUrl`, `followerCount`, `followingCount`, `heartCount`, `videoCount`. |
+| `music` | Object with `id`, `title`, `authorName`, `original`, `duration`. |
+| `video` | Object with `width`, `height`, `duration`, `ratio`, `playUrl`, `cover`. |
+| `hashtags` | Array of `{id, name}` hashtag objects used in the post. |
+| `mentions` | Array of `{username, start, end}` @mentions found in the caption. |
+| `images` | Slideshow image URLs, for posts where `postType` is `"slideshow"`. |
+| `mediaUrlExpiresAt` | ISO 8601 UTC time when signed media URLs (video/cover links) expire. |
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `maxItems` | integer | 30 | Maximum For You feed posts to collect per run (1–300). |
+| `regionObservation` | string | `"US"` | ISO country code label for this observation (informational only — actual region is server IP-based). |
+
+### Example: US feed snapshot
+
+```json
+{
+  "maxItems": 10,
+  "regionObservation": "US"
+}
+```
+
+### Example: larger feed sample
+
+```json
+{
+  "maxItems": 100,
+  "regionObservation": "US"
+}
+```
+
+### Example: daily trend monitoring run
+
+```json
+{
+  "maxItems": 50,
+  "regionObservation": "US"
+}
+```
+
+### Example: extended collection
+
+```json
+{
+  "maxItems": 300,
+  "regionObservation": "GB"
+}
+```
+
+## Use cases
+
+- **Content trend researchers** identifying what video formats and topics are currently surfacing in TikTok's recommendation engine
+- **Brand monitoring teams** spotting branded or sponsored content appearing in organic anonymous feeds
+- **Competitive intelligence analysts** observing which creators and styles are being algorithmically promoted
+- **Academic researchers** building unbiased FYP datasets to study TikTok's content distribution by region
+- **Media companies** tracking the pulse of trending content in specific markets
+- **Developers** powering trend dashboards or alert systems with a live snapshot of TikTok's recommendation output
+
+## FAQ
+
+**Q: Is this a personalized feed?**  
+A: No. The actor operates as an anonymous visitor with no account. TikTok assigns a temporary anonymous session identifier, but the feed is not linked to any user profile or watch history.
+
+**Q: Can I control which region's For You feed I see?**  
+A: Not directly. `regionObservation` only labels the `observedRegion` field on each output record — it doesn't change which feed TikTok actually serves, which depends on where the request originates from.
+
+**Q: Will I get the same videos every run?**  
+A: No. Each run gets a unique anonymous session, producing a different feed snapshot. Results are non-deterministic.
+
+**Q: How many posts can I collect per run?**  
+A: Up to 300 per run. TikTok serves approximately 6 posts per API call and the actor scrolls the page to trigger additional batches.
+
+**Q: Are video play URLs accessible after scraping?**  
+A: Play URLs are signed and expire, typically within 24 hours of collection. Use `postUrl` as the stable reference.
+
+**Q: Do I need a TikTok account or cookies?**  
+A: No. The actor operates fully anonymously. No credentials, session cookies, or proxy are required.
+
+**Q: What does `isPersonalized` mean if it is always false?**  
+A: It is a label distinguishing this feed type from a logged-in personalized feed. It confirms the data represents an anonymous regional observation rather than any user's actual feed.

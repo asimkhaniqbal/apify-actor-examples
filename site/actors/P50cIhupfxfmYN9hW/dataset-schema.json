@@ -1,0 +1,295 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "author": {
+      "description": "Post author/creator information",
+      "properties": {
+        "avatarUrl": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "secUid": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "verified": {
+          "type": "boolean"
+        }
+      },
+      "title": "Author",
+      "type": "object"
+    },
+    "caption": {
+      "description": "Post caption text including hashtags and mentions",
+      "title": "Caption",
+      "type": "string"
+    },
+    "collectCount": {
+      "description": "Number of bookmarks/collects (from statsV2)",
+      "title": "Collect Count",
+      "type": "integer"
+    },
+    "commentCount": {
+      "description": "Number of comments (from statsV2)",
+      "title": "Comment Count",
+      "type": "integer"
+    },
+    "createTime": {
+      "description": "Unix timestamp when the post was created",
+      "title": "Create Time (Unix)",
+      "type": "integer"
+    },
+    "createdAt": {
+      "description": "ISO 8601 UTC datetime when the post was created",
+      "title": "Created At",
+      "type": "string"
+    },
+    "duetEnabled": {
+      "description": "Whether duets are allowed",
+      "title": "Duet Enabled",
+      "type": "boolean"
+    },
+    "feedType": {
+      "description": "Always 'foryou' for this actor",
+      "title": "Feed Type",
+      "type": "string"
+    },
+    "hashtags": {
+      "description": "Hashtags used in the post",
+      "items": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "title": "Hashtags",
+      "type": "array"
+    },
+    "images": {
+      "description": "Slideshow images for photo posts (postType='slideshow')",
+      "title": "Images",
+      "type": "array"
+    },
+    "isAd": {
+      "description": "Whether this post is a paid advertisement",
+      "title": "Is Ad",
+      "type": "boolean"
+    },
+    "isPersonalized": {
+      "description": "Always false — the FYP feed is anonymous (no login required)",
+      "title": "Is Personalized",
+      "type": "boolean"
+    },
+    "likeCount": {
+      "description": "Number of likes (from statsV2)",
+      "title": "Like Count",
+      "type": "integer"
+    },
+    "locationCreated": {
+      "description": "ISO country code where the post was created",
+      "title": "Location Created",
+      "type": "string"
+    },
+    "mediaUrlExpiresAt": {
+      "description": "ISO 8601 UTC timestamp when the signed media URLs (playUrl, cover, etc.) expire",
+      "title": "Media URL Expires At",
+      "type": "string"
+    },
+    "mentions": {
+      "description": "@mentions in the post caption",
+      "items": {
+        "properties": {
+          "end": {
+            "type": "integer"
+          },
+          "start": {
+            "type": "integer"
+          },
+          "username": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "title": "Mentions",
+      "type": "array"
+    },
+    "music": {
+      "description": "Sound/music used in the post",
+      "properties": {
+        "authorName": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "original": {
+          "type": "boolean"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "title": "Music",
+      "type": "object"
+    },
+    "observedRegion": {
+      "description": "ISO country code label provided as input (e.g. 'US')",
+      "title": "Observed Region",
+      "type": "string"
+    },
+    "playCount": {
+      "description": "Number of video plays (from statsV2)",
+      "title": "Play Count",
+      "type": "integer"
+    },
+    "postId": {
+      "description": "TikTok's unique post ID (64-bit int as string)",
+      "title": "Post ID",
+      "type": "string"
+    },
+    "postType": {
+      "description": "Either 'video' or 'slideshow'",
+      "title": "Post Type",
+      "type": "string"
+    },
+    "postUrl": {
+      "description": "Direct URL to the TikTok post",
+      "title": "Post URL",
+      "type": "string"
+    },
+    "repostCount": {
+      "description": "Number of reposts (from statsV2)",
+      "title": "Repost Count",
+      "type": "integer"
+    },
+    "shareCount": {
+      "description": "Number of shares (from statsV2)",
+      "title": "Share Count",
+      "type": "integer"
+    },
+    "shareEnabled": {
+      "description": "Whether sharing is enabled",
+      "title": "Share Enabled",
+      "type": "boolean"
+    },
+    "stitchEnabled": {
+      "description": "Whether stitching is allowed",
+      "title": "Stitch Enabled",
+      "type": "boolean"
+    },
+    "textLanguage": {
+      "description": "Language code of the caption text",
+      "title": "Text Language",
+      "type": "string"
+    },
+    "video": {
+      "description": "Video metadata",
+      "properties": {
+        "cover": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        },
+        "ratio": {
+          "type": "string"
+        },
+        "width": {
+          "type": "integer"
+        }
+      },
+      "title": "Video",
+      "type": "object"
+    }
+  },
+  "title": "TikTok For You Feed Posts",
+  "views": {
+    "overview": {
+      "description": "TikTok For You page posts with engagement metrics.",
+      "display": {
+        "component": "table",
+        "properties": {
+          "caption": {
+            "format": "text",
+            "label": "Caption"
+          },
+          "commentCount": {
+            "format": "number",
+            "label": "Comments"
+          },
+          "createdAt": {
+            "format": "text",
+            "label": "Created At"
+          },
+          "feedType": {
+            "format": "text",
+            "label": "Feed Type"
+          },
+          "isPersonalized": {
+            "format": "text",
+            "label": "Personalized"
+          },
+          "likeCount": {
+            "format": "number",
+            "label": "Likes"
+          },
+          "observedRegion": {
+            "format": "text",
+            "label": "Region"
+          },
+          "playCount": {
+            "format": "number",
+            "label": "Plays"
+          },
+          "postId": {
+            "format": "text",
+            "label": "Post ID"
+          },
+          "postUrl": {
+            "format": "link",
+            "label": "Post URL"
+          },
+          "shareCount": {
+            "format": "number",
+            "label": "Shares"
+          }
+        }
+      },
+      "title": "Feed Overview",
+      "transformation": {
+        "fields": [
+          "postId",
+          "postUrl",
+          "caption",
+          "feedType",
+          "observedRegion",
+          "isPersonalized",
+          "playCount",
+          "likeCount",
+          "commentCount",
+          "shareCount",
+          "createdAt"
+        ]
+      }
+    }
+  }
+}
