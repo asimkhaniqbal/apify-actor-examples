@@ -1,70 +1,48 @@
 {
-  "description": "Collect public Pinterest Pins, profiles, boards, board Pins, search results, and comments using one simple input form. All fields are source-backed and optional.",
+  "description": "Collect public Pinterest Pins, profiles, boards, board sections, comments, idea feeds and search results. Every field is optional; choose a mode or let Auto-detect route your links.",
   "properties": {
     "boardUrls": {
       "default": [],
-      "description": "Public board links or username/board-name paths.",
+      "description": "Public board links or username/board paths. A three-part board-section link is routed to that section's Pins.",
       "editor": "stringList",
       "items": {
         "type": "string"
       },
       "prefill": [],
-      "title": "Board URLs",
-      "type": "array"
-    },
-    "boards": {
-      "default": [],
-      "description": "Compatibility alias for Board URLs.",
-      "editor": "stringList",
-      "items": {
-        "type": "string"
-      },
-      "prefill": [],
-      "title": "Board URLs (compatibility alias)",
+      "title": "Board or section URLs",
       "type": "array"
     },
     "commerceOnly": {
       "default": false,
-      "description": "Keep only Pins with source-backed product or shopping metadata.",
+      "description": "Keep only Pins with source-backed product, price, or shopping metadata.",
       "prefill": false,
       "title": "Shoppable Pins only",
       "type": "boolean"
     },
-    "cookies": {
-      "description": "Optional Cookie Editor JSON export. The actor works without cookies; never share this secret publicly.",
-      "editor": "json",
-      "isSecret": true,
-      "title": "Optional Pinterest cookies",
-      "type": "array"
-    },
-    "cookiesJson": {
-      "description": "Compatibility alias for pasting a Cookie Editor JSON export.",
-      "editor": "textarea",
-      "isSecret": true,
-      "title": "Optional cookies JSON (alias)",
-      "type": "string"
-    },
-    "endPage": {
-      "default": 0,
-      "description": "Maximum number of pages to paginate through. Set to 0 for unlimited.",
-      "maximum": 2000,
-      "minimum": 0,
-      "title": "End Page",
-      "type": "integer"
-    },
     "enrichDetails": {
       "default": false,
-      "description": "When enabled, collection Pins are checked on their public detail pages for creator names, follower counts, links, engagement, and media fields. Slower but more complete.",
+      "description": "Check each collection Pin's public detail page for more accurate creator, engagement, link, and media fields. Slower and uses more requests.",
       "prefill": false,
       "title": "Enrich Pin details",
       "type": "boolean"
     },
     "excludeAds": {
       "default": false,
-      "description": "Exclude Pins Pinterest marks as promoted or sponsored.",
+      "description": "Exclude Pins that Pinterest marks as promoted or sponsored.",
       "prefill": false,
       "title": "Exclude promoted Pins",
       "type": "boolean"
+    },
+    "ideaUrls": {
+      "default": [],
+      "description": "Public idea-topic links such as /ideas/beauty/935541271955/. Pinterest exposes a list-only feed capped at about 17 Pins.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Idea topic URLs",
+      "type": "array"
     },
     "imageOnly": {
       "default": false,
@@ -75,14 +53,14 @@
     },
     "includeComments": {
       "default": false,
-      "description": "When enabled, add one real comment/activity row for each collected Pin. Pinterest's public cookieless comment path is used automatically.",
+      "description": "Add one real public comment row per collected numeric Pin. Comment rows count toward Maximum records.",
       "prefill": false,
       "title": "Include Pin comments",
       "type": "boolean"
     },
     "keywords": {
       "default": [],
-      "description": "One or more words or phrases for search modes.",
+      "description": "One or more words or phrases for the search modes.",
       "editor": "stringList",
       "items": {
         "type": "string"
@@ -93,7 +71,7 @@
     },
     "maxComments": {
       "default": 10,
-      "description": "Maximum public comment/activity rows to add per Pin when comments are enabled.",
+      "description": "Maximum public comment rows to add per Pin when comments are enabled.",
       "maximum": 20000,
       "minimum": 1,
       "prefill": 10,
@@ -102,38 +80,43 @@
     },
     "maxItems": {
       "default": 50,
-      "description": "Maximum number of items to scrape. Set to 0 for unlimited.",
+      "description": "Maximum number of emitted records, including comment and section rows. Set to 0 for no user cap.",
       "maximum": 20000,
       "minimum": 0,
-      "title": "Max Items",
+      "prefill": 1,
+      "title": "Maximum records",
       "type": "integer"
     },
     "maxPages": {
       "default": 0,
-      "description": "Maximum pagination pages per search, profile, or board. 0 means continue until Pinterest has no next page.",
+      "description": "Maximum feed pages per search, profile, or board. 0 follows Pinterest's cursors until the source ends.",
       "maximum": 2000,
       "minimum": 0,
       "prefill": 0,
-      "title": "Max pages",
+      "title": "Maximum pages",
       "type": "integer"
     },
     "minCreatorFollowers": {
-      "description": "Keep Pins only when Pinterest supplies a creator follower count at or above this value.",
+      "default": 0,
+      "description": "0 means no minimum. Keep Pins only when Pinterest supplies a creator follower count at or above this value.",
       "maximum": 1000000000,
       "minimum": 0,
+      "prefill": 0,
       "title": "Minimum creator followers",
       "type": "integer"
     },
     "minSaves": {
+      "default": 0,
       "description": "0 means no minimum. For a positive value, keep only Pins where Pinterest supplies a numeric save count at or above it.",
       "maximum": 10000000,
       "minimum": 0,
+      "prefill": 0,
       "title": "Minimum saves",
       "type": "integer"
     },
     "mode": {
       "default": "auto",
-      "description": "Choose a collection type. Auto-detect accepts mixed public Pinterest links.",
+      "description": "Choose a collection type. Auto-detect accepts mixed public Pinterest Pin, profile, board, board-section, search and idea links.",
       "editor": "select",
       "enum": [
         "auto",
@@ -141,12 +124,15 @@
         "comments",
         "searchPins",
         "searchVideos",
+        "searchUsers",
+        "searchBoards",
         "userProfile",
         "userPins",
         "userBoards",
         "boardDetail",
         "boardPins",
-        "search"
+        "boardSections",
+        "ideas"
       ],
       "enumTitles": [
         "Auto-detect links",
@@ -154,63 +140,37 @@
         "Comments for Pins",
         "Search Pins",
         "Search video Pins",
+        "Search people",
+        "Search boards",
         "Profile details",
         "Pins created by a person",
         "Boards owned by a person",
         "Board details",
-        "Pins inside a board",
-        "Search Pins (legacy)"
+        "Pins inside a board or section",
+        "Sections inside a board",
+        "Idea topic Pins (list only)"
       ],
-      "prefill": "auto",
+      "prefill": "pinDetail",
       "title": "What to collect",
       "type": "string"
     },
     "pinUrls": {
       "default": [],
-      "description": "Public Pin links or numeric Pin IDs. This is also accepted as `pinterestUrls` for compatibility.",
+      "description": "Public Pin links, numeric Pin IDs, or opaque feed IDs. Opaque IDs are kept as list rows without a detail page.",
       "editor": "stringList",
       "items": {
         "type": "string"
       },
-      "prefill": [],
+      "prefill": [
+        "142567144448888376"
+      ],
       "title": "Pin URLs or IDs",
       "type": "array"
     },
-    "pinterestUrls": {
-      "default": [],
-      "description": "Compatibility alias for Pin URLs or IDs.",
-      "editor": "stringList",
-      "items": {
-        "type": "string"
-      },
-      "prefill": [],
-      "title": "Pin URLs or IDs (compatibility alias)",
-      "type": "array"
-    },
-    "profiles": {
-      "default": [],
-      "description": "Compatibility alias for Pinterest usernames.",
-      "editor": "stringList",
-      "items": {
-        "type": "string"
-      },
-      "prefill": [],
-      "title": "Profile names or links (compatibility alias)",
-      "type": "array"
-    },
-    "proxy": {
-      "description": "Proxy settings for the scraper. Uses Apify Proxy by default.",
-      "editor": "proxy",
-      "prefill": {
-        "useApifyProxy": true
-      },
-      "title": "Proxy Configuration",
-      "type": "object"
-    },
     "proxyConfiguration": {
-      "description": "Compatibility alias for proxy. Direct public Pin/profile pages also work without a proxy.",
+      "description": "Leave empty for direct-first collection with the actor's automatic fallback. A supplied proxy is used only after a direct empty or blocked response.",
       "editor": "proxy",
-      "title": "Proxy configuration (alias)",
+      "title": "Optional proxy configuration",
       "type": "object"
     },
     "requireOutboundLink": {
@@ -220,32 +180,22 @@
       "title": "Require destination link",
       "type": "boolean"
     },
-    "search": {
-      "description": "Keyword to search on Pinterest. Results will be pins matching this query.",
-      "editor": "textfield",
-      "prefill": "cats",
-      "title": "Search Query",
-      "type": "string"
-    },
-    "searchTerms": {
-      "default": [],
-      "description": "Compatibility alias for Search words.",
-      "editor": "stringList",
-      "items": {
-        "type": "string"
-      },
-      "prefill": [],
-      "title": "Search words (compatibility alias)",
-      "type": "array"
+    "resolveNumericIds": {
+      "default": true,
+      "description": "When a creator feed contains only opaque IDs, read the creator's public RSS feed to recover openable numeric Pin IDs.",
+      "prefill": false,
+      "title": "Recover numeric creator Pin IDs",
+      "type": "boolean"
     },
     "startUrls": {
-      "description": "List of Pinterest URLs to scrape. Supports pin URLs, user profile URLs, board URLs, and search URLs.",
+      "default": [],
+      "description": "Pin, profile, board, board-section, search and idea links for Auto-detect.",
       "editor": "stringList",
       "items": {
         "type": "string"
       },
       "prefill": [],
-      "title": "Pinterest URLs",
+      "title": "Mixed Pinterest URLs",
       "type": "array"
     },
     "usernames": {
@@ -261,7 +211,7 @@
     },
     "verifiedOnly": {
       "default": false,
-      "description": "Keep only rows explicitly marked verified by Pinterest.",
+      "description": "Keep only rows that Pinterest explicitly marks as verified.",
       "prefill": false,
       "title": "Verified accounts only",
       "type": "boolean"

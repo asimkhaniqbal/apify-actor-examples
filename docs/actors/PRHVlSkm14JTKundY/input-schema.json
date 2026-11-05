@@ -1,0 +1,50 @@
+{
+  "description": "Scrape Snapchat Spotlight videos by hashtag. Extract video metadata, engagement stats, creator info, and download URLs from public Snapchat pages.",
+  "properties": {
+    "hashtags": {
+      "description": "Hashtags, topic names, or topic URLs. Examples: food, #travel, humor, https://www.snapchat.com/topic/humor",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "prefill": [
+        "food"
+      ],
+      "title": "Hashtags / Topics",
+      "type": "array"
+    },
+    "includeLlmMetadata": {
+      "default": true,
+      "description": "Include LLM-generated title, description, and keywords",
+      "title": "Include AI Metadata",
+      "type": "boolean"
+    },
+    "includeRelatedTopics": {
+      "default": true,
+      "description": "Include related topics/tags in each result record",
+      "title": "Include Related Topics",
+      "type": "boolean"
+    },
+    "includeVideoUrls": {
+      "default": true,
+      "description": "Include direct video download URLs in output. Note: video URLs contain expiring tokens and may stop working after some time.",
+      "title": "Include Video URLs",
+      "type": "boolean"
+    },
+    "resultsPerHashtag": {
+      "default": 30,
+      "description": "Maximum number of videos to extract per hashtag. Snapchat returns up to 32 SSR results per page.",
+      "maximum": 32,
+      "minimum": 1,
+      "title": "Results Per Hashtag",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "hashtags"
+  ],
+  "schemaVersion": 1,
+  "title": "Snapchat Hashtag Scraper Input",
+  "type": "object"
+}
