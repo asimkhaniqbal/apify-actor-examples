@@ -1,0 +1,472 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-TXq3Wwt+zczKG1SqrINLs+MxAhf9heS03QQh8L5DsWs=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Google Maps Route &amp; Distance Matrix Scraper | Vexaloom Labs</title><meta name="description" content="Get driving, walking, bicycling or transit routes between two locations - distance, duration, traffic and turn-by-turn steps - or build a travel-time matrix across many origins and"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/nsNiNL5MalNOLsSyK/"><meta property="og:title" content="Google Maps Route &amp; Distance Matrix Scraper | Vexaloom Labs"><meta property="og:description" content="Get driving, walking, bicycling or transit routes between two locations - distance, duration, traffic and turn-by-turn steps - or build a travel-time matrix across many origins and"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/nsNiNL5MalNOLsSyK/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/nsNiNL5MalNOLsSyK/#webpage","name":"Google Maps Route & Distance Matrix Scraper","description":"Get driving, walking, bicycling or transit routes between two locations - distance, duration, traffic and turn-by-turn steps - or build a travel-time matrix across many origins and destinations in one run.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/nsNiNL5MalNOLsSyK/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/nsNiNL5MalNOLsSyK/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/nsNiNL5MalNOLsSyK/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/nsNiNL5MalNOLsSyK/#article","headline":"Google Maps Route & Distance Matrix Scraper","name":"Google Maps Route & Distance Matrix Scraper","description":"Get driving, walking, bicycling or transit routes between two locations - distance, duration, traffic and turn-by-turn steps - or build a travel-time matrix across many origins and destinations in one run.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/nsNiNL5MalNOLsSyK/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/nsNiNL5MalNOLsSyK/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/nsNiNL5MalNOLsSyK/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Google Maps Route & Distance Matrix Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/nsNiNL5MalNOLsSyK/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Google Maps Route &amp; Distance Matrix Scraper</span></div><section id="overview"><h1 class="doc-title">Google Maps Route &amp; Distance Matrix Scraper</h1><p class="lede">Get driving, walking, bicycling or transit routes between two locations - distance, duration, traffic and turn-by-turn steps - or build a travel-time matrix across many origins and destinations in one run.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/google-maps-route-and-distance-matrix-scraper">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/nsNiNL5MalNOLsSyK/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>Operation mode. &#x27;route&#x27; returns route alternatives for a single origin -&gt; destination; &#x27;matrix&#x27; returns one row per origin × destination pair across many origins and destinations.</td></tr><tr><td><code>origin</code></td><td>string</td><td>optional</td><td>Starting location — full address, place name, or &#x27;lat,lng&#x27; coordinate pair. (mode=route)</td></tr><tr><td><code>destination</code></td><td>string</td><td>optional</td><td>Ending location — full address, place name, or &#x27;lat,lng&#x27; coordinate pair. (mode=route)</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>Operation mode. &#x27;route&#x27; returns route alternatives for a single origin -&gt; destination; &#x27;matrix&#x27; returns one row per origin × destination pair across many origins and destinations.</td></tr><tr><td><code>origin</code></td><td>string</td><td>optional</td><td>Starting location — full address, place name, or &#x27;lat,lng&#x27; coordinate pair. (mode=route)</td></tr><tr><td><code>destination</code></td><td>string</td><td>optional</td><td>Ending location — full address, place name, or &#x27;lat,lng&#x27; coordinate pair. (mode=route)</td></tr><tr><td><code>origins</code></td><td>array</td><td>optional</td><td>Starting locations for the matrix — each a full address, place name, or &#x27;lat,lng&#x27; coordinate pair. One row is returned per origin × destination pair. (mode=matrix)</td></tr><tr><td><code>destinations</code></td><td>array</td><td>optional</td><td>Ending locations for the matrix — each a full address, place name, or &#x27;lat,lng&#x27; coordinate pair. One row is returned per origin × destination pair. (mode=matrix)</td></tr><tr><td><code>maxPairs</code></td><td>integer</td><td>optional</td><td>Upper bound on the total number of origin × destination pairs the actor will request in matrix mode. Origins × destinations is truncated to this value so a large matrix cannot run away. (mode=matrix)</td></tr><tr><td><code>travelMode</code></td><td>string</td><td>optional</td><td>Mode of transportation.</td></tr><tr><td><code>language</code></td><td>string</td><td>optional</td><td>Language of the directions page (affects step instructions text).</td></tr><tr><td><code>units</code></td><td>string</td><td>optional</td><td>Preferred distance units. Google Maps may still localise based on the route&#x27;s country.</td></tr><tr><td><code>avoidTolls</code></td><td>boolean</td><td>optional</td><td>Driving mode only — avoid toll roads when possible.</td></tr><tr><td><code>avoidHighways</code></td><td>boolean</td><td>optional</td><td>Driving mode only — avoid highways/motorways when possible.</td></tr><tr><td><code>avoidFerries</code></td><td>boolean</td><td>optional</td><td>Driving mode only — avoid routes that use ferries.</td></tr><tr><td><code>departureTime</code></td><td>string</td><td>optional</td><td>Optional ISO 8601 datetime (e.g. 2026-06-16T10:30:00) used for transit routing.</td></tr><tr><td><code>proxyConfiguration</code></td><td>object</td><td>optional</td><td>Optional fallback proxy. The actor first tries without a proxy (more reliable for Google Maps); proxy is used only if the no-proxy attempt fails.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Extract driving, walking, bicycling, and transit directions between two locations from Google Maps, or build a distance/duration matrix across many origins and destinations.&quot;,
+  &quot;properties&quot;: {
+    &quot;avoidFerries&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Driving mode only — avoid routes that use ferries.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Avoid Ferries&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;avoidHighways&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Driving mode only — avoid highways/motorways when possible.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Avoid Highways&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;avoidTolls&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Driving mode only — avoid toll roads when possible.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Avoid Tolls&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;departureTime&quot;: {
+      &quot;description&quot;: &quot;Optional ISO 8601 datetime (e.g. 2026-06-16T10:30:00) used for transit routing.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Departure Time (Transit)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;destination&quot;: {
+      &quot;description&quot;: &quot;Ending location — full address, place name, or &#x27;lat,lng&#x27; coordinate pair. (mode=route)&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;Central Park, New York, NY&quot;,
+      &quot;title&quot;: &quot;Destination&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;destinations&quot;: {
+      &quot;description&quot;: &quot;Ending locations for the matrix — each a full address, place name, or &#x27;lat,lng&#x27; coordinate pair. One row is returned per origin × destination pair. (mode=matrix)&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [
+        &quot;Central Park, New York, NY&quot;,
+        &quot;Brooklyn Bridge, New York, NY&quot;,
+        &quot;JFK Airport, New York, NY&quot;
+      ],
+      &quot;title&quot;: &quot;Destinations&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;language&quot;: {
+      &quot;default&quot;: &quot;en&quot;,
+      &quot;description&quot;: &quot;Language of the directions page (affects step instructions text).&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;en&quot;,
+        &quot;es&quot;,
+        &quot;fr&quot;,
+        &quot;de&quot;,
+        &quot;it&quot;,
+        &quot;pt&quot;,
+        &quot;ja&quot;,
+        &quot;ko&quot;,
+        &quot;zh&quot;,
+        &quot;ar&quot;,
+        &quot;ru&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;English&quot;,
+        &quot;Spanish&quot;,
+        &quot;French&quot;,
+        &quot;German&quot;,
+        &quot;Italian&quot;,
+        &quot;Portuguese&quot;,
+        &quot;Japanese&quot;,
+        &quot;Korean&quot;,
+        &quot;Chinese&quot;,
+        &quot;Arabic&quot;,
+        &quot;Russian&quot;
+      ],
+      &quot;prefill&quot;: &quot;en&quot;,
+      &quot;title&quot;: &quot;Language&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;maxPairs&quot;: {
+      &quot;default&quot;: 100,
+      &quot;description&quot;: &quot;Upper bound on the total number of origin × destination pairs the actor will request in matrix mode. Origins × destinations is truncated to this value so a large matrix cannot run away. (mode=matrix)&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 1000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 100,
+      &quot;title&quot;: &quot;Max Pairs&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;route&quot;,
+      &quot;description&quot;: &quot;Operation mode. &#x27;route&#x27; returns route alternatives for a single origin -&gt; destination; &#x27;matrix&#x27; returns one row per origin × destination pair across many origins and destinations.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;route&quot;,
+        &quot;matrix&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Single route (one origin -&gt; one destination)&quot;,
+        &quot;Distance matrix (every origin × every destination)&quot;
+      ],
+      &quot;prefill&quot;: &quot;route&quot;,
+      &quot;title&quot;: &quot;Mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;origin&quot;: {
+      &quot;description&quot;: &quot;Starting location — full address, place name, or &#x27;lat,lng&#x27; coordinate pair. (mode=route)&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;Times Square, New York, NY&quot;,
+      &quot;title&quot;: &quot;Origin&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;origins&quot;: {
+      &quot;description&quot;: &quot;Starting locations for the matrix — each a full address, place name, or &#x27;lat,lng&#x27; coordinate pair. One row is returned per origin × destination pair. (mode=matrix)&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [
+        &quot;Times Square, New York, NY&quot;,
+        &quot;Grand Central Terminal, New York, NY&quot;
+      ],
+      &quot;title&quot;: &quot;Origins&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;proxyConfiguration&quot;: {
+      &quot;description&quot;: &quot;Optional fallback proxy. The actor first tries without a proxy (more reliable for Google Maps); proxy is used only if the no-proxy attempt fails.&quot;,
+      &quot;editor&quot;: &quot;proxy&quot;,
+      &quot;title&quot;: &quot;Proxy Configuration&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;travelMode&quot;: {
+      &quot;default&quot;: &quot;driving&quot;,
+      &quot;description&quot;: &quot;Mode of transportation.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;driving&quot;,
+        &quot;walking&quot;,
+        &quot;bicycling&quot;,
+        &quot;transit&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Driving&quot;,
+        &quot;Walking&quot;,
+        &quot;Bicycling&quot;,
+        &quot;Public Transit&quot;
+      ],
+      &quot;prefill&quot;: &quot;driving&quot;,
+      &quot;title&quot;: &quot;Travel Mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;units&quot;: {
+      &quot;default&quot;: &quot;metric&quot;,
+      &quot;description&quot;: &quot;Preferred distance units. Google Maps may still localise based on the route&#x27;s country.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;metric&quot;,
+        &quot;imperial&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Metric (km, m)&quot;,
+        &quot;Imperial (mi, ft)&quot;
+      ],
+      &quot;prefill&quot;: &quot;metric&quot;,
+      &quot;title&quot;: &quot;Units&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Google Maps Directions Scraper&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>directions</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped Google Maps direction records — one record per route alternative.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Route records from Google Maps directions — origin/destination, distance, duration, traffic, route alternatives, and step-by-step turn-by-turn instructions.&quot;,
+  &quot;properties&quot;: {
+    &quot;directions&quot;: {
+      &quot;description&quot;: &quot;Dataset containing all scraped Google Maps direction records — one record per route alternative.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Directions records&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Google Maps Route &amp; Distance Matrix Scraper Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;views&quot;: {
+    &quot;matrix&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {}
+      },
+      &quot;title&quot;: &quot;Distance Matrix&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;recordType&quot;,
+          &quot;origin&quot;,
+          &quot;destination&quot;,
+          &quot;midpointLocation&quot;,
+          &quot;originIndex&quot;,
+          &quot;destinationIndex&quot;,
+          &quot;travelMode&quot;,
+          &quot;language&quot;,
+          &quot;units&quot;,
+          &quot;routeIndex&quot;,
+          &quot;distance&quot;,
+          &quot;distanceMeters&quot;,
+          &quot;duration&quot;,
+          &quot;durationSeconds&quot;,
+          &quot;durationInTraffic&quot;,
+          &quot;via&quot;,
+          &quot;trafficCondition&quot;,
+          &quot;googleMapsUrl&quot;,
+          &quot;steps&quot;,
+          &quot;notes&quot;,
+          &quot;fare&quot;,
+          &quot;transitWindow&quot;,
+          &quot;departureTime&quot;,
+          &quot;arrivalTime&quot;,
+          &quot;originResolved&quot;,
+          &quot;destinationResolved&quot;,
+          &quot;sourceUrl&quot;,
+          &quot;scrapedAt&quot;
+        ]
+      }
+    },
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {}
+      },
+      &quot;title&quot;: &quot;Directions&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;recordType&quot;,
+          &quot;origin&quot;,
+          &quot;destination&quot;,
+          &quot;originResolved&quot;,
+          &quot;destinationResolved&quot;,
+          &quot;midpointLocation&quot;,
+          &quot;travelMode&quot;,
+          &quot;language&quot;,
+          &quot;units&quot;,
+          &quot;routeIndex&quot;,
+          &quot;distance&quot;,
+          &quot;distanceMeters&quot;,
+          &quot;duration&quot;,
+          &quot;durationSeconds&quot;,
+          &quot;durationInTraffic&quot;,
+          &quot;via&quot;,
+          &quot;trafficCondition&quot;,
+          &quot;googleMapsUrl&quot;,
+          &quot;sourceUrl&quot;,
+          &quot;scrapedAt&quot;,
+          &quot;steps&quot;,
+          &quot;notes&quot;,
+          &quot;fare&quot;,
+          &quot;transitWindow&quot;,
+          &quot;departureTime&quot;,
+          &quot;arrivalTime&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-google-maps-route-distance-matrix-scraper">Google Maps Route &amp; Distance Matrix Scraper</h2>
+<p>Turn an origin and destination into Google Maps' own route data — distance, duration, traffic, and turn-by-turn steps for driving, walking, bicycling or transit. Switch to matrix mode and feed in several origins and several destinations at once to get a full travel-time grid in a single run, ready for ranking the closest warehouse, store or driver to each stop.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li>Returns every route alternative Google Maps offers for a single origin → destination pair (<code>mode=route</code>)</li>
+<li>Builds a distance/duration matrix across many origins and many destinations in one run (<code>mode=matrix</code>)</li>
+<li>Covers all four travel modes: driving, walking, bicycling and public transit</li>
+<li>Applies driving-only avoidance flags (tolls, highways, ferries) and a transit departure time</li>
+<li>Accepts addresses, place names, or <code>lat,lng</code> coordinate pairs for any origin or destination</li>
+<li>Empty fields are omitted from a record — a value only appears when Google actually renders it for that route</li>
+</ul>
+<h2 id="readme-output-per-route-mode-route">Output: per route (mode = <code>route</code>)</h2>
+<ul>
+<li><code>origin</code>, <code>destination</code> — the location strings you supplied</li>
+<li><code>originResolved</code>, <code>destinationResolved</code> — what Google Maps actually matched them to</li>
+<li><code>travelMode</code>, <code>language</code>, <code>units</code> — the settings used for this run</li>
+<li><code>routeIndex</code> — 0 for Google's top recommendation, 1+ for alternatives (up to 5 total)</li>
+<li><code>distance</code> — human-readable distance (e.g. <code>&quot;1.2 mi&quot;</code>)</li>
+<li><code>distanceMeters</code> — the same distance as an integer in meters</li>
+<li><code>duration</code> — human-readable duration (e.g. <code>&quot;8 min&quot;</code>)</li>
+<li><code>durationSeconds</code> — the same duration as an integer in seconds</li>
+<li><code>durationInTraffic</code> — traffic-aware duration, when Google renders one for a driving route</li>
+<li><code>via</code> — the main road/route the alternative travels via (e.g. <code>&quot;via Broadway&quot;</code>)</li>
+<li><code>trafficCondition</code> — traffic qualifier when shown (e.g. <code>&quot;Moderate traffic&quot;</code>)</li>
+<li><code>steps[]</code> — turn-by-turn instructions with each step's own distance; only present on the top route (<code>routeIndex: 0</code>), and only when Google renders the step list for it</li>
+<li><code>fare</code>, <code>transitWindow</code>, <code>departureTime</code>, <code>arrivalTime</code> — transit-only fields, present only when a transit route exposes them</li>
+<li><code>midpointLocation</code> — the geometric midpoint between origin and destination, present only when both were given as <code>lat,lng</code> coordinates</li>
+<li><code>notes</code> — any extra qualifier Google attaches to the route</li>
+<li><code>googleMapsUrl</code> — a Google Maps directions link reproducing this route</li>
+<li><code>sourceUrl</code>, <code>scrapedAt</code></li>
+</ul>
+<h2 id="readme-output-per-pair-mode-matrix">Output: per pair (mode = <code>matrix</code>)</h2>
+<p>Every matrix row carries the same fields as a route record, plus:</p>
+<ul>
+<li><code>originIndex</code>, <code>destinationIndex</code> — the row's position in your <code>origins</code>/<code>destinations</code> lists, so you can rebuild the full grid</li>
+<li><code>recordType: &quot;matrix&quot;</code></li>
+</ul>
+<p>Rows are written as each pair finishes, and a pair Google can't find a route for is skipped rather than written as a placeholder row.</p>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td>string</td>
+<td><code>route</code></td>
+<td><code>route</code> (single origin → destination) or <code>matrix</code> (every origin × every destination)</td>
+</tr>
+<tr>
+<td><code>origin</code></td>
+<td>string</td>
+<td>–</td>
+<td>Starting location — address, place name, or <code>lat,lng</code> (mode=route)</td>
+</tr>
+<tr>
+<td><code>destination</code></td>
+<td>string</td>
+<td>–</td>
+<td>Ending location (mode=route)</td>
+</tr>
+<tr>
+<td><code>origins</code></td>
+<td>array</td>
+<td>–</td>
+<td>Starting locations for the matrix (mode=matrix)</td>
+</tr>
+<tr>
+<td><code>destinations</code></td>
+<td>array</td>
+<td>–</td>
+<td>Ending locations for the matrix (mode=matrix)</td>
+</tr>
+<tr>
+<td><code>maxPairs</code></td>
+<td>integer</td>
+<td><code>100</code></td>
+<td>Cap on total origin × destination pairs requested (1–1000, mode=matrix)</td>
+</tr>
+<tr>
+<td><code>travelMode</code></td>
+<td>string</td>
+<td><code>driving</code></td>
+<td><code>driving</code> / <code>walking</code> / <code>bicycling</code> / <code>transit</code></td>
+</tr>
+<tr>
+<td><code>language</code></td>
+<td>string</td>
+<td><code>en</code></td>
+<td>Language for instruction text — <code>en</code>, <code>es</code>, <code>fr</code>, <code>de</code>, <code>it</code>, <code>pt</code>, <code>ja</code>, <code>ko</code>, <code>zh</code>, <code>ar</code> or <code>ru</code></td>
+</tr>
+<tr>
+<td><code>units</code></td>
+<td>string</td>
+<td><code>metric</code></td>
+<td><code>metric</code> or <code>imperial</code></td>
+</tr>
+<tr>
+<td><code>avoidTolls</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Driving only — avoid toll roads</td>
+</tr>
+<tr>
+<td><code>avoidHighways</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Driving only — avoid highways/motorways</td>
+</tr>
+<tr>
+<td><code>avoidFerries</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Driving only — avoid ferry crossings</td>
+</tr>
+<tr>
+<td><code>departureTime</code></td>
+<td>string</td>
+<td>–</td>
+<td>ISO 8601 datetime used for transit routing</td>
+</tr>
+<tr>
+<td><code>proxyConfiguration</code></td>
+<td>object</td>
+<td>–</td>
+<td>Optional proxy, used only if needed</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-example-driving-route-with-traffic">Example: driving route with traffic</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;route&quot;,
+  &quot;origin&quot;: &quot;Times Square, New York, NY&quot;,
+  &quot;destination&quot;: &quot;Central Park, New York, NY&quot;,
+  &quot;travelMode&quot;: &quot;driving&quot;,
+  &quot;avoidTolls&quot;: true
+}
+</code></pre>
+<h3 id="readme-example-transit-route-with-a-departure-time">Example: transit route with a departure time</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;route&quot;,
+  &quot;origin&quot;: &quot;40.7580,-73.9855&quot;,
+  &quot;destination&quot;: &quot;40.7484,-73.9857&quot;,
+  &quot;travelMode&quot;: &quot;transit&quot;,
+  &quot;departureTime&quot;: &quot;2026-06-16T10:30:00&quot;
+}
+</code></pre>
+<h3 id="readme-example-3-warehouses-5-customer-addresses">Example: 3 warehouses × 5 customer addresses</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;matrix&quot;,
+  &quot;origins&quot;: [
+    &quot;Warehouse A, 1 Main St, Newark, NJ&quot;,
+    &quot;Warehouse B, 55 Broad St, Newark, NJ&quot;,
+    &quot;Warehouse C, 400 Market St, Newark, NJ&quot;
+  ],
+  &quot;destinations&quot;: [
+    &quot;10 Wall St, New York, NY&quot;,
+    &quot;20 Hudson Yards, New York, NY&quot;,
+    &quot;30 Atlantic Ave, Brooklyn, NY&quot;,
+    &quot;40 Steinway St, Queens, NY&quot;,
+    &quot;50 Fordham Rd, Bronx, NY&quot;
+  ],
+  &quot;travelMode&quot;: &quot;driving&quot;,
+  &quot;maxPairs&quot;: 100
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>Logistics and dispatch</strong> — rank which warehouse or driver is closest to a batch of delivery addresses</li>
+<li><strong>Field-service and territory planning</strong> — compute travel time from each technician's base to upcoming jobs</li>
+<li><strong>Real estate commute checks</strong> — compare driving or transit time from a listing to work, school or downtown</li>
+<li><strong>Sales and visit scheduling</strong> — sequence client visits by shortest total travel time</li>
+<li><strong>Tourism and itinerary planning</strong> — compare walking vs transit time between stops on a trip</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>How many route alternatives come back per request?</strong>
+Up to 5, in the order Google Maps presents them — <code>routeIndex: 0</code> is Google's own top recommendation.</p>
+<p><strong>Why is my resolved origin different from what I typed?</strong>
+Google Maps geocodes your input and matches it to the nearest known place; <code>originResolved</code>/<code>destinationResolved</code> show exactly what it matched, which can differ from an ambiguous or abbreviated input string.</p>
+<p><strong>Can I pass coordinates instead of an address?</strong>
+Yes — <code>&quot;40.7580,-73.9855&quot;</code> style <code>lat,lng</code> pairs work anywhere an address or place name is accepted, including inside <code>origins</code>/<code>destinations</code>.</p>
+<p><strong>How does matrix mode avoid an unbounded number of requests?</strong>
+<code>maxPairs</code> caps the total origin × destination combinations a single run will request (default 100, max 1000). Pairs beyond the cap are left out; duplicate origins or destinations in your lists are removed automatically before pairing.</p>
+<p><strong>Why is <code>steps[]</code> missing from some routes?</strong>
+Only the top route (<code>routeIndex: 0</code>) can carry turn-by-turn instructions, and only when Google Maps renders the detailed step list for it; route alternatives (<code>routeIndex: 1</code> and above) never include <code>steps</code>.</p>
+<p><strong>Why do transit-only fields like <code>fare</code> sometimes not appear?</strong>
+<code>fare</code>, <code>transitWindow</code>, <code>departureTime</code> and <code>arrivalTime</code> are only populated when Google displays them for that specific transit route — not every transit route has a published fare or scheduled window.</p>
+<p><strong>What happens if Google Maps can't find a route at all?</strong>
+In <code>route</code> mode the run reports no routes found in its status message. In <code>matrix</code> mode, that specific pair is skipped and the final status message reports how many pairs were unresolved.</p>
+<p><strong>Is login or a Google API key required?</strong>
+No. Directions are read from Google Maps' public pages; no account, API key or cookies are needed.</p>
+<p><strong>Is this affiliated with Google?</strong>
+No. This is an independent, third-party actor that reads Google Maps' public directions pages; it is not affiliated with or endorsed by Google.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/nsNiNL5MalNOLsSyK/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>BI0Q9RZJe7LC4CKz4</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

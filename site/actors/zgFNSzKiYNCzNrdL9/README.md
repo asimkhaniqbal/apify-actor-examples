@@ -1,125 +1,184 @@
 # Amazon Autocomplete Keyword Expander
 
-Discover **Amazon's own search-autocomplete keyword suggestions** for any seed keyword or phrase, across 23 Amazon marketplaces. Feed it one or more seeds and it returns the exact completions Amazon's search box would suggest, in the order Amazon returns them. Expand coverage past Amazon's ~10-suggestion-per-query cap with A-Z / 0-9 / custom-suffix querying, and recursively re-query newly discovered suggestions to build out a full suggestion graph.
+Turn a handful of seed phrases into the real keyword ideas Amazon's own search box suggests. This actor reads Amazon's public autocomplete service across **23 marketplaces**, can sweep several departments in one run, and expands each seed through eight different query axes so you see far more than the ten suggestions a single lookup returns. No account, cookies, or proxy setup is required.
 
 ## What this actor does
 
-- **Any number of seed keywords** — pass a list, get suggestions for each
-- **23 marketplaces** — from `amazon.com` to `amazon.co.jp`
-- **Suffix expansion** — append A-Z, 0-9, or your own custom suffixes to a seed to pull more suggestions than a single raw query returns
-- **Recursive expansion** — treat each newly discovered suggestion as a fresh seed, up to 2 levels deep
-- **Deduplication** — skip suggestions already seen earlier in the same run
+- **23 Amazon marketplaces** — from `amazon.com` and `amazon.co.uk` to `amazon.co.jp`, `amazon.com.au` and `amazon.in`
+- **Multi-market and multi-department runs** — compare the same seed across countries and browse aliases such as electronics, kitchen, fashion or books
+- **Eight expansion axes** — suffix A-Z, prefix A-Z, 0-9, questions, comparisons, prepositions, buyer modifiers and your own custom suffixes
+- **Recursive discovery** — optionally treat newly found suggestions as fresh seeds, up to three hops deep
+- **Two response dialects** — enhanced (thumbnails, widget cards, predictive text) or organic keyword responses, or both in one pass
+- **Filters and ranking** — keep questions or long-tail phrases, require or exclude terms, cap results per seed and overall, and order by source, alphabet or the relative volume proxy
+- **Deduplication with provenance** — one row per unique phrase per seed, marketplace and department, showing every query variant that surfaced it
 - **Empty fields are omitted**
 
 ## Output per suggestion
 
 - `marketplace` — `countryCode`, `domain`, `marketplaceId`, `currency`, `language`
-- `prefix` — the exact query string that produced this result (may include an expansion suffix, e.g. `wireless earbuds a`)
-- `suggestion` — the suggested keyword text Amazon returned
-- `position` — 1-based order within that specific API response
-- `suggestionType` — Amazon's own suggestion-type label when present (e.g. `KEYWORD`), or `SEED` for an echoed seed-keyword record
-- `expansionDepth` — 0 for a direct query of an original seed keyword, 1/2 for recursive re-queries
-- `expansionParent` — the prior suggestion that was used as the seed for this query (absent at depth 0)
-- `refTag` — Amazon's own click-tracking reference tag for this suggestion (e.g. `nb_sb_ss_i_1_12`)
-- `candidateSources` — where the API sourced this suggestion (e.g. `local`)
-- `strategyId` — the suggestion-generation strategy Amazon used (e.g. `organic`)
-- `prior` — Amazon's own numeric prior/confidence score for this suggestion, when present
-- `ghost` / `help` — Amazon's own booleans marking a suggestion as placeholder ("ghost") or help text, when present
-- `responseId` — Amazon's own per-request correlation id for the API call that returned this suggestion
-- `shuffled` — whether Amazon randomized this response's suggestion order (when `true`, `position` is even less meaningful as a ranking signal)
-- `sourceUrl` — the exact `completion.amazon.{domain}` autocomplete API URL that produced this record
+- `seedKeyword` — the original seed this row belongs to
+- `query` / `prefix` — the exact query text sent to Amazon
+- `suggestion` — the suggested keyword
+- `department` — the Amazon department alias used
+- `locale` — the marketplace language, e.g. `en-US`
+- `suggestionType` — Amazon's response type, e.g. `KEYWORD` or `WIDGET`; `SEED` for an echoed seed
+- `suggType` — Amazon's finer subtype, e.g. `KeywordSuggestion`
+- `expansionType` / `expansionToken` — `seed`, `suffixAlphabet`, `prefixAlphabet`, `digits`, `question`, `comparison`, `preposition`, `buyerModifier`, `custom` or `recursive`, plus the letter, digit or word used
+- `expansionDepth` / `expansionParent` — recursion level and the suggestion that led to this query
+- `position` / `amazonRank` — 1-based slot in the response that returned the phrase
+- `bestRank` / `rank` — best slot across all queries, and final rank inside the seed group
+- `volumeProxy` — how many distinct query variants surfaced the phrase; a relative signal, not monthly search volume
+- `surfacedByQueries` — up to 20 query variants that returned it
+- `searchUrl` — ready-to-open Amazon search URL for the suggestion
+- `wordCount`, `isQuestion`, `containsSeed` — shape helpers for filtering and analysis
+- `thumbnailUrl` — product thumbnail when the enhanced response supplies one
+- `widget` — optional widget object: `id`, `template`, `slot`, `byline`, `refinement`, `title`, `subtitle`, `imageUrl`, `imageShape`, `linkUrl`, `items[]`
+- `predictiveText` — Amazon's predictive completion for the query, when present
+- `strategyId` / `strategyApiType` / `candidateSources` / `refTag` / `prior` / `ghost` / `help` — Amazon's own suggestion metadata
+- `responseId` / `shuffled` — request correlation id and whether Amazon randomized the response order
+- `sourceUrl` — the exact autocomplete request URL
 - `recordType: "suggestion"`, `scrapedAt`
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `keywords` | array | – | Seed keywords/phrases to expand |
-| `marketplace` | string | `US` | Which Amazon marketplace's autocomplete API to query |
-| `expandWith` | string | `none` | `none` / `alphabet` / `digits` / `customSuffixes` |
-| `customSuffixes` | array | – | Suffixes to append (expandWith=customSuffixes) |
-| `maxDepth` | int | `0` | Recursion depth for re-querying new suggestions (0-2) |
-| `maxSuggestions` | int | `50` | Hard cap on emitted records (1-2000) |
-| `dedupe` | bool | `true` | Skip suggestions already emitted this run |
-| `includeSeed` | bool | `false` | Also emit a record for the literal seed keyword |
+| `keywords` | array | – | Seed keywords or phrases to expand (required) |
+| `marketplace` | string | `US` | Single marketplace; used when `marketplaces` is empty |
+| `marketplaces` | array | `[]` | Optional codes for a multi-market sweep, e.g. `["US","GB","DE"]` |
+| `departments` | array | `[]` | Department aliases, e.g. `["aps","kitchen","electronics"]` |
+| `expandAlphabet` | bool | `false` | Append A-Z to each query |
+| `expandPrefixAlphabet` | bool | `false` | Prepend A-Z to each query |
+| `expandNumbers` | bool | `false` | Append 0-9 to each query |
+| `expandQuestions` | bool | `false` | Add locale-aware question stems |
+| `expandComparisons` | bool | `false` | Add `vs` / `or` / `versus` / `and` style tokens |
+| `expandPrepositions` | bool | `false` | Add `for` / `with` / `without` / `under` style tokens |
+| `expandBuyerModifiers` | bool | `false` | Add `best` / `cheap` / `for men` style modifiers |
+| `customSuffixes` | array | `[]` | Your own suffixes |
+| `maxDepth` | int | `0` | Recursion depth, 0-3 |
+| `queryMode` | string | `enhanced` | `enhanced` / `organic` / `both` |
+| `includeWidgets` | bool | `false` | Emit widget rows when available |
+| `includeSeed` | bool | `false` | Emit one `SEED` row per seed |
+| `dedupe` | bool | `true` | Merge repeats and add volume/provenance fields |
+| `resultOrder` | string | `source` | `source` / `alphabetical` / `volume` |
+| `mustContainSeed` | bool | `false` | Drop suggestions without the seed text |
+| `includeTerms` | array | `[]` | Keep suggestions containing at least one term |
+| `excludeTerms` | array | `[]` | Drop suggestions containing any term |
+| `onlyQuestions` | bool | `false` | Keep question-shaped suggestions |
+| `onlyLongTail` | bool | `false` | Keep suggestions with 3+ words |
+| `minWordCount` | int | `0` | Drop shorter suggestions |
+| `maxSuggestions` | int | `500` | Overall record cap (1-10,000) |
+| `maxSuggestionsPerKeyword` | int | `0` | Per seed/market/department cap; 0 = no cap |
+| `maxQueries` | int | `400` | Overall request cap (1-20,000) |
+| `maxConcurrency` | int | `4` | Parallel requests (1-10) |
+| `requestDelayMs` | int | `100` | Pause between requests (0-5,000 ms) |
 
-### Example: quick single-keyword lookup
+### Example: one seed, one market
 
 ```json
 {
   "keywords": ["wireless earbuds"],
   "marketplace": "US",
-  "maxSuggestions": 20
+  "maxSuggestions": 25
 }
 ```
 
-### Example: full A-Z expansion for keyword research
+### Example: full keyword-research sweep
 
 ```json
 {
   "keywords": ["yoga mat"],
   "marketplace": "US",
-  "expandWith": "alphabet",
-  "maxSuggestions": 300
+  "expandAlphabet": true,
+  "expandPrefixAlphabet": true,
+  "expandQuestions": true,
+  "expandComparisons": true,
+  "expandPrepositions": true,
+  "expandBuyerModifiers": true,
+  "maxSuggestions": 800,
+  "maxQueries": 400,
+  "resultOrder": "volume"
 }
 ```
 
-### Example: recursive 2-level expansion, UK marketplace
+### Example: compare countries and departments
 
 ```json
 {
   "keywords": ["running shoes"],
-  "marketplace": "GB",
-  "expandWith": "alphabet",
-  "maxDepth": 2,
-  "maxSuggestions": 500
+  "marketplaces": ["US", "GB", "DE", "JP"],
+  "departments": ["aps", "shoes", "fashion"],
+  "maxSuggestionsPerKeyword": 150,
+  "maxSuggestions": 1200
 }
 ```
 
-### Example: custom suffixes for a niche
+### Example: questions and long-tail only, with thumbnails
 
 ```json
 {
-  "keywords": ["phone case"],
-  "customSuffixes": ["iphone 15", "samsung s24", "waterproof", "wallet"],
-  "expandWith": "customSuffixes",
-  "maxSuggestions": 100
+  "keywords": ["air purifier"],
+  "marketplace": "US",
+  "expandQuestions": true,
+  "onlyQuestions": true,
+  "onlyLongTail": true,
+  "queryMode": "both",
+  "includeWidgets": true,
+  "maxSuggestions": 200
 }
 ```
 
 ## Use cases
 
-- **SEO / PPC keyword research** — discover the exact long-tail phrases Amazon shoppers' search box completes to
-- **Listing optimization** — find related phrasing to include in titles and bullet points
-- **Competitive intelligence** — see what completions surface for a competitor's product category
-- **Content planning** — build topic clusters from a seed niche keyword
-- **International expansion** — compare suggestion coverage across marketplaces for the same seed
+- **Amazon SEO and PPC** — build exact-match keyword lists from the phrases shoppers actually type into Amazon
+- **Listing optimization** — find long-tail phrasing for titles, bullets and backend search terms
+- **Niche research** — expand one product idea into hundreds of related buying-intent phrases
+- **International expansion** — compare autocomplete demand signals for the same seed in different marketplaces
+- **Category discovery** — sweep departments to see how suggestions change between broad and scoped searches
+- **Content planning** — turn question and comparison suggestions into buying guides and FAQ content
 
 ## FAQ
 
-**Is this a search-volume or popularity tool?**
-No. This is a *suggestion-discovery* actor. Amazon's autocomplete API returns an ordered list of completions for its own UX purposes — `position` reflects that response's order at the moment of the request, not a numeric popularity or search-volume estimate. Don't treat it as one.
+### Is this a search-volume tool?
 
-**Why does the same suggestion sometimes appear from different queries?**
-Amazon's autocomplete can return the same completion for multiple related prefixes (e.g. both `wireless ear` and `wireless earbuds a` might surface `wireless earbuds bluetooth`). Leave `dedupe` on (the default) to keep only the first occurrence.
+No. Amazon does not publish monthly search volume, and this actor does not invent one. `position` is the order Amazon returned at request time, and `volumeProxy` counts how many distinct query variants surfaced the same phrase. Both are relative signals for prioritisation, not absolute demand numbers.
 
-**Why is `expandWith` needed if I already give a full-phrase seed?**
-Amazon caps each raw autocomplete response at roughly 10 suggestions per query, no matter how you phrase the seed. Appending a letter/digit/custom suffix (`{seed} a`, `{seed} b`, …) is the standard technique to surface additional completions beyond that per-request cap.
+### Why do I only get about ten suggestions per query?
 
-**What does `maxDepth` actually recurse on?**
-Each *newly discovered* suggestion (not already seen) can itself become a new seed keyword, which is then queried (and optionally suffix-expanded) the same way. `maxDepth=1` re-queries suggestions found from your original seeds; `maxDepth=2` goes one level further.
+Amazon's autocomplete response is capped at roughly ten keyword suggestions per request. The expansion axes work around that cap by sending related queries (`yoga mat a`, `a yoga mat`, `best yoga mat`, and so on), then merging and deduplicating the results.
 
-**Is authentication or a proxy required?**
-No. The autocomplete endpoint is a public, unauthenticated JSON API and responds directly to a plain HTTP request — no browser rendering, cookies, or proxy needed.
+### What is the difference between organic and enhanced?
 
-**Which marketplaces are supported?**
-23 Amazon marketplaces, from the US to Japan — see the `marketplace` dropdown for the full list.
+The organic dialect returns the plain keyword list. The enhanced dialect returns that list plus optional thumbnails, widget cards and predictive text when Amazon provides them. **Both** requests each dialect and unions the results, which costs twice as many requests but can surface extra phrases.
 
-**How fresh are the suggestions?**
-Live — every run queries Amazon's autocomplete API directly at request time.
+### Why are thumbnails missing for some rows or markets?
 
-**Is this affiliated with Amazon?**
-No, this is a third-party actor using Amazon's public autocomplete API.
+Thumbnails come from Amazon's enhanced responses and are mostly present on the US and sometimes Canada marketplaces. Other markets usually return none. The field is omitted when Amazon does not supply an image; no placeholder or synthetic image is ever added.
 
-**What happens if a run returns zero suggestions?**
-The run's status message tells you why. If every request to Amazon's autocomplete API failed outright (repeated network/5xx errors, even after retries) — which happens occasionally for specific marketplaces during a temporary outage on Amazon's side — the message says so explicitly and suggests retrying later or trying a different marketplace. If the requests succeeded but genuinely returned no completions (e.g. an obscure or misspelled seed keyword), you'll instead see a message suggesting a shorter, more common keyword.
+### How does the India marketplace work?
+
+Amazon's own India completion host is occasionally unavailable. When that happens, the actor automatically retries the same Indian marketplace through Amazon's UK and UAE completion hosts, keeping the Indian marketplace id and locale. The run status message tells you which host was used.
+
+### Why did my run stop before the result count I expected?
+
+Amazon caps each raw response, and the actor also enforces your `maxSuggestions`, `maxSuggestionsPerKeyword`, `maxQueries` and `maxDepth` limits. The run status message names the limit that stopped it, so you can raise that specific cap and run again.
+
+### Why do some department aliases return unrelated suggestions?
+
+Amazon sometimes returns a generic cross-department fallback instead of an empty list. The record keeps the department alias that produced it, so you can see exactly which scope returned the phrase.
+
+### Is authentication, a proxy or a browser required?
+
+No. The autocomplete service is public JSON. The actor calls it directly with no login, cookies, API key, browser rendering or proxy configuration.
+
+### Is this affiliated with Amazon?
+
+No. This is an independent third-party actor that reads Amazon's public autocomplete responses.
+
+## Limitations
+
+- Amazon returns at most about ten keyword suggestions per query, so breadth comes from the expansion axes and the query cap.
+- Thumbnails and widget rows are only available from enhanced responses and are sparse outside the US marketplace.
+- `volumeProxy` is a count of distinct query variants, not search volume.
+- Department scoping is Amazon's own behaviour; an unrelated alias can return a generic fallback row.
+- Recursion and many expansion axes multiply request counts. Use `maxQueries`, `maxSuggestions` and `maxSuggestionsPerKeyword` to keep runs bounded.

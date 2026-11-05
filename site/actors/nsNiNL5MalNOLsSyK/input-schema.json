@@ -1,0 +1,178 @@
+{
+  "description": "Extract driving, walking, bicycling, and transit directions between two locations from Google Maps, or build a distance/duration matrix across many origins and destinations.",
+  "properties": {
+    "avoidFerries": {
+      "default": false,
+      "description": "Driving mode only — avoid routes that use ferries.",
+      "prefill": false,
+      "title": "Avoid Ferries",
+      "type": "boolean"
+    },
+    "avoidHighways": {
+      "default": false,
+      "description": "Driving mode only — avoid highways/motorways when possible.",
+      "prefill": false,
+      "title": "Avoid Highways",
+      "type": "boolean"
+    },
+    "avoidTolls": {
+      "default": false,
+      "description": "Driving mode only — avoid toll roads when possible.",
+      "prefill": false,
+      "title": "Avoid Tolls",
+      "type": "boolean"
+    },
+    "departureTime": {
+      "description": "Optional ISO 8601 datetime (e.g. 2026-06-16T10:30:00) used for transit routing.",
+      "editor": "textfield",
+      "title": "Departure Time (Transit)",
+      "type": "string"
+    },
+    "destination": {
+      "description": "Ending location — full address, place name, or 'lat,lng' coordinate pair. (mode=route)",
+      "editor": "textfield",
+      "prefill": "Central Park, New York, NY",
+      "title": "Destination",
+      "type": "string"
+    },
+    "destinations": {
+      "description": "Ending locations for the matrix — each a full address, place name, or 'lat,lng' coordinate pair. One row is returned per origin × destination pair. (mode=matrix)",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "Central Park, New York, NY",
+        "Brooklyn Bridge, New York, NY",
+        "JFK Airport, New York, NY"
+      ],
+      "title": "Destinations",
+      "type": "array"
+    },
+    "language": {
+      "default": "en",
+      "description": "Language of the directions page (affects step instructions text).",
+      "editor": "select",
+      "enum": [
+        "en",
+        "es",
+        "fr",
+        "de",
+        "it",
+        "pt",
+        "ja",
+        "ko",
+        "zh",
+        "ar",
+        "ru"
+      ],
+      "enumTitles": [
+        "English",
+        "Spanish",
+        "French",
+        "German",
+        "Italian",
+        "Portuguese",
+        "Japanese",
+        "Korean",
+        "Chinese",
+        "Arabic",
+        "Russian"
+      ],
+      "prefill": "en",
+      "title": "Language",
+      "type": "string"
+    },
+    "maxPairs": {
+      "default": 100,
+      "description": "Upper bound on the total number of origin × destination pairs the actor will request in matrix mode. Origins × destinations is truncated to this value so a large matrix cannot run away. (mode=matrix)",
+      "editor": "number",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 100,
+      "title": "Max Pairs",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "route",
+      "description": "Operation mode. 'route' returns route alternatives for a single origin -> destination; 'matrix' returns one row per origin × destination pair across many origins and destinations.",
+      "editor": "select",
+      "enum": [
+        "route",
+        "matrix"
+      ],
+      "enumTitles": [
+        "Single route (one origin -> one destination)",
+        "Distance matrix (every origin × every destination)"
+      ],
+      "prefill": "route",
+      "title": "Mode",
+      "type": "string"
+    },
+    "origin": {
+      "description": "Starting location — full address, place name, or 'lat,lng' coordinate pair. (mode=route)",
+      "editor": "textfield",
+      "prefill": "Times Square, New York, NY",
+      "title": "Origin",
+      "type": "string"
+    },
+    "origins": {
+      "description": "Starting locations for the matrix — each a full address, place name, or 'lat,lng' coordinate pair. One row is returned per origin × destination pair. (mode=matrix)",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "Times Square, New York, NY",
+        "Grand Central Terminal, New York, NY"
+      ],
+      "title": "Origins",
+      "type": "array"
+    },
+    "proxyConfiguration": {
+      "description": "Optional fallback proxy. The actor first tries without a proxy (more reliable for Google Maps); proxy is used only if the no-proxy attempt fails.",
+      "editor": "proxy",
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "travelMode": {
+      "default": "driving",
+      "description": "Mode of transportation.",
+      "editor": "select",
+      "enum": [
+        "driving",
+        "walking",
+        "bicycling",
+        "transit"
+      ],
+      "enumTitles": [
+        "Driving",
+        "Walking",
+        "Bicycling",
+        "Public Transit"
+      ],
+      "prefill": "driving",
+      "title": "Travel Mode",
+      "type": "string"
+    },
+    "units": {
+      "default": "metric",
+      "description": "Preferred distance units. Google Maps may still localise based on the route's country.",
+      "editor": "select",
+      "enum": [
+        "metric",
+        "imperial"
+      ],
+      "enumTitles": [
+        "Metric (km, m)",
+        "Imperial (mi, ft)"
+      ],
+      "prefill": "metric",
+      "title": "Units",
+      "type": "string"
+    }
+  },
+  "schemaVersion": 1,
+  "title": "Google Maps Directions Scraper",
+  "type": "object"
+}

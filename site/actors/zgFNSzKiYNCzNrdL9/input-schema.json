@@ -1,51 +1,113 @@
 {
-  "description": "Discover Amazon's own search-autocomplete keyword suggestions for one or more seed keywords.",
+  "description": "Discover Amazon's own search-autocomplete suggestions for one or more seed keywords across 23 marketplaces, with optional alphabetical, question, comparison and buyer-intent expansion.",
   "properties": {
     "customSuffixes": {
       "default": [],
-      "description": "Suffixes to append to each keyword, e.g. `for men`, `waterproof`, `cheap`. Only used when expandWith is `customSuffixes`.",
+      "description": "Additional suffixes to append to every query, e.g. [\"for men\", \"waterproof\", \"iphone 15\"].",
       "editor": "stringList",
       "prefill": [],
-      "title": "Custom suffixes (expandWith=customSuffixes)",
+      "title": "Custom suffixes",
       "type": "array"
     },
     "dedupe": {
       "default": true,
-      "description": "Skip a suggestion value if it was already emitted earlier in this run (recommended -- expansion and recursion frequently rediscover the same suggestion).",
+      "description": "Merge repeated suggestions into one record per seed, marketplace and department, with a relative volume proxy and provenance. Turn off to emit every occurrence.",
       "prefill": true,
       "title": "Deduplicate suggestions",
       "type": "boolean"
     },
-    "expandWith": {
-      "default": "none",
-      "description": "Harvest more suggestions per keyword by re-querying with an appended suffix (Amazon caps each raw response at ~10 suggestions).",
-      "editor": "select",
-      "enum": [
-        "none",
-        "alphabet",
-        "digits",
-        "customSuffixes"
+    "departments": {
+      "default": [],
+      "description": "Amazon department aliases to scope suggestions, e.g. [\"aps\", \"kitchen\"]. Leave empty for the all-departments default (`aps`). Common aliases: aps, electronics, computers, fashion, kitchen, stripbooks, beauty, hpc, pet-supplies, toys-and-games, home-improvement, automotive, grocery, office-products, watches, shoes, luggage, digital-text, audible, amazon-devices, instant-video, todays-deals.",
+      "editor": "stringList",
+      "prefill": [
+        "aps"
       ],
-      "enumTitles": [
-        "None (query the keyword as-is only)",
-        "A-Z (append each letter a-z)",
-        "0-9 (append each digit)",
-        "Custom suffixes (use customSuffixes field)"
-      ],
-      "prefill": "none",
-      "title": "Expand each query with",
-      "type": "string"
+      "title": "Departments",
+      "type": "array"
+    },
+    "excludeTerms": {
+      "default": [],
+      "description": "Drop suggestions containing any of these terms.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Exclude these terms",
+      "type": "array"
+    },
+    "expandAlphabet": {
+      "default": false,
+      "description": "Append each letter a-z to every query (e.g. `yoga mat a`) to surface more than the per-query cap.",
+      "prefill": false,
+      "title": "Expand with suffix A-Z",
+      "type": "boolean"
+    },
+    "expandBuyerModifiers": {
+      "default": false,
+      "description": "Query locale-aware buyer-intent modifiers such as `best`, `cheap`, `for men`, `for women` and `waterproof`.",
+      "prefill": false,
+      "title": "Expand with buyer modifiers",
+      "type": "boolean"
+    },
+    "expandComparisons": {
+      "default": false,
+      "description": "Query comparison tokens such as `vs`, `or`, `versus` and `and` after each seed.",
+      "prefill": false,
+      "title": "Expand with comparisons",
+      "type": "boolean"
+    },
+    "expandNumbers": {
+      "default": false,
+      "description": "Append each digit 0-9 to every query, useful for sizes, models and quantities.",
+      "prefill": false,
+      "title": "Expand with digits 0-9",
+      "type": "boolean"
+    },
+    "expandPrefixAlphabet": {
+      "default": false,
+      "description": "Prepend each letter a-z to every query (e.g. `a yoga mat`). Returns a different suggestion set from suffix expansion.",
+      "prefill": false,
+      "title": "Expand with prefix A-Z",
+      "type": "boolean"
+    },
+    "expandPrepositions": {
+      "default": false,
+      "description": "Query preposition tokens such as `for`, `with`, `without`, `under` and `over` after each seed.",
+      "prefill": false,
+      "title": "Expand with prepositions",
+      "type": "boolean"
+    },
+    "expandQuestions": {
+      "default": false,
+      "description": "Query locale-aware question stems such as `how to`, `what is` and `where to buy` in front of each seed.",
+      "prefill": false,
+      "title": "Expand with questions",
+      "type": "boolean"
     },
     "includeSeed": {
       "default": false,
-      "description": "Also emit one record per seed keyword itself (suggestionType `SEED`), in addition to Amazon's suggestions.",
+      "description": "Emit one `SEED` record per seed keyword in addition to Amazon's suggestions.",
       "prefill": false,
-      "title": "Include seed keyword as its own record",
+      "title": "Include seed as a record",
+      "type": "boolean"
+    },
+    "includeTerms": {
+      "default": [],
+      "description": "Keep only suggestions containing at least one of these terms. Leave empty to keep all.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Must contain any of these terms",
+      "type": "array"
+    },
+    "includeWidgets": {
+      "default": false,
+      "description": "Emit Amazon's optional widget suggestions (carousels, refinements, entity cards) when the enhanced endpoint returns them.",
+      "prefill": false,
+      "title": "Include widget rows",
       "type": "boolean"
     },
     "keywords": {
       "default": [],
-      "description": "One or more seed keywords/phrases to expand into Amazon autocomplete suggestions.",
+      "description": "One or more seed keywords or phrases to expand into Amazon autocomplete suggestions.",
       "editor": "stringList",
       "prefill": [
         "wireless earbuds"
@@ -55,7 +117,7 @@
     },
     "marketplace": {
       "default": "US",
-      "description": "Which Amazon marketplace's autocomplete API to query.",
+      "description": "Single Amazon marketplace to query. Used when `marketplaces` is empty.",
       "editor": "select",
       "enum": [
         "US",
@@ -111,23 +173,133 @@
       "title": "Marketplace",
       "type": "string"
     },
+    "marketplaces": {
+      "default": [],
+      "description": "Optional multi-market sweep, e.g. [\"US\", \"GB\", \"DE\"]. Leave empty to use the single `marketplace` value. Codes are the same as the marketplace dropdown.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Multiple marketplaces",
+      "type": "array"
+    },
+    "maxConcurrency": {
+      "default": 4,
+      "description": "Parallel requests. Values above 8 give little extra speed and are more likely to be rate-limited.",
+      "maximum": 10,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Max concurrent requests",
+      "type": "integer"
+    },
     "maxDepth": {
       "default": 0,
-      "description": "Recursively re-query newly discovered suggestions as fresh seeds, up to this many levels deep (0 = only query the original seed keywords).",
-      "maximum": 2,
+      "description": "Recursively re-query newly discovered suggestions as fresh seeds, up to this depth (0 = original seeds only; 3 = three hops).",
+      "maximum": 3,
       "minimum": 0,
       "prefill": 0,
       "title": "Max recursion depth",
       "type": "integer"
     },
-    "maxSuggestions": {
-      "default": 50,
-      "description": "Hard cap on total suggestion records emitted in this run.",
-      "maximum": 2000,
+    "maxQueries": {
+      "default": 400,
+      "description": "Hard cap on HTTP requests across the whole run. The run status message says when this cap stopped it.",
+      "maximum": 20000,
       "minimum": 1,
-      "prefill": 50,
+      "prefill": 3,
+      "title": "Max queries",
+      "type": "integer"
+    },
+    "maxSuggestions": {
+      "default": 500,
+      "description": "Hard cap on total records emitted in this run.",
+      "maximum": 10000,
+      "minimum": 1,
+      "prefill": 3,
       "title": "Max suggestions",
       "type": "integer"
+    },
+    "maxSuggestionsPerKeyword": {
+      "default": 0,
+      "description": "Cap emitted records per seed, marketplace and department. 0 means no per-seed cap.",
+      "maximum": 5000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Max suggestions per seed",
+      "type": "integer"
+    },
+    "minWordCount": {
+      "default": 0,
+      "description": "Drop suggestions with fewer words than this value.",
+      "maximum": 20,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum word count",
+      "type": "integer"
+    },
+    "mustContainSeed": {
+      "default": false,
+      "description": "Drop suggestions that do not contain the original seed keyword.",
+      "prefill": false,
+      "title": "Must contain the seed",
+      "type": "boolean"
+    },
+    "onlyLongTail": {
+      "default": false,
+      "description": "Keep only suggestions with three or more words.",
+      "prefill": false,
+      "title": "Long-tail only",
+      "type": "boolean"
+    },
+    "onlyQuestions": {
+      "default": false,
+      "description": "Keep only question-shaped suggestions (question word or trailing question mark).",
+      "prefill": false,
+      "title": "Questions only",
+      "type": "boolean"
+    },
+    "queryMode": {
+      "default": "enhanced",
+      "description": "`enhanced` returns thumbnails, widgets and predictive text when Amazon provides them; `organic` is the plain keyword response; `both` requests both and unions the results.",
+      "editor": "select",
+      "enum": [
+        "enhanced",
+        "organic",
+        "both"
+      ],
+      "enumTitles": [
+        "Enhanced (thumbnails, widgets, predictive text)",
+        "Organic (keyword responses only)",
+        "Both (union of both responses)"
+      ],
+      "prefill": "enhanced",
+      "title": "Suggestion endpoint dialect",
+      "type": "string"
+    },
+    "requestDelayMs": {
+      "default": 100,
+      "description": "Pause per worker between requests. 0 is fastest; 100-250 is gentler.",
+      "maximum": 5000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Delay between requests (ms)",
+      "type": "integer"
+    },
+    "resultOrder": {
+      "default": "source",
+      "description": "Order within each seed, marketplace and department group. `volume` sorts by the relative query-count score (requires dedupe).",
+      "editor": "select",
+      "enum": [
+        "source",
+        "alphabetical",
+        "volume"
+      ],
+      "enumTitles": [
+        "Source order (first seen)",
+        "Alphabetical",
+        "Relative volume proxy"
+      ],
+      "prefill": "source",
+      "title": "Result order",
+      "type": "string"
     }
   },
   "required": [
