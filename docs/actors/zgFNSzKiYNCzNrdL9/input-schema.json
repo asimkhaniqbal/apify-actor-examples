@@ -1,0 +1,139 @@
+{
+  "description": "Discover Amazon's own search-autocomplete keyword suggestions for one or more seed keywords.",
+  "properties": {
+    "customSuffixes": {
+      "default": [],
+      "description": "Suffixes to append to each keyword, e.g. `for men`, `waterproof`, `cheap`. Only used when expandWith is `customSuffixes`.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Custom suffixes (expandWith=customSuffixes)",
+      "type": "array"
+    },
+    "dedupe": {
+      "default": true,
+      "description": "Skip a suggestion value if it was already emitted earlier in this run (recommended -- expansion and recursion frequently rediscover the same suggestion).",
+      "prefill": true,
+      "title": "Deduplicate suggestions",
+      "type": "boolean"
+    },
+    "expandWith": {
+      "default": "none",
+      "description": "Harvest more suggestions per keyword by re-querying with an appended suffix (Amazon caps each raw response at ~10 suggestions).",
+      "editor": "select",
+      "enum": [
+        "none",
+        "alphabet",
+        "digits",
+        "customSuffixes"
+      ],
+      "enumTitles": [
+        "None (query the keyword as-is only)",
+        "A-Z (append each letter a-z)",
+        "0-9 (append each digit)",
+        "Custom suffixes (use customSuffixes field)"
+      ],
+      "prefill": "none",
+      "title": "Expand each query with",
+      "type": "string"
+    },
+    "includeSeed": {
+      "default": false,
+      "description": "Also emit one record per seed keyword itself (suggestionType `SEED`), in addition to Amazon's suggestions.",
+      "prefill": false,
+      "title": "Include seed keyword as its own record",
+      "type": "boolean"
+    },
+    "keywords": {
+      "default": [],
+      "description": "One or more seed keywords/phrases to expand into Amazon autocomplete suggestions.",
+      "editor": "stringList",
+      "prefill": [
+        "wireless earbuds"
+      ],
+      "title": "Seed keywords",
+      "type": "array"
+    },
+    "marketplace": {
+      "default": "US",
+      "description": "Which Amazon marketplace's autocomplete API to query.",
+      "editor": "select",
+      "enum": [
+        "US",
+        "CA",
+        "MX",
+        "BR",
+        "IE",
+        "ES",
+        "GB",
+        "FR",
+        "BE",
+        "NL",
+        "DE",
+        "IT",
+        "SE",
+        "ZA",
+        "PL",
+        "EG",
+        "TR",
+        "SA",
+        "AE",
+        "IN",
+        "SG",
+        "AU",
+        "JP"
+      ],
+      "enumTitles": [
+        "United States (amazon.com)",
+        "Canada (amazon.ca)",
+        "Mexico (amazon.com.mx)",
+        "Brazil (amazon.com.br)",
+        "Ireland (amazon.ie)",
+        "Spain (amazon.es)",
+        "United Kingdom (amazon.co.uk)",
+        "France (amazon.fr)",
+        "Belgium (amazon.com.be)",
+        "Netherlands (amazon.nl)",
+        "Germany (amazon.de)",
+        "Italy (amazon.it)",
+        "Sweden (amazon.se)",
+        "South Africa (amazon.co.za)",
+        "Poland (amazon.pl)",
+        "Egypt (amazon.eg)",
+        "Turkey (amazon.com.tr)",
+        "Saudi Arabia (amazon.sa)",
+        "United Arab Emirates (amazon.ae)",
+        "India (amazon.in)",
+        "Singapore (amazon.sg)",
+        "Australia (amazon.com.au)",
+        "Japan (amazon.co.jp)"
+      ],
+      "prefill": "US",
+      "title": "Marketplace",
+      "type": "string"
+    },
+    "maxDepth": {
+      "default": 0,
+      "description": "Recursively re-query newly discovered suggestions as fresh seeds, up to this many levels deep (0 = only query the original seed keywords).",
+      "maximum": 2,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Max recursion depth",
+      "type": "integer"
+    },
+    "maxSuggestions": {
+      "default": 50,
+      "description": "Hard cap on total suggestion records emitted in this run.",
+      "maximum": 2000,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max suggestions",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "keywords"
+  ],
+  "schemaVersion": 1,
+  "title": "Amazon Keyword Suggestions Scraper Input",
+  "type": "object"
+}
