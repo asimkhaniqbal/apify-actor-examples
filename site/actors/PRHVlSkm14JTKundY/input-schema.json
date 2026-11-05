@@ -1,49 +1,165 @@
 {
-  "description": "Scrape Snapchat Spotlight videos by hashtag. Extract video metadata, engagement stats, creator info, and download URLs from public Snapchat pages.",
+  "description": "Collect public Snapchat Spotlight videos by hashtag, tag/topic URL, or Spotlight video URL, or page through the anonymous Spotlight feed. No login, cookies, or proxy required.",
   "properties": {
+    "enrichDetails": {
+      "default": true,
+      "description": "Batch-fetch Snapchat's public video details endpoint to fill unwatermarked MP4 URLs, hashtags, AI metadata, duration, and exact engagement counts. Adds one request per 30 videos.",
+      "prefill": false,
+      "title": "Enrich with video details",
+      "type": "boolean"
+    },
+    "feedPages": {
+      "default": 5,
+      "description": "How many pages of the Spotlight up-next feed to request in Paginated Spotlight feed mode. Each page adds about 20-23 videos; pagination stops early when Snapchat runs out.",
+      "maximum": 50,
+      "minimum": 1,
+      "prefill": 2,
+      "title": "Feed pages",
+      "type": "integer"
+    },
     "hashtags": {
-      "description": "Hashtags, topic names, or topic URLs. Examples: food, #travel, humor, https://www.snapchat.com/topic/humor",
+      "default": [],
+      "description": "Used in Hashtag or topic videos mode. Bare words (food), hash-prefixed tags (#travel), path forms (/tag/food, /topic/cappuccino-foam-technique), or full Snapchat URLs (https://www.snapchat.com/tag/food, https://www.snapchat.com/topic/cappuccino-foam-technique).",
       "editor": "stringList",
       "items": {
         "type": "string"
       },
-      "minItems": 1,
       "prefill": [
         "food"
       ],
-      "title": "Hashtags / Topics",
+      "sectionCaption": "Hashtag videos",
+      "sectionDescription": "Each hashtag is read from its tag page and Explore results, then combined and deduplicated.",
+      "title": "Hashtags, topics, or URLs",
       "type": "array"
+    },
+    "includeHashtagMetadata": {
+      "default": true,
+      "description": "Include hashtag identity fields (id, name, URL, source, description, and total video count when Snapchat exposes it) in every record.",
+      "prefill": true,
+      "title": "Include hashtag metadata",
+      "type": "boolean"
     },
     "includeLlmMetadata": {
       "default": true,
-      "description": "Include LLM-generated title, description, and keywords",
-      "title": "Include AI Metadata",
+      "description": "Include Snapchat's AI-generated title, description, and keywords when present.",
+      "prefill": true,
+      "title": "Include AI metadata",
       "type": "boolean"
     },
     "includeRelatedTopics": {
       "default": true,
-      "description": "Include related topics/tags in each result record",
-      "title": "Include Related Topics",
+      "description": "Include related topics, related hashtags, and scene-to-interest (S2I) content tags when the page provides them.",
+      "prefill": false,
+      "title": "Include related topics and tags",
       "type": "boolean"
     },
     "includeVideoUrls": {
       "default": true,
-      "description": "Include direct video download URLs in output. Note: video URLs contain expiring tokens and may stop working after some time.",
-      "title": "Include Video URLs",
+      "description": "Include the watermarked and unwatermarked MP4 CDN URLs. These URLs carry expiring Snapchat tokens, so download or re-host media soon after scraping.",
+      "prefill": true,
+      "title": "Include video URLs",
       "type": "boolean"
     },
-    "resultsPerHashtag": {
-      "default": 30,
-      "description": "Maximum number of videos to extract per hashtag. Snapchat returns up to 32 SSR results per page.",
-      "maximum": 32,
+    "maxItems": {
+      "default": 1000,
+      "description": "Hard cap on the total number of video rows saved across the whole run.",
+      "maximum": 10000,
       "minimum": 1,
-      "title": "Results Per Hashtag",
+      "prefill": 3,
+      "sectionCaption": "Filters and limits",
+      "sectionDescription": "Applied after deduplication.",
+      "title": "Max items",
       "type": "integer"
+    },
+    "minLikes": {
+      "default": 0,
+      "description": "Keep only videos with at least this many likes. Use 0 to keep everything.",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum likes",
+      "type": "integer"
+    },
+    "minViews": {
+      "default": 0,
+      "description": "Keep only videos with at least this many views. Use 0 to keep everything.",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum views",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "hashtagFeed",
+      "description": "Choose what to collect: videos for hashtags/topics, a paginated Spotlight feed, or specific Spotlight URLs.",
+      "editor": "select",
+      "enum": [
+        "hashtagFeed",
+        "spotlightFeed",
+        "spotlightUrls"
+      ],
+      "enumTitles": [
+        "Hashtag or topic videos",
+        "Paginated Spotlight feed",
+        "Specific Spotlight URLs"
+      ],
+      "prefill": "hashtagFeed",
+      "sectionCaption": "Mode",
+      "title": "Mode",
+      "type": "string"
+    },
+    "resultsPerHashtag": {
+      "default": 50,
+      "description": "Maximum videos to keep for each hashtag after combining the tag/topic page with Explore results. Snapchat serves about 32 videos per tag page plus about 20-25 Explore cards.",
+      "maximum": 200,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Max videos per hashtag",
+      "type": "integer"
+    },
+    "sinceDate": {
+      "default": "",
+      "description": "Keep only videos uploaded on or after this date. Use YYYY-MM-DD (for example 2026-01-01). Leave empty to keep all dates.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Uploaded since",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "source",
+      "description": "Order within each hashtag/topic group. Hashtags stay in the order you enter them; feed mode sorts the whole feed. Source order keeps Snapchat's own ranking.",
+      "editor": "select",
+      "enum": [
+        "source",
+        "newest",
+        "mostViewed",
+        "mostLiked"
+      ],
+      "enumTitles": [
+        "Snapchat source order",
+        "Newest upload first",
+        "Most viewed first",
+        "Most liked first"
+      ],
+      "prefill": "source",
+      "title": "Sort by",
+      "type": "string"
+    },
+    "spotlightUrls": {
+      "default": [],
+      "description": "Used in Specific Spotlight URLs mode, or as the optional first seed in Paginated Spotlight feed mode. Accepts full Spotlight links (https://www.snapchat.com/@user/spotlight/ID), /spotlight/ID links, or raw IDs.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "sectionCaption": "Spotlight URLs",
+      "sectionDescription": "Paste one or more public Spotlight video links or IDs.",
+      "title": "Spotlight URLs or IDs",
+      "type": "array"
     }
   },
-  "required": [
-    "hashtags"
-  ],
+  "required": [],
   "schemaVersion": 1,
   "title": "Snapchat Hashtag Scraper Input",
   "type": "object"

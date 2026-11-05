@@ -1,6 +1,6 @@
 {
   "actorOutputSchemaVersion": 1,
-  "description": "Snapchat Spotlight videos matched to a hashtag, with engagement stats, creator info, and AI-generated metadata.",
+  "description": "Snapchat Spotlight videos from hashtags, topics, specific URLs, or the paginated Spotlight feed, with creator, engagement, media, AI metadata, and hashtag context.",
   "fields": {
     "attachment_url": {
       "description": "External attachment URL linked from the snap (sparse)",
@@ -11,7 +11,7 @@
       "type": "string"
     },
     "comment_count": {
-      "description": "Live comment/reply count (approved, publicly visible); sourced from spotlightLiveReplyCount",
+      "description": "Live comment/reply count (approved, publicly visible)",
       "type": "integer"
     },
     "composite_story_id": {
@@ -31,31 +31,71 @@
       "type": "string"
     },
     "description": {
-      "description": "Snap description text (may include hashtags)",
+      "description": "Snap description or AI description text",
+      "type": "string"
+    },
+    "detected_language": {
+      "description": "Detected language code when Snapchat provides one",
       "type": "string"
     },
     "duration_seconds": {
       "description": "Video duration in seconds",
       "type": "number"
     },
+    "embed_url": {
+      "description": "Public Spotlight embed URL (topic pages)",
+      "type": "string"
+    },
     "encoding_format": {
       "description": "Video encoding format (e.g. video/mp4)",
       "type": "string"
+    },
+    "feed_page": {
+      "description": "1-based Spotlight feed page for feed rows",
+      "type": "integer"
+    },
+    "hashtag_description": {
+      "description": "Topic page description when available",
+      "type": "string"
+    },
+    "hashtag_id": {
+      "description": "Normalized hashtag/topic slug",
+      "type": "string"
+    },
+    "hashtag_name": {
+      "description": "Hashtag/topic display name",
+      "type": "string"
+    },
+    "hashtag_source": {
+      "description": "Primary page the hashtag metadata came from",
+      "type": "string"
+    },
+    "hashtag_url": {
+      "description": "Canonical Snapchat tag, topic, or Explore URL",
+      "type": "string"
+    },
+    "hashtag_video_count": {
+      "description": "Snapchat's reported video count for the hashtag/topic when available",
+      "type": "integer"
+    },
+    "hashtags": {
+      "description": "Hashtags found on the video + in its description/caption",
+      "type": "array"
     },
     "height": {
       "description": "Video height in pixels",
       "type": "integer"
     },
     "is_creator_suggestion": {
-      "description": "Whether the snap is a creator suggestion",
+      "description": "Whether the snap is a creator suggestion (only when true)",
       "type": "boolean"
     },
     "is_featured": {
-      "description": "Whether the snap is featured (when present)",
+      "description": "Whether the snap is featured (only when true)",
       "type": "boolean"
     },
     "keywords": {
-      "description": "Keywords extracted from LLM metadata or hashtags in description",
+      "description": "Keywords extracted from text metadata, AI keywords, or hashtags in the description",
       "type": "array"
     },
     "large_thumbnail_url": {
@@ -63,7 +103,7 @@
       "type": "string"
     },
     "latest_update_at": {
-      "description": "Latest story update timestamp in ISO 8601 UTC (when available)",
+      "description": "Latest story update timestamp in ISO 8601 UTC (when present)",
       "type": "string"
     },
     "like_count": {
@@ -71,43 +111,55 @@
       "type": "integer"
     },
     "llm_description": {
-      "description": "AI-generated description (when include_llm_metadata=true)",
+      "description": "AI-generated description for the snap",
       "type": "string"
     },
     "llm_keywords": {
-      "description": "AI-generated keywords list (when include_llm_metadata=true)",
+      "description": "AI-generated keywords list",
       "type": "array"
     },
     "llm_title": {
-      "description": "AI-generated title for the snap (when include_llm_metadata=true)",
+      "description": "AI-generated title for the snap",
       "type": "string"
     },
     "pending_comment_count": {
-      "description": "Comments awaiting moderation (only included when > 0); sourced from pendingCommentCount",
+      "description": "Comments awaiting moderation (only included when > 0)",
+      "type": "integer"
+    },
+    "rank": {
+      "description": "Position within its source page or feed page",
       "type": "integer"
     },
     "recommend_count": {
       "description": "Recommend count",
       "type": "integer"
     },
+    "record_type": {
+      "description": "Record kind; always video",
+      "type": "string"
+    },
+    "related_hashtags": {
+      "description": "Explore topic rows with hashtag name, video count, thumbnail, and icon URL",
+      "type": "array"
+    },
     "related_s2i_tags": {
-      "description": "Related S2I tags from the hashtag page with name, score, and level (shared across all results)",
+      "description": "Related scene-to-interest tags from the hashtag/topic page",
       "type": "array"
     },
     "related_topics": {
-      "description": "Related topics returned by the hashtag page (shared across all results)",
+      "description": "Related topics/tags with tagName, score, level, topicId, and URL when available",
       "type": "array"
     },
     "remix_count": {
-      "description": "Remix count",
+      "description": "Remix count (only included when > 0)",
       "type": "integer"
     },
     "rewatch_count": {
-      "description": "Rewatch count (when available)",
+      "description": "Rewatch count (only included when > 0)",
       "type": "integer"
     },
     "s2i_tags": {
-      "description": "S2I content classification tags (sparse)",
+      "description": "Snapchat scene-to-interest content classification tags",
       "type": "array"
     },
     "score": {
@@ -119,11 +171,11 @@
       "type": "string"
     },
     "screenshot_count": {
-      "description": "Screenshot count (when available)",
+      "description": "Screenshot count (only included when > 0)",
       "type": "integer"
     },
     "searched_hashtag": {
-      "description": "Hashtag used for this search",
+      "description": "Hashtag or topic used for this search",
       "type": "string"
     },
     "share_count": {
@@ -136,6 +188,22 @@
     },
     "snap_url": {
       "description": "Public Snapchat Spotlight URL",
+      "type": "string"
+    },
+    "sound_artist": {
+      "description": "Sound or music artist when present",
+      "type": "string"
+    },
+    "sound_thumbnail_url": {
+      "description": "Sound artwork URL when present",
+      "type": "string"
+    },
+    "sound_title": {
+      "description": "Sound or music title when present",
+      "type": "string"
+    },
+    "source_type": {
+      "description": "Where the row came from: tagPage, topicPage, exploreSearch, spotlightFeed, spotlightUrl, or spotlightDetail",
       "type": "string"
     },
     "story_id": {

@@ -6,6 +6,10 @@
       "display": {
         "component": "table",
         "properties": {
+          "attachment_url": {
+            "format": "text",
+            "label": "Attachment"
+          },
           "caption": {
             "format": "text",
             "label": "Caption"
@@ -34,13 +38,61 @@
             "format": "text",
             "label": "Description"
           },
+          "detected_language": {
+            "format": "text",
+            "label": "Language"
+          },
           "duration_seconds": {
             "format": "number",
             "label": "Duration (s)"
           },
+          "embed_url": {
+            "format": "link",
+            "label": "Embed URL"
+          },
+          "encoding_format": {
+            "format": "text",
+            "label": "Format"
+          },
+          "feed_page": {
+            "format": "number",
+            "label": "Feed Page"
+          },
+          "hashtag_description": {
+            "format": "text",
+            "label": "Hashtag Description"
+          },
+          "hashtag_id": {
+            "format": "text",
+            "label": "Hashtag ID"
+          },
+          "hashtag_name": {
+            "format": "text",
+            "label": "Hashtag Name"
+          },
+          "hashtag_source": {
+            "format": "text",
+            "label": "Hashtag Source"
+          },
+          "hashtag_url": {
+            "format": "link",
+            "label": "Hashtag URL"
+          },
+          "hashtag_video_count": {
+            "format": "number",
+            "label": "Hashtag Videos"
+          },
+          "hashtags": {
+            "format": "text",
+            "label": "Hashtags"
+          },
           "height": {
             "format": "number",
             "label": "Height"
+          },
+          "is_creator_suggestion": {
+            "format": "text",
+            "label": "Creator Suggestion"
           },
           "is_featured": {
             "format": "text",
@@ -49,6 +101,10 @@
           "keywords": {
             "format": "text",
             "label": "Keywords"
+          },
+          "large_thumbnail_url": {
+            "format": "link",
+            "label": "Large Thumbnail"
           },
           "latest_update_at": {
             "format": "text",
@@ -70,9 +126,25 @@
             "format": "text",
             "label": "AI Title"
           },
+          "pending_comment_count": {
+            "format": "number",
+            "label": "Pending Comments"
+          },
+          "rank": {
+            "format": "number",
+            "label": "Rank"
+          },
           "recommend_count": {
             "format": "number",
             "label": "Recommends"
+          },
+          "record_type": {
+            "format": "text",
+            "label": "Record Type"
+          },
+          "related_hashtags": {
+            "format": "text",
+            "label": "Related Hashtags"
           },
           "related_s2i_tags": {
             "format": "text",
@@ -86,112 +158,25 @@
             "format": "number",
             "label": "Remixes"
           },
+          "rewatch_count": {
+            "format": "number",
+            "label": "Rewatches"
+          },
+          "s2i_tags": {
+            "format": "text",
+            "label": "S2I Tags"
+          },
+          "score": {
+            "format": "number",
+            "label": "Score"
+          },
           "scraped_at": {
             "format": "text",
             "label": "Scraped At"
           },
-          "searched_hashtag": {
-            "format": "text",
-            "label": "Hashtag"
-          },
-          "share_count": {
+          "screenshot_count": {
             "format": "number",
-            "label": "Shares"
-          },
-          "snap_id": {
-            "format": "text",
-            "label": "Snap ID"
-          },
-          "story_id": {
-            "format": "text",
-            "label": "Story ID"
-          },
-          "story_subtype": {
-            "format": "text",
-            "label": "Story Subtype"
-          },
-          "thumbnail_url": {
-            "format": "link",
-            "label": "Thumbnail"
-          },
-          "upload_date": {
-            "format": "text",
-            "label": "Uploaded"
-          },
-          "video_url": {
-            "format": "link",
-            "label": "Video URL"
-          },
-          "view_count": {
-            "format": "number",
-            "label": "Views"
-          },
-          "width": {
-            "format": "number",
-            "label": "Width"
-          }
-        }
-      },
-      "title": "Detailed View",
-      "transformation": {
-        "fields": [
-          "snap_id",
-          "story_id",
-          "composite_story_id",
-          "story_subtype",
-          "creator_username",
-          "creator_display_name",
-          "creator_profile_url",
-          "description",
-          "caption",
-          "keywords",
-          "llm_title",
-          "llm_description",
-          "llm_keywords",
-          "view_count",
-          "like_count",
-          "share_count",
-          "comment_count",
-          "remix_count",
-          "recommend_count",
-          "is_featured",
-          "duration_seconds",
-          "width",
-          "height",
-          "upload_date",
-          "latest_update_at",
-          "video_url",
-          "thumbnail_url",
-          "related_topics",
-          "related_s2i_tags",
-          "searched_hashtag",
-          "scraped_at"
-        ]
-      }
-    },
-    "overview": {
-      "display": {
-        "component": "table",
-        "properties": {
-          "creator_username": {
-            "format": "text",
-            "label": "Creator"
-          },
-          "description": {
-            "format": "text",
-            "label": "Description"
-          },
-          "duration_seconds": {
-            "format": "number",
-            "label": "Duration (s)"
-          },
-          "like_count": {
-            "format": "number",
-            "label": "Likes"
-          },
-          "recommend_count": {
-            "format": "number",
-            "label": "Recommends"
+            "label": "Screenshots"
           },
           "searched_hashtag": {
             "format": "text",
@@ -209,6 +194,175 @@
             "format": "link",
             "label": "URL"
           },
+          "sound_artist": {
+            "format": "text",
+            "label": "Sound Artist"
+          },
+          "sound_thumbnail_url": {
+            "format": "link",
+            "label": "Sound Artwork"
+          },
+          "sound_title": {
+            "format": "text",
+            "label": "Sound"
+          },
+          "source_type": {
+            "format": "text",
+            "label": "Source"
+          },
+          "story_id": {
+            "format": "text",
+            "label": "Story ID"
+          },
+          "story_subtype": {
+            "format": "text",
+            "label": "Story Subtype"
+          },
+          "sub_titles": {
+            "format": "text",
+            "label": "Subtitles"
+          },
+          "thumbnail_url": {
+            "format": "link",
+            "label": "Thumbnail"
+          },
+          "upload_date": {
+            "format": "text",
+            "label": "Uploaded"
+          },
+          "video_thumbnail_url": {
+            "format": "link",
+            "label": "Video Thumbnail"
+          },
+          "video_url": {
+            "format": "link",
+            "label": "Video URL"
+          },
+          "video_url_unwatermarked": {
+            "format": "link",
+            "label": "Video URL (Unwatermarked)"
+          },
+          "view_count": {
+            "format": "number",
+            "label": "Views"
+          },
+          "width": {
+            "format": "number",
+            "label": "Width"
+          }
+        }
+      },
+      "title": "Detailed View",
+      "transformation": {
+        "fields": [
+          "record_type",
+          "source_type",
+          "rank",
+          "feed_page",
+          "snap_id",
+          "story_id",
+          "composite_story_id",
+          "story_subtype",
+          "snap_url",
+          "video_url",
+          "video_url_unwatermarked",
+          "thumbnail_url",
+          "video_thumbnail_url",
+          "large_thumbnail_url",
+          "embed_url",
+          "duration_seconds",
+          "width",
+          "height",
+          "encoding_format",
+          "creator_username",
+          "creator_display_name",
+          "creator_profile_url",
+          "view_count",
+          "like_count",
+          "share_count",
+          "comment_count",
+          "pending_comment_count",
+          "remix_count",
+          "recommend_count",
+          "rewatch_count",
+          "screenshot_count",
+          "score",
+          "is_featured",
+          "is_creator_suggestion",
+          "description",
+          "caption",
+          "keywords",
+          "hashtags",
+          "sub_titles",
+          "attachment_url",
+          "upload_date",
+          "latest_update_at",
+          "llm_title",
+          "llm_description",
+          "llm_keywords",
+          "s2i_tags",
+          "detected_language",
+          "sound_title",
+          "sound_artist",
+          "sound_thumbnail_url",
+          "searched_hashtag",
+          "hashtag_id",
+          "hashtag_name",
+          "hashtag_url",
+          "hashtag_source",
+          "hashtag_description",
+          "hashtag_video_count",
+          "related_topics",
+          "related_s2i_tags",
+          "related_hashtags",
+          "scraped_at"
+        ]
+      }
+    },
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "comment_count": {
+            "format": "number",
+            "label": "Comments"
+          },
+          "creator_username": {
+            "format": "text",
+            "label": "Creator"
+          },
+          "description": {
+            "format": "text",
+            "label": "Description"
+          },
+          "duration_seconds": {
+            "format": "number",
+            "label": "Duration (s)"
+          },
+          "like_count": {
+            "format": "number",
+            "label": "Likes"
+          },
+          "searched_hashtag": {
+            "format": "text",
+            "label": "Hashtag"
+          },
+          "share_count": {
+            "format": "number",
+            "label": "Shares"
+          },
+          "snap_id": {
+            "format": "text",
+            "label": "Snap ID"
+          },
+          "snap_url": {
+            "format": "link",
+            "label": "URL"
+          },
+          "source_type": {
+            "format": "text",
+            "label": "Source"
+          },
           "view_count": {
             "format": "number",
             "label": "Views"
@@ -219,12 +373,13 @@
       "transformation": {
         "fields": [
           "snap_id",
+          "source_type",
           "creator_username",
           "description",
           "view_count",
           "like_count",
           "share_count",
-          "recommend_count",
+          "comment_count",
           "duration_seconds",
           "searched_hashtag",
           "snap_url"

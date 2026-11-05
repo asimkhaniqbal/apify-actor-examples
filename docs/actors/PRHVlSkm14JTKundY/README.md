@@ -4,104 +4,143 @@
 
 # Snapchat Spotlight Hashtag Video Extractor
 
-Snapchat's public Spotlight feed groups short videos under hashtags and topic names — `food`, `#travel`, `humor`, and hundreds more. This actor reads a hashtag's server-rendered page and returns each matching Spotlight video with its creator, engagement counts, Snapchat's own AI-generated description, and related topic tags — no login, no API key, no browser automation.
+Snapchat's public Spotlight surface publishes short videos under hashtags, long-tail topic hubs, and an anonymous up-next feed. This actor collects those videos — by hashtag, topic URL, specific Spotlight link, or a paginated feed walk — and returns creator identity, engagement counts, media links, captions, hashtags, Snapchat's AI metadata, and hashtag context. No Snapchat account, cookie, API key, or proxy is needed.
 
-## What this actor does
+## Modes
 
-- Accepts bare words (`food`), hash-prefixed tags (`#travel`), or full topic URLs (`https://www.snapchat.com/topic/humor`) in the same input list
-- Returns up to 32 Spotlight videos per hashtag — Snapchat's own per-page limit on its server-rendered topic pages
-- Pulls full engagement counts (views, likes, shares, comments, remixes, recommends) plus creator username, display name and profile link
-- Optionally includes Snapchat's AI-generated title/description/keywords and the hashtag's related-topic and scene-classification tags
-- Empty fields are omitted from records — a field only appears when Snapchat's page actually carried that data
+| Mode | What it collects | Input |
+|---|---|---|
+| **Hashtag or topic videos** | One combined, deduplicated pool per hashtag: the tag page (about 28-32 videos) plus Explore results when Snapchat serves them, with optional video-detail enrichment | `hashtags` |
+| **Paginated Spotlight feed** | The anonymous Spotlight up-next feed, page by page, until `feedPages` or `maxItems` is reached | `feedPages`, optional `spotlightUrls` seed |
+| **Specific Spotlight URLs** | One row per public Spotlight link or raw Snap ID | `spotlightUrls` |
 
-## Output per video
-
-- `snap_id`, `story_id`, `composite_story_id`, `story_subtype` — Snapchat's internal identifiers for the video and its story
-- `snap_url` — public Spotlight URL (`snapchat.com/spotlight/{snap_id}`)
-- `video_url`, `video_url_unwatermarked` — CDN video URLs, present when `includeVideoUrls` is true (tokens expire after a period set by Snapchat)
-- `thumbnail_url`, `video_thumbnail_url`, `large_thumbnail_url` — thumbnail image variants
-- `encoding_format`, `duration_seconds`, `width`, `height` — media format details
-- `creator_username`, `creator_display_name`, `creator_profile_url` — the creator's identity and profile link
-- `view_count`, `like_count`, `share_count`, `comment_count`, `pending_comment_count`, `remix_count`, `recommend_count`, `rewatch_count`, `screenshot_count` — engagement counts, as available
-- `description`, `caption`, `keywords[]`, `sub_titles[]`, `attachment_url` — the creator's own text content
-- `is_featured`, `is_creator_suggestion`, `score` — ranking/placement signals
-- `upload_date`, `latest_update_at` — timestamps for the video and its story
-- `llm_title`, `llm_description`, `llm_keywords[]` — Snapchat's AI-generated summary, present when `includeLlmMetadata` is true
-- `s2i_tags[]` — scene-to-interest content classification tags for the video
-- `related_topics[]`, `related_s2i_tags[]` — topic-level related tags shared across all results from the same hashtag, present when `includeRelatedTopics` is true; each entry has `tagName`, `score`, `level`
-- `searched_hashtag` — the hashtag/topic you searched to get this result
-- `scraped_at` — ISO 8601 UTC timestamp of the scrape
+Tag pages do not paginate (`?page`, `?cursor`, `?offset`, `?limit` are ignored by Snapchat), so hashtag mode widens coverage by combining the tag page with Explore when it is available and — when enabled — enriching each video from Snapchat's public `fetchSpotlight` endpoint. Explore is best-effort: Snapchat sometimes returns 404 for `/explore/<query>`, in which case the tag page is still returned. Feed mode uses the same up-next API the public Spotlight viewer calls.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `hashtags` | array | – | Required. Hashtags, topic names, or topic URLs to search, e.g. `food`, `#travel`, `https://www.snapchat.com/topic/humor` |
-| `resultsPerHashtag` | integer | `30` | Maximum videos to return per hashtag (1–32, Snapchat's own page limit) |
-| `includeVideoUrls` | boolean | `true` | Include direct (expiring) video CDN URLs in each record |
-| `includeRelatedTopics` | boolean | `true` | Include related-topic and scene-classification tags in each record |
-| `includeLlmMetadata` | boolean | `true` | Include Snapchat's AI-generated title, description and keywords |
+| `mode` | select | `hashtagFeed` | `hashtagFeed`, `spotlightFeed`, or `spotlightUrls` |
+| `hashtags` | array | `[]` | Bare words, `#tags`, Snapchat tag/topic/Explore paths or URLs, or a Spotlight video URL |
+| `resultsPerHashtag` | integer | `50` | Keep up to this many videos per hashtag after merge (1-200) |
+| `includeVideoUrls` | boolean | `true` | Include watermarked and unwatermarked MP4 CDN links |
+| `includeRelatedTopics` | boolean | `true` | Include related topics, related hashtags, and S2I tags |
+| `includeLlmMetadata` | boolean | `true` | Include Snapchat AI title, description, and keywords |
+| `includeHashtagMetadata` | boolean | `true` | Include hashtag id/name/URL/source/description/video count |
+| `enrichDetails` | boolean | `true` | Batch-fetch public video details (unwatermarked URL, hashtags, AI metadata, exact counts) |
+| `spotlightUrls` | array | `[]` | Spotlight links/IDs for URL mode, or an optional feed seed |
+| `feedPages` | integer | `5` | Up-next pages to request in feed mode (1-50, about 20-23 videos/page) |
+| `maxItems` | integer | `1000` | Hard cap on total rows (1-10,000) |
+| `minViews` | integer | `0` | Keep videos with at least this many views |
+| `minLikes` | integer | `0` | Keep videos with at least this many likes |
+| `sinceDate` | string | `""` | Keep videos uploaded on or after `YYYY-MM-DD` |
+| `sortBy` | select | `source` | Order within each hashtag group: `source`, `newest`, `mostViewed`, or `mostLiked` |
 
-### Example: multiple hashtags, full metadata
-
-```json
-{
-  "hashtags": ["food", "#travel", "humor"],
-  "resultsPerHashtag": 30,
-  "includeVideoUrls": true,
-  "includeRelatedTopics": true,
-  "includeLlmMetadata": true
-}
-```
-
-### Example: lightweight run, metrics only
+### Example: one hashtag
 
 ```json
 {
-  "hashtags": ["gaming"],
-  "resultsPerHashtag": 20,
-  "includeVideoUrls": false,
-  "includeRelatedTopics": false,
-  "includeLlmMetadata": false
+  "mode": "hashtagFeed",
+  "hashtags": ["food"],
+  "resultsPerHashtag": 50,
+  "maxItems": 50
 }
 ```
 
-### Example: searching by full topic URL
+### Example: several hashtags with a view filter
 
 ```json
 {
-  "hashtags": ["https://www.snapchat.com/topic/comedy"],
-  "resultsPerHashtag": 15
+  "mode": "hashtagFeed",
+  "hashtags": ["#travel", "humor", "https://www.snapchat.com/topic/cappuccino-foam-technique"],
+  "resultsPerHashtag": 40,
+  "minViews": 10000,
+  "sortBy": "mostViewed",
+  "maxItems": 100
 }
 ```
+
+### Example: paginated Spotlight feed
+
+```json
+{
+  "mode": "spotlightFeed",
+  "feedPages": 5,
+  "maxItems": 75
+}
+```
+
+### Example: specific Spotlight videos
+
+```json
+{
+  "mode": "spotlightUrls",
+  "spotlightUrls": [
+    "https://www.snapchat.com/@sema_janu/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYYm1lZmlnbGh2AZ_JQccIAZ_JQLedAAAAAQ",
+    "W7_EDlXWTBiXAEEniNoMPwAAYZWF3aHF1eGNoAZ7bAR9JAZ7bAR8hAAAAAQ"
+  ]
+}
+```
+
+## Output
+
+Each row is one Spotlight video.
+
+- `snap_id`, `story_id`, `composite_story_id`, `story_subtype`, `snap_url` — Snapchat identifiers and public URL
+- `video_url`, `video_url_unwatermarked`, `thumbnail_url`, `video_thumbnail_url`, `large_thumbnail_url`, `embed_url` — media links (CDN tokens expire)
+- `duration_seconds`, `width`, `height`, `encoding_format` — media facts
+- `creator_username`, `creator_display_name`, `creator_profile_url` — creator identity
+- `view_count`, `like_count`, `share_count`, `comment_count`, `pending_comment_count`, `remix_count`, `recommend_count`, `rewatch_count`, `screenshot_count`, `score` — engagement and ranking signals
+- `description`, `caption`, `keywords`, `hashtags`, `sub_titles`, `attachment_url` — text content
+- `upload_date`, `latest_update_at`, `scraped_at` — ISO 8601 UTC timestamps
+- `llm_title`, `llm_description`, `llm_keywords`, `s2i_tags`, `detected_language` — Snapchat AI and content classification
+- `sound_title`, `sound_artist`, `sound_thumbnail_url` — sound context when Snapchat exposes it
+- `searched_hashtag`, `hashtag_id`, `hashtag_name`, `hashtag_url`, `hashtag_source`, `hashtag_description`, `hashtag_video_count` — hashtag/topic context
+- `related_topics`, `related_s2i_tags`, `related_hashtags` — related topic graph and Explore topic rows
+- `record_type`, `source_type`, `rank`, `feed_page` — provenance (which surface produced the row)
+
+Empty fields are omitted, never written as `null`, `""`, `[]`, or `{}`. A field is present only when Snapchat actually supplied it.
 
 ## Use cases
 
-- **Trend research** — pull the current top Spotlight videos for a hashtag to see what's resonating right now
-- **Creator discovery** — identify active creators in a niche via `creator_username` and their engagement counts
-- **Content moderation / brand safety review** — scan `s2i_tags` and `description` for a hashtag before associating a campaign with it
-- **Social listening** — track engagement counts for a hashtag's videos over repeated runs
-- **Competitive benchmarking** — compare view/like/share counts for videos under hashtags relevant to your niche
+- **Trend research** — see which Spotlight videos a hashtag is pushing right now
+- **Creator discovery** — find active creators in a niche with exact view/like/share counts
+- **Social listening** — repeat runs to track engagement movement for the same videos
+- **Brand-safety review** — scan `s2i_tags`, `hashtags`, and AI descriptions before associating a campaign with a hashtag
+- **Media archiving** — collect CDN MP4 and thumbnail links for a bounded set of videos
 
 ## FAQ
 
-**Is this affiliated with Snapchat?**
-No, this is an independent, third-party actor that reads Snapchat's public Spotlight hashtag pages.
+**Do I need a Snapchat account, cookies, or a proxy?**
+No. Every surface used here is public and server-rendered, and the actor sends plain HTTP requests with no login, cookie jar, API key, or proxy configuration.
 
-**Do I need a Snapchat account or cookies?**
-No — the actor fetches public, server-rendered topic pages without any login, API key, or browser session.
+**Why does hashtag mode return about 30-50 videos and not thousands?**
+Snapchat's tag pages cap at roughly 28-32 cards and the public tag page ignores page/cursor/offset parameters. Explore adds about 20-25 more with little overlap when Snapchat serves it, so the merged pool is usually about 40-55. This actor does not invent pagination that Snapchat does not expose. Use `spotlightFeed` mode for open-ended pagination, or run several related hashtags.
 
-**Why can't I get more than 32 videos per hashtag?**
-Snapchat's server-rendered topic page itself only returns up to 32 Spotlight results per request; there's no further pagination to page past that on the public page.
+**How does `spotlightFeed` paginate?**
+It starts from a public Spotlight video and repeatedly calls Snapchat's up-next endpoint with the last video ID and the accumulated `tapStoryKey` values, exactly as the public viewer does. `feedPages` bounds the walk and `maxItems` caps the output.
 
-**How long do `video_url` and `video_url_unwatermarked` stay valid?**
-These CDN URLs carry a signed, expiring token set by Snapchat. Download or re-host the media soon after scraping rather than relying on the link staying valid indefinitely.
+**Why are some videos missing `video_url_unwatermarked`?**
+Not every tag-page card includes the clean flat URL. `enrichDetails` batch-fetches Snapchat's public detail endpoint to fill it when available; some videos still only have the watermarked URL.
 
-**What's the difference between `video_url` and `video_url_unwatermarked`?**
-`video_url` is the version with Snapchat's on-screen watermark; `video_url_unwatermarked` is the clean version, when the page data includes one.
+**How long do video and thumbnail links stay valid?**
+They carry Snapchat CDN tokens. Treat them as short-lived: download or re-host media soon after scraping.
 
-**Why are `llm_title`/`llm_description`/`llm_keywords` sometimes empty even with `includeLlmMetadata` on?**
-Not every Spotlight video has Snapchat-generated AI metadata attached — the flag only controls whether the actor includes these fields when present, it can't create metadata Snapchat hasn't generated for that video.
+**Why do some rows have no `description` or `caption`?**
+Feed and detail cards do not always expose creator text; those rows keep the AI `llm_description` and omit `description` rather than fabricating one.
 
-**Can I pass a hashtag without the `#` symbol?**
-Yes — `food` and `#food` are handled the same way; the actor strips the leading `#` automatically.
+**Can I pass `#food` and a full tag URL?**
+Yes. `food`, `#food`, `https://www.snapchat.com/tag/food`, and topic/Explore URLs are all accepted. A full Spotlight video link is also accepted in `hashtags` and is routed to the video-detail path.
+
+**What happens to my old input?**
+The legacy keys `hashtags`, `resultsPerHashtag`, `includeVideoUrls`, `includeRelatedTopics`, and `includeLlmMetadata` still work. Old-style inputs that omit `mode` run in hashtag mode. An old `proxyConfiguration` key is accepted but ignored.
+
+## Limitations
+
+- Tag pages are capped by Snapchat (about 28-32 videos) and do not paginate. Hashtag mode combines tag + Explore when Explore is available and is intentionally bounded by `resultsPerHashtag`.
+- Snapchat intermittently returns 404 for `/explore/<query>`; the actor treats that as a missing surface and returns the tag/topic page rows instead of failing.
+- `spotlightFeed` follows Snapchat's up-next recommendations; it is a discovery feed, not a hashtag-filtered feed. Rows carry `source_type=spotlightFeed` so they can be filtered.
+- Comment text and transcripts are not collected; only public engagement counts and metadata are included.
+- Media URLs are signed by Snapchat and can expire. The actor does not re-host media.
+- Feed and detail responses vary by country and can omit fields; those fields are omitted per record.
+- With several hashtags, rows stay grouped in input order; `sortBy` orders videos within each hashtag group (feed mode sorts the entire feed).
