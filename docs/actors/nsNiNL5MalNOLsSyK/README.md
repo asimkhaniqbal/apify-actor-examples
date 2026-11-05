@@ -4,144 +4,173 @@
 
 # Google Maps Route & Distance Matrix Scraper
 
-Turn an origin and destination into Google Maps' own route data — distance, duration, traffic, and turn-by-turn steps for driving, walking, bicycling or transit. Switch to matrix mode and feed in several origins and several destinations at once to get a full travel-time grid in a single run, ready for ranking the closest warehouse, store or driver to each stop.
+Get Google Maps directions as structured data — route alternatives, multi-stop trips, turn-by-turn steps, live and typical traffic, transit lines and fares, Street View previews, and full origin × destination travel-time matrices. No Google API key, login or cookie is needed.
 
 ## What this actor does
 
-- Returns every route alternative Google Maps offers for a single origin → destination pair (`mode=route`)
-- Builds a distance/duration matrix across many origins and many destinations in one run (`mode=matrix`)
-- Covers all four travel modes: driving, walking, bicycling and public transit
-- Applies driving-only avoidance flags (tolls, highways, ferries) and a transit departure time
-- Accepts addresses, place names, or `lat,lng` coordinate pairs for any origin or destination
-- Empty fields are omitted from a record — a value only appears when Google actually renders it for that route
+- **Route mode** — one trip with 2–10 ordered stops. Middle stops become waypoints, just like Google Maps' "Add destination" feature.
+- **Matrix mode** — every origin × destination pair, one row per pair, with distance, duration and traffic estimates.
+- **URLs mode** — paste public Google Maps directions links, including canonical `/maps/dir/...` links and short share links.
+- **Four travel modes** — driving, walking, bicycling and public transit.
+- **Route alternatives** — Google's recommended route plus the alternatives it returns (usually up to 3); `maxAlternatives` caps the list at 1–8.
+- **Turn-by-turn steps** — instruction, distance, duration, maneuver, start/end coordinates, route geometry and optional Street View pano/thumbnail for every route, not just the first one.
+- **Traffic detail** — current duration, typical duration, no-traffic duration and the expected traffic range for driving routes.
+- **Transit detail** — line, vehicle, headsign, line colour, departure/arrival times, departure and arrival stops, intermediate stops, agency and fare when Google publishes it.
+- **Departure planning** — request driving or transit directions for a future departure time, expressed as local time at the origin.
+- **Avoid flags** — tolls, highways and ferries for driving routes.
+- **Localized output** — 11 instruction languages and metric or imperial distance formatting.
 
-## Output: per route (mode = `route`)
-
-- `origin`, `destination` — the location strings you supplied
-- `originResolved`, `destinationResolved` — what Google Maps actually matched them to
-- `travelMode`, `language`, `units` — the settings used for this run
-- `routeIndex` — 0 for Google's top recommendation, 1+ for alternatives (up to 5 total)
-- `distance` — human-readable distance (e.g. `"1.2 mi"`)
-- `distanceMeters` — the same distance as an integer in meters
-- `duration` — human-readable duration (e.g. `"8 min"`)
-- `durationSeconds` — the same duration as an integer in seconds
-- `durationInTraffic` — traffic-aware duration, when Google renders one for a driving route
-- `via` — the main road/route the alternative travels via (e.g. `"via Broadway"`)
-- `trafficCondition` — traffic qualifier when shown (e.g. `"Moderate traffic"`)
-- `steps[]` — turn-by-turn instructions with each step's own distance; only present on the top route (`routeIndex: 0`), and only when Google renders the step list for it
-- `fare`, `transitWindow`, `departureTime`, `arrivalTime` — transit-only fields, present only when a transit route exposes them
-- `midpointLocation` — the geometric midpoint between origin and destination, present only when both were given as `lat,lng` coordinates
-- `notes` — any extra qualifier Google attaches to the route
-- `googleMapsUrl` — a Google Maps directions link reproducing this route
-- `sourceUrl`, `scrapedAt`
-
-## Output: per pair (mode = `matrix`)
-
-Every matrix row carries the same fields as a route record, plus:
-
-- `originIndex`, `destinationIndex` — the row's position in your `origins`/`destinations` lists, so you can rebuild the full grid
-- `recordType: "matrix"`
-
-Rows are written as each pair finishes, and a pair Google can't find a route for is skipped rather than written as a placeholder row.
+Fields are omitted when Google does not provide a value. The actor never fills a missing fare, ETA, instruction or coordinate with a guess.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `route` | `route` (single origin → destination) or `matrix` (every origin × every destination) |
-| `origin` | string | – | Starting location — address, place name, or `lat,lng` (mode=route) |
-| `destination` | string | – | Ending location (mode=route) |
-| `origins` | array | – | Starting locations for the matrix (mode=matrix) |
-| `destinations` | array | – | Ending locations for the matrix (mode=matrix) |
-| `maxPairs` | integer | `100` | Cap on total origin × destination pairs requested (1–1000, mode=matrix) |
-| `travelMode` | string | `driving` | `driving` / `walking` / `bicycling` / `transit` |
-| `language` | string | `en` | Language for instruction text — `en`, `es`, `fr`, `de`, `it`, `pt`, `ja`, `ko`, `zh`, `ar` or `ru` |
-| `units` | string | `metric` | `metric` or `imperial` |
-| `avoidTolls` | boolean | `false` | Driving only — avoid toll roads |
-| `avoidHighways` | boolean | `false` | Driving only — avoid highways/motorways |
-| `avoidFerries` | boolean | `false` | Driving only — avoid ferry crossings |
-| `departureTime` | string | – | ISO 8601 datetime used for transit routing |
-| `proxyConfiguration` | object | – | Optional proxy, used only if needed |
+| `mode` | select | `route` | `route`, `matrix` or `urls` |
+| `stops` | string list | – | Ordered stops for route mode (2–10); the prefill is Times Square → Central Park |
+| `origins` | string list | – | Matrix origins |
+| `destinations` | string list | – | Matrix destinations |
+| `directionsUrls` | request list | – | Google Maps directions links for URLs mode |
+| `maxPairs` | integer | `100` | Maximum matrix pairs (1–1000) |
+| `travelMode` | select | `driving` | `driving`, `walking`, `bicycling` or `transit` |
+| `avoidTolls` | boolean | `false` | Driving only |
+| `avoidHighways` | boolean | `false` | Driving only |
+| `avoidFerries` | boolean | `false` | Driving only |
+| `departureTime` | text | – | ISO 8601 datetime in the origin's local time; driving and transit |
+| `maxAlternatives` | integer | `5` | Route alternatives per trip (1–8) |
+| `maxItems` | integer | `50` | Global record cap (1–1000) |
+| `includeSteps` | boolean | `true` | Turn-by-turn steps and geometry |
+| `includeStreetView` | boolean | `false` | Street View pano ID and thumbnail per step |
+| `language` | select | `en` | Instruction language |
+| `units` | select | `metric` | `metric` or `imperial` formatting |
+| `requestDelayMs` | integer | `250` | Pause between requests (0–5000 ms) |
+| `proxyConfiguration` | proxy | – | Optional fallback; direct requests are tried first |
 
-### Example: driving route with traffic
+Existing saved tasks that still send `origin` and `destination` keep working: the actor maps them to the first and last stop automatically.
+
+## Output: route records
+
+Each route alternative becomes one record:
+
+- `origin`, `destination`, `stops[]`, `waypoints[]` — your inputs plus Google's resolved names, addresses, coordinates and place IDs
+- `originResolved`, `destinationResolved`, `originCoords`, `destinationCoords`
+- `recordType`, `routeIndex`, `routeName`, `routeSummary`, `isRecommended`
+- `distance`, `distanceMeters`, `distanceText` — formatted distance, exact meters, and Google's original text
+- `duration`, `durationSeconds`, `durationText`
+- `durationInTraffic`, `durationInTrafficSeconds`
+- `typicalDuration`, `typicalDurationSeconds`, `noTrafficDuration`, `noTrafficDurationSeconds`, `trafficRange`, `trafficRangeMinSeconds`, `trafficRangeMaxSeconds`, `trafficLevel`, `trafficCondition`
+- `via` — the main road or highway
+- `departureTime`, `arrivalTime`, `transitWindow`, plus ISO timestamps and timezone for transit
+- `fare`, `fares[]`, `transit` and `transitSegments[]` — line, vehicle, headsign, colour, stops, times and fare
+- `steps[]` — instruction, instruction parts, maneuver, distance, duration, start/end coordinates, Street View fields and notes
+- `geometry[]` — route geometry built from step coordinates
+- `legs[]` — per-leg distance, duration and step range for multi-stop trips
+- `availableModes[]` — Google's duration comparison for driving, walking, bicycling and transit
+- `avoidanceUnmet[]` — set when an avoidance request could not be honoured
+- `notes[]`, `googleMapsUrl`, `sourceUrl`, `inputUrl`, `scrapedAt`
+
+## Output: matrix records
+
+Matrix mode adds `originIndex`, `destinationIndex`, `pairIndex` and `routesAvailable` to the best route for each pair. `recordType` is `matrix`. `maxPairs` caps requested pairs and `maxItems` caps pushed rows.
+
+## Examples
+
+### Driving route with a waypoint
 
 ```json
 {
   "mode": "route",
-  "origin": "Times Square, New York, NY",
-  "destination": "Central Park, New York, NY",
+  "stops": [
+    "New York, NY",
+    "Hartford, CT",
+    "Boston, MA"
+  ],
   "travelMode": "driving",
-  "avoidTolls": true
+  "includeSteps": true
 }
 ```
 
-### Example: transit route with a departure time
+### Transit trip with a future departure
 
 ```json
 {
   "mode": "route",
-  "origin": "40.7580,-73.9855",
-  "destination": "40.7484,-73.9857",
+  "stops": ["Heathrow Airport, London", "British Museum, London"],
   "travelMode": "transit",
-  "departureTime": "2026-06-16T10:30:00"
+  "departureTime": "2026-11-06T13:00:00+00:00",
+  "maxAlternatives": 6
 }
 ```
 
-### Example: 3 warehouses × 5 customer addresses
+### Distance matrix
 
 ```json
 {
   "mode": "matrix",
   "origins": [
-    "Warehouse A, 1 Main St, Newark, NJ",
-    "Warehouse B, 55 Broad St, Newark, NJ",
-    "Warehouse C, 400 Market St, Newark, NJ"
+    "Warehouse A, Newark, NJ",
+    "Warehouse B, Elizabeth, NJ"
   ],
   "destinations": [
     "10 Wall St, New York, NY",
     "20 Hudson Yards, New York, NY",
-    "30 Atlantic Ave, Brooklyn, NY",
-    "40 Steinway St, Queens, NY",
-    "50 Fordham Rd, Bronx, NY"
+    "JFK Airport, Queens, NY"
   ],
   "travelMode": "driving",
-  "maxPairs": 100
+  "maxPairs": 20,
+  "maxItems": 20
+}
+```
+
+### Directions URLs
+
+```json
+{
+  "mode": "urls",
+  "directionsUrls": [
+    {"url": "https://www.google.com/maps/dir/Times+Square,+New+York,+NY/Central+Park,+New+York,+NY/?travelmode=driving"},
+    {"url": "https://www.google.com/maps/dir/Heathrow+Airport,+London/British+Museum,+London/?travelmode=transit"}
+  ],
+  "maxAlternatives": 3
 }
 ```
 
 ## Use cases
 
-- **Logistics and dispatch** — rank which warehouse or driver is closest to a batch of delivery addresses
-- **Field-service and territory planning** — compute travel time from each technician's base to upcoming jobs
-- **Real estate commute checks** — compare driving or transit time from a listing to work, school or downtown
-- **Sales and visit scheduling** — sequence client visits by shortest total travel time
-- **Tourism and itinerary planning** — compare walking vs transit time between stops on a trip
+- Fleet dispatch and delivery-route planning
+- Commute and relocation comparisons across driving, walking, cycling and transit
+- Travel-time matrices for store, warehouse or service-area analysis
+- Itinerary planning with multi-stop road trips
+- Transit schedule and fare research
 
 ## FAQ
 
-**How many route alternatives come back per request?**
-Up to 5, in the order Google Maps presents them — `routeIndex: 0` is Google's own top recommendation.
+**How many alternatives can I get?**
+`maxAlternatives` accepts 1–8 as a cap. Google's directions data usually provides up to 3 alternatives; the actor returns exactly what Google provides and never invents a route.
 
-**Why is my resolved origin different from what I typed?**
-Google Maps geocodes your input and matches it to the nearest known place; `originResolved`/`destinationResolved` show exactly what it matched, which can differ from an ambiguous or abbreviated input string.
+**Do steps appear on every alternative?**
+Yes. Every returned route contains its own steps, coordinates and geometry when `includeSteps` is on. Earlier versions only returned steps for the first route.
 
-**Can I pass coordinates instead of an address?**
-Yes — `"40.7580,-73.9855"` style `lat,lng` pairs work anywhere an address or place name is accepted, including inside `origins`/`destinations`.
+**How does departure time handle timezones?**
+`departureTime` is interpreted as the local clock time at the origin, matching Google Maps' "Depart at" control. An ISO 8601 offset is accepted but ignored, so `2026-11-06T13:00:00-05:00` and `2026-11-06T13:00:00` both mean 1 PM at the origin. Transit output also includes `departureTimezone` and ISO timestamps with the local offset.
 
-**How does matrix mode avoid an unbounded number of requests?**
-`maxPairs` caps the total origin × destination combinations a single run will request (default 100, max 1000). Pairs beyond the cap are left out; duplicate origins or destinations in your lists are removed automatically before pairing.
+**Why is a fare or transit line missing from one route?**
+Google only publishes fares and detailed line information for some transit agencies and routes. Those fields are omitted when absent instead of being estimated.
 
-**Why is `steps[]` missing from some routes?**
-Only the top route (`routeIndex: 0`) can carry turn-by-turn instructions, and only when Google Maps renders the detailed step list for it; route alternatives (`routeIndex: 1` and above) never include `steps`.
+**What happens when Google cannot avoid a toll, highway or ferry?**
+Google may still return the only available route. In that case the record is kept and `avoidanceUnmet` explains which preference could not be met.
 
-**Why do transit-only fields like `fare` sometimes not appear?**
-`fare`, `transitWindow`, `departureTime` and `arrivalTime` are only populated when Google displays them for that specific transit route — not every transit route has a published fare or scheduled window.
+**How large can a matrix be?**
+`maxPairs` limits requested pairs (up to 1000) and `maxItems` limits pushed rows. For a matrix, one row is produced per pair, using Google's recommended route.
 
-**What happens if Google Maps can't find a route at all?**
-In `route` mode the run reports no routes found in its status message. In `matrix` mode, that specific pair is skipped and the final status message reports how many pairs were unresolved.
+**Do short share links work in URLs mode?**
+Yes. Both full `/maps/dir/...` links and short Google Maps share links are resolved before scraping. Travel mode, waypoints and avoid preferences are read from the link when present.
 
-**Is login or a Google API key required?**
-No. Directions are read from Google Maps' public pages; no account, API key or cookies are needed.
+**Is an API key, cookie or login required?**
+No. The actor reads the same public directions data Google Maps serves to a browser, without an account, cookie or API key.
+
+**Why do distances sometimes differ from Google's displayed text?**
+Google localizes displayed units by country. The actor keeps the original text in `distanceText` and also converts the exact meter value into your selected `units`.
 
 **Is this affiliated with Google?**
-No. This is an independent, third-party actor that reads Google Maps' public directions pages; it is not affiliated with or endorsed by Google.
+No. This is an independent, third-party actor and is not affiliated with or endorsed by Google.

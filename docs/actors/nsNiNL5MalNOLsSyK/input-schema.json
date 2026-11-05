@@ -1,42 +1,35 @@
 {
-  "description": "Extract driving, walking, bicycling, and transit directions between two locations from Google Maps, or build a distance/duration matrix across many origins and destinations.",
+  "description": "Get route alternatives, multi-stop trips, turn-by-turn steps, traffic, transit detail, distance matrices and directions URLs from Google Maps.",
   "properties": {
     "avoidFerries": {
       "default": false,
-      "description": "Driving mode only — avoid routes that use ferries.",
+      "description": "Driving only — prefer routes without ferry crossings. If every route uses a ferry, the result is still returned and marked with avoidanceUnmet.",
       "prefill": false,
       "title": "Avoid Ferries",
       "type": "boolean"
     },
     "avoidHighways": {
       "default": false,
-      "description": "Driving mode only — avoid highways/motorways when possible.",
+      "description": "Driving only — ask Google Maps to avoid highways and motorways. If no practical alternative exists, Google may still return a highway route.",
       "prefill": false,
       "title": "Avoid Highways",
       "type": "boolean"
     },
     "avoidTolls": {
       "default": false,
-      "description": "Driving mode only — avoid toll roads when possible.",
+      "description": "Driving only — ask Google Maps to avoid toll roads. If no toll-free route exists, Google may still return a toll route.",
       "prefill": false,
       "title": "Avoid Tolls",
       "type": "boolean"
     },
     "departureTime": {
-      "description": "Optional ISO 8601 datetime (e.g. 2026-06-16T10:30:00) used for transit routing.",
+      "description": "Optional ISO 8601 departure time as local time at the origin, for example 2026-06-16T10:30:00. Used for driving traffic estimates and transit schedules. A timezone offset is accepted but ignored; walking and bicycling ignore the field.",
       "editor": "textfield",
-      "title": "Departure Time (Transit)",
-      "type": "string"
-    },
-    "destination": {
-      "description": "Ending location — full address, place name, or 'lat,lng' coordinate pair. (mode=route)",
-      "editor": "textfield",
-      "prefill": "Central Park, New York, NY",
-      "title": "Destination",
+      "title": "Departure Time",
       "type": "string"
     },
     "destinations": {
-      "description": "Ending locations for the matrix — each a full address, place name, or 'lat,lng' coordinate pair. One row is returned per origin × destination pair. (mode=matrix)",
+      "description": "Ending locations for matrix mode. Each destination is paired with every origin above.",
       "editor": "stringList",
       "items": {
         "type": "string"
@@ -49,9 +42,42 @@
       "title": "Destinations",
       "type": "array"
     },
+    "directionsUrls": {
+      "description": "Google Maps directions links for URLs mode. Canonical /maps/dir/ links and short share links are both accepted; waypoints and travel mode are read from the link when present.",
+      "editor": "requestListSources",
+      "items": {
+        "properties": {
+          "url": {
+            "description": "Public Google Maps directions link.",
+            "title": "URL",
+            "type": "string"
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "type": "object"
+      },
+      "title": "Directions URLs",
+      "type": "array"
+    },
+    "includeSteps": {
+      "default": true,
+      "description": "Add turn-by-turn steps with instruction, distance, duration, maneuver, coordinates and route geometry for every returned route.",
+      "prefill": false,
+      "title": "Include Steps",
+      "type": "boolean"
+    },
+    "includeStreetView": {
+      "default": false,
+      "description": "Add a Street View panorama ID and thumbnail URL to each step where Google publishes one. This also enables step details.",
+      "prefill": false,
+      "title": "Include Street View",
+      "type": "boolean"
+    },
     "language": {
       "default": "en",
-      "description": "Language of the directions page (affects step instructions text).",
+      "description": "Language for instructions and other localized text.",
       "editor": "select",
       "enum": [
         "en",
@@ -83,9 +109,29 @@
       "title": "Language",
       "type": "string"
     },
+    "maxAlternatives": {
+      "default": 5,
+      "description": "Maximum number of route alternatives to return per trip, including Google's recommended route. Applies to route and URLs modes. Google usually supplies up to 3 alternatives.",
+      "editor": "number",
+      "maximum": 8,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Max Alternatives",
+      "type": "integer"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Global cap on the number of records pushed to the dataset.",
+      "editor": "number",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Max Results",
+      "type": "integer"
+    },
     "maxPairs": {
       "default": 100,
-      "description": "Upper bound on the total number of origin × destination pairs the actor will request in matrix mode. Origins × destinations is truncated to this value so a large matrix cannot run away. (mode=matrix)",
+      "description": "Maximum number of origin × destination pairs to request in matrix mode. Pairs beyond this cap are left out.",
       "editor": "number",
       "maximum": 1000,
       "minimum": 1,
@@ -95,29 +141,24 @@
     },
     "mode": {
       "default": "route",
-      "description": "Operation mode. 'route' returns route alternatives for a single origin -> destination; 'matrix' returns one row per origin × destination pair across many origins and destinations.",
+      "description": "What to scrape: one route (with optional waypoints), a distance matrix, or a list of Google Maps directions URLs.",
       "editor": "select",
       "enum": [
         "route",
-        "matrix"
+        "matrix",
+        "urls"
       ],
       "enumTitles": [
-        "Single route (one origin -> one destination)",
-        "Distance matrix (every origin × every destination)"
+        "Route — one trip, 2–10 stops",
+        "Matrix — every origin × destination",
+        "URLs — scrape directions links"
       ],
       "prefill": "route",
       "title": "Mode",
       "type": "string"
     },
-    "origin": {
-      "description": "Starting location — full address, place name, or 'lat,lng' coordinate pair. (mode=route)",
-      "editor": "textfield",
-      "prefill": "Times Square, New York, NY",
-      "title": "Origin",
-      "type": "string"
-    },
     "origins": {
-      "description": "Starting locations for the matrix — each a full address, place name, or 'lat,lng' coordinate pair. One row is returned per origin × destination pair. (mode=matrix)",
+      "description": "Starting locations for matrix mode. Each origin is paired with every destination below.",
       "editor": "stringList",
       "items": {
         "type": "string"
@@ -130,14 +171,39 @@
       "type": "array"
     },
     "proxyConfiguration": {
-      "description": "Optional fallback proxy. The actor first tries without a proxy (more reliable for Google Maps); proxy is used only if the no-proxy attempt fails.",
+      "description": "Optional fallback proxy. The actor first requests Google Maps directly and only retries through this proxy if the direct request is blocked.",
       "editor": "proxy",
       "title": "Proxy Configuration",
       "type": "object"
     },
+    "requestDelayMs": {
+      "default": 250,
+      "description": "Pause between directions requests. A small delay keeps large matrix runs polite and reduces rate limiting.",
+      "editor": "number",
+      "maximum": 5000,
+      "minimum": 0,
+      "prefill": 250,
+      "title": "Request Delay (ms)",
+      "type": "integer"
+    },
+    "stops": {
+      "description": "Ordered stops for route mode: 2–10 locations. The first is the origin, the last is the destination, and everything in between becomes a waypoint.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10,
+      "minItems": 2,
+      "prefill": [
+        "Times Square, New York, NY",
+        "Central Park, New York, NY"
+      ],
+      "title": "Stops",
+      "type": "array"
+    },
     "travelMode": {
       "default": "driving",
-      "description": "Mode of transportation.",
+      "description": "How to travel between the stops.",
       "editor": "select",
       "enum": [
         "driving",
@@ -149,7 +215,7 @@
         "Driving",
         "Walking",
         "Bicycling",
-        "Public Transit"
+        "Public transit"
       ],
       "prefill": "driving",
       "title": "Travel Mode",
@@ -157,7 +223,7 @@
     },
     "units": {
       "default": "metric",
-      "description": "Preferred distance units. Google Maps may still localise based on the route's country.",
+      "description": "Preferred distance units for the formatted distance fields. Meter values stay unchanged.",
       "editor": "select",
       "enum": [
         "metric",
