@@ -1,90 +1,87 @@
 {
   "properties": {
     "author": {
-      "description": "Only return tweets posted BY this handle (with or without @). Adds from:handle to the search.",
+      "description": "Only keep posts written by this handle (with or without @).",
       "editor": "textfield",
       "nullable": true,
-      "sectionCaption": "Advanced operators",
-      "sectionDescription": "Extra X search operators for power users. Combine freely with the filters above.",
       "title": "Posted by handle",
       "type": "string"
     },
+    "authorHandles": {
+      "description": "Used by the 'Posts by author' mode. Accepts @handle, handle, or https://x.com/handle profile URLs.",
+      "editor": "stringList",
+      "example": [
+        "@apify",
+        "https://x.com/OpenAI"
+      ],
+      "items": {
+        "type": "string"
+      },
+      "title": "Author handles or profile URLs",
+      "type": "array"
+    },
     "conversationId": {
-      "description": "Only return tweets in this conversation thread (the root tweet ID).",
+      "description": "Used by the 'Conversation thread' mode. Paste the root post ID or a post URL in that thread.",
       "editor": "textfield",
       "nullable": true,
-      "sectionCaption": "Advanced operators",
-      "sectionDescription": "Extra X search operators for power users. Combine freely with the filters above.",
-      "title": "Conversation ID",
+      "title": "Conversation ID or post URL",
       "type": "string"
     },
     "dateFrom": {
-      "description": "Only return tweets posted on or after this date. Leave empty for no lower bound.",
+      "description": "Only keep posts published on or after this date (UTC).",
       "editor": "datepicker",
       "nullable": true,
       "title": "Start date",
       "type": "string"
     },
     "dateTo": {
-      "description": "Only return tweets posted on or before this date. Leave empty for no upper bound.",
+      "description": "Only keep posts published on or before this date (UTC).",
       "editor": "datepicker",
       "nullable": true,
       "title": "End date",
       "type": "string"
     },
-    "endDate": {
-      "description": "Deprecated — use 'End date' instead. Kept so existing saved inputs keep working. Format: YYYY-MM-DD.",
-      "editor": "textfield",
-      "nullable": true,
-      "sectionCaption": "Advanced (legacy)",
-      "sectionDescription": "Deprecated aliases kept for backwards compatibility. Prefer the fields above.",
-      "title": "End date (legacy)",
-      "type": "string"
-    },
     "excludeReplies": {
       "default": false,
-      "description": "Skip replies and keep only top-level posts.",
+      "description": "Drop replies and keep top-level posts only.",
       "prefill": false,
       "title": "Exclude replies",
       "type": "boolean"
     },
     "excludeRetweets": {
       "default": false,
-      "description": "Skip retweets/reposts and keep only original posts.",
+      "description": "Drop reposts and keep original posts only.",
       "prefill": false,
-      "title": "Exclude retweets (reposts)",
+      "title": "Exclude reposts",
       "type": "boolean"
     },
     "inReplyTo": {
-      "description": "Only return tweets that are replies TO this handle (with or without @). Adds to:handle to the search.",
+      "description": "Only keep posts that are replies to this handle (with or without @).",
       "editor": "textfield",
       "nullable": true,
-      "sectionCaption": "Advanced operators",
-      "sectionDescription": "Extra X search operators for power users. Combine freely with the filters above.",
       "title": "Replying to handle",
       "type": "string"
     },
     "keywords": {
-      "description": "Words, phrases, hashtags or full X search queries to monitor. Each keyword is searched separately, and every result row tells you which keyword found it (searchTerm). Advanced X operators in the query string (from:, to:, filter:, etc.) are supported.",
+      "description": "Words, phrases or hashtags to search for. Each keyword is collected separately and every row shows the keyword that found it (searchTerm).",
       "editor": "stringList",
       "example": [
         "web scraping",
-        "data mining",
-        "#AI"
+        "#AI",
+        "OpenAI"
       ],
       "items": {
         "type": "string"
       },
-      "minItems": 1,
       "prefill": [
         "apify"
       ],
-      "title": "Search keywords",
+      "title": "Keywords or phrases",
       "type": "array"
     },
     "language": {
       "default": "Any language",
-      "description": "Only return tweets written in this language. Leave the default to search all languages.",
+      "description": "Only keep posts in this language. The default searches every language.",
       "editor": "select",
       "enum": [
         "Any language",
@@ -178,31 +175,26 @@
     },
     "maxItems": {
       "default": 20,
-      "description": "Stop after this many tweets for each keyword. In 'Top + Latest' mode the cap is shared across both passes.",
+      "description": "Stop after this many posts per keyword or author. The URL and conversation modes use it as a total cap.",
       "maximum": 1000,
       "minimum": 1,
-      "prefill": 20,
-      "title": "Maximum tweets per keyword",
-      "type": "integer"
-    },
-    "maxTweets": {
-      "description": "Alias of Maximum items per keyword. The actor accepts either name.",
-      "maximum": 1000,
-      "minimum": 1,
-      "title": "Maximum tweets per keyword (alias)",
+      "prefill": 3,
+      "sectionCaption": "Collection",
+      "sectionDescription": "Coverage and result limits.",
+      "title": "Maximum posts",
       "type": "integer"
     },
     "mentioning": {
-      "description": "Only return tweets that mention this handle (with or without @).",
+      "description": "Only keep posts that mention this handle (with or without @). Applied after collection.",
       "editor": "textfield",
       "nullable": true,
-      "sectionCaption": "Advanced operators",
-      "sectionDescription": "Extra X search operators for power users. Combine freely with the filters above.",
+      "sectionCaption": "Post filters",
+      "sectionDescription": "These are applied to collected posts, never sent as opaque search operators.",
       "title": "Mentioning handle",
       "type": "string"
     },
     "minimumLikes": {
-      "description": "Only return tweets with at least this many likes. Leave empty for no minimum.",
+      "description": "Drop posts below this like count. Posts whose count is unavailable are dropped and reported in the run summary.",
       "maximum": 100000000,
       "minimum": 0,
       "nullable": true,
@@ -210,7 +202,7 @@
       "type": "integer"
     },
     "minimumReplies": {
-      "description": "Only return tweets with at least this many replies. Leave empty for no minimum.",
+      "description": "Drop posts below this reply count. Posts with no available reply count are dropped and reported.",
       "maximum": 100000000,
       "minimum": 0,
       "nullable": true,
@@ -218,69 +210,87 @@
       "type": "integer"
     },
     "minimumRetweets": {
-      "description": "Only return tweets with at least this many retweets. Leave empty for no minimum.",
+      "description": "Drop posts below this repost count. Counts are filled from the public fallback source when available.",
       "maximum": 100000000,
       "minimum": 0,
       "nullable": true,
-      "title": "Minimum retweets",
+      "title": "Minimum reposts",
       "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "Search by keyword, collect an author's posts, fetch specific post URLs, or open a conversation thread.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byAuthor",
+        "byUrls",
+        "conversation"
+      ],
+      "enumTitles": [
+        "Search by keyword",
+        "Posts by author",
+        "Specific post URLs",
+        "Conversation thread"
+      ],
+      "prefill": "search",
+      "sectionCaption": "Mode and targets",
+      "sectionDescription": "Choose one mode, then fill the target field that belongs to it.",
+      "title": "What do you want to collect?",
+      "type": "string"
     },
     "onlyImages": {
       "default": false,
-      "description": "Only return tweets that contain at least one image.",
+      "description": "Keep posts that contain at least one photo.",
       "prefill": false,
-      "title": "Tweets with images only",
+      "title": "Posts with images only",
       "type": "boolean"
     },
     "onlyQuotes": {
       "default": false,
-      "description": "Only return quote tweets.",
+      "description": "Keep posts that quote another post.",
       "prefill": false,
-      "title": "Quote tweets only",
+      "title": "Quote posts only",
       "type": "boolean"
     },
     "onlyVerifiedUsers": {
       "default": false,
-      "description": "Only return tweets from verified (blue check) accounts.",
+      "description": "Keep posts from verified or blue-check accounts only.",
       "prefill": false,
       "title": "Verified accounts only",
       "type": "boolean"
     },
     "onlyVideos": {
       "default": false,
-      "description": "Only return tweets that contain at least one video or GIF.",
+      "description": "Keep posts that contain at least one video or GIF.",
       "prefill": false,
-      "title": "Tweets with videos only",
+      "title": "Posts with videos only",
       "type": "boolean"
     },
+    "postUrls": {
+      "description": "Used by the 'Specific post URLs' mode. Accepts x.com or twitter.com post links and bare post IDs.",
+      "editor": "stringList",
+      "example": [
+        "https://x.com/apify/status/2118015298603274372"
+      ],
+      "items": {
+        "type": "string"
+      },
+      "title": "Post URLs or IDs",
+      "type": "array"
+    },
     "proxyConfiguration": {
-      "description": "Optional. Use a proxy if you run large jobs or see frequent IP-based rate limits.",
+      "description": "Optional. No proxy is needed. If supplied, it is used for the best-effort guest search supplement as well as page requests.",
       "editor": "proxy",
       "nullable": true,
       "sectionCaption": "Advanced",
-      "sectionDescription": "Optional settings for large or repeated runs.",
+      "sectionDescription": "Optional settings for special network environments.",
       "title": "Proxy configuration",
       "type": "object"
     },
-    "searchType": {
-      "description": "Alias of Result order. The actor accepts either name.",
-      "editor": "select",
-      "enum": [
-        "Top",
-        "Latest",
-        "Top + Latest"
-      ],
-      "enumTitles": [
-        "Top — most relevant and popular",
-        "Latest — newest first",
-        "Top + Latest — both passes merged"
-      ],
-      "title": "Result order (alias)",
-      "type": "string"
-    },
     "sort": {
       "default": "Top",
-      "description": "Top returns the most relevant and popular tweets. Latest returns the newest tweets first. Top + Latest runs both passes and combines the results without duplicates.",
+      "description": "Latest is newest first. Top is ordered by likes and reposts. Top + Latest returns the top half by engagement, then the newest remaining posts.",
       "editor": "select",
       "enum": [
         "Top",
@@ -288,37 +298,19 @@
         "Top + Latest"
       ],
       "enumTitles": [
-        "Top — most relevant and popular",
-        "Latest — newest first",
-        "Top + Latest — both passes combined"
+        "Top - most engagement first",
+        "Latest - newest first",
+        "Top + Latest - both"
       ],
-      "prefill": "Top",
+      "prefill": "Latest",
       "title": "Result order",
-      "type": "string"
-    },
-    "startDate": {
-      "description": "Deprecated — use 'Start date' instead. Kept so existing saved inputs keep working. Format: YYYY-MM-DD.",
-      "editor": "textfield",
-      "nullable": true,
-      "sectionCaption": "Advanced (legacy)",
-      "sectionDescription": "Deprecated aliases kept for backwards compatibility. Prefer the fields above.",
-      "title": "Start date (legacy)",
-      "type": "string"
-    },
-    "tweetLanguage": {
-      "description": "Deprecated — use the 'Language' dropdown instead. Kept so existing saved inputs keep working.",
-      "editor": "textfield",
-      "nullable": true,
-      "sectionCaption": "Advanced (legacy)",
-      "sectionDescription": "Deprecated aliases kept for backwards compatibility. Prefer the fields above.",
-      "title": "Language code (legacy)",
       "type": "string"
     }
   },
   "required": [
-    "keywords"
+    "mode"
   ],
   "schemaVersion": 1,
-  "title": "Twitter Keywords Scraper Pro",
+  "title": "X Keyword Search with Mention & Reply Operators",
   "type": "object"
 }

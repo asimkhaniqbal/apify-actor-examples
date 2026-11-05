@@ -4,113 +4,133 @@
 
 # TikTok Anonymous For You Feed Snapshot Scraper
 
-TikTok's For You feed shows a personalized mix of videos to logged-in users, but an anonymous visitor gets a regionally-driven version of the same recommendation engine. This actor loads that anonymous feed and returns a structured snapshot of whatever posts it serves — useful as a read on what TikTok's algorithm is currently pushing in a given region, independent of any one account's watch history.
+TikTok's For You feed is a moving recommendation stream. This actor captures an anonymous snapshot of the posts surfacing on it — no account, cookies, or login — and returns the ranking, engagement counts, creator details, music, video metadata, subtitles, tagged places, and category labels for each post.
 
 ## What this actor does
 
-- Loads TikTok's For You feed as an anonymous visitor and collects the posts the recommendation engine serves.
-- Scrolls through additional batches until the requested number of posts is collected.
-- Labels every post with `feedType`, the region label you provided, and a flag confirming the feed isn't tied to a personal account.
-- Captures per-post engagement counts, author profile, music/sound details, video technical metadata, hashtags, and @mentions.
-- Fields a given post doesn't carry (e.g. ad-only fields on an organic post) are left out of that post's record.
-
-## Output per post
-
-| Field | Description |
-|---|---|
-| `postId` | TikTok's unique post ID. |
-| `postUrl` | Direct URL to the post. |
-| `postType` | `"video"` or `"slideshow"`. |
-| `caption` | Caption text, including hashtags and mentions as typed. |
-| `feedType` | Always `"foryou"` for this actor. |
-| `observedRegion` | The ISO country code label you supplied via `regionObservation`. |
-| `isPersonalized` | Always `false` — this feed is anonymous, not tied to any logged-in account. |
-| `createTime` | Unix timestamp the post was created. |
-| `createdAt` | Same creation time as an ISO 8601 UTC string. |
-| `locationCreated` | ISO country code of where the post was created, when TikTok provides it. |
-| `playCount` / `likeCount` / `commentCount` / `shareCount` / `collectCount` / `repostCount` | Engagement counters. |
-| `textLanguage` | Language code detected for the caption. |
-| `stitchEnabled` / `duetEnabled` / `shareEnabled` | Whether each interaction type is enabled on the post. |
-| `isAd` | Whether the post is a paid advertisement. |
-| `author` | Object with `id`, `secUid`, `username`, `displayName`, `bio`, `verified`, `avatarUrl`, `followerCount`, `followingCount`, `heartCount`, `videoCount`. |
-| `music` | Object with `id`, `title`, `authorName`, `original`, `duration`. |
-| `video` | Object with `width`, `height`, `duration`, `ratio`, `playUrl`, `cover`. |
-| `hashtags` | Array of `{id, name}` hashtag objects used in the post. |
-| `mentions` | Array of `{username, start, end}` @mentions found in the caption. |
-| `images` | Slideshow image URLs, for posts where `postType` is `"slideshow"`. |
-| `mediaUrlExpiresAt` | ISO 8601 UTC time when signed media URLs (video/cover links) expire. |
+- Collects posts from TikTok's anonymous For You feed, starting with the warm page payload and extending the snapshot across fresh anonymous sessions.
+- Deduplicates by post ID and stops when the requested count is reached or the rotating feed stops producing new posts.
+- Labels each post with its snapshot `rank`, `collectedAt`, and a derived `engagementRate`.
+- Supports a best-effort `region` market hint, plus client-side filters for minimum plays, recency, and ads.
+- Omits fields a post does not carry instead of writing nulls or placeholders.
+- Falls back to a headless browser only when the lightweight collection path returns nothing.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `maxItems` | integer | 30 | Maximum For You feed posts to collect per run (1–300). |
-| `regionObservation` | string | `"US"` | ISO country code label for this observation (informational only — actual region is server IP-based). |
+| `maxItems` | integer | `30` | Maximum posts to collect (0–300). `0` returns no rows. |
+| `region` | select | `AUTO` | `AUTO` follows the connection region. A market code (40 supported markets) asks TikTok for that market and uses a matching exit when available; TikTok may still override the hint. |
+| `minPlayCount` | integer | `0` | Drop posts below this play count. `0` disables the filter. |
+| `postedWithinDays` | integer | `0` | Keep only posts created in the last N days (0–365). `0` disables the filter. |
+| `excludeAds` | boolean | `false` | Remove posts TikTok marks as advertisements. |
 
-### Example: US feed snapshot
-
-```json
-{
-  "maxItems": 10,
-  "regionObservation": "US"
-}
-```
-
-### Example: larger feed sample
+### Example: quick US snapshot
 
 ```json
 {
-  "maxItems": 100,
-  "regionObservation": "US"
+  "maxItems": 20,
+  "region": "US"
 }
 ```
 
-### Example: daily trend monitoring run
+### Example: recent high-reach posts, no ads
 
 ```json
 {
   "maxItems": 50,
-  "regionObservation": "US"
+  "region": "GB",
+  "minPlayCount": 100000,
+  "postedWithinDays": 7,
+  "excludeAds": true
 }
 ```
 
-### Example: extended collection
+### Example: daily trend check
 
 ```json
 {
-  "maxItems": 300,
-  "regionObservation": "GB"
+  "maxItems": 40,
+  "region": "AUTO",
+  "postedWithinDays": 1
 }
 ```
 
+Saved tasks that still send the old `regionObservation` key keep working: when `region` is absent, a supported `regionObservation` value is used as the market hint. Other values are kept only as the informational `observedRegion` label.
+
+## Output per post
+
+| Field | Description |
+|---|---|
+| `rank` | 1-based position in this snapshot after filters. |
+| `postId` | TikTok's unique post ID. |
+| `postUrl` | Direct URL to the post. |
+| `postType` | `"video"` or `"slideshow"`. |
+| `caption` | Caption text, including hashtags and mentions as typed. |
+| `feedType` | Always `"foryou"` for this actor. |
+| `observedRegion` | Requested market label, or `AUTO` when following the connection region. |
+| `isPersonalized` | Always `false` — the feed is anonymous. |
+| `createTime` | Unix timestamp when the post was created. |
+| `createdAt` | Creation time as an ISO 8601 UTC string. |
+| `collectedAt` | Collection time as an ISO 8601 UTC string. |
+| `locationCreated` | Country code where the post was created, when the source provides it. |
+| `playCount` / `likeCount` / `commentCount` / `shareCount` / `collectCount` / `repostCount` | Engagement counters, preferring TikTok's exact string counters. |
+| `engagementRate` | `(likes + comments + shares) / plays`, rounded to four decimals. |
+| `textLanguage` | Language code detected for the caption. |
+| `textTranslatable` | Whether TikTok offers a caption translation. |
+| `stitchEnabled` / `duetEnabled` / `shareEnabled` | Whether each interaction type is enabled. |
+| `isAd` / `adAuthorization` | Ad-related flags. |
+| `isAigc` / `aigcLabelType` | AI-generated-content labels when TikTok provides them. |
+| `categoryType` | TikTok's numeric content category. |
+| `diversificationId` / `diversificationLabels` | Feed diversification metadata when present. |
+| `author` | Object: `id`, `secUid`, `username`, `displayName`, `bio`, `verified`, `privateAccount`, `roomId`, `avatarUrl`, `followerCount`, `followingCount`, `heartCount`, `videoCount`. |
+| `music` | Object: `id`, `title`, `authorName`, `original`, `duration`, `album`, `playUrl`, `coverUrl`. |
+| `video` | Object: `width`, `height`, `duration`, `ratio`, `definition`, `codecType`, `format`, `size`, `quality`, `playUrl`, `cover`, `originCover`, `dynamicCover`, `subtitles[]` (`languageCode`, `languageName`, `format`, `url`, `expiresAt`). |
+| `poi` | Tagged place when present: `id`, `name`, `address`, `category`, `city`, `cityCode`, `countryCode`, `province`, `latitude`, `longitude`. |
+| `itemControl` | Interaction permissions: `canComment`, `canRepost`, `canShare`, `canMusicRedirect`, `canCreatorRedirect`. |
+| `hashtags` | Array of `{id, name, isCommerce}` objects. |
+| `mentions` | Array of `{username, start, end, awemeId}` objects. |
+| `images` | Slideshow image URLs for photo posts. |
+| `mediaUrlExpiresAt` | ISO 8601 UTC time when signed media URLs expire. |
+
 ## Use cases
 
-- **Content trend researchers** identifying what video formats and topics are currently surfacing in TikTok's recommendation engine
-- **Brand monitoring teams** spotting branded or sponsored content appearing in organic anonymous feeds
-- **Competitive intelligence analysts** observing which creators and styles are being algorithmically promoted
-- **Academic researchers** building unbiased FYP datasets to study TikTok's content distribution by region
-- **Media companies** tracking the pulse of trending content in specific markets
-- **Developers** powering trend dashboards or alert systems with a live snapshot of TikTok's recommendation output
+- **Trend researchers** tracking which formats, sounds, and creators the recommendation engine is surfacing.
+- **Brand and sponsorship teams** spotting promoted posts and ad labels in an organic feed.
+- **Competitive intelligence** comparing creator reach and engagement across markets.
+- **Academic researchers** building anonymous feed snapshots for content-distribution studies.
+- **Media and dashboard teams** feeding live trend monitoring with ranked post data.
 
 ## FAQ
 
-**Q: Is this a personalized feed?**  
-A: No. The actor operates as an anonymous visitor with no account. TikTok assigns a temporary anonymous session identifier, but the feed is not linked to any user profile or watch history.
-
-**Q: Can I control which region's For You feed I see?**  
-A: Not directly. `regionObservation` only labels the `observedRegion` field on each output record — it doesn't change which feed TikTok actually serves, which depends on where the request originates from.
-
-**Q: Will I get the same videos every run?**  
-A: No. Each run gets a unique anonymous session, producing a different feed snapshot. Results are non-deterministic.
-
-**Q: How many posts can I collect per run?**  
-A: Up to 300 per run. TikTok serves approximately 6 posts per API call and the actor scrolls the page to trigger additional batches.
-
-**Q: Are video play URLs accessible after scraping?**  
-A: Play URLs are signed and expire, typically within 24 hours of collection. Use `postUrl` as the stable reference.
-
 **Q: Do I need a TikTok account or cookies?**  
-A: No. The actor operates fully anonymously. No credentials, session cookies, or proxy are required.
+A: No. The actor works as an anonymous visitor. It accepts no credentials, session IDs, API keys, or proxy configuration.
 
-**Q: What does `isPersonalized` mean if it is always false?**  
-A: It is a label distinguishing this feed type from a logged-in personalized feed. It confirms the data represents an anonymous regional observation rather than any user's actual feed.
+**Q: Can I choose a specific country's feed?**  
+A: `region` is a best-effort hint. TikTok decides the feed from the connection location, so a selected market may be partially or fully overridden. The actor reports the requested label in `observedRegion` and never fabricates a detected country.
+
+**Q: How many posts can I get in one run?**  
+A: You can request up to 300. The anonymous feed rotates and has no resumable cursor; one fresh session usually yields around 20–25 unique posts, so deeper requests rotate sessions. If the source exhausts first, the run reports the honest delivered count.
+
+**Q: Why did I get fewer posts than `maxItems`?**  
+A: Either TikTok stopped serving new posts, the run reached its bounded session search cap, or the active filters removed them. The status message states which case applies and how many posts were filtered out.
+
+**Q: Will two runs return the same posts?**  
+A: Not necessarily. Each run negotiates fresh anonymous sessions, so the snapshot changes over time.
+
+**Q: Are media links permanent?**  
+A: No. Video, cover, and subtitle URLs are signed and expire, usually within about two days. `mediaUrlExpiresAt` records the expiry where it can be parsed; use `postUrl` as the stable reference.
+
+**Q: Why are some fields missing on some posts?**  
+A: TikTok only includes fields such as `poi`, `locationCreated`, subtitles, or music album for some posts. Empty values are omitted rather than written as null.
+
+**Q: Does this return personalized recommendations?**  
+A: No. The feed is an anonymous, non-personalized observation and every row carries `isPersonalized: false`.
+
+## Notes and limits
+
+- The snapshot is a point-in-time observation, not a replayable list. Posts may repeat across sessions and are deduplicated by ID.
+- A deep request is bounded by a session search cap. If the cap is reached first, the status message says so instead of claiming the source is exhausted.
+- `locationCreated` is supplied mainly by the initial page payload and is absent for most API-served posts.
+- Region selection can consume Apify Proxy traffic when a matching datacenter exit is available; `AUTO` uses the connection directly.
+- Signed media URLs should be refreshed by re-running the actor when they expire.

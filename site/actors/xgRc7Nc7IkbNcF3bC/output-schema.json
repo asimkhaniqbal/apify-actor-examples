@@ -1,11 +1,11 @@
 {
   "actorOutputSchemaVersion": 1,
-  "description": "Tweets found for your keywords with advanced filters — text, author, language, engagement metrics, media and the search term that found each row.",
+  "description": "X posts with full text, author profile, engagement counters, media, quoted post and reply context. Empty runs write a RUN_SUMMARY to the key-value store instead of a status row.",
   "properties": {
     "tweets": {
-      "description": "Dataset containing one row per tweet plus status rows when a run needs attention.",
+      "description": "Dataset containing one row per collected X post, deduplicated by post ID.",
       "template": "{{links.apiDefaultDatasetUrl}}/items",
-      "title": "Tweets",
+      "title": "Posts",
       "type": "string"
     }
   },

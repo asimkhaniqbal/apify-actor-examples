@@ -1,16 +1,44 @@
 {
   "actorSpecification": 1,
   "fields": {
+    "adAuthorization": {
+      "description": "Ad authorization flag reported by TikTok for some promoted posts",
+      "title": "Ad Authorization",
+      "type": "boolean"
+    },
+    "aigcLabelType": {
+      "description": "TikTok's AI-generated-content label type when present",
+      "title": "AIGC Label Type",
+      "type": "integer"
+    },
     "author": {
       "description": "Post author/creator information",
       "properties": {
         "avatarUrl": {
           "type": "string"
         },
+        "bio": {
+          "type": "string"
+        },
         "displayName": {
           "type": "string"
         },
+        "followerCount": {
+          "type": "integer"
+        },
+        "followingCount": {
+          "type": "integer"
+        },
+        "heartCount": {
+          "type": "integer"
+        },
         "id": {
+          "type": "string"
+        },
+        "privateAccount": {
+          "type": "boolean"
+        },
+        "roomId": {
           "type": "string"
         },
         "secUid": {
@@ -21,6 +49,9 @@
         },
         "verified": {
           "type": "boolean"
+        },
+        "videoCount": {
+          "type": "integer"
         }
       },
       "title": "Author",
@@ -31,10 +62,20 @@
       "title": "Caption",
       "type": "string"
     },
+    "categoryType": {
+      "description": "TikTok's numeric content category for the post",
+      "title": "Category Type",
+      "type": "integer"
+    },
     "collectCount": {
       "description": "Number of bookmarks/collects (from statsV2)",
       "title": "Collect Count",
       "type": "integer"
+    },
+    "collectedAt": {
+      "description": "ISO 8601 UTC datetime when the snapshot was collected",
+      "title": "Collected At",
+      "type": "string"
     },
     "commentCount": {
       "description": "Number of comments (from statsV2)",
@@ -51,10 +92,31 @@
       "title": "Created At",
       "type": "string"
     },
+    "diversificationId": {
+      "description": "Feed diversification identifier when the source provides it",
+      "title": "Diversification ID",
+      "type": [
+        "integer",
+        "string"
+      ]
+    },
+    "diversificationLabels": {
+      "description": "Content diversification labels from the SSR payload",
+      "items": {
+        "type": "string"
+      },
+      "title": "Diversification Labels",
+      "type": "array"
+    },
     "duetEnabled": {
       "description": "Whether duets are allowed",
       "title": "Duet Enabled",
       "type": "boolean"
+    },
+    "engagementRate": {
+      "description": "Likes plus comments plus shares divided by plays, rounded to 4 decimals",
+      "title": "Engagement Rate",
+      "type": "number"
     },
     "feedType": {
       "description": "Always 'foryou' for this actor",
@@ -67,6 +129,9 @@
         "properties": {
           "id": {
             "type": "string"
+          },
+          "isCommerce": {
+            "type": "boolean"
           },
           "name": {
             "type": "string"
@@ -87,10 +152,37 @@
       "title": "Is Ad",
       "type": "boolean"
     },
+    "isAigc": {
+      "description": "Present and true when TikTok labels the content as AI-generated",
+      "title": "Is AIGC",
+      "type": "boolean"
+    },
     "isPersonalized": {
-      "description": "Always false — the FYP feed is anonymous (no login required)",
+      "description": "Always false — the feed is anonymous (no login required)",
       "title": "Is Personalized",
       "type": "boolean"
+    },
+    "itemControl": {
+      "description": "Per-post interaction permissions reported by TikTok",
+      "properties": {
+        "canComment": {
+          "type": "boolean"
+        },
+        "canCreatorRedirect": {
+          "type": "boolean"
+        },
+        "canMusicRedirect": {
+          "type": "boolean"
+        },
+        "canRepost": {
+          "type": "boolean"
+        },
+        "canShare": {
+          "type": "boolean"
+        }
+      },
+      "title": "Item Control",
+      "type": "object"
     },
     "likeCount": {
       "description": "Number of likes (from statsV2)",
@@ -98,7 +190,7 @@
       "type": "integer"
     },
     "locationCreated": {
-      "description": "ISO country code where the post was created",
+      "description": "Country code where the post was created, when the source provides it",
       "title": "Location Created",
       "type": "string"
     },
@@ -111,6 +203,9 @@
       "description": "@mentions in the post caption",
       "items": {
         "properties": {
+          "awemeId": {
+            "type": "string"
+          },
           "end": {
             "type": "integer"
           },
@@ -129,7 +224,13 @@
     "music": {
       "description": "Sound/music used in the post",
       "properties": {
+        "album": {
+          "type": "string"
+        },
         "authorName": {
+          "type": "string"
+        },
+        "coverUrl": {
           "type": "string"
         },
         "duration": {
@@ -141,6 +242,9 @@
         "original": {
           "type": "boolean"
         },
+        "playUrl": {
+          "type": "string"
+        },
         "title": {
           "type": "string"
         }
@@ -149,7 +253,7 @@
       "type": "object"
     },
     "observedRegion": {
-      "description": "ISO country code label provided as input (e.g. 'US')",
+      "description": "Requested market label (or AUTO when following the connection region)",
       "title": "Observed Region",
       "type": "string"
     },
@@ -157,6 +261,43 @@
       "description": "Number of video plays (from statsV2)",
       "title": "Play Count",
       "type": "integer"
+    },
+    "poi": {
+      "description": "Place tagged on the post when present",
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "cityCode": {
+          "type": "string"
+        },
+        "countryCode": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "latitude": {
+          "type": "number"
+        },
+        "longitude": {
+          "type": "number"
+        },
+        "name": {
+          "type": "string"
+        },
+        "province": {
+          "type": "string"
+        }
+      },
+      "title": "Point of Interest",
+      "type": "object"
     },
     "postId": {
       "description": "TikTok's unique post ID (64-bit int as string)",
@@ -172,6 +313,11 @@
       "description": "Direct URL to the TikTok post",
       "title": "Post URL",
       "type": "string"
+    },
+    "rank": {
+      "description": "1-based position in this snapshot after filters",
+      "title": "Rank",
+      "type": "integer"
     },
     "repostCount": {
       "description": "Number of reposts (from statsV2)",
@@ -198,20 +344,72 @@
       "title": "Text Language",
       "type": "string"
     },
+    "textTranslatable": {
+      "description": "Whether TikTok offers a translation for the caption",
+      "title": "Text Translatable",
+      "type": "boolean"
+    },
     "video": {
-      "description": "Video metadata",
+      "description": "Video technical metadata and media URLs",
       "properties": {
+        "codecType": {
+          "type": "string"
+        },
         "cover": {
+          "type": "string"
+        },
+        "definition": {
           "type": "string"
         },
         "duration": {
           "type": "integer"
         },
+        "dynamicCover": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        },
         "height": {
           "type": "integer"
         },
+        "originCover": {
+          "type": "string"
+        },
+        "playUrl": {
+          "type": "string"
+        },
+        "quality": {
+          "type": "string"
+        },
         "ratio": {
           "type": "string"
+        },
+        "size": {
+          "type": "integer"
+        },
+        "subtitles": {
+          "items": {
+            "properties": {
+              "expiresAt": {
+                "type": "string"
+              },
+              "format": {
+                "type": "string"
+              },
+              "languageCode": {
+                "type": "string"
+              },
+              "languageName": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
         },
         "width": {
           "type": "integer"
@@ -224,7 +422,7 @@
   "title": "TikTok For You Feed Posts",
   "views": {
     "overview": {
-      "description": "TikTok For You page posts with engagement metrics.",
+      "description": "TikTok For You page posts with engagement metrics and snapshot position.",
       "display": {
         "component": "table",
         "properties": {
@@ -240,13 +438,9 @@
             "format": "text",
             "label": "Created At"
           },
-          "feedType": {
-            "format": "text",
-            "label": "Feed Type"
-          },
-          "isPersonalized": {
-            "format": "text",
-            "label": "Personalized"
+          "engagementRate": {
+            "format": "number",
+            "label": "Engagement Rate"
           },
           "likeCount": {
             "format": "number",
@@ -268,25 +462,24 @@
             "format": "link",
             "label": "Post URL"
           },
-          "shareCount": {
+          "rank": {
             "format": "number",
-            "label": "Shares"
+            "label": "Rank"
           }
         }
       },
       "title": "Feed Overview",
       "transformation": {
         "fields": [
+          "rank",
           "postId",
           "postUrl",
           "caption",
-          "feedType",
           "observedRegion",
-          "isPersonalized",
           "playCount",
           "likeCount",
           "commentCount",
-          "shareCount",
+          "engagementRate",
           "createdAt"
         ]
       }
