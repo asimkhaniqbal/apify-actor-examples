@@ -1,0 +1,64 @@
+{
+  "properties": {
+    "includeMoreLenses": {
+      "default": true,
+      "description": "For detail mode: include the related lenses list shown on the lens detail page.",
+      "prefill": true,
+      "title": "Include More Lenses",
+      "type": "boolean"
+    },
+    "includeSpotlightsUsingLens": {
+      "default": true,
+      "description": "For detail mode: include spotlight videos that use this lens, with thumbnail URLs and video metadata.",
+      "prefill": true,
+      "title": "Include Spotlights Using This Lens",
+      "type": "boolean"
+    },
+    "keywords": {
+      "description": "For search mode: keywords to find lenses (uses /explore/{keyword} page).",
+      "editor": "stringList",
+      "prefill": [
+        "food"
+      ],
+      "title": "Search Keywords",
+      "type": "array"
+    },
+    "lensUrlsOrIds": {
+      "description": "For detail mode: lens page URLs (snapchat.com/lens/{uuid}), unlock URLs with uuid= param, or bare UUIDs.",
+      "editor": "stringList",
+      "prefill": [
+        "565e7595ec4e4a0da689762b127308ef"
+      ],
+      "title": "Lens URLs or UUIDs",
+      "type": "array"
+    },
+    "mode": {
+      "default": "home",
+      "description": "Scraping mode: home = top 25 trending lenses, detail = specific lens by URL or UUID, search = find lenses by keyword.",
+      "editor": "select",
+      "enum": [
+        "home",
+        "detail",
+        "search"
+      ],
+      "enumTitles": [
+        "Home / Trending (top 25 lenses)",
+        "Detail by Lens URL or UUID",
+        "Search by Keyword"
+      ],
+      "prefill": "home",
+      "title": "Mode",
+      "type": "string"
+    },
+    "proxyConfiguration": {
+      "description": "Optional proxy settings. Snapchat public lens pages work without a proxy in most regions.",
+      "editor": "proxy",
+      "nullable": true,
+      "title": "Proxy Configuration",
+      "type": "object"
+    }
+  },
+  "schemaVersion": 1,
+  "title": "Snapchat Lens Scraper",
+  "type": "object"
+}

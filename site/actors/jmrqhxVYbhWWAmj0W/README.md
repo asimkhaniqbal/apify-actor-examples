@@ -1,0 +1,137 @@
+# Snapchat AR Lens Metadata & Related Spotlight Finder
+
+Snapchat's AR lenses each have their own public page with creator credit, preview media, and an unlock link. This actor reads those pages to list trending lenses, pull full detail for specific lenses (including the related lenses and Spotlight videos shown alongside them), or search lenses by keyword.
+
+## What this actor does
+
+- Lists the top trending lenses currently featured on Snapchat's lens home page.
+- Fetches full detail for specific lenses by their page URL, unlock URL, or bare UUID.
+- Optionally includes the related lenses shown on a lens's detail page, and the Spotlight videos that use it.
+- Searches Snapchat's public explore pages for lenses matching a keyword.
+- Omits any field a lens's page did not provide, rather than returning it blank.
+
+## Output per record
+
+Trending-lens and detail records share one field set; search results use a different, lighter set because Snapchat's search results expose fewer fields than a lens's own page.
+
+### Trending / detail lens (`source: "home"` or `"detail"`)
+
+- `scannableUuid` — the lens's unique hex UUID, used in all Snapchat lens URLs.
+- `lensName` — the lens's display name.
+- `lensId` — the lens's internal numeric ID.
+- `lensCreatorDisplayName`, `lensCreatorUsername` — the creator's display name and Snapchat username.
+- `lensPreviewImageUrl`, `lensPreviewVideoUrl` — a static preview image and an animated preview video of the lens effect.
+- `iconUrl` — the small icon shown in lens carousels.
+- `unlockUrl` — the URL that opens/unlocks the lens in the Snapchat app.
+- `userProfileUrl` — the creator's Snapchat profile URL.
+- `lensCreatorSearchTags` — tags used for the lens's discoverability in search.
+- `isOfficialSnapLens` — whether the lens is an official Snapchat-branded lens.
+- `lastUpdatedAt` — ISO timestamp of the lens's last update.
+- `lensUrl` — the full `snapchat.com/lens/{uuid}` page URL.
+- `source` — `home` or `detail`, the mode that produced the record.
+- `scrapedAt` — ISO timestamp of when the record was fetched.
+- `moreLenses` — on detail records with `includeMoreLenses` enabled, up to 11 related lenses (the lens itself is excluded), each with the same fields above except `source`.
+- `spotlightsUsingThisLens` — on detail records with `includeSpotlightsUsingLens` enabled, an array of Spotlight videos using the lens, each with `thumbnailUrl`, `storyPageUrl`, and — when available — `contentUrl`, `name`, `uploadedAt`, `durationMs`, `width`, `height`, `keywords`, and `embeddedTextCaption`.
+
+### Search result (`source: "search"`)
+
+- `lensId`, `lensName`, `scannableUuid`, `lensUrl`, `iconUrl`, `unlockUrl`.
+- `creatorName` — the creator's display name as shown in search results.
+- `creatorIsOfficial` — whether Snapchat marks the creator as official.
+- `thumbnailUrl` — a thumbnail image of the lens effect.
+- `thumbnailSequence` — an animated-preview descriptor with `urlPattern` (a URL template using `%d` as the frame index), `numThumbnails`, and `animationIntervalMs`.
+- `searchKeyword` — the keyword that returned this lens.
+- `source` — always `search`.
+- `scrapedAt`.
+
+If a lens or search page can't be read, the actor instead pushes a short record with `error` (and `input` or `searchKeyword`, depending on mode) explaining why, rather than silently skipping it.
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `mode` | string | `home` | `home` (top 25 trending lenses), `detail` (specific lenses by URL/UUID), or `search` (keyword search). |
+| `lensUrlsOrIds` | array | – | Lens page URLs, unlock URLs, or bare UUIDs, used with `detail`. |
+| `keywords` | array | – | Keywords to search for, used with `search`. |
+| `includeMoreLenses` | boolean | `true` | With `detail`, include the related lenses shown on the lens's page. |
+| `includeSpotlightsUsingLens` | boolean | `true` | With `detail`, include Spotlight videos that use this lens. |
+| `proxyConfiguration` | object | – | Optional proxy; lens pages work without one in most regions. |
+
+### Example: trending lenses
+
+```json
+{
+  "mode": "home"
+}
+```
+
+### Example: specific lenses with related lenses and Spotlight usage
+
+```json
+{
+  "mode": "detail",
+  "lensUrlsOrIds": [
+    "565e7595ec4e4a0da689762b127308ef",
+    "https://www.snapchat.com/lens/dc98faf460f54b7fb6e119d4d7b7c0c3"
+  ],
+  "includeMoreLenses": true,
+  "includeSpotlightsUsingLens": true
+}
+```
+
+### Example: search by keyword, no enrichment
+
+```json
+{
+  "mode": "search",
+  "keywords": ["food", "pakistan filter"],
+  "includeMoreLenses": false,
+  "includeSpotlightsUsingLens": false
+}
+```
+
+## Use cases
+
+- Track which AR lenses are trending on Snapchat right now.
+- Pull a specific lens's creator and preview media for a creative brief or report.
+- Find the Spotlight videos that popularized a particular lens.
+- Discover lenses related to one you already know, via `moreLenses`.
+- Search lenses by brand, creator, or theme keyword for competitive or trend research.
+
+## FAQ
+
+### What is a lens's "scannable UUID"?
+
+The 32-character hex string that uniquely identifies the lens, found in its page URL (`snapchat.com/lens/{uuid}`) and unlock URL (`?uuid={uuid}`). It is called "scannable" because it also encodes the Snapcode that unlocks the lens.
+
+### What's the difference between `lensPreviewImageUrl` and `iconUrl`?
+
+`lensPreviewImageUrl` is a full-size static frame showing the lens effect applied to a face or scene. `iconUrl` is the small square thumbnail used in lens carousels and search results.
+
+### How many lenses does `home` mode return?
+
+The top 25 trending lenses featured on Snapchat's lens page at scrape time; this set changes daily.
+
+### How many related lenses does `detail` mode return?
+
+Up to 11. Snapchat's own page shows up to 12 related lenses, but the first entry is always the lens itself, which the actor filters out.
+
+### Can I find lenses by a specific creator?
+
+Use `search` mode with the creator's username or display name as a keyword; lenses whose name or tags match it will be returned.
+
+### Why does a search result have different fields than a detail result?
+
+Snapchat's search results page exposes a smaller, different set of lens fields than a lens's own detail page does. The actor returns exactly what each source provides rather than padding one mode's output with fields the other source doesn't have.
+
+### Do I need a proxy?
+
+No. Lens pages are public. Enable `proxyConfiguration` only if you run high volumes or hit rate limiting.
+
+### What is `thumbnailSequence` used for?
+
+It describes an animated preview: `urlPattern` is a URL template with `%d` as the frame index, `numThumbnails` is the frame count, and `animationIntervalMs` is the delay between frames — enough to reconstruct a GIF-like preview.
+
+### Is this affiliated with Snapchat?
+
+No. This is an independent tool that reads Snapchat's public lens pages; it is not operated or endorsed by Snap Inc.
