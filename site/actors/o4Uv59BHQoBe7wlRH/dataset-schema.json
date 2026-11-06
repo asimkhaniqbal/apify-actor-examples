@@ -1,10 +1,30 @@
 {
   "actorSpecification": 1,
   "fields": {
+    "content_type": {
+      "description": "MIME type returned by the Pinterest media server.",
+      "title": "Content Type",
+      "type": "string"
+    },
     "download_url": {
-      "description": "Direct URL to download the media file from the Apify API",
+      "description": "Direct public URL to download the stored file.",
       "format": "link",
       "title": "Download URL",
+      "type": "string"
+    },
+    "downloaded_variant": {
+      "description": "Variant that actually downloaded successfully.",
+      "title": "Downloaded Variant",
+      "type": "string"
+    },
+    "duration_ms": {
+      "description": "Duration of the downloaded video in milliseconds.",
+      "title": "Video Duration (ms)",
+      "type": "integer"
+    },
+    "file_sha256": {
+      "description": "SHA-256 checksum of the stored file.",
+      "title": "SHA-256",
       "type": "string"
     },
     "file_size_bytes": {
@@ -12,48 +32,96 @@
       "title": "File Size (bytes)",
       "type": "integer"
     },
+    "key_value_store_key": {
+      "description": "Record key in the run's Key-Value Store.",
+      "title": "Key-Value Store Key",
+      "type": "string"
+    },
+    "media_format": {
+      "description": "image, gif or video.",
+      "title": "Media Format",
+      "type": "string"
+    },
+    "media_height": {
+      "description": "Pixel height of the downloaded file.",
+      "title": "Height",
+      "type": "integer"
+    },
     "media_type": {
-      "description": "Type of downloaded media (image or video)",
+      "description": "image or video.",
       "title": "Media Type",
       "type": "string"
     },
     "media_url": {
-      "description": "Public Pinterest-hosted media URL used for the download.",
+      "description": "Public Pinterest-hosted media URL that was downloaded.",
       "format": "link",
       "title": "Source Media URL",
       "type": "string"
     },
+    "media_width": {
+      "description": "Pixel width of the downloaded file.",
+      "title": "Width",
+      "type": "integer"
+    },
     "pin": {
-      "description": "Pinterest-supplied Pin title, description, creator, board, engagement, media variants, and destination metadata used for the download. Missing source values are omitted.",
-      "title": "Pin details",
+      "description": "Pinterest-supplied Pin, creator, board, engagement, media variant and destination metadata. Missing values are omitted.",
+      "title": "Pin Details",
       "type": "object"
     },
     "pin_id": {
-      "description": "Pinterest Pin ID.",
+      "description": "Pinterest Pin ID. Search rows can use an opaque Pinterest ID.",
       "title": "Pin ID",
       "type": "string"
     },
     "pinterest_url": {
-      "description": "URL of the original Pinterest pin",
+      "description": "URL of the source Pin.",
       "format": "link",
       "title": "Pinterest URL",
       "type": "string"
     },
     "record_type": {
-      "description": "Always media for a successfully downloaded file.",
+      "description": "media for a downloaded file, comment or pin_activity for optional activity rows.",
       "title": "Record Type",
       "type": "string"
     },
     "saved_as": {
-      "description": "Filename of the media file in the Key-Value Store",
+      "description": "Filename of the media file in the Key-Value Store.",
       "title": "Saved As",
+      "type": "string"
+    },
+    "scraped_at": {
+      "description": "ISO timestamp when the record was produced.",
+      "title": "Scraped At",
+      "type": "string"
+    },
+    "selected_variant": {
+      "description": "Pinterest image size or video quality selected from the input preference.",
+      "title": "Selected Variant",
+      "type": "string"
+    },
+    "source_media_url": {
+      "description": "Original HLS or preferred variant URL when the downloaded file came from a derived or fallback variant.",
+      "format": "link",
+      "title": "Original Media URL",
+      "type": "string"
+    },
+    "source_url": {
+      "description": "URL of the source Pin that produced the record.",
+      "format": "link",
+      "title": "Source URL",
+      "type": "string"
+    },
+    "thumbnail_url": {
+      "description": "Public poster image for a video Pin.",
+      "format": "link",
+      "title": "Video Thumbnail",
       "type": "string"
     }
   },
   "title": "Pinterest Downloaded Media",
   "views": {
     "overview": {
-      "description": "Pinterest media files downloaded and stored in the Key-Value Store.",
+      "description": "Pinterest media files downloaded into the run Key-Value Store with their source metadata.",
       "display": {
         "component": "table",
         "properties": {
@@ -61,9 +129,25 @@
             "format": "link",
             "label": "Download"
           },
+          "duration_ms": {
+            "format": "number",
+            "label": "Duration (ms)"
+          },
+          "media_format": {
+            "format": "text",
+            "label": "Format"
+          },
+          "media_height": {
+            "format": "number",
+            "label": "Height"
+          },
           "media_type": {
             "format": "text",
             "label": "Type"
+          },
+          "media_width": {
+            "format": "number",
+            "label": "Width"
           },
           "pinterest_url": {
             "format": "link",
@@ -83,7 +167,12 @@
           "pinterest_url",
           "media_url",
           "media_type",
+          "media_format",
+          "media_width",
+          "media_height",
+          "duration_ms",
           "file_size_bytes",
+          "file_sha256",
           "saved_as",
           "download_url",
           "source_url",

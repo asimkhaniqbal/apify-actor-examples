@@ -1,62 +1,52 @@
 {
-  "description": "Download public Pinterest images and videos with the Pin metadata users need to identify each file. Provide links or search words.",
+  "description": "Download public Pinterest images, GIFs and videos into the run's file store. Choose a mode, then paste Pin links or search phrases.",
   "properties": {
     "commerceOnly": {
       "default": false,
-      "description": "Keep only Pins with source-backed shopping metadata.",
+      "description": "Keep only Pins with Pinterest product or shopping metadata.",
       "prefill": false,
       "title": "Shoppable Pins only",
       "type": "boolean"
     },
-    "cookies": {
-      "description": "Optional Cookie Editor JSON export. The downloader works without cookies; never share this secret publicly.",
-      "editor": "json",
-      "isSecret": true,
-      "title": "Optional Pinterest cookies",
-      "type": "array"
-    },
-    "cookiesJson": {
-      "description": "Compatibility alias for pasting a Cookie Editor JSON export.",
-      "editor": "textarea",
-      "isSecret": true,
-      "title": "Optional cookies JSON (alias)",
-      "type": "string"
-    },
     "excludeAds": {
       "default": false,
-      "description": "Exclude Pins Pinterest marks as promoted.",
+      "description": "Exclude Pins that Pinterest marks as promoted.",
       "prefill": false,
       "title": "Exclude promoted Pins",
       "type": "boolean"
     },
-    "imageOnly": {
-      "default": false,
-      "description": "Exclude video media.",
-      "prefill": false,
-      "title": "Images only",
-      "type": "boolean"
+    "imageSize": {
+      "default": "original",
+      "description": "Preferred image size. The actor falls back to the original or the nearest available size. Animated GIFs are always saved at their original size.",
+      "editor": "select",
+      "enum": [
+        "original",
+        "736x",
+        "564x",
+        "474x",
+        "236x"
+      ],
+      "enumTitles": [
+        "Original",
+        "736 px",
+        "564 px",
+        "474 px",
+        "236 px"
+      ],
+      "prefill": "736x",
+      "title": "Image size",
+      "type": "string"
     },
     "includeComments": {
       "default": false,
-      "description": "When enabled, add real comment/activity rows for every Pin whose media is processed. The public cookieless path is used automatically.",
+      "description": "Also emit public comment and activity rows for every processed Pin.",
       "prefill": false,
-      "title": "Include Pin comments",
+      "title": "Include comments and activity",
       "type": "boolean"
-    },
-    "keywords": {
-      "default": [],
-      "description": "Compatibility alias for Search Terms.",
-      "editor": "stringList",
-      "items": {
-        "type": "string"
-      },
-      "prefill": [],
-      "title": "Search words (alias)",
-      "type": "array"
     },
     "maxComments": {
       "default": 10,
-      "description": "Maximum public comment/activity rows to add per Pin when comments are enabled.",
+      "description": "Maximum public comment/activity rows per Pin when comments are enabled.",
       "maximum": 20000,
       "minimum": 1,
       "prefill": 10,
@@ -65,21 +55,51 @@
     },
     "maxItems": {
       "default": 50,
-      "description": "Maximum number of media items to download per search term. Set to 0 for unlimited.",
+      "description": "Maximum files to download per Pin URL or search phrase. Set to 0 to follow the available results.",
       "maximum": 20000,
       "minimum": 0,
-      "title": "Max Items",
+      "prefill": 1,
+      "title": "Maximum media items",
       "type": "integer"
     },
+    "maxPages": {
+      "default": 0,
+      "description": "Maximum result pages per search phrase. Set to 0 to follow Pinterest's pagination until it ends.",
+      "maximum": 2000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Maximum search pages",
+      "type": "integer"
+    },
+    "mediaType": {
+      "default": "all",
+      "description": "Download all media, only images (GIFs count as images), only videos, or only animated GIFs.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "images",
+        "videos",
+        "gifs"
+      ],
+      "enumTitles": [
+        "All media",
+        "Images (including GIFs)",
+        "Videos only",
+        "Animated GIFs only"
+      ],
+      "prefill": "all",
+      "title": "Media type",
+      "type": "string"
+    },
     "minCreatorFollowers": {
-      "description": "Keep media only when Pinterest supplies this creator follower count.",
+      "description": "Keep media only when Pinterest reports at least this many creator followers.",
       "maximum": 1000000000,
       "minimum": 0,
       "title": "Minimum creator followers",
       "type": "integer"
     },
     "minSaves": {
-      "description": "Keep media only when Pinterest supplies at least this many saves.",
+      "description": "Keep media only when Pinterest reports at least this many saves.",
       "maximum": 10000000,
       "minimum": 0,
       "title": "Minimum saves",
@@ -87,88 +107,94 @@
     },
     "mode": {
       "default": "auto",
-      "description": "Use direct Pin links, search words, or auto-detect both.",
+      "description": "Auto handles both Pin links and search phrases. Choose a specific mode to restrict the run to links or search.",
       "editor": "select",
       "enum": [
         "auto",
         "pinDetail",
-        "searchPins"
+        "searchPins",
+        "searchVideos"
       ],
       "enumTitles": [
-        "Auto-detect",
-        "Direct Pin media",
-        "Search result media"
+        "Auto-detect links and search",
+        "Pin links only",
+        "Search Pins",
+        "Search videos"
       ],
-      "prefill": "auto",
+      "prefill": "pinDetail",
       "title": "What to download",
       "type": "string"
     },
     "pinUrls": {
       "default": [],
-      "description": "Compatibility alias for Pinterest URLs.",
-      "editor": "stringList",
-      "items": {
-        "type": "string"
-      },
-      "prefill": [],
-      "title": "Pin URLs (alias)",
-      "type": "array"
-    },
-    "pinterestUrls": {
-      "description": "List of Pinterest pin URLs to download media from (e.g. https://www.pinterest.com/pin/123456789/).",
+      "description": "Public Pin links (https://www.pinterest.com/pin/123...) or numeric Pin IDs. Used by auto and pinDetail.",
       "editor": "stringList",
       "items": {
         "type": "string"
       },
       "prefill": [
-        "https://www.pinterest.com/pin/142567144448888376/"
+        "112027111109155913"
       ],
-      "title": "Pinterest URLs",
+      "title": "Pinterest Pin URLs or IDs",
       "type": "array"
     },
-    "proxy": {
-      "description": "Optional proxy settings. Not required — works without proxy from datacenter IPs.",
+    "proxyConfiguration": {
+      "description": "Optional proxy override. The actor works without a proxy and only escalates when Pinterest blocks a request.",
       "editor": "proxy",
-      "title": "Proxy Configuration",
+      "title": "Proxy configuration (optional)",
       "type": "object"
     },
     "requireOutboundLink": {
       "default": false,
-      "description": "Keep only Pins with a public destination URL.",
+      "description": "Keep only Pins that publish a destination URL.",
       "prefill": false,
       "title": "Require destination link",
       "type": "boolean"
     },
     "searchTerms": {
-      "description": "List of keywords to search on Pinterest. All media (images and videos) from search results will be downloaded.",
-      "editor": "stringList",
-      "items": {
-        "type": "string"
-      },
-      "prefill": [],
-      "title": "Search Terms",
-      "type": "array"
-    },
-    "startUrls": {
       "default": [],
-      "description": "Compatibility alias for Pinterest URLs.",
+      "description": "Pinterest search phrases. Used by auto, searchPins and searchVideos.",
       "editor": "stringList",
       "items": {
         "type": "string"
       },
       "prefill": [],
-      "title": "Pinterest URLs (alias)",
+      "title": "Search phrases",
       "type": "array"
     },
     "verifiedOnly": {
       "default": false,
-      "description": "Keep only media whose creator is explicitly verified by Pinterest.",
+      "description": "Keep only media whose creator Pinterest marks as verified.",
       "prefill": false,
       "title": "Verified creators only",
       "type": "boolean"
+    },
+    "videoQuality": {
+      "default": "best",
+      "description": "Preferred MP4 quality. The actor falls back to the nearest available quality and prefers H.264 MP4 files.",
+      "editor": "select",
+      "enum": [
+        "best",
+        "720p",
+        "540p",
+        "360p",
+        "240p"
+      ],
+      "enumTitles": [
+        "Best available",
+        "720p",
+        "540p",
+        "360p",
+        "240p"
+      ],
+      "prefill": "best",
+      "title": "Video quality",
+      "type": "string"
     }
   },
-  "required": [],
+  "required": [
+    "mode"
+  ],
   "schemaVersion": 1,
   "title": "Pinterest Media Downloader Input",
   "type": "object"

@@ -1,0 +1,156 @@
+{
+  "description": "Run multiple Reddit scraping modes (subreddit, comments, profile) in a single execution. Pro adds advanced filters and recordType tagging.",
+  "properties": {
+    "authorFilter": {
+      "description": "Only emit records by this author (case-insensitive substring match).",
+      "editor": "textfield",
+      "title": "Author filter (substring)",
+      "type": "string"
+    },
+    "excludeNsfw": {
+      "default": false,
+      "description": "Drop NSFW posts.",
+      "title": "Exclude NSFW",
+      "type": "boolean"
+    },
+    "expandThreads": {
+      "default": true,
+      "description": "Click 'load more comments' buttons to expand collapsed threads.",
+      "editor": "checkbox",
+      "title": "Expand comment threads",
+      "type": "boolean"
+    },
+    "keywordFilter": {
+      "description": "Only emit records whose title/content/text contains this substring (case-insensitive).",
+      "editor": "textfield",
+      "title": "Keyword filter (substring)",
+      "type": "string"
+    },
+    "maxAgeDays": {
+      "description": "Drop records older than N days.",
+      "maximum": 36500,
+      "minimum": 1,
+      "title": "Max age in days (filter)",
+      "type": "integer"
+    },
+    "maxComments": {
+      "default": 100,
+      "description": "Max comments per post (in comments mode).",
+      "editor": "number",
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Max comments",
+      "type": "integer"
+    },
+    "maxDepth": {
+      "description": "(Comments mode) Drop comments deeper than N levels.",
+      "maximum": 50,
+      "minimum": 0,
+      "title": "Max comment depth",
+      "type": "integer"
+    },
+    "maxPosts": {
+      "default": 25,
+      "description": "Max posts per subreddit or profile.",
+      "editor": "number",
+      "maximum": 1000,
+      "minimum": 1,
+      "title": "Max posts",
+      "type": "integer"
+    },
+    "minScore": {
+      "description": "Drop records with score below this. Applies to posts and comments alike.",
+      "maximum": 10000000,
+      "minimum": -10000,
+      "title": "Min score (filter)",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "subreddit",
+      "description": "Single mode (back-compat). Use `modes` for running multiple modes in one run.",
+      "editor": "select",
+      "enum": [
+        "subreddit",
+        "comments",
+        "profile"
+      ],
+      "title": "Scraping mode (single)",
+      "type": "string"
+    },
+    "modes": {
+      "default": [],
+      "description": "Run multiple modes in a single execution (e.g. `[\"subreddit\", \"profile\"]`). When set, overrides the single `mode` field.",
+      "editor": "stringList",
+      "title": "Modes (multiple, Pro)",
+      "type": "array"
+    },
+    "postUrls": {
+      "description": "List of Reddit post URLs.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Post URLs (for comments mode)",
+      "type": "array"
+    },
+    "section": {
+      "default": "submitted",
+      "description": "Which profile section to scrape in profile mode.",
+      "editor": "select",
+      "enum": [
+        "submitted",
+        "comments",
+        "gilded"
+      ],
+      "title": "Profile section",
+      "type": "string"
+    },
+    "sort": {
+      "default": "hot",
+      "description": "How to sort posts on the listing.",
+      "editor": "select",
+      "enum": [
+        "hot",
+        "new",
+        "top",
+        "rising",
+        "controversial"
+      ],
+      "title": "Sort posts by",
+      "type": "string"
+    },
+    "subreddits": {
+      "description": "List of subreddit names without `r/` prefix.",
+      "editor": "stringList",
+      "prefill": [
+        "python"
+      ],
+      "title": "Subreddit names (for subreddit mode)",
+      "type": "array"
+    },
+    "timeFilter": {
+      "default": "day",
+      "description": "Time range for `top` or `controversial` sorts.",
+      "editor": "select",
+      "enum": [
+        "hour",
+        "day",
+        "week",
+        "month",
+        "year",
+        "all"
+      ],
+      "title": "Time filter (top/controversial)",
+      "type": "string"
+    },
+    "usernames": {
+      "description": "Reddit usernames. Accepts plain, `u/spez`, or full URLs.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Usernames (for profile mode)",
+      "type": "array"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "Reddit MCP Scraper Pro Input",
+  "type": "object"
+}

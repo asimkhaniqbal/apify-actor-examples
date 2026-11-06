@@ -1,0 +1,384 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-HdDIHX7Ctbc56mKffxFA3S2qFRCNXD5vQOESysR8fAE=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Reddit Multi-Mode Scraper with Advanced Pro Filters | Vexaloom Labs</title><meta name="description" content="Scrape Reddit subreddit posts, post comment threads, and user profile posts, with any combination of modes in a single run. Filter by score, age, NSFW status, keyword, author, or c"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/Xyjs2Re83cI6mCDZJ/"><meta property="og:title" content="Reddit Multi-Mode Scraper with Advanced Pro Filters | Vexaloom Labs"><meta property="og:description" content="Scrape Reddit subreddit posts, post comment threads, and user profile posts, with any combination of modes in a single run. Filter by score, age, NSFW status, keyword, author, or c"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/Xyjs2Re83cI6mCDZJ/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Xyjs2Re83cI6mCDZJ/#webpage","name":"Reddit Multi-Mode Scraper with Advanced Pro Filters","description":"Scrape Reddit subreddit posts, post comment threads, and user profile posts, with any combination of modes in a single run. Filter by score, age, NSFW status, keyword, author, or comment depth before anything is saved. No login required.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Xyjs2Re83cI6mCDZJ/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Xyjs2Re83cI6mCDZJ/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Xyjs2Re83cI6mCDZJ/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Xyjs2Re83cI6mCDZJ/#article","headline":"Reddit Multi-Mode Scraper with Advanced Pro Filters","name":"Reddit Multi-Mode Scraper with Advanced Pro Filters","description":"Scrape Reddit subreddit posts, post comment threads, and user profile posts, with any combination of modes in a single run. Filter by score, age, NSFW status, keyword, author, or comment depth before anything is saved. No login required.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Xyjs2Re83cI6mCDZJ/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Xyjs2Re83cI6mCDZJ/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Xyjs2Re83cI6mCDZJ/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Reddit Multi-Mode Scraper with Advanced Pro Filters","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/Xyjs2Re83cI6mCDZJ/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Reddit Multi-Mode Scraper with Advanced Pro Filters</span></div><section id="overview"><h1 class="doc-title">Reddit Multi-Mode Scraper with Advanced Pro Filters</h1><p class="lede">Scrape Reddit subreddit posts, post comment threads, and user profile posts, with any combination of modes in a single run. Filter by score, age, NSFW status, keyword, author, or comment depth before anything is saved. No login required.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/reddit-multi-mode-scraper-with-advanced-pro">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/Xyjs2Re83cI6mCDZJ/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>Single mode (back-compat). Use `modes` for running multiple modes in one run.</td></tr><tr><td><code>modes</code></td><td>array</td><td>optional</td><td>Run multiple modes in a single execution (e.g. `[&quot;subreddit&quot;, &quot;profile&quot;]`). When set, overrides the single `mode` field.</td></tr><tr><td><code>subreddits</code></td><td>array</td><td>optional</td><td>List of subreddit names without `r/` prefix.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>Single mode (back-compat). Use `modes` for running multiple modes in one run.</td></tr><tr><td><code>modes</code></td><td>array</td><td>optional</td><td>Run multiple modes in a single execution (e.g. `[&quot;subreddit&quot;, &quot;profile&quot;]`). When set, overrides the single `mode` field.</td></tr><tr><td><code>subreddits</code></td><td>array</td><td>optional</td><td>List of subreddit names without `r/` prefix.</td></tr><tr><td><code>maxPosts</code></td><td>integer</td><td>optional</td><td>Max posts per subreddit or profile.</td></tr><tr><td><code>sort</code></td><td>string</td><td>optional</td><td>How to sort posts on the listing.</td></tr><tr><td><code>timeFilter</code></td><td>string</td><td>optional</td><td>Time range for `top` or `controversial` sorts.</td></tr><tr><td><code>postUrls</code></td><td>array</td><td>optional</td><td>List of Reddit post URLs.</td></tr><tr><td><code>maxComments</code></td><td>integer</td><td>optional</td><td>Max comments per post (in comments mode).</td></tr><tr><td><code>expandThreads</code></td><td>boolean</td><td>optional</td><td>Click &#x27;load more comments&#x27; buttons to expand collapsed threads.</td></tr><tr><td><code>usernames</code></td><td>array</td><td>optional</td><td>Reddit usernames. Accepts plain, `u/spez`, or full URLs.</td></tr><tr><td><code>section</code></td><td>string</td><td>optional</td><td>Which profile section to scrape in profile mode.</td></tr><tr><td><code>minScore</code></td><td>integer</td><td>optional</td><td>Drop records with score below this. Applies to posts and comments alike.</td></tr><tr><td><code>maxAgeDays</code></td><td>integer</td><td>optional</td><td>Drop records older than N days.</td></tr><tr><td><code>excludeNsfw</code></td><td>boolean</td><td>optional</td><td>Drop NSFW posts.</td></tr><tr><td><code>keywordFilter</code></td><td>string</td><td>optional</td><td>Only emit records whose title/content/text contains this substring (case-insensitive).</td></tr><tr><td><code>authorFilter</code></td><td>string</td><td>optional</td><td>Only emit records by this author (case-insensitive substring match).</td></tr><tr><td><code>maxDepth</code></td><td>integer</td><td>optional</td><td>(Comments mode) Drop comments deeper than N levels.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Run multiple Reddit scraping modes (subreddit, comments, profile) in a single execution. Pro adds advanced filters and recordType tagging.&quot;,
+  &quot;properties&quot;: {
+    &quot;authorFilter&quot;: {
+      &quot;description&quot;: &quot;Only emit records by this author (case-insensitive substring match).&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Author filter (substring)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;excludeNsfw&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Drop NSFW posts.&quot;,
+      &quot;title&quot;: &quot;Exclude NSFW&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;expandThreads&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Click &#x27;load more comments&#x27; buttons to expand collapsed threads.&quot;,
+      &quot;editor&quot;: &quot;checkbox&quot;,
+      &quot;title&quot;: &quot;Expand comment threads&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;keywordFilter&quot;: {
+      &quot;description&quot;: &quot;Only emit records whose title/content/text contains this substring (case-insensitive).&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Keyword filter (substring)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;maxAgeDays&quot;: {
+      &quot;description&quot;: &quot;Drop records older than N days.&quot;,
+      &quot;maximum&quot;: 36500,
+      &quot;minimum&quot;: 1,
+      &quot;title&quot;: &quot;Max age in days (filter)&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxComments&quot;: {
+      &quot;default&quot;: 100,
+      &quot;description&quot;: &quot;Max comments per post (in comments mode).&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 10000,
+      &quot;minimum&quot;: 1,
+      &quot;title&quot;: &quot;Max comments&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxDepth&quot;: {
+      &quot;description&quot;: &quot;(Comments mode) Drop comments deeper than N levels.&quot;,
+      &quot;maximum&quot;: 50,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Max comment depth&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxPosts&quot;: {
+      &quot;default&quot;: 25,
+      &quot;description&quot;: &quot;Max posts per subreddit or profile.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 1000,
+      &quot;minimum&quot;: 1,
+      &quot;title&quot;: &quot;Max posts&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;minScore&quot;: {
+      &quot;description&quot;: &quot;Drop records with score below this. Applies to posts and comments alike.&quot;,
+      &quot;maximum&quot;: 10000000,
+      &quot;minimum&quot;: -10000,
+      &quot;title&quot;: &quot;Min score (filter)&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;subreddit&quot;,
+      &quot;description&quot;: &quot;Single mode (back-compat). Use `modes` for running multiple modes in one run.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;subreddit&quot;,
+        &quot;comments&quot;,
+        &quot;profile&quot;
+      ],
+      &quot;title&quot;: &quot;Scraping mode (single)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;modes&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Run multiple modes in a single execution (e.g. `[\&quot;subreddit\&quot;, \&quot;profile\&quot;]`). When set, overrides the single `mode` field.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;title&quot;: &quot;Modes (multiple, Pro)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;postUrls&quot;: {
+      &quot;description&quot;: &quot;List of Reddit post URLs.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Post URLs (for comments mode)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;section&quot;: {
+      &quot;default&quot;: &quot;submitted&quot;,
+      &quot;description&quot;: &quot;Which profile section to scrape in profile mode.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;submitted&quot;,
+        &quot;comments&quot;,
+        &quot;gilded&quot;
+      ],
+      &quot;title&quot;: &quot;Profile section&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;sort&quot;: {
+      &quot;default&quot;: &quot;hot&quot;,
+      &quot;description&quot;: &quot;How to sort posts on the listing.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;hot&quot;,
+        &quot;new&quot;,
+        &quot;top&quot;,
+        &quot;rising&quot;,
+        &quot;controversial&quot;
+      ],
+      &quot;title&quot;: &quot;Sort posts by&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;subreddits&quot;: {
+      &quot;description&quot;: &quot;List of subreddit names without `r/` prefix.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [
+        &quot;python&quot;
+      ],
+      &quot;title&quot;: &quot;Subreddit names (for subreddit mode)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;timeFilter&quot;: {
+      &quot;default&quot;: &quot;day&quot;,
+      &quot;description&quot;: &quot;Time range for `top` or `controversial` sorts.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;hour&quot;,
+        &quot;day&quot;,
+        &quot;week&quot;,
+        &quot;month&quot;,
+        &quot;year&quot;,
+        &quot;all&quot;
+      ],
+      &quot;title&quot;: &quot;Time filter (top/controversial)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;usernames&quot;: {
+      &quot;description&quot;: &quot;Reddit usernames. Accepts plain, `u/spez`, or full URLs.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Usernames (for profile mode)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    }
+  },
+  &quot;required&quot;: [],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Reddit MCP Scraper Pro Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>records</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped Reddit records and the run summary.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;A dataset row per subreddit post, comment, or profile post kept after Pro filtering, plus one summary row per run.&quot;,
+  &quot;properties&quot;: {
+    &quot;records&quot;: {
+      &quot;description&quot;: &quot;Dataset containing all scraped Reddit records and the run summary.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Reddit records&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Reddit Multi-Mode Scraper with Advanced Pro Filters Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {}
+      },
+      &quot;title&quot;: &quot;All Records&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;recordType&quot;,
+          &quot;subreddit_prefixed&quot;,
+          &quot;title&quot;,
+          &quot;author&quot;,
+          &quot;score&quot;,
+          &quot;num_comments&quot;,
+          &quot;url&quot;,
+          &quot;content&quot;,
+          &quot;created_at&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-reddit-multi-mode-scraper-with-advanced-pro-filters">Reddit Multi-Mode Scraper with Advanced Pro Filters</h2>
+<p>This actor combines Reddit's three most common scraping jobs — subreddit post listings, a post's comment thread, and a user's profile posts — into one run, with a shared set of quality filters applied before anything reaches your dataset. Point it at as many subreddits, post URLs, or usernames as you like, in any combination of modes, and get back only the records that pass your thresholds.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li>Runs one mode or several (<code>subreddit</code>, <code>comments</code>, <code>profile</code>) in a single execution via the <code>modes</code> array, instead of requiring one run per mode.</li>
+<li>Pulls subreddit post listings sorted hot, new, top, rising, or controversial, with a time window for top/controversial.</li>
+<li>Pulls a post's full comment thread, including nesting depth and parent-comment linkage.</li>
+<li>Pulls a user's recent posts from a chosen profile section, tagged with that user's karma and account-creation date.</li>
+<li>Applies Pro filters — minimum score, maximum age, NSFW exclusion, a keyword substring, an author substring, and a maximum comment depth — to every record from every mode before it is saved.</li>
+<li>Fields a given post, comment, or profile does not have (for example, a post with no link flair) are left out of the record rather than returned empty.</li>
+</ul>
+<h2 id="readme-output-per-record">Output per record</h2>
+<p>Every record carries a <code>recordType</code> field (<code>subreddit_post</code>, <code>comment</code>, <code>profile</code>, or <code>summary</code>) so mixed-mode runs stay easy to sort through.</p>
+<h3 id="readme-subreddit-post-recordtype-subreddit-post">Subreddit post (<code>recordType: &quot;subreddit_post&quot;</code>)</h3>
+<p><code>subreddit</code>, <code>subreddit_prefixed</code>, <code>post_id</code>, <code>post_name</code>, <code>title</code>, <code>author</code>, <code>author_fullname</code>, <code>content</code>, <code>score</code>, <code>num_comments</code>, <code>url</code>, <code>permalink</code>, <code>external_url</code>, <code>domain</code>, <code>link_flair</code>, <code>thumbnail_url</code>, <code>is_self</code>, <code>is_stickied</code>, <code>is_nsfw</code>, <code>is_spoiler</code>, <code>is_promoted</code>, <code>is_original_content</code>, <code>is_gallery</code>, <code>gilded_count</code>, <code>num_crossposts</code>, <code>crosspost_parent</code>, <code>post_hint</code>, <code>title_word_count</code>, <code>post_age_seconds</code>, <code>created_utc</code>, <code>created_at</code>.</p>
+<h3 id="readme-comment-recordtype-comment">Comment (<code>recordType: &quot;comment&quot;</code>)</h3>
+<p><code>comment_id</code>, <code>comment_name</code>, <code>author</code>, <code>author_fullname</code>, <code>text</code>, <code>body_html</code>, <code>score</code>, <code>permalink</code>, <code>post_url</code>, <code>depth</code>, <code>parent_comment_id</code>, <code>replies_count</code>, <code>subreddit</code>, <code>subreddit_prefixed</code>, <code>is_op</code>, <code>is_edited</code>, <code>edited_at</code>, <code>is_stickied</code>, <code>is_collapsed</code>, <code>is_deleted</code>, <code>is_automod</code>, <code>is_likely_bot</code>, <code>comment_age_seconds</code>, <code>distinguished</code>, <code>controversiality</code>, <code>user_flair</code>, <code>word_count</code>, <code>body_quote_count</code>, <code>body_code_count</code>, <code>body_link_count</code>, <code>awards</code>, <code>awards_count</code>, <code>gilded_count</code>, <code>created_utc</code>, <code>created_at</code>.</p>
+<h3 id="readme-profile-post-recordtype-profile">Profile post (<code>recordType: &quot;profile&quot;</code>)</h3>
+<p>The same post fields as a subreddit post (<code>post_id</code>, <code>title</code>, <code>author</code>, <code>subreddit</code>, <code>score</code>, <code>num_comments</code>, <code>url</code>, <code>permalink</code>, <code>domain</code>, <code>created_utc</code>, <code>created_at</code>, and the related boolean/metadata fields above), plus <code>author_metadata</code> — an object with the profile's <code>username</code>, <code>total_karma</code>, <code>post_karma</code>, <code>comment_karma</code>, and <code>account_created</code> date.</p>
+<h3 id="readme-run-summary-recordtype-summary">Run summary (<code>recordType: &quot;summary&quot;</code>)</h3>
+<p>One row emitted at the end of every run with <code>modes</code> (the modes that ran), <code>modeStats</code> (pushed/dropped/error counts per mode), <code>totalPushed</code>, <code>totalErrors</code>, <code>totalDropped</code>, and <code>scrapedAt</code>. If every mode produced nothing, a second summary row is also emitted, carrying <code>reason</code> and <code>message</code> explaining why.</p>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td>string</td>
+<td><code>subreddit</code></td>
+<td>Single mode to run: <code>subreddit</code>, <code>comments</code>, or <code>profile</code>. Ignored when <code>modes</code> is set.</td>
+</tr>
+<tr>
+<td><code>modes</code></td>
+<td>array</td>
+<td>–</td>
+<td>Run several modes in one execution, e.g. <code>[&quot;subreddit&quot;, &quot;profile&quot;]</code>. Overrides <code>mode</code> when set.</td>
+</tr>
+<tr>
+<td><code>subreddits</code></td>
+<td>array</td>
+<td>–</td>
+<td>Subreddit names, without <code>r/</code>, for <code>subreddit</code> mode.</td>
+</tr>
+<tr>
+<td><code>maxPosts</code></td>
+<td>integer</td>
+<td><code>25</code></td>
+<td>Maximum posts per subreddit (<code>subreddit</code> mode) or per profile (<code>profile</code> mode), 1-1000.</td>
+</tr>
+<tr>
+<td><code>sort</code></td>
+<td>string</td>
+<td><code>hot</code></td>
+<td>Post sort order: <code>hot</code>, <code>new</code>, <code>top</code>, <code>rising</code>, or <code>controversial</code>.</td>
+</tr>
+<tr>
+<td><code>timeFilter</code></td>
+<td>string</td>
+<td><code>day</code></td>
+<td>Time window for <code>top</code>/<code>controversial</code> sorts: <code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code>, <code>year</code>, or <code>all</code>.</td>
+</tr>
+<tr>
+<td><code>postUrls</code></td>
+<td>array</td>
+<td>–</td>
+<td>Reddit post URLs to fetch comments from, for <code>comments</code> mode.</td>
+</tr>
+<tr>
+<td><code>maxComments</code></td>
+<td>integer</td>
+<td><code>100</code></td>
+<td>Maximum comments per post, 1-10000.</td>
+</tr>
+<tr>
+<td><code>expandThreads</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Click &quot;load more comments&quot; to expand collapsed comment threads.</td>
+</tr>
+<tr>
+<td><code>usernames</code></td>
+<td>array</td>
+<td>–</td>
+<td>Reddit usernames for <code>profile</code> mode — plain, <code>u/name</code>, or full profile URLs.</td>
+</tr>
+<tr>
+<td><code>section</code></td>
+<td>string</td>
+<td><code>submitted</code></td>
+<td>Profile section to read: <code>submitted</code>, <code>comments</code>, or <code>gilded</code>.</td>
+</tr>
+<tr>
+<td><code>minScore</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Drop any post or comment with a score below this value.</td>
+</tr>
+<tr>
+<td><code>maxAgeDays</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Drop any post or comment older than this many days.</td>
+</tr>
+<tr>
+<td><code>excludeNsfw</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Drop posts flagged NSFW.</td>
+</tr>
+<tr>
+<td><code>keywordFilter</code></td>
+<td>string</td>
+<td>–</td>
+<td>Keep only records whose title, content, or comment text contains this text (case-insensitive).</td>
+</tr>
+<tr>
+<td><code>authorFilter</code></td>
+<td>string</td>
+<td>–</td>
+<td>Keep only records by an author whose name contains this text (case-insensitive).</td>
+</tr>
+<tr>
+<td><code>maxDepth</code></td>
+<td>integer</td>
+<td>–</td>
+<td>In <code>comments</code> mode, drop comments nested deeper than this level.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-example-subreddit-posts-filtered">Example: subreddit posts, filtered</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;subreddit&quot;,
+  &quot;subreddits&quot;: [&quot;python&quot;, &quot;programming&quot;],
+  &quot;maxPosts&quot;: 50,
+  &quot;sort&quot;: &quot;top&quot;,
+  &quot;timeFilter&quot;: &quot;week&quot;,
+  &quot;minScore&quot;: 20,
+  &quot;excludeNsfw&quot;: true
+}
+</code></pre>
+<h3 id="readme-example-comments-on-specific-posts-shallow-threads-only">Example: comments on specific posts, shallow threads only</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;comments&quot;,
+  &quot;postUrls&quot;: [
+    &quot;https://www.reddit.com/r/programming/comments/1abc123/interesting_discussion/&quot;
+  ],
+  &quot;maxComments&quot;: 200,
+  &quot;maxDepth&quot;: 2
+}
+</code></pre>
+<h3 id="readme-example-two-modes-in-one-run">Example: two modes in one run</h3>
+<pre><code class="language-json">{
+  &quot;modes&quot;: [&quot;subreddit&quot;, &quot;profile&quot;],
+  &quot;subreddits&quot;: [&quot;python&quot;],
+  &quot;usernames&quot;: [&quot;spez&quot;],
+  &quot;maxPosts&quot;: 30,
+  &quot;keywordFilter&quot;: &quot;release&quot;
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li>Build a single dataset that mixes a subreddit's top posts with the comment threads on the posts you care about most.</li>
+<li>Track a list of users' recent activity alongside the communities they post in.</li>
+<li>Pre-filter noisy subreddits down to only well-scored, recent, non-NSFW posts before any downstream processing.</li>
+<li>Feed shallow-only comment threads (via <code>maxDepth</code>) into a quick sentiment pass without walking deep reply chains.</li>
+<li>Monitor mentions of a keyword or a specific author across posts and comments in one run.</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<h3 id="readme-do-i-need-a-reddit-account-or-api-key">Do I need a Reddit account or API key?</h3>
+<p>No. All three modes read Reddit's public pages without logging in.</p>
+<h3 id="readme-what-s-the-difference-between-mode-and-modes">What's the difference between <code>mode</code> and <code>modes</code>?</h3>
+<p><code>mode</code> runs one mode and exists for backward compatibility. <code>modes</code> is a list and lets you run several modes — each using its own relevant inputs (<code>subreddits</code>, <code>postUrls</code>, or <code>usernames</code>) — in the same execution. When <code>modes</code> is set, it takes priority over <code>mode</code>.</p>
+<h3 id="readme-why-did-one-of-my-modes-produce-nothing">Why did one of my modes produce nothing?</h3>
+<p>A mode is skipped if its required input is empty (e.g. <code>comments</code> mode with no <code>postUrls</code>), or every one of its records was removed by your Pro filters. Check the <code>summary</code> record's <code>modeStats</code> for a per-mode pushed/dropped/error count.</p>
+<h3 id="readme-what-do-the-pro-filters-apply-to">What do the Pro filters apply to?</h3>
+<p><code>minScore</code>, <code>maxAgeDays</code>, <code>excludeNsfw</code>, <code>keywordFilter</code>, and <code>authorFilter</code> apply to posts and comments alike, across every mode in the run. <code>maxDepth</code> only affects <code>comments</code> mode.</p>
+<h3 id="readme-why-is-a-field-like-link-flair-or-thumbnail-url-missing-from-some-records">Why is a field like <code>link_flair</code> or <code>thumbnail_url</code> missing from some records?</h3>
+<p>Those fields only appear when Reddit's page actually renders that element for the specific post; posts without a flair or thumbnail simply omit the field.</p>
+<h3 id="readme-what-does-author-metadata-on-a-profile-record-contain">What does <code>author_metadata</code> on a profile record contain?</h3>
+<p>The scraped user's <code>username</code>, <code>total_karma</code>, and <code>account_created</code> date — the karma and account-age figures Reddit's profile page actually displays, not a full karma breakdown.</p>
+<h3 id="readme-is-this-affiliated-with-reddit">Is this affiliated with Reddit?</h3>
+<p>No. This is an independent tool that reads Reddit's public pages; it is not operated or endorsed by Reddit.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/Xyjs2Re83cI6mCDZJ/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>XXmtSFepmb6Q8NVIR</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
