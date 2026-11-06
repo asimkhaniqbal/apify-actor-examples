@@ -1,0 +1,64 @@
+{
+  "properties": {
+    "includeSpotlightDetails": {
+      "default": true,
+      "description": "Enrich spotlight results with video URL, dimensions, and creator info from the spotlight card map. Enabled by default.",
+      "prefill": true,
+      "title": "Include Spotlight Details",
+      "type": "boolean"
+    },
+    "keywords": {
+      "description": "Keywords to search on Snapchat. Examples: food, selenagomez, new york",
+      "editor": "stringList",
+      "prefill": [
+        "food",
+        "travel"
+      ],
+      "title": "Search Keywords",
+      "type": "array"
+    },
+    "maxResultsPerQuery": {
+      "default": 100,
+      "description": "Maximum results to return per keyword (across all result types)",
+      "maximum": 500,
+      "minimum": 1,
+      "title": "Max Results per Query",
+      "type": "integer"
+    },
+    "proxyConfiguration": {
+      "description": "Proxy settings (optional)",
+      "editor": "proxy",
+      "nullable": true,
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "resultTypes": {
+      "default": [
+        "spotlight",
+        "lens",
+        "topic",
+        "user",
+        "snapProEntity",
+        "publisherEdition",
+        "publisher",
+        "place"
+      ],
+      "description": "Which section types to include in output",
+      "editor": "stringList",
+      "prefill": [
+        "spotlight",
+        "lens",
+        "topic",
+        "user"
+      ],
+      "title": "Result Types",
+      "type": "array"
+    }
+  },
+  "required": [
+    "keywords"
+  ],
+  "schemaVersion": 1,
+  "title": "Snapchat Search Scraper",
+  "type": "object"
+}

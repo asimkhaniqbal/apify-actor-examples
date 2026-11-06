@@ -1,0 +1,839 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-Ol5Pr9Xy77/qJsGv75CtmQds+/GnYjyGrb8SdeJ/wVU=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Snapchat Explore Search Across Spotlight, Lenses &amp; Places | Vexaloom Labs</title><meta name="description" content="Search Snapchat&#x27;s public explore results for a keyword and get Spotlight videos, AR lenses, topics, user profiles, business profiles, publisher episodes, shows, and places in one r"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/37uAX6CIbieDZhXKL/"><meta property="og:title" content="Snapchat Explore Search Across Spotlight, Lenses &amp; Places | Vexaloom Labs"><meta property="og:description" content="Search Snapchat&#x27;s public explore results for a keyword and get Spotlight videos, AR lenses, topics, user profiles, business profiles, publisher episodes, shows, and places in one r"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/37uAX6CIbieDZhXKL/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/37uAX6CIbieDZhXKL/#webpage","name":"Snapchat Explore Search Across Spotlight, Lenses & Places","description":"Search Snapchat's public explore results for a keyword and get Spotlight videos, AR lenses, topics, user profiles, business profiles, publisher episodes, shows, and places in one run. No login needed.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/37uAX6CIbieDZhXKL/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/37uAX6CIbieDZhXKL/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/37uAX6CIbieDZhXKL/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/37uAX6CIbieDZhXKL/#article","headline":"Snapchat Explore Search Across Spotlight, Lenses & Places","name":"Snapchat Explore Search Across Spotlight, Lenses & Places","description":"Search Snapchat's public explore results for a keyword and get Spotlight videos, AR lenses, topics, user profiles, business profiles, publisher episodes, shows, and places in one run. No login needed.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/37uAX6CIbieDZhXKL/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/37uAX6CIbieDZhXKL/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/37uAX6CIbieDZhXKL/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Snapchat Explore Search Across Spotlight, Lenses & Places","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/37uAX6CIbieDZhXKL/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Snapchat Explore Search Across Spotlight, Lenses &amp; Places</span></div><section id="overview"><h1 class="doc-title">Snapchat Explore Search Across Spotlight, Lenses &amp; Places</h1><p class="lede">Search Snapchat&#x27;s public explore results for a keyword and get Spotlight videos, AR lenses, topics, user profiles, business profiles, publisher episodes, shows, and places in one run. No login needed.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/snapchat-explore-search-across-spotlight-lenses">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/37uAX6CIbieDZhXKL/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>keywords</code></td><td>array</td><td>required</td><td>Keywords to search on Snapchat. Examples: food, selenagomez, new york</td></tr><tr><td><code>resultTypes</code></td><td>array</td><td>optional</td><td>Which section types to include in output</td></tr><tr><td><code>maxResultsPerQuery</code></td><td>integer</td><td>optional</td><td>Maximum results to return per keyword (across all result types)</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>keywords</code></td><td>array</td><td>required</td><td>Keywords to search on Snapchat. Examples: food, selenagomez, new york</td></tr><tr><td><code>resultTypes</code></td><td>array</td><td>optional</td><td>Which section types to include in output</td></tr><tr><td><code>maxResultsPerQuery</code></td><td>integer</td><td>optional</td><td>Maximum results to return per keyword (across all result types)</td></tr><tr><td><code>includeSpotlightDetails</code></td><td>boolean</td><td>optional</td><td>Enrich spotlight results with video URL, dimensions, and creator info from the spotlight card map. Enabled by default.</td></tr><tr><td><code>proxyConfiguration</code></td><td>object</td><td>optional</td><td>Proxy settings (optional)</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;properties&quot;: {
+    &quot;includeSpotlightDetails&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Enrich spotlight results with video URL, dimensions, and creator info from the spotlight card map. Enabled by default.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Include Spotlight Details&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;keywords&quot;: {
+      &quot;description&quot;: &quot;Keywords to search on Snapchat. Examples: food, selenagomez, new york&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [
+        &quot;food&quot;,
+        &quot;travel&quot;
+      ],
+      &quot;title&quot;: &quot;Search Keywords&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;maxResultsPerQuery&quot;: {
+      &quot;default&quot;: 100,
+      &quot;description&quot;: &quot;Maximum results to return per keyword (across all result types)&quot;,
+      &quot;maximum&quot;: 500,
+      &quot;minimum&quot;: 1,
+      &quot;title&quot;: &quot;Max Results per Query&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;proxyConfiguration&quot;: {
+      &quot;description&quot;: &quot;Proxy settings (optional)&quot;,
+      &quot;editor&quot;: &quot;proxy&quot;,
+      &quot;nullable&quot;: true,
+      &quot;title&quot;: &quot;Proxy Configuration&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;resultTypes&quot;: {
+      &quot;default&quot;: [
+        &quot;spotlight&quot;,
+        &quot;lens&quot;,
+        &quot;topic&quot;,
+        &quot;user&quot;,
+        &quot;snapProEntity&quot;,
+        &quot;publisherEdition&quot;,
+        &quot;publisher&quot;,
+        &quot;place&quot;
+      ],
+      &quot;description&quot;: &quot;Which section types to include in output&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [
+        &quot;spotlight&quot;,
+        &quot;lens&quot;,
+        &quot;topic&quot;,
+        &quot;user&quot;
+      ],
+      &quot;title&quot;: &quot;Result Types&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;keywords&quot;
+  ],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Snapchat Search Scraper&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>results</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped Snapchat explore search results.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;A dataset row per Snapchat explore search result, typed by resultType: Spotlight video, AR lens, topic, user, business profile, publisher edition, publisher, or place.&quot;,
+  &quot;properties&quot;: {
+    &quot;results&quot;: {
+      &quot;description&quot;: &quot;Dataset containing all scraped Snapchat explore search results.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Snapchat search results&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Snapchat Explore Search Across Spotlight, Lenses &amp; Places Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-snapchat-explore-search-across-spotlight-lenses-places">Snapchat Explore Search Across Spotlight, Lenses &amp; Places</h2>
+<p>Search Snapchat's public explore pages by keyword and extract results across all content types — Spotlight videos with direct media URLs, AR lenses, topics, user profiles, Snap Pro business profiles, publisher episodes, shows, and physical places. No login, no cookies, no browser required.</p>
+<p>For each keyword you provide, the actor fetches the Snapchat explore page, decodes the embedded search response, and returns one structured record per result with type-specific fields.</p>
+<h2 id="readme-what-you-get">What You Get</h2>
+<ul>
+<li><strong>Spotlight videos</strong> with direct bolt/CDN video URLs, creator info, dimensions, and duration</li>
+<li><strong>AR lenses</strong> with icon, preview images, unlock URL, and creator info</li>
+<li><strong>Topics</strong> (hashtags) with snap counts and thumbnails</li>
+<li><strong>User profiles</strong> with display name, avatar, and verified status</li>
+<li><strong>Snap Pro business profiles</strong> with contact details, address, logo, and subscriber count</li>
+<li><strong>Publisher editions</strong> (show episodes) with title, publish date, and deep link</li>
+<li><strong>Publisher/show pages</strong> with subscriber counts and show metadata</li>
+<li><strong>Places</strong> with coordinates, category, bounding box, and story preview</li>
+<li>All 8 section types in one run per keyword</li>
+</ul>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>keywords</code></td>
+<td>string[]</td>
+<td>Yes</td>
+<td>—</td>
+<td>Search keywords (e.g. <code>food</code>, <code>new york</code>, <code>selenagomez</code>)</td>
+</tr>
+<tr>
+<td><code>resultTypes</code></td>
+<td>string[]</td>
+<td>No</td>
+<td><code>[&quot;spotlight&quot;, &quot;lens&quot;, &quot;topic&quot;, &quot;user&quot;, &quot;snapProEntity&quot;, &quot;publisherEdition&quot;, &quot;publisher&quot;, &quot;place&quot;]</code></td>
+<td>Section types to include: <code>spotlight</code>, <code>lens</code>, <code>topic</code>, <code>user</code>, <code>snapProEntity</code>, <code>publisherEdition</code>, <code>publisher</code>, <code>place</code></td>
+</tr>
+<tr>
+<td><code>maxResultsPerQuery</code></td>
+<td>integer</td>
+<td>No</td>
+<td><code>100</code></td>
+<td>Maximum records to return per keyword across all result types (max 500)</td>
+</tr>
+<tr>
+<td><code>includeSpotlightDetails</code></td>
+<td>boolean</td>
+<td>No</td>
+<td><code>true</code></td>
+<td>Enrich spotlight results with direct video URL, dimensions, duration, and creator info from the card map</td>
+</tr>
+<tr>
+<td><code>proxyConfiguration</code></td>
+<td>object</td>
+<td>No</td>
+<td>—</td>
+<td>Optional proxy settings</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="readme-output-fields">Output Fields</h2>
+<p>Every record includes these common fields:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>query</code></td>
+<td>string</td>
+<td>The keyword that produced this result</td>
+</tr>
+<tr>
+<td><code>resultType</code></td>
+<td>string</td>
+<td>Section type: <code>spotlight</code>, <code>lens</code>, <code>topic</code>, <code>user</code>, <code>snapProEntity</code>, <code>publisherEdition</code>, <code>publisher</code>, or <code>place</code></td>
+</tr>
+<tr>
+<td><code>rank</code></td>
+<td>integer</td>
+<td>Position in combined results (1-based, across all types)</td>
+</tr>
+<tr>
+<td><code>scrapedAt</code></td>
+<td>string</td>
+<td>ISO 8601 UTC scrape timestamp</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-spotlight-fields-resulttype-spotlight">Spotlight Fields (<code>resultType: &quot;spotlight&quot;</code>)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>storyId</code></td>
+<td>string</td>
+<td>Hex story identifier</td>
+</tr>
+<tr>
+<td><code>rawSnapId</code></td>
+<td>string</td>
+<td>Base64-style snap identifier used for card map lookups</td>
+</tr>
+<tr>
+<td><code>thumbnailUrl</code></td>
+<td>string</td>
+<td>Preview thumbnail URL</td>
+</tr>
+<tr>
+<td><code>mediaUrl</code></td>
+<td>string</td>
+<td>Direct video URL from search result</td>
+</tr>
+<tr>
+<td><code>boltVideoUrl</code></td>
+<td>string</td>
+<td>Watermarked bolt CDN video URL (higher quality, from card map)</td>
+</tr>
+<tr>
+<td><code>flatVideoUrl</code></td>
+<td>string</td>
+<td>Unencrypted flat CDN video URL (from card map)</td>
+</tr>
+<tr>
+<td><code>creatorUsername</code></td>
+<td>string</td>
+<td>Creator's Snapchat username</td>
+</tr>
+<tr>
+<td><code>creatorDisplayName</code></td>
+<td>string</td>
+<td>Creator's display name</td>
+</tr>
+<tr>
+<td><code>teaserText</code></td>
+<td>string</td>
+<td>Caption preview text</td>
+</tr>
+<tr>
+<td><code>snapTitle</code></td>
+<td>string</td>
+<td>The snap's title, from the card map, when one is set</td>
+</tr>
+<tr>
+<td><code>snapDescription</code></td>
+<td>string</td>
+<td>Full caption/description text</td>
+</tr>
+<tr>
+<td><code>caption</code></td>
+<td>string</td>
+<td>Caption field from card map</td>
+</tr>
+<tr>
+<td><code>postedAt</code></td>
+<td>string</td>
+<td>ISO 8601 post timestamp</td>
+</tr>
+<tr>
+<td><code>durationSeconds</code></td>
+<td>number</td>
+<td>Video length in seconds</td>
+</tr>
+<tr>
+<td><code>width</code></td>
+<td>integer</td>
+<td>Video width in pixels</td>
+</tr>
+<tr>
+<td><code>height</code></td>
+<td>integer</td>
+<td>Video height in pixels</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-lens-fields-resulttype-lens">Lens Fields (<code>resultType: &quot;lens&quot;</code>)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lensId</code></td>
+<td>string</td>
+<td>Lens numeric identifier</td>
+</tr>
+<tr>
+<td><code>lensName</code></td>
+<td>string</td>
+<td>Lens display name</td>
+</tr>
+<tr>
+<td><code>creatorName</code></td>
+<td>string</td>
+<td>Creator's display name</td>
+</tr>
+<tr>
+<td><code>creatorIsOfficial</code></td>
+<td>boolean</td>
+<td>Whether the creator is an official Snap partner</td>
+</tr>
+<tr>
+<td><code>iconUrl</code></td>
+<td>string</td>
+<td>Lens icon thumbnail URL</td>
+</tr>
+<tr>
+<td><code>deeplinkUrl</code></td>
+<td>string</td>
+<td>URL to unlock/open the lens in Snapchat app</td>
+</tr>
+<tr>
+<td><code>thumbnailUrl</code></td>
+<td>string</td>
+<td>Preview thumbnail URL</td>
+</tr>
+<tr>
+<td><code>thumbnailSequence</code></td>
+<td>object</td>
+<td>Animated thumbnail sequence (<code>urlPattern</code>, <code>numThumbnails</code>, <code>animationIntervalMs</code>)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-topic-fields-resulttype-topic">Topic Fields (<code>resultType: &quot;topic&quot;</code>)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>topicText</code></td>
+<td>string</td>
+<td>Hashtag or topic text</td>
+</tr>
+<tr>
+<td><code>numSnaps</code></td>
+<td>integer</td>
+<td>Number of snaps tagged with this topic</td>
+</tr>
+<tr>
+<td><code>topicType</code></td>
+<td>any</td>
+<td>Topic type identifier from Snapchat</td>
+</tr>
+<tr>
+<td><code>thumbnailUrl</code></td>
+<td>string</td>
+<td>Topic thumbnail URL</td>
+</tr>
+<tr>
+<td><code>iconUrl</code></td>
+<td>string</td>
+<td>Topic icon URL</td>
+</tr>
+<tr>
+<td><code>conversationId</code></td>
+<td>string</td>
+<td>Internal conversation/topic ID</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-user-fields-resulttype-user">User Fields (<code>resultType: &quot;user&quot;</code>)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>userId</code></td>
+<td>string</td>
+<td>User ID</td>
+</tr>
+<tr>
+<td><code>username</code></td>
+<td>string</td>
+<td>Snapchat username</td>
+</tr>
+<tr>
+<td><code>displayName</code></td>
+<td>string</td>
+<td>Display name</td>
+</tr>
+<tr>
+<td><code>snapProId</code></td>
+<td>string</td>
+<td>Snap Pro profile ID (if applicable)</td>
+</tr>
+<tr>
+<td><code>profileLogoUrl</code></td>
+<td>string</td>
+<td>Profile avatar URL</td>
+</tr>
+<tr>
+<td><code>isPopular</code></td>
+<td>boolean</td>
+<td>Whether Snapchat marks this user as popular</td>
+</tr>
+<tr>
+<td><code>isOfficial</code></td>
+<td>boolean</td>
+<td>Whether this is a verified/official account</td>
+</tr>
+<tr>
+<td><code>emoji</code></td>
+<td>string</td>
+<td>Emoji associated with the profile</td>
+</tr>
+<tr>
+<td><code>contextHint</code></td>
+<td>string</td>
+<td>Context hint text shown in search results</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-snap-pro-entity-fields-resulttype-snapproentity">Snap Pro Entity Fields (<code>resultType: &quot;snapProEntity&quot;</code>)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>string</td>
+<td>Business profile ID</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>string</td>
+<td>Business name</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td>Business description</td>
+</tr>
+<tr>
+<td><code>subtitle</code></td>
+<td>string</td>
+<td>Short subtitle shown with the business name</td>
+</tr>
+<tr>
+<td><code>logoUrl</code></td>
+<td>string</td>
+<td>Business logo URL</td>
+</tr>
+<tr>
+<td><code>heroImageUrl</code></td>
+<td>string</td>
+<td>Hero/banner image URL</td>
+</tr>
+<tr>
+<td><code>phoneNumber</code></td>
+<td>string</td>
+<td>Contact phone number</td>
+</tr>
+<tr>
+<td><code>address</code></td>
+<td>string</td>
+<td>Physical address</td>
+</tr>
+<tr>
+<td><code>country</code></td>
+<td>string</td>
+<td>Country associated with the profile</td>
+</tr>
+<tr>
+<td><code>emailAddress</code></td>
+<td>string</td>
+<td>Contact email</td>
+</tr>
+<tr>
+<td><code>whatsappNumber</code></td>
+<td>string</td>
+<td>WhatsApp contact number</td>
+</tr>
+<tr>
+<td><code>websiteUrl</code></td>
+<td>string</td>
+<td>Business website URL</td>
+</tr>
+<tr>
+<td><code>profileDeeplinkUrl</code></td>
+<td>string</td>
+<td>Deep link to open this profile in Snapchat</td>
+</tr>
+<tr>
+<td><code>hostAccountUsername</code></td>
+<td>string</td>
+<td>Snapchat username of the host account</td>
+</tr>
+<tr>
+<td><code>hostAccountMutableUsername</code></td>
+<td>string</td>
+<td>Current (mutable) Snapchat username of the host account</td>
+</tr>
+<tr>
+<td><code>organizationId</code></td>
+<td>string</td>
+<td>Internal organization identifier the profile belongs to</td>
+</tr>
+<tr>
+<td><code>primaryColorHex</code></td>
+<td>string</td>
+<td>Profile icon's primary brand color, as a hex code</td>
+</tr>
+<tr>
+<td><code>bitmojiAvatarId</code></td>
+<td>string</td>
+<td>ID of the host's Bitmoji avatar, when set</td>
+</tr>
+<tr>
+<td><code>bitmojiSelfieId</code></td>
+<td>string</td>
+<td>ID of the host's Bitmoji selfie, when set</td>
+</tr>
+<tr>
+<td><code>category</code></td>
+<td>any</td>
+<td>Business category enum</td>
+</tr>
+<tr>
+<td><code>subcategory</code></td>
+<td>any</td>
+<td>Business subcategory enum</td>
+</tr>
+<tr>
+<td><code>tier</code></td>
+<td>any</td>
+<td>Profile tier</td>
+</tr>
+<tr>
+<td><code>subscriberCount</code></td>
+<td>integer</td>
+<td>Number of subscribers</td>
+</tr>
+<tr>
+<td><code>isOfficialAccount</code></td>
+<td>boolean</td>
+<td>Whether this is an official account</td>
+</tr>
+<tr>
+<td><code>isBrandProfile</code></td>
+<td>boolean</td>
+<td>Whether this is a brand profile</td>
+</tr>
+<tr>
+<td><code>hasLenses</code></td>
+<td>boolean</td>
+<td>Whether the business has published lenses</td>
+</tr>
+<tr>
+<td><code>isLensCreator</code></td>
+<td>boolean</td>
+<td>Whether the host account is a lens creator</td>
+</tr>
+<tr>
+<td><code>hasHighlights</code></td>
+<td>boolean</td>
+<td>Whether the profile has published highlights</td>
+</tr>
+<tr>
+<td><code>isSnapchatPlusSubscriber</code></td>
+<td>boolean</td>
+<td>Whether the host account subscribes to Snapchat+</td>
+</tr>
+<tr>
+<td><code>isPartnerProfile</code></td>
+<td>boolean</td>
+<td>Whether this is a Snap partner profile</td>
+</tr>
+<tr>
+<td><code>canDisplayWebsite</code></td>
+<td>boolean</td>
+<td>Whether the profile is allowed to show its website link</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-publisher-edition-fields-resulttype-publisheredition">Publisher Edition Fields (<code>resultType: &quot;publisherEdition&quot;</code>)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>editionId</code></td>
+<td>string</td>
+<td>Edition identifier</td>
+</tr>
+<tr>
+<td><code>storyDocId</code></td>
+<td>string</td>
+<td>Story document ID in <code>namespace/id</code> format</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>string</td>
+<td>Episode/edition title</td>
+</tr>
+<tr>
+<td><code>publishedAt</code></td>
+<td>string</td>
+<td>ISO 8601 publish timestamp</td>
+</tr>
+<tr>
+<td><code>thumbnailUrl</code></td>
+<td>string</td>
+<td>Episode thumbnail URL</td>
+</tr>
+<tr>
+<td><code>deeplinkUrl</code></td>
+<td>string</td>
+<td>Deep link to open in Snapchat app</td>
+</tr>
+<tr>
+<td><code>publisher</code></td>
+<td>object</td>
+<td>Publisher metadata (id, displayName, iconUrl, approxSubscriptionCount, etc.)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-publisher-fields-resulttype-publisher">Publisher Fields (<code>resultType: &quot;publisher&quot;</code>)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>publisherId</code></td>
+<td>string</td>
+<td>Publisher identifier</td>
+</tr>
+<tr>
+<td><code>businessProfileId</code></td>
+<td>string</td>
+<td>Associated business profile ID</td>
+</tr>
+<tr>
+<td><code>displayName</code></td>
+<td>string</td>
+<td>Publisher/show display name</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td>Publisher description</td>
+</tr>
+<tr>
+<td><code>iconUrl</code></td>
+<td>string</td>
+<td>Publisher icon URL</td>
+</tr>
+<tr>
+<td><code>deeplinkUrl</code></td>
+<td>string</td>
+<td>Deep link to open in Snapchat app</td>
+</tr>
+<tr>
+<td><code>primaryColor</code></td>
+<td>string</td>
+<td>Brand primary color hex</td>
+</tr>
+<tr>
+<td><code>isShow</code></td>
+<td>boolean</td>
+<td>Whether this is a Snapchat Show</td>
+</tr>
+<tr>
+<td><code>showId</code></td>
+<td>string</td>
+<td>Show identifier (if isShow)</td>
+</tr>
+<tr>
+<td><code>latestEditionId</code></td>
+<td>string</td>
+<td>Most recent episode ID</td>
+</tr>
+<tr>
+<td><code>approxSubscriptionCount</code></td>
+<td>integer</td>
+<td>Approximate subscriber count</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-place-fields-resulttype-place">Place Fields (<code>resultType: &quot;place&quot;</code>)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>placeId</code></td>
+<td>string</td>
+<td>Place UUID</td>
+</tr>
+<tr>
+<td><code>displayName</code></td>
+<td>string</td>
+<td>Place name</td>
+</tr>
+<tr>
+<td><code>locality</code></td>
+<td>string</td>
+<td>City or locality name</td>
+</tr>
+<tr>
+<td><code>centerLat</code></td>
+<td>number</td>
+<td>Latitude of the place centroid</td>
+</tr>
+<tr>
+<td><code>centerLng</code></td>
+<td>number</td>
+<td>Longitude of the place centroid</td>
+</tr>
+<tr>
+<td><code>categoryName</code></td>
+<td>string</td>
+<td>Place category (e.g. &quot;Tour Provider&quot;, &quot;Restaurant&quot;)</td>
+</tr>
+<tr>
+<td><code>categoryIconUrl</code></td>
+<td>string</td>
+<td>Category icon URL</td>
+</tr>
+<tr>
+<td><code>isFavorited</code></td>
+<td>boolean</td>
+<td>Whether the current user has favorited this place</td>
+</tr>
+<tr>
+<td><code>favoriteCount</code></td>
+<td>integer</td>
+<td>Total number of favorites</td>
+</tr>
+<tr>
+<td><code>boundingBox</code></td>
+<td>object</td>
+<td>Bounding box with <code>p1</code> and <code>p2</code> lat/lng coordinates</td>
+</tr>
+<tr>
+<td><code>storyPreview</code></td>
+<td>object</td>
+<td>Story preview info (<code>numSnaps</code>, <code>firstSnapId</code>, <code>thumbnailUrl</code>, etc.)</td>
+</tr>
+</tbody>
+</table></div>
+<p>If a keyword's explore page can't be fetched, or the page returns no matching results, the actor pushes a short record with <code>query</code>, <code>error</code>, and <code>scrapedAt</code> instead of silently skipping that keyword.</p>
+<h2 id="readme-example-input">Example Input</h2>
+<pre><code class="language-json">{
+  &quot;keywords&quot;: [&quot;tbilisi&quot;, &quot;food&quot;],
+  &quot;resultTypes&quot;: [&quot;spotlight&quot;, &quot;lens&quot;, &quot;place&quot;, &quot;user&quot;],
+  &quot;maxResultsPerQuery&quot;: 50,
+  &quot;includeSpotlightDetails&quot;: true
+}
+</code></pre>
+<h2 id="readme-example-output">Example Output</h2>
+<p><strong>Spotlight record:</strong></p>
+<pre><code class="language-json">{
+  &quot;query&quot;: &quot;tbilisi&quot;,
+  &quot;resultType&quot;: &quot;spotlight&quot;,
+  &quot;rank&quot;: 1,
+  &quot;scrapedAt&quot;: &quot;2026-06-27T18:03:16.397008+00:00&quot;,
+  &quot;storyId&quot;: &quot;463f0c002d6c40cfe953aaa0c6a5c7d1&quot;,
+  &quot;thumbnailUrl&quot;: &quot;https://cf-st.sc-cdn.net/d/O9P7RBTPbIWB5E3Z0QL5w.1025?...&quot;,
+  &quot;mediaUrl&quot;: &quot;https://bolt-gcdn.sc-cdn.net/z/O9P7RBTPbIWB5E3Z0QL5w.27.IRZXSOY?...&quot;,
+  &quot;rawSnapId&quot;: &quot;W7_EDlXWTBiXAEEniNoMPwAAYa3RxdnBoc2dpAZ6bxm40AZ6bxmItAAAAAw&quot;,
+  &quot;creatorUsername&quot;: &quot;s_saruh24&quot;,
+  &quot;creatorDisplayName&quot;: &quot;Sar Nn&quot;,
+  &quot;snapDescription&quot;: &quot;#tbilisi #georgia #🇬🇪 #georgiatbilisi&quot;,
+  &quot;postedAt&quot;: &quot;2026-06-06T07:12:10.285000+00:00&quot;,
+  &quot;boltVideoUrl&quot;: &quot;https://bolt-gcdn.sc-cdn.net/z/O9P7RBTPbIWB5E3Z0QL5w.27.IRZXSOY?...&quot;,
+  &quot;flatVideoUrl&quot;: &quot;https://cf-st.sc-cdn.net/d/O9P7RBTPbIWB5E3Z0QL5w.1034.IRZXSOY?...&quot;,
+  &quot;width&quot;: 540,
+  &quot;height&quot;: 960,
+  &quot;durationSeconds&quot;: 8.23
+}
+</code></pre>
+<p><strong>Place record:</strong></p>
+<pre><code class="language-json">{
+  &quot;query&quot;: &quot;tbilisi&quot;,
+  &quot;resultType&quot;: &quot;place&quot;,
+  &quot;rank&quot;: 30,
+  &quot;scrapedAt&quot;: &quot;2026-06-27T18:03:16.397747+00:00&quot;,
+  &quot;placeId&quot;: &quot;a9cd7a06-9993-11e8-8dc3-bb0bdff21005&quot;,
+  &quot;displayName&quot;: &quot;Tbilisi Hack Free Tours&quot;,
+  &quot;locality&quot;: &quot;Freedom Square, Tbilisi&quot;,
+  &quot;centerLat&quot;: 41.692909240722656,
+  &quot;centerLng&quot;: 44.801605224609375,
+  &quot;categoryName&quot;: &quot;Tour Provider&quot;,
+  &quot;isFavorited&quot;: false,
+  &quot;favoriteCount&quot;: 51,
+  &quot;boundingBox&quot;: {
+    &quot;p1&quot;: { &quot;lat&quot;: 41.692859240722655, &quot;lng&quot;: 44.80155522460937 },
+    &quot;p2&quot;: { &quot;lat&quot;: 41.69295924072266, &quot;lng&quot;: 44.80165522460938 }
+  },
+  &quot;storyPreview&quot;: {
+    &quot;numSnaps&quot;: 6,
+    &quot;firstSnapId&quot;: &quot;W7_EDlXWTBiXAEEniNoMPwAAYaWtvZ3Jycm12AZsU16NfAZsU16J9AAAAAQ&quot;,
+    &quot;thumbnailUrl&quot;: &quot;https://cf-st.sc-cdn.net/d/5bU09jU4HvZuI3nZ2euXo.256.IRZXSOY?...&quot;
+  }
+}
+</code></pre>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Does this require login or cookies?</strong>
+No. Snapchat's explore pages are fully public and accessible without authentication.</p>
+<p><strong>How many results can I get per keyword?</strong>
+Snapchat's page embeds a fixed set per section — typically 3–20 results per type. The <code>maxResultsPerQuery</code> cap applies across all combined types. Maximum is 500.</p>
+<p><strong>What is <code>includeSpotlightDetails</code> and when should I enable it?</strong>
+When enabled, spotlight results are enriched with a second data source embedded in the page — the spotlight card map. This adds direct <code>boltVideoUrl</code>, <code>flatVideoUrl</code>, <code>width</code>, <code>height</code>, <code>durationSeconds</code>, full <code>snapDescription</code>, and better creator info. It is enabled by default.</p>
+<p><strong>Can I filter to just one result type?</strong>
+Yes — set <code>resultTypes</code> to <code>[&quot;spotlight&quot;]</code> (or any subset) and only those sections will be extracted.</p>
+<p><strong>Can I scrape multiple keywords at once?</strong>
+Yes. Add multiple values to the <code>keywords</code> list. Each keyword produces its own set of results identified by the <code>query</code> field.</p>
+<p><strong>Why does a search for a common word return lenses but not users?</strong>
+Snapchat only includes a section in the page when it has matching content. If no user profiles match a keyword, the user section is absent — this is expected behavior.</p>
+<p><strong>What is a <code>snapProEntity</code>?</strong>
+It is Snapchat's business profile type — companies and brands that have registered a Snap Pro account. These profiles contain contact information, address, category, and subscriber counts.</p>
+<p><strong>Is this affiliated with Snapchat?</strong>
+No. This is an independent tool that reads Snapchat's public explore search pages; it is not operated or endorsed by Snap Inc.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/37uAX6CIbieDZhXKL/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>cdIbN2zfPWriRgExq</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
