@@ -1,134 +1,389 @@
 {
-  "description": "Run multiple Reddit scraping modes (subreddit, comments, profile) in a single execution. Pro adds advanced filters and recordType tagging.",
+  "description": "Choose one or more modes: subreddit posts, comment trees, keyword search, user profiles, or subreddit metadata. All modes work without an account, API key, or login.",
   "properties": {
+    "authorAllowlist": {
+      "description": "Keep only records by these exact usernames (case-insensitive).",
+      "editor": "stringList",
+      "title": "Only these authors",
+      "type": "array"
+    },
+    "authorBlocklist": {
+      "description": "Drop records by these exact usernames (case-insensitive).",
+      "editor": "stringList",
+      "title": "Exclude these authors",
+      "type": "array"
+    },
     "authorFilter": {
-      "description": "Only emit records by this author (case-insensitive substring match).",
+      "description": "Keep only records whose author name contains this text (case-insensitive).",
       "editor": "textfield",
-      "title": "Author filter (substring)",
+      "title": "Author contains",
       "type": "string"
+    },
+    "commentSort": {
+      "default": "confidence",
+      "description": "How to order comments inside a thread.",
+      "editor": "select",
+      "enum": [
+        "confidence",
+        "top",
+        "new",
+        "controversial",
+        "old",
+        "qa"
+      ],
+      "enumTitles": [
+        "Best",
+        "Top",
+        "New",
+        "Controversial",
+        "Old",
+        "Q&A"
+      ],
+      "title": "Comment sort order",
+      "type": "string"
+    },
+    "domainFilter": {
+      "description": "Keep only posts whose link domain contains this text (case-insensitive).",
+      "editor": "textfield",
+      "title": "Link domain contains",
+      "type": "string"
+    },
+    "enrichSearchResults": {
+      "default": true,
+      "description": "Open the first few search-result posts to fill score, comment count, body and media. Disable for the fastest search runs.",
+      "editor": "checkbox",
+      "title": "Load full post details for search results",
+      "type": "boolean"
     },
     "excludeNsfw": {
       "default": false,
-      "description": "Drop NSFW posts.",
-      "title": "Exclude NSFW",
+      "description": "Drop posts Reddit flags as NSFW (18+).",
+      "editor": "checkbox",
+      "title": "Exclude NSFW posts",
+      "type": "boolean"
+    },
+    "excludeStickied": {
+      "default": false,
+      "description": "Drop pinned/stickied posts from listings and search results.",
+      "editor": "checkbox",
+      "title": "Exclude stickied posts",
       "type": "boolean"
     },
     "expandThreads": {
       "default": true,
-      "description": "Click 'load more comments' buttons to expand collapsed threads.",
+      "description": "Load collapsed 'more comments' branches and additional profile pages when available.",
       "editor": "checkbox",
-      "title": "Expand comment threads",
+      "title": "Expand comment trees",
+      "type": "boolean"
+    },
+    "flairFilter": {
+      "description": "Keep only posts whose link flair contains this text (case-insensitive).",
+      "editor": "textfield",
+      "title": "Flair contains",
+      "type": "string"
+    },
+    "includePost": {
+      "default": false,
+      "description": "Emit the parent post record in comments mode in addition to its comments.",
+      "editor": "checkbox",
+      "title": "Include the post alongside its comments",
+      "type": "boolean"
+    },
+    "includeRules": {
+      "default": false,
+      "description": "Add the public rules list to subreddit metadata records.",
+      "editor": "checkbox",
+      "title": "Include community rules",
+      "type": "boolean"
+    },
+    "includeSubredditInfo": {
+      "default": false,
+      "description": "Emit one subreddit metadata record per community in posts mode.",
+      "editor": "checkbox",
+      "title": "Include community details with posts",
       "type": "boolean"
     },
     "keywordFilter": {
-      "description": "Only emit records whose title/content/text contains this substring (case-insensitive).",
+      "description": "Keep only posts or comments whose title, body or text contains this text (case-insensitive).",
       "editor": "textfield",
-      "title": "Keyword filter (substring)",
+      "title": "Keyword filter",
       "type": "string"
     },
     "maxAgeDays": {
-      "description": "Drop records older than N days.",
+      "description": "Drop posts and comments older than this many days.",
       "maximum": 36500,
       "minimum": 1,
-      "title": "Max age in days (filter)",
+      "title": "Maximum age in days",
       "type": "integer"
     },
     "maxComments": {
       "default": 100,
-      "description": "Max comments per post (in comments mode).",
+      "description": "Stop after this many comments for each post URL.",
       "editor": "number",
       "maximum": 10000,
       "minimum": 1,
-      "title": "Max comments",
+      "title": "Maximum comments per post",
       "type": "integer"
     },
     "maxDepth": {
-      "description": "(Comments mode) Drop comments deeper than N levels.",
-      "maximum": 50,
+      "description": "In comments mode, drop comments nested deeper than this level.",
+      "maximum": 100,
       "minimum": 0,
-      "title": "Max comment depth",
+      "title": "Maximum comment depth",
+      "type": "integer"
+    },
+    "maxItems": {
+      "default": 1000,
+      "description": "Global safety cap for the whole run, across all modes.",
+      "editor": "number",
+      "maximum": 100000,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Maximum total records",
+      "type": "integer"
+    },
+    "maxPostComments": {
+      "description": "Keep only posts that have at most this many comments.",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Maximum post comment count",
       "type": "integer"
     },
     "maxPosts": {
       "default": 25,
-      "description": "Max posts per subreddit or profile.",
+      "description": "Stop after this many posts for each subreddit or profile.",
+      "editor": "number",
+      "maximum": 5000,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Maximum posts per community or user",
+      "type": "integer"
+    },
+    "maxScore": {
+      "description": "Drop posts and comments with a higher score. Leave empty for no maximum.",
+      "maximum": 10000000,
+      "minimum": -10000000,
+      "title": "Maximum score",
+      "type": "integer"
+    },
+    "maxSearchResults": {
+      "default": 50,
+      "description": "Cap search results (posts or comments) for each query.",
       "editor": "number",
       "maximum": 1000,
       "minimum": 1,
-      "title": "Max posts",
+      "title": "Maximum search results per query",
+      "type": "integer"
+    },
+    "minComments": {
+      "description": "Keep only posts that have at least this many comments.",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Minimum post comment count",
       "type": "integer"
     },
     "minScore": {
-      "description": "Drop records with score below this. Applies to posts and comments alike.",
+      "description": "Drop posts and comments with a lower score. Leave empty for no minimum.",
       "maximum": 10000000,
-      "minimum": -10000,
-      "title": "Min score (filter)",
+      "minimum": -10000000,
+      "title": "Minimum score",
       "type": "integer"
     },
+    "minUpvoteRatio": {
+      "description": "Keep only posts at or above this upvote ratio (0 to 1).",
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Minimum upvote ratio",
+      "type": "number"
+    },
     "mode": {
-      "default": "subreddit",
-      "description": "Single mode (back-compat). Use `modes` for running multiple modes in one run.",
+      "default": "posts",
+      "description": "Run one mode. Prefer `modes` to combine modes in a single run.",
       "editor": "select",
       "enum": [
-        "subreddit",
+        "posts",
         "comments",
-        "profile"
+        "search",
+        "users",
+        "subreddits"
       ],
-      "title": "Scraping mode (single)",
+      "enumTitles": [
+        "Subreddit posts",
+        "Comment trees",
+        "Keyword search",
+        "User profiles",
+        "Subreddit details"
+      ],
+      "title": "Mode (single)",
       "type": "string"
     },
     "modes": {
-      "default": [],
-      "description": "Run multiple modes in a single execution (e.g. `[\"subreddit\", \"profile\"]`). When set, overrides the single `mode` field.",
+      "default": [
+        "posts"
+      ],
+      "description": "Run multiple modes in one execution, for example [\"posts\", \"search\"]. When set, this overrides the single `mode` field.",
       "editor": "stringList",
-      "title": "Modes (multiple, Pro)",
+      "prefill": [
+        "posts"
+      ],
+      "title": "Modes (run several at once)",
       "type": "array"
     },
+    "postType": {
+      "default": "all",
+      "description": "Keep only posts of this type. Choose 'all' to keep every type.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "self",
+        "link",
+        "image",
+        "video",
+        "gallery",
+        "poll",
+        "crosspost",
+        "gif",
+        "multi_media"
+      ],
+      "enumTitles": [
+        "All types",
+        "Text",
+        "Link",
+        "Image",
+        "Video",
+        "Gallery",
+        "Poll",
+        "Crosspost",
+        "GIF",
+        "Mixed media"
+      ],
+      "title": "Post type",
+      "type": "string"
+    },
     "postUrls": {
-      "description": "List of Reddit post URLs.",
+      "description": "Reddit post URLs or bare post IDs to read comment trees from.",
       "editor": "stringList",
       "prefill": [],
-      "title": "Post URLs (for comments mode)",
+      "title": "Post URLs or IDs (comments mode)",
       "type": "array"
+    },
+    "postedAfter": {
+      "description": "Keep only posts created on or after this date (YYYY-MM-DD, UTC).",
+      "editor": "datepicker",
+      "title": "Posted on or after",
+      "type": "string"
+    },
+    "postedBefore": {
+      "description": "Keep only posts created on or before this date (YYYY-MM-DD, UTC).",
+      "editor": "datepicker",
+      "title": "Posted on or before",
+      "type": "string"
+    },
+    "searchQueries": {
+      "default": [
+        "python"
+      ],
+      "description": "Keywords for search mode. Supports Reddit search syntax such as author:, flair:, site:, quotes, AND/OR/NOT and -exclusions.",
+      "editor": "stringList",
+      "prefill": [
+        "python"
+      ],
+      "title": "Search keywords or phrases",
+      "type": "array"
+    },
+    "searchSort": {
+      "default": "relevance",
+      "description": "How to order search results.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "hot",
+        "top",
+        "new",
+        "comments"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Hot",
+        "Top",
+        "New",
+        "Most comments"
+      ],
+      "title": "Search sort order",
+      "type": "string"
+    },
+    "searchType": {
+      "default": "posts",
+      "description": "Search for posts, comments, or both.",
+      "editor": "select",
+      "enum": [
+        "posts",
+        "comments",
+        "both"
+      ],
+      "enumTitles": [
+        "Posts",
+        "Comments",
+        "Posts and comments"
+      ],
+      "title": "Search result type",
+      "type": "string"
     },
     "section": {
       "default": "submitted",
-      "description": "Which profile section to scrape in profile mode.",
+      "description": "Which part of a user's profile to read.",
       "editor": "select",
       "enum": [
+        "overview",
         "submitted",
-        "comments",
-        "gilded"
+        "comments"
+      ],
+      "enumTitles": [
+        "Overview",
+        "Posts",
+        "Comments"
       ],
       "title": "Profile section",
       "type": "string"
     },
     "sort": {
       "default": "hot",
-      "description": "How to sort posts on the listing.",
+      "description": "How to sort subreddit listings and profile posts.",
       "editor": "select",
       "enum": [
         "hot",
         "new",
         "top",
         "rising",
-        "controversial"
+        "controversial",
+        "best"
       ],
-      "title": "Sort posts by",
+      "enumTitles": [
+        "Hot",
+        "New",
+        "Top",
+        "Rising",
+        "Controversial",
+        "Best"
+      ],
+      "title": "Post sort order",
       "type": "string"
     },
     "subreddits": {
-      "description": "List of subreddit names without `r/` prefix.",
+      "default": [
+        "python"
+      ],
+      "description": "Communities to read for posts, comments or subreddit details. Accepts bare names, r/ prefixes, or full Reddit URLs.",
       "editor": "stringList",
       "prefill": [
         "python"
       ],
-      "title": "Subreddit names (for subreddit mode)",
+      "title": "Subreddits",
       "type": "array"
     },
     "timeFilter": {
       "default": "day",
-      "description": "Time range for `top` or `controversial` sorts.",
+      "description": "Time range for top/controversial sorts and search.",
       "editor": "select",
       "enum": [
         "hour",
@@ -138,19 +393,33 @@
         "year",
         "all"
       ],
-      "title": "Time filter (top/controversial)",
+      "enumTitles": [
+        "Past hour",
+        "Past day",
+        "Past week",
+        "Past month",
+        "Past year",
+        "All time"
+      ],
+      "title": "Time window",
       "type": "string"
     },
     "usernames": {
-      "description": "Reddit usernames. Accepts plain, `u/spez`, or full URLs.",
+      "description": "Reddit users to read. Accepts plain names, u/ prefixes, or full profile URLs.",
       "editor": "stringList",
       "prefill": [],
-      "title": "Usernames (for profile mode)",
+      "title": "Usernames (users mode)",
       "type": "array"
+    },
+    "withinCommunity": {
+      "description": "Restrict search results to a single subreddit. Leave empty to search all of Reddit.",
+      "editor": "textfield",
+      "title": "Search inside one community (optional)",
+      "type": "string"
     }
   },
   "required": [],
   "schemaVersion": 1,
-  "title": "Reddit MCP Scraper Pro Input",
+  "title": "Reddit Research Scraper Input",
   "type": "object"
 }
