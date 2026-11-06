@@ -1,0 +1,119 @@
+# Pinterest Pin Comments & Activity Extractor
+
+Collect **public Pinterest comments and Pin activity** from one or many Pins. Get a Pin summary together with public comments, replies, reactions, helpful votes, authors, and attached media when Pinterest publishes them. This actor works without Pinterest login cookies and omits values that are not present in the public response.
+
+## What this actor does
+
+- **Pin summaries:** returns the public Pin, creator, board, media, link, and engagement context.
+- **Comments and activity:** collects public comments, replies, reactions, helpful votes, and activity such as `Tried It` when exposed.
+- **Flexible inputs:** accepts Pin URLs, numeric Pin IDs, and aliases for convenient workflows.
+- **Large lists:** processes Pins one at a time and emits completed rows progressively.
+- **Truthful output:** preserves published zeroes and `false` values while omitting unavailable data.
+
+## Output per record
+
+Each row includes `recordType`, `sourceUrl`, and `scrapedAt`. The dataset contains one `pinCommentsSummary` row per accessible Pin, followed by zero or more comment/activity rows.
+
+### Pin summary fields
+
+Summary rows can include `recordType`, `pinId`, `pinUrl`, `aggregatedPinId`, `commentCount`, `commentsDisabled`, `commentsEligible`, `saveCount`, `reactionCounts`, `title`, `description`, `createdAt`, `imageUrl`, `videoUrl`, `linkUrl`, `linkDomain`, `creator`, `board`, `isPromoted`, and `isShoppable`.
+
+The nested `creator` object can include `id`, `username`, `fullName`, `followerCount`, and `avatarUrl`. The nested `board` object can include `id`, `name`, and `url`.
+
+### Comment and activity fields
+
+Comment rows can include `recordType`, `activityType`, `pinId`, `pinUrl`, `commentId`, `nodeId`, `text`, `details`, `createdAt`, `likeCount`, `reactionCounts`, `reactionByMe`, `helpfulCount`, `markedHelpfulByMe`, `replyCount`, `isEdited`, `isHighlightedByPinOwner`, `isTranslatable`, `tags`, `taggedUsers`, `media`, `author`, `sourceUrl`, and `scrapedAt`.
+
+The nested `author` object can include `id`, `nodeId`, `username`, `firstName`, `fullName`, `avatarUrl`, `isPrivateProfile`, and `type`.
+
+Missing Pinterest values are omitted. Explicit zero counts and `false` flags remain available when Pinterest publishes them.
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `urls` | array | — | Public Pin URLs or numeric Pin IDs. |
+| `pinUrls` | array | — | Friendly alias for `urls`. |
+| `startUrls` | array | — | Friendly alias for `urls`. |
+| `domain` | string | `www.pinterest.com` | Pinterest regional domain for the public request. |
+| `maxComments` | integer | — | Maximum comment/activity rows per Pin; the summary is separate. |
+| `limit` | integer | — | Friendly alias for `maxComments`. |
+| `cookies` / `cookiesJson` | array/string | — | Optional Cookie-Editor export; not required for public Pins. |
+| `proxyConfiguration` | object | — | Optional Apify proxy configuration. |
+
+### Example: one Pin
+
+```json
+{
+  "urls": ["https://www.pinterest.com/pin/142567144448888376/"],
+  "maxComments": 50
+}
+```
+
+### Example: many Pins by URL or ID
+
+```json
+{
+  "pinUrls": [
+    "142567144448888376",
+    "https://www.pinterest.com/pin/993607355001234567/"
+  ],
+  "limit": 100
+}
+```
+
+### Example: regional public site
+
+```json
+{
+  "startUrls": ["https://www.pinterest.com/pin/142567144448888376/"],
+  "domain": "uk.pinterest.com",
+  "maxComments": 25
+}
+```
+
+## Use cases
+
+- Public comment and audience research.
+- Conversation monitoring for selected Pins.
+- Moderation review using text, tags, flags, and attached media.
+- Comparing reactions, helpful votes, replies, and Pin context.
+- Collecting public `Tried It` and other activity rows when exposed.
+
+## FAQ
+
+### Do I need to sign in to Pinterest?
+
+No. The actor uses public signed-out responses and does not require cookies.
+
+### Why did I receive a summary but no comments?
+
+The Pin may have no public comments, comments may be disabled, Pinterest may withhold activity from signed-out viewers, or the public response may expose only the summary. The actor never replaces that result with fabricated rows.
+
+### Can I request 10,000 comments for one Pin?
+
+The input accepts large limits and records are emitted as they are found. Pinterest generally publishes a much smaller public page for an individual Pin, so the actual count is source-bounded.
+
+### Are private commenters exposed?
+
+Only fields Pinterest publishes in the public response are included. Private profile indicators may be present, but private profile data is not inferred.
+
+### Does `likeCount` mean total Pinterest reactions?
+
+It is the reaction type Pinterest publishes for the comment. The complete published breakdown is available in `reactionCounts` when supplied.
+
+### Can I pass IDs instead of links?
+
+Yes. Numeric Pin IDs are accepted by all three URL fields.
+
+### Can I get the attached comment media itself?
+
+The `media` field returns whatever reference Pinterest publishes for attached comment media (e.g. an image reply), but this actor only returns that reference, not a downloaded copy of the file.
+
+### What does an omitted field mean?
+
+Pinterest did not publish that value for the object or public session. It does not mean the actor guessed zero.
+
+### Is this affiliated with Pinterest?
+
+No. This actor reads Pinterest's own public, signed-out responses; it isn't operated by or affiliated with Pinterest, Inc.

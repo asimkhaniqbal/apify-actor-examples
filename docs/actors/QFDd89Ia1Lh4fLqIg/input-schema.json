@@ -1,0 +1,138 @@
+{
+  "description": "Collect real public Pinterest comments and Pin engagement. Login cookies are optional; the default public flow is cookieless.",
+  "properties": {
+    "cookies": {
+      "description": "Optional Cookie Editor JSON array. Public comments work without cookies; cookies can add account-relative fields where Pinterest exposes them. Never share cookies publicly.",
+      "editor": "json",
+      "isSecret": true,
+      "title": "Optional Pinterest cookies",
+      "type": "array"
+    },
+    "cookiesJson": {
+      "description": "Compatibility alias: paste the Cookie Editor JSON export as text.",
+      "editor": "textarea",
+      "isSecret": true,
+      "title": "Optional cookies JSON (alias)",
+      "type": "string"
+    },
+    "domain": {
+      "default": "www.pinterest.com",
+      "description": "Use the region where the Pin link lives. If a region cannot resolve a Pin, use www.pinterest.com.",
+      "editor": "select",
+      "enum": [
+        "www.pinterest.com",
+        "jp.pinterest.com",
+        "br.pinterest.com",
+        "uk.pinterest.com",
+        "au.pinterest.com",
+        "nz.pinterest.com",
+        "co.pinterest.com",
+        "de.pinterest.com",
+        "fr.pinterest.com",
+        "in.pinterest.com",
+        "es.pinterest.com",
+        "it.pinterest.com",
+        "nl.pinterest.com",
+        "pl.pinterest.com",
+        "ru.pinterest.com",
+        "tr.pinterest.com",
+        "mx.pinterest.com",
+        "ar.pinterest.com",
+        "id.pinterest.com",
+        "ph.pinterest.com",
+        "th.pinterest.com",
+        "kr.pinterest.com"
+      ],
+      "enumTitles": [
+        "United States",
+        "Japan",
+        "Brazil",
+        "United Kingdom",
+        "Australia",
+        "New Zealand",
+        "Colombia",
+        "Germany",
+        "France",
+        "India",
+        "Spain",
+        "Italy",
+        "Netherlands",
+        "Poland",
+        "Russia",
+        "Turkey",
+        "Mexico",
+        "Argentina",
+        "Indonesia",
+        "Philippines",
+        "Thailand",
+        "South Korea"
+      ],
+      "prefill": "www.pinterest.com",
+      "title": "Pinterest region",
+      "type": "string"
+    },
+    "limit": {
+      "description": "Compatibility alias for maxComments.",
+      "maximum": 20000,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Maximum comments per Pin (alias)",
+      "type": "integer"
+    },
+    "maxComments": {
+      "description": "Maximum comment/activity rows per Pin. A Pin summary row is also returned.",
+      "maximum": 20000,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Maximum comments per Pin",
+      "type": "integer"
+    },
+    "pinUrls": {
+      "default": [],
+      "description": "Compatibility alias for URLs.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Pin URLs (alias)",
+      "type": "array"
+    },
+    "proxyConfiguration": {
+      "default": {
+        "useApifyProxy": false
+      },
+      "description": "Optional Apify proxy configuration. The actor works directly on the free plan first.",
+      "editor": "proxy",
+      "title": "Optional proxy",
+      "type": "object"
+    },
+    "startUrls": {
+      "default": [],
+      "description": "Compatibility alias for URLs.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Pinterest URLs (alias)",
+      "type": "array"
+    },
+    "urls": {
+      "description": "One or more public Pin links or numeric Pin IDs. You can also use pinUrls or startUrls as compatibility aliases.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "https://www.pinterest.com/pin/142567144448888376/"
+      ],
+      "title": "Pinterest Pin URLs or IDs",
+      "type": "array"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "Pinterest Comments Input",
+  "type": "object"
+}
