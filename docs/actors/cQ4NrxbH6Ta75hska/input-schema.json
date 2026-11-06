@@ -1,14 +1,14 @@
 {
-  "description": "Forward geocoding (address -> coordinates) and reverse geocoding (coordinates -> address) using Google Maps.",
+  "description": "Forward geocoding (address -> coordinates), reverse geocoding (coordinates -> address) and Place ID resolution with Google Maps. No API key, browser or login.",
   "properties": {
     "address": {
-      "description": "A single address for forward geocoding. Used when mode = forward.",
+      "description": "One address, landmark, business name or postal code for forward geocoding. Example: 1600 Amphitheatre Parkway, Mountain View, CA.",
       "editor": "textfield",
-      "title": "Address (single)",
+      "title": "Address or place name (single)",
       "type": "string"
     },
     "addresses": {
-      "description": "List of addresses for batch forward geocoding. Used when mode = forward.",
+      "description": "One address, place name or postal code per line. Add a country bias for ambiguous postal codes. A lat,lng line is treated as reverse geocoding.",
       "editor": "stringList",
       "items": {
         "type": "string"
@@ -16,13 +16,15 @@
       "prefill": [
         "1600 Amphitheatre Parkway, Mountain View, CA"
       ],
-      "title": "Addresses (batch)",
+      "title": "Addresses or place names (batch)",
       "type": "array"
     },
     "country": {
-      "description": "Optional ISO 3166-1 alpha-2 country code used to bias results toward that country when an address is ambiguous. Leave empty for no bias.",
+      "default": "",
+      "description": "Optional ISO 3166-1 alpha-2 country code. The country name is appended to forward queries so an ambiguous address is resolved in that country first. Leave empty for no bias.",
       "editor": "select",
       "enum": [
+        "",
         "AD",
         "AE",
         "AF",
@@ -274,6 +276,7 @@
         "ZW"
       ],
       "enumTitles": [
+        "No region bias",
         "Andorra (AD)",
         "United Arab Emirates (AE)",
         "Afghanistan (AF)",
@@ -524,79 +527,147 @@
         "Zambia (ZM)",
         "Zimbabwe (ZW)"
       ],
-      "title": "Country bias (optional)",
+      "title": "Region bias (optional)",
       "type": "string"
     },
     "language": {
       "default": "en",
-      "description": "Language code for the Google Maps interface and result formatting.",
+      "description": "Language of the returned names, formatted address and country names. Google Maps translates the result; it does not translate the input.",
       "editor": "select",
       "enum": [
         "en",
-        "es",
-        "fr",
+        "en-GB",
         "de",
+        "fr",
+        "es",
+        "es-419",
         "it",
-        "pt",
+        "pt-BR",
+        "pt-PT",
+        "nl",
+        "pl",
+        "sv",
+        "da",
+        "no",
+        "fi",
+        "cs",
+        "sk",
+        "hu",
+        "ro",
+        "bg",
+        "el",
+        "tr",
+        "ru",
+        "uk",
+        "ar",
+        "he",
+        "hi",
+        "th",
+        "vi",
+        "id",
+        "ms",
         "ja",
         "ko",
-        "zh",
-        "ar",
-        "ru"
+        "zh-CN",
+        "zh-TW"
       ],
       "enumTitles": [
         "English",
-        "Spanish",
-        "French",
+        "English (UK)",
         "German",
+        "French",
+        "Spanish",
+        "Spanish (Latin America)",
         "Italian",
-        "Portuguese",
+        "Portuguese (Brazil)",
+        "Portuguese (Portugal)",
+        "Dutch",
+        "Polish",
+        "Swedish",
+        "Danish",
+        "Norwegian",
+        "Finnish",
+        "Czech",
+        "Slovak",
+        "Hungarian",
+        "Romanian",
+        "Bulgarian",
+        "Greek",
+        "Turkish",
+        "Russian",
+        "Ukrainian",
+        "Arabic",
+        "Hebrew",
+        "Hindi",
+        "Thai",
+        "Vietnamese",
+        "Indonesian",
+        "Malay",
         "Japanese",
         "Korean",
-        "Chinese",
-        "Arabic",
-        "Russian"
+        "Chinese (Simplified)",
+        "Chinese (Traditional)"
       ],
       "prefill": "en",
+      "sectionCaption": "Language & region",
+      "sectionDescription": "The interface language and an optional country bias for ambiguous forward queries.",
       "title": "Language",
       "type": "string"
     },
     "location": {
-      "description": "A single {lat, lng} coordinate for reverse geocoding. Used when mode = reverse. Example: {\"lat\": 40.7484, \"lng\": -73.9857}",
+      "description": "One reverse-geocoding point as {\"lat\": 40.7484, \"lng\": -73.9857}. Decimal degrees, WGS84.",
       "editor": "json",
-      "title": "Location (single)",
+      "sectionCaption": "Reverse geocoding",
+      "sectionDescription": "Paste decimal coordinates. Google returns the nearest address or named place, plus the distance from your point.",
+      "title": "Coordinates (single)",
       "type": "object"
     },
     "locations": {
-      "description": "List of {lat, lng} coordinates for batch reverse geocoding. Used when mode = reverse. Example: [{\"lat\": 40.7484, \"lng\": -73.9857}]",
+      "description": "A list of reverse-geocoding points. Each item is {\"lat\": 40.7484, \"lng\": -73.9857} or a \"lat,lng\" string.",
       "editor": "json",
       "items": {
         "type": "object"
       },
-      "title": "Locations (batch)",
+      "title": "Coordinates (batch)",
       "type": "array"
     },
     "mode": {
-      "default": "forward",
-      "description": "forward = address -> coordinates. reverse = coordinates -> address.",
+      "description": "Forward turns an address, place name or postal code into coordinates. Reverse turns a coordinate pair into the nearest address. Place ID resolves a Google Place ID or Maps URL. Mixed processes every list in one run.",
       "editor": "select",
       "enum": [
         "forward",
-        "reverse"
+        "reverse",
+        "placeId",
+        "mixed"
       ],
       "enumTitles": [
-        "Forward (address -> coordinates)",
-        "Reverse (coordinates -> address)"
+        "Forward: address/place -> coordinates",
+        "Reverse: coordinates -> address",
+        "Place ID or Google Maps URL -> address",
+        "Mixed batch: all three lists in one run"
       ],
       "prefill": "forward",
+      "sectionCaption": "What to geocode",
+      "sectionDescription": "Pick the lookup direction, then fill the matching list. Addresses, coordinates and Place IDs can also be mixed in one run when mode is omitted.",
       "title": "Mode",
       "type": "string"
     },
-    "proxyConfiguration": {
-      "description": "Optional proxy. Apify proxy may route through regions that trigger Google consent pages; the default no-proxy path is usually more reliable.",
-      "editor": "proxy",
-      "title": "Proxy Configuration (optional)",
-      "type": "object"
+    "placeId": {
+      "description": "One Google Place ID (starts with ChIJ) or a full Google Maps place URL. Returns the place's address, coordinates and structured components.",
+      "editor": "textfield",
+      "sectionCaption": "Place ID lookup",
+      "sectionDescription": "Use a Place ID copied from Google Maps or a Maps place URL. Bare legacy feature IDs are not supported.",
+      "title": "Place ID or Google Maps URL (single)",
+      "type": "string"
+    },
+    "placeIds": {
+      "description": "One Google Place ID or Google Maps place URL per line.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Place IDs or Google Maps URLs (batch)",
+      "type": "array"
     }
   },
   "schemaVersion": 1,

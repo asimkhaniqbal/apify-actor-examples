@@ -1,0 +1,96 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "download_url": {
+      "description": "Direct URL to download the media file from the Apify API",
+      "format": "link",
+      "title": "Download URL",
+      "type": "string"
+    },
+    "file_size_bytes": {
+      "description": "Size of the stored file in bytes.",
+      "title": "File Size (bytes)",
+      "type": "integer"
+    },
+    "media_type": {
+      "description": "Type of downloaded media (image or video)",
+      "title": "Media Type",
+      "type": "string"
+    },
+    "media_url": {
+      "description": "Public Pinterest-hosted media URL used for the download.",
+      "format": "link",
+      "title": "Source Media URL",
+      "type": "string"
+    },
+    "pin": {
+      "description": "Pinterest-supplied Pin title, description, creator, board, engagement, media variants, and destination metadata used for the download. Missing source values are omitted.",
+      "title": "Pin details",
+      "type": "object"
+    },
+    "pin_id": {
+      "description": "Pinterest Pin ID.",
+      "title": "Pin ID",
+      "type": "string"
+    },
+    "pinterest_url": {
+      "description": "URL of the original Pinterest pin",
+      "format": "link",
+      "title": "Pinterest URL",
+      "type": "string"
+    },
+    "record_type": {
+      "description": "Always media for a successfully downloaded file.",
+      "title": "Record Type",
+      "type": "string"
+    },
+    "saved_as": {
+      "description": "Filename of the media file in the Key-Value Store",
+      "title": "Saved As",
+      "type": "string"
+    }
+  },
+  "title": "Pinterest Downloaded Media",
+  "views": {
+    "overview": {
+      "description": "Pinterest media files downloaded and stored in the Key-Value Store.",
+      "display": {
+        "component": "table",
+        "properties": {
+          "download_url": {
+            "format": "link",
+            "label": "Download"
+          },
+          "media_type": {
+            "format": "text",
+            "label": "Type"
+          },
+          "pinterest_url": {
+            "format": "link",
+            "label": "Pinterest URL"
+          },
+          "saved_as": {
+            "format": "text",
+            "label": "Filename"
+          }
+        }
+      },
+      "title": "Downloaded Media",
+      "transformation": {
+        "fields": [
+          "record_type",
+          "pin_id",
+          "pinterest_url",
+          "media_url",
+          "media_type",
+          "file_size_bytes",
+          "saved_as",
+          "download_url",
+          "source_url",
+          "scraped_at",
+          "pin"
+        ]
+      }
+    }
+  }
+}

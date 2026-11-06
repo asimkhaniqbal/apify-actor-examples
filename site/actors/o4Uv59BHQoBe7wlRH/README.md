@@ -1,0 +1,144 @@
+# Pinterest Media Downloader
+
+Download **real public Pinterest images, GIFs, and videos** into the run's public file store. Each saved file gets a dataset row with the Pin, creator, board, destination, product, and engagement metadata Pinterest publishes; inaccessible or missing media is skipped rather than guessed.
+
+## What this actor does
+
+- **Pin downloads:** accepts public Pin URLs and numeric Pin IDs.
+- **Search downloads:** finds downloadable media from public Pinterest searches.
+- **Rich file rows:** returns source and saved-file URLs, file size, extension, media type, and Pin context.
+- **Optional public activity:** can emit comments and activity rows alongside downloaded files.
+- **Source-backed filters:** supports image/video, creator follower, saves, ads, links, verification, and shopping filters.
+
+## Output per record
+
+### Download record
+
+Each saved-media row includes `record_type`, `pin_id`, `source_url`, `pinterest_url`, `media_url`, `media_type`, `saved_as`, `file_extension`, `file_size_bytes`, `key_value_store_key`, `scraped_at`, and `download_url`.
+
+`media_type` is the source-backed media kind such as `image` or `video`. `download_url` opens the saved file, while `media_url` is Pinterest's source media URL. If Pinterest supplies detailed metadata, the row also contains a `pin` object with `pinId`, `pinUrl`, `title`, `description`, `altText`, `createdAt`, `domain`, `linkUrl`, `linkDomain`, `imageVariants`, `videoVariants`, `creator`, `board`, `saves`, `commentCount`, `likeCount`, `reactionCounts`, `isVideo`, `isPromoted`, `isShoppable`, and `richMetadata`.
+
+The nested `creator` object can contain `id`, `username`, `fullName`, `followerCount`, `avatarUrl`, and `isVerified`. The nested `board` object can contain `id`, `name`, and `url`. Variant maps preserve Pinterest's real size/quality names and URLs.
+
+### Comment/activity records
+
+When `includeComments` is enabled, the dataset can also contain public `comment` or `pin_activity` rows. These can include `record_type`, `activity_type`, `pin_id`, `pin_url`, `comment_id`, `node_id`, `text`, `created_at`, `like_count`, `reaction_counts`, `reaction_by_me`, `helpful_count`, `marked_helpful_by_me`, `reply_count`, `is_edited`, `is_highlighted_by_pin_owner`, `is_translatable`, `tags`, `tagged_users`, `media`, `author`, `source_url`, and `scraped_at`.
+
+The `author` object can contain `id`, `username`, `full_name`, `first_name`, `avatar_url`, and `is_private_profile`.
+
+Missing source values are omitted. A real zero or `false` value is not changed into a blank value.
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `mode` | choice | `auto` | `auto`, `pinDetail`, or `searchPins`. |
+| `pinterestUrls` | array | — | Public Pin URLs or numeric Pin IDs. |
+| `pinUrls` | array | — | Friendly alias for Pin URLs. |
+| `startUrls` | array | — | Friendly alias for Pin URLs. |
+| `searchTerms` | array of text | — | Public Pinterest search phrases. |
+| `keywords` | array of text | — | Friendly alias for search phrases. |
+| `maxItems` | integer | `50` | Maximum downloaded media records; `0` follows available results. |
+| `minSaves` | integer | — | Keep media only when Pinterest publishes at least this many saves. |
+| `minCreatorFollowers` | integer | — | Keep media only when Pinterest publishes this many creator followers. |
+| `verifiedOnly` | boolean | `false` | Keep only explicitly verified creators. |
+| `requireOutboundLink` | boolean | `false` | Keep only Pins with a destination link. |
+| `imageOnly` | boolean | `false` | Exclude video media. |
+| `excludeAds` | boolean | `false` | Exclude Pins explicitly marked promoted. |
+| `commerceOnly` | boolean | `false` | Keep only Pins with Pinterest product/shopping data. |
+| `includeComments` | boolean | `false` | Also emit public comment/activity rows. |
+| `maxComments` | integer | `10` | Maximum public comment/activity rows per Pin. |
+| `cookies` / `cookiesJson` | array/string | — | Optional Cookie-Editor export; not required for public Pins. |
+| `proxy` | object | — | Optional Apify proxy configuration. |
+
+### Example: download specific Pins
+
+```json
+{
+  "mode": "pinDetail",
+  "pinterestUrls": [
+    "https://www.pinterest.com/pin/142567144448888376/",
+    "https://www.pinterest.com/pin/993607355001234567/"
+  ],
+  "imageOnly": true
+}
+```
+
+### Example: search media
+
+```json
+{
+  "mode": "searchPins",
+  "searchTerms": ["modern living room", "summer recipe"],
+  "maxItems": 500,
+  "excludeAds": true
+}
+```
+
+### Example: commercial research media
+
+```json
+{
+  "keywords": ["running shoes"],
+  "commerceOnly": true,
+  "requireOutboundLink": true,
+  "minSaves": 25,
+  "maxItems": 1000
+}
+```
+
+### Example: download with public activity
+
+```json
+{
+  "pinUrls": ["https://www.pinterest.com/pin/142567144448888376/"],
+  "includeComments": true,
+  "maxComments": 100
+}
+```
+
+## Use cases
+
+- Build a local reference library of public Pinterest images and videos.
+- Download creator or board inspiration at scale.
+- Collect media for content, design, recipe, fashion, or product research.
+- Pair saved files with destination URLs, creator identity, board context, and engagement.
+- Preserve public comment/activity context alongside downloaded Pins.
+
+## FAQ
+
+### Where are the files saved?
+
+Each file is saved in the run's public key-value store and its direct `download_url` is returned in the dataset.
+
+### Can this download videos?
+
+Yes, when Pinterest publishes a downloadable video URL. Pins exposing only an unsupported stream or no public media are skipped rather than replaced with a guessed URL.
+
+### Can I download more than 10,000 files?
+
+Yes. The actor emits each completed file as soon as it is saved and supports large `maxItems` values. The available total still depends on Pinterest's public search results and downloadable media.
+
+### Why did a Pin produce no file?
+
+It may be private, deleted, inaccessible, missing public media, or expose only a media form that cannot be saved as a file. The actor does not fabricate a download record.
+
+### Are the media URLs permanent?
+
+Pinterest source URLs can change or expire. The returned `download_url` points to the file saved by this run and is the stable link to use for the exported file.
+
+### Do filters use estimates?
+
+No. Filters use only counts and flags explicitly returned by Pinterest. Missing counts do not automatically pass a minimum threshold.
+
+### Do I need cookies or a Pinterest account?
+
+No. Public Pins are downloaded without login cookies. Optional cookies can be supplied for a permitted session.
+
+### Can I get metadata without downloading files?
+
+Yes, run the actor without `includeComments` focused searches; the dataset row for every saved file already carries the full Pin, creator, board, and engagement metadata alongside the file link.
+
+### Is this affiliated with Pinterest?
+
+No. This is an independent tool that reads Pinterest's own public pages and API responses; it is not operated, endorsed, or sponsored by Pinterest.

@@ -1,0 +1,175 @@
+{
+  "description": "Download public Pinterest images and videos with the Pin metadata users need to identify each file. Provide links or search words.",
+  "properties": {
+    "commerceOnly": {
+      "default": false,
+      "description": "Keep only Pins with source-backed shopping metadata.",
+      "prefill": false,
+      "title": "Shoppable Pins only",
+      "type": "boolean"
+    },
+    "cookies": {
+      "description": "Optional Cookie Editor JSON export. The downloader works without cookies; never share this secret publicly.",
+      "editor": "json",
+      "isSecret": true,
+      "title": "Optional Pinterest cookies",
+      "type": "array"
+    },
+    "cookiesJson": {
+      "description": "Compatibility alias for pasting a Cookie Editor JSON export.",
+      "editor": "textarea",
+      "isSecret": true,
+      "title": "Optional cookies JSON (alias)",
+      "type": "string"
+    },
+    "excludeAds": {
+      "default": false,
+      "description": "Exclude Pins Pinterest marks as promoted.",
+      "prefill": false,
+      "title": "Exclude promoted Pins",
+      "type": "boolean"
+    },
+    "imageOnly": {
+      "default": false,
+      "description": "Exclude video media.",
+      "prefill": false,
+      "title": "Images only",
+      "type": "boolean"
+    },
+    "includeComments": {
+      "default": false,
+      "description": "When enabled, add real comment/activity rows for every Pin whose media is processed. The public cookieless path is used automatically.",
+      "prefill": false,
+      "title": "Include Pin comments",
+      "type": "boolean"
+    },
+    "keywords": {
+      "default": [],
+      "description": "Compatibility alias for Search Terms.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Search words (alias)",
+      "type": "array"
+    },
+    "maxComments": {
+      "default": 10,
+      "description": "Maximum public comment/activity rows to add per Pin when comments are enabled.",
+      "maximum": 20000,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Maximum comments per Pin",
+      "type": "integer"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of media items to download per search term. Set to 0 for unlimited.",
+      "maximum": 20000,
+      "minimum": 0,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "minCreatorFollowers": {
+      "description": "Keep media only when Pinterest supplies this creator follower count.",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Minimum creator followers",
+      "type": "integer"
+    },
+    "minSaves": {
+      "description": "Keep media only when Pinterest supplies at least this many saves.",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Minimum saves",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "auto",
+      "description": "Use direct Pin links, search words, or auto-detect both.",
+      "editor": "select",
+      "enum": [
+        "auto",
+        "pinDetail",
+        "searchPins"
+      ],
+      "enumTitles": [
+        "Auto-detect",
+        "Direct Pin media",
+        "Search result media"
+      ],
+      "prefill": "auto",
+      "title": "What to download",
+      "type": "string"
+    },
+    "pinUrls": {
+      "default": [],
+      "description": "Compatibility alias for Pinterest URLs.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Pin URLs (alias)",
+      "type": "array"
+    },
+    "pinterestUrls": {
+      "description": "List of Pinterest pin URLs to download media from (e.g. https://www.pinterest.com/pin/123456789/).",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "https://www.pinterest.com/pin/142567144448888376/"
+      ],
+      "title": "Pinterest URLs",
+      "type": "array"
+    },
+    "proxy": {
+      "description": "Optional proxy settings. Not required — works without proxy from datacenter IPs.",
+      "editor": "proxy",
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "requireOutboundLink": {
+      "default": false,
+      "description": "Keep only Pins with a public destination URL.",
+      "prefill": false,
+      "title": "Require destination link",
+      "type": "boolean"
+    },
+    "searchTerms": {
+      "description": "List of keywords to search on Pinterest. All media (images and videos) from search results will be downloaded.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Search Terms",
+      "type": "array"
+    },
+    "startUrls": {
+      "default": [],
+      "description": "Compatibility alias for Pinterest URLs.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Pinterest URLs (alias)",
+      "type": "array"
+    },
+    "verifiedOnly": {
+      "default": false,
+      "description": "Keep only media whose creator is explicitly verified by Pinterest.",
+      "prefill": false,
+      "title": "Verified creators only",
+      "type": "boolean"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "Pinterest Media Downloader Input",
+  "type": "object"
+}

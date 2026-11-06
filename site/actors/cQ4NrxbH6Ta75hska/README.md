@@ -1,153 +1,158 @@
-# Google Maps Address & Coordinate Geocoding Lookup
+# Google Maps Address & Coordinate Geocoding
 
-This actor converts street addresses into latitude/longitude coordinates (forward geocoding), or coordinates back into a human-readable address (reverse geocoding), using Google Maps. It supports batch input, multiple languages, and country bias for ambiguous queries, with no login, cookies, or API key required.
+Turn addresses, place names, postal codes and Google Place IDs into coordinates — or turn coordinates back into the address Google Maps shows for that spot. Everything runs in one batch, in 35 output languages, with no Google Cloud API key, no browser and no login.
 
-## What this actor does
+This actor is for data teams, delivery and logistics planners, real-estate analysts and anyone who needs a clean geocoding table from a list they already have.
 
-- **Forward geocoding** — given an address, returns the resolved coordinates, place ID, structured address components, plus code, and a stable Google Maps URL.
-- **Reverse geocoding** — given a `{lat, lng}` pair, returns the nearest matched place name and address. When Google answers a coordinate with a dropped pin instead of a named place, the resolved record carries the locality Google prints for it (city / region / country) plus the exact coordinate — never an invented street address.
+## What it does
 
-Only resolved Google Maps results are written to the dataset. Inputs that Google cannot resolve are reported in the actor log/status and do not create placeholder or error rows.
-
-## Output per location
-
-Each dataset record contains a subset of these fields (empty fields are omitted):
-
-| Field | Type | Description |
+| Mode | Input | Output |
 |---|---|---|
-| `recordType` | string | Actor row discriminator (`geocode`). |
-| `mode` | string | `"forward"` or `"reverse"`. |
-| `inputAddress` | string | Original address (forward mode only). |
-| `inputLocation` | object | Original coordinates (reverse mode only). |
-| `resolved` | boolean | Whether Google resolved the input to a place. |
-| `name` | string | Place name (h1 on the place page); often blank for pure street addresses. |
-| `formattedAddress` | string | Full address as Google formats it. |
-| `location` | object | `{lat, lng}` of the resolved place. |
-| `placeId` | string | Canonical Google Place ID beginning with `ChIJ`, when Google exposes one. |
-| `featureId` | string | Legacy feature/CID token (`0x…:0x…`), when Google exposes one. |
-| `plusCode` | string | Open Location Code if present. |
-| `addressComponents` | object | Structured `{streetNumber, street, city, state, postalCode, country, countryCode}`. |
-| `categoryName` | string | Google's category label when the resolved place is a business. |
-| `googleMapsUrl` | string | Stable `/maps/place/` URL. |
-| `sourceUrl` | string | Resolved Maps page URL used as the source context; omitted when unavailable. |
-| `scrapedAt` | string | UTC ISO-8601 timestamp. |
+| Forward | Address, landmark, business name or postal code | Coordinates, formatted address, address parts, Place ID, Plus Code, time zone |
+| Reverse | `lat,lng` coordinate | Nearest address or named place, distance from your point, address parts, Place ID |
+| Place ID | Google Place ID (`ChIJ…`) or a Google Maps place URL | The place's address, coordinates, structured parts and Plus Code |
+| Mixed | Any combination of the three lists | Each item is resolved by its own type into one dataset |
 
-### Example output
+Choose `mixed` to process addresses, coordinate lines and Place IDs side by side in one dataset.
 
-```json
-{
-  "recordType": "geocode",
-  "mode": "forward",
-  "inputAddress": "1600 Amphitheatre Parkway, Mountain View, CA",
-  "resolved": true,
-  "name": "Google Building 41",
-  "formattedAddress": "1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA",
-  "location": {"lat": 37.4224864, "lng": -122.0855962},
-  "featureId": "0x808fba02f1822489:0x37a9269fbae1c4f7",
-  "plusCode": "CWC8+W4 Mountain View, California",
-  "addressComponents": {
-    "streetNumber": "1600",
-    "street": "Amphitheatre Pkwy",
-    "city": "Mountain View",
-    "state": "CA",
-    "postalCode": "94043",
-    "country": "USA",
-    "countryCode": "US"
-  },
-  "categoryName": "Corporate office",
-  "googleMapsUrl": "https://www.google.com/maps/place/...",
-  "sourceUrl": "https://www.google.com/maps/place/...",
-  "scrapedAt": "2026-06-16T12:00:00+00:00"
-}
-```
+## Why it is fast and setup-free
+
+The actor reads the same public result payloads the Google Maps web front-end uses. It sends direct HTTP requests, parses the structured JSON, and does not open a browser or call the paid Geocoding API. No key, cookie, account or proxy configuration is needed.
+
+If Google temporarily rate-limits the direct connection, the actor retries and can switch to an Apify datacenter proxy automatically. You do not configure anything.
 
 ## Input
 
-| Field | Type | Default | Description |
-|---|---|---|---|
-| `mode` | enum (`forward` or `reverse`) | `forward` | Which direction to geocode. |
-| `address` | string | – | A single address (forward mode). |
-| `addresses` | array of strings | – | Batch of addresses (forward mode). |
-| `location` | object `{lat, lng}` | – | A single coordinate (reverse mode). |
-| `locations` | array of `{lat, lng}` | – | Batch of coordinates (reverse mode). |
-| `language` | enum | `en` | Interface language (`en`, `es`, `fr`, `de`, `it`, `pt`, `ja`, `ko`, `zh`, `ar`, `ru`). |
-| `country` | string | – | Optional ISO 3166-1 alpha-2 code (e.g. `US`, `GB`) used to bias results when an address is ambiguous. |
-| `proxyConfiguration` | proxy | – | Optional. Only used automatically as a fallback for inputs that don't resolve on the first attempt. |
+| Field | What to provide |
+|---|---|
+| `mode` | `forward`, `reverse`, `placeId` or `mixed`. Defaults to `forward`. |
+| `address` / `addresses` | One address or a list. Place names, landmarks and postal codes work too; add a country bias for ambiguous postal codes. A `lat,lng` line inside the address list is reverse geocoded. |
+| `location` / `locations` | One `{ "lat": 40.7484, "lng": -73.9857 }` object or a list. A `"lat,lng"` string is accepted in the list. |
+| `placeId` / `placeIds` | One `ChIJ…` Place ID or Google Maps place URL, or a list of them. |
+| `language` | One of 35 Google Maps interface languages. Changes the returned names, address format and country names. |
+| `country` | Optional ISO 3166-1 alpha-2 country code. The country name is appended to forward queries so an ambiguous address resolves there first. |
+
+| Input | Default | Notes |
+|---|---|---|
+| `mode` | – | The form starts at `forward`; choose `mixed` for all lists. |
+| `address`, `addresses` | – | Forward query or list. |
+| `location`, `locations` | – | Reverse coordinate or list. |
+| `placeId`, `placeIds` | – | Place ID or Maps URL, one or a list. |
+| `language` | `en` | One of the 35 enum values. |
+| `country` | – | Empty means no region bias. |
+
+Repeated inputs are geocoded once. Blank lines and duplicate inputs are ignored.
+
+## Output
+
+Every resolved input becomes one row. Fields that Google genuinely does not provide for a row are omitted rather than filled with `null`, `""` or a guess.
+
+| Field | Meaning |
+|---|---|
+| `mode` | `forward`, `reverse` or `placeId` |
+| `inputAddress`, `inputLocation`, `inputPlaceId` | The input this row answers |
+| `name` | Place or business name Google returns |
+| `formattedAddress` | One-line address |
+| `addressComponents` | `streetNumber`, `street`, `neighborhood`, `city`, `state`, `stateCode`, `stateName`, `postalCode`, `country`, `countryCode`, `subpremise` when present |
+| `location` | Resolved latitude and longitude |
+| `placeId`, `featureId` | Canonical `ChIJ…` Place ID and legacy `0x…:0x…` feature ID |
+| `plusCode`, `plusCodeGlobal`, `plusCodeCompound` | Open Location Code forms; checked against the emitted coordinates |
+| `timezone` | IANA time zone, e.g. `Europe/Paris` |
+| `countryCode` | Top-level ISO country code |
+| `categories`, `categoryName` | Google place categories when the result is a place |
+| `resultLevel` | `address`, `street`, `postal_code`, `area` or `place` |
+| `distanceMeters` | Reverse mode only: distance from your point to the matched place |
+| `googleMapsUrl`, `sourceUrl` | Canonical Google Maps link |
+| `recordType` | Always `geocode` |
+| `scrapedAt` | ISO timestamp |
 
 ## Examples
 
-### Example: forward geocode one address
+Forward — one address:
+
 ```json
 {
   "mode": "forward",
-  "address": "1600 Amphitheatre Parkway, Mountain View, CA",
+  "addresses": ["1600 Amphitheatre Parkway, Mountain View, CA"],
   "language": "en"
 }
 ```
 
-### Example: forward geocode a batch
+Reverse — two coordinates in French:
+
 ```json
 {
-  "mode": "forward",
-  "addresses": [
-    "Eiffel Tower, Paris",
-    "Big Ben, London",
-    "Tokyo Tower, Tokyo"
+  "mode": "reverse",
+  "locations": [
+    { "lat": 48.8583701, "lng": 2.2944813 },
+    { "lat": 40.7579, "lng": -73.9855 }
+  ],
+  "language": "fr"
+}
+```
+
+Place IDs — batch:
+
+```json
+{
+  "mode": "placeId",
+  "placeIds": [
+    "ChIJm-xEoHxZwokRTStZFhfbrKA",
+    "https://www.google.com/maps/place/Eiffel+Tower/@48.8583701,2.2944813,17z"
   ],
   "language": "en"
 }
 ```
 
-### Example: reverse geocode one coordinate
-```json
-{
-  "mode": "reverse",
-  "location": {"lat": 40.7579, "lng": -73.9855}
-}
-```
-
-### Example: reverse geocode a batch
-```json
-{
-  "mode": "reverse",
-  "locations": [
-    {"lat": 48.8584, "lng": 2.2945},
-    {"lat": 35.6586, "lng": 139.7454},
-    {"lat": -33.8568, "lng": 151.2153}
-  ]
-}
-```
-
-## Use cases
-
-- Convert a CSV of customer addresses to coordinates for mapping.
-- Enrich event logs with city/state/country from raw GPS pings.
-- Validate user-submitted addresses against Google's canonical form.
-- Reverse-geocode IoT device locations or photo EXIF coordinates.
-- Compare address-component parsing across multiple countries.
-
 ## FAQ
 
-**Q: Do I need an API key?**
-No. This actor works without an API key, Google Cloud project, or billing account.
+**Do I need a Google Maps API key?**
+No. The actor uses Google Maps' public web result payloads. You do not need a Google Cloud project, billing account or key.
 
-**Q: How many results does it return per input?**
-One record per input. If an address is ambiguous, Google picks the highest-confidence match (the same one you would see at the top of Google Maps' own search box).
+**Can I mix addresses and coordinates in one run?**
+Yes. Choose `mode: mixed` and send any combination of the three lists. If `mode` is omitted entirely, the actor also detects which lists are present and processes them together.
 
-**Q: How accurate are the coordinates?**
-Coordinates are returned at full precision, often to 7 decimal places.
+**What happens when Google cannot place an address?**
+The input is reported in the run status as unresolved and no row is invented. A nearby business or an unrelated street is never presented as the answer.
 
-**Q: Should I use a proxy?**
-A proxy is optional. Direct access is tried first, and a proxy is only used automatically as a fallback for an input that doesn't resolve on the first attempt.
+**Why is reverse geocoding sometimes a street address and sometimes a place name?**
+Google returns the nearest addressable entity for that coordinate. In a city centre that is usually a street address; at a landmark it can be the landmark itself. `distanceMeters` tells you how far the matched entity is from your point.
 
-**Q: What languages are supported?**
-The `language` input controls the Google Maps interface language and the format of the returned address (e.g. street names, country names in the target language). Currently exposed: English, Spanish, French, German, Italian, Portuguese, Japanese, Korean, Chinese, Arabic, Russian.
+**Which languages are supported?**
+English (US and UK), German, French, Spanish (Spain and Latin America), Italian, Portuguese (Brazil and Portugal), Dutch, Polish, Swedish, Danish, Norwegian, Finnish, Czech, Slovak, Hungarian, Romanian, Bulgarian, Greek, Turkish, Russian, Ukrainian, Arabic, Hebrew, Hindi, Thai, Vietnamese, Indonesian, Malay, Japanese, Korean, Chinese (Simplified and Traditional).
 
-**Q: Can I bias results to a specific country?**
-Yes. Set `country` to an ISO 3166-1 alpha-2 code (e.g. `US`, `GB`, `FR`). The scraper appends the country name to ambiguous queries (e.g. `Big Ben` → `Big Ben, UK`).
+**Does the `country` input restrict results to that country?**
+It biases forward queries by appending the country name, which is what Google's own address search uses. It is a bias, not a hard filter. Reverse results follow the coordinate.
 
-**Q: What happens for unresolvable inputs?**
-The actor logs each unresolved input and names it in the run status, and leaves the dataset unchanged for that item rather than writing a placeholder or error row. Google sometimes answers an address it can't place with an unrelated nearby result instead of a "no match" page, so a forward lookup is only marked resolved when the answer actually matches what you asked for; otherwise it's reported as unresolved.
+**What Place ID formats are accepted?**
+Any `ChIJ…` Place ID, the `place_id:` prefix, or a full Google Maps place URL. Bare legacy `0x…:0x…` feature IDs cannot be resolved on their own; paste the full Maps URL instead.
 
-**Q: Is this affiliated with Google?**
-No. This is an independent, third-party actor that reads publicly accessible Google Maps results. You are responsible for using these results lawfully and in line with Google's terms.
+**Are Plus Codes checked?**
+Yes. Every emitted short Plus Code is verified against the emitted coordinates, or recomputed from them, so the code and the coordinate always describe the same cell.
+
+**How many rows can I geocode?**
+There is no batch-size cap in the actor. Large lists are processed with a small concurrency limit and deduplicated. Google may throttle very large bursts; the actor retries and can switch to an Apify proxy automatically.
+
+**Is the data live?**
+Each run reads Google Maps at run time. Nothing is cached between runs.
+
+## Limitations
+
+- Fields Google does not publish for a result are omitted, not guessed. For example, an intersection or a postcode-level result may have no street number or time zone.
+- Google Maps occasionally answers an ambiguous or partial address with a nearby place that shares part of the query. The actor's match guard rejects answers that do not echo the input, but an address that shares a street name with a different city can still pass.
+- Reverse geocoding returns the nearest addressable entity, which can be a named area rather than a building.
+- Google's public web payloads can change. The actor pins the current request templates and reports unresolved inputs instead of fabricating rows if the format drifts.
+- The actor is an independent tool and is not affiliated with Google. Use it in line with Google Maps' terms and the laws that apply to your data.
+
+## Data source
+
+Public Google Maps web endpoints (`google.com/maps` result payloads). No Google Geocoding API, no API key, no browser, no cookies.
+
+## Local development
+
+```bash
+python3 -m pytest -q
+apify run --purge --input-file .actor/example-input.json
+```
+
+The daily-test prefill is the smallest useful run: one forward address and one line of output.
