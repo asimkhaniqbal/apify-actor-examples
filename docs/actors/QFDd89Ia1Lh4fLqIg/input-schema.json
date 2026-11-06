@@ -1,23 +1,27 @@
 {
-  "description": "Collect real public Pinterest comments and Pin engagement. Login cookies are optional; the default public flow is cookieless.",
+  "description": "Collect public Pinterest comments, replies and Tried It activity from numeric Pin URLs or IDs. No login or proxy setup is required.",
   "properties": {
-    "cookies": {
-      "description": "Optional Cookie Editor JSON array. Public comments work without cookies; cookies can add account-relative fields where Pinterest exposes them. Never share cookies publicly.",
-      "editor": "json",
-      "isSecret": true,
-      "title": "Optional Pinterest cookies",
-      "type": "array"
-    },
-    "cookiesJson": {
-      "description": "Compatibility alias: paste the Cookie Editor JSON export as text.",
-      "editor": "textarea",
-      "isSecret": true,
-      "title": "Optional cookies JSON (alias)",
+    "commentSort": {
+      "default": "source",
+      "description": "Source keeps Pinterest's ranking; newest and oldest sort the fetched comments by their published date.",
+      "editor": "select",
+      "enum": [
+        "source",
+        "newest",
+        "oldest"
+      ],
+      "enumTitles": [
+        "Pinterest ranking",
+        "Newest first",
+        "Oldest first"
+      ],
+      "prefill": "source",
+      "title": "Comment order",
       "type": "string"
     },
     "domain": {
       "default": "www.pinterest.com",
-      "description": "Use the region where the Pin link lives. If a region cannot resolve a Pin, use www.pinterest.com.",
+      "description": "Regional Pinterest site used for every request. Use the region shown in the Pin link.",
       "editor": "select",
       "enum": [
         "www.pinterest.com",
@@ -71,55 +75,107 @@
       "title": "Pinterest region",
       "type": "string"
     },
-    "limit": {
-      "description": "Compatibility alias for maxComments.",
+    "includePinSummary": {
+      "default": true,
+      "description": "Emit one pinCommentsSummary row with the Pin, creator, board, media, commerce and engagement context.",
+      "prefill": true,
+      "title": "Include Pin summary",
+      "type": "boolean"
+    },
+    "includeReplies": {
+      "default": true,
+      "description": "Fetch public replies for comments that have them.",
+      "prefill": false,
+      "title": "Include replies",
+      "type": "boolean"
+    },
+    "maxActivity": {
+      "default": 100,
+      "description": "Tried It and other public activity rows to collect per Pin.",
       "maximum": 20000,
-      "minimum": 1,
-      "prefill": 10,
-      "title": "Maximum comments per Pin (alias)",
+      "minimum": 0,
+      "prefill": 3,
+      "title": "Maximum activity rows per Pin",
       "type": "integer"
     },
     "maxComments": {
-      "description": "Maximum comment/activity rows per Pin. A Pin summary row is also returned.",
+      "default": 10,
+      "description": "Top-level comments to collect per Pin; replies are counted separately. Legacy limit input is still accepted in code.",
       "maximum": 20000,
       "minimum": 1,
-      "prefill": 10,
-      "title": "Maximum comments per Pin",
+      "prefill": 3,
+      "title": "Maximum top-level comments per Pin",
       "type": "integer"
     },
-    "pinUrls": {
-      "default": [],
-      "description": "Compatibility alias for URLs.",
-      "editor": "stringList",
-      "items": {
-        "type": "string"
-      },
-      "prefill": [],
-      "title": "Pin URLs (alias)",
-      "type": "array"
+    "maxRepliesPerComment": {
+      "default": 100,
+      "description": "Reply rows to collect for each top-level comment. Set to 0 to skip replies.",
+      "maximum": 1000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Maximum replies per comment",
+      "type": "integer"
+    },
+    "minHelpfulCount": {
+      "default": 0,
+      "description": "Drop comment, reply and activity rows whose published helpful count is lower. Rows without a published count are kept.",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum helpful votes",
+      "type": "integer"
+    },
+    "minLikeCount": {
+      "default": 0,
+      "description": "Drop comment, reply and activity rows whose published like count is lower. Rows without a published count are kept.",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum likes",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "commentsAndActivity",
+      "description": "Choose comments with replies, Tried It activity, both, or only the Pin summary.",
+      "editor": "select",
+      "enum": [
+        "commentsAndActivity",
+        "comments",
+        "activity",
+        "pinSummary"
+      ],
+      "enumTitles": [
+        "Comments, replies and activity",
+        "Comments and replies",
+        "Tried It activity",
+        "Pin summary only"
+      ],
+      "prefill": "commentsAndActivity",
+      "title": "What to collect",
+      "type": "string"
     },
     "proxyConfiguration": {
-      "default": {
-        "useApifyProxy": false
-      },
-      "description": "Optional Apify proxy configuration. The actor works directly on the free plan first.",
+      "description": "Optional Apify proxy override. The actor works directly and falls back to the automatic Apify proxy without user setup.",
       "editor": "proxy",
       "title": "Optional proxy",
       "type": "object"
     },
-    "startUrls": {
-      "default": [],
-      "description": "Compatibility alias for URLs.",
-      "editor": "stringList",
-      "items": {
-        "type": "string"
-      },
-      "prefill": [],
-      "title": "Pinterest URLs (alias)",
-      "type": "array"
+    "sinceDate": {
+      "description": "Optional inclusive date filter (YYYY-MM-DD) for comments, replies and activity. Leave empty for no lower bound.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Published on or after",
+      "type": "string"
+    },
+    "untilDate": {
+      "description": "Optional inclusive date filter (YYYY-MM-DD) for comments, replies and activity. Leave empty for no upper bound.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Published on or before",
+      "type": "string"
     },
     "urls": {
-      "description": "One or more public Pin links or numeric Pin IDs. You can also use pinUrls or startUrls as compatibility aliases.",
+      "description": "One or more numeric Pinterest Pin links or IDs, e.g. https://www.pinterest.com/pin/142567144448888376/. Legacy pinUrls and startUrls inputs are still accepted in code.",
       "editor": "stringList",
       "items": {
         "type": "string"
@@ -133,6 +189,6 @@
   },
   "required": [],
   "schemaVersion": 1,
-  "title": "Pinterest Comments Input",
+  "title": "Pinterest Pin Comments Input",
   "type": "object"
 }
