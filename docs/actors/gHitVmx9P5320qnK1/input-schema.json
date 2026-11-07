@@ -1,0 +1,77 @@
+{
+  "description": "Extract structured opening hours and live open/closed status from any Google Maps place.",
+  "properties": {
+    "language": {
+      "default": "en",
+      "description": "Language used for Google Maps labels and localized hours. Values are normalized to a supported public Maps language.",
+      "editor": "select",
+      "enum": [
+        "en",
+        "es",
+        "fr",
+        "de",
+        "it",
+        "pt",
+        "ja",
+        "ko",
+        "zh",
+        "ar",
+        "ru"
+      ],
+      "enumTitles": [
+        "English",
+        "Spanish",
+        "French",
+        "German",
+        "Italian",
+        "Portuguese",
+        "Japanese",
+        "Korean",
+        "Chinese",
+        "Arabic",
+        "Russian"
+      ],
+      "prefill": "en",
+      "title": "Google Maps Language",
+      "type": "string"
+    },
+    "placeIds": {
+      "description": "Canonical Google Place IDs beginning with ChIJ. They are resolved anonymously through Google's public Maps URL API.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Google Place IDs",
+      "type": "array"
+    },
+    "placeUrl": {
+      "description": "Google Maps URL of the place to scrape hours from.",
+      "editor": "textfield",
+      "prefill": "https://www.google.com/maps/place/Starbucks+Reserve+Roastery+New+York/@40.7416,-74.0053,17z/data=!3m1!4b1!4m6!3m5!1s0x89c259bf6dd90021:0x645ce21be1b31735!8m2!3d40.7416!4d-74.0053!16s%2Fg%2F11j7w8j09h?hl=en",
+      "title": "Place URL",
+      "type": "string"
+    },
+    "placeUrls": {
+      "description": "Scrape hours from multiple places at once.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Multiple Place URLs",
+      "type": "array"
+    },
+    "proxyConfiguration": {
+      "description": "Proxy settings to avoid rate limiting. Apify proxy recommended.",
+      "editor": "proxy",
+      "prefill": {
+        "useApifyProxy": true
+      },
+      "title": "Proxy Configuration",
+      "type": "object"
+    }
+  },
+  "schemaVersion": 1,
+  "title": "Google Maps Business Hours Scraper",
+  "type": "object"
+}
