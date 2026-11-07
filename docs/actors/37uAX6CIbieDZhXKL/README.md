@@ -4,269 +4,145 @@
 
 # Snapchat Explore Search Across Spotlight, Lenses & Places
 
-Search Snapchat's public explore pages by keyword and extract results across all content types — Spotlight videos with direct media URLs, AR lenses, topics, user profiles, Snap Pro business profiles, publisher episodes, shows, and physical places. No login, no cookies, no browser required.
+Search public Snapchat Explore results by keyword and export the whole result page as structured rows: Spotlight videos with engagement counts, AR lenses, user cards, public profiles, show episodes, publishers, places, and related topics. No Snapchat account, cookies, or browser install is needed.
 
-For each keyword you provide, the actor fetches the Snapchat explore page, decodes the embedded search response, and returns one structured record per result with type-specific fields.
+Snapchat's Explore page is server-rendered. The actor reads that public page directly, decodes the embedded result payload, and emits one record per card with a canonical Snapchat link.
 
 ## What You Get
 
-- **Spotlight videos** with direct bolt/CDN video URLs, creator info, dimensions, and duration
-- **AR lenses** with icon, preview images, unlock URL, and creator info
-- **Topics** (hashtags) with snap counts and thumbnails
-- **User profiles** with display name, avatar, and verified status
-- **Snap Pro business profiles** with contact details, address, logo, and subscriber count
-- **Publisher editions** (show episodes) with title, publish date, and deep link
-- **Publisher/show pages** with subscriber counts and show metadata
-- **Places** with coordinates, category, bounding box, and story preview
-- All 8 section types in one run per keyword
+- **Spotlight videos** with creator, title, AI summary, keywords, views, likes, comments, shares, preview media, and thumbnail
+- **AR lenses** with name, creator, official-creator flag, icon, preview image, unlock link, and canonical lens URL
+- **Users** from the "Add Friends" card with username, display name, verification, story flag, avatar, and profile link
+- **Public profiles** with handle, title, subtitle, description, logo, hero image, verification, story flag, and follower count
+- **Show episodes** with title, publish date, thumbnail, publisher name/logo, and episode link
+- **Publishers and Shows** with description, logo, follower count, and page link
+- **Places** with address, category image, and place page link
+- **Related topics** from the page's topic pills, with links to their topic hubs
+- Every row carries `query`, `resultType`, `rank`, `scrapedAt`, and `href`
 
 ## Input
 
 | Field | Type | Required | Default | Description |
 |-------|------|----------|---------|-------------|
-| `keywords` | string[] | Yes | — | Search keywords (e.g. `food`, `new york`, `selenagomez`) |
-| `resultTypes` | string[] | No | `["spotlight", "lens", "topic", "user", "snapProEntity", "publisherEdition", "publisher", "place"]` | Section types to include: `spotlight`, `lens`, `topic`, `user`, `snapProEntity`, `publisherEdition`, `publisher`, `place` |
-| `maxResultsPerQuery` | integer | No | `100` | Maximum records to return per keyword across all result types (max 500) |
-| `includeSpotlightDetails` | boolean | No | `true` | Enrich spotlight results with direct video URL, dimensions, duration, and creator info from the card map |
-| `proxyConfiguration` | object | No | — | Optional proxy settings |
+| `queries` | string[] | Yes | — | Search keywords (e.g. `food`, `new york`, `selenagomez`). Legacy `keywords`, `query`, `searchQueries` and `searchTerms` inputs are still read in code. |
+| `mode` | string | No | `all` | Result family: `all`, `spotlight`, `lenses`, `users`, `profiles`, `episodes`, `publishers`, `topics`, or `places`. `users` returns both user cards and public profiles. Legacy `resultTypes` is still read in code. |
+| `maxResultsPerQuery` | integer | No | `100` | Records returned per query in the selected page window (1–500). Legacy `maxResults` and `maxItems` are still read in code. |
+| `page` | integer | No | `1` | Page of the query's fixed result set to return (1–100). Legacy `startPage` is still read in code. |
+| `proxyConfiguration` | object | No | — | Optional proxy override. Direct requests work by default. |
 
-## Output Fields
-
-Every record includes these common fields:
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `query` | string | The keyword that produced this result |
-| `resultType` | string | Section type: `spotlight`, `lens`, `topic`, `user`, `snapProEntity`, `publisherEdition`, `publisher`, or `place` |
-| `rank` | integer | Position in combined results (1-based, across all types) |
-| `scrapedAt` | string | ISO 8601 UTC scrape timestamp |
-
-### Spotlight Fields (`resultType: "spotlight"`)
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `storyId` | string | Hex story identifier |
-| `rawSnapId` | string | Base64-style snap identifier used for card map lookups |
-| `thumbnailUrl` | string | Preview thumbnail URL |
-| `mediaUrl` | string | Direct video URL from search result |
-| `boltVideoUrl` | string | Watermarked bolt CDN video URL (higher quality, from card map) |
-| `flatVideoUrl` | string | Unencrypted flat CDN video URL (from card map) |
-| `creatorUsername` | string | Creator's Snapchat username |
-| `creatorDisplayName` | string | Creator's display name |
-| `teaserText` | string | Caption preview text |
-| `snapTitle` | string | The snap's title, from the card map, when one is set |
-| `snapDescription` | string | Full caption/description text |
-| `caption` | string | Caption field from card map |
-| `postedAt` | string | ISO 8601 post timestamp |
-| `durationSeconds` | number | Video length in seconds |
-| `width` | integer | Video width in pixels |
-| `height` | integer | Video height in pixels |
-
-### Lens Fields (`resultType: "lens"`)
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `lensId` | string | Lens numeric identifier |
-| `lensName` | string | Lens display name |
-| `creatorName` | string | Creator's display name |
-| `creatorIsOfficial` | boolean | Whether the creator is an official Snap partner |
-| `iconUrl` | string | Lens icon thumbnail URL |
-| `deeplinkUrl` | string | URL to unlock/open the lens in Snapchat app |
-| `thumbnailUrl` | string | Preview thumbnail URL |
-| `thumbnailSequence` | object | Animated thumbnail sequence (`urlPattern`, `numThumbnails`, `animationIntervalMs`) |
-
-### Topic Fields (`resultType: "topic"`)
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `topicText` | string | Hashtag or topic text |
-| `numSnaps` | integer | Number of snaps tagged with this topic |
-| `topicType` | any | Topic type identifier from Snapchat |
-| `thumbnailUrl` | string | Topic thumbnail URL |
-| `iconUrl` | string | Topic icon URL |
-| `conversationId` | string | Internal conversation/topic ID |
-
-### User Fields (`resultType: "user"`)
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `userId` | string | User ID |
-| `username` | string | Snapchat username |
-| `displayName` | string | Display name |
-| `snapProId` | string | Snap Pro profile ID (if applicable) |
-| `profileLogoUrl` | string | Profile avatar URL |
-| `isPopular` | boolean | Whether Snapchat marks this user as popular |
-| `isOfficial` | boolean | Whether this is a verified/official account |
-| `emoji` | string | Emoji associated with the profile |
-| `contextHint` | string | Context hint text shown in search results |
-
-### Snap Pro Entity Fields (`resultType: "snapProEntity"`)
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | string | Business profile ID |
-| `title` | string | Business name |
-| `description` | string | Business description |
-| `subtitle` | string | Short subtitle shown with the business name |
-| `logoUrl` | string | Business logo URL |
-| `heroImageUrl` | string | Hero/banner image URL |
-| `phoneNumber` | string | Contact phone number |
-| `address` | string | Physical address |
-| `country` | string | Country associated with the profile |
-| `emailAddress` | string | Contact email |
-| `whatsappNumber` | string | WhatsApp contact number |
-| `websiteUrl` | string | Business website URL |
-| `profileDeeplinkUrl` | string | Deep link to open this profile in Snapchat |
-| `hostAccountUsername` | string | Snapchat username of the host account |
-| `hostAccountMutableUsername` | string | Current (mutable) Snapchat username of the host account |
-| `organizationId` | string | Internal organization identifier the profile belongs to |
-| `primaryColorHex` | string | Profile icon's primary brand color, as a hex code |
-| `bitmojiAvatarId` | string | ID of the host's Bitmoji avatar, when set |
-| `bitmojiSelfieId` | string | ID of the host's Bitmoji selfie, when set |
-| `category` | any | Business category enum |
-| `subcategory` | any | Business subcategory enum |
-| `tier` | any | Profile tier |
-| `subscriberCount` | integer | Number of subscribers |
-| `isOfficialAccount` | boolean | Whether this is an official account |
-| `isBrandProfile` | boolean | Whether this is a brand profile |
-| `hasLenses` | boolean | Whether the business has published lenses |
-| `isLensCreator` | boolean | Whether the host account is a lens creator |
-| `hasHighlights` | boolean | Whether the profile has published highlights |
-| `isSnapchatPlusSubscriber` | boolean | Whether the host account subscribes to Snapchat+ |
-| `isPartnerProfile` | boolean | Whether this is a Snap partner profile |
-| `canDisplayWebsite` | boolean | Whether the profile is allowed to show its website link |
-
-### Publisher Edition Fields (`resultType: "publisherEdition"`)
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `editionId` | string | Edition identifier |
-| `storyDocId` | string | Story document ID in `namespace/id` format |
-| `title` | string | Episode/edition title |
-| `publishedAt` | string | ISO 8601 publish timestamp |
-| `thumbnailUrl` | string | Episode thumbnail URL |
-| `deeplinkUrl` | string | Deep link to open in Snapchat app |
-| `publisher` | object | Publisher metadata (id, displayName, iconUrl, approxSubscriptionCount, etc.) |
-
-### Publisher Fields (`resultType: "publisher"`)
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `publisherId` | string | Publisher identifier |
-| `businessProfileId` | string | Associated business profile ID |
-| `displayName` | string | Publisher/show display name |
-| `description` | string | Publisher description |
-| `iconUrl` | string | Publisher icon URL |
-| `deeplinkUrl` | string | Deep link to open in Snapchat app |
-| `primaryColor` | string | Brand primary color hex |
-| `isShow` | boolean | Whether this is a Snapchat Show |
-| `showId` | string | Show identifier (if isShow) |
-| `latestEditionId` | string | Most recent episode ID |
-| `approxSubscriptionCount` | integer | Approximate subscriber count |
-
-### Place Fields (`resultType: "place"`)
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `placeId` | string | Place UUID |
-| `displayName` | string | Place name |
-| `locality` | string | City or locality name |
-| `centerLat` | number | Latitude of the place centroid |
-| `centerLng` | number | Longitude of the place centroid |
-| `categoryName` | string | Place category (e.g. "Tour Provider", "Restaurant") |
-| `categoryIconUrl` | string | Category icon URL |
-| `isFavorited` | boolean | Whether the current user has favorited this place |
-| `favoriteCount` | integer | Total number of favorites |
-| `boundingBox` | object | Bounding box with `p1` and `p2` lat/lng coordinates |
-| `storyPreview` | object | Story preview info (`numSnaps`, `firstSnapId`, `thumbnailUrl`, etc.) |
-
-If a keyword's explore page can't be fetched, or the page returns no matching results, the actor pushes a short record with `query`, `error`, and `scrapedAt` instead of silently skipping that keyword.
-
-## Example Input
+### Example Input
 
 ```json
 {
-  "keywords": ["tbilisi", "food"],
-  "resultTypes": ["spotlight", "lens", "place", "user"],
+  "queries": ["tbilisi", "food"],
+  "mode": "spotlight",
+  "maxResultsPerQuery": 20,
+  "page": 1
+}
+```
+
+### Legacy Input
+
+Saved tasks that use the old fields keep working. The actor maps them in code, not in the visible schema:
+
+```json
+{
+  "keywords": ["food", "travel"],
+  "resultTypes": ["spotlight", "lens", "topic", "user"],
   "maxResultsPerQuery": 50,
   "includeSpotlightDetails": true
 }
 ```
 
-## Example Output
+`includeSpotlightDetails` is no longer needed because the current page already carries preview media and engagement counts; when it is supplied the actor logs that it was ignored.
 
-**Spotlight record:**
+## Output
+
+Every record starts with the common fields below. Type-specific fields are added beside them and empty values are omitted.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `query` | string | Search keyword that produced this row |
+| `resultType` | string | `spotlight`, `lens`, `topic`, `user`, `snapProEntity`, `publisherEdition`, `publisher`, or `place` |
+| `rank` | integer | Position in the query's sorted result set (1-based) |
+| `scrapedAt` | string | ISO 8601 UTC scrape timestamp |
+| `href` | string | Canonical Snapchat URL for the card |
+
+### Spotlight fields
+
+`storyId`, `rawSnapId`, `thumbnailUrl`, `mediaUrl`, `videoPreviewUrl`, `creatorUsername`, `creatorDisplayName`, `teaserText`, `rawCaption`, `title`, `description`, `keywords`, `viewCount`, `likeCount`, `commentCount`, `shareCount`, `gradientFrom`, `gradientTo`, plus the legacy `snapTitle`, `snapDescription`, `caption`, `postedAt`, `durationSeconds`, `width`, `height`, `boltVideoUrl`, `flatVideoUrl` when an older page supplies them.
+
+### Lens fields
+
+`lensId`, `lensName`, `creatorName`, `creatorIsOfficial`, `iconUrl`, `thumbnailUrl`, `deeplinkUrl`, `unlockUrl`, and the legacy `thumbnailSequence` when present.
+
+### User fields
+
+`userId`, `username`, `displayName`, `contextHint`, `profileLogoUrl`, `isOfficial`, `hasStory`, and the legacy `snapProId`, `isPopular`, `emoji` when present.
+
+### Public profile fields (`snapProEntity`)
+
+`id`, `username`, `title`, `displayName`, `subtitle`, `description`, `logoUrl`, `profileLogoUrl`, `heroImageUrl`, `isOfficial`, `isOfficialAccount`, `hasStory`, `hostAccountUsername`, `followerCount`, `subscriberCount`, and the legacy contact fields (`phoneNumber`, `address`, `emailAddress`, `whatsappNumber`, `websiteUrl`, `category`, `tier`, and so on) when an older page supplies them.
+
+### Episode, publisher and place fields
+
+- `publisherEdition`: `editionId`, `title`, `publishedAt`, `thumbnailUrl`, `deeplinkUrl`, `publisherName`, `publisherImageUrl`, `publisherHref`, `publisher`, plus legacy `storyDocId`.
+- `publisher`: `publisherId`, `displayName`, `title`, `description`, `iconUrl`, `deeplinkUrl`, `followerCount`, `approxSubscriptionCount`, `subscriberCount`, plus legacy `isShow`, `showId`, `latestEditionId`, `businessProfileId`, `primaryColor`.
+- `place`: `placeId`, `displayName`, `title`, `address`, `imageUrl`, `imageIsIcon`, plus legacy `locality`, `centerLat`, `centerLng`, `categoryName`, `categoryIconUrl`, `favoriteCount`, `isFavorited`, `boundingBox`, `storyPreview`.
+
+### Example Output
+
 ```json
 {
-  "query": "tbilisi",
+  "query": "food",
   "resultType": "spotlight",
   "rank": 1,
-  "scrapedAt": "2026-06-27T18:03:16.397008+00:00",
-  "storyId": "463f0c002d6c40cfe953aaa0c6a5c7d1",
-  "thumbnailUrl": "https://cf-st.sc-cdn.net/d/O9P7RBTPbIWB5E3Z0QL5w.1025?...",
-  "mediaUrl": "https://bolt-gcdn.sc-cdn.net/z/O9P7RBTPbIWB5E3Z0QL5w.27.IRZXSOY?...",
-  "rawSnapId": "W7_EDlXWTBiXAEEniNoMPwAAYa3RxdnBoc2dpAZ6bxm40AZ6bxmItAAAAAw",
-  "creatorUsername": "s_saruh24",
-  "creatorDisplayName": "Sar Nn",
-  "snapDescription": "#tbilisi #georgia #🇬🇪 #georgiatbilisi",
-  "postedAt": "2026-06-06T07:12:10.285000+00:00",
-  "boltVideoUrl": "https://bolt-gcdn.sc-cdn.net/z/O9P7RBTPbIWB5E3Z0QL5w.27.IRZXSOY?...",
-  "flatVideoUrl": "https://cf-st.sc-cdn.net/d/O9P7RBTPbIWB5E3Z0QL5w.1034.IRZXSOY?...",
-  "width": 540,
-  "height": 960,
-  "durationSeconds": 8.23
-}
-```
-
-**Place record:**
-```json
-{
-  "query": "tbilisi",
-  "resultType": "place",
-  "rank": 30,
-  "scrapedAt": "2026-06-27T18:03:16.397747+00:00",
-  "placeId": "a9cd7a06-9993-11e8-8dc3-bb0bdff21005",
-  "displayName": "Tbilisi Hack Free Tours",
-  "locality": "Freedom Square, Tbilisi",
-  "centerLat": 41.692909240722656,
-  "centerLng": 44.801605224609375,
-  "categoryName": "Tour Provider",
-  "isFavorited": false,
-  "favoriteCount": 51,
-  "boundingBox": {
-    "p1": { "lat": 41.692859240722655, "lng": 44.80155522460937 },
-    "p2": { "lat": 41.69295924072266, "lng": 44.80165522460938 }
-  },
-  "storyPreview": {
-    "numSnaps": 6,
-    "firstSnapId": "W7_EDlXWTBiXAEEniNoMPwAAYaWtvZ3Jycm12AZsU16NfAZsU16J9AAAAAQ",
-    "thumbnailUrl": "https://cf-st.sc-cdn.net/d/5bU09jU4HvZuI3nZ2euXo.256.IRZXSOY?..."
-  }
+  "scrapedAt": "2026-11-07T06:59:37.000000+00:00",
+  "href": "https://www.snapchat.com/@foodasmr3/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYZnV3bm5oeGVlAZ84zAenAZ84y_B7AAAAAQ",
+  "storyId": "W7_EDlXWTBiXAEEniNoMPwAAYZnV3bm5oeGVlAZ84zAenAZ84y_B7AAAAAQ",
+  "rawSnapId": "W7_EDlXWTBiXAEEniNoMPwAAYZnV3bm5oeGVlAZ84zAenAZ84y_B7AAAAAQ",
+  "creatorUsername": "foodasmr3",
+  "creatorDisplayName": "FOOD",
+  "title": "Mukbang Magic: Spicy Ramen & Dumplings Feast!",
+  "description": "Get ready for a mouthwatering mukbang experience...",
+  "keywords": ["how to eat ramen", "spicy ramen recipe", "ramen bowl"],
+  "viewCount": 68553,
+  "likeCount": 5972,
+  "commentCount": 83,
+  "shareCount": 1530,
+  "thumbnailUrl": "https://cf-st.sc-cdn.net/d/...",
+  "videoPreviewUrl": "https://cf-st.sc-cdn.net/d/...",
+  "mediaUrl": "https://cf-st.sc-cdn.net/d/...",
+  "gradientFrom": "#2b2b35",
+  "gradientTo": "#16191c"
 }
 ```
 
 ## FAQ
 
-**Does this require login or cookies?**
-No. Snapchat's explore pages are fully public and accessible without authentication.
+**Does this need a Snapchat login or cookies?**
+No. Explore search is public and the actor reads the server-rendered page without an account.
 
-**How many results can I get per keyword?**
-Snapchat's page embeds a fixed set per section — typically 3–20 results per type. The `maxResultsPerQuery` cap applies across all combined types. Maximum is 500.
+**How many rows does one query return?**
+Snapchat serves one fixed set per query. In current tests the page carries about 22 Spotlight videos, 24 lenses, 24 profiles, 15 episodes, 14 publishers, 10 places, and one user card. Totals vary by query and locale.
 
-**What is `includeSpotlightDetails` and when should I enable it?**
-When enabled, spotlight results are enriched with a second data source embedded in the page — the spotlight card map. This adds direct `boltVideoUrl`, `flatVideoUrl`, `width`, `height`, `durationSeconds`, full `snapDescription`, and better creator info. It is enabled by default.
+**Can I go past the first page?**
+Snapchat does not expose a page or cursor parameter for Explore search on the web, so there is no second upstream page. The `page` input splits the fixed result set into deterministic windows: page 1 is the first `maxResultsPerQuery` rows, page 2 the next batch. For a different result set, change the query.
 
-**Can I filter to just one result type?**
-Yes — set `resultTypes` to `["spotlight"]` (or any subset) and only those sections will be extracted.
+**What is the difference between `users` and `profiles`?**
+`users` combines the "Add Friends" user cards and the public `profiles` section. `profiles` returns only the public profile cards (`resultType: "snapProEntity"`).
 
-**Can I scrape multiple keywords at once?**
-Yes. Add multiple values to the `keywords` list. Each keyword produces its own set of results identified by the `query` field.
+**Why are some fields missing on a row?**
+Fields that Snapchat does not publish for a card are omitted rather than set to null. Older pages still provide the legacy Spotlight card map and Snap Pro contact fields; those values are kept when present.
 
-**Why does a search for a common word return lenses but not users?**
-Snapchat only includes a section in the page when it has matching content. If no user profiles match a keyword, the user section is absent — this is expected behavior.
+**What are the topic rows?**
+They are the related topic pills rendered beside the results. Each row links to the topic hub and is tagged `resultType: "topic"`.
 
-**What is a `snapProEntity`?**
-It is Snapchat's business profile type — companies and brands that have registered a Snap Pro account. These profiles contain contact information, address, category, and subscriber counts.
+**Can I query several keywords in one run?**
+Yes. Add one item per keyword to `queries`; rows from each keyword carry that keyword in the `query` field.
+
+**Is a proxy required?**
+No. Direct access works. The optional proxy field exists only for users who want to route through their own Apify Proxy settings.
 
 **Is this affiliated with Snapchat?**
-No. This is an independent tool that reads Snapchat's public explore search pages; it is not operated or endorsed by Snap Inc.
+No. It is an independent tool that reads public Snapchat Explore pages and is not operated or endorsed by Snap Inc.

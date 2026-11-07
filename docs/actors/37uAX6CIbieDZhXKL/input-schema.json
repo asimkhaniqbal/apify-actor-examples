@@ -1,64 +1,76 @@
 {
+  "description": "Search public Snapchat Explore results by keyword. Choose one result family or collect everything Snapchat returns. No login or proxy setup is required.",
   "properties": {
-    "includeSpotlightDetails": {
-      "default": true,
-      "description": "Enrich spotlight results with video URL, dimensions, and creator info from the spotlight card map. Enabled by default.",
-      "prefill": true,
-      "title": "Include Spotlight Details",
-      "type": "boolean"
-    },
-    "keywords": {
-      "description": "Keywords to search on Snapchat. Examples: food, selenagomez, new york",
-      "editor": "stringList",
-      "prefill": [
-        "food",
-        "travel"
-      ],
-      "title": "Search Keywords",
-      "type": "array"
-    },
     "maxResultsPerQuery": {
       "default": 100,
-      "description": "Maximum results to return per keyword (across all result types)",
+      "description": "Records returned for each query in the selected page window. Legacy maxResults and maxItems inputs are still accepted in code.",
       "maximum": 500,
       "minimum": 1,
-      "title": "Max Results per Query",
+      "prefill": 3,
+      "title": "Results per query",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "all",
+      "description": "Result family to return. 'Users' includes both Snapchat user cards and public profiles; 'Profiles' returns public profiles only.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "spotlight",
+        "lenses",
+        "users",
+        "profiles",
+        "episodes",
+        "publishers",
+        "topics",
+        "places"
+      ],
+      "enumTitles": [
+        "All result types",
+        "Spotlight videos",
+        "AR lenses",
+        "Users and public profiles",
+        "Public profiles",
+        "Show episodes",
+        "Shows and publishers",
+        "Related topics",
+        "Places"
+      ],
+      "prefill": "all",
+      "title": "What to collect",
+      "type": "string"
+    },
+    "page": {
+      "default": 1,
+      "description": "Snapchat exposes one fixed result set per query with no cursor. Page 1 returns the first maxResultsPerQuery records, page 2 the next batch, and so on. Legacy startPage is still accepted in code.",
+      "maximum": 100,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Result page",
       "type": "integer"
     },
     "proxyConfiguration": {
-      "description": "Proxy settings (optional)",
+      "description": "Optional proxy override. Direct access works by default; no proxy is required.",
       "editor": "proxy",
       "nullable": true,
-      "title": "Proxy Configuration",
+      "title": "Proxy configuration",
       "type": "object"
     },
-    "resultTypes": {
-      "default": [
-        "spotlight",
-        "lens",
-        "topic",
-        "user",
-        "snapProEntity",
-        "publisherEdition",
-        "publisher",
-        "place"
-      ],
-      "description": "Which section types to include in output",
+    "queries": {
+      "description": "One or more public Snapchat Explore keywords, e.g. food, travel, selenagomez. Legacy keywords, query, searchQueries and searchTerms inputs are still accepted in code.",
       "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
       "prefill": [
-        "spotlight",
-        "lens",
-        "topic",
-        "user"
+        "food"
       ],
-      "title": "Result Types",
+      "title": "Search queries",
       "type": "array"
     }
   },
-  "required": [
-    "keywords"
-  ],
+  "required": [],
   "schemaVersion": 1,
-  "title": "Snapchat Search Scraper",
+  "title": "Snapchat Explore Search Input",
   "type": "object"
 }

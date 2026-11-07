@@ -1,9 +1,9 @@
 {
-  "description": "Extract structured opening hours and live open/closed status from any Google Maps place.",
+  "description": "Extract structured weekly opening hours, live open/closed status, and holiday or special hours from Google Maps places. Look places up directly by URL or Place ID, or discover them with a keyword search.",
   "properties": {
     "language": {
       "default": "en",
-      "description": "Language used for Google Maps labels and localized hours. Values are normalized to a supported public Maps language.",
+      "description": "Language of the Google Maps labels and status line. Times are normalized to a stable 12-hour clock in the output.",
       "editor": "select",
       "enum": [
         "en",
@@ -32,43 +32,90 @@
         "Russian"
       ],
       "prefill": "en",
-      "title": "Google Maps Language",
+      "sectionCaption": "Output and speed",
+      "sectionDescription": "Control the language of the status text, how many places run in parallel, and whether closed places are returned.",
+      "title": "Google Maps language",
       "type": "string"
     },
+    "location": {
+      "description": "Add a town, city, or region to the search query, for example 'Austin, TX'. Leave blank when the query already names the area.",
+      "editor": "textfield",
+      "title": "Location (optional)",
+      "type": "string"
+    },
+    "maxConcurrency": {
+      "default": 3,
+      "description": "How many place pages are requested at the same time in Places mode. Higher values finish large batches faster.",
+      "maximum": 8,
+      "minimum": 1,
+      "prefill": 2,
+      "title": "Places processed in parallel",
+      "type": "integer"
+    },
+    "maxResults": {
+      "default": 20,
+      "description": "How many ranked places to read in Search mode. Smaller runs finish faster and cost less.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Maximum places in Search mode",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "places",
+      "description": "Choose 'Places' to read specific place URLs or Place IDs, or 'Search' to find places by keyword and read their hours.",
+      "editor": "select",
+      "enum": [
+        "places",
+        "search"
+      ],
+      "enumTitles": [
+        "Places (URLs or Place IDs)",
+        "Search by keyword"
+      ],
+      "prefill": "places",
+      "sectionCaption": "What to scrape",
+      "sectionDescription": "Read a known list of places, or discover places with a search query.",
+      "title": "What to scrape",
+      "type": "string"
+    },
+    "openNowOnly": {
+      "default": false,
+      "description": "When on, places that Google reports as closed, or whose live state is unknown, are excluded from the dataset.",
+      "prefill": false,
+      "title": "Only return places open right now",
+      "type": "boolean"
+    },
     "placeIds": {
-      "description": "Canonical Google Place IDs beginning with ChIJ. They are resolved anonymously through Google's public Maps URL API.",
+      "description": "Canonical Google Place IDs beginning with ChIJ. Each ID always points to the same place, which is ideal for monitoring a fixed list.",
       "editor": "stringList",
       "items": {
         "type": "string"
       },
-      "minItems": 1,
       "title": "Google Place IDs",
       "type": "array"
     },
-    "placeUrl": {
-      "description": "Google Maps URL of the place to scrape hours from.",
-      "editor": "textfield",
-      "prefill": "https://www.google.com/maps/place/Starbucks+Reserve+Roastery+New+York/@40.7416,-74.0053,17z/data=!3m1!4b1!4m6!3m5!1s0x89c259bf6dd90021:0x645ce21be1b31735!8m2!3d40.7416!4d-74.0053!16s%2Fg%2F11j7w8j09h?hl=en",
-      "title": "Place URL",
-      "type": "string"
-    },
     "placeUrls": {
-      "description": "Scrape hours from multiple places at once.",
+      "description": "Google Maps place URLs to read. Paste one URL or a batch; short maps.app.goo.gl links are resolved too.",
       "editor": "stringList",
       "items": {
         "type": "string"
       },
-      "title": "Multiple Place URLs",
+      "prefill": [
+        "https://www.google.com/maps/place/Starbucks+Reserve+Roastery+New+York/@40.7416,-74.0053,17z/data=!3m1!4b1!4m6!3m5!1s0x89c259bf6dd90021:0x645ce21be1b31735!8m2!3d40.7416!4d-74.0053!16s%2Fg%2F11j7w8j09h?hl=en"
+      ],
+      "sectionCaption": "Places mode",
+      "sectionDescription": "Used when 'What to scrape' is Places. Provide URLs, Place IDs, or both.",
+      "title": "Place URLs",
       "type": "array"
     },
-    "proxyConfiguration": {
-      "description": "Proxy settings to avoid rate limiting. Apify proxy recommended.",
-      "editor": "proxy",
-      "prefill": {
-        "useApifyProxy": true
-      },
-      "title": "Proxy Configuration",
-      "type": "object"
+    "searchQuery": {
+      "description": "What to search for, for example 'coffee shops in New York' or 'dentists near me'. Required in Search mode.",
+      "editor": "textfield",
+      "sectionCaption": "Search mode",
+      "sectionDescription": "Used when 'What to scrape' is Search. Google Maps ranks the places and the actor reads each place's hours.",
+      "title": "Search query",
+      "type": "string"
     }
   },
   "schemaVersion": 1,

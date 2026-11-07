@@ -1,30 +1,55 @@
 {
+  "description": "Browse Snapchat's public lens charts by category, look up lenses by URL or UUID, or search the Explore lens tab by keyword.",
   "properties": {
+    "category": {
+      "default": "for_you",
+      "description": "(mode=home) Which public Snapchat lens chart to page through. For You, Trending and Face are the deepest charts; World, Music and Live are shorter.",
+      "editor": "select",
+      "enum": [
+        "for_you",
+        "trending",
+        "face",
+        "world",
+        "music",
+        "web_live"
+      ],
+      "enumTitles": [
+        "For You",
+        "Trending",
+        "Face",
+        "World",
+        "Music",
+        "Live"
+      ],
+      "prefill": "for_you",
+      "title": "Lens chart category",
+      "type": "string"
+    },
     "includeMoreLenses": {
       "default": true,
-      "description": "For detail mode: include the related lenses list shown on the lens detail page.",
+      "description": "(mode=detail) Include the related lenses Snapchat shows beside the lens. Up to 12 are returned; the lens itself is excluded when Snapchat includes it.",
       "prefill": true,
-      "title": "Include More Lenses",
+      "title": "Include related lenses",
       "type": "boolean"
     },
     "includeSpotlightsUsingLens": {
       "default": true,
-      "description": "For detail mode: include spotlight videos that use this lens, with thumbnail URLs and video metadata.",
+      "description": "(mode=detail) Include Spotlight videos that use this lens, with thumbnails, media URLs, creator details, engagement counts and AI-generated descriptions when public.",
       "prefill": true,
-      "title": "Include Spotlights Using This Lens",
+      "title": "Include related Spotlights",
       "type": "boolean"
     },
     "keywords": {
-      "description": "For search mode: keywords to find lenses (uses /explore/{keyword} page).",
+      "description": "(mode=search) Keywords, brands or creator names to search on the public Snapchat Explore lens tab. Snapchat returns at most 24 lenses per keyword.",
       "editor": "stringList",
       "prefill": [
         "food"
       ],
-      "title": "Search Keywords",
+      "title": "Search keywords",
       "type": "array"
     },
     "lensUrlsOrIds": {
-      "description": "For detail mode: lens page URLs (snapchat.com/lens/{uuid}), unlock URLs with uuid= param, or bare UUIDs.",
+      "description": "(mode=detail) Lens page URLs (snapchat.com/lens/{uuid}), unlock URLs with a uuid= parameter, or bare 32-character UUIDs.",
       "editor": "stringList",
       "prefill": [
         "565e7595ec4e4a0da689762b127308ef"
@@ -32,9 +57,18 @@
       "title": "Lens URLs or UUIDs",
       "type": "array"
     },
+    "maxItems": {
+      "default": 100,
+      "description": "Global cap on saved records. Home mode pages through the selected chart until this cap or the end of the chart; the other modes stop when their inputs are exhausted.",
+      "maximum": 100000,
+      "minimum": 1,
+      "prefill": 24,
+      "title": "Maximum records",
+      "type": "integer"
+    },
     "mode": {
       "default": "home",
-      "description": "Scraping mode: home = top 25 trending lenses, detail = specific lens by URL or UUID, search = find lenses by keyword.",
+      "description": "Browse the public lens charts, fetch specific lenses, or search the Explore lens tab.",
       "editor": "select",
       "enum": [
         "home",
@@ -42,23 +76,26 @@
         "search"
       ],
       "enumTitles": [
-        "Home / Trending (top 25 lenses)",
-        "Detail by Lens URL or UUID",
-        "Search by Keyword"
+        "Browse lens charts by category",
+        "Look up specific lenses by URL or UUID",
+        "Search lenses by keyword"
       ],
       "prefill": "home",
-      "title": "Mode",
+      "title": "What to scrape",
       "type": "string"
     },
     "proxyConfiguration": {
-      "description": "Optional proxy settings. Snapchat public lens pages work without a proxy in most regions.",
+      "description": "Optional proxy override. Snapchat's public lens pages work without a proxy; leave this empty unless you hit rate limiting.",
       "editor": "proxy",
       "nullable": true,
-      "title": "Proxy Configuration",
+      "title": "Proxy configuration",
       "type": "object"
     }
   },
+  "required": [
+    "mode"
+  ],
   "schemaVersion": 1,
-  "title": "Snapchat Lens Scraper",
+  "title": "Snapchat Lens Scraper Input",
   "type": "object"
 }

@@ -4,162 +4,228 @@
 
 # Google Maps Hours, Open-Now Status & Holiday Schedule
 
-Pull structured opening hours and live open/closed status straight from any Google Maps place page. Hand it one place URL, a batch of URLs, or a list of Google Place IDs, and get back a parsed weekly schedule, holiday/special hours, and a countdown to the next opening or closing — all in one run.
+Read a business's full week of opening hours, its live open/closed state, and the holiday or special hours Google publishes for a date — from a URL, a Place ID, a batch of either, or a keyword search. Every row is structured, timezone-aware, and ready for a database, dashboard, or alerting job.
 
-## What this actor does
+## Two ways to use it
 
-- **Structured hours for every day of the week** — open time, close time, or "closed"
-- **Live open/closed status** (`isOpenNow`) at the moment of scraping, plus an inline status badge like "Open - Closes 11 PM"
-- **Next open/close times and countdown**, computed in the business's own local timezone
-- **Weekly summary** — `is24Hours`, `totalHoursPerWeek`, and a readable `weeklyPattern` (e.g. "Mon-Fri 9 AM - 5 PM, Sat-Sun closed")
-- **Holiday and special hours**, plus temporary/permanent closure badges, when Google explicitly shows them
-- Fields with no data (e.g. `holidayHours` when there are none) are never included in the output
+- **Places mode** — paste Google Maps place URLs, canonical `ChIJ…` Place IDs, or a mixture of both. Short `maps.app.goo.gl` links are resolved automatically.
+- **Search mode** — describe what you want ("coffee shops in New York") and the actor ranks the places Google Maps returns, then reads the opening hours for each one.
 
-## Output per place
+Both modes are cookieless. No Google account, API key, or proxy setup is needed.
 
-Each place produces one dataset record:
+## What a record contains
 
 ```json
 {
-  "businessName": "Starbucks",
-  "placeId": "ChIJfbedxbZZwokRpbnR5BBdz1c",
-  "featureId": "0x89c259b6c59db77d:0x57cf5d10e4d1b9a5",
-  "placeUrl": "https://www.google.com/maps/place/Starbucks/@40.7127281,-74.0060152,17z/",
-  "location": { "lat": 40.7127281, "lng": -74.0060152 },
-  "isOpenNow": true,
-  "openingHoursText": "Open · Closes 9 PM",
-  "hoursStatus": "Open - Closes 9 PM",
+  "recordType": "businessHours",
+  "businessName": "Starbucks Reserve Roastery New York",
+  "placeId": "ChIJIQDZbb9ZwokRNRez4RviXGQ",
+  "featureId": "0x89c259bf6dd90021:0x645ce21be1b31735",
+  "cid": "995473537737540317",
+  "kgmid": "/g/11j7w8j09h",
+  "placeUrl": "https://www.google.com/maps/place/?q=place_id:ChIJIQDZbb9ZwokRNRez4RviXGQ",
+  "sourceUrl": "https://www.google.com/maps/place/Starbucks+Reserve+Roastery+New+York/...",
+  "address": "61 9th Ave, New York, NY 10011, United States",
+  "categories": ["Coffee shop", "Bakery", "Cafe", "Cocktail bar", "Coffee roastery", "Tourist attraction"],
+  "categoryName": "Coffee shop",
+  "phone": "+1 212-691-0531",
+  "website": "https://www.starbucksreserve.com/locations/new-york-roastery",
+  "rating": 4.4,
+  "reviewCount": 7956,
+  "location": { "lat": 40.7416, "lng": -74.0053 },
+  "isOpenNow": false,
+  "is24Hours": false,
+  "openingHoursText": "Closed · Opens 7:30 AM",
+  "hoursStatus": "Closed - Opens 7:30 AM",
   "hours": {
-    "monday":    { "open": "5:30 AM", "close": "9:00 PM" },
-    "tuesday":   { "open": "5:30 AM", "close": "9:00 PM" },
-    "wednesday": { "open": "5:30 AM", "close": "9:00 PM" },
-    "thursday":  { "open": "5:30 AM", "close": "9:00 PM" },
-    "friday":    { "open": "5:30 AM", "close": "9:00 PM" },
-    "saturday":  { "open": "6:00 AM", "close": "8:00 PM" },
-    "sunday":    { "closed": true }
+    "monday": { "open": "7:30 AM", "close": "10 PM" },
+    "tuesday": { "open": "7:30 AM", "close": "10 PM" },
+    "wednesday": { "open": "7:30 AM", "close": "10 PM" },
+    "thursday": { "open": "7:30 AM", "close": "10 PM" },
+    "friday": { "open": "7:30 AM", "close": "11 PM" },
+    "saturday": { "open": "7:30 AM", "close": "11 PM" },
+    "sunday": { "open": "7:30 AM", "close": "10 PM" }
   },
-  "weeklyPattern": "Mon-Fri 5:30 AM - 9:00 PM, Sat 6:00 AM - 8:00 PM, Sun closed",
-  "totalHoursPerWeek": 91.5,
+  "weeklyPattern": "Mon-Thu 7:30 AM - 10 PM, Fri-Sat 7:30 AM - 11 PM, Sun 7:30 AM - 10 PM",
+  "totalHoursPerWeek": 103.5,
   "holidayHours": [
-    { "day": "friday", "label": "Juneteenth", "note": "Hours might differ", "open": "5:30 AM", "close": "8:00 PM" }
+    {
+      "day": "wednesday",
+      "date": "2026-11-11",
+      "label": "Veterans Day",
+      "note": "Veterans Day might affect these hours",
+      "hoursMayDiffer": true
+    }
+  ],
+  "specialHours": [
+    {
+      "day": "wednesday",
+      "date": "2026-11-11",
+      "label": "Veterans Day",
+      "note": "Veterans Day might affect these hours",
+      "hoursMayDiffer": true
+    }
   ],
   "timezone": "America/New_York",
-  "currentLocalTime": "2026-06-17T14:23:11-04:00",
-  "nextOpenTime": "2026-06-18T05:30:00-04:00",
-  "nextCloseTime": "2026-06-17T21:00:00-04:00",
-  "timeUntilNextChange": "Closes in 6 hours",
-  "scrapedAt": "2026-06-17T18:23:11+00:00"
+  "currentLocalTime": "2026-11-07T03:21:45-05:00",
+  "nextOpenTime": "2026-11-07T07:30:00-05:00",
+  "timeUntilNextChange": "Opens in 4 hours",
+  "hoursSurfaceRendered": true,
+  "scrapedAt": "2026-11-07T08:21:45+00:00"
 }
 ```
 
-Field reference:
+Fields are omitted when the source does not publish them — there are no `null` placeholders.
 
-- `businessName` — place name shown by Google Maps
-- `placeId` — canonical Google Place ID (`ChIJ…`), when exposed
-- `featureId` — legacy Maps feature/CID identifier (`0x…:0x…`), when exposed instead of or alongside a `placeId`
-- `placeUrl` — the Maps URL supplied for this place
-- `sourceUrl` — source place URL used for the record
-- `location` — place centroid as latitude/longitude, when available
-- `isOpenNow` — observed live open/closed state, when available
-- `temporarilyClosed` — `true` when Google explicitly shows this badge
-- `permanentlyClosed` — `true` when Google explicitly shows this badge
-- `is24Hours` — whether the parsed weekly schedule is open 24 hours
-- `openingHoursText` — opening-hours status text shown by Google Maps
-- `hoursStatus` — cleaned inline open/closed status text
-- `hours` — parsed schedule by weekday; see format below
-- `weeklyPattern` — concise summary derived from the parsed weekly schedule
-- `totalHoursPerWeek` — total scheduled hours, when the schedule supports the calculation
-- `holidayHours` — parsed holiday-specific hours, when shown
-- `specialHours` — the same holiday/special-hours entries under an alternate name
-- `timezone` — place's IANA time-zone identifier, when available
-- `currentLocalTime` — observation time in the place's local time zone
-- `nextOpenTime` — next scheduled opening as a local-time ISO timestamp, when calculable
-- `nextCloseTime` — next scheduled closing as a local-time ISO timestamp, when calculable
-- `timeUntilNextChange` — human-readable time until the next opening-hours change
-- `hoursSurfaceRendered` — whether the opening-hours surface was observed on the page
-- `recordType` — record label (`businessHours`)
-- `scrapedAt` — UTC timestamp when the record was collected
+## Field reference
 
-Each day in `hours` is one of:
+- `businessName` — the place name Google Maps displays.
+- `placeId` — canonical Google Place ID (`ChIJ…`), when exposed.
+- `featureId` — legacy Maps feature token (`0x…:0x…`), kept separate from `placeId`.
+- `cid` — Google's decimal CID for the place, when exposed.
+- `kgmid` — Google Knowledge Graph MID, when exposed.
+- `placeUrl` — canonical Maps URL derived from the place identity.
+- `sourceUrl` — the URL or Place ID that produced this row.
+- `searchQuery` — the search query, in Search mode only.
+- `address` — street address as Google formats it.
+- `categories` — all category labels, with `categoryName` as the primary one.
+- `phone` — public phone number.
+- `website` — public website URL.
+- `rating` — average star rating (0–5).
+- `reviewCount` — number of Google reviews.
+- `location` — place centroid as `lat`/`lng`; never the map viewport.
+- `isOpenNow` — Google's live open/closed state at scrape time.
+- `temporarilyClosed` — `true` only when Google shows that exact badge.
+- `permanentlyClosed` — `true` only when Google shows that exact badge.
+- `is24Hours` — whether the complete weekly schedule is open 24 hours.
+- `openingHoursText` — the status line as Google renders it.
+- `hoursStatus` — the same line cleaned for display.
+- `hours` — structured schedule by weekday; formats below.
+- `weeklyPattern` — compact summary of the week.
+- `totalHoursPerWeek` — scheduled hours for a complete week.
+- `holidayHours` — holiday and special-date entries; see below.
+- `specialHours` — the same entries under the alternate field name kept for existing integrations.
+- `timezone` — IANA timezone reported by Google for the place.
+- `currentLocalTime` — observation timestamp in the place's timezone.
+- `nextOpenTime` — next opening as a local-time ISO timestamp.
+- `nextCloseTime` — next closing as a local-time ISO timestamp.
+- `timeUntilNextChange` — readable countdown such as "Closes in 2 hours".
+- `hoursSurfaceRendered` — positive evidence that Google returned a schedule for the place.
+- `recordType` — constant row label (`businessHours`).
+- `scrapedAt` — UTC timestamp when the row was collected.
 
-| Format | Meaning |
+Each `hours` day uses one of these shapes:
+
+| Shape | Meaning |
 |---|---|
-| `{"open": "9:00 AM", "close": "5:00 PM"}` | Regular open hours |
-| `{"closed": true}` | The place is closed that day |
+| `{"open": "9:00 AM", "close": "5:00 PM"}` | Regular opening window |
+| `{"open": "...", "close": "...", "intervals": [...]}` | Split shift; every window is listed |
+| `{"closed": true}` | Closed that day |
 | `{"open": "12:00 AM", "close": "11:59 PM", "is24Hours": true}` | Open 24 hours |
-| `{"raw": "..."}` | Unusual format — raw source text preserved |
+| `{"raw": "..."}` | Source format was not a clock range; the text is preserved |
 
-Closure flags are only set when Google positively displays the matching badge; an omitted flag does not assert that the place is open or operating.
+Holiday entries describe the date Google attaches them to:
+
+- `date` — the calendar date, `YYYY-MM-DD`.
+- `day` — the weekday of that date.
+- `label` — Google's holiday name ("Veterans Day", "Thanksgiving").
+- `note` — Google's own wording.
+- `specialHours: true` plus `status`, `open`, and `close` — Google publishes different hours for that date.
+- `hoursMayDiffer: true` — Google warns that the regular hours may change but has not published the replacement yet.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `placeUrl` | string | – | Google Maps URL of a single place |
-| `placeUrls` | array | – | Scrape multiple places in one run |
-| `placeIds` | array | – | Canonical Google Place IDs beginning with `ChIJ`, resolved through Google's public Maps URL lookup |
-| `language` | string | `en` | Interface language for labels and localized hours (`en`, `es`, `fr`, `de`, `it`, `pt`, `ja`, `ko`, `zh`, `ar`, `ru`) |
-| `proxyConfiguration` | object | `{"useApifyProxy": true}` | Apify proxy settings |
+| `mode` | select | `places` | `places` reads URLs/Place IDs; `search` discovers places by keyword |
+| `placeUrls` | array | – | Google Maps place URLs (batch supported; the prefill shows one example) |
+| `placeIds` | array | – | Canonical Place IDs beginning with `ChIJ` |
+| `searchQuery` | string | – | Keyword query for Search mode |
+| `location` | string | – | Optional area appended to the search query |
+| `maxResults` | integer | `20` | Maximum places to read in Search mode (1–500) |
+| `language` | select | `en` | Maps UI language for the status line and labels |
+| `openNowOnly` | boolean | `false` | Keep only places that are open at scrape time |
+| `maxConcurrency` | integer | `3` | Places requested in parallel in Places mode (1–8) |
 
-### Example: single place
+### Example: one URL
 
 ```json
 {
-  "placeUrl": "https://www.google.com/maps/place/Starbucks/@40.7127281,-74.0060152,17z/"
+  "mode": "places",
+  "placeUrls": ["https://www.google.com/maps/place/Starbucks/@40.7127281,-74.0060152,17z/"]
 }
 ```
 
-### Example: batch of places
+### Example: a mixed batch
 
 ```json
 {
+  "mode": "places",
   "placeUrls": [
     "https://www.google.com/maps/place/Starbucks/@40.7127281,-74.0060152,17z/",
-    "https://www.google.com/maps/place/McDonald%27s/@40.7580,-73.9855,17z/"
+    "https://maps.app.goo.gl/exampleShortLink"
   ],
-  "proxyConfiguration": { "useApifyProxy": true }
+  "placeIds": ["ChIJabtoT7hlwokRLECK0SW3_8I", "ChIJd3dF_VBZwokRAAFm3WMspbk"],
+  "openNowOnly": false
 }
 ```
 
-### Example: canonical Place IDs
+### Example: keyword search
 
 ```json
 {
-  "placeIds": ["ChIJabtoT7hlwokRLECK0SW3_8I", "ChIJd3dF_VBZwokRAAFm3WMspbk"]
+  "mode": "search",
+  "searchQuery": "coffee shops",
+  "location": "New York, NY",
+  "maxResults": 25,
+  "openNowOnly": true
 }
 ```
 
-### Example: localized hours
+### Example: localized labels
 
 ```json
 {
+  "mode": "places",
   "placeUrl": "https://www.google.com/maps/place/McDonald%27s/@40.7580,-73.9855,17z/",
   "language": "es"
 }
 ```
 
-## Use cases
+## Legacy input keys
 
-- **Business-hours databases** — build and maintain a dataset of hours across many locations
-- **Franchise monitoring** — track schedule changes across chain locations over time
-- **Local-SEO dashboards** — keep displayed hours accurate and up to date
-- **Booking and notification tools** — feed live hours into CRMs or reminder systems
-- **"Open now" widgets** — power a site or app feature that needs the current open/closed state
+Saved tasks from earlier versions keep working without edits. The actor maps
+`placeUrl`, `placeurls`, `placeids`, `query`, `keyword`, `maxItems`, `limit`,
+and `openNow` onto the fields above inside the code. `proxyConfiguration` is
+accepted but no longer needed: requests start direct and move to datacenter or
+residential connections only after a real block.
 
-## FAQ
+## How it works
 
-**Which Google Maps URLs are supported?** Place URLs from desktop or mobile, country-specific Google domains, and supported short links. Copied wrapping quotes, trailing commas, fragments, and tracking parameters are cleaned up automatically.
+Google Maps serves its place data through the same public XHR endpoints the
+website uses. The actor asks those endpoints for the place record, reads the
+weekly schedule, holiday rows, live status, and timezone directly from the
+structured payload, and normalizes clock values itself. That avoids cookie
+walls, browser rendering, and fragile DOM selectors. A browser-based reader is
+kept only as a fallback for unusual URLs that carry no resolvable place token.
 
-**Can I scrape hundreds of places?** Yes — use the `placeUrls` array. For very large batches, consider splitting the list across separate runs.
+## FAQ and honest limits
 
-**Why might `hours` be missing for a place?** Google Maps occasionally renders hours behind an extra interaction or varies its page structure by location. When hours can't be extracted, `hours` is omitted from the record, though `openingHoursText` may still be present.
+**Do I need an API key or cookies?** No. The endpoints are public and the actor
+never signs in.
 
-**How are localized hours handled?** The selected `language` is sent through to the Maps page. Day names, closed/24-hour labels, and time formats are normalized when the source exposes them; unrecognized text is kept under `raw`.
+**Why is `nextCloseTime` missing?** When the place is closed, there is no
+current closing to report. When a holiday replaces the weekly schedule, the
+countdown fields are omitted rather than computed from the wrong schedule.
 
-**Is a proxy required?** No login or cookies are required to run the actor. The `proxyConfiguration` input is on by default; set `{"useApifyProxy": false}` only if you want a direct-only run for testing.
+**How far ahead does holiday data go?** Google attaches holiday rows to the
+seven dates it currently displays (today plus six days). Dates outside that
+window are not published by the source and are not invented.
 
-**Does this use the Google Maps API?** No — it reads the same public Google Maps page you'd see in your browser. No API key or login is needed.
+**A place has no hours row. Why?** Some listings genuinely publish no hours,
+and some categories (for example a pure service area) have no schedule. Those
+places are reported in the run status and skipped instead of emitting an empty
+placeholder row.
 
-**What is `placeId` versus `featureId`?** `placeId` is the canonical Google Place ID (`ChIJ…`), matching the `place_id` the Google Maps Places API returns. Some places only expose a legacy `0x…:0x…` token instead; that's recorded separately as `featureId` and is never relabelled as a Place ID.
-
-**Is this affiliated with Google?** No — this is an independent actor reading Google Maps' public pages; it is not operated by or affiliated with Google.
+**Is this affiliated with Google?** No. It is an independent reader of public
+Google Maps data.

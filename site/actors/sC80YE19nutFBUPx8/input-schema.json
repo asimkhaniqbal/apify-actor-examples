@@ -1,0 +1,117 @@
+{
+  "properties": {
+    "language": {
+      "default": "en",
+      "description": "Language code for results (e.g., 'en', 'de', 'fr').",
+      "editor": "select",
+      "enum": [
+        "en",
+        "es",
+        "fr",
+        "de",
+        "it",
+        "pt",
+        "ja",
+        "ko",
+        "zh",
+        "ar",
+        "ru"
+      ],
+      "enumTitles": [
+        "English",
+        "Spanish",
+        "French",
+        "German",
+        "Italian",
+        "Portuguese",
+        "Japanese",
+        "Korean",
+        "Chinese",
+        "Arabic",
+        "Russian"
+      ],
+      "prefill": "en",
+      "title": "Language",
+      "type": "string"
+    },
+    "location": {
+      "default": "",
+      "description": "Location to search in (e.g., 'New York, NY', 'London, UK'). Required for 'search' mode.",
+      "editor": "textfield",
+      "example": "New York, NY",
+      "title": "Location",
+      "type": "string"
+    },
+    "maxResults": {
+      "default": 20,
+      "description": "Maximum number of business results to scrape. Only used in 'search' mode.",
+      "editor": "number",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Maximum Results",
+      "type": "integer"
+    },
+    "maxReviews": {
+      "default": 50,
+      "description": "Maximum number of reviews to scrape. Only used in 'reviews' mode.",
+      "editor": "number",
+      "maximum": 200000,
+      "minimum": 1,
+      "title": "Maximum Reviews",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "Choose the scraping mode: search for businesses, or scrape reviews from a specific place.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "reviews"
+      ],
+      "enumTitles": [
+        "Search Businesses",
+        "Scrape Reviews"
+      ],
+      "prefill": "search",
+      "title": "Scraping Mode",
+      "type": "string"
+    },
+    "placeId": {
+      "description": "Canonical Google Place ID beginning with ChIJ. Use this instead of placeUrl in reviews mode.",
+      "editor": "textfield",
+      "example": "ChIJabtoT7hlwokRLECK0SW3_8I",
+      "title": "Google Place ID",
+      "type": "string"
+    },
+    "placeUrl": {
+      "description": "Google Maps place URL to scrape reviews from. Required for 'reviews' mode.",
+      "editor": "textfield",
+      "example": "https://www.google.com/maps/place/Joe's+Pizza/@40.7308314,-73.9973325,17z",
+      "title": "Place URL",
+      "type": "string"
+    },
+    "proxyConfiguration": {
+      "description": "Select proxies to be used by this actor. Recommended for avoiding rate limits.",
+      "editor": "proxy",
+      "sectionCaption": "Proxy",
+      "sectionDescription": "Using proxies is strongly recommended to avoid IP bans.",
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "searchQuery": {
+      "description": "What to search for (e.g., 'restaurant', 'hotel', 'coffee shop'). Required for 'search' mode.",
+      "editor": "textfield",
+      "example": "pizza restaurant",
+      "prefill": "coffee shop in New York",
+      "title": "Search Query",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Google Maps MCP Server Input",
+  "type": "object"
+}
