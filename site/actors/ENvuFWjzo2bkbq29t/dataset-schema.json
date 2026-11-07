@@ -3,11 +3,35 @@
   "fields": {
     "properties": {
       "authorId": {
-        "description": "Primary author ID",
+        "description": "Numeric ID of the primary author",
         "type": "integer"
+      },
+      "authorIds": {
+        "description": "All author IDs",
+        "type": "array"
       },
       "authorName": {
         "description": "Primary author name",
+        "type": "string"
+      },
+      "authorNames": {
+        "description": "All author names",
+        "type": "array"
+      },
+      "authorSlug": {
+        "description": "Primary author slug",
+        "type": "string"
+      },
+      "authorSlugs": {
+        "description": "All author slugs",
+        "type": "array"
+      },
+      "authorUrl": {
+        "description": "Primary author archive URL",
+        "type": "string"
+      },
+      "canonicalUrl": {
+        "description": "Canonical URL declared by the site",
         "type": "string"
       },
       "categoryIds": {
@@ -18,53 +42,137 @@
         "description": "Category names",
         "type": "array"
       },
+      "categorySlugs": {
+        "description": "Category slugs",
+        "type": "array"
+      },
       "content": {
-        "description": "Full article content (HTML stripped, truncated)",
+        "description": "Full article body, HTML stripped (omitted when includeContent is false)",
         "type": "string"
       },
       "excerpt": {
-        "description": "Short summary (HTML stripped)",
+        "description": "Short summary, HTML stripped",
         "type": "string"
       },
-      "featuredImageId": {
-        "description": "Featured image ID",
+      "featuredImageAlt": {
+        "description": "Featured image alt text",
+        "type": "string"
+      },
+      "featuredImageCaption": {
+        "description": "Featured image caption, HTML stripped",
+        "type": "string"
+      },
+      "featuredImageHeight": {
+        "description": "Featured image height in pixels",
         "type": "integer"
+      },
+      "featuredImageId": {
+        "description": "Featured media ID",
+        "type": "integer"
+      },
+      "featuredImageMimeType": {
+        "description": "Featured image MIME type",
+        "type": "string"
+      },
+      "featuredImageThumbnailUrl": {
+        "description": "Featured image thumbnail URL",
+        "type": "string"
       },
       "featuredImageUrl": {
         "description": "Featured image URL",
         "type": "string"
       },
-      "id": {
-        "description": "Article ID",
+      "featuredImageWidth": {
+        "description": "Featured image width in pixels",
         "type": "integer"
       },
+      "fundingAmounts": {
+        "description": "Dollar amounts mentioned in the article, with parsed USD values",
+        "type": "array"
+      },
+      "id": {
+        "description": "Numeric article ID",
+        "type": "integer"
+      },
+      "inLanguage": {
+        "description": "Article language code",
+        "type": "string"
+      },
+      "isFeatured": {
+        "description": "True when the article is in the Featured category",
+        "type": "boolean"
+      },
+      "keywords": {
+        "description": "Keywords declared in the article's Article schema",
+        "type": "array"
+      },
+      "mentionedOrganizations": {
+        "description": "Crunchbase organization links found in the article body",
+        "type": "array"
+      },
+      "mentionedPeople": {
+        "description": "Crunchbase person links found in the article body",
+        "type": "array"
+      },
+      "metaDescription": {
+        "description": "SEO meta description",
+        "type": "string"
+      },
       "modifiedDate": {
-        "description": "Last modified date (ISO 8601)",
+        "description": "Last modified date in the site timezone (ISO 8601)",
+        "type": "string"
+      },
+      "modifiedDateGmt": {
+        "description": "Last modified date in UTC (ISO 8601)",
         "type": "string"
       },
       "publishedDate": {
-        "description": "Publication date (ISO 8601)",
+        "description": "Publish date in the site timezone (ISO 8601)",
         "type": "string"
       },
+      "publishedDateGmt": {
+        "description": "Publish date in UTC (ISO 8601)",
+        "type": "string"
+      },
+      "readingTimeMinutes": {
+        "description": "Estimated reading time in minutes",
+        "type": "integer"
+      },
+      "roundTypes": {
+        "description": "Funding round types mentioned in the article (deterministic text hints)",
+        "type": "array"
+      },
       "scrapedAt": {
-        "description": "ISO 8601 scrape timestamp",
+        "description": "ISO 8601 timestamp of when the row was collected",
         "type": "string"
       },
       "slug": {
         "description": "URL slug",
         "type": "string"
       },
+      "tagIds": {
+        "description": "Tag IDs",
+        "type": "array"
+      },
       "tagNames": {
         "description": "Tag names",
         "type": "array"
       },
+      "tagSlugs": {
+        "description": "Tag slugs",
+        "type": "array"
+      },
       "title": {
-        "description": "Article title",
+        "description": "Article headline, HTML stripped",
         "type": "string"
       },
       "url": {
-        "description": "Full article URL",
+        "description": "Canonical article URL",
         "type": "string"
+      },
+      "wordCount": {
+        "description": "Article word count",
+        "type": "integer"
       }
     },
     "type": "object"
@@ -103,6 +211,10 @@
             "format": "text",
             "label": "Published"
           },
+          "readingTimeMinutes": {
+            "format": "number",
+            "label": "Read (min)"
+          },
           "scrapedAt": {
             "format": "text",
             "label": "Scraped At"
@@ -118,6 +230,10 @@
           "url": {
             "format": "link",
             "label": "URL"
+          },
+          "wordCount": {
+            "format": "number",
+            "label": "Words"
           }
         }
       },
@@ -132,9 +248,53 @@
           "authorName",
           "categoryNames",
           "tagNames",
+          "wordCount",
+          "readingTimeMinutes",
           "featuredImageUrl",
           "url",
           "scrapedAt"
+        ]
+      }
+    },
+    "funding": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "fundingAmounts": {
+            "format": "array",
+            "label": "Amounts"
+          },
+          "mentionedOrganizations": {
+            "format": "array",
+            "label": "Organizations"
+          },
+          "publishedDate": {
+            "format": "text",
+            "label": "Published"
+          },
+          "roundTypes": {
+            "format": "array",
+            "label": "Round types"
+          },
+          "title": {
+            "format": "text",
+            "label": "Title"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          }
+        }
+      },
+      "title": "Funding Hints",
+      "transformation": {
+        "fields": [
+          "title",
+          "publishedDate",
+          "roundTypes",
+          "fundingAmounts",
+          "mentionedOrganizations",
+          "url"
         ]
       }
     },
@@ -154,6 +314,10 @@
             "format": "text",
             "label": "Published"
           },
+          "readingTimeMinutes": {
+            "format": "number",
+            "label": "Read (min)"
+          },
           "title": {
             "format": "text",
             "label": "Title"
@@ -171,6 +335,7 @@
           "publishedDate",
           "authorName",
           "categoryNames",
+          "readingTimeMinutes",
           "url"
         ]
       }

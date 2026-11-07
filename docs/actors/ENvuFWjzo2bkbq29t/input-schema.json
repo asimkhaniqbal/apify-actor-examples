@@ -1,35 +1,140 @@
 {
   "properties": {
-    "after": {
-      "description": "Only articles published after this date (YYYY-MM-DD or full ISO 8601). Leave empty for all.",
-      "editor": "textfield",
-      "title": "Published After (ISO date)",
-      "type": "string"
+    "authors": {
+      "description": "Author slugs, names or numeric IDs, combined with OR. Examples: cap-joanna, Joanna Glasner.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Authors",
+      "type": "array"
     },
-    "category": {
-      "description": "Category slug to filter by. Common: 'venture', 'startups', 'ai' (or 'artificial-intelligence'), 'crypto', 'fintech', 'cybersecurity', 'health', 'ipo', 'ma', 'web3', 'saas'. Leave empty for all.",
-      "editor": "textfield",
-      "title": "Category Slug (optional)",
-      "type": "string"
+    "categories": {
+      "description": "Category slugs, names or numeric IDs, combined with OR. Examples: venture, startups, ai, ma, ipo, data (Funding reports). Friendly aliases such as artificial-intelligence and fintech are accepted.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Categories",
+      "type": "array"
+    },
+    "includeContent": {
+      "default": true,
+      "description": "Include the full article body in the content field. Turn off for a smaller, faster dataset that still includes title, excerpt, authors, taxonomy, media and funding hints.",
+      "prefill": false,
+      "sectionCaption": "Output",
+      "title": "Include full article text",
+      "type": "boolean"
     },
     "maxItems": {
       "default": 50,
-      "description": "Maximum number of articles to return.",
-      "maximum": 1000,
+      "description": "Maximum number of articles to return. The Crunchbase News archive currently holds about 8,800 articles.",
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 5,
-      "title": "Max Items",
+      "prefill": 3,
+      "title": "Maximum articles",
       "type": "integer"
     },
-    "search": {
-      "description": "Free-text keyword to search article titles + content (e.g., 'AI', 'Series A', 'IPO').",
-      "editor": "textfield",
-      "title": "Search Query",
+    "mode": {
+      "default": "latest",
+      "description": "Choose what to collect. Latest news, a keyword search, the Funding reports section, or a specific category, tag, author or article list.",
+      "editor": "select",
+      "enum": [
+        "latest",
+        "search",
+        "funding",
+        "byCategory",
+        "byTag",
+        "byAuthor",
+        "byUrls"
+      ],
+      "enumTitles": [
+        "Latest news",
+        "Keyword search",
+        "Funding coverage",
+        "By category",
+        "By tag",
+        "By author",
+        "By article URLs or IDs"
+      ],
+      "sectionCaption": "What to collect",
+      "title": "Mode",
       "type": "string"
+    },
+    "order": {
+      "default": "desc",
+      "description": "Ascending or descending.",
+      "editor": "select",
+      "enum": [
+        "desc",
+        "asc"
+      ],
+      "enumTitles": [
+        "Newest first / Z to A",
+        "Oldest first / A to Z"
+      ],
+      "title": "Order",
+      "type": "string"
+    },
+    "orderBy": {
+      "default": "date",
+      "description": "Order of returned articles. Relevance is only available when a search keyword is set.",
+      "editor": "select",
+      "enum": [
+        "date",
+        "modified",
+        "title",
+        "relevance"
+      ],
+      "enumTitles": [
+        "Publish date",
+        "Last modified",
+        "Title",
+        "Search relevance"
+      ],
+      "title": "Sort by",
+      "type": "string"
+    },
+    "publishedAfter": {
+      "description": "Only articles published on or after this date. Use YYYY-MM-DD or a full ISO 8601 timestamp. Leave empty for no lower bound.",
+      "editor": "textfield",
+      "title": "Published after",
+      "type": "string"
+    },
+    "publishedBefore": {
+      "description": "Only articles published on or before this date. Use YYYY-MM-DD or a full ISO 8601 timestamp. Leave empty for no upper bound.",
+      "editor": "textfield",
+      "title": "Published before",
+      "type": "string"
+    },
+    "search": {
+      "description": "Free-text keyword matched against article titles and body text. Required in Keyword search mode; optional as an extra filter in the other list modes.",
+      "editor": "textfield",
+      "sectionCaption": "Filters",
+      "title": "Search keyword",
+      "type": "string"
+    },
+    "tags": {
+      "description": "Tag slugs, names or numeric IDs, combined with OR. Examples: unicorn, funding, seed-funding, venture-funding.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Tags",
+      "type": "array"
+    },
+    "urls": {
+      "description": "Used by the By article URLs or IDs mode. Paste full news.crunchbase.com article URLs, numeric article IDs (as text) or slugs.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Article URLs, IDs or slugs",
+      "type": "array"
     }
   },
   "required": [],
   "schemaVersion": 1,
-  "title": "Crunchbase News Scraper Input",
+  "title": "Crunchbase News & Funding Coverage Scraper",
   "type": "object"
 }

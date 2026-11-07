@@ -4,100 +4,166 @@
 
 # Crunchbase News & Funding Coverage Scraper
 
-Crunchbase's editorial newsroom publishes thousands of articles on venture funding rounds, acquisitions, IPOs and startup trends — separate from the login-gated company database on the main site. This actor pulls that editorial archive into structured rows: full article text, author, publish date, category and tag labels, and the featured image, filterable by keyword, category or publish date.
+Crunchbase's editorial newsroom publishes thousands of articles about funding rounds, acquisitions, IPOs, layoffs and startup trends. This actor turns that public archive into structured dataset rows: full article text, authors, categories, tags, dates, media metadata, SEO fields and funding hints. It works without an API key, login, cookie or proxy.
 
-## What this actor does
+## What you can collect
 
-- Searches the Crunchbase News archive by free-text keyword across article titles and body text
-- Filters by editorial category (venture, AI, fintech, crypto, IPO, M&A, SaaS and more)
-- Filters to articles published after a given date
-- Resolves raw category/tag/author IDs into readable names before returning each row
-- No field is ever `null` — a value that isn't available comes back as an empty string, `0`, or `[]`
-
-## Output per article
-
-- `id` — numeric article ID
-- `url` — full article URL
-- `slug` — URL slug
-- `title` — article headline, HTML stripped
-- `excerpt` — short summary, HTML stripped
-- `content` — full article body, HTML stripped
-- `publishedDate` — original publish date (ISO 8601)
-- `modifiedDate` — last-edited date (ISO 8601)
-- `authorId` — numeric ID of the byline author
-- `authorName` — byline author name
-- `categoryNames[]` — editorial category labels (e.g. `["AI", "Business"]`)
-- `categoryIds[]` — numeric category IDs
-- `tagNames[]` — tag labels
-- `featuredImageUrl` — featured/header image URL
-- `featuredImageId` — numeric ID of the featured image
-- `scrapedAt` — ISO 8601 timestamp of when the row was collected
+- **Latest news** — the newest articles, optionally narrowed by keyword, category, tag, author or date.
+- **Keyword search** — full-text search across headlines and article bodies; choose Search relevance in Sort by to rank matches first.
+- **Funding coverage** — the Funding reports section, with optional keyword and date filters.
+- **By category** — one or many category slugs, names or IDs (for example `venture`, `ai`, `ma`, `ipo`).
+- **By tag** — one or many tags (for example `unicorn`, `seed-funding`, `venture-funding`).
+- **By author** — one or many Crunchbase News bylines.
+- **By article URLs or IDs** — paste article links, numeric IDs or slugs and fetch exactly those articles.
 
 ## Input
 
-| Field | Type | Default | Description |
+| Field | Type | Default | What it does |
 |---|---|---|---|
-| `search` | string | – | Free-text keyword matched against article titles and body text |
-| `category` | string | – | Category slug to filter by, e.g. `venture`, `startups`, `ai`, `crypto`, `cybersecurity`, `ipo`, `ma`, `web3`, `saas`. Friendly aliases such as `artificial-intelligence` or `fintech` are mapped to the matching slug automatically |
-| `after` | string | – | Only return articles published after this date (`YYYY-MM-DD` or full ISO 8601) |
-| `maxItems` | integer | `50` | Maximum number of articles to return (1–1000) |
+| `mode` | select | `latest` | Pick one of the seven collection modes above |
+| `search` | string | – | Keyword matched against titles and body text |
+| `categories` | array | – | Category slugs, names or IDs; OR-combined |
+| `tags` | array | – | Tag slugs, names or IDs; OR-combined |
+| `authors` | array | – | Author slugs, names or IDs; OR-combined |
+| `urls` | array | – | Article URLs, numeric IDs or slugs (By article URLs or IDs mode) |
+| `publishedAfter` | string | – | Lower date bound (`YYYY-MM-DD` or ISO 8601) |
+| `publishedBefore` | string | – | Upper date bound (`YYYY-MM-DD` or ISO 8601); a date-only value includes that whole day |
+| `orderBy` | select | `date` | `date`, `modified`, `title` or `relevance` |
+| `order` | select | `desc` | `desc` or `asc` |
+| `includeContent` | boolean | `true` | Include the full article body in `content` |
+| `maxItems` | integer | `50` | Maximum rows (1–10,000) |
 
-### Example: recent AI funding coverage
+All filters except `urls` can be combined in the list modes. The By article URLs or IDs mode returns exactly the requested articles and ignores the list filters.
+
+### Examples
+
+Latest AI funding articles from 2026:
 
 ```json
 {
-  "category": "ai",
-  "after": "2026-01-01",
+  "mode": "funding",
+  "search": "AI",
+  "publishedAfter": "2026-01-01",
   "maxItems": 100
 }
 ```
 
-### Example: keyword search across all categories
+Keyword search with full text:
 
 ```json
 {
+  "mode": "search",
   "search": "Series A",
+  "includeContent": true,
   "maxItems": 50
 }
 ```
 
-### Example: crypto news since a specific date
+Browse two categories:
 
 ```json
 {
-  "category": "crypto",
-  "after": "2025-06-01",
+  "mode": "byCategory",
+  "categories": ["venture", "artificial-intelligence"],
+  "orderBy": "date",
+  "order": "desc",
   "maxItems": 200
 }
 ```
 
+Fetch specific articles:
+
+```json
+{
+  "mode": "byUrls",
+  "urls": [
+    "https://news.crunchbase.com/venture/biggest-startup-rounds-ai-defense-space-tech-shield-zipline/",
+    "93501",
+    "vertical-ai-based-customer-service-flip-raise"
+  ]
+}
+```
+
+Old saved tasks keep working: legacy keys such as `query`, `category`, `after` and `maxResults` are mapped onto the current fields inside the actor, not shown in the form. `search` and `maxItems` are the current names.
+
+## Output
+
+Every row is omit-empty: a value the source does not publish is left out instead of being written as `null`, `""` or `[]`.
+
+**Article identity and text**
+
+`id`, `url`, `slug`, `title`, `excerpt`, `content` (when `includeContent` is on), `publishedDate`, `publishedDateGmt`, `modifiedDate`, `modifiedDateGmt`, `scrapedAt`.
+
+**Authors**
+
+`authorId`, `authorName`, `authorSlug`, `authorUrl`, `authorIds`, `authorNames`, `authorSlugs`.
+
+**Taxonomy**
+
+`categoryIds`, `categoryNames`, `categorySlugs`, `tagIds`, `tagNames`, `tagSlugs`, `isFeatured`.
+
+**Media**
+
+`featuredImageId`, `featuredImageUrl`, `featuredImageAlt`, `featuredImageCaption`, `featuredImageWidth`, `featuredImageHeight`, `featuredImageMimeType`, `featuredImageThumbnailUrl`.
+
+**SEO and reading metadata**
+
+`metaDescription`, `canonicalUrl`, `keywords`, `wordCount`, `readingTimeMinutes`, `inLanguage`.
+
+**Funding hints**
+
+`roundTypes`, `fundingAmounts`, `mentionedOrganizations`, `mentionedPeople`.
+
+`roundTypes` and `fundingAmounts` are deterministic text hints extracted from the headline and body. They help triage funding coverage; they are not audited Crunchbase funding-round records. `mentionedOrganizations` and `mentionedPeople` come from the Crunchbase profile links embedded in the article body.
+
+## How pagination works
+
+The actor reads the public WordPress REST API 100 articles at a time and keeps walking pages until `maxItems` is reached or the archive is exhausted. The archive currently holds about 8,800 articles, so `maxItems` above that returns the whole archive. Results are de-duplicated by article ID.
+
 ## Use cases
 
-- **VC and deal-flow monitoring** — track newly reported funding rounds by category or keyword
-- **Sector research** — pull every article tagged `fintech`, `health-wellness-biotech` or `web3` for a market scan
-- **Competitive intelligence** — search for a competitor or partner name across the news archive
-- **PR and media monitoring** — watch for new coverage mentioning your company
-- **Content aggregation** — repurpose editorial summaries into a newsletter or internal dashboard
+- **Deal-flow monitoring** — watch new funding coverage by keyword, category or author and forward the rows to a CRM or alerting job.
+- **Sector research** — pull the venture, AI, fintech, climate or health archive for a market map.
+- **Competitive intelligence** — search for a company, investor or product across years of coverage.
+- **PR and media monitoring** — track new mentions of your company or portfolio.
+- **Content and newsletter workflows** — use excerpts, categories and reading time to assemble a digest.
+- **Dataset building** — export clean JSON, CSV or Excel for text mining, embeddings or dashboards.
 
 ## FAQ
 
-**Does this return Crunchbase's company/funding-round database?**
-No. The main crunchbase.com database (organization profiles, structured funding rounds, investor pages) requires a login and is not covered. This actor only returns articles published on Crunchbase's news site, which report on the same funding, M&A and IPO events in editorial form.
+**Do I need a Crunchbase account, API key or cookie?**
+No. The actor reads Crunchbase News, the public editorial site, with no credentials and no proxy configuration.
 
-**How do I know which category slugs are valid?**
-Browse news.crunchbase.com, open any category page, and use the slug from its URL (`/category/<slug>/`). Common slugs include `venture`, `startups`, `ai`, `fintech-ecommerce`, `health-wellness-biotech`, `cybersecurity`, `crypto`, `ma`, `ipo`, `web3`, `saas`, `robotics` and `real-estate-property-tech`. A handful of everyday aliases (`fintech`, `health`, `m&a`, `artificial-intelligence`) resolve to the correct slug automatically.
-
-**Can I combine `search`, `category` and `after`?**
-Yes, all three filters can be used together to narrow the result set.
+**Does this return Crunchbase company profiles or structured funding rounds?**
+No. The main Crunchbase company database is login-gated, and its public organization pages hide funding amounts and dates from anonymous visitors. This actor covers the editorial news archive. The `roundTypes`, `fundingAmounts`, `mentionedOrganizations` and `mentionedPeople` fields are text and link hints from those articles, not the company database.
 
 **How far back does the archive go?**
-Several years of editorial articles are indexed; older pieces are returned as long as they match your filters, going back as far as the archive has pagination for.
+About 8,800 published articles, with the earliest posts dating back to the site's early years. The exact count grows as new articles are published.
 
-**Why is `content` sometimes shorter than the live article?**
-Very long articles are truncated to keep row sizes manageable. The `excerpt` field always holds the short summary regardless of truncation.
+**Why is `content` missing on some rows?**
+Either `includeContent` is turned off, or the source returned an empty body for that article. The excerpt, title and metadata are still returned.
 
-**How current is the data?**
-Each run queries the live news archive directly, so newly published articles appear within minutes of going live on the site.
+**Why do some rows have no tags or no coauthor IDs?**
+Older articles predate the current tag and coauthor setup. The byline, categories, image and SEO fields are still filled from the article itself.
 
-**Is this affiliated with Crunchbase?**
-No. This is an independent, third-party actor that reads Crunchbase's publicly published news articles; it is not endorsed by or affiliated with Crunchbase.
+**Can I combine `search`, `categories`, `tags`, `authors` and dates?**
+Yes, in every list mode. The filters are combined with AND across filter types and OR inside each array.
+
+**What is the difference between `publishedDate` and `publishedDateGmt`?**
+`publishedDate` is the site's local time (America/Los_Angeles). `publishedDateGmt` is the same instant in UTC.
+
+**Is the actor affiliated with Crunchbase?**
+No. It is an independent, third-party tool that reads publicly published Crunchbase News articles. It is not endorsed by or affiliated with Crunchbase.
+
+## Scope and limitations
+
+- **Editorial news only.** Company profiles, investor profiles, structured funding rounds, valuations and contact data from the main Crunchbase database are not included.
+- **Anonymous view limits.** Crunchbase hides funding amounts and dates on public company pages behind an obfuscated view; this actor does not attempt to bypass that.
+- **Archive ceiling.** The WordPress API currently exposes about 8,800 posts; `maxItems` above that returns the whole archive.
+- **Text hints are heuristic.** Round types and dollar amounts are regex extractions from prose. A single article can mention several amounts (round size, valuation, investor commitments), so use the raw values and the article link for verification.
+- **Partner content excluded.** Sponsored `partner_content` posts are a separate, older post type and are not mixed into news results.
+- **No wall-clock cap.** The actor stops on `maxItems`, source exhaustion or a source error, so a large run returns the requested rows rather than a time-limited subset.
+
+## Data source
+
+Public WordPress REST API at `https://news.crunchbase.com/wp-json/wp/v2`. The actor sends a normal browser user agent, retries transient 429/5xx responses with backoff, and requires no user-supplied credentials.
