@@ -1,0 +1,98 @@
+{
+  "description": "Search Ticketmaster's US events for a keyword and pull structured event records from each result.",
+  "properties": {
+    "categories": {
+      "description": "Limit results to these top-level categories. Empty = all.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "concerts",
+          "sports",
+          "arts-theater",
+          "family",
+          "miscellaneous",
+          "film"
+        ],
+        "type": "string"
+      },
+      "nullable": true,
+      "title": "Category filter",
+      "type": "array"
+    },
+    "dateFrom": {
+      "description": "Only include events on or after this date. ISO format YYYY-MM-DD. Leave empty for no lower bound.",
+      "editor": "textfield",
+      "nullable": true,
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "title": "Earliest event date",
+      "type": "string"
+    },
+    "dateTo": {
+      "description": "Only include events on or before this date. ISO format YYYY-MM-DD. Leave empty for no upper bound.",
+      "editor": "textfield",
+      "nullable": true,
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "title": "Latest event date",
+      "type": "string"
+    },
+    "keyword": {
+      "description": "What to search for. Free-text — passed verbatim to Ticketmaster's search. Examples: artist name (\"Taylor Swift\"), genre (\"hip hop\"), city + category (\"concerts new york\").",
+      "editor": "textfield",
+      "prefill": "concerts",
+      "title": "Search keyword",
+      "type": "string"
+    },
+    "maxResults": {
+      "default": 20,
+      "description": "Hard cap on event records emitted. Ticketmaster returns ~20 events per page; the actor walks pages until the cap or until results are exhausted.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Maximum results",
+      "type": "integer"
+    },
+    "skipCancelled": {
+      "default": true,
+      "description": "Drop events flagged as cancelled, postponed, or rescheduled.",
+      "title": "Skip cancelled / postponed",
+      "type": "boolean"
+    },
+    "skipSoldOut": {
+      "default": false,
+      "description": "Drop events flagged as `soldOut: true` by Ticketmaster.",
+      "title": "Skip sold-out events",
+      "type": "boolean"
+    },
+    "sort": {
+      "default": "",
+      "description": "Result ordering. Default = relevance.",
+      "editor": "select",
+      "enum": [
+        "",
+        "date,asc",
+        "date,desc",
+        "name,asc",
+        "name,desc",
+        "venueName,asc",
+        "random"
+      ],
+      "enumTitles": [
+        "Relevance (default)",
+        "Date (oldest first)",
+        "Date (newest first)",
+        "Name (A-Z)",
+        "Name (Z-A)",
+        "Venue name",
+        "Random"
+      ],
+      "title": "Sort order",
+      "type": "string"
+    }
+  },
+  "required": [
+    "keyword"
+  ],
+  "schemaVersion": 1,
+  "title": "Ticketmaster Scraper Input",
+  "type": "object"
+}

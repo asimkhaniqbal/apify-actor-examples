@@ -1,0 +1,53 @@
+{
+  "actorSpecification": 1,
+  "title": "Ticketmaster events",
+  "views": {
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "isSoldOut": {
+            "format": "boolean",
+            "label": "Sold out"
+          },
+          "startDate": {
+            "format": "date",
+            "label": "Start"
+          },
+          "title": {
+            "format": "text",
+            "label": "Event"
+          },
+          "url": {
+            "format": "link",
+            "label": "Tickets"
+          },
+          "venueCity": {
+            "format": "text",
+            "label": "City"
+          },
+          "venueName": {
+            "format": "text",
+            "label": "Venue"
+          },
+          "venueState": {
+            "format": "text",
+            "label": "State"
+          }
+        }
+      },
+      "title": "Event overview",
+      "transformation": {
+        "fields": [
+          "title",
+          "startDate",
+          "venueName",
+          "venueCity",
+          "venueState",
+          "url",
+          "isSoldOut"
+        ]
+      }
+    }
+  }
+}

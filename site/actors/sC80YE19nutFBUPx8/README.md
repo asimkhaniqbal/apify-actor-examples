@@ -1,98 +1,135 @@
 # Google Maps Business Search & Reviews MCP Server
 
-A single Google Maps actor that doubles as an MCP (Model Context Protocol) server, so AI agents and automation tools can search businesses or pull reviews through one consistent interface. It reads Google Maps' public pages directly — no login, API key, or cookies required.
+A single Google Maps actor that works two ways: as a normal Apify batch run, and as a native MCP (Model Context Protocol) server for AI agents. It reads Google Maps' public pages directly — no login, cookie, or API key.
 
-## What this actor does
+- **Search mode** — find businesses by keyword and location with ratings, reviews, contact details, hours and coordinates. Sponsored placements are excluded.
+- **Details mode** — pull the full record for one place by Google Maps URL or canonical Place ID.
+- **Reviews mode** — flatten a place's reviews to one row per review, with place metadata repeated on every row.
+- **MCP server** — the same three capabilities are exposed as typed tools in Apify Standby mode at `/mcp`.
+- **Empty fields are omitted** — nothing is fabricated to fill a gap.
 
-- **Search mode** — find businesses by keyword and location, with ratings, contact details, hours and more
-- **Reviews mode** — pull reviews for one place by URL or canonical Place ID, flattened to one row per review
-- **MCP-compatible** — the same `search`/`reviews` modes are exposed as callable tools for MCP clients, alongside normal Apify actor runs
-- **Multi-language results** — choose the Google Maps interface language for search mode
-- Fields Google doesn't expose for a given record (e.g. `website`, `priceLevel`) are omitted rather than returned empty
+## MCP server (Standby mode)
 
-## Output per record
+When the actor runs in Standby, it serves Streamable HTTP MCP at:
 
-### Search mode
+```
+https://<actor-standby-url>/mcp
+```
 
-Each business uses consistent camelCase field names:
+| Tool | What it returns |
+|---|---|
+| `search_businesses` | Businesses for a keyword + location: name, category, rating, review count, address, phone, website, hours, coordinates and Google Maps URL. |
+| `get_business_details` | The full detail record for one place, addressed by `place_url` or `place_id` (ChIJ...). |
+| `get_place_reviews` | One flattened review per item plus the place summary; accepts `place_url` or `place_id`. |
+
+Every tool accepts a `language` code (`en`, `es`, `fr`, `de`, `it`, `pt`, `ja`, `ko`, `zh`, `ar`, `ru`). Tool results are plain JSON objects with `count`, `items`/`reviews` and the resolved `place`/`placeId` where relevant. Errors return an `error` message instead of failing the session. Per-call tool caps are 100 businesses and 1,000 reviews; the batch modes keep the wider caps listed below.
+
+## Batch modes
+
+| Mode | Reads | Emits |
+|---|---|---|
+| `search` | Keyword + location result feed, then each place page | One `recordType: "business"` row per business |
+| `details` | One place page addressed by `placeUrl` or `placeId` | One `recordType: "business"` row |
+| `reviews` | A place's public reviews panel | One `recordType: "review"` row per review |
+
+`reviews` mode needs either `placeUrl` or `placeId`; `details` accepts the same two alternatives. `search` needs `searchQuery`, with `location` strongly recommended.
+
+## Output per business
 
 ```json
 {
   "recordType": "business",
-  "index": 1,
+  "index": 0,
   "name": "Joe's Pizza",
-  "category": "Pizza restaurant",
-  "rating": 4.5,
+  "categoryName": "Pizza restaurant",
+  "categories": ["Pizza restaurant"],
+  "totalScore": 4.5,
   "reviewsCount": 1234,
-  "priceLevel": "$$",
+  "ratingHistogram": {"5_star": 900, "4_star": 200, "3_star": 80, "2_star": 30, "1_star": 24},
   "address": "7 Carmine St, New York, NY 10014",
+  "plusCode": "Q256+VX New York, USA",
   "phone": "+1 212-366-1182",
+  "phoneUnformatted": "+12123661182",
   "website": "https://www.joespizzanyc.com",
-  "googleMapsUrl": "https://www.google.com/maps/place/Joe's+Pizza/@40.7308314,-73.9973325,17z",
-  "placeId": "ChIJxxx...",
+  "priceLevel": "$$",
+  "hours": [{"day": "Monday", "hours": "11 AM–10 PM"}],
+  "additionalInfo": {"Service options": [{"Dine-in": true}]},
+  "photosSample": ["https://lh3.googleusercontent.com/..."],
+  "menuUrl": "https://www.joespizzanyc.com/menu",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "placeId": "ChIJ...",
   "featureId": "0x...:0x...",
   "location": {"lat": 40.7308314, "lng": -73.9973325},
-  "scrapedAt": "2025-11-02T20:30:00+00:00",
-  "sourceUrl": "https://www.google.com/maps/place/Joe's+Pizza/@40.7308314,-73.9973325,17z"
+  "googleMapsUrl": "https://www.google.com/maps/place/...",
+  "sourceUrl": "https://www.google.com/maps/place/...",
+  "scrapedAt": "2026-11-07T12:00:00+00:00"
 }
 ```
 
-Other fields that appear when Google publishes them: `description`, `categoryName`, `categories`, `totalScore`, `ratingHistogram`, `plusCode`, `phoneUnformatted`, `hours`, `additionalInfo`, `photosSample`, `menuUrl`, `reserveTableUrl`, `reservationsUrl`, `orderOnlineUrl`, `permanentlyClosed`, `temporarilyClosed`.
+Other fields appear when Google publishes them: `description`, `menuUrl`, `reserveTableUrl`, `reservationsUrl`, `orderOnlineUrl`. Action links are emitted only when they resolve to a real destination — not a Google ad redirect or another Maps page.
 
-### Reviews mode
-
-One row per review, with place details repeated on every row (both flattened at the top level and grouped under `placeMetadata`) so no join is needed:
+## Output per review
 
 ```json
 {
   "recordType": "review",
   "order": 1,
-  "placeId": "ChIJxxx...",
+  "placeId": "ChIJ...",
   "featureId": "0x...:0x...",
   "businessName": "Joe's Pizza",
   "businessRating": 4.5,
   "businessReviewCount": 1234,
   "businessCategory": "Pizza restaurant",
   "businessAddress": "7 Carmine St, New York, NY 10014",
-  "scrapedAt": "2025-11-02T20:30:00+00:00",
   "placeMetadata": {
     "placeUrl": "https://www.google.com/maps/place/...",
-    "placeId": "ChIJxxx...",
-    "featureId": "0x...:0x...",
+    "placeId": "ChIJ...",
     "businessName": "Joe's Pizza",
     "businessRating": 4.5,
-    "businessReviewCount": 1234,
-    "businessCategory": "Pizza restaurant",
-    "businessAddress": "7 Carmine St, New York, NY 10014"
+    "businessReviewCount": 1234
   },
   "reviewId": "ChZDSUhNMG9nS0VJQ0FnSUQ...",
   "reviewerName": "John Smith",
   "reviewerAvatarUrl": "https://lh3.googleusercontent.com/...",
+  "reviewerProfileUrl": "https://www.google.com/maps/contrib/...",
+  "reviewerTotalReviews": 87,
+  "isLocalGuide": true,
   "rating": 5.0,
-  "reviewText": "Best pizza in NYC! The crust is perfect and the sauce is amazing...",
+  "reviewText": "Best pizza in NYC...",
   "reviewDateOriginal": "2 months ago",
+  "likesCount": 12,
+  "reviewLanguage": "en",
+  "photosInReview": ["https://lh3.googleusercontent.com/..."],
+  "ownerResponseText": "Thank you!",
+  "ownerResponseDate": "1 month ago",
   "placeUrl": "https://www.google.com/maps/place/...",
-  "sourceUrl": "https://www.google.com/maps/place/..."
+  "sourceUrl": "https://www.google.com/maps/place/...",
+  "scrapedAt": "2026-11-07T12:00:00+00:00"
 }
 ```
 
-`order` is the review's 1-based position in this run's output. `reviewDateOriginal` preserves the date text exactly as Google shows it (often a relative date like "2 months ago"). Fields such as `likesCount`, `isLocalGuide`, `reviewerTotalReviews`, `reviewerProfileUrl`, `photosInReview`, `ownerResponseText` and `ownerResponseDate` appear only when Google publishes them for that review.
+`order` is the 1-based position in this run's output. `reviewDateOriginal` preserves Google's own date text, which is often relative. Fields Google does not publish for a review are omitted.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `search` | `search` or `reviews` |
-| `searchQuery` | string | – | What to search for, e.g. `restaurant` (mode=search) |
-| `location` | string | – | Where to search, e.g. `New York, NY` (mode=search) |
-| `maxResults` | integer | `20` | Maximum businesses to return, 1–500 (mode=search) |
-| `language` | string | `en` | Google Maps result language (`en`, `es`, `fr`, `de`, `it`, `pt`, `ja`, `ko`, `zh`, `ar`, `ru`) |
-| `placeUrl` | string | – | Google Maps place URL (mode=reviews; use this or `placeId`) |
-| `placeId` | string | – | Canonical Google Place ID beginning with `ChIJ` (mode=reviews; use this or `placeUrl`) |
-| `maxReviews` | integer | `50` | Maximum reviews to return, 1–200000 (mode=reviews) |
-| `proxyConfiguration` | object | – | Apify proxy settings |
+| `mode` | string | `search` | `search`, `details` or `reviews`. |
+| `searchQuery` | string | – | What to search for, e.g. `coffee shop` (mode=search). |
+| `location` | string | – | City, region or address scope, e.g. `New York, NY` (mode=search). |
+| `maxResults` | integer | `20` | Maximum businesses, 1–500 (mode=search). Prefill uses 3. |
+| `language` | string | `en` | Google Maps interface language (11 supported codes). |
+| `placeUrl` | string | – | Google Maps place URL (mode=details or reviews). |
+| `placeId` | string | – | Canonical Place ID beginning with `ChIJ` (mode=details or reviews). |
+| `maxReviews` | integer | `50` | Maximum reviews, 1–200000 (mode=reviews). |
+| `proxyConfiguration` | object | – | Optional proxy. Runs start direct and use the automatic Apify proxy pool only after a real block. |
 
-### Example: search for businesses
+`details` and `reviews` accept either `placeUrl` or `placeId`, never both.
+
+### Examples
+
+Search:
 
 ```json
 {
@@ -103,7 +140,16 @@ One row per review, with place details repeated on every row (both flattened at 
 }
 ```
 
-### Example: scrape reviews for a known place
+Details:
+
+```json
+{
+  "mode": "details",
+  "placeId": "ChIJabtoT7hlwokRLECK0SW3_8I"
+}
+```
+
+Reviews:
 
 ```json
 {
@@ -113,7 +159,7 @@ One row per review, with place details repeated on every row (both flattened at 
 }
 ```
 
-### Example: search in another language
+Search in another language:
 
 ```json
 {
@@ -127,24 +173,31 @@ One row per review, with place details repeated on every row (both flattened at 
 
 ## Use cases
 
-- **Market research** — compare competitor locations, ratings and pricing tier in one dataset
-- **Site selection** — scan a target area's existing businesses before choosing a new location
-- **Review analysis** — pull every review for a place to study sentiment or recurring complaints
-- **AI agent tooling** — expose Google Maps search and reviews as callable tools to an MCP-compatible agent
-- **Recommendation and RAG pipelines** — feed structured business and review data into a downstream model
+- Market research: compare competitor ratings, pricing tier and location in one dataset.
+- Site selection: scan an area's existing businesses before choosing a location.
+- Review analysis: pull a place's reviews for sentiment or recurring complaint analysis.
+- AI agent tooling: call search, details and reviews from an MCP-compatible agent.
+- RAG pipelines: feed structured business and review records into a downstream model.
 
 ## FAQ
 
-**Does this need Google login or cookies?** No — both modes read Google Maps' public pages without any sign-in.
+**Does this need Google login, cookies or an API key?** No. All modes read public Google Maps pages.
 
-**Why is a field missing from a result?** Only fields Google actually exposes for that record are included; nothing is fabricated to fill a gap.
+**Can it run as an MCP server?** Yes. In Standby mode the actor serves `/mcp` with the three tools listed above, alongside normal batch runs.
 
-**Which mode should I use for one specific place?** Use `reviews` with either `placeUrl` or a canonical `placeId`; use `search` for free-text business discovery.
+**Which mode should I use for one specific place?** Use `details` for one full business row, or `reviews` when you need the review rows. Both accept a Maps URL or a `ChIJ` Place ID.
 
-**Why might a run return fewer records than `maxResults` or `maxReviews` asks for?** Google's own public result set for a query or place sets the ceiling — the actor returns everything it can observe, never a padded count.
+**Why might a run return fewer records than requested?** Google's own public result set and review surface set the ceiling. The actor returns everything it can observe and never pads the count.
 
-**Can this be used as an MCP tool?** Yes — the actor's `search` and `reviews` modes are also exposed as MCP tools for agent frameworks that support the protocol, alongside normal Apify actor runs.
+**Is a proxy required?** No. Batch runs go direct first; if Google serves a challenge, the actor retries through the automatic Apify proxy pool. MCP tool calls are direct-only and return a retryable `error` object if Google serves a challenge. You can leave `proxyConfiguration` empty.
 
-**Is a proxy required?** No login is required to use this actor, and most runs complete without a proxy. If Google briefly blocks the direct request, the actor automatically retries through an Apify proxy before giving up; set `proxyConfiguration` to `{"useApifyProxy": false}` if you want to disable that automatic retry and only ever connect directly.
+**Why is a field missing from one record?** Only fields Google publishes for that record are included. Empty values are removed rather than emitted as `null`.
 
-**Is this affiliated with Google?** No — this is an independent actor reading Google Maps' public pages; it is not operated by or affiliated with Google.
+**Is this affiliated with Google?** No. This is an independent actor reading public Google Maps pages.
+
+## Limits
+
+- Google caps the public review panel's first window. The actor retries a bounded number of fresh renders and returns only reviews it actually observed; a very large `maxReviews` can therefore return fewer rows than requested.
+- Search results are the organic ranked window Google serves for the query, not an exhaustive crawl of every matching business. Sponsored placements are excluded.
+- Google may occasionally serve a limited or challenge page. The actor reports that state instead of fabricating rows.
+- Each run needs at least the default 2 GB of memory; smaller allocations can crash Chromium during multi-place searches.
