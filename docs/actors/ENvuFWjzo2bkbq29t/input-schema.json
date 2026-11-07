@@ -1,0 +1,35 @@
+{
+  "properties": {
+    "after": {
+      "description": "Only articles published after this date (YYYY-MM-DD or full ISO 8601). Leave empty for all.",
+      "editor": "textfield",
+      "title": "Published After (ISO date)",
+      "type": "string"
+    },
+    "category": {
+      "description": "Category slug to filter by. Common: 'venture', 'startups', 'ai' (or 'artificial-intelligence'), 'crypto', 'fintech', 'cybersecurity', 'health', 'ipo', 'ma', 'web3', 'saas'. Leave empty for all.",
+      "editor": "textfield",
+      "title": "Category Slug (optional)",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of articles to return.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "search": {
+      "description": "Free-text keyword to search article titles + content (e.g., 'AI', 'Series A', 'IPO').",
+      "editor": "textfield",
+      "title": "Search Query",
+      "type": "string"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "Crunchbase News Scraper Input",
+  "type": "object"
+}

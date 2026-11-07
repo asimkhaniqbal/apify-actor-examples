@@ -1,0 +1,99 @@
+# Crunchbase News & Funding Coverage Scraper
+
+Crunchbase's editorial newsroom publishes thousands of articles on venture funding rounds, acquisitions, IPOs and startup trends — separate from the login-gated company database on the main site. This actor pulls that editorial archive into structured rows: full article text, author, publish date, category and tag labels, and the featured image, filterable by keyword, category or publish date.
+
+## What this actor does
+
+- Searches the Crunchbase News archive by free-text keyword across article titles and body text
+- Filters by editorial category (venture, AI, fintech, crypto, IPO, M&A, SaaS and more)
+- Filters to articles published after a given date
+- Resolves raw category/tag/author IDs into readable names before returning each row
+- No field is ever `null` — a value that isn't available comes back as an empty string, `0`, or `[]`
+
+## Output per article
+
+- `id` — numeric article ID
+- `url` — full article URL
+- `slug` — URL slug
+- `title` — article headline, HTML stripped
+- `excerpt` — short summary, HTML stripped
+- `content` — full article body, HTML stripped
+- `publishedDate` — original publish date (ISO 8601)
+- `modifiedDate` — last-edited date (ISO 8601)
+- `authorId` — numeric ID of the byline author
+- `authorName` — byline author name
+- `categoryNames[]` — editorial category labels (e.g. `["AI", "Business"]`)
+- `categoryIds[]` — numeric category IDs
+- `tagNames[]` — tag labels
+- `featuredImageUrl` — featured/header image URL
+- `featuredImageId` — numeric ID of the featured image
+- `scrapedAt` — ISO 8601 timestamp of when the row was collected
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `search` | string | – | Free-text keyword matched against article titles and body text |
+| `category` | string | – | Category slug to filter by, e.g. `venture`, `startups`, `ai`, `crypto`, `cybersecurity`, `ipo`, `ma`, `web3`, `saas`. Friendly aliases such as `artificial-intelligence` or `fintech` are mapped to the matching slug automatically |
+| `after` | string | – | Only return articles published after this date (`YYYY-MM-DD` or full ISO 8601) |
+| `maxItems` | integer | `50` | Maximum number of articles to return (1–1000) |
+
+### Example: recent AI funding coverage
+
+```json
+{
+  "category": "ai",
+  "after": "2026-01-01",
+  "maxItems": 100
+}
+```
+
+### Example: keyword search across all categories
+
+```json
+{
+  "search": "Series A",
+  "maxItems": 50
+}
+```
+
+### Example: crypto news since a specific date
+
+```json
+{
+  "category": "crypto",
+  "after": "2025-06-01",
+  "maxItems": 200
+}
+```
+
+## Use cases
+
+- **VC and deal-flow monitoring** — track newly reported funding rounds by category or keyword
+- **Sector research** — pull every article tagged `fintech`, `health-wellness-biotech` or `web3` for a market scan
+- **Competitive intelligence** — search for a competitor or partner name across the news archive
+- **PR and media monitoring** — watch for new coverage mentioning your company
+- **Content aggregation** — repurpose editorial summaries into a newsletter or internal dashboard
+
+## FAQ
+
+**Does this return Crunchbase's company/funding-round database?**
+No. The main crunchbase.com database (organization profiles, structured funding rounds, investor pages) requires a login and is not covered. This actor only returns articles published on Crunchbase's news site, which report on the same funding, M&A and IPO events in editorial form.
+
+**How do I know which category slugs are valid?**
+Browse news.crunchbase.com, open any category page, and use the slug from its URL (`/category/<slug>/`). Common slugs include `venture`, `startups`, `ai`, `fintech-ecommerce`, `health-wellness-biotech`, `cybersecurity`, `crypto`, `ma`, `ipo`, `web3`, `saas`, `robotics` and `real-estate-property-tech`. A handful of everyday aliases (`fintech`, `health`, `m&a`, `artificial-intelligence`) resolve to the correct slug automatically.
+
+**Can I combine `search`, `category` and `after`?**
+Yes, all three filters can be used together to narrow the result set.
+
+**How far back does the archive go?**
+Several years of editorial articles are indexed; older pieces are returned as long as they match your filters, going back as far as the archive has pagination for.
+
+**Why is `content` sometimes shorter than the live article?**
+Very long articles are truncated to keep row sizes manageable. The `excerpt` field always holds the short summary regardless of truncation.
+
+**How current is the data?**
+Each run queries the live news archive directly, so newly published articles appear within minutes of going live on the site.
+
+**Is this affiliated with Crunchbase?**
+No. This is an independent, third-party actor that reads Crunchbase's publicly published news articles; it is not endorsed by or affiliated with Crunchbase.

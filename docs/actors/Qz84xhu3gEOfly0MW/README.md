@@ -4,137 +4,236 @@
 
 # Ticketmaster US Event & On-Sale Date Finder
 
-Search Ticketmaster's US events catalog by keyword and get back structured event records — title, dates, venue, artists, sale status, and presale windows — without visiting the site yourself.
+Collect upcoming Ticketmaster events in the United States and turn them into clean, structured records: event and on-sale dates, presale windows, venue address and coordinates, performers, genre, images, sale status, and — when Ticketmaster publishes them — primary price levels.
 
-## What this actor does
+Run it without an API key, login, cookie, or proxy setup. It reads Ticketmaster's own public event endpoints and returns one row per event (or one row per name suggestion in Suggestions mode).
 
-- **Keyword search** — enter an artist name, genre, or a combined query like `concerts new york` the same way you would on Ticketmaster itself
-- **Category and date filters** — narrow to one or more top-level categories (concerts, sports, arts & theater, family, film, miscellaneous) and/or a date range
-- **Sale-status flags** — every event includes whether it's cancelled, postponed, rescheduled, sold out, or has limited availability
-- **Optional cleanup filters** — drop cancelled/postponed/rescheduled or sold-out events automatically
-- **Empty fields are omitted** — a field Ticketmaster doesn't populate for an event is left out rather than returned as null
+## What you can collect
+
+| Mode | What it does | What to provide |
+|---|---|---|
+| **Search by keyword** | Artist, team, show, genre or a combined phrase such as `taylor swift`, `lakers`, `comedy austin` | `searchQuery` |
+| **Browse by category** | Music, Sports, Arts & Theatre, Family, Film or Miscellaneous | one or more `categories` |
+| **Artist calendar** | Every upcoming event for an artist or attraction | `artistIds` (IDs or Ticketmaster artist URLs) |
+| **Venue calendar** | Every upcoming event at a venue | `venueIds` (IDs or Ticketmaster venue URLs) |
+| **Event details** | Full record for exact events | `eventIds` (IDs, discovery IDs or Ticketmaster event URLs) |
+| **Name suggestions** | Matching artists, venues and events with counts | `searchQuery` |
+
+You can also paste any Ticketmaster search, artist, venue, event or category URL into `startUrls`; the actor routes each URL automatically and can mix several URL types in one run.
+
+## Filters
+
+- **Date window** — `dateFrom` / `dateTo` (`YYYY-MM-DD`). Applied by Ticketmaster for search, artist and venue modes; applied to the returned rows for category and event modes.
+- **Categories** — filter keyword, artist and venue results to one or more top-level categories.
+- **Sort** — relevance or soonest first.
+- **United States only** — on by default; turn it off to include the international listings Ticketmaster mixes into US results.
+- **Status cleanup** — optionally drop sold-out, cancelled, postponed or rescheduled events.
+- **Maximum records** — 1 to 1,000 per run.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `keyword` | string (required) | – | Free-text search — artist name, genre, city + category. |
-| `maxResults` | integer | `20` (1–1000) | Hard cap on events emitted. |
-| `skipSoldOut` | boolean | `false` | Drop events flagged sold-out by Ticketmaster. |
-| `skipCancelled` | boolean | `true` | Drop events flagged cancelled, postponed, or rescheduled. |
-| `dateFrom` | string (ISO date) | – | Earliest event start date (e.g. `2026-05-01`). Events before this are dropped. |
-| `dateTo` | string (ISO date) | – | Latest event start date. Events after this are dropped. |
-| `categories` | array of enums | – | Filter to: `concerts`, `sports`, `arts-theater`, `family`, `film`, `miscellaneous`. Multiple allowed. |
-| `sort` | enum | – | Empty defaults to relevance ordering. One of `date,asc`, `date,desc`, `name,asc`, `name,desc`, `venueName,asc`, `random`. |
+| `mode` | select | `search` | `search`, `category`, `artist`, `venue`, `event` or `suggestions`. |
+| `searchQuery` | string | – | Artist, team, show or phrase. Used by Search and Suggestions. Legacy tasks that send `keyword` keep working. |
+| `categories` | multi-select | – | `concerts`, `sports`, `arts-theater`, `family`, `film`, `miscellaneous`. Targets in Category mode, filters elsewhere. |
+| `artistIds` | string list | – | Artist IDs or Ticketmaster artist URLs (mode=artist). |
+| `venueIds` | string list | – | Venue IDs or Ticketmaster venue URLs (mode=venue). |
+| `eventIds` | string list | – | Event IDs, discovery IDs or Ticketmaster event URLs (mode=event). |
+| `startUrls` | string list | – | Ticketmaster search/artist/venue/event/category URLs. Overrides `mode` targets. |
+| `dateFrom` / `dateTo` | string | – | Inclusive event-date window (`YYYY-MM-DD`). |
+| `sort` | select | `relevance` | `relevance` or `date` (soonest first). Legacy values such as `date,asc` are still accepted and mapped. |
+| `maxResults` | integer | `20` | 1–1,000 records across all targets. |
+| `skipSoldOut` | boolean | `false` | Drop sold-out events. |
+| `skipCancelled` | boolean | `true` | Drop cancelled, postponed and rescheduled events. |
+| `usOnly` | boolean | `true` | Keep only US-venue events. |
+| `includeDetails` | boolean | `true` | Add description, genre, doors time, images, seat map, venue address and price levels (up to two extra requests per event). |
 
-### Example input
+### Examples
+
+Search with a date window and full details:
 
 ```json
 {
-  "keyword": "taylor swift",
+  "mode": "search",
+  "searchQuery": "taylor swift",
+  "dateFrom": "2026-12-01",
+  "dateTo": "2027-12-31",
+  "sort": "date",
   "maxResults": 60,
-  "skipSoldOut": true,
-  "skipCancelled": true
+  "includeDetails": true
+}
+```
+
+Browse sports events in a category:
+
+```json
+{
+  "mode": "category",
+  "categories": ["sports"],
+  "maxResults": 40
+}
+```
+
+Artist calendar by URL:
+
+```json
+{
+  "mode": "artist",
+  "artistIds": ["https://www.ticketmaster.com/barry-manilow-tickets/artist/735585"],
+  "maxResults": 30
+}
+```
+
+Exact events:
+
+```json
+{
+  "mode": "event",
+  "eventIds": [
+    "0D00632F271D385A",
+    "https://www.ticketmaster.com/event/1E00648A835556FD"
+  ]
+}
+```
+
+Mixed start URLs:
+
+```json
+{
+  "startUrls": [
+    "https://www.ticketmaster.com/search?q=comedy&startDate=2026-12-01&endDate=2026-12-31",
+    "https://www.ticketmaster.com/hertz-arena-tickets-estero/venue/107143",
+    "https://www.ticketmaster.com/event/0D00632F271D385A"
+  ],
+  "maxResults": 50
 }
 ```
 
 ## Output
 
-One record per event, fields below. Empty fields are omitted.
+One record per event. Empty fields are omitted — the actor never emits `null`, empty strings or sentinel values.
+
+| Field | Description |
+|---|---|
+| `recordType` | `event` or `suggestion`. |
+| `id` / `discoveryId` | Ticketmaster event identifiers. |
+| `title` | Event name. |
+| `url` / `sourceUrl` | Event page URL. |
+| `startDate` / `endDate` | Event start and end timestamps from Ticketmaster. |
+| `onsaleDate` / `offsaleDate` | Public on-sale and off-sale timestamps. |
+| `doorsDate` | Doors-open timestamp when published. |
+| `timezone` | Venue IANA time zone. |
+| `dateDisplay` / `spanMultipleDays` | How the date is displayed and whether the event spans days. |
+| `presaleDates` | `[{name, startDateTime, endDateTime}]` presale windows. |
+| `isCancelled` / `isPostponed` / `isRescheduled` / `isTBA` / `isVirtual` / `isSoldOut` / `limitedAvailability` | Sale and schedule flags. |
+| `ticketingStatus` / `eventChangeStatus` | Raw Ticketmaster status tokens. |
+| `eventType` / `productType` / `isGA` | Event type, product type and general-admission flag. |
+| `isResaleEnabled` / `faceValueResaleEnabled` / `transferDisabled` | Ticket transfer and resale flags. |
+| `venue` | Nested venue object: name, city, state, country, address, postal code, URL, image, coordinates, ID. |
+| `venueName` / `venueCity` / `venueState` / `venueCountry` / `venueCountryName` / `venueAddress` / `venuePostalCode` / `venueUrl` / `venueImageUrl` / `latitude` / `longitude` | Flattened venue fields for tables, maps and filters. |
+| `artists` | `[{name, url, imageUrl, id, discoveryId, rank}]`. |
+| `artistCount` / `performerNames` | Derived lineup counts and a comma-separated lineup. |
+| `classifications` | `[{segment, genre, subGenre, type, subType}]` from the event detail. |
+| `primaryCategory` / `subCategory` / `majorCategory` / `majorCategoryId` | Human-readable category and genre labels plus the ticketmaster category ID. |
+| `lowestPrice` / `highestPrice` / `priceCurrency` / `priceOfferCount` / `priceOffers` / `lowestResalePrice` | Primary price levels (base ticket price before fees) when Ticketmaster publishes offers. Protected access-code offers are ignored. |
+| `imageUrl` / `seatMapUrl` / `staticMapUrl` | Event image and seat-map URLs. |
+| `description` | Event notes when the organizer publishes them. |
+| `currency` / `marketCode` / `sourceName` | Currency and marketplace metadata. |
+| `local` / `sameRegion` / `partnerEvent` / `isPartner` | Region and partner-listing flags. |
+| `daysUntilEvent` | Whole days from now to the event start. Negative for past events. |
+| `scrapedAt` | ISO-8601 timestamp of the run. |
+
+### Sample record
 
 ```json
 {
-  "id": "2D006427A74987FB",
-  "discoveryId": "G5eVZ_erE3bLD",
-  "title": "James Taylor",
-  "url": "https://www.ticketmaster.com/james-taylor-columbia-09-11-2026/event/2D006427A74987FB",
-  "startDate": "2026-09-11T23:30:00Z",
-  "onsaleDate": "2026-01-16T15:00:00Z",
+  "recordType": "event",
+  "id": "0D00632F271D385A",
+  "discoveryId": "vvG1VZbwHE6K-Q",
+  "title": "Manilow: The Last Estero Concerts",
+  "url": "https://www.ticketmaster.com/manilow-the-last-estero-concerts-estero-florida-01-16-2027/event/0D00632F271D385A",
+  "startDate": "2027-01-17T00:00:00Z",
+  "onsaleDate": "2025-09-26T14:00:00Z",
   "timezone": "America/New_York",
-  "isCancelled": false,
-  "isPostponed": false,
-  "isRescheduled": false,
-  "isTBA": false,
-  "isVirtual": false,
-  "isSoldOut": false,
-  "limitedAvailability": false,
-  "venueName": "Colonial Life Arena",
-  "venueCity": "Columbia",
-  "venueState": "SC",
-  "venue": {
-    "name": "Colonial Life Arena",
-    "city": "Columbia",
-    "state": "SC",
-    "country": "US",
-    "countryName": "United States",
-    "address": "801 Lincoln St.",
-    "postalCode": "29208",
-    "url": "https://www.ticketmaster.com/colonial-life-arena/venue/369551",
-    "imageUrl": "https://s1.ticketm.net/dbimages/23068v.jpg",
-    "latitude": 33.9942619,
-    "longitude": -81.036104
-  },
+  "venueName": "Hertz Arena",
+  "venueCity": "Estero",
+  "venueState": "FL",
+  "venueCountry": "US",
+  "majorCategory": "concerts",
+  "classifications": [
+    {
+      "segment": "Music",
+      "genre": "Pop",
+      "subGenre": "Adult Contemporary"
+    }
+  ],
   "artists": [
     {
-      "name": "James Taylor",
-      "url": "https://www.ticketmaster.com/james-taylor/artist/736262",
-      "imageUrl": "https://s1.ticketm.net/dam/.../ARTIST_PAGE_3_2.jpg"
+      "name": "Barry Manilow",
+      "url": "https://www.ticketmaster.com/barry-manilow-tickets/artist/735585",
+      "id": "735585"
     }
   ],
   "artistCount": 1,
-  "daysUntilEvent": 269,
-  "presaleDates": [
-    {"name": "Ticketmaster Presale", "startDateTime": "2026-01-15T15:00:00Z", "endDateTime": "2026-01-16T03:00:00Z"}
-  ],
-  "scrapedAt": "2024-12-16T14:23:11+00:00"
+  "lowestPrice": 110.0,
+  "highestPrice": 354.0,
+  "priceCurrency": "USD",
+  "priceOfferCount": 14,
+  "description": "The Event Organizer has had to postpone your event...",
+  "scrapedAt": "2026-11-07T16:23:11+00:00"
 }
 ```
 
-### Output fields
-
-- **`id`** / **`discoveryId`** — Ticketmaster's stable identifiers.
-- **`title`** — event / lead artist name.
-- **`url`** — direct link to the event ticket page.
-- **`startDate`** / **`onsaleDate`** — ISO-8601 timestamps (UTC).
-- **`timezone`** — IANA zone for the venue (e.g. `America/New_York`).
-- **`isCancelled`** / **`isPostponed`** / **`isRescheduled`** / **`isTBA`** / **`isVirtual`** / **`isSoldOut`** / **`limitedAvailability`** — booleans straight from Ticketmaster.
-- **`venueName`** / **`venueCity`** / **`venueState`** — flattened for quick filtering / table display.
-- **`venue`** — nested object with the full venue record (name, address, country, lat/lon, image, URL).
-- **`artists`** — array of `{name, url, imageUrl}` (lead + supporting acts).
-- **`artistCount`** — derived count of items in `artists`.
-- **`daysUntilEvent`** — derived integer: days from now (UTC) to `startDate`. Negative for events that have already happened.
-- **`presaleDates`** — array of `{name, startDateTime, endDateTime}` for any presale windows.
-- **`scrapedAt`** — ISO-8601 timestamp of the run.
+Suggestion records use `recordType: "suggestion"` with `id`, `title`, `url`, `suggestionType`, `count`, `imageUrl`, and location fields when Ticketmaster provides them.
 
 ## Use cases
 
-- **Demand monitoring** — track when on-sale dates open for hot artists.
-- **Tour analytics** — pull every event for an artist + parse city/state for tour-mapping.
-- **Resale arbitrage research** — combine Ticketmaster face-value with secondary-market data.
-- **Local-events digests** — query "concerts <city>" weekly to populate a curated list.
-- **Sold-out alerting** — filter on `isSoldOut: true` and route to a notification.
+- Watch on-sale and presale windows for artists on a tour.
+- Build city or venue event calendars without visiting Ticketmaster.
+- Track sold-out, postponed and rescheduled events for alerts.
+- Enrich event datasets with venue coordinates, categories and price levels.
+- Research touring patterns and pricing across a date range.
+- Power event-discovery apps, newsletters and research notebooks.
 
 ## FAQ
 
-**Do I need to configure anything to avoid being blocked?**
-No — there's nothing to set up. Just supply a keyword and run it.
+**Do I need an API key or a Ticketmaster account?**
+No. The actor reads Ticketmaster's publicly served event data. There is no login, cookie, token or API-key input.
 
-**Is this Ticketmaster's official API?**
-No — this actor reads Ticketmaster's own public search results page. For high-volume programmatic access, Ticketmaster offers its own Discovery API (free developer tier at developer.ticketmaster.com).
+**Do I need to configure a proxy?**
+No. The actor chooses its network path automatically; there is nothing to set up.
 
-**Why are some fields missing?**
-Ticketmaster doesn't always populate every field. The actor follows an omit-empty contract: fields that aren't present on the source event are simply absent from the record (no nulls).
+**Why is a price missing for some events?**
+Ticketmaster only publishes primary price levels for events with open inventory. Partner listings (TicketWeb, Universe) and some add-on products have no ticket offers, so price fields are omitted rather than estimated. The actor never invents a price.
 
-**How many results can it return?**
-Up to `maxResults` (max 1,000). Ticketmaster paginates ~20 events per page; the actor stops once it reaches the cap or runs out of matching events. For thousands of records, prefer Ticketmaster's official Discovery API.
+**Are prices the final checkout price?**
+No. Price fields are Ticketmaster's published base ticket prices before service and processing fees. The event page adds those fees at checkout, so use the values to compare price levels rather than as a final quote.
 
-**Can I search by city / venue / date range?**
-Use the keyword field (required for every run) — Ticketmaster's search understands queries like `concerts new york`, `taylor swift dallas`, or `comedy shows this weekend`. For an explicit date window, set `dateFrom` / `dateTo`. To narrow a keyword search to one or more top-level categories (e.g. only sports events among the results), add the `categories` filter alongside it.
+**Why did the run stop before `maxResults`?**
+Ticketmaster serves 20 events per page and stops at page 48, so one query tops out at 980 rows. Narrow the date window, use more categories, or run separate queries to collect more. A page that Ticketmaster keeps rejecting is retried automatically; if it still fails, the run's status message says the query stopped early so you can rerun it.
 
-**Why was a specific event skipped?**
-- `skipCancelled: true` (default) drops cancelled / postponed / rescheduled events.
-- `skipSoldOut: true` drops sold-out events.
-- Events without a `title` or `id` are dropped (malformed).
+**Why are details missing for a specific event?**
+Some events are hosted by partner ticketing sites. Ticketmaster's public event detail endpoint does not return those records, so the actor keeps the search-level fields it can verify and omits the rest.
 
-**Is this affiliated with Ticketmaster?**
-No. This is an independent actor that reads Ticketmaster's publicly available search results; it is not operated by or affiliated with Ticketmaster or Live Nation.
+**Does it return international events?**
+The actor is positioned for the US market and keeps US venues by default. Turn off `usOnly` to include the international listings Ticketmaster returns on the US site.
+
+**What happens with duplicate IDs or mixed URLs?**
+Duplicates are removed by event ID across all targets, and mixed `startUrls` are merged into one dataset. With several targets, `maxResults` is split evenly and any unused share rolls over to the next target.
+
+**Are old tasks still compatible?**
+Yes. Legacy inputs using `keyword`, `dateFrom`, `dateTo`, `categories`, `sort` values such as `date,asc`, `skipSoldOut`, `skipCancelled` and `maxResults` keep running; renamed keys are mapped inside the actor.
+
+## Limitations
+
+- 980 rows per query (Ticketmaster's page ceiling). Split by date range or category to go wider.
+- Price levels are base prices before fees, available only when Ticketmaster publishes ticket offers; partner events do not expose detail.
+- A page that keeps failing after automatic retries can end a query early; the run says so and a rerun resumes with fresh proxy sessions.
+- Seat-level and resale listings, and artist reviews, are not part of this actor.
+- US-market focus; other Ticketmaster country sites are out of scope.
+- Ticketmaster can change its public endpoints or markup at any time. The actor fails cleanly with a status message instead of emitting placeholder data.
+
+## Notes
+
+This is an independent data tool. It is not affiliated with, endorsed by, or operated by Ticketmaster or Live Nation. Ticketmaster and Live Nation are trademarks of their respective owners.

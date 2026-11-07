@@ -1,0 +1,179 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "properties": {
+      "authorId": {
+        "description": "Primary author ID",
+        "type": "integer"
+      },
+      "authorName": {
+        "description": "Primary author name",
+        "type": "string"
+      },
+      "categoryIds": {
+        "description": "Category IDs",
+        "type": "array"
+      },
+      "categoryNames": {
+        "description": "Category names",
+        "type": "array"
+      },
+      "content": {
+        "description": "Full article content (HTML stripped, truncated)",
+        "type": "string"
+      },
+      "excerpt": {
+        "description": "Short summary (HTML stripped)",
+        "type": "string"
+      },
+      "featuredImageId": {
+        "description": "Featured image ID",
+        "type": "integer"
+      },
+      "featuredImageUrl": {
+        "description": "Featured image URL",
+        "type": "string"
+      },
+      "id": {
+        "description": "Article ID",
+        "type": "integer"
+      },
+      "modifiedDate": {
+        "description": "Last modified date (ISO 8601)",
+        "type": "string"
+      },
+      "publishedDate": {
+        "description": "Publication date (ISO 8601)",
+        "type": "string"
+      },
+      "scrapedAt": {
+        "description": "ISO 8601 scrape timestamp",
+        "type": "string"
+      },
+      "slug": {
+        "description": "URL slug",
+        "type": "string"
+      },
+      "tagNames": {
+        "description": "Tag names",
+        "type": "array"
+      },
+      "title": {
+        "description": "Article title",
+        "type": "string"
+      },
+      "url": {
+        "description": "Full article URL",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "title": "Crunchbase News",
+  "views": {
+    "detailed": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "authorName": {
+            "format": "text",
+            "label": "Author"
+          },
+          "categoryNames": {
+            "format": "array",
+            "label": "Categories"
+          },
+          "excerpt": {
+            "format": "text",
+            "label": "Excerpt"
+          },
+          "featuredImageUrl": {
+            "format": "link",
+            "label": "Image"
+          },
+          "id": {
+            "format": "number",
+            "label": "ID"
+          },
+          "modifiedDate": {
+            "format": "text",
+            "label": "Modified"
+          },
+          "publishedDate": {
+            "format": "text",
+            "label": "Published"
+          },
+          "scrapedAt": {
+            "format": "text",
+            "label": "Scraped At"
+          },
+          "tagNames": {
+            "format": "array",
+            "label": "Tags"
+          },
+          "title": {
+            "format": "text",
+            "label": "Title"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          }
+        }
+      },
+      "title": "Detailed Results",
+      "transformation": {
+        "fields": [
+          "id",
+          "title",
+          "excerpt",
+          "publishedDate",
+          "modifiedDate",
+          "authorName",
+          "categoryNames",
+          "tagNames",
+          "featuredImageUrl",
+          "url",
+          "scrapedAt"
+        ]
+      }
+    },
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "authorName": {
+            "format": "text",
+            "label": "Author"
+          },
+          "categoryNames": {
+            "format": "array",
+            "label": "Categories"
+          },
+          "publishedDate": {
+            "format": "text",
+            "label": "Published"
+          },
+          "title": {
+            "format": "text",
+            "label": "Title"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          }
+        }
+      },
+      "title": "Overview",
+      "transformation": {
+        "fields": [
+          "title",
+          "publishedDate",
+          "authorName",
+          "categoryNames",
+          "url"
+        ]
+      }
+    }
+  }
+}

@@ -1,8 +1,16 @@
 {
-  "description": "Search Ticketmaster's US events for a keyword and pull structured event records from each result.",
+  "description": "Choose what to collect — keyword results, a category, an artist calendar, a venue calendar, exact events or name suggestions — then filter and enrich the records.",
   "properties": {
+    "artistIds": {
+      "default": [],
+      "description": "Artist/attraction IDs or Ticketmaster artist URLs, e.g. `735585` or `https://www.ticketmaster.com/barry-manilow-tickets/artist/735585` (mode=artist).",
+      "editor": "stringList",
+      "title": "Artist IDs or URLs",
+      "type": "array"
+    },
     "categories": {
-      "description": "Limit results to these top-level categories. Empty = all.",
+      "default": [],
+      "description": "Top-level Ticketmaster categories. In `Category` mode each selected value is browsed; in `Search`, `Artist` and `Venue` modes the results are filtered to these categories.",
       "editor": "select",
       "items": {
         "enum": [
@@ -10,65 +18,109 @@
           "sports",
           "arts-theater",
           "family",
-          "miscellaneous",
-          "film"
+          "film",
+          "miscellaneous"
         ],
         "type": "string"
       },
-      "nullable": true,
-      "title": "Category filter",
+      "title": "Categories",
       "type": "array"
     },
     "dateFrom": {
-      "description": "Only include events on or after this date. ISO format YYYY-MM-DD. Leave empty for no lower bound.",
+      "description": "Only keep events on or after this date (`YYYY-MM-DD`). Leave empty for no lower bound. In Category and Event modes the filter is applied to the returned rows.",
       "editor": "textfield",
       "nullable": true,
       "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
-      "title": "Earliest event date",
+      "sectionCaption": "Filters",
+      "title": "Events from",
       "type": "string"
     },
     "dateTo": {
-      "description": "Only include events on or before this date. ISO format YYYY-MM-DD. Leave empty for no upper bound.",
+      "description": "Only keep events on or before this date (`YYYY-MM-DD`). Leave empty for no upper bound.",
       "editor": "textfield",
       "nullable": true,
       "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
-      "title": "Latest event date",
+      "title": "Events until",
       "type": "string"
     },
-    "keyword": {
-      "description": "What to search for. Free-text — passed verbatim to Ticketmaster's search. Examples: artist name (\"Taylor Swift\"), genre (\"hip hop\"), city + category (\"concerts new york\").",
-      "editor": "textfield",
-      "prefill": "concerts",
-      "title": "Search keyword",
-      "type": "string"
+    "eventIds": {
+      "default": [],
+      "description": "Event IDs, discovery IDs or Ticketmaster event URLs, e.g. `0D00632F271D385A` or `https://www.ticketmaster.com/event/0D00632F271D385A` (mode=event).",
+      "editor": "stringList",
+      "title": "Event IDs or URLs",
+      "type": "array"
+    },
+    "includeDetails": {
+      "default": true,
+      "description": "Fetch each event's detail record and primary price levels: description, genre/classification, doors time, images, seat map, venue address and min/max price. Adds up to two requests per event. Leave off for the fastest, cheapest run.",
+      "prefill": false,
+      "sectionCaption": "Detail enrichment",
+      "title": "Include full event details",
+      "type": "boolean"
     },
     "maxResults": {
       "default": 20,
-      "description": "Hard cap on event records emitted. Ticketmaster returns ~20 events per page; the actor walks pages until the cap or until results are exhausted.",
+      "description": "Hard cap on records emitted across every target in the run. Ticketmaster serves 20 events per page and stops at 980 rows per query; use a narrower date range or more categories to go wider.",
       "maximum": 1000,
       "minimum": 1,
-      "prefill": 20,
-      "title": "Maximum results",
+      "prefill": 3,
+      "title": "Maximum records",
       "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "Pick the lookup path. `Search` uses a keyword; `Category` browses one or more top-level categories; `Artist` and `Venue` read their public calendars; `Event` returns full detail for exact IDs/URLs; `Suggestions` returns matching artists and venues.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "category",
+        "artist",
+        "venue",
+        "event",
+        "suggestions"
+      ],
+      "enumTitles": [
+        "Search by keyword",
+        "Browse by category",
+        "Artist calendar",
+        "Venue calendar",
+        "Event details by ID or URL",
+        "Name suggestions"
+      ],
+      "prefill": "search",
+      "sectionCaption": "What to scrape",
+      "title": "What to collect",
+      "type": "string"
+    },
+    "searchQuery": {
+      "default": "",
+      "description": "Artist, team, show, genre or a combined phrase such as `taylor swift`, `lakers` or `comedy austin`. Used by `Search` and `Suggestions` modes. Legacy tasks that send `keyword` still work.",
+      "editor": "textfield",
+      "prefill": "concerts",
+      "title": "Search query",
+      "type": "string"
     },
     "skipCancelled": {
       "default": true,
-      "description": "Drop events flagged as cancelled, postponed, or rescheduled.",
+      "description": "Drop cancelled, postponed and rescheduled events.",
+      "prefill": true,
       "title": "Skip cancelled / postponed",
       "type": "boolean"
     },
     "skipSoldOut": {
       "default": false,
-      "description": "Drop events flagged as `soldOut: true` by Ticketmaster.",
+      "description": "Drop events Ticketmaster flags as sold out.",
+      "prefill": false,
       "title": "Skip sold-out events",
       "type": "boolean"
     },
     "sort": {
-      "default": "",
-      "description": "Result ordering. Default = relevance.",
+      "default": "relevance",
+      "description": "`Relevance` keeps Ticketmaster's search ranking; `Date` orders by the soonest event first. Legacy sorts such as `date,asc` are mapped to Date.",
       "editor": "select",
       "enum": [
-        "",
+        "relevance",
+        "date",
         "date,asc",
         "date,desc",
         "name,asc",
@@ -78,21 +130,42 @@
       ],
       "enumTitles": [
         "Relevance (default)",
-        "Date (oldest first)",
-        "Date (newest first)",
-        "Name (A-Z)",
-        "Name (Z-A)",
-        "Venue name",
-        "Random"
+        "Date (soonest first)",
+        "Date ascending (legacy — same as Date)",
+        "Date descending (legacy — soonest first)",
+        "Name A-Z (legacy — relevance)",
+        "Name Z-A (legacy — relevance)",
+        "Venue name (legacy — relevance)",
+        "Random (legacy — relevance)"
       ],
+      "prefill": "relevance",
       "title": "Sort order",
       "type": "string"
+    },
+    "startUrls": {
+      "default": [],
+      "description": "Ticketmaster search, artist, venue, event or category URLs to process instead of the mode targets. Each URL is routed automatically, and several can be mixed in one run.",
+      "editor": "stringList",
+      "title": "Start URLs (optional)",
+      "type": "array"
+    },
+    "usOnly": {
+      "default": true,
+      "description": "Keep only events at US venues. Turn this off to include international results that Ticketmaster returns alongside US listings.",
+      "prefill": true,
+      "title": "United States only",
+      "type": "boolean"
+    },
+    "venueIds": {
+      "default": [],
+      "description": "Venue IDs or Ticketmaster venue URLs, e.g. `107143` or `https://www.ticketmaster.com/hertz-arena-tickets-estero/venue/107143` (mode=venue).",
+      "editor": "stringList",
+      "title": "Venue IDs or URLs",
+      "type": "array"
     }
   },
-  "required": [
-    "keyword"
-  ],
+  "required": [],
   "schemaVersion": 1,
-  "title": "Ticketmaster Scraper Input",
+  "title": "Ticketmaster Event Finder Input",
   "type": "object"
 }

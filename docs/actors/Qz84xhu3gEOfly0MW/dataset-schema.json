@@ -6,9 +6,21 @@
       "display": {
         "component": "table",
         "properties": {
-          "isSoldOut": {
-            "format": "boolean",
-            "label": "Sold out"
+          "lowestPrice": {
+            "format": "number",
+            "label": "From"
+          },
+          "majorCategory": {
+            "format": "text",
+            "label": "Category"
+          },
+          "priceCurrency": {
+            "format": "text",
+            "label": "Currency"
+          },
+          "recordType": {
+            "format": "text",
+            "label": "Type"
           },
           "startDate": {
             "format": "date",
@@ -39,13 +51,16 @@
       "title": "Event overview",
       "transformation": {
         "fields": [
+          "recordType",
           "title",
           "startDate",
           "venueName",
           "venueCity",
           "venueState",
-          "url",
-          "isSoldOut"
+          "majorCategory",
+          "lowestPrice",
+          "priceCurrency",
+          "url"
         ]
       }
     }
