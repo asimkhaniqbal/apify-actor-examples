@@ -1,0 +1,336 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-xOEWikWFtrgiC0fVklmUloQdlFv3aiIbfrWrQF0WXtk=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Walmart.com Product Search &amp; Price Filter Scraper | Vexaloom Labs</title><meta name="description" content="Search Walmart.com by keyword and filter results by price, rating, review count, free shipping, stock status, brand or seller, with sponsored placements flagged apart from organic "><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/WkaCjcP0oFPMJYAI6/"><meta property="og:title" content="Walmart.com Product Search &amp; Price Filter Scraper | Vexaloom Labs"><meta property="og:description" content="Search Walmart.com by keyword and filter results by price, rating, review count, free shipping, stock status, brand or seller, with sponsored placements flagged apart from organic "><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/WkaCjcP0oFPMJYAI6/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/WkaCjcP0oFPMJYAI6/#webpage","name":"Walmart.com Product Search & Price Filter Scraper","description":"Search Walmart.com by keyword and filter results by price, rating, review count, free shipping, stock status, brand or seller, with sponsored placements flagged apart from organic results.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/WkaCjcP0oFPMJYAI6/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/WkaCjcP0oFPMJYAI6/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/WkaCjcP0oFPMJYAI6/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/WkaCjcP0oFPMJYAI6/#article","headline":"Walmart.com Product Search & Price Filter Scraper","name":"Walmart.com Product Search & Price Filter Scraper","description":"Search Walmart.com by keyword and filter results by price, rating, review count, free shipping, stock status, brand or seller, with sponsored placements flagged apart from organic results.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/WkaCjcP0oFPMJYAI6/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/WkaCjcP0oFPMJYAI6/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/WkaCjcP0oFPMJYAI6/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Walmart.com Product Search & Price Filter Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/WkaCjcP0oFPMJYAI6/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Walmart.com Product Search &amp; Price Filter Scraper</span></div><section id="overview"><h1 class="doc-title">Walmart.com Product Search &amp; Price Filter Scraper</h1><p class="lede">Search Walmart.com by keyword and filter results by price, rating, review count, free shipping, stock status, brand or seller, with sponsored placements flagged apart from organic results.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/walmart-com-product-search-and-price-filter">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/WkaCjcP0oFPMJYAI6/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>searchQuery</code></td><td>string</td><td>required</td><td>Free-text keyword to search for on walmart.com. e.g. `iphone case`, `coffee maker`, `running shoes`.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Hard cap on emitted product records.</td></tr><tr><td><code>maxPages</code></td><td>integer</td><td>optional</td><td>Maximum search-result pages to walk (~24 products per page).</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>searchQuery</code></td><td>string</td><td>required</td><td>Free-text keyword to search for on walmart.com. e.g. `iphone case`, `coffee maker`, `running shoes`.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Hard cap on emitted product records.</td></tr><tr><td><code>maxPages</code></td><td>integer</td><td>optional</td><td>Maximum search-result pages to walk (~24 products per page).</td></tr><tr><td><code>sortBy</code></td><td>string</td><td>optional</td><td>Walmart&#x27;s listing sort.</td></tr><tr><td><code>minPrice</code></td><td>number</td><td>optional</td><td>Drop products below this price.</td></tr><tr><td><code>maxPrice</code></td><td>number</td><td>optional</td><td>Drop products above this price.</td></tr><tr><td><code>minRating</code></td><td>number</td><td>optional</td><td>Drop products with average rating below this (0.0-5.0). Products without a rating are kept.</td></tr><tr><td><code>minReviewCount</code></td><td>integer</td><td>optional</td><td>Drop products with fewer reviews than this.</td></tr><tr><td><code>freeShippingOnly</code></td><td>boolean</td><td>optional</td><td>Only emit products marked as free-shipping eligible.</td></tr><tr><td><code>excludeOutOfStock</code></td><td>boolean</td><td>optional</td><td>Drop products flagged out-of-stock.</td></tr><tr><td><code>excludeSponsored</code></td><td>boolean</td><td>optional</td><td>Drop sponsored / promoted product placements (keep only organic results).</td></tr><tr><td><code>brandContains</code></td><td>string</td><td>optional</td><td>Only emit products whose brand contains this substring.</td></tr><tr><td><code>sellerContains</code></td><td>string</td><td>optional</td><td>Only emit products whose seller name contains this substring (case-insensitive).</td></tr><tr><td><code>useApifyProxy</code></td><td>boolean</td><td>optional</td><td>Route requests through Apify proxy. Walmart works fine without proxy from datacenter IPs, but enabling helps with very long runs (1000+ products).</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Search Walmart.com product listings by keyword. HTTP-only via curl_cffi with chrome131 impersonation.&quot;,
+  &quot;properties&quot;: {
+    &quot;brandContains&quot;: {
+      &quot;description&quot;: &quot;Only emit products whose brand contains this substring.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Brand contains (case-insensitive)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;excludeOutOfStock&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Drop products flagged out-of-stock.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Exclude out-of-stock&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;excludeSponsored&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Drop sponsored / promoted product placements (keep only organic results).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Exclude sponsored&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;freeShippingOnly&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only emit products marked as free-shipping eligible.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Free shipping only&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 50,
+      &quot;description&quot;: &quot;Hard cap on emitted product records.&quot;,
+      &quot;maximum&quot;: 5000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 50,
+      &quot;title&quot;: &quot;Max items&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxPages&quot;: {
+      &quot;default&quot;: 5,
+      &quot;description&quot;: &quot;Maximum search-result pages to walk (~24 products per page).&quot;,
+      &quot;maximum&quot;: 25,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 5,
+      &quot;title&quot;: &quot;Max pages&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxPrice&quot;: {
+      &quot;description&quot;: &quot;Drop products above this price.&quot;,
+      &quot;maximum&quot;: 100000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Max price (USD)&quot;,
+      &quot;type&quot;: &quot;number&quot;
+    },
+    &quot;minPrice&quot;: {
+      &quot;description&quot;: &quot;Drop products below this price.&quot;,
+      &quot;maximum&quot;: 100000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Min price (USD)&quot;,
+      &quot;type&quot;: &quot;number&quot;
+    },
+    &quot;minRating&quot;: {
+      &quot;description&quot;: &quot;Drop products with average rating below this (0.0-5.0). Products without a rating are kept.&quot;,
+      &quot;maximum&quot;: 5,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Min rating&quot;,
+      &quot;type&quot;: &quot;number&quot;
+    },
+    &quot;minReviewCount&quot;: {
+      &quot;description&quot;: &quot;Drop products with fewer reviews than this.&quot;,
+      &quot;maximum&quot;: 10000000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Min review count&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;searchQuery&quot;: {
+      &quot;default&quot;: &quot;iphone case&quot;,
+      &quot;description&quot;: &quot;Free-text keyword to search for on walmart.com. e.g. `iphone case`, `coffee maker`, `running shoes`.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;iphone case&quot;,
+      &quot;title&quot;: &quot;Search query&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;sellerContains&quot;: {
+      &quot;description&quot;: &quot;Only emit products whose seller name contains this substring (case-insensitive).&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Seller name contains&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;sortBy&quot;: {
+      &quot;default&quot;: &quot;best_match&quot;,
+      &quot;description&quot;: &quot;Walmart&#x27;s listing sort.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;best_match&quot;,
+        &quot;price_low&quot;,
+        &quot;price_high&quot;,
+        &quot;best_seller&quot;,
+        &quot;rating_high&quot;,
+        &quot;new&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Best match (default)&quot;,
+        &quot;Price: low to high&quot;,
+        &quot;Price: high to low&quot;,
+        &quot;Best seller&quot;,
+        &quot;Rating: high to low&quot;,
+        &quot;New arrivals&quot;
+      ],
+      &quot;prefill&quot;: &quot;best_match&quot;,
+      &quot;title&quot;: &quot;Sort by&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;useApifyProxy&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Route requests through Apify proxy. Walmart works fine without proxy from datacenter IPs, but enabling helps with very long runs (1000+ products).&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Use Apify proxy&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;searchQuery&quot;
+  ],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Walmart Search Scraper Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>products</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped Walmart.com search results.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Walmart.com search results, with price, rating, review count, brand, seller, availability and sponsored-placement flag for each product.&quot;,
+  &quot;properties&quot;: {
+    &quot;products&quot;: {
+      &quot;description&quot;: &quot;Dataset containing all scraped Walmart.com search results.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Walmart products&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Walmart.com Product Search &amp; Price Filter Scraper Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {}
+      },
+      &quot;title&quot;: &quot;Walmart Products&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;name&quot;,
+          &quot;price&quot;,
+          &quot;rating&quot;,
+          &quot;reviewCount&quot;,
+          &quot;brand&quot;,
+          &quot;imageUrl&quot;,
+          &quot;productUrl&quot;,
+          &quot;scrapedAt&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-walmart-com-product-search-price-filter-scraper">Walmart.com Product Search &amp; Price Filter Scraper</h2>
+<p>Walmart's own search results mix sponsored placements in with organic ones and don't let you filter by review count or seller name. This actor searches Walmart.com by keyword and returns clean per-product records — name, price, rating, review count, brand, image, savings, availability, seller, free-shipping eligibility — with sponsored results flagged apart from organic ones, and no account needed.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li>Searches Walmart.com for your keyword and walks the result pages</li>
+<li>Returns one structured record per product with its full listing metadata</li>
+<li>Filters results by price band, minimum rating, minimum review count, free-shipping-only, in-stock-only, brand contains, and seller contains</li>
+<li>Can exclude sponsored/promoted placements to keep only organic results</li>
+<li>Sorts by best match, price (low/high), best seller, rating, or new arrivals</li>
+<li>Empty fields are omitted from the output — a product only carries the fields Walmart actually published for it</li>
+</ul>
+<h2 id="readme-output-per-product">Output per product</h2>
+<ul>
+<li><code>productId</code>, <code>productUrl</code></li>
+<li><code>name</code>, <code>brand</code>, <code>shortDescription</code></li>
+<li><code>price</code>, <code>priceDisplay</code>, <code>wasPrice</code>, <code>minPrice</code>, <code>savingsAmount</code>, <code>currency</code></li>
+<li><code>rating</code>, <code>reviewCount</code></li>
+<li><code>imageUrl</code>, <code>images[]</code> (up to 10)</li>
+<li><code>availability</code>, <code>inStock</code></li>
+<li><code>freeShippingEligible</code></li>
+<li><code>sellerName</code></li>
+<li><code>isSponsored</code> (only when true)</li>
+<li><code>variantCount</code> (when product has variants)</li>
+<li><code>recordType: &quot;product&quot;</code>, <code>scrapedAt</code></li>
+</ul>
+<p>Empty fields are omitted from the output (no nulls).</p>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>searchQuery</code></td>
+<td>string</td>
+<td><code>&quot;iphone case&quot;</code></td>
+<td>Keyword to search for</td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>int</td>
+<td><code>50</code></td>
+<td>Hard cap on emitted records (1–5000)</td>
+</tr>
+<tr>
+<td><code>maxPages</code></td>
+<td>int</td>
+<td><code>5</code></td>
+<td>Maximum search-result pages to walk (~24 products per page)</td>
+</tr>
+<tr>
+<td><code>sortBy</code></td>
+<td>enum</td>
+<td><code>best_match</code></td>
+<td><code>best_match</code> / <code>price_low</code> / <code>price_high</code> / <code>best_seller</code> / <code>rating_high</code> / <code>new</code></td>
+</tr>
+<tr>
+<td><code>minPrice</code></td>
+<td>number</td>
+<td>–</td>
+<td>Drop products below this price</td>
+</tr>
+<tr>
+<td><code>maxPrice</code></td>
+<td>number</td>
+<td>–</td>
+<td>Drop products above this price</td>
+</tr>
+<tr>
+<td><code>minRating</code></td>
+<td>number</td>
+<td>–</td>
+<td>Drop products with rating below this (0.0–5.0)</td>
+</tr>
+<tr>
+<td><code>minReviewCount</code></td>
+<td>int</td>
+<td>–</td>
+<td>Drop products with fewer reviews than this</td>
+</tr>
+<tr>
+<td><code>freeShippingOnly</code></td>
+<td>bool</td>
+<td><code>false</code></td>
+<td>Only emit free-shipping eligible products</td>
+</tr>
+<tr>
+<td><code>excludeOutOfStock</code></td>
+<td>bool</td>
+<td><code>true</code></td>
+<td>Drop out-of-stock products</td>
+</tr>
+<tr>
+<td><code>excludeSponsored</code></td>
+<td>bool</td>
+<td><code>false</code></td>
+<td>Drop sponsored / promoted product placements</td>
+</tr>
+<tr>
+<td><code>brandContains</code></td>
+<td>string</td>
+<td>–</td>
+<td>Only emit products whose brand contains this substring (case-insensitive)</td>
+</tr>
+<tr>
+<td><code>sellerContains</code></td>
+<td>string</td>
+<td>–</td>
+<td>Only emit products whose seller name contains this substring</td>
+</tr>
+<tr>
+<td><code>useApifyProxy</code></td>
+<td>bool</td>
+<td><code>false</code></td>
+<td>Route through Apify proxy. Walmart works fine without proxy</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-example-top-rated-iphone-cases-under-20">Example: top-rated iPhone cases under $20</h3>
+<pre><code class="language-json">{
+  &quot;searchQuery&quot;: &quot;iphone case&quot;,
+  &quot;maxItems&quot;: 100,
+  &quot;minRating&quot;: 4.5,
+  &quot;maxPrice&quot;: 20,
+  &quot;minReviewCount&quot;: 100,
+  &quot;excludeSponsored&quot;: true
+}
+</code></pre>
+<h3 id="readme-example-cheapest-in-stock-coffee-makers-sorted-by-price">Example: cheapest in-stock coffee makers, sorted by price</h3>
+<pre><code class="language-json">{
+  &quot;searchQuery&quot;: &quot;coffee maker&quot;,
+  &quot;sortBy&quot;: &quot;price_low&quot;,
+  &quot;excludeOutOfStock&quot;: true,
+  &quot;freeShippingOnly&quot;: true,
+  &quot;maxItems&quot;: 50
+}
+</code></pre>
+<h3 id="readme-example-apple-branded-products-only">Example: Apple-branded products only</h3>
+<pre><code class="language-json">{
+  &quot;searchQuery&quot;: &quot;earbuds&quot;,
+  &quot;brandContains&quot;: &quot;apple&quot;,
+  &quot;minRating&quot;: 4.0
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>Product research</strong> — discover top-selling SKUs in any Walmart category to inform your own listings or pricing</li>
+<li><strong>Price monitoring</strong> — daily run with <code>sortBy=price_low</code> to spot competitor undercuts</li>
+<li><strong>MAP enforcement</strong> — track when a brand's products are sold below MAP price</li>
+<li><strong>Affiliate inventory</strong> — feed product feeds with title + image + price to your downstream system</li>
+<li><strong>Brand intelligence</strong> — <code>brandContains</code> filter to see what a competitor is doing on Walmart Marketplace</li>
+<li><strong>Review-gated shopping</strong> — <code>minReviewCount</code> and <code>minRating</code> filters to surface only well-proven products</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Does it require a login or cookies?</strong>  No.</p>
+<p><strong>Is a proxy needed?</strong>  No — Walmart serves data freely to datacenter IPs. The <code>useApifyProxy</code> field is available for very long crawls (1000+ products) where rate-limit risk grows, but is disabled by default to avoid unnecessary cost.</p>
+<p><strong>How many results can I get in one run?</strong>  Walmart paginates ~24 products per page, with up to 25 pages of organic results per query (~600 products). For deeper coverage, run the actor multiple times with different <code>sortBy</code> or narrow your query.</p>
+<p><strong>Why are some products missing <code>rating</code> or <code>reviewCount</code>?</strong>  New product listings often have no reviews yet. The omit-empty contract drops the missing fields rather than emit zero/null.</p>
+<p><strong>Why are some products missing <code>brand</code>?</strong>  Walmart's catalog has inconsistent brand metadata for marketplace seller listings. Walmart-fulfilled products almost always have <code>brand</code>; third-party seller listings sometimes don't.</p>
+<p><strong>Why is <code>seller</code> sometimes missing?</strong>  When the seller is Walmart itself, the field may be omitted by the SSR JSON. Treat absence as &quot;Walmart-fulfilled&quot; for most cases.</p>
+<p><strong>Does it cover Walmart Canada / Mexico?</strong>  No — this actor targets walmart.com (US) only. The DOM and <code>__NEXT_DATA__</code> shape differs across regions.</p>
+<p><strong>What if all my filters reject every result?</strong>  The actor finishes cleanly and sets a status message instead of pushing placeholder rows.</p>
+<p><strong>Can I scrape product detail pages?</strong>  This actor focuses on the search-results listing. Use <code>productUrl</code> from each record to feed a separate detail-page scraper.</p>
+<p><strong>Why is <code>maxPages</code> capped at 25?</strong>  Walmart's search backend caps pagination at ~25 pages. Beyond that the result list repeats earlier products.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/WkaCjcP0oFPMJYAI6/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>7yOu78Q6Mh24cVg9N</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

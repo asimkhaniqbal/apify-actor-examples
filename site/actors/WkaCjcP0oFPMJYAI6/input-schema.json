@@ -1,0 +1,129 @@
+{
+  "description": "Search Walmart.com product listings by keyword. HTTP-only via curl_cffi with chrome131 impersonation.",
+  "properties": {
+    "brandContains": {
+      "description": "Only emit products whose brand contains this substring.",
+      "editor": "textfield",
+      "title": "Brand contains (case-insensitive)",
+      "type": "string"
+    },
+    "excludeOutOfStock": {
+      "default": true,
+      "description": "Drop products flagged out-of-stock.",
+      "prefill": true,
+      "title": "Exclude out-of-stock",
+      "type": "boolean"
+    },
+    "excludeSponsored": {
+      "default": false,
+      "description": "Drop sponsored / promoted product placements (keep only organic results).",
+      "prefill": false,
+      "title": "Exclude sponsored",
+      "type": "boolean"
+    },
+    "freeShippingOnly": {
+      "default": false,
+      "description": "Only emit products marked as free-shipping eligible.",
+      "prefill": false,
+      "title": "Free shipping only",
+      "type": "boolean"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Hard cap on emitted product records.",
+      "maximum": 5000,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxPages": {
+      "default": 5,
+      "description": "Maximum search-result pages to walk (~24 products per page).",
+      "maximum": 25,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Max pages",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Drop products above this price.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Max price (USD)",
+      "type": "number"
+    },
+    "minPrice": {
+      "description": "Drop products below this price.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Min price (USD)",
+      "type": "number"
+    },
+    "minRating": {
+      "description": "Drop products with average rating below this (0.0-5.0). Products without a rating are kept.",
+      "maximum": 5,
+      "minimum": 0,
+      "title": "Min rating",
+      "type": "number"
+    },
+    "minReviewCount": {
+      "description": "Drop products with fewer reviews than this.",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Min review count",
+      "type": "integer"
+    },
+    "searchQuery": {
+      "default": "iphone case",
+      "description": "Free-text keyword to search for on walmart.com. e.g. `iphone case`, `coffee maker`, `running shoes`.",
+      "editor": "textfield",
+      "prefill": "iphone case",
+      "title": "Search query",
+      "type": "string"
+    },
+    "sellerContains": {
+      "description": "Only emit products whose seller name contains this substring (case-insensitive).",
+      "editor": "textfield",
+      "title": "Seller name contains",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "best_match",
+      "description": "Walmart's listing sort.",
+      "editor": "select",
+      "enum": [
+        "best_match",
+        "price_low",
+        "price_high",
+        "best_seller",
+        "rating_high",
+        "new"
+      ],
+      "enumTitles": [
+        "Best match (default)",
+        "Price: low to high",
+        "Price: high to low",
+        "Best seller",
+        "Rating: high to low",
+        "New arrivals"
+      ],
+      "prefill": "best_match",
+      "title": "Sort by",
+      "type": "string"
+    },
+    "useApifyProxy": {
+      "default": false,
+      "description": "Route requests through Apify proxy. Walmart works fine without proxy from datacenter IPs, but enabling helps with very long runs (1000+ products).",
+      "prefill": false,
+      "title": "Use Apify proxy",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "searchQuery"
+  ],
+  "schemaVersion": 1,
+  "title": "Walmart Search Scraper Input",
+  "type": "object"
+}
