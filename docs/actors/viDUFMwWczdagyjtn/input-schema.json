@@ -1,0 +1,144 @@
+{
+  "properties": {
+    "buyingFormat": {
+      "default": "",
+      "description": "Filter by listing format. Leave blank for both.",
+      "editor": "select",
+      "enum": [
+        "",
+        "buyItNow",
+        "auction"
+      ],
+      "enumTitles": [
+        "Buy It Now & Auction",
+        "Buy It Now only",
+        "Auction only"
+      ],
+      "title": "Buying Format",
+      "type": "string"
+    },
+    "condition": {
+      "default": "",
+      "description": "Filter by item condition. Leave blank for all conditions.",
+      "editor": "select",
+      "enum": [
+        "",
+        "new",
+        "openBox",
+        "refurbished",
+        "used",
+        "forParts"
+      ],
+      "enumTitles": [
+        "All conditions",
+        "New",
+        "Open box",
+        "Refurbished",
+        "Used",
+        "For parts / not working"
+      ],
+      "title": "Item Condition",
+      "type": "string"
+    },
+    "keywords": {
+      "description": "Search eBay by keyword (e.g., 'laptop', 'vintage watch'). Builds a search URL automatically — no need to construct one yourself. Leave blank if using Start URLs instead.",
+      "editor": "textfield",
+      "prefill": "laptop",
+      "sectionCaption": "Keyword Search",
+      "title": "Search Keywords",
+      "type": "string"
+    },
+    "marketplace": {
+      "default": "US",
+      "description": "Which eBay country site to search.",
+      "editor": "select",
+      "enum": [
+        "US",
+        "GB",
+        "DE",
+        "FR",
+        "IT",
+        "ES",
+        "CA",
+        "AU"
+      ],
+      "enumTitles": [
+        "United States (ebay.com)",
+        "United Kingdom (ebay.co.uk)",
+        "Germany (ebay.de)",
+        "France (ebay.fr)",
+        "Italy (ebay.it)",
+        "Spain (ebay.es)",
+        "Canada (ebay.ca)",
+        "Australia (ebay.com.au)"
+      ],
+      "prefill": "US",
+      "title": "Marketplace",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of items to scrape across all provided URLs.",
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Maximum item price filter (in the marketplace's local currency).",
+      "editor": "number",
+      "title": "Maximum Price",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Minimum item price filter (in the marketplace's local currency).",
+      "editor": "number",
+      "title": "Minimum Price",
+      "type": "integer"
+    },
+    "proxy": {
+      "description": "Required — eBay blocks datacenter IPs. Use residential proxy for reliable results.",
+      "editor": "proxy",
+      "prefill": {
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "sectionCaption": "Proxy settings",
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "sortBy": {
+      "default": "",
+      "description": "Result sort order. Leave blank for eBay's default best-match relevance.",
+      "editor": "select",
+      "enum": [
+        "",
+        "priceLowest",
+        "priceHighest",
+        "endingSoonest",
+        "newlyListed"
+      ],
+      "enumTitles": [
+        "Best Match",
+        "Price: lowest first",
+        "Price: highest first",
+        "Ending soonest",
+        "Newly listed"
+      ],
+      "title": "Sort Order",
+      "type": "string"
+    },
+    "startUrls": {
+      "description": "Direct eBay search or category URLs to scrape, as an alternative or addition to keyword search. Supports search results pages and category pages.",
+      "editor": "requestListSources",
+      "sectionCaption": "Also get results from custom URLs",
+      "title": "Start URLs",
+      "type": "array"
+    }
+  },
+  "schemaVersion": 1,
+  "title": "eBay Items Scraper Input",
+  "type": "object"
+}
