@@ -1,8 +1,14 @@
 {
   "properties": {
+    "browseKeyword": {
+      "description": "Optional keyword to narrow category browsing. Leave blank to browse the whole category.",
+      "editor": "textfield",
+      "title": "Keyword inside category",
+      "type": "string"
+    },
     "buyingFormat": {
       "default": "",
-      "description": "Filter by listing format. Leave blank for both.",
+      "description": "Show only Buy It Now listings, only auctions, or both.",
       "editor": "select",
       "enum": [
         "",
@@ -10,21 +16,29 @@
         "auction"
       ],
       "enumTitles": [
-        "Buy It Now & Auction",
+        "Buy It Now & auctions",
         "Buy It Now only",
-        "Auction only"
+        "Auctions only"
       ],
-      "title": "Buying Format",
+      "title": "Buying format",
       "type": "string"
+    },
+    "categories": {
+      "default": [],
+      "description": "Category IDs (for example 177) or eBay /b/ category URLs. Used in Browse mode.",
+      "editor": "stringList",
+      "title": "Category IDs or URLs",
+      "type": "array"
     },
     "condition": {
       "default": "",
-      "description": "Filter by item condition. Leave blank for all conditions.",
+      "description": "Filter listings by condition. Leave on All conditions for every condition.",
       "editor": "select",
       "enum": [
         "",
         "new",
         "openBox",
+        "manufacturerRefurbished",
         "refurbished",
         "used",
         "forParts"
@@ -33,24 +47,62 @@
         "All conditions",
         "New",
         "Open box",
-        "Refurbished",
+        "Manufacturer refurbished",
+        "Seller refurbished",
         "Used",
-        "For parts / not working"
+        "For parts or not working"
       ],
-      "title": "Item Condition",
+      "title": "Item condition",
       "type": "string"
     },
-    "keywords": {
-      "description": "Search eBay by keyword (e.g., 'laptop', 'vintage watch'). Builds a search URL automatically — no need to construct one yourself. Leave blank if using Start URLs instead.",
-      "editor": "textfield",
-      "prefill": "laptop",
-      "sectionCaption": "Keyword Search",
-      "title": "Search Keywords",
+    "freeShipping": {
+      "default": false,
+      "description": "Keep only listings that advertise free shipping/delivery.",
+      "prefill": false,
+      "title": "Free shipping only",
+      "type": "boolean"
+    },
+    "includeItemSpecifics": {
+      "default": true,
+      "description": "Add the full item-specifics table (brand, model, MPN, dimensions, features and other aspects) to item records.",
+      "prefill": true,
+      "title": "Include item specifics (Item details mode)",
+      "type": "boolean"
+    },
+    "includeRecentFeedback": {
+      "default": true,
+      "description": "Add up to 25 recent feedback entries with buyer, rating, price and date to seller records.",
+      "prefill": true,
+      "title": "Include recent feedback (Seller profile mode)",
+      "type": "boolean"
+    },
+    "itemIds": {
+      "default": [],
+      "description": "eBay item IDs (for example 257633093777) or full /itm/ URLs. Used in Item details mode.",
+      "editor": "stringList",
+      "title": "Item IDs or URLs",
+      "type": "array"
+    },
+    "itemLocation": {
+      "default": "",
+      "description": "Prefer items located in the marketplace country or show worldwide results.",
+      "editor": "select",
+      "enum": [
+        "",
+        "domestic",
+        "worldwide"
+      ],
+      "enumTitles": [
+        "Any location",
+        "Domestic only",
+        "Worldwide"
+      ],
+      "title": "Item location",
       "type": "string"
     },
     "marketplace": {
       "default": "US",
-      "description": "Which eBay country site to search.",
+      "description": "Country site used for searches and for inputs that are not already a URL.",
       "editor": "select",
       "enum": [
         "US",
@@ -73,72 +125,129 @@
         "Australia (ebay.com.au)"
       ],
       "prefill": "US",
+      "sectionCaption": "Marketplace & filters",
       "title": "Marketplace",
       "type": "string"
     },
     "maxItems": {
       "default": 50,
-      "description": "Maximum number of items to scrape across all provided URLs.",
+      "description": "Upper limit on item rows (or seller/store records) across all sources.",
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 5,
-      "title": "Max Items",
+      "prefill": 2,
+      "sectionCaption": "Result limits",
+      "title": "Max records",
+      "type": "integer"
+    },
+    "maxPages": {
+      "default": 10,
+      "description": "Stop after this many result pages per search, category or store. Each page holds up to 240 listings.",
+      "maximum": 200,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Max pages per source",
       "type": "integer"
     },
     "maxPrice": {
-      "description": "Maximum item price filter (in the marketplace's local currency).",
+      "description": "Maximum item price in the marketplace's local currency.",
       "editor": "number",
-      "title": "Maximum Price",
-      "type": "integer"
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Maximum price",
+      "type": "number"
     },
     "minPrice": {
-      "description": "Minimum item price filter (in the marketplace's local currency).",
+      "description": "Minimum item price in the marketplace's local currency.",
       "editor": "number",
-      "title": "Minimum Price",
-      "type": "integer"
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Minimum price",
+      "type": "number"
     },
-    "proxy": {
-      "description": "Required — eBay blocks datacenter IPs. Use residential proxy for reliable results.",
-      "editor": "proxy",
-      "prefill": {
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
-        ],
-        "useApifyProxy": true
-      },
-      "sectionCaption": "Proxy settings",
-      "title": "Proxy Configuration",
-      "type": "object"
-    },
-    "sortBy": {
-      "default": "",
-      "description": "Result sort order. Leave blank for eBay's default best-match relevance.",
+    "mode": {
+      "default": "search",
+      "description": "Choose a data surface: keyword search, category browse, item details, seller feedback or a store's active listings.",
       "editor": "select",
       "enum": [
-        "",
+        "search",
+        "browse",
+        "item",
+        "seller",
+        "stores"
+      ],
+      "enumTitles": [
+        "Keyword search — listings matching your terms",
+        "Browse a category — listings inside a category",
+        "Item details — open specific item pages",
+        "Seller profile — feedback score, ratings and recent feedback",
+        "Store listings — active items from a store or seller"
+      ],
+      "prefill": "search",
+      "sectionCaption": "Mode",
+      "title": "What to scrape",
+      "type": "string"
+    },
+    "returnsAccepted": {
+      "default": false,
+      "description": "Keep only listings that accept returns.",
+      "prefill": false,
+      "title": "Returns accepted only",
+      "type": "boolean"
+    },
+    "searchQueries": {
+      "default": [],
+      "description": "Keywords to search on the selected marketplace. One search per entry. Use quotes for exact phrases.",
+      "editor": "stringList",
+      "prefill": [
+        "laptop"
+      ],
+      "title": "Search keywords",
+      "type": "array"
+    },
+    "sellerUsernames": {
+      "default": [],
+      "description": "eBay seller usernames (for example discountcomputerdepot) or /usr/ profile URLs. Used in Seller profile mode.",
+      "editor": "stringList",
+      "title": "Seller usernames or profile URLs",
+      "type": "array"
+    },
+    "sortBy": {
+      "default": "bestMatch",
+      "description": "How to order search results.",
+      "editor": "select",
+      "enum": [
+        "bestMatch",
         "priceLowest",
         "priceHighest",
         "endingSoonest",
         "newlyListed"
       ],
       "enumTitles": [
-        "Best Match",
+        "Best match",
         "Price: lowest first",
         "Price: highest first",
         "Ending soonest",
         "Newly listed"
       ],
-      "title": "Sort Order",
+      "title": "Sort order",
       "type": "string"
     },
     "startUrls": {
-      "description": "Direct eBay search or category URLs to scrape, as an alternative or addition to keyword search. Supports search results pages and category pages.",
+      "default": [],
+      "description": "Legacy-friendly shortcut: paste search, category, item, seller or store URLs and each is routed to the right mode automatically. Ignored when the arrays above already cover that source.",
       "editor": "requestListSources",
-      "sectionCaption": "Also get results from custom URLs",
-      "title": "Start URLs",
+      "title": "Paste any eBay URLs (optional shortcut)",
+      "type": "array"
+    },
+    "storeNames": {
+      "default": [],
+      "description": "eBay store names or /str/ store URLs. Used in Store listings mode.",
+      "editor": "stringList",
+      "title": "Store names or URLs",
       "type": "array"
     }
   },
   "schemaVersion": 1,
-  "title": "eBay Items Scraper Input",
+  "title": "eBay Multi-Marketplace Scraper Input",
   "type": "object"
 }

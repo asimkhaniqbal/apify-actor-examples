@@ -1,0 +1,306 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "properties": {
+      "authenticityGuarantee": {
+        "description": "Whether this listing is covered by eBay's Authenticity Guarantee program",
+        "type": "boolean"
+      },
+      "availableQuantity": {
+        "description": "Number of items currently in stock",
+        "nullable": true,
+        "type": "string"
+      },
+      "bids": {
+        "description": "Number of bids for auction listings, empty for Buy It Now",
+        "nullable": true,
+        "type": "string"
+      },
+      "brand": {
+        "description": "Product brand, empty if not specified by the listing",
+        "nullable": true,
+        "type": "string"
+      },
+      "businessSeller": {
+        "description": "Whether the seller is registered as a business seller",
+        "type": "boolean"
+      },
+      "categories": {
+        "description": "Breadcrumb category path from eBay",
+        "type": "array"
+      },
+      "condition": {
+        "description": "Item condition: New, Used, Refurbished, or For parts or not working",
+        "type": "string"
+      },
+      "id": {
+        "description": "eBay item ID number",
+        "type": "string"
+      },
+      "images": {
+        "description": "All high-resolution product image URLs",
+        "type": "array"
+      },
+      "itemSpecifics": {
+        "description": "Key-value pairs of item specifics (Brand, Model, etc.)",
+        "type": "object"
+      },
+      "listingStartDate": {
+        "description": "ISO 8601 timestamp when the listing went live, empty if not available",
+        "nullable": true,
+        "type": "string"
+      },
+      "listingType": {
+        "description": "'Buy It Now' or 'Auction'",
+        "type": "string"
+      },
+      "location": {
+        "description": "Item geographic location",
+        "type": "string"
+      },
+      "model": {
+        "description": "Product model, empty if not specified by the listing",
+        "nullable": true,
+        "type": "string"
+      },
+      "originalPrice": {
+        "description": "Original price before discount, empty if not discounted",
+        "nullable": true,
+        "type": "string"
+      },
+      "paymentMethods": {
+        "description": "Accepted payment methods (e.g. PayPal, Klarna Installment, Venmo)",
+        "type": "array"
+      },
+      "price": {
+        "description": "Current price with currency (e.g., 'US $384.92')",
+        "type": "string"
+      },
+      "returnPolicy": {
+        "description": "Return policy terms (e.g., '30 days returns', 'Seller does not accept returns'), empty for eBay Motors/vehicle listings which are typically sold as-is via dealer arrangement rather than a standard return policy",
+        "nullable": true,
+        "type": "string"
+      },
+      "scrapedAt": {
+        "description": "ISO 8601 timestamp when the item was scraped",
+        "type": "string"
+      },
+      "seller": {
+        "description": "Seller display name",
+        "type": "string"
+      },
+      "sellerFeedbackPercent": {
+        "description": "Seller positive feedback percentage (e.g., '99.3%'), empty for new sellers with no feedback",
+        "nullable": true,
+        "type": "string"
+      },
+      "sellerFeedbackScore": {
+        "description": "Seller total feedback count",
+        "type": "string"
+      },
+      "sellerUrl": {
+        "description": "URL to seller's eBay store or profile",
+        "type": "string"
+      },
+      "shippingCost": {
+        "description": "Shipping cost or 'Free shipping', empty if eBay doesn't display a computed cost on the page (e.g. calculated/location-dependent shipping, or shipping-restriction-only listings)",
+        "nullable": true,
+        "type": "string"
+      },
+      "soldCount": {
+        "description": "Number of units sold",
+        "nullable": true,
+        "type": "string"
+      },
+      "title": {
+        "description": "Full product title",
+        "type": "string"
+      },
+      "topRatedSeller": {
+        "description": "Whether the seller has eBay's Top Rated Plus/Seller badge",
+        "type": "boolean"
+      },
+      "url": {
+        "description": "Direct URL to the eBay item listing",
+        "type": "string"
+      },
+      "vehicle": {
+        "description": "Vehicle-specific fields (vin, mileage, titleStatus, transmission, drivetrain, fuelType, exteriorColor, interiorColor) — this key is present only for eBay Motors listings; it is absent (not null) for all other listings.",
+        "type": "object"
+      },
+      "watchCount": {
+        "description": "Number of people watching this item",
+        "nullable": true,
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "title": "eBay Product Details",
+  "views": {
+    "detailed": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "authenticityGuarantee": {
+            "format": "boolean",
+            "label": "Authenticity Guarantee"
+          },
+          "availableQuantity": {
+            "format": "text",
+            "label": "Stock"
+          },
+          "bids": {
+            "format": "text",
+            "label": "Bids"
+          },
+          "brand": {
+            "format": "text",
+            "label": "Brand"
+          },
+          "businessSeller": {
+            "format": "boolean",
+            "label": "Business Seller"
+          },
+          "condition": {
+            "format": "text",
+            "label": "Condition"
+          },
+          "listingStartDate": {
+            "format": "date",
+            "label": "Listed"
+          },
+          "listingType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "location": {
+            "format": "text",
+            "label": "Location"
+          },
+          "model": {
+            "format": "text",
+            "label": "Model"
+          },
+          "originalPrice": {
+            "format": "text",
+            "label": "Was"
+          },
+          "price": {
+            "format": "text",
+            "label": "Price"
+          },
+          "returnPolicy": {
+            "format": "text",
+            "label": "Returns"
+          },
+          "seller": {
+            "format": "text",
+            "label": "Seller"
+          },
+          "sellerFeedbackPercent": {
+            "format": "text",
+            "label": "Rating"
+          },
+          "sellerFeedbackScore": {
+            "format": "number",
+            "label": "Feedback"
+          },
+          "shippingCost": {
+            "format": "text",
+            "label": "Shipping"
+          },
+          "soldCount": {
+            "format": "text",
+            "label": "Sold"
+          },
+          "title": {
+            "format": "text",
+            "label": "Title"
+          },
+          "topRatedSeller": {
+            "format": "boolean",
+            "label": "Top Rated Seller"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          },
+          "watchCount": {
+            "format": "text",
+            "label": "Watching"
+          }
+        }
+      },
+      "title": "Detailed Results",
+      "transformation": {
+        "fields": [
+          "title",
+          "price",
+          "originalPrice",
+          "condition",
+          "brand",
+          "model",
+          "seller",
+          "sellerFeedbackScore",
+          "sellerFeedbackPercent",
+          "availableQuantity",
+          "soldCount",
+          "watchCount",
+          "location",
+          "shippingCost",
+          "returnPolicy",
+          "listingStartDate",
+          "authenticityGuarantee",
+          "topRatedSeller",
+          "businessSeller",
+          "listingType",
+          "bids",
+          "url"
+        ]
+      }
+    },
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "condition": {
+            "format": "text",
+            "label": "Condition"
+          },
+          "location": {
+            "format": "text",
+            "label": "Location"
+          },
+          "price": {
+            "format": "text",
+            "label": "Price"
+          },
+          "seller": {
+            "format": "text",
+            "label": "Seller"
+          },
+          "title": {
+            "format": "text",
+            "label": "Title"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          }
+        }
+      },
+      "title": "Overview",
+      "transformation": {
+        "fields": [
+          "title",
+          "price",
+          "condition",
+          "seller",
+          "location",
+          "url"
+        ]
+      }
+    }
+  }
+}

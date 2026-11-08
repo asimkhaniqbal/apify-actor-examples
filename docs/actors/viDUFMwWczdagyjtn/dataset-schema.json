@@ -1,66 +1,94 @@
 {
   "actorSpecification": 1,
-  "title": "eBay Items",
+  "title": "eBay Listings, Items and Sellers",
   "views": {
-    "detailed": {
+    "itemDetails": {
       "display": {
         "component": "table",
         "properties": {
           "bids": {
-            "format": "text",
+            "format": "number",
             "label": "Bids"
           },
           "brand": {
             "format": "text",
             "label": "Brand"
           },
+          "categoryPath": {
+            "format": "text",
+            "label": "Categories"
+          },
+          "color": {
+            "format": "text",
+            "label": "Color"
+          },
           "condition": {
             "format": "text",
             "label": "Condition"
           },
-          "isSponsored": {
-            "format": "boolean",
-            "label": "Sponsored"
-          },
-          "itemLocation": {
+          "conditionDescription": {
             "format": "text",
-            "label": "Location"
+            "label": "Condition Detail"
           },
-          "listingType": {
+          "gtin": {
             "format": "text",
-            "label": "Type"
+            "label": "GTIN"
+          },
+          "images": {
+            "format": "text",
+            "label": "Images"
+          },
+          "model": {
+            "format": "text",
+            "label": "Model"
+          },
+          "mpn": {
+            "format": "text",
+            "label": "MPN"
+          },
+          "paymentMethods": {
+            "format": "text",
+            "label": "Payments"
           },
           "price": {
             "format": "text",
             "label": "Price"
           },
-          "productRating": {
-            "format": "text",
-            "label": "Rating"
+          "quantityAvailable": {
+            "format": "number",
+            "label": "Available"
           },
-          "reviewCount": {
+          "quantitySold": {
+            "format": "number",
+            "label": "Sold"
+          },
+          "returnDays": {
+            "format": "number",
+            "label": "Return Days"
+          },
+          "returns": {
             "format": "text",
-            "label": "Reviews"
+            "label": "Returns"
           },
           "seller": {
             "format": "text",
             "label": "Seller"
           },
-          "sellerFeedbackCount": {
-            "format": "text",
-            "label": "Feedback Count"
-          },
-          "sellerFeedbackPercent": {
-            "format": "text",
-            "label": "Feedback %"
+          "sellerFeedbackScore": {
+            "format": "number",
+            "label": "Seller Feedback"
           },
           "shippingCost": {
             "format": "text",
             "label": "Shipping"
           },
-          "soldCount": {
+          "shippingDestination": {
             "format": "text",
-            "label": "Sold"
+            "label": "Ships To"
+          },
+          "timeLeft": {
+            "format": "text",
+            "label": "Time Left"
           },
           "title": {
             "format": "text",
@@ -75,54 +103,97 @@
             "label": "Was"
           },
           "watchCount": {
-            "format": "text",
+            "format": "number",
             "label": "Watchers"
           }
         }
       },
-      "title": "Detailed Results",
+      "title": "Item Details",
       "transformation": {
         "fields": [
           "title",
           "price",
           "wasPrice",
           "condition",
+          "conditionDescription",
           "brand",
+          "model",
+          "mpn",
+          "gtin",
+          "color",
           "seller",
-          "sellerFeedbackPercent",
-          "sellerFeedbackCount",
-          "productRating",
-          "reviewCount",
+          "sellerFeedbackScore",
+          "quantityAvailable",
+          "quantitySold",
           "watchCount",
-          "soldCount",
-          "shippingCost",
-          "itemLocation",
-          "listingType",
           "bids",
-          "isSponsored",
+          "timeLeft",
+          "shippingCost",
+          "shippingDestination",
+          "returns",
+          "returnDays",
+          "paymentMethods",
+          "categoryPath",
+          "images",
           "url"
         ]
       }
     },
-    "overview": {
+    "listings": {
       "display": {
         "component": "table",
         "properties": {
+          "brand": {
+            "format": "text",
+            "label": "Brand"
+          },
           "condition": {
             "format": "text",
             "label": "Condition"
+          },
+          "itemLocation": {
+            "format": "text",
+            "label": "Location"
+          },
+          "listingType": {
+            "format": "text",
+            "label": "Format"
           },
           "price": {
             "format": "text",
             "label": "Price"
           },
+          "priceCurrency": {
+            "format": "text",
+            "label": "Currency"
+          },
+          "priceValue": {
+            "format": "number",
+            "label": "Price Value"
+          },
+          "productRating": {
+            "format": "text",
+            "label": "Rating"
+          },
+          "recordType": {
+            "format": "text",
+            "label": "Type"
+          },
           "seller": {
             "format": "text",
             "label": "Seller"
           },
+          "sellerFeedbackPercent": {
+            "format": "text",
+            "label": "Feedback %"
+          },
           "shippingCost": {
             "format": "text",
             "label": "Shipping"
+          },
+          "soldCount": {
+            "format": "number",
+            "label": "Sold"
           },
           "title": {
             "format": "text",
@@ -131,18 +202,99 @@
           "url": {
             "format": "link",
             "label": "URL"
+          },
+          "watchCount": {
+            "format": "number",
+            "label": "Watchers"
           }
         }
       },
-      "title": "Items Overview",
+      "title": "Listings",
       "transformation": {
         "fields": [
+          "recordType",
           "title",
           "price",
+          "priceValue",
+          "priceCurrency",
           "condition",
+          "brand",
           "seller",
+          "sellerFeedbackPercent",
+          "productRating",
+          "watchCount",
+          "soldCount",
           "shippingCost",
+          "itemLocation",
+          "listingType",
           "url"
+        ]
+      }
+    },
+    "sellerProfiles": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "memberCountry": {
+            "format": "text",
+            "label": "Country"
+          },
+          "memberSince": {
+            "format": "text",
+            "label": "Member Since"
+          },
+          "negativeFeedbackCount": {
+            "format": "number",
+            "label": "Negative"
+          },
+          "neutralFeedbackCount": {
+            "format": "number",
+            "label": "Neutral"
+          },
+          "positiveFeedbackCount": {
+            "format": "number",
+            "label": "Positive"
+          },
+          "positiveFeedbackPercent": {
+            "format": "text",
+            "label": "Positive %"
+          },
+          "recordType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "sellerFeedbackScore": {
+            "format": "number",
+            "label": "Feedback Score"
+          },
+          "sellerProfileUrl": {
+            "format": "link",
+            "label": "Profile URL"
+          },
+          "sellerUsername": {
+            "format": "text",
+            "label": "Seller"
+          },
+          "storeName": {
+            "format": "text",
+            "label": "Store"
+          }
+        }
+      },
+      "title": "Seller Profiles",
+      "transformation": {
+        "fields": [
+          "recordType",
+          "sellerUsername",
+          "sellerFeedbackScore",
+          "positiveFeedbackPercent",
+          "positiveFeedbackCount",
+          "neutralFeedbackCount",
+          "negativeFeedbackCount",
+          "memberSince",
+          "memberCountry",
+          "storeName",
+          "sellerProfileUrl"
         ]
       }
     }
