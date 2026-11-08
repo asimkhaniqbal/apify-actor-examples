@@ -1,0 +1,87 @@
+{
+  "description": "Search or browse Yahoo Auctions Japan. Filter by price and sort order.",
+  "properties": {
+    "category": {
+      "description": "Yahoo Auctions Japan category ID for browsing (mode=browseCategory), e.g. '23336'.",
+      "editor": "textfield",
+      "title": "Category ID",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Maximum number of auction listings to return.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Only include auctions at or below this current bid price in JPY.",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Maximum price (JPY)",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Only include auctions at or above this current bid price in JPY.",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Minimum price (JPY)",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "searchItems",
+      "description": "What to scrape on Yahoo Auctions Japan.",
+      "editor": "select",
+      "enum": [
+        "searchItems",
+        "browseCategory"
+      ],
+      "enumTitles": [
+        "Search Items (by keyword)",
+        "Browse Category (by category ID)"
+      ],
+      "prefill": "searchItems",
+      "title": "Mode",
+      "type": "string"
+    },
+    "query": {
+      "description": "Keyword to search on Yahoo Auctions Japan (mode=searchItems).",
+      "editor": "textfield",
+      "prefill": "PlayStation 5",
+      "title": "Search query",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "endTime",
+      "description": "Auction listing sort order.",
+      "editor": "select",
+      "enum": [
+        "endTime",
+        "price_asc",
+        "price_desc",
+        "bids",
+        "new",
+        "popular"
+      ],
+      "enumTitles": [
+        "Ending Soon (default)",
+        "Price: Low to High",
+        "Price: High to Low",
+        "Most Bids",
+        "Newest Listed",
+        "Most Popular"
+      ],
+      "prefill": "endTime",
+      "title": "Sort by",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Yahoo Auctions Japan Scraper Input",
+  "type": "object"
+}

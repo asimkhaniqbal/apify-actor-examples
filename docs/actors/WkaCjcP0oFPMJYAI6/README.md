@@ -4,114 +4,224 @@
 
 # Walmart.com Product Search & Price Filter Scraper
 
-Walmart's own search results mix sponsored placements in with organic ones and don't let you filter by review count or seller name. This actor searches Walmart.com by keyword and returns clean per-product records — name, price, rating, review count, brand, image, savings, availability, seller, free-shipping eligibility — with sponsored results flagged apart from organic ones, and no account needed.
+Walmart mixes sponsored placements into its search results and hides useful filters behind click-by-click pages. This actor reads Walmart.com directly and returns clean, structured records from four surfaces: keyword search, category shelves, full product pages and customer reviews. No account, cookies or proxy setup is needed.
 
-## What this actor does
+## What you can scrape
 
-- Searches Walmart.com for your keyword and walks the result pages
-- Returns one structured record per product with its full listing metadata
-- Filters results by price band, minimum rating, minimum review count, free-shipping-only, in-stock-only, brand contains, and seller contains
-- Can exclude sponsored/promoted placements to keep only organic results
-- Sorts by best match, price (low/high), best seller, rating, or new arrivals
-- Empty fields are omitted from the output — a product only carries the fields Walmart actually published for it
+| Mode | What it returns |
+|---|---|
+| **Search by keyword** | Products from Walmart's own search, page by page, for one or many keywords |
+| **Browse a category URL** | Products from any `/browse/` or `/cp/` category shelf, with the same filters and sort orders |
+| **Product details** | The full item document for URLs, numeric item IDs or alphanumeric product IDs |
+| **Customer reviews** | Paginated review rows with rating, text, author, date, verified-purchase flag and photos |
 
-## Output per product
+## Filters that actually apply
 
-- `productId`, `productUrl`
-- `name`, `brand`, `shortDescription`
-- `price`, `priceDisplay`, `wasPrice`, `minPrice`, `savingsAmount`, `currency`
-- `rating`, `reviewCount`
-- `imageUrl`, `images[]` (up to 10)
-- `availability`, `inStock`
-- `freeShippingEligible`
-- `sellerName`
-- `isSponsored` (only when true)
-- `variantCount` (when product has variants)
-- `recordType: "product"`, `scrapedAt`
+- **Price band** — Walmart's own `min_price` / `max_price` filter, plus a client-side safety check
+- **Minimum rating and review count** — keep only products proven by shoppers
+- **Brands** — exact Walmart brand facet (pass several brands at once)
+- **Retailer facet** — Walmart-fulfilled, Pro Sellers, marketplace sellers, or any other facet Walmart exposes
+- **Any Walmart facet** — pass `type:value`, such as `special_offers:Rollback`, `customer_rating_range_facet_new_filter_v0:4 - 5 Stars`, or `exclude_oos:Show available items only`
+- **Free shipping** — search rows are enriched from product pages so the flag is real
+- **In stock / out of stock** — drop unavailable items
+- **Sponsored placements** — kept and flagged, or excluded so only organic results remain
+- **Seller name** — substring match, case-insensitive
 
-Empty fields are omitted from the output (no nulls).
+Sort orders: best match, price low-to-high, price high-to-low, best seller, highly rated, newest.
 
-## Input
+## What a product record contains
 
-| Field | Type | Default | Description |
-|---|---|---|---|
-| `searchQuery` | string | `"iphone case"` | Keyword to search for |
-| `maxItems` | int | `50` | Hard cap on emitted records (1–5000) |
-| `maxPages` | int | `5` | Maximum search-result pages to walk (~24 products per page) |
-| `sortBy` | enum | `best_match` | `best_match` / `price_low` / `price_high` / `best_seller` / `rating_high` / `new` |
-| `minPrice` | number | – | Drop products below this price |
-| `maxPrice` | number | – | Drop products above this price |
-| `minRating` | number | – | Drop products with rating below this (0.0–5.0) |
-| `minReviewCount` | int | – | Drop products with fewer reviews than this |
-| `freeShippingOnly` | bool | `false` | Only emit free-shipping eligible products |
-| `excludeOutOfStock` | bool | `true` | Drop out-of-stock products |
-| `excludeSponsored` | bool | `false` | Drop sponsored / promoted product placements |
-| `brandContains` | string | – | Only emit products whose brand contains this substring (case-insensitive) |
-| `sellerContains` | string | – | Only emit products whose seller name contains this substring |
-| `useApifyProxy` | bool | `false` | Route through Apify proxy. Walmart works fine without proxy |
+Search and browse rows:
 
-### Example: top-rated iPhone cases under $20
+`productId`, `productUrl`, `name`, `brand`, `price`, `priceDisplay`, `wasPrice`,
+`minPrice`, `savingsAmount`, `currency`, `unitPrice`, `rating`, `reviewCount`,
+`imageUrl`, `images[]`, `availability`, `availabilityDisplay`, `inStock`,
+`freeShippingEligible`, `sellerName`, `sellerId`, `sellerType`, `isSponsored`,
+`badges[]`, `categoryPath`, `categoryPathId`, `fulfillmentTypes[]`,
+`deliveryDate`, `pickupDate`, `storeId`, `storePostalCode`, `storeCity`,
+`storeState`, `variants[]`, `variantCount`, `shortDescription`, `position`,
+`organicRank`, `searchQuery`, `sourcePage`, `categoryUrl`, `recordType`,
+`scrapedAt`.
+
+Product-detail rows add:
+
+`brandUrl`, `upc`, `model`, `manufacturerProductId`, `longDescription`,
+`specifications`, `highlights[]`, `fulfillmentOptions[]`, `shippingPrice`,
+`deliveryAvailable`, `pickupAvailable`, `returnPolicy`, `returnWindowDays`,
+`returnable`, `freeReturns`, `reviewDistribution`, `recommendedPercent`,
+`reviewsWithTextCount`.
+
+Review rows:
+
+`reviewId`, `productId`, `productUrl`, `productName`, `rating`, `title`,
+`reviewText`, `author`, `reviewDate`, `verifiedPurchase`, `positiveFeedback`,
+`negativeFeedback`, `photos[]`, `fulfilledBy`, `externalSource`, `recordType`,
+`scrapedAt`.
+
+Empty values are omitted at every depth: no `null`, blank strings, empty lists
+or empty objects.
+
+## Input reference
+
+| Field | Default | Purpose |
+|---|---|---|
+| `mode` | `search` | `search`, `browse`, `products` or `reviews` |
+| `searchQueries` | `["iphone case"]` | One or more keywords (search mode) |
+| `categoryUrls` | `[]` | Walmart `/browse/` or `/cp/` category links |
+| `productUrls` | `[]` | Walmart `/ip/` links (products/reviews modes) |
+| `itemIds` | `[]` | Numeric item IDs or alphanumeric product IDs |
+| `maxItems` | `50` | Hard row cap for the run |
+| `maxPages` | `5` | Maximum result pages per query/category (Walmart caps at 25) |
+| `sortBy` | `best_match` | Listing order |
+| `minPrice` / `maxPrice` | – | Price band in USD |
+| `minRating` | – | Minimum average rating (0-5) |
+| `minReviewCount` | – | Minimum number of reviews |
+| `freeShippingOnly` | `false` | Only free-shipping products (auto-enriches cards) |
+| `excludeOutOfStock` | `true` | Drop out-of-stock products |
+| `excludeSponsored` | `false` | Drop sponsored placements |
+| `brands` | `[]` | Exact brand names, e.g. `DEWALT` |
+| `sellerContains` | – | Seller-name substring |
+| `facet` | – | Any Walmart facet as `type:value` |
+| `enrichDetails` | `false` | Open each search row's product page for brand/UPC/specs |
+| `maxConcurrency` | `4` | Parallel product/review requests (1-10) |
+| `maxReviews` | `10` | Reviews per product (reviews mode) |
+| `reviewSort` | `relevancy` | Review order |
+
+## Example inputs
+
+Top-rated coffee makers under $60, no sponsored rows:
 
 ```json
 {
-  "searchQuery": "iphone case",
+  "mode": "search",
+  "searchQueries": ["coffee maker"],
   "maxItems": 100,
-  "minRating": 4.5,
-  "maxPrice": 20,
-  "minReviewCount": 100,
-  "excludeSponsored": true
+  "minPrice": 20,
+  "maxPrice": 60,
+  "minRating": 4,
+  "excludeSponsored": true,
+  "sortBy": "rating_high"
 }
 ```
 
-### Example: cheapest in-stock coffee makers, sorted by price
+Cheapest in-stock electronics from a category shelf:
 
 ```json
 {
-  "searchQuery": "coffee maker",
+  "mode": "browse",
+  "categoryUrls": ["https://www.walmart.com/browse/electronics/3944"],
+  "maxItems": 50,
   "sortBy": "price_low",
-  "excludeOutOfStock": true,
-  "freeShippingOnly": true,
-  "maxItems": 50
+  "excludeOutOfStock": true
 }
 ```
 
-### Example: Apple-branded products only
+Full details for a list of products:
 
 ```json
 {
-  "searchQuery": "earbuds",
-  "brandContains": "apple",
-  "minRating": 4.0
+  "mode": "products",
+  "productUrls": [
+    "https://www.walmart.com/ip/20042402979",
+    "https://www.walmart.com/ip/16864710228"
+  ],
+  "maxItems": 2
 }
 ```
 
-## Use cases
+Newest reviews for a product:
 
-- **Product research** — discover top-selling SKUs in any Walmart category to inform your own listings or pricing
-- **Price monitoring** — daily run with `sortBy=price_low` to spot competitor undercuts
-- **MAP enforcement** — track when a brand's products are sold below MAP price
-- **Affiliate inventory** — feed product feeds with title + image + price to your downstream system
-- **Brand intelligence** — `brandContains` filter to see what a competitor is doing on Walmart Marketplace
-- **Review-gated shopping** — `minReviewCount` and `minRating` filters to surface only well-proven products
+```json
+{
+  "mode": "reviews",
+  "itemIds": ["20042402979"],
+  "maxReviews": 50,
+  "reviewSort": "submission-desc"
+}
+```
+
+Brand-only search with enrichment:
+
+```json
+{
+  "mode": "search",
+  "searchQueries": ["cordless drill"],
+  "brands": ["DEWALT", "Makita"],
+  "enrichDetails": true,
+  "maxItems": 20
+}
+```
+
+## Typical uses
+
+- **Price monitoring** — schedule a daily search and compare `price` across runs
+- **MAP / reseller checks** — see which marketplace sellers undercut a brand
+- **Product research** — collect ratings, review counts and badges for a niche
+- **Catalog enrichment** — feed names, images, UPCs, specs and prices downstream
+- **Review mining** — export text reviews with ratings and verified-purchase flags
+- **Sponsored-share analysis** — compare `isSponsored` rows with `organicRank`
 
 ## FAQ
 
-**Does it require a login or cookies?**  No.
+**Do I need an Apify proxy or any credentials?** No. The actor reads Walmart
+without an account. It chooses its network path automatically and only changes
+it if Walmart returns a bot challenge.
 
-**Is a proxy needed?**  No — Walmart serves data freely to datacenter IPs. The `useApifyProxy` field is available for very long crawls (1000+ products) where rate-limit risk grows, but is disabled by default to avoid unnecessary cost.
+**Why does my search return fewer rows than Walmart shows?** Walmart caps
+listing pagination at 10-25 pages per query. Split the query by brand, facet,
+price band or sort order to go deeper.
 
-**How many results can I get in one run?**  Walmart paginates ~24 products per page, with up to 25 pages of organic results per query (~600 products). For deeper coverage, run the actor multiple times with different `sortBy` or narrow your query.
+**Why is brand or UPC missing from some search rows?** Walmart's search cards
+omit brand/UPC for many categories. Turn on `enrichDetails` or use product mode
+to read the full item page.
 
-**Why are some products missing `rating` or `reviewCount`?**  New product listings often have no reviews yet. The omit-empty contract drops the missing fields rather than emit zero/null.
+**Why does free shipping require extra time?** Search cards no longer publish
+shipping badges, so the actor opens each product page to check Walmart's real
+free-shipping flag. `freeShippingOnly` enables this automatically.
 
-**Why are some products missing `brand`?**  Walmart's catalog has inconsistent brand metadata for marketplace seller listings. Walmart-fulfilled products almost always have `brand`; third-party seller listings sometimes don't.
+**How many reviews can I get?** Walmart only lists reviews that contain text,
+usually 10-20 per product even when the total review count is much higher.
+`maxReviews` controls how many of those the actor reads.
 
-**Why is `seller` sometimes missing?**  When the seller is Walmart itself, the field may be omitted by the SSR JSON. Treat absence as "Walmart-fulfilled" for most cases.
+**Are prices store-specific?** Prices and availability reflect the store and
+ZIP Walmart resolves for the request; search and browse rows expose that
+location as `storeId`, `storePostalCode`, `storeCity` and `storeState`.
+There is no input to pin a different store or ZIP.
 
-**Does it cover Walmart Canada / Mexico?**  No — this actor targets walmart.com (US) only. The DOM and `__NEXT_DATA__` shape differs across regions.
+**Does it support Walmart Canada or Mexico?** No, this actor targets
+walmart.com in the United States. The regional sites use different page data.
 
-**What if all my filters reject every result?**  The actor finishes cleanly and sets a status message instead of pushing placeholder rows.
+**What happens when every filter rejects every row?** The run ends cleanly with
+a status message and an empty dataset, never placeholder or sentinel rows.
 
-**Can I scrape product detail pages?**  This actor focuses on the search-results listing. Use `productUrl` from each record to feed a separate detail-page scraper.
+**What do the transient warnings in the log mean?** Walmart sometimes drops or
+throttles a proxy connection (HTTP 444/456). The actor retries, rotates its
+proxy session and continues; a run can still return fewer rows during a
+Walmart bot wave.
 
-**Why is `maxPages` capped at 25?**  Walmart's search backend caps pagination at ~25 pages. Beyond that the result list repeats earlier products.
+**Can I paste an old task input?** Yes. Legacy keys such as `searchQuery`,
+`query`, `maxResults`, `maxPage`, `sort`, `brandContains`, `useApifyProxy`,
+`inStockOnly`, `includeSponsored`, `fetchDetails` and `maxReviewsPerProduct`
+are still honoured in code even though the input form now shows the new names.
+
+## Limitations
+
+- Walmart review pages expose only reviews with text; the total review count
+  can be much larger.
+- Category shelves can be empty if Walmart retired the category; paste the
+  current `/browse/` or `/cp/` link from the site.
+- Listing depth is capped by Walmart's own pagination.
+- Search-card brand/UPC/specs require `enrichDetails`; without it those fields
+  appear only when Walmart includes them.
+- A few store-restricted product pages return 404 from some proxy locations.
+  Product mode retries the item's reviews page, which can recover a leaner
+  record (name, price, stock, image, category). If that page is also 404 at
+  the same location, the item is skipped; retry the run or use review mode.
+- US walmart.com only.
+- Prices follow Walmart's default location for the request; the actor cannot
+  pin a different store or ZIP.
+
+## Data source
+
+Records come from Walmart.com's server-rendered pages and the JSON embedded in
+them. No external API, account or paid data source is used.

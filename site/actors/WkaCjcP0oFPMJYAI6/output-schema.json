@@ -1,11 +1,17 @@
 {
   "actorOutputSchemaVersion": 1,
-  "description": "Walmart.com search results, with price, rating, review count, brand, seller, availability and sponsored-placement flag for each product.",
+  "description": "Walmart.com products from keyword search, category browse or product pages (price, rating, reviews, brand, seller, stock, shipping, UPC, specifications, images), plus customer review rows from review mode.",
   "properties": {
     "products": {
-      "description": "Dataset containing all scraped Walmart.com search results.",
+      "description": "Dataset view containing search, category and product-detail records.",
       "template": "{{links.apiDefaultDatasetUrl}}/items",
       "title": "Walmart products",
+      "type": "string"
+    },
+    "reviews": {
+      "description": "Dataset view containing customer review records (recordType = review).",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?view=reviews",
+      "title": "Walmart reviews",
       "type": "string"
     }
   },
