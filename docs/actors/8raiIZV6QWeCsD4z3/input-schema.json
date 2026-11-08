@@ -1,63 +1,302 @@
 {
-  "description": "Search or browse Yahoo Auctions Japan. Filter by price and sort order.",
+  "description": "Search live or sold Yahoo Auctions Japan listings by keyword, category, seller or item ID. Filter by price, condition, listing type and prefecture, then enrich rows with full item details.",
   "properties": {
-    "category": {
-      "description": "Yahoo Auctions Japan category ID for browsing (mode=browseCategory), e.g. '23336'.",
-      "editor": "textfield",
-      "title": "Category ID",
+    "buyItNowOnly": {
+      "default": false,
+      "description": "Only return listings that offer a buy-it-now price.",
+      "prefill": false,
+      "title": "Has buy-it-now price",
+      "type": "boolean"
+    },
+    "categoryIds": {
+      "description": "Yahoo Auctions category IDs, e.g. 23336 for Computers. Used by browseCategory and as an optional filter for keywordSearch/soldSearch.",
+      "editor": "stringList",
+      "title": "Category IDs",
+      "type": "array"
+    },
+    "condition": {
+      "default": "any",
+      "description": "Only return listings in this condition grade.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "new",
+        "used",
+        "likeNew",
+        "excellent",
+        "good",
+        "acceptable",
+        "poor"
+      ],
+      "enumTitles": [
+        "Any condition",
+        "New",
+        "Used (any grade)",
+        "Used - Like New",
+        "Used - Excellent",
+        "Used - Good",
+        "Used - Acceptable",
+        "Used - Poor"
+      ],
+      "prefill": "any",
+      "sectionCaption": "Filters",
+      "title": "Item condition",
+      "type": "string"
+    },
+    "excludeKeywords": {
+      "description": "Listings containing any of these words are removed (all search modes).",
+      "editor": "stringList",
+      "title": "Exclude keywords",
+      "type": "array"
+    },
+    "freeShippingOnly": {
+      "default": false,
+      "description": "Only return listings whose seller offers free shipping.",
+      "prefill": false,
+      "title": "Free shipping only",
+      "type": "boolean"
+    },
+    "includeDetails": {
+      "default": false,
+      "description": "Open each item page to add description, all photos, bidder count, seller rating/location and shipping methods. Adds one request per record.",
+      "prefill": false,
+      "title": "Fetch full item details",
+      "type": "boolean"
+    },
+    "itemIds": {
+      "description": "Auction IDs or item page URLs (mode=itemDetails), e.g. w1250838886 or https://page.auctions.yahoo.co.jp/jp/auction/w1250838886.",
+      "editor": "stringList",
+      "title": "Item IDs or URLs",
+      "type": "array"
+    },
+    "listingType": {
+      "default": "all",
+      "description": "Auctions, fixed-price listings, or both.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "auction",
+        "fixedPrice"
+      ],
+      "enumTitles": [
+        "Auctions and fixed-price",
+        "Auctions only",
+        "Fixed-price only"
+      ],
+      "prefill": "all",
+      "title": "Listing type",
       "type": "string"
     },
     "maxItems": {
       "default": 20,
-      "description": "Maximum number of auction listings to return.",
-      "maximum": 500,
+      "description": "Maximum number of auction records to return across all keywords and pages.",
+      "maximum": 5000,
       "minimum": 1,
-      "prefill": 20,
-      "title": "Max items",
+      "prefill": 3,
+      "sectionCaption": "Output",
+      "title": "Max records",
       "type": "integer"
     },
     "maxPrice": {
-      "description": "Only include auctions at or below this current bid price in JPY.",
+      "description": "Only include listings at or below this price in yen.",
       "maximum": 1000000000,
       "minimum": 0,
       "title": "Maximum price (JPY)",
       "type": "integer"
     },
     "minPrice": {
-      "description": "Only include auctions at or above this current bid price in JPY.",
+      "description": "Only include listings at or above this price in yen.",
       "maximum": 1000000000,
       "minimum": 0,
       "title": "Minimum price (JPY)",
       "type": "integer"
     },
     "mode": {
-      "default": "searchItems",
+      "default": "keywordSearch",
       "description": "What to scrape on Yahoo Auctions Japan.",
       "editor": "select",
       "enum": [
+        "keywordSearch",
+        "browseCategory",
+        "soldSearch",
+        "sellerListings",
+        "itemDetails",
         "searchItems",
-        "browseCategory"
+        "soldItems",
+        "sellerItems"
       ],
       "enumTitles": [
-        "Search Items (by keyword)",
-        "Browse Category (by category ID)"
+        "Keyword search (live auctions)",
+        "Browse category (live auctions)",
+        "Sold search (closed auctions, final prices)",
+        "Seller listings (live auctions by seller)",
+        "Item details (by item ID or URL)",
+        "Search items (legacy alias)",
+        "Sold items (legacy alias)",
+        "Seller items (legacy alias)"
       ],
-      "prefill": "searchItems",
+      "prefill": "keywordSearch",
+      "sectionCaption": "What to scrape",
       "title": "Mode",
       "type": "string"
     },
-    "query": {
-      "description": "Keyword to search on Yahoo Auctions Japan (mode=searchItems).",
-      "editor": "textfield",
-      "prefill": "PlayStation 5",
-      "title": "Search query",
-      "type": "string"
-    },
-    "sortBy": {
-      "default": "endTime",
-      "description": "Auction listing sort order.",
+    "prefecture": {
+      "default": "",
+      "description": "Only include listings located in this prefecture.",
       "editor": "select",
       "enum": [
+        "",
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47"
+      ],
+      "enumTitles": [
+        "Any prefecture",
+        "Hokkaido",
+        "Aomori",
+        "Iwate",
+        "Miyagi",
+        "Akita",
+        "Yamagata",
+        "Fukushima",
+        "Ibaraki",
+        "Tochigi",
+        "Gunma",
+        "Saitama",
+        "Chiba",
+        "Tokyo",
+        "Kanagawa",
+        "Niigata",
+        "Toyama",
+        "Ishikawa",
+        "Fukui",
+        "Yamanashi",
+        "Nagano",
+        "Gifu",
+        "Shizuoka",
+        "Aichi",
+        "Mie",
+        "Shiga",
+        "Kyoto",
+        "Osaka",
+        "Hyogo",
+        "Nara",
+        "Wakayama",
+        "Tottori",
+        "Shimane",
+        "Okayama",
+        "Hiroshima",
+        "Yamaguchi",
+        "Tokushima",
+        "Kagawa",
+        "Ehime",
+        "Kochi",
+        "Fukuoka",
+        "Saga",
+        "Nagasaki",
+        "Kumamoto",
+        "Oita",
+        "Miyazaki",
+        "Kagoshima",
+        "Okinawa"
+      ],
+      "title": "Item location",
+      "type": "string"
+    },
+    "priceType": {
+      "default": "currentPrice",
+      "description": "Use the current bid price or the buy-it-now price for minPrice/maxPrice.",
+      "editor": "select",
+      "enum": [
+        "currentPrice",
+        "buyNowPrice"
+      ],
+      "enumTitles": [
+        "Current bid price",
+        "Buy-it-now price"
+      ],
+      "prefill": "currentPrice",
+      "title": "Price filter applies to",
+      "type": "string"
+    },
+    "searchQueries": {
+      "description": "One or more keywords, Japanese or English (mode=keywordSearch, soldSearch). Each keyword is searched separately until maxItems is reached.",
+      "editor": "stringList",
+      "prefill": [
+        "PlayStation 5"
+      ],
+      "title": "Search keywords",
+      "type": "array"
+    },
+    "sellerIds": {
+      "description": "Seller IDs or seller page URLs (mode=sellerListings), e.g. FCm8JEeKSC4qTg4Ww3SAS54XL2aKF.",
+      "editor": "stringList",
+      "title": "Seller IDs",
+      "type": "array"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Result order. When Yahoo's JSON endpoint is unavailable, fallback pages are sorted locally within each fetched page window.",
+      "editor": "select",
+      "enum": [
+        "endingSoon",
+        "endingLast",
+        "newest",
+        "priceAsc",
+        "priceDesc",
+        "bidsDesc",
+        "bidsAsc",
+        "buyNowPriceAsc",
+        "buyNowPriceDesc",
+        "totalPriceAsc",
+        "totalPriceDesc",
+        "watchCountDesc",
+        "relevance",
+        "featured",
         "endTime",
         "price_asc",
         "price_desc",
@@ -66,14 +305,28 @@
         "popular"
       ],
       "enumTitles": [
-        "Ending Soon (default)",
-        "Price: Low to High",
-        "Price: High to Low",
-        "Most Bids",
-        "Newest Listed",
-        "Most Popular"
+        "Ending soonest",
+        "Ending last",
+        "Newest listed",
+        "Price: low to high",
+        "Price: high to low",
+        "Most bids",
+        "Fewest bids",
+        "Buy-it-now price: low to high",
+        "Buy-it-now price: high to low",
+        "Total price incl. shipping: low to high",
+        "Total price incl. shipping: high to low",
+        "Most watched",
+        "Best match",
+        "Featured first",
+        "Ending soonest (legacy alias)",
+        "Price: low to high (legacy alias)",
+        "Price: high to low (legacy alias)",
+        "Most bids (legacy alias)",
+        "Newest listed (legacy alias)",
+        "Best match (legacy alias)"
       ],
-      "prefill": "endTime",
+      "prefill": "relevance",
       "title": "Sort by",
       "type": "string"
     }
@@ -82,6 +335,6 @@
     "mode"
   ],
   "schemaVersion": 1,
-  "title": "Yahoo Auctions Japan Scraper Input",
+  "title": "Yahoo Auctions Japan Live & Sold Auction Scraper Input",
   "type": "object"
 }

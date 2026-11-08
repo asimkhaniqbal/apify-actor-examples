@@ -1,63 +1,302 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-q5YS7Z4LIpZXKFMfCdOAlR/BOQqMpdBtI40CqO47i3M=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Yahoo Auctions Japan Keyword &amp; Category Price Scraper | Vexaloom Labs</title><meta name="description" content="Search Yahoo Auctions Japan by keyword or browse a category, with current bid price, buy-it-now price, condition, bid count, end time and seller, filtered by price range and sorted"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/"><meta property="og:title" content="Yahoo Auctions Japan Keyword &amp; Category Price Scraper | Vexaloom Labs"><meta property="og:description" content="Search Yahoo Auctions Japan by keyword or browse a category, with current bid price, buy-it-now price, condition, bid count, end time and seller, filtered by price range and sorted"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/#webpage","name":"Yahoo Auctions Japan Keyword & Category Price Scraper","description":"Search Yahoo Auctions Japan by keyword or browse a category, with current bid price, buy-it-now price, condition, bid count, end time and seller, filtered by price range and sorted by ending soonest, price or bids.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/#article","headline":"Yahoo Auctions Japan Keyword & Category Price Scraper","name":"Yahoo Auctions Japan Keyword & Category Price Scraper","description":"Search Yahoo Auctions Japan by keyword or browse a category, with current bid price, buy-it-now price, condition, bid count, end time and seller, filtered by price range and sorted by ending soonest, price or bids.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Yahoo Auctions Japan Keyword & Category Price Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Yahoo Auctions Japan Keyword &amp; Category Price Scraper</span></div><section id="overview"><h1 class="doc-title">Yahoo Auctions Japan Keyword &amp; Category Price Scraper</h1><p class="lede">Search Yahoo Auctions Japan by keyword or browse a category, with current bid price, buy-it-now price, condition, bid count, end time and seller, filtered by price range and sorted by ending soonest, price or bids.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/yahoo-auctions-japan-keyword-and-category-price">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/8raiIZV6QWeCsD4z3/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to scrape on Yahoo Auctions Japan.</td></tr><tr><td><code>query</code></td><td>string</td><td>optional</td><td>Keyword to search on Yahoo Auctions Japan (mode=searchItems).</td></tr><tr><td><code>category</code></td><td>string</td><td>optional</td><td>Yahoo Auctions Japan category ID for browsing (mode=browseCategory), e.g. &#x27;23336&#x27;.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to scrape on Yahoo Auctions Japan.</td></tr><tr><td><code>query</code></td><td>string</td><td>optional</td><td>Keyword to search on Yahoo Auctions Japan (mode=searchItems).</td></tr><tr><td><code>category</code></td><td>string</td><td>optional</td><td>Yahoo Auctions Japan category ID for browsing (mode=browseCategory), e.g. &#x27;23336&#x27;.</td></tr><tr><td><code>sortBy</code></td><td>string</td><td>optional</td><td>Auction listing sort order.</td></tr><tr><td><code>minPrice</code></td><td>integer</td><td>optional</td><td>Only include auctions at or above this current bid price in JPY.</td></tr><tr><td><code>maxPrice</code></td><td>integer</td><td>optional</td><td>Only include auctions at or below this current bid price in JPY.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of auction listings to return.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;description&quot;: &quot;Search or browse Yahoo Auctions Japan. Filter by price and sort order.&quot;,
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-q5YS7Z4LIpZXKFMfCdOAlR/BOQqMpdBtI40CqO47i3M=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Yahoo Auctions Japan Keyword &amp; Category Price Scraper | Vexaloom Labs</title><meta name="description" content="Search Yahoo Auctions Japan by keyword or browse a category, with current bid price, buy-it-now price, condition, bid count, end time and seller, filtered by price range and sorted"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/"><meta property="og:title" content="Yahoo Auctions Japan Keyword &amp; Category Price Scraper | Vexaloom Labs"><meta property="og:description" content="Search Yahoo Auctions Japan by keyword or browse a category, with current bid price, buy-it-now price, condition, bid count, end time and seller, filtered by price range and sorted"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/#webpage","name":"Yahoo Auctions Japan Keyword & Category Price Scraper","description":"Search Yahoo Auctions Japan by keyword or browse a category, with current bid price, buy-it-now price, condition, bid count, end time and seller, filtered by price range and sorted by ending soonest, price or bids.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/#article","headline":"Yahoo Auctions Japan Keyword & Category Price Scraper","name":"Yahoo Auctions Japan Keyword & Category Price Scraper","description":"Search Yahoo Auctions Japan by keyword or browse a category, with current bid price, buy-it-now price, condition, bid count, end time and seller, filtered by price range and sorted by ending soonest, price or bids.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Yahoo Auctions Japan Keyword & Category Price Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/8raiIZV6QWeCsD4z3/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Yahoo Auctions Japan Keyword &amp; Category Price Scraper</span></div><section id="overview"><h1 class="doc-title">Yahoo Auctions Japan Keyword &amp; Category Price Scraper</h1><p class="lede">Search Yahoo Auctions Japan by keyword or browse a category, with current bid price, buy-it-now price, condition, bid count, end time and seller, filtered by price range and sorted by ending soonest, price or bids.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/yahoo-auctions-japan-keyword-and-category-price">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/8raiIZV6QWeCsD4z3/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to scrape on Yahoo Auctions Japan.</td></tr><tr><td><code>searchQueries</code></td><td>array</td><td>optional</td><td>One or more keywords, Japanese or English (mode=keywordSearch, soldSearch). Each keyword is searched separately until maxItems is reached.</td></tr><tr><td><code>excludeKeywords</code></td><td>array</td><td>optional</td><td>Listings containing any of these words are removed (all search modes).</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to scrape on Yahoo Auctions Japan.</td></tr><tr><td><code>searchQueries</code></td><td>array</td><td>optional</td><td>One or more keywords, Japanese or English (mode=keywordSearch, soldSearch). Each keyword is searched separately until maxItems is reached.</td></tr><tr><td><code>excludeKeywords</code></td><td>array</td><td>optional</td><td>Listings containing any of these words are removed (all search modes).</td></tr><tr><td><code>categoryIds</code></td><td>array</td><td>optional</td><td>Yahoo Auctions category IDs, e.g. 23336 for Computers. Used by browseCategory and as an optional filter for keywordSearch/soldSearch.</td></tr><tr><td><code>sellerIds</code></td><td>array</td><td>optional</td><td>Seller IDs or seller page URLs (mode=sellerListings), e.g. FCm8JEeKSC4qTg4Ww3SAS54XL2aKF.</td></tr><tr><td><code>itemIds</code></td><td>array</td><td>optional</td><td>Auction IDs or item page URLs (mode=itemDetails), e.g. w1250838886 or https://page.auctions.yahoo.co.jp/jp/auction/w1250838886.</td></tr><tr><td><code>condition</code></td><td>string</td><td>optional</td><td>Only return listings in this condition grade.</td></tr><tr><td><code>listingType</code></td><td>string</td><td>optional</td><td>Auctions, fixed-price listings, or both.</td></tr><tr><td><code>sortBy</code></td><td>string</td><td>optional</td><td>Result order. When Yahoo&#x27;s JSON endpoint is unavailable, fallback pages are sorted locally within each fetched page window.</td></tr><tr><td><code>minPrice</code></td><td>integer</td><td>optional</td><td>Only include listings at or above this price in yen.</td></tr><tr><td><code>maxPrice</code></td><td>integer</td><td>optional</td><td>Only include listings at or below this price in yen.</td></tr><tr><td><code>priceType</code></td><td>string</td><td>optional</td><td>Use the current bid price or the buy-it-now price for minPrice/maxPrice.</td></tr><tr><td><code>prefecture</code></td><td>string</td><td>optional</td><td>Only include listings located in this prefecture.</td></tr><tr><td><code>freeShippingOnly</code></td><td>boolean</td><td>optional</td><td>Only return listings whose seller offers free shipping.</td></tr><tr><td><code>buyItNowOnly</code></td><td>boolean</td><td>optional</td><td>Only return listings that offer a buy-it-now price.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of auction records to return across all keywords and pages.</td></tr><tr><td><code>includeDetails</code></td><td>boolean</td><td>optional</td><td>Open each item page to add description, all photos, bidder count, seller rating/location and shipping methods. Adds one request per record.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Search live or sold Yahoo Auctions Japan listings by keyword, category, seller or item ID. Filter by price, condition, listing type and prefecture, then enrich rows with full item details.&quot;,
   &quot;properties&quot;: {
-    &quot;category&quot;: {
-      &quot;description&quot;: &quot;Yahoo Auctions Japan category ID for browsing (mode=browseCategory), e.g. &#x27;23336&#x27;.&quot;,
-      &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;title&quot;: &quot;Category ID&quot;,
+    &quot;buyItNowOnly&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only return listings that offer a buy-it-now price.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Has buy-it-now price&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;categoryIds&quot;: {
+      &quot;description&quot;: &quot;Yahoo Auctions category IDs, e.g. 23336 for Computers. Used by browseCategory and as an optional filter for keywordSearch/soldSearch.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;title&quot;: &quot;Category IDs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;condition&quot;: {
+      &quot;default&quot;: &quot;any&quot;,
+      &quot;description&quot;: &quot;Only return listings in this condition grade.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;any&quot;,
+        &quot;new&quot;,
+        &quot;used&quot;,
+        &quot;likeNew&quot;,
+        &quot;excellent&quot;,
+        &quot;good&quot;,
+        &quot;acceptable&quot;,
+        &quot;poor&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any condition&quot;,
+        &quot;New&quot;,
+        &quot;Used (any grade)&quot;,
+        &quot;Used - Like New&quot;,
+        &quot;Used - Excellent&quot;,
+        &quot;Used - Good&quot;,
+        &quot;Used - Acceptable&quot;,
+        &quot;Used - Poor&quot;
+      ],
+      &quot;prefill&quot;: &quot;any&quot;,
+      &quot;sectionCaption&quot;: &quot;Filters&quot;,
+      &quot;title&quot;: &quot;Item condition&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;excludeKeywords&quot;: {
+      &quot;description&quot;: &quot;Listings containing any of these words are removed (all search modes).&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;title&quot;: &quot;Exclude keywords&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;freeShippingOnly&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Only return listings whose seller offers free shipping.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Free shipping only&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeDetails&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Open each item page to add description, all photos, bidder count, seller rating/location and shipping methods. Adds one request per record.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Fetch full item details&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;itemIds&quot;: {
+      &quot;description&quot;: &quot;Auction IDs or item page URLs (mode=itemDetails), e.g. w1250838886 or https://page.auctions.yahoo.co.jp/jp/auction/w1250838886.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;title&quot;: &quot;Item IDs or URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;listingType&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;Auctions, fixed-price listings, or both.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
+        &quot;auction&quot;,
+        &quot;fixedPrice&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Auctions and fixed-price&quot;,
+        &quot;Auctions only&quot;,
+        &quot;Fixed-price only&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Listing type&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
     &quot;maxItems&quot;: {
       &quot;default&quot;: 20,
-      &quot;description&quot;: &quot;Maximum number of auction listings to return.&quot;,
-      &quot;maximum&quot;: 500,
+      &quot;description&quot;: &quot;Maximum number of auction records to return across all keywords and pages.&quot;,
+      &quot;maximum&quot;: 5000,
       &quot;minimum&quot;: 1,
-      &quot;prefill&quot;: 20,
-      &quot;title&quot;: &quot;Max items&quot;,
+      &quot;prefill&quot;: 3,
+      &quot;sectionCaption&quot;: &quot;Output&quot;,
+      &quot;title&quot;: &quot;Max records&quot;,
       &quot;type&quot;: &quot;integer&quot;
     },
     &quot;maxPrice&quot;: {
-      &quot;description&quot;: &quot;Only include auctions at or below this current bid price in JPY.&quot;,
+      &quot;description&quot;: &quot;Only include listings at or below this price in yen.&quot;,
       &quot;maximum&quot;: 1000000000,
       &quot;minimum&quot;: 0,
       &quot;title&quot;: &quot;Maximum price (JPY)&quot;,
       &quot;type&quot;: &quot;integer&quot;
     },
     &quot;minPrice&quot;: {
-      &quot;description&quot;: &quot;Only include auctions at or above this current bid price in JPY.&quot;,
+      &quot;description&quot;: &quot;Only include listings at or above this price in yen.&quot;,
       &quot;maximum&quot;: 1000000000,
       &quot;minimum&quot;: 0,
       &quot;title&quot;: &quot;Minimum price (JPY)&quot;,
       &quot;type&quot;: &quot;integer&quot;
     },
     &quot;mode&quot;: {
-      &quot;default&quot;: &quot;searchItems&quot;,
+      &quot;default&quot;: &quot;keywordSearch&quot;,
       &quot;description&quot;: &quot;What to scrape on Yahoo Auctions Japan.&quot;,
       &quot;editor&quot;: &quot;select&quot;,
       &quot;enum&quot;: [
+        &quot;keywordSearch&quot;,
+        &quot;browseCategory&quot;,
+        &quot;soldSearch&quot;,
+        &quot;sellerListings&quot;,
+        &quot;itemDetails&quot;,
         &quot;searchItems&quot;,
-        &quot;browseCategory&quot;
+        &quot;soldItems&quot;,
+        &quot;sellerItems&quot;
       ],
       &quot;enumTitles&quot;: [
-        &quot;Search Items (by keyword)&quot;,
-        &quot;Browse Category (by category ID)&quot;
+        &quot;Keyword search (live auctions)&quot;,
+        &quot;Browse category (live auctions)&quot;,
+        &quot;Sold search (closed auctions, final prices)&quot;,
+        &quot;Seller listings (live auctions by seller)&quot;,
+        &quot;Item details (by item ID or URL)&quot;,
+        &quot;Search items (legacy alias)&quot;,
+        &quot;Sold items (legacy alias)&quot;,
+        &quot;Seller items (legacy alias)&quot;
       ],
-      &quot;prefill&quot;: &quot;searchItems&quot;,
+      &quot;prefill&quot;: &quot;keywordSearch&quot;,
+      &quot;sectionCaption&quot;: &quot;What to scrape&quot;,
       &quot;title&quot;: &quot;Mode&quot;,
       &quot;type&quot;: &quot;string&quot;
     },
-    &quot;query&quot;: {
-      &quot;description&quot;: &quot;Keyword to search on Yahoo Auctions Japan (mode=searchItems).&quot;,
-      &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;prefill&quot;: &quot;PlayStation 5&quot;,
-      &quot;title&quot;: &quot;Search query&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;sortBy&quot;: {
-      &quot;default&quot;: &quot;endTime&quot;,
-      &quot;description&quot;: &quot;Auction listing sort order.&quot;,
+    &quot;prefecture&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Only include listings located in this prefecture.&quot;,
       &quot;editor&quot;: &quot;select&quot;,
       &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;01&quot;,
+        &quot;02&quot;,
+        &quot;03&quot;,
+        &quot;04&quot;,
+        &quot;05&quot;,
+        &quot;06&quot;,
+        &quot;07&quot;,
+        &quot;08&quot;,
+        &quot;09&quot;,
+        &quot;10&quot;,
+        &quot;11&quot;,
+        &quot;12&quot;,
+        &quot;13&quot;,
+        &quot;14&quot;,
+        &quot;15&quot;,
+        &quot;16&quot;,
+        &quot;17&quot;,
+        &quot;18&quot;,
+        &quot;19&quot;,
+        &quot;20&quot;,
+        &quot;21&quot;,
+        &quot;22&quot;,
+        &quot;23&quot;,
+        &quot;24&quot;,
+        &quot;25&quot;,
+        &quot;26&quot;,
+        &quot;27&quot;,
+        &quot;28&quot;,
+        &quot;29&quot;,
+        &quot;30&quot;,
+        &quot;31&quot;,
+        &quot;32&quot;,
+        &quot;33&quot;,
+        &quot;34&quot;,
+        &quot;35&quot;,
+        &quot;36&quot;,
+        &quot;37&quot;,
+        &quot;38&quot;,
+        &quot;39&quot;,
+        &quot;40&quot;,
+        &quot;41&quot;,
+        &quot;42&quot;,
+        &quot;43&quot;,
+        &quot;44&quot;,
+        &quot;45&quot;,
+        &quot;46&quot;,
+        &quot;47&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any prefecture&quot;,
+        &quot;Hokkaido&quot;,
+        &quot;Aomori&quot;,
+        &quot;Iwate&quot;,
+        &quot;Miyagi&quot;,
+        &quot;Akita&quot;,
+        &quot;Yamagata&quot;,
+        &quot;Fukushima&quot;,
+        &quot;Ibaraki&quot;,
+        &quot;Tochigi&quot;,
+        &quot;Gunma&quot;,
+        &quot;Saitama&quot;,
+        &quot;Chiba&quot;,
+        &quot;Tokyo&quot;,
+        &quot;Kanagawa&quot;,
+        &quot;Niigata&quot;,
+        &quot;Toyama&quot;,
+        &quot;Ishikawa&quot;,
+        &quot;Fukui&quot;,
+        &quot;Yamanashi&quot;,
+        &quot;Nagano&quot;,
+        &quot;Gifu&quot;,
+        &quot;Shizuoka&quot;,
+        &quot;Aichi&quot;,
+        &quot;Mie&quot;,
+        &quot;Shiga&quot;,
+        &quot;Kyoto&quot;,
+        &quot;Osaka&quot;,
+        &quot;Hyogo&quot;,
+        &quot;Nara&quot;,
+        &quot;Wakayama&quot;,
+        &quot;Tottori&quot;,
+        &quot;Shimane&quot;,
+        &quot;Okayama&quot;,
+        &quot;Hiroshima&quot;,
+        &quot;Yamaguchi&quot;,
+        &quot;Tokushima&quot;,
+        &quot;Kagawa&quot;,
+        &quot;Ehime&quot;,
+        &quot;Kochi&quot;,
+        &quot;Fukuoka&quot;,
+        &quot;Saga&quot;,
+        &quot;Nagasaki&quot;,
+        &quot;Kumamoto&quot;,
+        &quot;Oita&quot;,
+        &quot;Miyazaki&quot;,
+        &quot;Kagoshima&quot;,
+        &quot;Okinawa&quot;
+      ],
+      &quot;title&quot;: &quot;Item location&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;priceType&quot;: {
+      &quot;default&quot;: &quot;currentPrice&quot;,
+      &quot;description&quot;: &quot;Use the current bid price or the buy-it-now price for minPrice/maxPrice.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;currentPrice&quot;,
+        &quot;buyNowPrice&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Current bid price&quot;,
+        &quot;Buy-it-now price&quot;
+      ],
+      &quot;prefill&quot;: &quot;currentPrice&quot;,
+      &quot;title&quot;: &quot;Price filter applies to&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;searchQueries&quot;: {
+      &quot;description&quot;: &quot;One or more keywords, Japanese or English (mode=keywordSearch, soldSearch). Each keyword is searched separately until maxItems is reached.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [
+        &quot;PlayStation 5&quot;
+      ],
+      &quot;title&quot;: &quot;Search keywords&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;sellerIds&quot;: {
+      &quot;description&quot;: &quot;Seller IDs or seller page URLs (mode=sellerListings), e.g. FCm8JEeKSC4qTg4Ww3SAS54XL2aKF.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;title&quot;: &quot;Seller IDs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;sortBy&quot;: {
+      &quot;default&quot;: &quot;relevance&quot;,
+      &quot;description&quot;: &quot;Result order. When Yahoo&#x27;s JSON endpoint is unavailable, fallback pages are sorted locally within each fetched page window.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;endingSoon&quot;,
+        &quot;endingLast&quot;,
+        &quot;newest&quot;,
+        &quot;priceAsc&quot;,
+        &quot;priceDesc&quot;,
+        &quot;bidsDesc&quot;,
+        &quot;bidsAsc&quot;,
+        &quot;buyNowPriceAsc&quot;,
+        &quot;buyNowPriceDesc&quot;,
+        &quot;totalPriceAsc&quot;,
+        &quot;totalPriceDesc&quot;,
+        &quot;watchCountDesc&quot;,
+        &quot;relevance&quot;,
+        &quot;featured&quot;,
         &quot;endTime&quot;,
         &quot;price_asc&quot;,
         &quot;price_desc&quot;,
@@ -66,14 +305,28 @@
         &quot;popular&quot;
       ],
       &quot;enumTitles&quot;: [
-        &quot;Ending Soon (default)&quot;,
-        &quot;Price: Low to High&quot;,
-        &quot;Price: High to Low&quot;,
-        &quot;Most Bids&quot;,
-        &quot;Newest Listed&quot;,
-        &quot;Most Popular&quot;
+        &quot;Ending soonest&quot;,
+        &quot;Ending last&quot;,
+        &quot;Newest listed&quot;,
+        &quot;Price: low to high&quot;,
+        &quot;Price: high to low&quot;,
+        &quot;Most bids&quot;,
+        &quot;Fewest bids&quot;,
+        &quot;Buy-it-now price: low to high&quot;,
+        &quot;Buy-it-now price: high to low&quot;,
+        &quot;Total price incl. shipping: low to high&quot;,
+        &quot;Total price incl. shipping: high to low&quot;,
+        &quot;Most watched&quot;,
+        &quot;Best match&quot;,
+        &quot;Featured first&quot;,
+        &quot;Ending soonest (legacy alias)&quot;,
+        &quot;Price: low to high (legacy alias)&quot;,
+        &quot;Price: high to low (legacy alias)&quot;,
+        &quot;Most bids (legacy alias)&quot;,
+        &quot;Newest listed (legacy alias)&quot;,
+        &quot;Best match (legacy alias)&quot;
       ],
-      &quot;prefill&quot;: &quot;endTime&quot;,
+      &quot;prefill&quot;: &quot;relevance&quot;,
       &quot;title&quot;: &quot;Sort by&quot;,
       &quot;type&quot;: &quot;string&quot;
     }
@@ -82,21 +335,21 @@
     &quot;mode&quot;
   ],
   &quot;schemaVersion&quot;: 1,
-  &quot;title&quot;: &quot;Yahoo Auctions Japan Scraper Input&quot;,
+  &quot;title&quot;: &quot;Yahoo Auctions Japan Live &amp; Sold Auction Scraper Input&quot;,
   &quot;type&quot;: &quot;object&quot;
 }
-</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>results</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped Yahoo Auctions Japan listing records.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>auctions</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped Yahoo Auctions Japan listing records.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
   &quot;actorOutputSchemaVersion&quot;: 1,
-  &quot;description&quot;: &quot;Auction listings scraped from Yahoo Auctions Japan.&quot;,
+  &quot;description&quot;: &quot;Yahoo Auctions Japan listings and sold auctions with prices, bids, condition, shipping, seller and item details.&quot;,
   &quot;properties&quot;: {
-    &quot;results&quot;: {
+    &quot;auctions&quot;: {
       &quot;description&quot;: &quot;Dataset containing all scraped Yahoo Auctions Japan listing records.&quot;,
       &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
-      &quot;title&quot;: &quot;Yahoo Auctions Japan listings&quot;,
+      &quot;title&quot;: &quot;Yahoo Auctions Japan records&quot;,
       &quot;type&quot;: &quot;string&quot;
     }
   },
-  &quot;title&quot;: &quot;Yahoo Auctions Japan Keyword &amp; Category Price Scraper Output&quot;
+  &quot;title&quot;: &quot;Yahoo Auctions Japan Live &amp; Sold Auction Scraper Output&quot;
 }
 </code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
   &quot;actorSpecification&quot;: 1,
@@ -106,44 +359,78 @@
         &quot;component&quot;: &quot;table&quot;,
         &quot;properties&quot;: {}
       },
-      &quot;title&quot;: &quot;Auctions&quot;,
+      &quot;title&quot;: &quot;Auction listings&quot;,
       &quot;transformation&quot;: {
         &quot;fields&quot;: [
+          &quot;itemId&quot;,
           &quot;title&quot;,
           &quot;currentPrice&quot;,
           &quot;currency&quot;,
           &quot;buyItNowPrice&quot;,
-          &quot;condition&quot;,
           &quot;bids&quot;,
+          &quot;watchCount&quot;,
+          &quot;condition&quot;,
           &quot;endDate&quot;,
+          &quot;seller&quot;,
+          &quot;prefecture&quot;,
           &quot;itemUrl&quot;
         ]
       }
     }
   }
 }
-</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-yahoo-auctions-japan-keyword-category-price-scraper">Yahoo Auctions Japan Keyword &amp; Category Price Scraper</h2>
-<p><a href="https://auctions.yahoo.co.jp">Yahoo Auctions Japan</a> (ヤフオク) is Japan's largest online auction marketplace. This actor searches current listings by keyword or browses a specific category, returning each listing's price, bid count, condition and end time, with no account needed.</p>
-<h2 id="readme-what-this-actor-does">What this actor does</h2>
-<ul>
-<li><strong>Searches by keyword</strong> across current Yahoo Auctions Japan listings</li>
-<li><strong>Browses a specific category</strong> by its category ID instead of a keyword</li>
-<li><strong>Filters by current bid price</strong> (minimum and/or maximum, in yen)</li>
-<li><strong>Sorts results</strong> by ending soonest, price, bid count, newest listed, or most popular</li>
-<li><strong>Empty fields are omitted</strong> — a listing only includes the fields Yahoo Auctions actually published for it</li>
-</ul>
-<h2 id="readme-output-per-listing">Output per listing</h2>
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-yahoo-auctions-japan-live-sold-auction-scraper">Yahoo Auctions Japan Live &amp; Sold Auction Scraper</h2>
+<p>Yahoo Auctions Japan (ヤフオク!) is the country's biggest consumer auction site. This actor turns its public listings into clean JSON: live auctions with current bids and buy-it-now prices, closed auctions with the price they actually sold for, seller storefronts, and individual item pages with descriptions and full photo sets.</p>
+<p>No Yahoo account, cookie, API key or proxy setup is needed.</p>
+<h2 id="readme-what-you-can-scrape">What you can scrape</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>What it returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>keywordSearch</code></td>
+<td>Live listings for one or more keywords</td>
+</tr>
+<tr>
+<td><code>browseCategory</code></td>
+<td>Live listings from a category ID, optionally narrowed by keyword</td>
+</tr>
+<tr>
+<td><code>soldSearch</code></td>
+<td>Closed auctions with final sold prices — useful for sold-price comparisons</td>
+</tr>
+<tr>
+<td><code>sellerListings</code></td>
+<td>Live listings from one or more seller IDs</td>
+</tr>
+<tr>
+<td><code>itemDetails</code></td>
+<td>Full detail pages for a list of item IDs or item URLs</td>
+</tr>
+</tbody>
+</table></div>
+<p>Every mode supports price bounds, condition grade, listing type, prefecture, free-shipping and buy-it-now filters where Yahoo exposes them. Keyword modes also accept excluded words.</p>
+<h2 id="readme-record-fields">Record fields</h2>
+<p>Prices are whole yen (<code>JPY</code>). Empty fields are omitted rather than written as <code>null</code>.</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
 <th>Field</th>
-<th>Description</th>
+<th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>itemId</code></td>
-<td>Yahoo Auctions item ID</td>
+<td>Yahoo auction ID</td>
+</tr>
+<tr>
+<td><code>itemUrl</code></td>
+<td>Direct link to the listing</td>
 </tr>
 <tr>
 <td><code>title</code></td>
@@ -151,51 +438,115 @@
 </tr>
 <tr>
 <td><code>currentPrice</code></td>
-<td>Current bid price in yen</td>
+<td>Current bid, or the final price on sold rows</td>
+</tr>
+<tr>
+<td><code>soldPrice</code></td>
+<td>Final winning price on closed auctions</td>
+</tr>
+<tr>
+<td><code>priceType</code></td>
+<td><code>current</code> or <code>final</code></td>
+</tr>
+<tr>
+<td><code>buyItNowPrice</code></td>
+<td>Buy-it-now price, when offered</td>
+</tr>
+<tr>
+<td><code>startPrice</code></td>
+<td>Starting price</td>
 </tr>
 <tr>
 <td><code>currency</code></td>
 <td>Always <code>JPY</code></td>
 </tr>
 <tr>
-<td><code>buyItNowPrice</code></td>
-<td>Buy-it-now price in yen, when the listing offers one</td>
-</tr>
-<tr>
-<td><code>condition</code></td>
-<td>Item condition, e.g. New, Used, Used – Like New</td>
-</tr>
-<tr>
 <td><code>bids</code></td>
-<td>Number of bids placed so far</td>
+<td>Bid count (<code>0</code> is kept)</td>
 </tr>
 <tr>
-<td><code>endDate</code></td>
-<td>Auction end date/time</td>
+<td><code>watchCount</code></td>
+<td>Number of watchers</td>
 </tr>
 <tr>
-<td><code>seller</code></td>
-<td>Seller name or ID</td>
+<td><code>biddersCount</code></td>
+<td>Distinct bidders (detail pages)</td>
 </tr>
 <tr>
-<td><code>imageUrl</code></td>
-<td>Item image URL</td>
+<td><code>condition</code>, <code>conditionCode</code></td>
+<td>English condition and Yahoo's grade code</td>
 </tr>
 <tr>
-<td><code>category</code></td>
-<td>Category the listing is filed under</td>
+<td><code>conditionNameJa</code></td>
+<td>Yahoo's Japanese condition label (detail pages)</td>
 </tr>
 <tr>
-<td><code>itemUrl</code></td>
-<td>Direct link to the listing</td>
+<td><code>startDate</code>, <code>endDate</code></td>
+<td>ISO 8601 timestamps</td>
+</tr>
+<tr>
+<td><code>timeRemainingSeconds</code></td>
+<td>Seconds left on live listings</td>
+</tr>
+<tr>
+<td><code>seller</code>, <code>sellerId</code>, <code>sellerUrl</code></td>
+<td>Seller identity and storefront link</td>
+</tr>
+<tr>
+<td><code>sellerDisplayName</code>, <code>sellerRating</code>, <code>sellerRatingCount</code></td>
+<td>Seller reputation</td>
+</tr>
+<tr>
+<td><code>sellerLocation</code>, <code>prefecture</code>, <code>prefectureCode</code></td>
+<td>Item location</td>
+</tr>
+<tr>
+<td><code>category</code>, <code>categoryId</code>, <code>categoryPath</code></td>
+<td>Category name, ID and hierarchy</td>
+</tr>
+<tr>
+<td><code>brand</code></td>
+<td>Brand path, when Yahoo lists one</td>
+</tr>
+<tr>
+<td><code>imageUrl</code>, <code>imageUrls</code></td>
+<td>Main image and full photo set</td>
+</tr>
+<tr>
+<td><code>shippingFee</code>, <code>shippingFeeType</code>, <code>freeShipping</code></td>
+<td>Shipping cost and who pays</td>
+</tr>
+<tr>
+<td><code>shippingMethods</code>, <code>shipSchedule</code>, <code>shippingPaidBy</code></td>
+<td>Delivery options</td>
+</tr>
+<tr>
+<td><code>listingType</code></td>
+<td><code>auction</code> or <code>fixedPrice</code></td>
+</tr>
+<tr>
+<td><code>marketplace</code></td>
+<td><code>yahooAuctions</code> or <code>paypayFleaMarket</code></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>open</code> or <code>closed</code></td>
+</tr>
+<tr>
+<td><code>quantity</code>, <code>returnable</code>, <code>isWorldwideDelivery</code></td>
+<td>Item terms</td>
+</tr>
+<tr>
+<td><code>description</code>, <code>descriptionHtml</code></td>
+<td>Full item description (detail pages)</td>
 </tr>
 <tr>
 <td><code>scrapedAt</code></td>
-<td>ISO 8601 timestamp of the run</td>
+<td>ISO 8601 scrape timestamp</td>
 </tr>
 </tbody>
 </table></div>
-<h2 id="readme-input">Input</h2>
+<h2 id="readme-input-reference">Input reference</h2>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -209,94 +560,164 @@
 <tr>
 <td><code>mode</code></td>
 <td>string</td>
-<td><code>searchItems</code></td>
-<td><code>searchItems</code> (keyword search) or <code>browseCategory</code> (browse by category ID)</td>
+<td><code>keywordSearch</code></td>
+<td><code>keywordSearch</code>, <code>browseCategory</code>, <code>soldSearch</code>, <code>sellerListings</code> or <code>itemDetails</code></td>
 </tr>
 <tr>
-<td><code>query</code></td>
-<td>string</td>
+<td><code>searchQueries</code></td>
+<td>array</td>
 <td>–</td>
-<td>Keyword to search for (mode=searchItems)</td>
+<td>Keywords, Japanese or English; each runs until <code>maxItems</code></td>
 </tr>
 <tr>
-<td><code>category</code></td>
-<td>string</td>
+<td><code>excludeKeywords</code></td>
+<td>array</td>
 <td>–</td>
-<td>Category ID to browse, e.g. <code>23336</code> (mode=browseCategory)</td>
+<td>Remove listings containing any of these words</td>
+</tr>
+<tr>
+<td><code>categoryIds</code></td>
+<td>array</td>
+<td>–</td>
+<td>Numeric category IDs, e.g. <code>23336</code> for Computers</td>
+</tr>
+<tr>
+<td><code>sellerIds</code></td>
+<td>array</td>
+<td>–</td>
+<td>Seller IDs or seller page URLs (<code>sellerListings</code>)</td>
+</tr>
+<tr>
+<td><code>itemIds</code></td>
+<td>array</td>
+<td>–</td>
+<td>Auction IDs or item URLs (<code>itemDetails</code>)</td>
+</tr>
+<tr>
+<td><code>condition</code></td>
+<td>string</td>
+<td><code>any</code></td>
+<td><code>any</code>, <code>new</code>, <code>used</code>, <code>likeNew</code>, <code>excellent</code>, <code>good</code>, <code>acceptable</code> or <code>poor</code></td>
+</tr>
+<tr>
+<td><code>listingType</code></td>
+<td>string</td>
+<td><code>all</code></td>
+<td><code>all</code>, <code>auction</code> or <code>fixedPrice</code></td>
 </tr>
 <tr>
 <td><code>sortBy</code></td>
 <td>string</td>
-<td><code>endTime</code></td>
-<td><code>endTime</code> (ending soon), <code>price_asc</code>, <code>price_desc</code>, <code>bids</code>, <code>new</code>, or <code>popular</code></td>
+<td><code>relevance</code></td>
+<td>14 orders: ending soonest/last, newest, price, bids, buy-it-now price, total price incl. shipping, watchers, relevance, featured</td>
 </tr>
 <tr>
 <td><code>minPrice</code></td>
 <td>integer</td>
 <td>–</td>
-<td>Only include listings at or above this current bid price (JPY)</td>
+<td>Minimum price in yen</td>
 </tr>
 <tr>
 <td><code>maxPrice</code></td>
 <td>integer</td>
 <td>–</td>
-<td>Only include listings at or below this current bid price (JPY)</td>
+<td>Maximum price in yen</td>
+</tr>
+<tr>
+<td><code>priceType</code></td>
+<td>string</td>
+<td><code>currentPrice</code></td>
+<td>Apply <code>minPrice</code>/<code>maxPrice</code> to <code>currentPrice</code> or <code>buyNowPrice</code></td>
+</tr>
+<tr>
+<td><code>prefecture</code></td>
+<td>string</td>
+<td>Any prefecture</td>
+<td>Two-digit Japanese prefecture code; use the dropdown for names</td>
+</tr>
+<tr>
+<td><code>freeShippingOnly</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Keep only free-shipping listings</td>
+</tr>
+<tr>
+<td><code>buyItNowOnly</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Keep only listings with a buy-it-now price</td>
 </tr>
 <tr>
 <td><code>maxItems</code></td>
 <td>integer</td>
 <td><code>20</code></td>
-<td>Maximum number of listings to return (1–500)</td>
+<td>1 to 5,000 records per run</td>
+</tr>
+<tr>
+<td><code>includeDetails</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Open each item page for description, photos, bidder count, seller rating/location and shipping methods</td>
 </tr>
 </tbody>
 </table></div>
-<h3 id="readme-example-search-ending-soon">Example: search ending soon</h3>
+<h3 id="readme-example-live-keyword-search">Example: live keyword search</h3>
 <pre><code class="language-json">{
-  &quot;mode&quot;: &quot;searchItems&quot;,
-  &quot;query&quot;: &quot;PlayStation 5&quot;,
-  &quot;sortBy&quot;: &quot;endTime&quot;,
-  &quot;maxItems&quot;: 50
-}
-</code></pre>
-<h3 id="readme-example-browse-a-category-sorted-by-bid-count">Example: browse a category sorted by bid count</h3>
-<pre><code class="language-json">{
-  &quot;mode&quot;: &quot;browseCategory&quot;,
-  &quot;category&quot;: &quot;23336&quot;,
-  &quot;sortBy&quot;: &quot;bids&quot;,
+  &quot;mode&quot;: &quot;keywordSearch&quot;,
+  &quot;searchQueries&quot;: [&quot;PlayStation 5&quot;, &quot;Nintendo Switch&quot;],
+  &quot;condition&quot;: &quot;used&quot;,
+  &quot;minPrice&quot;: 5000,
+  &quot;maxPrice&quot;: 40000,
+  &quot;sortBy&quot;: &quot;endingSoon&quot;,
   &quot;maxItems&quot;: 100
 }
 </code></pre>
-<h3 id="readme-example-keyword-search-within-a-price-band">Example: keyword search within a price band</h3>
+<h3 id="readme-example-sold-price-comparison">Example: sold-price comparison</h3>
 <pre><code class="language-json">{
-  &quot;mode&quot;: &quot;searchItems&quot;,
-  &quot;query&quot;: &quot;Nintendo Switch&quot;,
-  &quot;minPrice&quot;: 5000,
-  &quot;maxPrice&quot;: 20000,
-  &quot;sortBy&quot;: &quot;price_asc&quot;,
-  &quot;maxItems&quot;: 40
+  &quot;mode&quot;: &quot;soldSearch&quot;,
+  &quot;searchQueries&quot;: [&quot;Leica M6&quot;],
+  &quot;sortBy&quot;: &quot;endingLast&quot;,
+  &quot;maxItems&quot;: 50,
+  &quot;includeDetails&quot;: true
 }
 </code></pre>
-<h2 id="readme-use-cases">Use cases</h2>
-<ul>
-<li><strong>Resale and arbitrage pricing</strong> — see current bid levels and buy-it-now prices for a product before sourcing it</li>
-<li><strong>Collector tracking</strong> — monitor listings for a specific item by keyword as they come up for auction</li>
-<li><strong>Category trend-watching</strong> — browse a category sorted by newest or most popular to spot demand shifts</li>
-<li><strong>Deadline-driven bidding</strong> — sort by ending soonest to find auctions closing within your window</li>
-<li><strong>Price-band shopping</strong> — use <code>minPrice</code>/<code>maxPrice</code> to filter out listings outside your budget</li>
-</ul>
+<h3 id="readme-example-browse-a-category">Example: browse a category</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;browseCategory&quot;,
+  &quot;categoryIds&quot;: [&quot;23336&quot;],
+  &quot;listingType&quot;: &quot;fixedPrice&quot;,
+  &quot;sortBy&quot;: &quot;priceAsc&quot;,
+  &quot;maxItems&quot;: 200
+}
+</code></pre>
+<h3 id="readme-example-item-pages-from-a-list-of-urls">Example: item pages from a list of URLs</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;itemDetails&quot;,
+  &quot;itemIds&quot;: [
+    &quot;w1250838886&quot;,
+    &quot;https://page.auctions.yahoo.co.jp/jp/auction/e1251357399&quot;
+  ]
+}
+</code></pre>
+<h2 id="readme-pagination-and-limits">Pagination and limits</h2>
+<p>The actor follows result pages until <code>maxItems</code> is reached or Yahoo stops returning new records. Yahoo serves roughly 100 records per page and makes about 15,000 results browsable per search; very broad queries can hit that window. Split a broad search by category, price band or condition to reach deeper stock. Closed-auction history covers roughly the last 180 days.</p>
 <h2 id="readme-faq">FAQ</h2>
-<p><strong>Does this require a Yahoo account or API key?</strong>
-No. The actor reads Yahoo Auctions Japan's publicly accessible listing pages.</p>
-<p><strong>What currency are prices in?</strong>
-Always Japanese yen (JPY) — <code>currentPrice</code> and <code>buyItNowPrice</code> are both yen amounts.</p>
-<p><strong>Can I search using Japanese text?</strong>
-Yes — <code>query</code> accepts Japanese keywords directly, the same as typing into Yahoo Auctions' own search box.</p>
-<p><strong>Why do some listings have no <code>buyItNowPrice</code>?</strong>
-Not every auction offers a buy-it-now option — the field is left out rather than set to zero when it isn't offered.</p>
-<p><strong>Does this cover sold/completed auctions?</strong>
-No — this actor covers currently active listings only, not historical sold prices.</p>
-<p><strong>How do I find a category ID for <code>browseCategory</code>?</strong>
-Browse to that category on auctions.yahoo.co.jp and copy the numeric ID from the category's URL.</p>
+<p><strong>Do I need a Yahoo Japan login or API key?</strong>
+No. The actor reads publicly visible Yahoo Auctions Japan pages and the site's own public JSON endpoints.</p>
+<p><strong>Are sold prices real winning prices?</strong>
+Yes — <code>soldSearch</code> reads closed auctions and reports the final price Yahoo records, not an estimate.</p>
+<p><strong>Why do some rows have no buy-it-now price?</strong>
+Only fixed-price listings and auctions that offer instant purchase have one; the field is omitted otherwise.</p>
+<p><strong>Can I search in Japanese?</strong>
+Yes. Pass Japanese keywords directly, exactly as you would type them into Yahoo's search box.</p>
+<p><strong>How do I find a category or seller ID?</strong>
+Open the category or seller page on auctions.yahoo.co.jp and copy the numeric category ID or the seller ID from the URL. Seller and item URLs are accepted too.</p>
+<p><strong>Why are some prices 0 or 1 yen?</strong>
+Those are live auctions with a low starting bid and no bids yet. Check <code>bids</code> and <code>startPrice</code> to tell them apart.</p>
+<p><strong>Does this actor cover PayPay Flea Market?</strong>
+Closed searches can include flea-market rows from Yahoo's network; they are marked with <code>marketplace: &quot;paypayFleaMarket&quot;</code> and link to the flea-market item page. <code>itemDetails</code> covers Yahoo auction pages only.</p>
 <p><strong>Is this affiliated with Yahoo Japan?</strong>
-No, this is an independent third-party actor that reads Yahoo Auctions Japan's publicly available pages. It is not affiliated with or endorsed by Yahoo Japan Corporation.</p>
-</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/8raiIZV6QWeCsD4z3/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>9ACBNhFu2kU7ebYea</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
+No. This is an independent tool that reads publicly available pages and is not endorsed by LY Corporation.</p>
+<h2 id="readme-data-source">Data source</h2>
+<p>Public listing, category, seller, closed-auction and item pages on <code>auctions.yahoo.co.jp</code> (plus the site's own JSON endpoints). No login, cookies, credentials or user proxy configuration are required.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/8raiIZV6QWeCsD4z3/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>AOIXInZdB0eCJcZAv</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
