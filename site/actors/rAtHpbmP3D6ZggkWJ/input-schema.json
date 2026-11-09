@@ -1,9 +1,9 @@
 {
-  "description": "Search Nike.com, browse a curated catalog category, or fetch full product-page details by URL.",
+  "description": "Search Nike.com, browse a curated catalog category, paste Nike search/category/product URLs, or fetch full product-page details by URL or style code.",
   "properties": {
     "attributeFilter": {
       "default": "ANY",
-      "description": "Keep only products carrying a specific Nike merchandising tag (search/browseCategory modes only — has no effect on productDetails).",
+      "description": "Keep only products carrying a specific Nike merchandising tag. Applies to search, category and URL modes.",
       "editor": "select",
       "enum": [
         "ANY",
@@ -24,7 +24,7 @@
       "type": "string"
     },
     "category": {
-      "description": "Curated Nike.com catalog category to browse (US catalog).",
+      "description": "Curated Nike catalog category to browse. Works in every supported country; pass several categories by using `startUrls` with category links instead.",
       "editor": "select",
       "enum": [
         "accessoriesEquipment",
@@ -115,7 +115,7 @@
     },
     "country": {
       "default": "US",
-      "description": "Nike storefront market to search (mode=search only — category browsing always uses the US catalog).",
+      "description": "Nike storefront market for search, category browsing and non-prefixed URLs. Prices are returned in the marketplace's local currency.",
       "editor": "select",
       "enum": [
         "US",
@@ -161,9 +161,20 @@
       "title": "Marketplace / country",
       "type": "string"
     },
+    "filters": {
+      "default": [],
+      "description": "Optional Nike facet labels, exactly as shown in the site's filter panel. Use `Group: Value` for an exact group, e.g. `Sports: Running`, `Color: Black`, `Brand: Nike`, `Width: Wide`, `Size: 10`, or a bare value such as `Running`. Unknown labels are skipped with a log warning.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Nike facet filters",
+      "type": "array"
+    },
     "gender": {
       "default": "ANY",
-      "description": "Filter to a single gender facet (mode=search only — category browsing already implies a gender scope where applicable). Not supported for country=TH or TW; ignored there.",
+      "description": "Filter to a single gender facet in search and pasted search URLs. Not supported by Nike's API for country=TH or TW; ignored there.",
       "editor": "select",
       "enum": [
         "ANY",
@@ -181,17 +192,31 @@
     },
     "includeAllColorways": {
       "default": false,
-      "description": "By default only the representative colorway shown on Nike's grid is emitted per style (mode=search/browseCategory). Enable to emit every available colorway of each style as its own record, each with its own real price, color, image, and product URL.",
+      "description": "By default only the representative colorway shown on Nike's grid is emitted per style. Enable to emit every available colorway as its own record, each with its own real price, color, image and product URL.",
       "prefill": false,
       "title": "Include all colorways",
       "type": "boolean"
     },
+    "includeProductDetails": {
+      "default": false,
+      "description": "For search, category and URL modes, fetch each listed product's detail page and add description, features, sizes, stock, images and all colorways. Adds one HTTP request per emitted record.",
+      "prefill": false,
+      "title": "Add product-page details to listings",
+      "type": "boolean"
+    },
+    "includeReviews": {
+      "default": false,
+      "description": "Add the product's rating, review count, AI review summary and the three most recent reviews. Applies to product details, or to listings when `includeProductDetails` is enabled.",
+      "prefill": false,
+      "title": "Include review summary",
+      "type": "boolean"
+    },
     "maxItems": {
       "default": 24,
-      "description": "Hard cap on emitted records.",
-      "maximum": 500,
+      "description": "Hard cap on emitted records across all queries, categories and URLs.",
+      "maximum": 5000,
       "minimum": 1,
-      "prefill": 24,
+      "prefill": 2,
       "title": "Max items",
       "type": "integer"
     },
@@ -200,6 +225,15 @@
       "maximum": 100000,
       "minimum": 0,
       "title": "Max price",
+      "type": "integer"
+    },
+    "minDiscount": {
+      "default": 0,
+      "description": "Keep only products discounted by at least this percentage. 0 disables the filter.",
+      "maximum": 100,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum discount %",
       "type": "integer"
     },
     "minPrice": {
@@ -211,17 +245,19 @@
     },
     "mode": {
       "default": "search",
-      "description": "What to fetch.",
+      "description": "What to fetch. `startUrls` auto-detects each pasted Nike search, category or product URL and overrides the other modes when provided.",
       "editor": "select",
       "enum": [
         "search",
         "browseCategory",
-        "productDetails"
+        "productDetails",
+        "startUrls"
       ],
       "enumTitles": [
         "Search products by keyword",
         "Browse a catalog category",
-        "Fetch full details by product URL"
+        "Fetch full details by product URL or style code",
+        "Paste Nike search, category or product URLs"
       ],
       "prefill": "search",
       "title": "Mode",
@@ -258,37 +294,83 @@
     },
     "productUrls": {
       "default": [],
-      "description": "Full Nike.com product page URLs, e.g. `https://www.nike.com/t/air-force-1-07-mens-shoes-jBrhbr/CW2288-111`.",
+      "description": "Full Nike.com product page URLs, e.g. `https://www.nike.com/t/air-force-1-07-mens-shoes-jBrhbr/CW2288-111`. `/u/` Nike By You URLs are accepted too.",
       "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
       "prefill": [],
       "title": "Product URLs (mode=productDetails)",
       "type": "array"
     },
-    "searchQuery": {
-      "default": "air max",
-      "description": "Free-text keyword, product name, or style code (e.g. `CT8529-108`). Used with mode=search.",
-      "editor": "textfield",
-      "prefill": "air max",
-      "title": "Search query",
-      "type": "string"
+    "searchQueries": {
+      "default": [
+        "air max"
+      ],
+      "description": "One or more keywords, product names or style codes (e.g. `air max`, `dunk low`, `CW2288-111`). Used with mode=search.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "air max"
+      ],
+      "title": "Search queries",
+      "type": "array"
     },
     "sortBy": {
       "default": "featured",
-      "description": "Order results (applied client-side after fetching).",
+      "description": "Order results. Nike's public wall API has no reliable server-side sort, so the actor sorts the fetched records locally.",
       "editor": "select",
       "enum": [
         "featured",
+        "newest",
         "priceLowToHigh",
-        "priceHighToLow"
+        "priceHighToLow",
+        "discountHighToLow"
       ],
       "enumTitles": [
         "Featured (Nike's default order)",
+        "Newest",
         "Price: Low to High",
-        "Price: High to Low"
+        "Price: High to Low",
+        "Discount: High to Low"
       ],
       "prefill": "featured",
       "title": "Sort by",
       "type": "string"
+    },
+    "startUrls": {
+      "default": [],
+      "description": "Paste any nike.com search (`/w?q=...`), category (`/w/...`) or product (`/t/...` or `/u/...`) URLs. Locale-prefixed links such as `nike.com/gb/t/...` set the marketplace automatically. When supplied, these URLs override `mode`.",
+      "editor": "requestListSources",
+      "items": {
+        "properties": {
+          "url": {
+            "description": "A nike.com search, category or product URL.",
+            "title": "URL",
+            "type": "string"
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "type": "object"
+      },
+      "prefill": [],
+      "title": "Nike search, category or product URLs",
+      "type": "array"
+    },
+    "styleCodes": {
+      "default": [],
+      "description": "Nike style or style-color codes, e.g. `CW2288-111` or `CW2288`. The actor resolves each code to its Nike product page and returns full detail. For Nike By You products use the 10-digit style-color code (e.g. `6484638358`).",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Style codes (mode=productDetails)",
+      "type": "array"
     }
   },
   "required": [
