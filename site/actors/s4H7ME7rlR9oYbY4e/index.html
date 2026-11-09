@@ -1,0 +1,260 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-FbFBgqORidCWVxRGpf9ERh6i+LK9zspP9bYsCKPfu7g=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Wikipedia Article Lookup by URL or Keyword | Vexaloom Labs</title><meta name="description" content="Fetch structured data for Wikipedia articles by URL or keyword search, in any language edition - summary, description, categories, images, and last-edit timestamp."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/s4H7ME7rlR9oYbY4e/"><meta property="og:title" content="Wikipedia Article Lookup by URL or Keyword | Vexaloom Labs"><meta property="og:description" content="Fetch structured data for Wikipedia articles by URL or keyword search, in any language edition - summary, description, categories, images, and last-edit timestamp."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/s4H7ME7rlR9oYbY4e/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/s4H7ME7rlR9oYbY4e/#webpage","name":"Wikipedia Article Lookup by URL or Keyword","description":"Fetch structured data for Wikipedia articles by URL or keyword search, in any language edition - summary, description, categories, images, and last-edit timestamp.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/s4H7ME7rlR9oYbY4e/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/s4H7ME7rlR9oYbY4e/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/s4H7ME7rlR9oYbY4e/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/s4H7ME7rlR9oYbY4e/#article","headline":"Wikipedia Article Lookup by URL or Keyword","name":"Wikipedia Article Lookup by URL or Keyword","description":"Fetch structured data for Wikipedia articles by URL or keyword search, in any language edition - summary, description, categories, images, and last-edit timestamp.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/s4H7ME7rlR9oYbY4e/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/s4H7ME7rlR9oYbY4e/#webpage"},"inLanguage":"en"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/s4H7ME7rlR9oYbY4e/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Wikipedia Article Lookup by URL or Keyword","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/s4H7ME7rlR9oYbY4e/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Wikipedia Article Lookup by URL or Keyword</span></div><section id="overview"><h1 class="doc-title">Wikipedia Article Lookup by URL or Keyword</h1><p class="lede">Fetch structured data for Wikipedia articles by URL or keyword search, in any language edition - summary, description, categories, images, and last-edit timestamp.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/wikipedia-article-lookup-by-url-or-keyword">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/s4H7ME7rlR9oYbY4e/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>articleUrls</code></td><td>array</td><td>optional</td><td>Wikipedia article URLs to scrape.</td></tr><tr><td><code>searchQueries</code></td><td>array</td><td>optional</td><td>Search terms to find Wikipedia articles.</td></tr><tr><td><code>maxArticlesPerQuery</code></td><td>integer</td><td>optional</td><td>Maximum articles per search query.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>articleUrls</code></td><td>array</td><td>optional</td><td>Wikipedia article URLs to scrape.</td></tr><tr><td><code>searchQueries</code></td><td>array</td><td>optional</td><td>Search terms to find Wikipedia articles.</td></tr><tr><td><code>maxArticlesPerQuery</code></td><td>integer</td><td>optional</td><td>Maximum articles per search query.</td></tr><tr><td><code>language</code></td><td>string</td><td>optional</td><td>Wikipedia language code (e.g., &#x27;en&#x27;, &#x27;fr&#x27;, &#x27;de&#x27;, &#x27;es&#x27;, &#x27;ja&#x27;).</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;properties&quot;: {
+    &quot;articleUrls&quot;: {
+      &quot;description&quot;: &quot;Wikipedia article URLs to scrape.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [
+        &quot;https://en.wikipedia.org/wiki/Python_(programming_language)&quot;
+      ],
+      &quot;sectionCaption&quot;: &quot;Scrape by URL&quot;,
+      &quot;title&quot;: &quot;Article URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;language&quot;: {
+      &quot;default&quot;: &quot;en&quot;,
+      &quot;description&quot;: &quot;Wikipedia language code (e.g., &#x27;en&#x27;, &#x27;fr&#x27;, &#x27;de&#x27;, &#x27;es&#x27;, &#x27;ja&#x27;).&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;en&quot;,
+      &quot;title&quot;: &quot;Language&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;maxArticlesPerQuery&quot;: {
+      &quot;default&quot;: 5,
+      &quot;description&quot;: &quot;Maximum articles per search query.&quot;,
+      &quot;maximum&quot;: 50,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 5,
+      &quot;title&quot;: &quot;Max Articles Per Query&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;searchQueries&quot;: {
+      &quot;description&quot;: &quot;Search terms to find Wikipedia articles.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;sectionCaption&quot;: &quot;Scrape by Search&quot;,
+      &quot;title&quot;: &quot;Search Queries&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    }
+  },
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Wikipedia Article Scraper Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>articles</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped Wikipedia article records.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Wikipedia article records with summary, description, categories, images, and last-edit timestamp.&quot;,
+  &quot;properties&quot;: {
+    &quot;articles&quot;: {
+      &quot;description&quot;: &quot;Dataset containing all scraped Wikipedia article records.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Wikipedia Articles&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Wikipedia Article Lookup by URL or Keyword Output&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;fields&quot;: {
+    &quot;properties&quot;: {
+      &quot;categories&quot;: {
+        &quot;description&quot;: &quot;Article categories&quot;,
+        &quot;type&quot;: &quot;array&quot;
+      },
+      &quot;description&quot;: {
+        &quot;description&quot;: &quot;Wikidata short description&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;images&quot;: {
+        &quot;description&quot;: &quot;Image filenames from the article&quot;,
+        &quot;type&quot;: &quot;array&quot;
+      },
+      &quot;language&quot;: {
+        &quot;description&quot;: &quot;Language code&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;lastModified&quot;: {
+        &quot;description&quot;: &quot;Last edit timestamp&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;pageId&quot;: {
+        &quot;description&quot;: &quot;Wikipedia page ID&quot;,
+        &quot;type&quot;: &quot;integer&quot;
+      },
+      &quot;scrapedAt&quot;: {
+        &quot;description&quot;: &quot;ISO 8601 scrape timestamp&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;summary&quot;: {
+        &quot;description&quot;: &quot;Lead section extract&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;thumbnail&quot;: {
+        &quot;description&quot;: &quot;Thumbnail image {source, width, height}&quot;,
+        &quot;nullable&quot;: true,
+        &quot;type&quot;: &quot;object&quot;
+      },
+      &quot;title&quot;: {
+        &quot;description&quot;: &quot;Article title&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;url&quot;: {
+        &quot;description&quot;: &quot;Full Wikipedia URL&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      }
+    },
+    &quot;type&quot;: &quot;object&quot;
+  },
+  &quot;title&quot;: &quot;Wikipedia Articles&quot;,
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;description&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Description&quot;
+          },
+          &quot;language&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Lang&quot;
+          },
+          &quot;title&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Title&quot;
+          },
+          &quot;url&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;URL&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Articles&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;title&quot;,
+          &quot;description&quot;,
+          &quot;language&quot;,
+          &quot;url&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-wikipedia-article-lookup-by-url-or-keyword">Wikipedia Article Lookup by URL or Keyword</h2>
+<p>Wikipedia holds a structured summary, category list, and image set behind every one of its articles, in whichever language edition you need. This actor pulls that structured data for a list of articles you name directly, or for articles matching a search term, in the language edition you choose.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li>Fetches structured data for specific articles when you provide their Wikipedia URLs.</li>
+<li>Searches Wikipedia by keyword and fetches structured data for the matching articles, up to a per-query limit.</li>
+<li>Works against any of Wikipedia's language editions by language code.</li>
+<li>Resolves article image filenames to their actual viewable image URLs.</li>
+<li>Returns one record per article; fields a given article doesn't have come through as an empty string, empty list, or <code>0</code> rather than being left out.</li>
+</ul>
+<h2 id="readme-output-per-article">Output per article</h2>
+<ul>
+<li><code>title</code> — article title</li>
+<li><code>url</code> — full Wikipedia URL for the article</li>
+<li><code>summary</code> — lead-section text extract (the opening paragraphs)</li>
+<li><code>description</code> — short one-line description of the topic</li>
+<li><code>categories</code> — the article's Wikipedia categories</li>
+<li><code>thumbnail</code> — thumbnail image object with <code>source</code>, <code>width</code>, <code>height</code></li>
+<li><code>images</code> — viewable URLs of images used in the article (icons, logos, and similar boilerplate images are filtered out)</li>
+<li><code>lastModified</code> — timestamp of the article's last edit</li>
+<li><code>pageId</code> — Wikipedia's internal page ID</li>
+<li><code>language</code> — language code used for this article</li>
+<li><code>scrapedAt</code> — ISO timestamp of when the record was captured</li>
+</ul>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>articleUrls</code></td>
+<td>array</td>
+<td>–</td>
+<td>Wikipedia article URLs to fetch directly</td>
+</tr>
+<tr>
+<td><code>searchQueries</code></td>
+<td>array</td>
+<td>–</td>
+<td>Search terms to find articles by keyword</td>
+</tr>
+<tr>
+<td><code>maxArticlesPerQuery</code></td>
+<td>integer</td>
+<td><code>5</code></td>
+<td>Maximum articles returned per search query (1–50)</td>
+</tr>
+<tr>
+<td><code>language</code></td>
+<td>string</td>
+<td><code>en</code></td>
+<td>Wikipedia language edition code, e.g. <code>en</code>, <code>fr</code>, <code>de</code>, <code>ja</code>. Used for <code>searchQueries</code>; for <code>articleUrls</code> the language is read from the URL's domain instead.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-example-fetch-specific-articles">Example: fetch specific articles</h3>
+<pre><code class="language-json">{
+  &quot;articleUrls&quot;: [
+    &quot;https://en.wikipedia.org/wiki/Python_(programming_language)&quot;,
+    &quot;https://en.wikipedia.org/wiki/Artificial_intelligence&quot;
+  ]
+}
+</code></pre>
+<h3 id="readme-example-search-by-keyword">Example: search by keyword</h3>
+<pre><code class="language-json">{
+  &quot;searchQueries&quot;: [&quot;machine learning&quot;, &quot;quantum computing&quot;],
+  &quot;maxArticlesPerQuery&quot;: 3,
+  &quot;language&quot;: &quot;en&quot;
+}
+</code></pre>
+<h3 id="readme-example-a-non-english-language-edition">Example: a non-English language edition</h3>
+<pre><code class="language-json">{
+  &quot;searchQueries&quot;: [&quot;intelligence artificielle&quot;],
+  &quot;language&quot;: &quot;fr&quot;,
+  &quot;maxArticlesPerQuery&quot;: 5
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>Knowledge base building</strong> — collect structured summaries and categories to seed an internal knowledge graph.</li>
+<li><strong>Content research</strong> — gather topic descriptions and lead-section text before writing or editing related content.</li>
+<li><strong>Dataset construction</strong> — assemble clean, structured article text and metadata for NLP or model training.</li>
+<li><strong>Topic coverage audits</strong> — search a set of keywords to see which related articles Wikipedia already covers.</li>
+<li><strong>Multilingual comparison</strong> — fetch the same topic across several language codes to compare coverage or description differences.</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Is this affiliated with Wikipedia or the Wikimedia Foundation?</strong>
+No. This actor reads Wikipedia's publicly available article data; it is not operated by or affiliated with the Wikimedia Foundation.</p>
+<p><strong>Do I need a login, key, or proxy?</strong>
+No. Every article and search lookup works without authentication or a proxy.</p>
+<p><strong>Which languages are supported?</strong>
+Any Wikipedia language edition — set <code>language</code> to its code, such as <code>en</code>, <code>fr</code>, <code>de</code>, <code>es</code>, <code>ja</code>, <code>zh</code>, <code>ru</code>, <code>pt</code>, <code>ar</code>, or <code>ko</code>.</p>
+<p><strong>Does this return the full article text?</strong>
+No — <code>summary</code> is the lead-section extract (the article's opening paragraphs), not the entire article body. That extract is enough context for most research, enrichment, and content use cases.</p>
+<p><strong>Why might <code>categories</code> or <code>images</code> be empty for an article?</strong>
+Some short or newly created articles have few or no categories assigned, and some articles don't use any non-boilerplate images — in both cases the field is returned as an empty list rather than guessed.</p>
+<p><strong>What happens if I give a URL for an article that doesn't exist?</strong>
+That URL is skipped and not included in the output, since there's no article data to return for it.</p>
+<p><strong>Can I mix <code>articleUrls</code> and <code>searchQueries</code> in the same run?</strong>
+Yes — the actor processes any URLs you provide and also runs any search queries you provide, within the same run.</p>
+<p><strong>How current is the data?</strong>
+Every run reads Wikipedia live, so summaries, categories, and edit timestamps reflect the article's current state at run time.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/s4H7ME7rlR9oYbY4e/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>Jweis3JMxxRwOhsSJ</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

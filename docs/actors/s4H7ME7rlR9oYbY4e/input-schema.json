@@ -1,0 +1,47 @@
+{
+  "properties": {
+    "articleUrls": {
+      "description": "Wikipedia article URLs to scrape.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "https://en.wikipedia.org/wiki/Python_(programming_language)"
+      ],
+      "sectionCaption": "Scrape by URL",
+      "title": "Article URLs",
+      "type": "array"
+    },
+    "language": {
+      "default": "en",
+      "description": "Wikipedia language code (e.g., 'en', 'fr', 'de', 'es', 'ja').",
+      "editor": "textfield",
+      "prefill": "en",
+      "title": "Language",
+      "type": "string"
+    },
+    "maxArticlesPerQuery": {
+      "default": 5,
+      "description": "Maximum articles per search query.",
+      "maximum": 50,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Max Articles Per Query",
+      "type": "integer"
+    },
+    "searchQueries": {
+      "description": "Search terms to find Wikipedia articles.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "sectionCaption": "Scrape by Search",
+      "title": "Search Queries",
+      "type": "array"
+    }
+  },
+  "schemaVersion": 1,
+  "title": "Wikipedia Article Scraper Input",
+  "type": "object"
+}

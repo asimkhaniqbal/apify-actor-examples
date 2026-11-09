@@ -1,0 +1,90 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "properties": {
+      "categories": {
+        "description": "Article categories",
+        "type": "array"
+      },
+      "description": {
+        "description": "Wikidata short description",
+        "nullable": true,
+        "type": "string"
+      },
+      "images": {
+        "description": "Image filenames from the article",
+        "type": "array"
+      },
+      "language": {
+        "description": "Language code",
+        "type": "string"
+      },
+      "lastModified": {
+        "description": "Last edit timestamp",
+        "nullable": true,
+        "type": "string"
+      },
+      "pageId": {
+        "description": "Wikipedia page ID",
+        "type": "integer"
+      },
+      "scrapedAt": {
+        "description": "ISO 8601 scrape timestamp",
+        "type": "string"
+      },
+      "summary": {
+        "description": "Lead section extract",
+        "type": "string"
+      },
+      "thumbnail": {
+        "description": "Thumbnail image {source, width, height}",
+        "nullable": true,
+        "type": "object"
+      },
+      "title": {
+        "description": "Article title",
+        "type": "string"
+      },
+      "url": {
+        "description": "Full Wikipedia URL",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "title": "Wikipedia Articles",
+  "views": {
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "description": {
+            "format": "text",
+            "label": "Description"
+          },
+          "language": {
+            "format": "text",
+            "label": "Lang"
+          },
+          "title": {
+            "format": "text",
+            "label": "Title"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          }
+        }
+      },
+      "title": "Articles",
+      "transformation": {
+        "fields": [
+          "title",
+          "description",
+          "language",
+          "url"
+        ]
+      }
+    }
+  }
+}
