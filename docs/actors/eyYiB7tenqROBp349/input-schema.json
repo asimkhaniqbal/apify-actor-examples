@@ -1,0 +1,175 @@
+{
+  "description": "Find property managers in Zillow's professional directory by city, ZIP or neighborhood, or read specific directory and profile URLs. No login, cookie or API key is required.",
+  "properties": {
+    "endPage": {
+      "description": "Maximum directory pages to crawl per location or directory URL. Each page contains 16 profiles and Zillow clamps at page 25.",
+      "maximum": 25,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Max directory pages",
+      "type": "integer"
+    },
+    "isTopAgent": {
+      "default": false,
+      "description": "Only include profiles Zillow has awarded its Top Professional badge.",
+      "prefill": false,
+      "title": "Top professionals only",
+      "type": "boolean"
+    },
+    "languages": {
+      "description": "Only include profiles that speak at least one of these languages. Leave empty for all languages.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "american-sign-language",
+          "arabic",
+          "bengali",
+          "cantonese",
+          "farsi",
+          "french",
+          "german",
+          "greek",
+          "haitian-creole",
+          "hebrew",
+          "hindi",
+          "hungarian",
+          "italian",
+          "japanese",
+          "korean",
+          "mandarin",
+          "polish",
+          "portuguese",
+          "russian",
+          "spanish",
+          "filipino",
+          "thai",
+          "turkish",
+          "ukrainian",
+          "vietnamese"
+        ],
+        "enumTitles": [
+          "American Sign Language (ASL)",
+          "Arabic",
+          "Bengali",
+          "Cantonese",
+          "Farsi",
+          "French",
+          "German",
+          "Greek",
+          "Haitian Creole",
+          "Hebrew",
+          "Hindi",
+          "Hungarian",
+          "Italian",
+          "Japanese",
+          "Korean",
+          "Mandarin",
+          "Polish",
+          "Portuguese",
+          "Russian",
+          "Spanish",
+          "Tagalog (Filipino)",
+          "Thai",
+          "Turkish",
+          "Ukrainian",
+          "Vietnamese"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Languages",
+      "type": "array"
+    },
+    "locations": {
+      "description": "One location per line: city and state (\"Dallas, TX\"), ZIP code (\"92104\"), or a neighborhood (\"Hyde Park, Austin, TX\"). Each location is searched with the Property Management specialty filter.",
+      "editor": "stringList",
+      "prefill": [
+        "Dallas, TX"
+      ],
+      "title": "Locations",
+      "type": "array"
+    },
+    "maxManagers": {
+      "description": "Maximum number of property manager profiles to return. Zillow serves at most 400 per location and filter combination (16 per page, 25 pages).",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Max managers",
+      "type": "integer"
+    },
+    "maxReviews": {
+      "description": "Maximum recent reviews to include per profile. Zillow exposes the 10 most recent reviews on a profile page.",
+      "maximum": 10,
+      "minimum": 0,
+      "prefill": 3,
+      "title": "Max reviews per profile",
+      "type": "integer"
+    },
+    "mode": {
+      "description": "What to scrape. Search by location uses the directory; Scrape specific URLs reads directory pages and profile pages you supply.",
+      "editor": "select",
+      "enum": [
+        "location",
+        "urls"
+      ],
+      "enumTitles": [
+        "Search by city, ZIP or neighborhood",
+        "Scrape specific Zillow URLs"
+      ],
+      "prefill": "location",
+      "title": "Mode",
+      "type": "string"
+    },
+    "specialties": {
+      "description": "Zillow professional specialties to include. The actor is built for property managers, so Property Management is selected by default; add another specialty to widen the search.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "first-time-home-buyers",
+          "investment-properties",
+          "rentals",
+          "military-or-veterans",
+          "luxury-homes",
+          "new-construction",
+          "property-management",
+          "senior-communities",
+          "relocation",
+          "foreclosure",
+          "lot-or-land",
+          "vacation-short-term-rentals"
+        ],
+        "enumTitles": [
+          "First Time Homebuyers",
+          "Investment Properties",
+          "Rentals",
+          "Military/Veterans",
+          "Luxury Homes",
+          "New Construction",
+          "Property Management",
+          "Senior Communities",
+          "Relocation",
+          "Foreclosure",
+          "Lot/Land",
+          "Vacation / Short-term Rentals"
+        ],
+        "type": "string"
+      },
+      "prefill": [
+        "property-management"
+      ],
+      "title": "Specialties",
+      "type": "array"
+    },
+    "startUrls": {
+      "description": "Zillow professionals directory pages or individual profile URLs. Legacy /professionals/property-manager-reviews/... URLs are converted to the live directory path automatically.",
+      "editor": "requestListSources",
+      "prefill": [],
+      "title": "Zillow URLs",
+      "type": "array"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "Zillow Property Manager Directory Input",
+  "type": "object"
+}

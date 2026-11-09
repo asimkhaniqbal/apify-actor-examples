@@ -2,52 +2,161 @@
   "actorSpecification": 1,
   "fields": {
     "properties": {
-      "categories": {
-        "description": "Article categories",
+      "availableLanguages": {
+        "description": "Language codes of other editions",
         "type": "array"
       },
+      "canonicalUrl": {
+        "description": "Canonical article URL (same as url unless the API reports a different canonical form)",
+        "type": "string"
+      },
+      "categories": {
+        "description": "Article categories without the Category: prefix",
+        "type": "array"
+      },
+      "coordinates": {
+        "description": "Geographic coordinates {latitude, longitude} when present",
+        "type": "object"
+      },
       "description": {
-        "description": "Wikidata short description",
-        "nullable": true,
+        "description": "Short Wikidata description in the article language",
+        "type": "string"
+      },
+      "displayTitle": {
+        "description": "Title as displayed by Wikipedia",
+        "type": "string"
+      },
+      "externalLinks": {
+        "description": "Outbound external URLs",
+        "type": "array"
+      },
+      "fullText": {
+        "description": "Complete article body as plain text",
         "type": "string"
       },
       "images": {
-        "description": "Image filenames from the article",
+        "description": "Viewable image URLs from the article body",
         "type": "array"
       },
+      "isDisambiguation": {
+        "description": "True for disambiguation pages",
+        "type": "boolean"
+      },
       "language": {
-        "description": "Language code",
+        "description": "Wikipedia language edition code",
+        "type": "string"
+      },
+      "languageCount": {
+        "description": "Number of other language editions",
+        "type": "integer"
+      },
+      "lastEditComment": {
+        "description": "Latest revision comment",
+        "type": "string"
+      },
+      "lastEditor": {
+        "description": "User who made the latest revision",
         "type": "string"
       },
       "lastModified": {
-        "description": "Last edit timestamp",
-        "nullable": true,
+        "description": "ISO 8601 last-edit timestamp",
         "type": "string"
+      },
+      "links": {
+        "description": "Titles of linked Wikipedia articles",
+        "type": "array"
+      },
+      "matchedSearchQueries": {
+        "description": "All search queries that matched here",
+        "type": "array"
+      },
+      "originalImage": {
+        "description": "Original lead image {source, width, height}",
+        "type": "object"
       },
       "pageId": {
         "description": "Wikipedia page ID",
+        "type": "integer"
+      },
+      "pageviews": {
+        "description": "Pageview series {granularity, start, end, total, points}",
+        "type": "object"
+      },
+      "redirectedFrom": {
+        "description": "Input title that redirected to this article",
+        "type": "string"
+      },
+      "referencesCount": {
+        "description": "Number of inline citations",
+        "type": "integer"
+      },
+      "requestedTitle": {
+        "description": "Title input that resolved to this article",
+        "type": "string"
+      },
+      "requestedTitles": {
+        "description": "All title inputs that resolved here",
+        "type": "array"
+      },
+      "requestedUrls": {
+        "description": "All URL inputs that resolved here",
+        "type": "array"
+      },
+      "revisionId": {
+        "description": "Latest revision ID",
+        "type": "integer"
+      },
+      "revisionSize": {
+        "description": "Latest revision size in bytes",
         "type": "integer"
       },
       "scrapedAt": {
         "description": "ISO 8601 scrape timestamp",
         "type": "string"
       },
+      "searchQuery": {
+        "description": "First search query that matched this article",
+        "type": "string"
+      },
+      "searchRank": {
+        "description": "One-based rank in that search",
+        "type": "integer"
+      },
+      "searchSnippet": {
+        "description": "Plain-text search-result snippet",
+        "type": "string"
+      },
+      "sections": {
+        "description": "Section outline [{title, level, anchor}]",
+        "type": "array"
+      },
+      "sourceCategory": {
+        "description": "Category that produced this record, if any",
+        "type": "string"
+      },
       "summary": {
-        "description": "Lead section extract",
+        "description": "Lead-section plain-text extract",
         "type": "string"
       },
       "thumbnail": {
-        "description": "Thumbnail image {source, width, height}",
-        "nullable": true,
+        "description": "Lead image thumbnail {source, width, height}",
         "type": "object"
       },
       "title": {
-        "description": "Article title",
+        "description": "Canonical article title",
         "type": "string"
       },
       "url": {
-        "description": "Full Wikipedia URL",
+        "description": "Canonical desktop Wikipedia URL",
         "type": "string"
+      },
+      "wikidataId": {
+        "description": "Linked Wikidata entity ID, e.g. Q937",
+        "type": "string"
+      },
+      "wordCount": {
+        "description": "Word count of the best available text",
+        "type": "integer"
       }
     },
     "type": "object"
@@ -66,6 +175,10 @@
             "format": "text",
             "label": "Lang"
           },
+          "pageId": {
+            "format": "number",
+            "label": "Page ID"
+          },
           "title": {
             "format": "text",
             "label": "Title"
@@ -73,6 +186,10 @@
           "url": {
             "format": "link",
             "label": "URL"
+          },
+          "wordCount": {
+            "format": "number",
+            "label": "Words"
           }
         }
       },
@@ -82,6 +199,8 @@
           "title",
           "description",
           "language",
+          "wordCount",
+          "pageId",
           "url"
         ]
       }

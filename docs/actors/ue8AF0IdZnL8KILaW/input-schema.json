@@ -1,9 +1,96 @@
 {
-  "description": "Configure the scraper with eBay item URLs, store URLs, store category URLs, and/or plain keyword searches.",
+  "description": "Choose what to scrape — item pages, a seller store inventory, one store category, or keyword search — then set marketplace and result limits.",
   "properties": {
+    "buyingFormat": {
+      "default": "",
+      "description": "Show only Buy It Now or auction listings in keyword-search results.",
+      "editor": "select",
+      "enum": [
+        "",
+        "buyItNow",
+        "auction"
+      ],
+      "enumTitles": [
+        "Buy It Now & auctions",
+        "Buy It Now only",
+        "Auctions only"
+      ],
+      "title": "Buying format",
+      "type": "string"
+    },
+    "condition": {
+      "default": "",
+      "description": "Filter keyword-search results by condition. Leave on All conditions for every condition.",
+      "editor": "select",
+      "enum": [
+        "",
+        "new",
+        "openBox",
+        "manufacturerRefurbished",
+        "refurbished",
+        "used",
+        "forParts"
+      ],
+      "enumTitles": [
+        "All conditions",
+        "New",
+        "Open box",
+        "Manufacturer refurbished",
+        "Seller refurbished",
+        "Used",
+        "For parts or not working"
+      ],
+      "title": "Item condition",
+      "type": "string"
+    },
+    "freeShipping": {
+      "default": false,
+      "description": "Keep only keyword-search results that advertise free shipping or delivery.",
+      "prefill": false,
+      "title": "Free shipping only",
+      "type": "boolean"
+    },
+    "includeItemDetails": {
+      "default": true,
+      "description": "When on, every discovered listing is opened and returns the full item record (specifics, images, seller, shipping, returns). Turn off for a faster card-level result from search and store pages.",
+      "prefill": true,
+      "title": "Open each listing for full item details",
+      "type": "boolean"
+    },
+    "includeItemSpecifics": {
+      "default": true,
+      "description": "Add the full item-specifics table (brand, model, MPN, dimensions, features and other aspects) to item records.",
+      "prefill": true,
+      "title": "Include the item-specifics table",
+      "type": "boolean"
+    },
+    "itemIds": {
+      "default": [],
+      "description": "eBay item IDs (for example 257633093777) or full /itm/ links. Used in Item details mode.",
+      "editor": "stringList",
+      "title": "Item IDs or URLs",
+      "type": "array"
+    },
+    "itemLocation": {
+      "default": "",
+      "description": "Keep keyword-search results located in the marketplace country, or show worldwide results.",
+      "editor": "select",
+      "enum": [
+        "",
+        "domestic",
+        "worldwide"
+      ],
+      "enumTitles": [
+        "Any location",
+        "Domestic only",
+        "Worldwide"
+      ],
+      "title": "Item location",
+      "type": "string"
+    },
     "marketplace": {
       "default": "https://www.ebay.com",
-      "description": "Which eBay country site to use for searchQueries. Ignored for startUrls entries, which use whatever domain is already in the URL.",
+      "description": "Country site used for names and keywords, and for any input that is not already a full URL. The dropdown carries the legacy full-URL values; short codes (US, GB, DE, FR, IT, ES, CA, AU) are also accepted by API callers.",
       "editor": "select",
       "enum": [
         "https://www.ebay.com",
@@ -26,61 +113,127 @@
         "Australia (ebay.com.au)"
       ],
       "prefill": "https://www.ebay.com",
-      "title": "eBay Marketplace",
+      "sectionCaption": "Marketplace & filters",
+      "title": "Marketplace",
       "type": "string"
     },
     "maxItems": {
       "default": 3,
-      "description": "Maximum number of items to scrape. Applies mainly to store/category/search pages.",
+      "description": "Upper limit on item records across every source.",
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 3,
-      "title": "Max Items",
+      "prefill": 2,
+      "sectionCaption": "Result limits",
+      "title": "Max records",
       "type": "integer"
     },
-    "proxy": {
-      "default": {
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
-        ],
-        "useApifyProxy": true
-      },
-      "description": "Apify proxy configuration. Residential proxy is required — eBay's bot protection redirects every datacenter IP to a captcha page. Keep the default RESIDENTIAL prefill unless you have a trusted alternative.",
-      "editor": "proxy",
-      "prefill": {
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
-        ],
-        "useApifyProxy": true
-      },
-      "title": "Proxy configuration",
-      "type": "object"
+    "maxPages": {
+      "default": 10,
+      "description": "Stop after this many listing pages per store, category or search. Each page holds up to 240 listings.",
+      "maximum": 200,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Max pages per source",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Filter keyword-search results by maximum item price in the marketplace's local currency.",
+      "editor": "number",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Maximum price",
+      "type": "number"
+    },
+    "minPrice": {
+      "description": "Filter keyword-search results by minimum item price in the marketplace's local currency.",
+      "editor": "number",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Minimum price",
+      "type": "number"
+    },
+    "mode": {
+      "default": "search",
+      "description": "Item details opens the item pages you list. Store inventory walks a seller's whole store. Store category walks one category inside a store. Keyword search finds matching listings.",
+      "editor": "select",
+      "enum": [
+        "item",
+        "store",
+        "storeCategory",
+        "search"
+      ],
+      "enumTitles": [
+        "Item details — open specific item pages",
+        "Store inventory — every active listing in a seller store",
+        "Store category — one category inside a seller store",
+        "Keyword search — listings matching your terms"
+      ],
+      "prefill": "search",
+      "sectionCaption": "Mode",
+      "title": "What to scrape",
+      "type": "string"
+    },
+    "returnsAccepted": {
+      "default": false,
+      "description": "Keep only keyword-search results that accept returns.",
+      "prefill": false,
+      "title": "Returns accepted only",
+      "type": "boolean"
     },
     "searchQueries": {
       "default": [],
-      "description": "Plain keyword searches — no need to construct a URL. Each keyword is searched on the selected marketplace. Optional if startUrls is provided instead.",
+      "description": "Keywords to search on the selected marketplace. One search per entry. Used in Keyword search mode.",
       "editor": "stringList",
-      "prefill": [],
+      "prefill": [
+        "laptop"
+      ],
       "title": "Search keywords",
       "type": "array"
     },
+    "sortBy": {
+      "default": "bestMatch",
+      "description": "How to order keyword-search results.",
+      "editor": "select",
+      "enum": [
+        "bestMatch",
+        "priceLowest",
+        "priceHighest",
+        "endingSoonest",
+        "newlyListed"
+      ],
+      "enumTitles": [
+        "Best match",
+        "Price: lowest first",
+        "Price: highest first",
+        "Ending soonest",
+        "Newly listed"
+      ],
+      "title": "Sort order",
+      "type": "string"
+    },
     "startUrls": {
-      "default": [
-        {
-          "url": "https://www.ebay.com/sch/i.html?_nkw=iphone+15&_sop=12"
-        }
-      ],
-      "description": "List of eBay URLs to scrape. Supports individual item pages (/itm/), search result pages (/sch/), category pages (/b/), and seller store pages (/str/). Optional if searchQueries is provided instead.",
+      "default": [],
+      "description": "Paste item, store, store-category, category-browse or search links and each is routed to the right mode automatically. Ignored when the arrays above already cover that source.",
       "editor": "requestListSources",
-      "prefill": [
-        {
-          "url": "https://www.ebay.com/sch/i.html?_nkw=iphone+15&_sop=12"
-        }
-      ],
-      "title": "Start URLs",
+      "title": "Paste any eBay URLs (optional shortcut)",
+      "type": "array"
+    },
+    "storeCategoryUrls": {
+      "default": [],
+      "description": "Store-category links copied from a store page, for example https://www.ebay.com/str/mystore/Laptops/_i.html?store_cat=1234567890. Used in Store category mode.",
+      "editor": "stringList",
+      "title": "Store category URLs",
+      "type": "array"
+    },
+    "storeNames": {
+      "default": [],
+      "description": "Seller store names (for example discountcomputerdepot) or /str/ store links. Used in Store inventory mode.",
+      "editor": "stringList",
+      "title": "Store names or URLs",
       "type": "array"
     }
   },
   "schemaVersion": 1,
-  "title": "eBay Item & Store Scraper Input",
+  "title": "eBay Item, Store & Store Category Detail Input",
   "type": "object"
 }

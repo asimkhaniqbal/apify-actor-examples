@@ -1,0 +1,125 @@
+# Zillow Property Manager Directory by City
+
+Zillow's professional directory lists property managers and property management companies by location, with a profile page for each one covering contact details, reviews, service areas, licenses, team members, and the homes they currently manage. This actor searches that directory by city, ZIP code or neighborhood, or reads specific directory and profile URLs you already have, and returns the profiles as structured records.
+
+No login, cookie, API key or proxy configuration is needed.
+
+## What this actor does
+
+- Searches Zillow's professional directory with the Property Management specialty selected, for one or many locations.
+- Paginates directory results (16 profiles per page) and stops cleanly at Zillow's 25-page cap.
+- Accepts Zillow directory URLs and individual profile URLs, including legacy `property-manager-reviews` links, which are converted to the live directory path automatically.
+- Filters by specialty, spoken language, and Zillow's Top Professional badge.
+- Enriches every result from its profile page: business details, bio, social links, licenses, team roster, service areas, reviews with sub-ratings, and current rental and for-sale listings.
+- Leaves a field out of a record whenever the source does not publish it.
+
+## Modes
+
+| Mode | What it reads |
+|---|---|
+| Search by city, ZIP or neighborhood | Builds a directory URL for each entry in `locations` and paginates it. |
+| Scrape specific Zillow URLs | Reads the directory and profile URLs in `startUrls`. |
+
+If you supply both locations and URLs, both are processed. Older saved tasks that send `location` instead of `locations` keep working: the old key is mapped automatically.
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `mode` | select | `location` | Search by location, or scrape specific URLs. |
+| `locations` | string list | `Dallas, TX` (prefill) | City and state, ZIP code, or neighborhood. |
+| `startUrls` | request list | `[]` | Directory or profile URLs. Legacy property-manager URLs are mapped to the live path. |
+| `specialties` | multi-select | `property-management` | Zillow specialties to include. |
+| `languages` | multi-select | `[]` | Only profiles that speak at least one selected language. |
+| `isTopAgent` | boolean | `false` | Only profiles with Zillow's Top Professional badge. |
+| `maxManagers` | integer | `50` | Maximum profiles to return (1–1000). |
+| `endPage` | integer | `5` | Maximum directory pages per location or directory URL (1–25). |
+| `maxReviews` | integer | `10` | Recent reviews per profile (0–10; Zillow exposes the 10 most recent). |
+
+### Example: search a city
+
+```json
+{
+  "mode": "location",
+  "locations": ["Dallas, TX"],
+  "maxManagers": 50,
+  "endPage": 3
+}
+```
+
+### Example: several ZIP codes with a language filter
+
+```json
+{
+  "mode": "location",
+  "locations": ["92104", "94103"],
+  "languages": ["spanish", "farsi"],
+  "maxManagers": 100
+}
+```
+
+### Example: read a directory page and a specific profile
+
+```json
+{
+  "mode": "urls",
+  "startUrls": [
+    "https://www.zillow.com/professionals/real-estate-agent-reviews/austin-tx/?specialties=property-management",
+    "https://www.zillow.com/profile/Ziprent"
+  ],
+  "maxReviews": 10
+}
+```
+
+## Output per property manager
+
+- `encodedZuid`, `name`, `screenName`, `profileUrl`, `photoUrl`, `inCanada` — identity
+- `businessName`, `businessAddress`, `businessCity`, `businessState`, `businessZip` — business details
+- `phone`, `email`, `website` — contact details when published
+- `professionalTitle`, `description`, `yearsInIndustry`, `memberSince`, `profileTypes` — professional profile
+- `facebookUrl`, `instagramUrl`, `linkedInUrl`, `tiktokUrl`, `youtubeUrl`, `twitterUrl` — social links
+- `isTopAgent`, `reviewRating`, `reviewCount` — Zillow badge and rating summary
+- `tags`, `directoryStats` — badges and directory card statistics (price range, sales)
+- `specialties`, `languages` — services and spoken languages
+- `serviceAreas`, `serviceAreasDetailed` — places served, with absolute Zillow URLs when available
+- `licenses`, `otherLicenses` — license number, state, type, status, and expiration
+- `teamName`, `teamMembers` — team roster with each member's rating and profile URL
+- `recentReviews` — recent reviews with `text`, `rating`, `date`, `reviewerName`, `reviewerProfileUrl`, `subRatings`, `workDescription`, `response`, `responseAuthor`
+- `forRentListings`, `forSaleListings` — managed properties with address, price, beds, baths, home type, photo, coordinates, status, and URL
+- `location` — the directory search that surfaced the manager
+- `scrapedAt` — ISO 8601 timestamp of the run
+
+## Use cases
+
+- Build a city-by-city list of property management companies for outreach.
+- Compare ratings, review volume, and service areas before choosing a manager.
+- Track which rental inventory a management company currently lists.
+- Verify licenses and team members for vendor onboarding.
+- Map coverage across ZIP codes and neighborhoods.
+
+## Limitations
+
+- Zillow serves at most 25 directory pages per location and filter combination, which is 400 profiles. To reach more, run separate searches by location, language, or specialty.
+- A profile page exposes the 10 most recent reviews. `maxReviews` is capped at 10.
+- Some profiles do not publish an email, website, or active listings; those fields are omitted rather than filled with placeholders.
+- A directory search can include real estate agents and teams that also select Property Management as a specialty, not only dedicated management companies.
+
+## FAQ
+
+**Is this affiliated with Zillow?**
+No. It reads Zillow's publicly visible professional directory and is not affiliated with or endorsed by Zillow Group.
+
+**Do I need to log in, supply cookies, or configure a proxy?**
+No. The actor uses a Chrome-compatible TLS fingerprint and public pages. It only switches to Apify Proxy automatically if Zillow blocks a direct request.
+
+**Why do some results look like real estate agents?**
+Zillow's directory includes any professional who selects Property Management as a specialty, including agents and teams that manage rentals. Use the profile's `specialties` and `businessName` to tell dedicated management companies apart.
+
+**Can I use a legacy property-manager URL?**
+Yes. `https://www.zillow.com/professionals/property-manager-reviews/{location}/` links are converted to the live directory path automatically.
+
+**How do I cover more than 400 profiles in one city?**
+Split the city by language, specialty, or ZIP code and run each search separately, then combine the datasets. Every profile carries `encodedZuid` and `profileUrl`, so duplicates are easy to remove.
+
+**Does it work outside the United States?**
+It works wherever Zillow's directory lists professionals. Canadian cities are included when Zillow has profiles for them; if a location has no results, the run reports it instead of returning fabricated rows.

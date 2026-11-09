@@ -1,196 +1,216 @@
 # eBay Item, Store & Store Category Detail Extractor
 
-Extract detailed product data from eBay individual item pages, seller store fronts, and store category pages. Get item specifics, all high-resolution images, seller details, shipping terms, return policies, and more.
+Open eBay item pages, walk a seller's entire store, or crawl one store category, and get complete item-detail records: item specifics, every high-resolution image, seller and store trust signals, stock and sales counts, shipping terms and return policy.
 
-## What does this scraper do?
+The actor reads public eBay pages only. No cookie, login, API key or proxy setup is required — paste a URL or a name and run.
 
-This actor extracts **rich, detailed product data** from three types of eBay pages:
+## What can it scrape?
 
-- **Individual item pages** (`/itm/` URLs) — full product details with 30 data fields
-- **Seller store pages** (`/str/` URLs) — discovers and scrapes all products from a seller's store
-- **Store category pages** — scrapes products from specific categories within a seller's store
+| Mode | Start with | What you get |
+|------|-----------|--------------|
+| **Item details** | Item IDs or `/itm/` links | One full record per listing |
+| **Store inventory** | Store names or `/str/` links | The store's active listings, paginated, each opened for full details |
+| **Store category** | Store-category links | One category inside a store, paginated, each listing opened for full details |
+| **Keyword search** | Plain keywords | Matching listings, paginated, each opened for full details |
 
-Unlike search result scrapers that only extract card-level data, this actor visits each product page to collect complete item specifics, all images, seller ratings, shipping/return terms, stock levels, and sales data.
-
-> **Note**: Some fields may be empty for certain listings: `originalPrice` (only when discounted), `soldCount`/`watchCount`/`availableQuantity` (not shown on all listings), `bids` (only for auctions), `sellerFeedbackPercent` (new sellers with zero feedback), `shippingCost` (when eBay doesn't display a computed cost, e.g. calculated/location-dependent shipping), and `returnPolicy` (eBay Motors/vehicle listings are typically sold as-is via dealer arrangement rather than a standard return policy).
-
-## Features
-
-- Extract 30 detailed data fields per product
-- Keyword search — no need to construct a URL, just provide search terms
-- Multi-marketplace support — search across 8 eBay country sites (US, UK, DE, FR, IT, ES, CA, AU)
-- Vehicle-specific fields (VIN, mileage, title status, transmission) automatically promoted for eBay Motors listings
-- Full item specifics extraction (Brand, Model, Processor, RAM, etc.)
-- All high-resolution product images (up to 1600px)
-- Seller details with feedback score and positive rating percentage
-- Shipping cost, return policy, and item location
-- Stock availability and units sold count
-- Works with Buy It Now and Auction listings
-- Automatic pagination for store pages
-- No login or cookies required
+All four modes share one result budget (`maxItems`) and one page budget per source (`maxPages`). Discovery is paginated automatically: search pages, store fronts and store categories are walked until the budget is reached, the source runs out of pages, or a page returns no new item IDs.
 
 ## Input
 
-| Field | Type | Required | Default | Description |
-|-------|------|----------|---------|-------------|
-| `startUrls` | Array | One of `startUrls`/`searchQueries` | `[{"url": "https://www.ebay.com/sch/i.html?_nkw=iphone+15&_sop=12"}]` | eBay item, store, or store category URLs |
-| `searchQueries` | Array | One of `startUrls`/`searchQueries` | `[]` | Plain keyword searches — no URL construction needed |
-| `marketplace` | String | No | `https://www.ebay.com` | Which eBay country site to search on (used with `searchQueries`; `startUrls` entries use their own domain) |
-| `maxItems` | Integer | No | 3 | Maximum number of items to scrape, shared across ALL `startUrls`/`searchQueries` combined (not per-URL or per-query — e.g. with 3 search queries and `maxItems: 3`, only the first query's results count toward the total) |
-| `proxy` | Object | No | `{"useApifyProxy": true, "apifyProxyGroups": ["RESIDENTIAL"]}` | Proxy configuration. Residential proxy is the default — eBay's bot protection redirects datacenter IPs to a captcha page. |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `mode` | Select | `search` | Item details, Store inventory, Store category, or Keyword search |
+| `itemIds` | Array | – | Item IDs (`257633093777`) or full `/itm/` links |
+| `storeNames` | Array | – | Store names (`discountcomputerdepot`) or `/str/` links |
+| `storeCategoryUrls` | Array | – | Store-category links such as `https://www.ebay.com/str/mystore/Laptops/_i.html?store_cat=1234567890` |
+| `searchQueries` | Array | – | Keywords, one search per entry |
+| `startUrls` | Array | – | Optional shortcut: paste any eBay URL and it is routed to the right mode |
+| `marketplace` | Select | `https://www.ebay.com` | One of 8 country sites (US, UK, DE, FR, IT, ES, CA, AU). The dropdown keeps the legacy full-URL values; API callers may also send `US`, `GB`, etc. |
+| `condition` | Select | All | New, Open box, Manufacturer refurbished, Seller refurbished, Used, For parts |
+| `buyingFormat` | Select | `""` | Buy It Now only or Auctions only |
+| `minPrice` / `maxPrice` | Number | – | Price range in the marketplace currency |
+| `sortBy` | Select | `bestMatch` | Best match, price low/high, ending soonest, newly listed |
+| `freeShipping` | Boolean | `false` | Keep only free-shipping listings |
+| `returnsAccepted` | Boolean | `false` | Keep only listings that accept returns |
+| `itemLocation` | Select | Any | Domestic-only or worldwide |
+| `maxItems` | Integer | `3` | Total records across every source |
+| `maxPages` | Integer | `10` | Listing pages per store, category or search (up to 240 listings each) |
+| `includeItemDetails` | Boolean | `true` | Open each discovered listing for the full item record; turn off for faster card-level results |
+| `includeItemSpecifics` | Boolean | `true` | Include the item-specifics table and seller notes |
 
-### Supported URL Formats
+Condition, buying-format, price, sort, shipping, returns and item-location filters apply to **Keyword search** results. Store and Store category modes walk the seller's inventory in its own order.
 
-- **Single item**: `https://www.ebay.com/itm/267153498498`
-- **Single item (with title)**: `https://www.ebay.com/itm/Product-Title-Here/267153498498`
-- **Seller store**: `https://www.ebay.com/str/thriftbooks`
-- **Store category**: `https://www.ebay.com/str/thriftbooks/Fiction/_i.html?_sacat=261186`
+### Supported URL shapes
 
-### Example Input
+- Item: `https://www.ebay.com/itm/267153498498`
+- Item with slug: `https://www.ebay.com/itm/Product-Title-Here/267153498498`
+- Store: `https://www.ebay.com/str/thriftbooks`
+- Store category: `https://www.ebay.com/str/thriftbooks/Fiction/_i.html?store_cat=261186`
+- Search: `https://www.ebay.co.uk/sch/i.html?_nkw=laptop`
+- Category browse: `https://www.ebay.com/b/PC-Laptops-Netbooks/177`
+
+### Example: item details
 
 ```json
 {
-    "startUrls": [
-        { "url": "https://www.ebay.com/itm/267153498498" }
-    ],
-    "maxItems": 10
+    "mode": "item",
+    "itemIds": ["257633093777"],
+    "maxItems": 1
 }
 ```
 
-### Scraping a Seller Store
+### Example: store category
 
 ```json
 {
-    "startUrls": [
-        { "url": "https://www.ebay.com/str/thriftbooks" }
+    "mode": "storeCategory",
+    "storeCategoryUrls": [
+        "https://www.ebay.com/str/discountcomputerdepot/Laptops/_i.html?store_cat=10748275017"
     ],
-    "maxItems": 50
+    "maxItems": 20,
+    "maxPages": 2
+}
+```
+
+### Example: keyword search
+
+```json
+{
+    "mode": "search",
+    "searchQueries": ["iphone 15 pro", "pixel 9"],
+    "marketplace": "https://www.ebay.co.uk",
+    "condition": "used",
+    "maxItems": 50,
+    "maxPages": 3
 }
 ```
 
 ## Output
 
-Each scraped product contains the following fields:
+Every record is an item-detail record when `includeItemDetails` is on. Legacy fields from earlier versions of this actor keep their original names and formats; richer numeric and structured companions sit beside them.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `url` | String | Direct URL to the item listing |
-| `id` | String | eBay item ID |
-| `title` | String | Full product title |
-| `price` | String | Current price with currency (e.g., "US $384.92") |
-| `originalPrice` | String | Original price if item is discounted |
-| `condition` | String | Item condition (New, Used, Refurbished, etc.) |
-| `brand` | String | Product brand, empty if not specified |
-| `model` | String | Product model, empty if not specified |
-| `seller` | String | Seller name |
-| `sellerFeedbackScore` | String | Seller total feedback count |
-| `sellerFeedbackPercent` | String | Seller positive feedback percentage (empty for new sellers with no feedback) |
-| `sellerUrl` | String | URL to seller's eBay store |
-| `availableQuantity` | String | Number of items in stock |
-| `soldCount` | String | Number of units sold |
-| `watchCount` | String | Number of people watching this item |
-| `location` | String | Item geographic location |
-| `shippingCost` | String | Shipping cost or "Free shipping", empty if eBay doesn't display a computed cost |
-| `returnPolicy` | String | Return policy terms, empty for eBay Motors/vehicle listings |
-| `paymentMethods` | Array | Accepted payment methods (e.g. PayPal, Klarna Installment) |
-| `listingStartDate` | String | ISO 8601 timestamp when the listing went live, empty if unavailable |
-| `images` | Array | All high-resolution product image URLs |
-| `itemSpecifics` | Object | Key-value pairs of item specifics (Brand, Model, etc.) |
-| `categories` | Array | Breadcrumb category path |
-| `authenticityGuarantee` | Boolean | Whether this listing is covered by eBay's Authenticity Guarantee |
-| `topRatedSeller` | Boolean | Whether the seller has eBay's Top Rated Plus/Seller badge |
-| `businessSeller` | Boolean | Whether the seller is registered as a business seller |
-| `listingType` | String | "Buy It Now" or "Auction" |
-| `bids` | String | Number of bids (for auction listings) |
-| `vehicle` | Object | Vehicle-specific fields (vin, mileage, titleStatus, transmission, drivetrain, fuelType, exteriorColor, interiorColor) — present only for eBay Motors listings |
-| `scrapedAt` | String | ISO timestamp when the item was scraped |
+| `recordType` | String | `item`, or `store` / `storeCategory` for an empty-source summary |
+| `id`, `itemId` | String | eBay item ID |
+| `url` | String | Canonical item URL |
+| `title` | String | Listing title |
+| `price` | String | Historical price format, e.g. `US $339.99` |
+| `priceValue`, `priceCurrency` | Number, String | Numeric price and ISO currency |
+| `originalPrice`, `wasPrice`, `wasPriceValue`, `discountPercent` | Mixed | Comparison price when discounted |
+| `condition`, `conditionDescription` | String | Condition label and its longer explanation |
+| `brand`, `model`, `mpn`, `gtin`, `color` | String | Product identifiers |
+| `seller`, `sellerFeedbackScore`, `sellerFeedbackPercent`, `sellerFeedbackCount` | Mixed | Seller identity and trust |
+| `sellerUrl`, `sellerStoreUrl` | String | Seller store link |
+| `availableQuantity`, `quantityAvailable` | String, Number | Stock |
+| `soldCount`, `quantitySold` | String, Number | Units sold |
+| `watchCount`, `watcherCount` | String, Number | Watchers |
+| `location`, `itemLocation` | String | Item location |
+| `shippingCost`, `shippingCostValue`, `shippingCurrency`, `shippingDestination` | Mixed | Shipping terms |
+| `returnPolicy`, `returns`, `returnDays`, `returnFees` | Mixed | Return terms |
+| `paymentMethods` | Array | Accepted payment methods |
+| `listingStartDate`, `startTime` | String | ISO 8601 listing start |
+| `images`, `imageUrl` | Array, String | Full-size gallery |
+| `itemSpecifics`, `sellerNotes` | Object, String | Complete specifics table |
+| `categories`, `categoryPath` | Array | Breadcrumb path |
+| `authenticityGuarantee`, `topRatedSeller`, `businessSeller` | Boolean | Trust badges |
+| `listingType`, `bids`, `bidCount`, `timeLeft` | Mixed | Sale format and auction data |
+| `vehicle` | Object | VIN, mileage and other eBay Motors fields (only on vehicle listings) |
+| `marketplace` | String | Marketplace code |
+| `searchUrl`, `storeListingUrl` | String | Page that produced the record |
+| `storeName`, `storeUrl`, `storeTagline`, `storeFeedbackPercent`, `storeItemsSold`, `storeFollowers`, `storeListingCount` | Mixed | Store context attached to store-mode records |
+| `storeCategoryName`, `storeCategoryUrl`, `storeCategoryId` | String | Category context attached to store-category records |
+| `scrapedAt` | String | ISO 8601 scrape time |
 
-### Example Output
+### Example output
 
 ```json
 {
-    "url": "https://www.ebay.com/itm/296175164279",
-    "id": "296175164279",
-    "title": "Apple iPhone 15 Pro 128GB Factory Unlocked AT&T T-Mobile Verizon",
-    "price": "US $649.99",
-    "originalPrice": "",
-    "condition": "Excellent - Refurbished",
-    "brand": "Apple",
-    "model": "Apple iPhone 15 Pro",
+    "recordType": "item",
+    "id": "257633093777",
+    "itemId": "257633093777",
+    "url": "https://www.ebay.com/itm/257633093777",
+    "title": "Lenovo ThinkBook 15-ITL 15.6\" Core i5 16GB RAM 256GB SSD Windows 11 Pro Laptop",
+    "price": "US $339.99",
+    "priceValue": 339.99,
+    "priceCurrency": "USD",
+    "condition": "Good - Refurbished",
+    "brand": "Lenovo",
+    "model": "Lenovo ThinkBook 15 ITL",
+    "mpn": "lenovodeals",
+    "color": "Gray",
     "seller": "Discount Computer Depot",
-    "sellerFeedbackScore": "156714",
-    "sellerFeedbackPercent": "99.3%",
+    "sellerFeedbackScore": "178796",
+    "sellerFeedbackCount": 178796,
+    "sellerFeedbackPercent": "99.6%",
     "sellerUrl": "https://www.ebay.com/str/discountcomputerdepot",
     "availableQuantity": "10",
-    "soldCount": "5",
-    "watchCount": "12",
-    "location": "Jacksonville, TX, United States",
+    "quantityAvailable": 10,
+    "soldCount": "29",
+    "quantitySold": 29,
+    "watchCount": "183",
+    "watcherCount": 183,
+    "location": "Jacksonville, Texas, United States",
     "shippingCost": "Free shipping",
     "returnPolicy": "30 days returns",
-    "paymentMethods": ["Klarna Installment", "PayPal", "Venmo", "Visa", "Master Card"],
-    "listingStartDate": "2024-01-19T21:58:01Z",
-    "images": [
-        "https://i.ebayimg.com/images/g/example1/s-l1600.jpg",
-        "https://i.ebayimg.com/images/g/example2/s-l1600.jpg"
-    ],
-    "itemSpecifics": {
-        "Brand": "Apple",
-        "Model": "iPhone 15 Pro",
-        "Storage Capacity": "128 GB",
-        "Color": "Black Titanium",
-        "Network": "Unlocked"
-    },
-    "categories": ["eBay", "Electronics", "Cell Phones & Accessories", "Cell Phones & Smartphones"],
+    "returnDays": 30,
+    "paymentMethods": ["PayPal", "Visa", "Master Card"],
+    "listingStartDate": "2026-07-20T20:20:59Z",
+    "images": ["https://i.ebayimg.com/images/g/example/s-l1600.jpg"],
+    "itemSpecifics": {"Brand": "Lenovo", "Processor": "Intel Core i5-1135G7"},
+    "categories": ["eBay", "Electronics", "Computers/Tablets & Networking"],
     "authenticityGuarantee": false,
     "topRatedSeller": true,
     "businessSeller": false,
     "listingType": "Buy It Now",
-    "bids": "",
-    "scrapedAt": "2026-08-22T17:26:07.041000+00:00"
+    "marketplace": "US",
+    "scrapedAt": "2026-11-09T10:00:00+00:00"
 }
 ```
 
-> This example omits `vehicle` because this listing isn't in the eBay Motors category — that field is only present on vehicle listings (see the Output table above).
+## How pagination works
 
-## Use Cases
+- Search and store listing pages accept 60, 120 or 240 rows per page; the actor right-sizes the page to the remaining `maxItems`.
+- `maxPages` caps pages per store, category or search source. When you need more than 240 x 200 rows for one query, split by category or price range.
+- Pagination stops on `maxItems`, the last page, a page with no new item IDs, or a repeated page.
 
-- **Market Research**: Analyze product pricing, conditions, and availability across sellers
-- **Price Monitoring**: Track price changes on specific eBay listings over time
-- **Competitor Analysis**: Scrape competitor store inventories with full product details
-- **Product Catalog Building**: Extract complete product specifications for catalog databases
-- **Seller Intelligence**: Collect seller ratings, feedback scores, and store inventory data
-- **Supply Chain Research**: Monitor product availability and shipping terms from suppliers
+## Tips for reliable runs
 
-## Tips for best results
-
-1. **Start with individual item URLs** when you only need specific listings
-2. **Use store URLs** when you need to scrape an entire seller's inventory
-3. **Set `maxItems`** to the number of records you actually need, especially on large stores
-4. **Leave the default proxy configuration** — a residential proxy is applied automatically because eBay's bot protection blocks datacenter IPs
-5. **Raise `maxItems` accordingly with multiple queries** — it's a shared budget across every URL/query, so with several `searchQueries` or `startUrls` entries, size it so later entries aren't starved by earlier ones (e.g. ~10-20 per query)
+1. For a handful of listings, use **Item details** with item IDs.
+2. For a seller's catalogue, use **Store inventory** and set `maxPages` high enough for the store size.
+3. To split a large store, copy category links from the store page into **Store category**.
+4. Keep `includeItemDetails` on when you need specifics, images and return terms; turn it off when card-level title/price is enough.
+5. `maxItems` is shared by all sources, so size it for the total you want.
 
 ## FAQ
 
-### Can I scrape eBay search results with this actor?
+### Do I need cookies, an account or a proxy?
 
-Yes — provide plain keywords via `searchQueries`, or a full `/sch/` search URL via `startUrls`. Unlike card-level search scrapers, this actor visits each result's item page for full detail (30 fields).
+No. The actor reads public pages and selects its network path automatically. There is no proxy field to configure and no credential to paste.
 
-### Does this actor support international eBay sites?
+### Why are some fields missing on a record?
 
-Yes. Set the `marketplace` field to search a specific country site (US, UK, Germany, France, Italy, Spain, Canada, Australia), or pass `startUrls` on any eBay domain directly — the actor always stays on the domain your URLs use.
+eBay only renders some data for some listings: `originalPrice` appears when discounted, `bids` only on auctions, `vehicle` only on Motors listings, and `returnPolicy` may be absent on as-is vehicle listings. Missing values are omitted rather than emitted as null.
 
-### How many items can I scrape per run?
+### Can I use UK, German or Australian eBay?
 
-There is no hard limit. Use the `maxItems` parameter to control the number of items scraped per run. For large stores with thousands of products, consider splitting into multiple runs.
+Yes. Pick the marketplace site for names and keywords, or paste URLs from any of the eight supported country sites. A pasted URL keeps its own domain.
 
-### Does this actor need cookies or login?
+### Does it support sold or completed listings?
 
-No. The scraper works with publicly available eBay pages and does not require any authentication.
+No. eBay puts sold/completed search behind a sign-in wall, and this actor deliberately never uses cookies or logins. Active listings only.
 
-### What happens if an item is no longer available?
+### Can I get the full store inventory?
 
-The scraper handles ended and unavailable listings gracefully. It will extract whatever data is still visible on the page.
+Yes, until the store's own pagination ends or `maxItems` is reached. Use `maxPages` to control how deep it walks.
 
-### How is this different from eBay search scrapers?
+### What is the difference between Store inventory and Store category?
 
-Search scrapers extract basic card-level data (title, price, thumbnail) from search result pages. This actor visits each individual product page to extract 30 fields including full item specifics, all images, seller details, shipping/return terms, and sales data.
+Store inventory walks the whole store. Store category walks one category inside the store; use it to partition very large stores into smaller runs.
+
+## Limitations
+
+- Sold and completed listings require an eBay sign-in, so they are out of scope.
+- eBay caps a single result set at 200 pages; split large sweeps by category or price band.
+- A few card fields (rating, watchers, sold count) are only shown by eBay on some listings; they are omitted when absent.
+- eBay changes its markup from time to time. The actor supports both the current item-detail schema and the localized marketplace variants it has been verified against.

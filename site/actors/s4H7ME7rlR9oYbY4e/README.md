@@ -1,99 +1,147 @@
 # Wikipedia Article Lookup by URL or Keyword
 
-Wikipedia holds a structured summary, category list, and image set behind every one of its articles, in whichever language edition you need. This actor pulls that structured data for a list of articles you name directly, or for articles matching a search term, in the language edition you choose.
+Wikipedia exposes far more than an article's opening paragraph: a one-line description, the categories it belongs to, its images, its place on the map, the Wikidata entity behind it, its edit history, and the language editions it exists in. This actor collects that structure for articles you name by URL, exact title or keyword search — or for every page inside a Wikipedia category — and can add the full plain-text body, section outline, links, citation count, and pageview history.
 
-## What this actor does
+Everything comes from Wikimedia's public APIs. There is no login, token, cookie or proxy setup.
 
-- Fetches structured data for specific articles when you provide their Wikipedia URLs.
-- Searches Wikipedia by keyword and fetches structured data for the matching articles, up to a per-query limit.
-- Works against any of Wikipedia's language editions by language code.
-- Resolves article image filenames to their actual viewable image URLs.
-- Returns one record per article; fields a given article doesn't have come through as an empty string, empty list, or `0` rather than being left out.
+## Ways to feed it
 
-## Output per article
+- **Paste URLs** — desktop, mobile and `index.php` links all work, in any language edition. A URL's own domain decides its language.
+- **Name exact titles** — one title per list item, in the language edition you choose. Redirects are followed.
+- **Search by keyword** — Wikipedia's ranked full-text search, with the result snippet and rank attached to each record.
+- **Browse a category** — every page in a category (or several) becomes an article lookup.
+- Mix any of the above in one run. An article reached through several URLs, titles or searches is emitted once, with those inputs recorded as provenance.
 
-- `title` — article title
-- `url` — full Wikipedia URL for the article
-- `summary` — lead-section text extract (the opening paragraphs)
-- `description` — short one-line description of the topic
-- `categories` — the article's Wikipedia categories
-- `thumbnail` — thumbnail image object with `source`, `width`, `height`
-- `images` — viewable URLs of images used in the article (icons, logos, and similar boilerplate images are filtered out)
-- `lastModified` — timestamp of the article's last edit
-- `pageId` — Wikipedia's internal page ID
-- `language` — language code used for this article
-- `scrapedAt` — ISO timestamp of when the record was captured
+## What each record contains
 
-## Input
+| Field | What it is |
+|---|---|
+| `title` | Canonical article title |
+| `url` / `canonicalUrl` | Article URL and canonical URL |
+| `displayTitle` | Title as Wikipedia renders it |
+| `summary` | Lead-section plain text |
+| `fullText` | Complete article body, when enabled |
+| `description` | One-line description in the article's language |
+| `language` | Language edition code |
+| `pageId` / `wikidataId` | Wikipedia page ID and Wikidata entity ID |
+| `wordCount` | Words in the best available text |
+| `categories` | Category names |
+| `thumbnail` / `originalImage` | Lead image objects with `source`, `width`, `height` |
+| `images` | Viewable URLs of images used in the article |
+| `coordinates` | `latitude` and `longitude` for geographic subjects |
+| `languageCount` / `availableLanguages` | How many other editions exist, and their codes |
+| `lastModified` / `revisionId` / `lastEditor` / `lastEditComment` / `revisionSize` | Latest revision metadata |
+| `isDisambiguation` | Present and true for disambiguation pages |
+| `redirectedFrom` | The input that redirected here |
+| `sections` | Heading outline (`title`, `level`, `anchor`) |
+| `externalLinks` | Outbound URLs cited or listed by the article |
+| `links` | Titles of linked Wikipedia articles |
+| `referencesCount` | Number of inline citations |
+| `pageviews` | `granularity`, `start`, `end`, `total`, and `points` (`date`, `views`) |
+| `searchQuery` / `searchRank` / `searchSnippet` | Search provenance when the article came from a keyword |
+| `requestedTitle` / `requestedTitles` / `requestedUrls` / `matchedSearchQueries` | All inputs that resolved to this article |
+| `sourceCategory` | Category that produced the record, when applicable |
+| `scrapedAt` | Capture timestamp |
 
-| Field | Type | Default | Description |
+Fields the source does not have for a particular article are omitted, never filled with `null`, `""`, `[]` or `0`.
+
+## Inputs
+
+| Field | Type | Default | Purpose |
 |---|---|---|---|
-| `articleUrls` | array | – | Wikipedia article URLs to fetch directly |
-| `searchQueries` | array | – | Search terms to find articles by keyword |
-| `maxArticlesPerQuery` | integer | `5` | Maximum articles returned per search query (1–50) |
-| `language` | string | `en` | Wikipedia language edition code, e.g. `en`, `fr`, `de`, `ja`. Used for `searchQueries`; for `articleUrls` the language is read from the URL's domain instead. |
+| `articleUrls` | list | – | Article URLs to look up |
+| `articleTitles` | list | – | Exact titles to look up in `language` |
+| `searchQueries` | list | – | Keyword searches |
+| `maxArticlesPerQuery` | 1–500 | `5` | Results per search query |
+| `categoryNames` | list | – | Categories to browse, with or without `Category:` |
+| `maxArticlesPerCategory` | 1–500 | `20` | Members per category |
+| `language` | 374 codes | `en` | Edition for titles, searches and categories |
+| `maxItems` | 1–10000 | `100` | Total record cap |
+| `includeFullContent` | boolean | `false` | Add `fullText` |
+| `includeSections` | boolean | `false` | Add `sections` |
+| `includeExternalLinks` | boolean | `false` | Add `externalLinks` |
+| `includeLinks` | boolean | `false` | Add `links` |
+| `includeReferences` | boolean | `false` | Add `referencesCount` |
+| `includePageviews` | boolean | `false` | Add `pageviews` |
+| `pageviewsGranularity` | monthly / daily | `monthly` | Pageview point size |
+| `pageviewsPeriods` | 1–365 | `12` | Months (max 12) or days |
 
-### Example: fetch specific articles
+Older saved tasks keep working: keys such as `urls`, `titles`, `pageTitles`, `query`, `searchQuery`, `maxResultsPerSearch`, `maxSearchResults`, `lang`, `includeFullArticle` and `fetchFullArticle` are read and mapped inside the actor even though they are not shown in the form.
+
+## Examples
+
+Look up two URLs:
 
 ```json
 {
   "articleUrls": [
-    "https://en.wikipedia.org/wiki/Python_(programming_language)",
-    "https://en.wikipedia.org/wiki/Artificial_intelligence"
+    "https://en.wikipedia.org/wiki/Albert_Einstein",
+    "https://de.wikipedia.org/wiki/Berlin"
   ]
 }
 ```
 
-### Example: search by keyword
+Search, with enrichment:
 
 ```json
 {
-  "searchQueries": ["machine learning", "quantum computing"],
-  "maxArticlesPerQuery": 3,
-  "language": "en"
+  "searchQueries": ["quantum computing"],
+  "maxArticlesPerQuery": 10,
+  "language": "en",
+  "includeFullContent": true,
+  "includeSections": true,
+  "includePageviews": true,
+  "pageviewsGranularity": "monthly",
+  "pageviewsPeriods": 6
 }
 ```
 
-### Example: a non-English language edition
+Browse a category:
 
 ```json
 {
-  "searchQueries": ["intelligence artificielle"],
-  "language": "fr",
-  "maxArticlesPerQuery": 5
+  "categoryNames": ["Physics"],
+  "maxArticlesPerCategory": 50,
+  "language": "en",
+  "includeExternalLinks": true
 }
 ```
 
-## Use cases
+Mixed run with titles, URLs and a search:
 
-- **Knowledge base building** — collect structured summaries and categories to seed an internal knowledge graph.
-- **Content research** — gather topic descriptions and lead-section text before writing or editing related content.
-- **Dataset construction** — assemble clean, structured article text and metadata for NLP or model training.
-- **Topic coverage audits** — search a set of keywords to see which related articles Wikipedia already covers.
-- **Multilingual comparison** — fetch the same topic across several language codes to compare coverage or description differences.
+```json
+{
+  "articleUrls": ["https://ja.wikipedia.org/wiki/東京"],
+  "articleTitles": ["Python (programming language)", "Alan Turing"],
+  "searchQueries": ["history of computing"],
+  "maxItems": 25,
+  "includeReferences": true
+}
+```
+
+## Data source and attribution
+
+The actor reads Wikimedia's MediaWiki Action API, its parse API, and the Wikimedia pageview API. Wikipedia text is available under CC BY-SA; keep the source attribution when you republish it. This actor is independent and is not affiliated with or endorsed by the Wikimedia Foundation.
 
 ## FAQ
 
-**Is this affiliated with Wikipedia or the Wikimedia Foundation?**
-No. This actor reads Wikipedia's publicly available article data; it is not operated by or affiliated with the Wikimedia Foundation.
+**Do I need a key, login or proxy?**
+No. All four lookup paths work anonymously from an Apify container.
 
-**Do I need a login, key, or proxy?**
-No. Every article and search lookup works without authentication or a proxy.
+**Which language editions are supported?**
+The 374 language codes Wikimedia lists, from `en` and `de` to `zh-min-nan` and `simple`. Canonical and legacy codes map to the same edition. URL lookups take the edition from the URL; the `language` field applies to titles, searches and categories.
 
-**Which languages are supported?**
-Any Wikipedia language edition — set `language` to its code, such as `en`, `fr`, `de`, `es`, `ja`, `zh`, `ru`, `pt`, `ar`, or `ko`.
+**Why is `summary` shorter than `fullText`?**
+`summary` is the lead section. `fullText` is the whole article and is only requested when you switch it on.
 
-**Does this return the full article text?**
-No — `summary` is the lead-section extract (the article's opening paragraphs), not the entire article body. That extract is enough context for most research, enrichment, and content use cases.
+**Can I get pageviews for any period?**
+Yes — up to 12 monthly points or 365 daily points. The current partial month is included; daily data ends at the most recent day Wikimedia has published (usually two days ago).
 
-**Why might `categories` or `images` be empty for an article?**
-Some short or newly created articles have few or no categories assigned, and some articles don't use any non-boilerplate images — in both cases the field is returned as an empty list rather than guessed.
+**What are the hard limits?**
+Search returns at most 500 hits per query; categories, external links, internal links and language links are capped at 500 values per article, and images at 50. `referencesCount` counts inline citations but does not return the citation text. Rendered HTML and infobox key/value extraction are intentionally not part of this actor.
 
-**What happens if I give a URL for an article that doesn't exist?**
-That URL is skipped and not included in the output, since there's no article data to return for it.
+**What happens to missing or non-article pages?**
+Pages the API reports as missing are skipped and logged. Disambiguation pages are returned with `isDisambiguation: true` so you can filter them downstream.
 
-**Can I mix `articleUrls` and `searchQueries` in the same run?**
-Yes — the actor processes any URLs you provide and also runs any search queries you provide, within the same run.
-
-**How current is the data?**
-Every run reads Wikipedia live, so summaries, categories, and edit timestamps reflect the article's current state at run time.
+**Does it work with old tasks created before the revamp?**
+Yes. The four original inputs keep their names, and earlier alias keys are mapped in code.

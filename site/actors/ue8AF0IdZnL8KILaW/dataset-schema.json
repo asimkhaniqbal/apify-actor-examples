@@ -3,21 +3,31 @@
   "fields": {
     "properties": {
       "authenticityGuarantee": {
-        "description": "Whether this listing is covered by eBay's Authenticity Guarantee program",
+        "description": "Whether the listing shows eBay's Authenticity Guarantee",
         "type": "boolean"
       },
-      "availableQuantity": {
-        "description": "Number of items currently in stock",
+      "availability": {
+        "description": "Stock availability text",
         "nullable": true,
         "type": "string"
       },
+      "availableQuantity": {
+        "description": "Number of items in stock as text (historical field)",
+        "nullable": true,
+        "type": "string"
+      },
+      "bidCount": {
+        "description": "Number of bids",
+        "nullable": true,
+        "type": "number"
+      },
       "bids": {
-        "description": "Number of bids for auction listings, empty for Buy It Now",
+        "description": "Number of bids as text (historical field)",
         "nullable": true,
         "type": "string"
       },
       "brand": {
-        "description": "Product brand, empty if not specified by the listing",
+        "description": "Product brand",
         "nullable": true,
         "type": "string"
       },
@@ -26,89 +36,275 @@
         "type": "boolean"
       },
       "categories": {
-        "description": "Breadcrumb category path from eBay",
+        "description": "Breadcrumb category path (historical field)",
         "type": "array"
       },
+      "categoryPath": {
+        "description": "Breadcrumb category path",
+        "type": "array"
+      },
+      "color": {
+        "description": "Item colour",
+        "nullable": true,
+        "type": "string"
+      },
       "condition": {
-        "description": "Item condition: New, Used, Refurbished, or For parts or not working",
+        "description": "Item condition: New, Used, Refurbished, For parts or not working, etc.",
+        "type": "string"
+      },
+      "conditionDescription": {
+        "description": "Longer condition explanation shown on the listing",
+        "nullable": true,
+        "type": "string"
+      },
+      "discountPercent": {
+        "description": "Discount percentage when a comparison price is shown",
+        "nullable": true,
+        "type": "number"
+      },
+      "gtin": {
+        "description": "GTIN, EAN, UPC or ISBN when present",
+        "nullable": true,
         "type": "string"
       },
       "id": {
         "description": "eBay item ID number",
         "type": "string"
       },
+      "imageUrl": {
+        "description": "Primary product image URL",
+        "nullable": true,
+        "type": "string"
+      },
       "images": {
         "description": "All high-resolution product image URLs",
         "type": "array"
       },
+      "itemId": {
+        "description": "eBay item ID number (numeric companion to id)",
+        "type": "string"
+      },
+      "itemLocation": {
+        "description": "Item geographic location",
+        "nullable": true,
+        "type": "string"
+      },
       "itemSpecifics": {
-        "description": "Key-value pairs of item specifics (Brand, Model, etc.)",
+        "description": "Key-value pairs of item specifics",
         "type": "object"
       },
       "listingStartDate": {
-        "description": "ISO 8601 timestamp when the listing went live, empty if not available",
+        "description": "ISO 8601 listing start timestamp (historical field)",
         "nullable": true,
         "type": "string"
       },
       "listingType": {
-        "description": "'Buy It Now' or 'Auction'",
+        "description": "Buy It Now, Auction, or Buy It Now or Best Offer",
         "type": "string"
       },
       "location": {
-        "description": "Item geographic location",
+        "description": "Item geographic location (historical field)",
+        "nullable": true,
+        "type": "string"
+      },
+      "marketplace": {
+        "description": "Marketplace code used for the record",
         "type": "string"
       },
       "model": {
-        "description": "Product model, empty if not specified by the listing",
+        "description": "Product model",
+        "nullable": true,
+        "type": "string"
+      },
+      "mpn": {
+        "description": "Manufacturer part number",
         "nullable": true,
         "type": "string"
       },
       "originalPrice": {
-        "description": "Original price before discount, empty if not discounted",
+        "description": "Original price before discount, omitted when not discounted",
         "nullable": true,
         "type": "string"
       },
       "paymentMethods": {
-        "description": "Accepted payment methods (e.g. PayPal, Klarna Installment, Venmo)",
+        "description": "Accepted payment methods",
         "type": "array"
       },
       "price": {
-        "description": "Current price with currency (e.g., 'US $384.92')",
+        "description": "Current price in this actor's historical format (for example 'US $384.92')",
+        "type": "string"
+      },
+      "priceCurrency": {
+        "description": "ISO currency code for priceValue",
+        "type": "string"
+      },
+      "priceValue": {
+        "description": "Numeric current price",
+        "type": "number"
+      },
+      "quantityAvailable": {
+        "description": "Number of items in stock as a number",
+        "nullable": true,
+        "type": "number"
+      },
+      "quantitySold": {
+        "description": "Number of units sold as a number",
+        "nullable": true,
+        "type": "number"
+      },
+      "recordType": {
+        "description": "Record kind: item, store (empty store fallback) or storeCategory (empty category fallback)",
+        "type": "string"
+      },
+      "returnDays": {
+        "description": "Return window in days",
+        "nullable": true,
+        "type": "number"
+      },
+      "returnFees": {
+        "description": "Who pays return shipping",
+        "nullable": true,
         "type": "string"
       },
       "returnPolicy": {
-        "description": "Return policy terms (e.g., '30 days returns', 'Seller does not accept returns'), empty for eBay Motors/vehicle listings which are typically sold as-is via dealer arrangement rather than a standard return policy",
+        "description": "Return policy text (historical field)",
+        "nullable": true,
+        "type": "string"
+      },
+      "returns": {
+        "description": "Return policy text",
         "nullable": true,
         "type": "string"
       },
       "scrapedAt": {
-        "description": "ISO 8601 timestamp when the item was scraped",
+        "description": "ISO 8601 timestamp when the record was scraped",
+        "type": "string"
+      },
+      "searchUrl": {
+        "description": "Search URL that produced this record",
+        "nullable": true,
         "type": "string"
       },
       "seller": {
         "description": "Seller display name",
         "type": "string"
       },
+      "sellerFeedbackCount": {
+        "description": "Seller total feedback count as a number",
+        "nullable": true,
+        "type": "number"
+      },
       "sellerFeedbackPercent": {
-        "description": "Seller positive feedback percentage (e.g., '99.3%'), empty for new sellers with no feedback",
+        "description": "Seller positive feedback percentage",
         "nullable": true,
         "type": "string"
       },
       "sellerFeedbackScore": {
-        "description": "Seller total feedback count",
+        "description": "Seller total feedback count as text (historical field)",
+        "type": "string"
+      },
+      "sellerNotes": {
+        "description": "Seller's condition notes",
+        "nullable": true,
+        "type": "string"
+      },
+      "sellerStoreUrl": {
+        "description": "URL to the seller's eBay store",
+        "nullable": true,
         "type": "string"
       },
       "sellerUrl": {
-        "description": "URL to seller's eBay store or profile",
+        "description": "URL to the seller's eBay store",
+        "nullable": true,
         "type": "string"
       },
       "shippingCost": {
-        "description": "Shipping cost or 'Free shipping', empty if eBay doesn't display a computed cost on the page (e.g. calculated/location-dependent shipping, or shipping-restriction-only listings)",
+        "description": "Shipping cost text or 'Free shipping'",
+        "nullable": true,
+        "type": "string"
+      },
+      "shippingCostValue": {
+        "description": "Numeric shipping cost",
+        "nullable": true,
+        "type": "number"
+      },
+      "shippingCurrency": {
+        "description": "ISO currency code for shippingCostValue",
+        "nullable": true,
+        "type": "string"
+      },
+      "shippingDestination": {
+        "description": "Destination country the shipping quote applies to",
         "nullable": true,
         "type": "string"
       },
       "soldCount": {
-        "description": "Number of units sold",
+        "description": "Number of units sold as text (historical field)",
+        "nullable": true,
+        "type": "string"
+      },
+      "startTime": {
+        "description": "ISO 8601 listing start timestamp",
+        "nullable": true,
+        "type": "string"
+      },
+      "storeCategoryId": {
+        "description": "eBay store category ID",
+        "nullable": true,
+        "type": "string"
+      },
+      "storeCategoryName": {
+        "description": "Store category display name",
+        "nullable": true,
+        "type": "string"
+      },
+      "storeCategoryUrl": {
+        "description": "Store category URL",
+        "nullable": true,
+        "type": "string"
+      },
+      "storeFeedbackPercent": {
+        "description": "Store positive feedback percentage",
+        "nullable": true,
+        "type": "string"
+      },
+      "storeFollowers": {
+        "description": "Store followers",
+        "nullable": true,
+        "type": "number"
+      },
+      "storeItemsSold": {
+        "description": "Items the store has sold",
+        "nullable": true,
+        "type": "number"
+      },
+      "storeListingCount": {
+        "description": "Store listing count label",
+        "nullable": true,
+        "type": "string"
+      },
+      "storeListingUrl": {
+        "description": "Store listing page that produced this record",
+        "nullable": true,
+        "type": "string"
+      },
+      "storeName": {
+        "description": "Seller store display name",
+        "nullable": true,
+        "type": "string"
+      },
+      "storeTagline": {
+        "description": "Store tagline or description",
+        "nullable": true,
+        "type": "string"
+      },
+      "storeUrl": {
+        "description": "Seller store URL",
+        "nullable": true,
+        "type": "string"
+      },
+      "timeLeft": {
+        "description": "Auction time remaining",
         "nullable": true,
         "type": "string"
       },
@@ -117,7 +313,7 @@
         "type": "string"
       },
       "topRatedSeller": {
-        "description": "Whether the seller has eBay's Top Rated Plus/Seller badge",
+        "description": "Whether the seller shows the Top Rated badge",
         "type": "boolean"
       },
       "url": {
@@ -125,31 +321,38 @@
         "type": "string"
       },
       "vehicle": {
-        "description": "Vehicle-specific fields (vin, mileage, titleStatus, transmission, drivetrain, fuelType, exteriorColor, interiorColor) — this key is present only for eBay Motors listings; it is absent (not null) for all other listings.",
+        "description": "Vehicle fields for eBay Motors listings; absent for all other listings",
         "type": "object"
       },
-      "watchCount": {
-        "description": "Number of people watching this item",
+      "wasPrice": {
+        "description": "Struck-through comparison price as shown on the page",
         "nullable": true,
         "type": "string"
+      },
+      "wasPriceValue": {
+        "description": "Numeric comparison price",
+        "nullable": true,
+        "type": "number"
+      },
+      "watchCount": {
+        "description": "Number of watchers as text (historical field)",
+        "nullable": true,
+        "type": "string"
+      },
+      "watcherCount": {
+        "description": "Number of watchers as a number",
+        "nullable": true,
+        "type": "number"
       }
     },
     "type": "object"
   },
-  "title": "eBay Product Details",
+  "title": "eBay Item, Store & Store Category Details",
   "views": {
-    "detailed": {
+    "details": {
       "display": {
         "component": "table",
         "properties": {
-          "authenticityGuarantee": {
-            "format": "boolean",
-            "label": "Authenticity Guarantee"
-          },
-          "availableQuantity": {
-            "format": "text",
-            "label": "Stock"
-          },
           "bids": {
             "format": "text",
             "label": "Bids"
@@ -157,10 +360,6 @@
           "brand": {
             "format": "text",
             "label": "Brand"
-          },
-          "businessSeller": {
-            "format": "boolean",
-            "label": "Business Seller"
           },
           "condition": {
             "format": "text",
@@ -174,13 +373,13 @@
             "format": "text",
             "label": "Type"
           },
-          "location": {
-            "format": "text",
-            "label": "Location"
-          },
           "model": {
             "format": "text",
             "label": "Model"
+          },
+          "mpn": {
+            "format": "text",
+            "label": "MPN"
           },
           "originalPrice": {
             "format": "text",
@@ -189,6 +388,22 @@
           "price": {
             "format": "text",
             "label": "Price"
+          },
+          "priceCurrency": {
+            "format": "text",
+            "label": "Currency"
+          },
+          "priceValue": {
+            "format": "number",
+            "label": "Price Value"
+          },
+          "quantityAvailable": {
+            "format": "number",
+            "label": "Stock"
+          },
+          "quantitySold": {
+            "format": "number",
+            "label": "Sold"
           },
           "returnPolicy": {
             "format": "text",
@@ -200,27 +415,19 @@
           },
           "sellerFeedbackPercent": {
             "format": "text",
-            "label": "Rating"
+            "label": "Positive %"
           },
           "sellerFeedbackScore": {
-            "format": "number",
+            "format": "text",
             "label": "Feedback"
           },
           "shippingCost": {
             "format": "text",
             "label": "Shipping"
           },
-          "soldCount": {
-            "format": "text",
-            "label": "Sold"
-          },
           "title": {
             "format": "text",
             "label": "Title"
-          },
-          "topRatedSeller": {
-            "format": "boolean",
-            "label": "Top Rated Seller"
           },
           "url": {
             "format": "link",
@@ -232,28 +439,27 @@
           }
         }
       },
-      "title": "Detailed Results",
+      "title": "Item Details",
       "transformation": {
         "fields": [
           "title",
           "price",
+          "priceValue",
+          "priceCurrency",
           "originalPrice",
           "condition",
           "brand",
           "model",
+          "mpn",
           "seller",
           "sellerFeedbackScore",
           "sellerFeedbackPercent",
-          "availableQuantity",
-          "soldCount",
+          "quantityAvailable",
+          "quantitySold",
           "watchCount",
-          "location",
           "shippingCost",
           "returnPolicy",
           "listingStartDate",
-          "authenticityGuarantee",
-          "topRatedSeller",
-          "businessSeller",
           "listingType",
           "bids",
           "url"
@@ -268,17 +474,25 @@
             "format": "text",
             "label": "Condition"
           },
-          "location": {
-            "format": "text",
-            "label": "Location"
-          },
           "price": {
             "format": "text",
             "label": "Price"
           },
+          "recordType": {
+            "format": "text",
+            "label": "Type"
+          },
           "seller": {
             "format": "text",
             "label": "Seller"
+          },
+          "storeCategoryName": {
+            "format": "text",
+            "label": "Store Category"
+          },
+          "storeName": {
+            "format": "text",
+            "label": "Store"
           },
           "title": {
             "format": "text",
@@ -293,12 +507,81 @@
       "title": "Overview",
       "transformation": {
         "fields": [
+          "recordType",
           "title",
           "price",
           "condition",
           "seller",
-          "location",
+          "storeName",
+          "storeCategoryName",
           "url"
+        ]
+      }
+    },
+    "storeProfiles": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "recordType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "storeCategoryId": {
+            "format": "text",
+            "label": "Category ID"
+          },
+          "storeCategoryName": {
+            "format": "text",
+            "label": "Category"
+          },
+          "storeCategoryUrl": {
+            "format": "link",
+            "label": "Category URL"
+          },
+          "storeFeedbackPercent": {
+            "format": "text",
+            "label": "Positive %"
+          },
+          "storeFollowers": {
+            "format": "number",
+            "label": "Followers"
+          },
+          "storeItemsSold": {
+            "format": "number",
+            "label": "Items Sold"
+          },
+          "storeListingCount": {
+            "format": "text",
+            "label": "Listings"
+          },
+          "storeName": {
+            "format": "text",
+            "label": "Store"
+          },
+          "storeTagline": {
+            "format": "text",
+            "label": "Tagline"
+          },
+          "storeUrl": {
+            "format": "link",
+            "label": "Store URL"
+          }
+        }
+      },
+      "title": "Store & Category Records",
+      "transformation": {
+        "fields": [
+          "recordType",
+          "storeName",
+          "storeUrl",
+          "storeTagline",
+          "storeFeedbackPercent",
+          "storeItemsSold",
+          "storeFollowers",
+          "storeListingCount",
+          "storeCategoryName",
+          "storeCategoryUrl",
+          "storeCategoryId"
         ]
       }
     }
