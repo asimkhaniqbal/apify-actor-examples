@@ -1,0 +1,74 @@
+{
+  "description": "Quickly scrape hotel listings from Booking.com by location and dates.",
+  "properties": {
+    "adults": {
+      "default": 2,
+      "description": "Number of adult guests.",
+      "maximum": 30,
+      "minimum": 1,
+      "title": "Number of Adults",
+      "type": "integer"
+    },
+    "checkinDate": {
+      "description": "Check-in date in YYYY-MM-DD format. Leave empty to use tomorrow's date automatically.",
+      "editor": "textfield",
+      "title": "Check-in Date",
+      "type": "string"
+    },
+    "checkoutDate": {
+      "description": "Check-out date in YYYY-MM-DD format. Leave empty to default to 3 days after check-in.",
+      "editor": "textfield",
+      "title": "Check-out Date",
+      "type": "string"
+    },
+    "currency": {
+      "default": "USD",
+      "description": "Currency code for prices (e.g., 'USD', 'EUR', 'GBP').",
+      "editor": "textfield",
+      "title": "Currency",
+      "type": "string"
+    },
+    "location": {
+      "description": "City, region, or destination to search (e.g., 'Paris', 'New York', 'Tokyo')",
+      "editor": "textfield",
+      "prefill": "Paris",
+      "title": "Location",
+      "type": "string"
+    },
+    "maxResults": {
+      "default": 50,
+      "description": "Maximum number of hotel listings to scrape.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Maximum Results",
+      "type": "integer"
+    },
+    "proxyConfiguration": {
+      "description": "Residential proxy is required — Booking.com blocks datacenter IPs.",
+      "editor": "proxy",
+      "prefill": {
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "rooms": {
+      "default": 1,
+      "description": "Number of rooms needed.",
+      "maximum": 30,
+      "minimum": 1,
+      "title": "Number of Rooms",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "location"
+  ],
+  "schemaVersion": 1,
+  "title": "Fast Booking.com Scraper Input",
+  "type": "object"
+}
