@@ -1,0 +1,137 @@
+# Nike Product Catalog, Colorway & Price Scraper
+
+Search Nike.com by keyword or style code, browse 40 curated categories (men's/women's/kids' shoes, clothing, accessories, sale), or fetch full product-page details — description, sizes, stock status and images — by URL. No login or cookies needed to reach any of it.
+
+## What this actor does
+
+- **Three modes:** `search`, `browseCategory`, `productDetails`
+- **40 curated categories:** men's/women's/kids' shoes by sport (running, basketball, soccer, training, lifestyle, Jordan), clothing, accessories, sale
+- **18 marketplaces:** US, UK, Germany, France, Japan, Mexico, Spain, Italy, Netherlands, Sweden, South Korea, Singapore, Thailand, Taiwan, Indonesia, Philippines, Malaysia, South Africa (search mode)
+- **Filters:** min/max price, on-sale only, product type (footwear/apparel/accessories/equipment), gender (search mode), featured attribute (new / coming soon / best seller / sustainable materials)
+- **All colorways:** optionally emit every colorway of a style as its own record (search/browse modes), instead of just the one shown on Nike's grid
+- **Sort:** featured, price low-to-high, price high-to-low
+- **Full detail lookups:** description, features & benefits, product details, available sizes, up to 12 images
+- **Empty fields are omitted** — every record only has what's actually available
+
+## Output per product
+
+### Search / browse mode
+
+- `productCode`, `styleCode`, `colorCode`, `styleGroupId` (shared by every colorway of the same style)
+- `title`, `subtitle`, `fullTitle`
+- `productType`, `productSubType`
+- `colorLabel`, `colorHex`, `colorDescription`
+- `currentPrice`, `initialPrice`, `currency`, `discountPercentage`, `onSale`
+- `employeePrice`, `employeeDiscountPercentage` — Nike's published employee-discount price/rate for the item, when offered
+- `imageUrl`, `portraitImageUrl`
+- `badgeLabel`, `featuredAttributes[]`, `isNew`, `isComingSoon`, `isBestSeller`, `isSustainableMaterials`, `newUntilDate`
+- `promotionTitle` — active on-site promo (e.g. "Extra 25% w/ DAYONE"), when running
+- `productUrl`, `sourceUrl`
+- `globalProductId`, `internalPid`, `merchProductId`
+- `recordType: "product"`, `scrapedAt`
+
+### Product-details mode (adds)
+
+- `styleColor` — Nike's combined style-color identifier
+- `canonicalUrl` — Nike's canonical PDP URL for the item
+- `description`
+- `featuresAndBenefits[]`, `productDetails[]`
+- `brands[]`, `genders[]`, `sportTags[]`
+- `sizes[]` — `{label, localizedLabel, status, merchSkuId, gtin}`
+- `inStock`, `availableSizeCount`
+- `images[]` — up to 12
+- `availabilityDate`, `isLaunchProduct`, `consumerReleaseType` (e.g. `FLOW` = standard ongoing inventory, `RELEASE`/`LAUNCH` = a scheduled/limited drop)
+- `statusModifier` — Nike's real-time buyability status (e.g. `BUYABLE_BUY`, `COMING_SOON`)
+- `taxonomyProductTypes[]`
+- `fitRecommendation` — Nike's fit tip (e.g. "Fits large; we recommend ordering a half size down"), when published
+- `sizeChartUrl` — link to the applicable Nike size chart
+- `isSustainableMaterials` — whether the item is tagged as made with sustainable materials
+- `recordType: "productDetail"`
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `mode` | string | `search` | `search` / `browseCategory` / `productDetails` |
+| `searchQuery` | string | `air max` | Keyword or style code (mode=search) |
+| `country` | string | `US` | Marketplace for search mode (US/GB/DE/FR/JP/MX/ES/IT/NL/SE/KR/SG/TH/TW/ID/PH/MY/ZA) |
+| `category` | string | – | Category slug (mode=browseCategory) |
+| `productUrls` | array | – | Full Nike.com product page URLs (mode=productDetails) |
+| `minPrice` | int | – | Drop products priced below this |
+| `maxPrice` | int | – | Drop products priced above this |
+| `onSaleOnly` | bool | `false` | Only emit discounted products |
+| `includeAllColorways` | bool | `false` | Emit every colorway of a style, not just the grid's representative one (search/browseCategory) |
+| `productType` | string | `ANY` | Filter to FOOTWEAR / APPAREL / ACCESSORIES / EQUIPMENT |
+| `gender` | string | `ANY` | Filter to MEN / WOMEN (mode=search only) |
+| `attributeFilter` | string | `ANY` | Filter to NEW / COMING_SOON / BEST_SELLER / SUSTAINABLE_MATERIALS (search/browseCategory only) |
+| `sortBy` | string | `featured` | `featured` / `priceLowToHigh` / `priceHighToLow` |
+| `maxItems` | int | `24` | Hard cap (1–500) |
+
+### Example: search for running shoes on sale
+
+```json
+{
+  "mode": "search",
+  "searchQuery": "pegasus",
+  "onSaleOnly": true,
+  "sortBy": "priceLowToHigh",
+  "maxItems": 30
+}
+```
+
+### Example: browse a category
+
+```json
+{
+  "mode": "browseCategory",
+  "category": "womensRunningShoes",
+  "maxPrice": 150,
+  "maxItems": 50
+}
+```
+
+### Example: full product detail lookup
+
+```json
+{
+  "mode": "productDetails",
+  "productUrls": [
+    "https://www.nike.com/t/air-force-1-07-mens-shoes-jBrhbr/CW2288-111"
+  ]
+}
+```
+
+## Use cases
+
+- **Price monitoring** — track current vs. initial price and discount% across a category
+- **Catalog research** — enumerate every shoe/clothing style in a category with images and colorways
+- **Sneaker drop tracking** — set `attributeFilter: "COMING_SOON"` or `"NEW"` in the Jordan and lifestyle-shoe categories
+- **Size-availability checks** — `productDetails` mode returns per-size stock status
+- **Competitive/retail analytics** — compare Nike pricing across 18 marketplaces
+- **Content/affiliate sites** — pull titles, images, and descriptions for product roundups
+
+## FAQ
+
+**Do I need to log in or provide cookies?** No. This actor reads Nike's public product-wall feed the same way the website's own search/browse pages do — no account, cookies, or API key required.
+
+**Why is `category` limited to the US catalog?** Nike's category URL slugs are locale-specific (e.g. Germany uses `herren-schuhe` instead of `mens-shoes`). The curated 40-category list uses the stable English/US catalog. To search other marketplaces, use `mode=search` with `country` set to your target market.
+
+**Why is `sortBy` applied after fetching instead of via Nike's own sort parameter?** Nike's public product-wall feed doesn't reliably honor sort parameters from outside its web app, so the actor fetches the full result set (up to `maxItems`) and sorts it locally for consistent behavior.
+
+**Can I get all sizes and stock status for a product?** Yes — use `mode=productDetails` with the product's page URL. The `sizes` array includes each size's label and `ACTIVE`/`OUT_OF_STOCK`/etc. status.
+
+**Which marketplaces are supported?** United States, United Kingdom, Germany, France, Japan, Mexico, Spain, Italy, Netherlands, Sweden, South Korea, Singapore, Thailand, Taiwan, Indonesia, Philippines, Malaysia, and South Africa for `search` mode. Prices are returned in each marketplace's local currency.
+
+**Does the `gender` filter work in every mode?** No — it only applies to `mode=search`. Category browsing already targets a specific gender where relevant (e.g. `mensRunningShoes` vs `womensRunningShoes`), and unisex/accessory categories don't carry a reliable gender facet, so the filter has no effect there. It's also not supported by Nike's API for `country=TH` or `TW` (their native-language storefronts reject the facet); the filter is silently ignored for those two markets.
+
+**Can I paste a product URL from a non-US Nike storefront (e.g. nike.com/gb/t/...) into `mode=productDetails`?** Yes — locale-prefixed PDP URLs from any of the 18 supported marketplaces work, not just the US `nike.com/t/...` form.
+
+**Why do some products have no `discountPercentage`?** The field is only included when Nike is actively running a discount on that item — full-price products simply omit it (and `onSale`).
+
+**Can I get every color a shoe comes in, not just the one shown on the grid?** Yes — set `includeAllColorways: true` in `search`/`browseCategory` mode. Each colorway is returned as its own record with its own real price, `colorLabel`, images, and `productUrl`; records sharing the same style carry the same `styleGroupId`.
+
+**How fresh is the data?** Nike's storefront updates pricing, availability, and new arrivals in near real time; this actor reflects whatever the public site shows at scrape time.
+
+**What does `attributeFilter` do?** It keeps only products carrying a specific Nike merchandising tag: `NEW` (just-in), `COMING_SOON` (launch pending), `BEST_SELLER`, or `SUSTAINABLE_MATERIALS`. It's the same tag data Nike publishes in the `featuredAttributes`/`isNew`/`isComingSoon`/`isBestSeller`/`isSustainableMaterials` output fields, now filterable at the input level. It only applies to `search`/`browseCategory` — Nike doesn't publish these tags on the product-details page.
+
+**What is `employeePrice`?** Nike's public product feed publishes a second, lower "employee price" alongside the retail price for most items (with its own `employeeDiscountPercentage`). It's returned whenever Nike's own data includes it — useful for gauging Nike's markup/discount ceiling — but note it isn't the price a regular customer pays at checkout.

@@ -1,0 +1,300 @@
+{
+  "description": "Search Nike.com, browse a curated catalog category, or fetch full product-page details by URL.",
+  "properties": {
+    "attributeFilter": {
+      "default": "ANY",
+      "description": "Keep only products carrying a specific Nike merchandising tag (search/browseCategory modes only — has no effect on productDetails).",
+      "editor": "select",
+      "enum": [
+        "ANY",
+        "NEW",
+        "COMING_SOON",
+        "BEST_SELLER",
+        "SUSTAINABLE_MATERIALS"
+      ],
+      "enumTitles": [
+        "Any",
+        "Just In (new)",
+        "Coming Soon",
+        "Best Seller",
+        "Sustainable Materials"
+      ],
+      "prefill": "ANY",
+      "title": "Featured attribute",
+      "type": "string"
+    },
+    "category": {
+      "description": "Curated Nike.com catalog category to browse (US catalog).",
+      "editor": "select",
+      "enum": [
+        "accessoriesEquipment",
+        "acgShoes",
+        "babyToddlerShoes",
+        "bigKidsShoes",
+        "littleKidsShoes",
+        "mensBagsBackpacks",
+        "mensBasketballShoes",
+        "mensClothing",
+        "mensHatsVisors",
+        "mensHoodiesPullovers",
+        "mensJacketsVests",
+        "mensJordanShoes",
+        "mensLifestyleShoes",
+        "mensPantsTights",
+        "mensRunningShoes",
+        "mensSaleShoes",
+        "mensShoes",
+        "mensShorts",
+        "mensSoccerShoes",
+        "mensSocks",
+        "mensTrainingGymShoes",
+        "newMensShoes",
+        "newWomensShoes",
+        "sale",
+        "womensBagsBackpacks",
+        "womensBasketballShoes",
+        "womensClothing",
+        "womensHatsVisors",
+        "womensHoodiesPullovers",
+        "womensJacketsVests",
+        "womensJordanShoes",
+        "womensLifestyleShoes",
+        "womensPantsTights",
+        "womensRunningShoes",
+        "womensSaleShoes",
+        "womensShoes",
+        "womensShorts",
+        "womensSoccerShoes",
+        "womensSocks",
+        "womensTrainingGymShoes"
+      ],
+      "enumTitles": [
+        "Accessories & Equipment",
+        "ACG Shoes (Outdoor)",
+        "Baby & Toddler Shoes",
+        "Big Kids' Shoes",
+        "Little Kids' Shoes",
+        "Men's Bags & Backpacks",
+        "Men's Basketball Shoes",
+        "Men's Clothing",
+        "Men's Hats, Visors & Headbands",
+        "Men's Hoodies & Pullovers",
+        "Men's Jackets & Vests",
+        "Men's Jordan Shoes",
+        "Men's Lifestyle Shoes",
+        "Men's Pants & Tights",
+        "Men's Running Shoes",
+        "Men's Sale Shoes",
+        "Men's Shoes",
+        "Men's Shorts",
+        "Men's Soccer Shoes",
+        "Men's Socks",
+        "Men's Training & Gym Shoes",
+        "New: Men's Shoes",
+        "New: Women's Shoes",
+        "Sale (All)",
+        "Women's Bags & Backpacks",
+        "Women's Basketball Shoes",
+        "Women's Clothing",
+        "Women's Hats, Visors & Headbands",
+        "Women's Hoodies & Pullovers",
+        "Women's Jackets & Vests",
+        "Women's Jordan Shoes",
+        "Women's Lifestyle Shoes",
+        "Women's Pants & Tights",
+        "Women's Running Shoes",
+        "Women's Sale Shoes",
+        "Women's Shoes",
+        "Women's Shorts",
+        "Women's Soccer Shoes",
+        "Women's Socks",
+        "Women's Training & Gym Shoes"
+      ],
+      "title": "Category (mode=browseCategory)",
+      "type": "string"
+    },
+    "country": {
+      "default": "US",
+      "description": "Nike storefront market to search (mode=search only — category browsing always uses the US catalog).",
+      "editor": "select",
+      "enum": [
+        "US",
+        "GB",
+        "DE",
+        "FR",
+        "JP",
+        "MX",
+        "ES",
+        "IT",
+        "NL",
+        "SE",
+        "KR",
+        "SG",
+        "TH",
+        "TW",
+        "ID",
+        "PH",
+        "MY",
+        "ZA"
+      ],
+      "enumTitles": [
+        "United States (USD)",
+        "United Kingdom (GBP)",
+        "Germany (EUR)",
+        "France (EUR)",
+        "Japan (JPY)",
+        "Mexico (MXN)",
+        "Spain (EUR)",
+        "Italy (EUR)",
+        "Netherlands (EUR)",
+        "Sweden (SEK)",
+        "South Korea (KRW)",
+        "Singapore (SGD)",
+        "Thailand (THB)",
+        "Taiwan (TWD)",
+        "Indonesia (IDR)",
+        "Philippines (PHP)",
+        "Malaysia (MYR)",
+        "South Africa (ZAR)"
+      ],
+      "prefill": "US",
+      "title": "Marketplace / country",
+      "type": "string"
+    },
+    "gender": {
+      "default": "ANY",
+      "description": "Filter to a single gender facet (mode=search only — category browsing already implies a gender scope where applicable). Not supported for country=TH or TW; ignored there.",
+      "editor": "select",
+      "enum": [
+        "ANY",
+        "MEN",
+        "WOMEN"
+      ],
+      "enumTitles": [
+        "Any",
+        "Men",
+        "Women"
+      ],
+      "prefill": "ANY",
+      "title": "Gender",
+      "type": "string"
+    },
+    "includeAllColorways": {
+      "default": false,
+      "description": "By default only the representative colorway shown on Nike's grid is emitted per style (mode=search/browseCategory). Enable to emit every available colorway of each style as its own record, each with its own real price, color, image, and product URL.",
+      "prefill": false,
+      "title": "Include all colorways",
+      "type": "boolean"
+    },
+    "maxItems": {
+      "default": 24,
+      "description": "Hard cap on emitted records.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 24,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Drop products priced above this amount (current price, in the marketplace's currency).",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Max price",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Drop products priced below this amount (current price, in the marketplace's currency).",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Min price",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "browseCategory",
+        "productDetails"
+      ],
+      "enumTitles": [
+        "Search products by keyword",
+        "Browse a catalog category",
+        "Fetch full details by product URL"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "onSaleOnly": {
+      "default": false,
+      "description": "Only emit products with an active discount.",
+      "prefill": false,
+      "title": "On sale only",
+      "type": "boolean"
+    },
+    "productType": {
+      "default": "ANY",
+      "description": "Filter to a single Nike product type.",
+      "editor": "select",
+      "enum": [
+        "ANY",
+        "FOOTWEAR",
+        "APPAREL",
+        "ACCESSORIES",
+        "EQUIPMENT"
+      ],
+      "enumTitles": [
+        "Any",
+        "Footwear",
+        "Apparel",
+        "Accessories",
+        "Equipment"
+      ],
+      "prefill": "ANY",
+      "title": "Product type",
+      "type": "string"
+    },
+    "productUrls": {
+      "default": [],
+      "description": "Full Nike.com product page URLs, e.g. `https://www.nike.com/t/air-force-1-07-mens-shoes-jBrhbr/CW2288-111`.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Product URLs (mode=productDetails)",
+      "type": "array"
+    },
+    "searchQuery": {
+      "default": "air max",
+      "description": "Free-text keyword, product name, or style code (e.g. `CT8529-108`). Used with mode=search.",
+      "editor": "textfield",
+      "prefill": "air max",
+      "title": "Search query",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "featured",
+      "description": "Order results (applied client-side after fetching).",
+      "editor": "select",
+      "enum": [
+        "featured",
+        "priceLowToHigh",
+        "priceHighToLow"
+      ],
+      "enumTitles": [
+        "Featured (Nike's default order)",
+        "Price: Low to High",
+        "Price: High to Low"
+      ],
+      "prefill": "featured",
+      "title": "Sort by",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Nike Scraper Input",
+  "type": "object"
+}
