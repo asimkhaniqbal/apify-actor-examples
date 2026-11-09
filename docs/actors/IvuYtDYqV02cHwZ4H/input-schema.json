@@ -1,0 +1,70 @@
+{
+  "description": "Search Alibaba.com B2B marketplace for products or suppliers. Supports keyword search with optional filters.",
+  "properties": {
+    "keyword": {
+      "default": "LED lights",
+      "description": "Product or supplier keyword to search for (e.g. 'LED lights', 'solar panel').",
+      "editor": "textfield",
+      "prefill": "LED lights",
+      "title": "Search keyword",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Maximum number of records to return.",
+      "maximum": 200,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "searchProducts",
+      "description": "What to scrape from Alibaba.com B2B.",
+      "editor": "select",
+      "enum": [
+        "searchProducts",
+        "searchSuppliers",
+        "productDetails",
+        "supplierDetails"
+      ],
+      "enumTitles": [
+        "Search Products",
+        "Search Suppliers",
+        "Product Details by URL",
+        "Supplier Details by URL"
+      ],
+      "prefill": "searchProducts",
+      "title": "Mode",
+      "type": "string"
+    },
+    "startUrls": {
+      "default": [],
+      "description": "Alibaba product or supplier profile URLs to fetch details for.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Start URLs (productDetails / supplierDetails mode)",
+      "type": "array"
+    },
+    "tradeAssuranceOnly": {
+      "default": false,
+      "description": "Only return suppliers with Alibaba Trade Assurance.",
+      "prefill": false,
+      "title": "Trade Assurance only",
+      "type": "boolean"
+    },
+    "verifiedSupplierOnly": {
+      "default": false,
+      "description": "Only return Gold Supplier or Verified suppliers.",
+      "prefill": false,
+      "title": "Verified suppliers only",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Alibaba B2B Scraper Input",
+  "type": "object"
+}

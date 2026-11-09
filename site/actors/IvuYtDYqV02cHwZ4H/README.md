@@ -1,0 +1,122 @@
+# Alibaba.com Wholesale Sourcing & Supplier Vetting Finder
+
+Sourcing from Alibaba.com means comparing manufacturers on more than price — Trade Assurance coverage, verification status, and years on the platform all matter. This actor searches products or suppliers and returns exactly those vetting signals alongside pricing and MOQ.
+
+## What this actor does
+
+- Searches Alibaba.com's B2B marketplace (not AliExpress) for products or for suppliers by keyword.
+- Keeps only suppliers with Trade Assurance coverage, when requested.
+- Keeps only Gold Supplier / Verified suppliers, when requested.
+- Fetches specific product or supplier pages directly when you already have the URLs.
+- Omits any field Alibaba didn't publish for a listing, rather than returning it blank.
+
+## Output per product
+
+| Field | Description |
+|---|---|
+| `productId` | Alibaba's product identifier |
+| `title` | Product listing title |
+| `price` | Price or price range as listed, e.g. `US $5.50-$8.00/Piece` |
+| `minOrder` | Minimum order quantity |
+| `unit` | Unit of measurement for pricing/MOQ |
+| `supplier` | Supplier/manufacturer name |
+| `supplierLocation` | Supplier's province/country |
+| `supplierRating` | Gold Supplier years and verification status |
+| `tradeAssurance` | Trade Assurance coverage status |
+| `responseTime` | Supplier's typical response time to inquiries |
+| `yearsOnPlatform` | Years the supplier has been active on Alibaba |
+| `imageUrl` | Product image |
+| `productUrl` | Direct link to the product listing |
+| `recordType` | Always `"product"` |
+| `scrapedAt` | When the actor collected the record |
+
+## Output per supplier
+
+| Field | Description |
+|---|---|
+| `supplierId` | Alibaba supplier subdomain/slug |
+| `supplier` | Company name |
+| `supplierLocation` | Province/country |
+| `supplierRating` | Gold Supplier / verification status |
+| `tradeAssurance` | Trade Assurance coverage status |
+| `responseTime` | Typical response time to inquiries |
+| `yearsOnPlatform` | Years active on Alibaba |
+| `mainProducts` | Main product categories the supplier offers |
+| `supplierUrl` | Direct link to the supplier's profile |
+| `recordType` | Always `"supplier"` |
+| `scrapedAt` | When the actor collected the record |
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `mode` | Select | `searchProducts` | `searchProducts`, `searchSuppliers`, `productDetails`, or `supplierDetails` (the latter two fetch `startUrls` directly). |
+| `keyword` | String | `LED lights` | Product or supplier keyword to search for. |
+| `tradeAssuranceOnly` | Boolean | `false` | Keep only listings with Trade Assurance coverage. |
+| `verifiedSupplierOnly` | Boolean | `false` | Keep only Gold Supplier or Verified suppliers. |
+| `startUrls` | Array of strings | – | Alibaba product or supplier profile URLs to fetch directly (`productDetails` / `supplierDetails` modes). |
+| `maxItems` | Integer | `20` | Maximum number of records to return (1–200). |
+
+### Example: searching for Trade Assurance suppliers only
+
+```json
+{
+  "mode": "searchProducts",
+  "keyword": "solar panel",
+  "tradeAssuranceOnly": true,
+  "maxItems": 20
+}
+```
+
+### Example: verified suppliers for a product category
+
+```json
+{
+  "mode": "searchSuppliers",
+  "keyword": "LED lights",
+  "verifiedSupplierOnly": true,
+  "maxItems": 30
+}
+```
+
+### Example: fetching specific product pages
+
+```json
+{
+  "mode": "productDetails",
+  "startUrls": [
+    "https://www.alibaba.com/product-detail/example-product_1234567890.html"
+  ]
+}
+```
+
+## Use cases
+
+- **Sourcing teams** compare manufacturers for a product category on price, MOQ, and supplier trust signals in one pass.
+- **Importers and resellers** shortlist suppliers with Trade Assurance before reaching out for quotes.
+- **Amazon FBA sellers** screen candidate suppliers by years on platform and verification status before committing.
+- **Procurement analysts** benchmark pricing and MOQ across multiple suppliers for the same product.
+- **Due-diligence researchers** pull a supplier's profile details before entering a negotiation.
+
+## FAQ
+
+**Is this Alibaba.com or AliExpress?**
+Alibaba.com's B2B marketplace only — built for bulk/wholesale sourcing from manufacturers, not AliExpress's retail storefront.
+
+**What is Trade Assurance?**
+Alibaba's own buyer-protection program. Suppliers with Trade Assurance have covered orders against quality or delivery issues, which this actor reports per listing.
+
+**What's the difference between Gold Supplier and Verified?**
+Both are Alibaba's own supplier-credibility programs; `supplierRating` reports whichever status and tenure Alibaba displays for that supplier.
+
+**Why might I get zero results?**
+Alibaba's listing pages aren't always reachable on every attempt; when that happens, the run reports a clear status message instead of returning empty or fabricated data.
+
+**Can I search for suppliers in one category without pulling every product they sell?**
+Yes — `searchSuppliers` mode returns supplier-level records directly, without listing their individual products.
+
+**Why is `price` a range instead of one number?**
+Alibaba listings are wholesale, where unit price depends on order volume, so suppliers publish a price range or tiered pricing rather than one fixed price.
+
+**Is this affiliated with Alibaba.com?**
+No. This actor independently reads Alibaba.com's public pages and is not affiliated with or endorsed by Alibaba Group.
