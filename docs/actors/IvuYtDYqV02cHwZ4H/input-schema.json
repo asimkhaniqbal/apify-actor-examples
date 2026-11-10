@@ -1,9 +1,9 @@
 {
-  "description": "Search Alibaba.com B2B marketplace for products or suppliers. Supports keyword search with optional filters.",
+  "description": "Search Alibaba.com wholesale products or suppliers, or fetch full product and supplier profiles. Every run is cookieless.",
   "properties": {
     "keyword": {
       "default": "LED lights",
-      "description": "Product or supplier keyword to search for (e.g. 'LED lights', 'solar panel').",
+      "description": "Product or supplier keyword, e.g. 'LED lights' or 'solar panel'. Used by both search modes.",
       "editor": "textfield",
       "prefill": "LED lights",
       "title": "Search keyword",
@@ -11,16 +11,51 @@
     },
     "maxItems": {
       "default": 20,
-      "description": "Maximum number of records to return.",
+      "description": "Maximum number of product or supplier records to save.",
       "maximum": 200,
       "minimum": 1,
-      "prefill": 20,
-      "title": "Max items",
+      "prefill": 3,
+      "title": "Max records",
+      "type": "integer"
+    },
+    "maxPages": {
+      "default": 5,
+      "description": "Safety limit on result pages (about 40 offers per page). Increase it when filtering heavily or requesting many records.",
+      "maximum": 100,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Max search pages",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Drop offers whose lowest listed unit price is above this value.",
+      "minimum": 0,
+      "title": "Maximum unit price (USD)",
+      "type": "number"
+    },
+    "minPrice": {
+      "description": "Drop offers whose lowest listed unit price is below this value.",
+      "minimum": 0,
+      "title": "Minimum unit price (USD)",
+      "type": "number"
+    },
+    "minSupplierRating": {
+      "description": "Keep suppliers rated at or above this score out of 5.",
+      "maximum": 5,
+      "minimum": 0,
+      "title": "Minimum supplier rating",
+      "type": "number"
+    },
+    "minSupplierYears": {
+      "description": "Keep suppliers who have been on Alibaba.com at least this many years.",
+      "maximum": 60,
+      "minimum": 0,
+      "title": "Minimum supplier tenure (years)",
       "type": "integer"
     },
     "mode": {
       "default": "searchProducts",
-      "description": "What to scrape from Alibaba.com B2B.",
+      "description": "Search products, search suppliers, or fetch specific product/supplier pages.",
       "editor": "select",
       "enum": [
         "searchProducts",
@@ -29,33 +64,61 @@
         "supplierDetails"
       ],
       "enumTitles": [
-        "Search Products",
-        "Search Suppliers",
-        "Product Details by URL",
-        "Supplier Details by URL"
+        "Search products by keyword",
+        "Search suppliers by keyword",
+        "Fetch product details by URL or ID",
+        "Fetch supplier profiles by URL or ID"
       ],
       "prefill": "searchProducts",
       "title": "Mode",
       "type": "string"
     },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Sort the collected records before the max-items cut-off.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "priceLowToHigh",
+        "priceHighToLow",
+        "supplierRating",
+        "yearsOnPlatform",
+        "transactionLevel"
+      ],
+      "enumTitles": [
+        "Relevance (Alibaba order)",
+        "Lowest unit price first",
+        "Highest unit price first",
+        "Best supplier rating",
+        "Longest supplier tenure",
+        "Highest transaction level"
+      ],
+      "prefill": "relevance",
+      "title": "Sort results by",
+      "type": "string"
+    },
     "startUrls": {
-      "default": [],
-      "description": "Alibaba product or supplier profile URLs to fetch details for.",
+      "description": "Used by the two detail modes. Paste Alibaba.com product URLs or numeric product IDs, or supplier minisite URLs or supplier IDs. For supplier profile URLs you can also use https://<supplier>.en.alibaba.com/.",
       "editor": "stringList",
-      "prefill": [],
-      "title": "Start URLs (productDetails / supplierDetails mode)",
+      "title": "Product or supplier URLs / IDs",
       "type": "array"
+    },
+    "supplierCountry": {
+      "description": "Optional two-letter ISO country code, e.g. CN, IN, PK, US. Leave empty for all countries.",
+      "editor": "textfield",
+      "title": "Supplier country",
+      "type": "string"
     },
     "tradeAssuranceOnly": {
       "default": false,
-      "description": "Only return suppliers with Alibaba Trade Assurance.",
+      "description": "Keep only products from suppliers that offer Alibaba Trade Assurance order protection.",
       "prefill": false,
       "title": "Trade Assurance only",
       "type": "boolean"
     },
     "verifiedSupplierOnly": {
       "default": false,
-      "description": "Only return Gold Supplier or Verified suppliers.",
+      "description": "Keep only Gold Suppliers or suppliers assessed by a third-party inspection company.",
       "prefill": false,
       "title": "Verified suppliers only",
       "type": "boolean"

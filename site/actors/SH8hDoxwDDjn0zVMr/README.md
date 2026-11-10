@@ -1,152 +1,146 @@
 # Spotify Podcast Show & Episode Metadata Extractor
 
-Pull podcast show and episode metadata straight from Spotify's own catalog, the same data that powers the Spotify app's podcast pages. Search shows or episodes by keyword, fetch a specific show together with its full episode list, look up one episode by ID or link, or list the browse categories Spotify exposes for a market — all through the official Spotify Web API so the numbers match what listeners see.
+Collect podcast show and episode metadata from Spotify without a Spotify account, client ID or API key. Search the podcast catalog, export a show together with its complete episode archive, resolve a show or episode link, and keep only the release window you need.
 
-## What this actor does
+The actor reads the same public web-player data that powers Spotify's podcast pages for logged-out visitors. It returns structured records, never audio downloads, and omits empty fields instead of writing `null` placeholders.
 
-- **Five modes:** `searchShows`, `searchEpisodes`, `getShow` (show + all its episodes), `getEpisode`, `listCategories`
-- **Flexible lookups:** pass a show/episode ID, a 22-character Spotify ID, or paste an `open.spotify.com` link directly in `startUrls`
-- **Market-aware:** every request is scoped to a country so availability and preview URLs reflect what that market actually sees
-- **Full episode pagination:** `getShow` walks every episode page for a show, not just the first batch
-- **Empty fields are omitted from records** — a show with no description simply won't have a `description` key
+## Modes
 
-## Authentication
+| Mode | What it returns | Inputs it uses |
+|---|---|---|
+| `searchShows` | One record per matching podcast show | `searchQuery` |
+| `searchEpisodes` | One record per matching episode | `searchQuery` |
+| `getShow` | A show record followed by its episode archive | `showIds`, `startUrls` |
+| `getEpisode` | One record per episode ID or link | `episodeIds`, `startUrls` |
 
-This actor calls the Spotify Web API with the Client Credentials flow, so it needs a Spotify app's `clientId` and `clientSecret`. Create one for free at [developer.spotify.com](https://developer.spotify.com/dashboard) — no Spotify Premium or app review needed, just a Spotify account. Without valid credentials the run stops immediately and reports the missing-credentials status message instead of producing output.
-
-## Output per show
-
-- `showId` — Spotify show ID
-- `name` — show title
-- `description` — show synopsis
-- `publisher` — publisher or creator name
-- `language` — primary language code (e.g. `en`)
-- `mediaType` — `audio` or `video`
-- `totalEpisodes` — episode count reported by Spotify
-- `explicit` — whether the show is marked explicit
-- `images[]` — cover art URLs, largest first
-- `externalUrl` — `open.spotify.com/show/...` link
-- `availableMarkets[]` — ISO country codes where the show can be played
-- `languages[]` — language codes, when Spotify returns more than one
-- `recordType` — always `show`
-- `scrapedAt` — ISO 8601 timestamp of the request
-
-## Output per episode
-
-- `episodeId` — Spotify episode ID
-- `showId`, `showName` — parent show identity (filled in even when the episode came from a show lookup)
-- `name` — episode title
-- `description` — episode summary
-- `releaseDate` — publish date as reported by Spotify
-- `durationMs` — episode length in milliseconds
-- `explicit` — whether the episode is marked explicit
-- `languages[]` — spoken language codes
-- `audioPreviewUrl` — 30-second preview clip URL, when Spotify provides one
-- `images[]` — episode artwork URLs
-- `externalUrl` — `open.spotify.com/episode/...` link
-- `recordType` — always `episode`
-- `scrapedAt` — ISO 8601 timestamp of the request
-
-## Output per category (mode = `listCategories`)
-
-- `categoryId` — Spotify browse category ID
-- `name` — category display name
-- `iconUrl` — category icon image URL
-- `recordType` — always `category`
-- `scrapedAt` — ISO 8601 timestamp of the request
+Search modes page through Spotify's result set until `maxItems` is reached or the source runs out. `getShow` pages through the complete episode archive, not just the first screen.
 
 ## Input
 
-| Field | Type | Default | Description |
+| Field | Type | Default | Notes |
 |---|---|---|---|
-| `mode` | string | `searchShows` | `searchShows` / `searchEpisodes` / `getShow` / `getEpisode` / `listCategories` |
-| `clientId` | string | – | Spotify app Client ID from developer.spotify.com (required) |
-| `clientSecret` | string (secret) | – | Spotify app Client Secret (required) |
-| `searchQuery` | string | `true crime` | Keyword query (mode=`searchShows`/`searchEpisodes`) |
-| `showIds` | array | – | Show IDs or `open.spotify.com/show/...` URLs (mode=`getShow`) |
-| `episodeIds` | array | – | Episode IDs or `open.spotify.com/episode/...` URLs (mode=`getEpisode`) |
-| `startUrls` | array | – | `open.spotify.com` show or episode URLs, mixed modes allowed |
-| `market` | string | `US` | ISO 3166-1 alpha-2 country code results are scoped to |
-| `maxItems` | integer | `50` | Maximum records to emit (1–5000) |
+| `mode` | select | `searchShows` | One of the four modes above |
+| `searchQuery` | text | `true crime` | Keyword for `searchShows` and `searchEpisodes` |
+| `showIds` | string list | empty | Show IDs, `spotify:show:` URIs or show links |
+| `episodeIds` | string list | empty | Episode IDs, `spotify:episode:` URIs or episode links |
+| `startUrls` | string list | empty | Mixed show/episode links; regional and embed links work |
+| `includeDetails` | boolean | `true` | Enriches every search hit with the full show/episode object |
+| `includeEpisodes` | boolean | `true` | In `getShow`, export the show's episodes as well |
+| `releasedAfter` | text | empty | `YYYY-MM-DD`; older episodes are skipped |
+| `releasedBefore` | text | empty | `YYYY-MM-DD`; newer episodes are skipped |
+| `maxItems` | integer | `50` | Maximum records to save (1-5000) |
 
-## Example: search true-crime shows in the UK
+Examples:
 
 ```json
 {
   "mode": "searchShows",
-  "searchQuery": "true crime",
-  "market": "GB",
-  "maxItems": 40,
-  "clientId": "YOUR_SPOTIFY_CLIENT_ID",
-  "clientSecret": "YOUR_SPOTIFY_CLIENT_SECRET"
+  "searchQuery": "daily news",
+  "maxItems": 25
 }
 ```
-
-### Example: fetch a show plus every episode
 
 ```json
 {
   "mode": "getShow",
-  "showIds": ["5CnDmMUG0S5bSSw612fs8C"],
-  "market": "US",
-  "maxItems": 500,
-  "clientId": "YOUR_SPOTIFY_CLIENT_ID",
-  "clientSecret": "YOUR_SPOTIFY_CLIENT_SECRET"
+  "startUrls": ["https://open.spotify.com/show/3IM0lmZxpFAY7CwMuv9H4g"],
+  "releasedAfter": "2026-01-01",
+  "maxItems": 120
 }
 ```
-
-### Example: look up one episode by link
 
 ```json
 {
   "mode": "getEpisode",
-  "startUrls": ["https://open.spotify.com/episode/512ojhOuo1ktJprKbVcKyQ"],
-  "clientId": "YOUR_SPOTIFY_CLIENT_ID",
-  "clientSecret": "YOUR_SPOTIFY_CLIENT_SECRET"
+  "episodeIds": ["6cCnimrvXTnb5SIl1jXVtQ"],
+  "maxItems": 10
 }
 ```
 
-### Example: browse categories available in Germany
+## Show fields
 
-```json
-{
-  "mode": "listCategories",
-  "market": "DE",
-  "clientId": "YOUR_SPOTIFY_CLIENT_ID",
-  "clientSecret": "YOUR_SPOTIFY_CLIENT_SECRET"
-}
-```
+- `showId` - Spotify show ID
+- `name` - show title
+- `description`, `descriptionHtml` - plain-text and HTML synopsis
+- `publisher` - publisher or creator name
+- `mediaType` - `audio` or `video`
+- `contentType` - Spotify content type, for example `CONTENT_TYPE_PODCAST`
+- `totalEpisodes` - episode count reported by Spotify
+- `explicit` - whether Spotify marks the show explicit
+- `ratingAverage`, `ratingCount` - show rating and number of ratings
+- `topics` - array of `{name, uri}` topic objects
+- `images`, `imageUrl` - cover art URLs, largest first
+- `externalUrl`, `shareUrl` - canonical Spotify and share links
+- `playable`, `playabilityReason` - public playback status
+- `consumptionOrder` - Spotify episode ordering, for example `RECENT`
+- `showTypes` - Spotify show classifications when present
+- `trailer` - trailer episode summary when Spotify exposes one
+- `recordType` - always `show`
+- `scrapedAt` - ISO 8601 collection timestamp
 
-## Use cases
+## Episode fields
 
-- **Podcast discovery tools** — build a searchable index of shows by topic or keyword
-- **Competitive monitoring** — track a competitor show's episode count, cadence and metadata over time
-- **Content aggregators** — pull episode descriptions and release dates to mirror a show's catalog
-- **Market research** — compare show availability and browse categories across countries
-- **Media intelligence** — bulk-resolve a list of show or episode links into structured metadata
+- `episodeId` - Spotify episode ID
+- `showId`, `showName`, `showImageUrl` - parent show identity
+- `name` - episode title
+- `description`, `descriptionHtml` - plain-text and HTML episode notes
+- `releaseDate` - `YYYY-MM-DD`
+- `releaseDateTime` - full ISO 8601 release timestamp
+- `releaseDatePrecision` - Spotify precision, for example `MINUTE`
+- `durationMs` - episode length in milliseconds
+- `explicit`, `contentRating` - content rating information
+- `mediaTypes`, `hasVideo` - audio/video classification
+- `audioPreviewUrl` - public 30-second preview clip
+- `videoPreviewUrl` - video preview when Spotify provides one
+- `images`, `imageUrl` - episode artwork URLs, largest first
+- `externalUrl`, `shareUrl` - canonical Spotify and share links
+- `playable`, `playabilityReason` - public playback status
+- `isPaywalled` - whether the episode is paywalled
+- `accessBadge` - Spotify access badge when present
+- `creator` - creator name when Spotify exposes one
+- `isTrailer`, `isNineteenPlus` - episode flags when present
+- `transcriptUrl` - transcript link only when the public episode object exposes one
+- `recordType` - always `episode`
+- `scrapedAt` - ISO 8601 collection timestamp
+
+## Pagination, dates and limits
+
+- Search uses Spotify's offset pagination and stops when the result set is exhausted or `maxItems` is reached.
+- `getShow` requests 50 episodes per page and follows Spotify's next offset until the archive ends, `maxItems` records have been saved, or `releasedAfter` passes.
+- Episodes are returned newest first by Spotify. `releasedAfter` therefore also stops `getShow` paging early, which keeps large archives inexpensive.
+- Search has a practical source ceiling of roughly 1,000 matching items; `getShow` can page through archives several thousand episodes long.
+- The public episode object does not expose full transcript text, private subscriber content, or downloadable audio.
+
+## Legacy inputs
+
+The previous version required `clientId` and `clientSecret`. Both are no longer needed and are ignored when an old task still sends them. The old `market` input is also ignored: Spotify decides which catalog is visible from the network location where the actor runs, and Apify cloud runs normally see the US catalog. The former `listCategories` mode has no cookieless equivalent; a saved task that still sends it runs `searchShows` instead and reports that in the status message.
+
+## Data source and scope
+
+- Public Spotify web-player data, read without cookies or login.
+- No audio files are downloaded. Preview URLs are metadata links only.
+- Podcast catalogs differ by region. Shows that Spotify does not offer in the actor's region can be absent or restricted.
+- This is an independent tool and is not affiliated with or endorsed by Spotify.
 
 ## FAQ
 
-**Where does the data come from?**
-Directly from the official Spotify Web API — the same catalog data Spotify's own apps read from.
+**Do I need a Spotify developer app?**
+No. There is no client ID, client secret, cookie or login step.
 
-**Do I need a Spotify Premium account?**
-No. Any free Spotify account can create a developer app and generate the `clientId`/`clientSecret` this actor needs; Premium is not required.
+**Why are some fields missing from a record?**
+Empty values are omitted. Not every publisher supplies a description, rating, topic list, trailer, preview clip or video flag.
 
-**Why do some episodes have no `audioPreviewUrl`?**
-Not every episode has a public preview clip set by its publisher, so the field is left out rather than returned empty.
+**Can I fetch a show and its episodes in one run?**
+Yes. Use `mode=getShow`; the run emits one show record and then episodes until `maxItems` records have been saved in total.
 
-**Why does changing `market` change my results?**
-Podcast licensing is market-specific. A show that's unavailable in one country simply won't have a market-restricted preview or may be excluded from search results in that market entirely.
+**Can I fetch only recent episodes?**
+Yes. Set `releasedAfter` and, optionally, `releasedBefore`. In `getShow` the date window also stops paging when the archive is older than the window.
 
-**Can I resolve a URL and an ID in the same run?**
-Yes — mix `startUrls`, `showIds`, `episodeIds`, or a plain ID; the actor detects the entity type from whichever form you give it.
+**Can I pass links instead of IDs?**
+Yes. `showIds`, `episodeIds` and `startUrls` accept bare IDs, `spotify:` URIs, standard `open.spotify.com` links, regional `/intl-xx/` links and embed links.
 
-**Does `getShow` return all episodes or just a page?**
-All of them. The actor pages through a show's full episode list rather than stopping at the first batch.
+**Why does a search return fewer records than `maxItems`?**
+Spotify exhausted its public result set for that query, or the date window filtered the remaining episodes. The run status reports what was emitted.
 
-**What happens if my credentials are wrong?**
-The run stops immediately and reports the authentication error as its status message — no partial or placeholder data is produced.
-
-**Is this affiliated with Spotify?**
-No, this is an independent actor that calls Spotify's public developer API; it is not affiliated with or endorsed by Spotify.
+**Are transcripts included?**
+Only a transcript link is included when Spotify's public episode object exposes one. Full transcript text is not part of the public payload.

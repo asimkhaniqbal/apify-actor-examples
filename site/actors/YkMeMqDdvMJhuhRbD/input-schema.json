@@ -1,21 +1,25 @@
 {
   "properties": {
     "categories": {
-      "description": "One or more Yahoo News categories to scrape (required for browseCategory mode). Availability depends on the selected Region: US supports all 11; UK/Canada support Top Stories, World, Finance, Sports; Australia supports Top Stories, World; Singapore supports Top Stories, World, Sports; Japan supports Top Stories, Domestic, World, Business, Entertainment, Sports, IT, Science, Local. Categories not available for the chosen region are ignored with a warning.",
+      "description": "One or more category feeds to scrape (required for browseCategory mode). Availability depends on Region: US supports topstories, us, world, politics, science, weather, entertainment, lifestyle, health, sports, finance; UK supports topstories, uk, world, politics, science, weather, finance, sports; Canada supports topstories, canada, world, politics, us, science, weather, sports, finance; Australia supports topstories, australia, world, politics, science, sports, weather, finance; Singapore supports topstories, singapore, world, politics, sports, finance, weather; Japan supports topstories, domestic, world, business, entertainment, sports, it, science, local. Categories not available for the chosen region are skipped with a warning.",
       "editor": "select",
       "items": {
         "enum": [
           "topstories",
           "us",
+          "uk",
+          "canada",
+          "australia",
+          "singapore",
           "world",
           "politics",
-          "finance",
-          "health",
           "science",
+          "weather",
           "entertainment",
           "sports",
+          "finance",
+          "health",
           "lifestyle",
-          "oddlyenough",
           "domestic",
           "business",
           "it",
@@ -24,15 +28,19 @@
         "enumTitles": [
           "Top Stories",
           "US News",
+          "UK News",
+          "Canada News",
+          "Australia News",
+          "Singapore News",
           "World News",
           "Politics",
-          "Finance",
-          "Health",
-          "Science",
+          "Science & Tech / Environment",
+          "Weather",
           "Entertainment",
           "Sports",
+          "Finance",
+          "Health",
           "Lifestyle",
-          "Oddly Enough",
           "Domestic (JP)",
           "Business (JP)",
           "IT (JP)",
@@ -47,6 +55,14 @@
       "title": "Categories",
       "type": "array"
     },
+    "includeArticleDetails": {
+      "default": true,
+      "description": "Open each article page to fill exact publication date, author, publisher URL, keywords, image dimensions, and the full summary. Turn off for the fastest, list-only records (dates may be approximate in search mode).",
+      "editor": "checkbox",
+      "prefill": true,
+      "title": "Fetch Full Article Details",
+      "type": "boolean"
+    },
     "keyword": {
       "description": "Optional: only return articles whose title or summary contains this keyword (case-insensitive).",
       "editor": "textfield",
@@ -55,27 +71,27 @@
     },
     "maxItems": {
       "default": 50,
-      "description": "Maximum total articles to return across all queries or categories (1–1000).",
+      "description": "Maximum total articles to return across all queries or categories (1–1000). Pagination stops at this number or when the source is exhausted.",
       "editor": "number",
       "maximum": 1000,
       "minimum": 1,
-      "prefill": 20,
+      "prefill": 5,
       "title": "Max Items",
       "type": "integer"
     },
     "mode": {
       "default": "getTrending",
-      "description": "Scraping mode: search by keyword, browse news categories, or get trending top stories.",
+      "description": "What to collect: trending top stories, one or more category feeds, or a keyword search across Yahoo News.",
       "editor": "select",
       "enum": [
-        "search",
+        "getTrending",
         "browseCategory",
-        "getTrending"
+        "search"
       ],
       "enumTitles": [
-        "Search",
-        "Browse Category",
-        "Get Trending"
+        "Trending Top Stories",
+        "Browse Categories",
+        "Search by Keyword"
       ],
       "prefill": "getTrending",
       "title": "Mode",
@@ -83,7 +99,7 @@
     },
     "region": {
       "default": "us",
-      "description": "Yahoo News regional edition to scrape. Each region publishes a different subset of category feeds — see the Categories field for what's available once you pick a region.",
+      "description": "Yahoo News edition used for trending and category feeds. Search mode queries all of Yahoo News; this value labels the run.",
       "editor": "select",
       "enum": [
         "us",
@@ -94,7 +110,7 @@
         "jp"
       ],
       "enumTitles": [
-        "United States (news.yahoo.com)",
+        "United States (yahoo.com/news)",
         "United Kingdom (uk.news.yahoo.com)",
         "Canada (ca.news.yahoo.com)",
         "Australia (au.news.yahoo.com)",
@@ -106,7 +122,7 @@
       "type": "string"
     },
     "searchQueries": {
-      "description": "One or more keywords to search for (required for search mode). Articles from all of the selected region's category feeds are filtered by these keywords. E.g. 'AI', 'climate change', 'Apple iPhone'.",
+      "description": "One or more keywords or phrases to search across Yahoo News (required for search mode). Results are paginated and deduplicated. E.g. 'AI regulation', 'climate change', 'Apple iPhone'.",
       "editor": "stringList",
       "items": {
         "type": "string"
@@ -118,7 +134,7 @@
       "type": "array"
     },
     "sourceFilter": {
-      "description": "Optional: only return articles from sources whose name contains this string (case-insensitive). E.g. 'Reuters', 'AP', 'BBC'.",
+      "description": "Optional: only return articles from publishers whose name contains this string (case-insensitive). E.g. 'Reuters', 'AP', 'BBC'.",
       "editor": "textfield",
       "title": "Source Filter",
       "type": "string"
