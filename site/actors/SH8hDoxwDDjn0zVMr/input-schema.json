@@ -1,0 +1,159 @@
+{
+  "description": "Search Spotify podcasts, fetch show details with episodes, or list browse categories. Requires Spotify developer credentials.",
+  "properties": {
+    "clientId": {
+      "description": "Your Spotify app's Client ID from developer.spotify.com. Required for all modes.",
+      "editor": "textfield",
+      "title": "Spotify Client ID",
+      "type": "string"
+    },
+    "clientSecret": {
+      "description": "Your Spotify app's Client Secret from developer.spotify.com. Required for all modes.",
+      "editor": "textfield",
+      "isSecret": true,
+      "title": "Spotify Client Secret",
+      "type": "string"
+    },
+    "episodeIds": {
+      "default": [],
+      "description": "Spotify episode IDs (22-character alphanumeric) or open.spotify.com/episode/ URLs.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Episode IDs (mode=getEpisode)",
+      "type": "array"
+    },
+    "market": {
+      "default": "US",
+      "description": "ISO 3166-1 alpha-2 country code. Results are filtered to content available in this market.",
+      "editor": "select",
+      "enum": [
+        "US",
+        "GB",
+        "CA",
+        "AU",
+        "DE",
+        "FR",
+        "ES",
+        "IT",
+        "BR",
+        "MX",
+        "JP",
+        "KR",
+        "IN",
+        "NL",
+        "SE",
+        "NO",
+        "DK",
+        "FI",
+        "PL",
+        "SG",
+        "ZA",
+        "AR",
+        "CL",
+        "CO",
+        "PE",
+        "RU",
+        "TR",
+        "SA",
+        "AE",
+        "NG"
+      ],
+      "enumTitles": [
+        "United States",
+        "United Kingdom",
+        "Canada",
+        "Australia",
+        "Germany",
+        "France",
+        "Spain",
+        "Italy",
+        "Brazil",
+        "Mexico",
+        "Japan",
+        "South Korea",
+        "India",
+        "Netherlands",
+        "Sweden",
+        "Norway",
+        "Denmark",
+        "Finland",
+        "Poland",
+        "Singapore",
+        "South Africa",
+        "Argentina",
+        "Chile",
+        "Colombia",
+        "Peru",
+        "Russia",
+        "Turkey",
+        "Saudi Arabia",
+        "United Arab Emirates",
+        "Nigeria"
+      ],
+      "prefill": "US",
+      "title": "Market (country)",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of records to emit.",
+      "maximum": 5000,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "searchShows",
+      "description": "What to fetch from Spotify.",
+      "editor": "select",
+      "enum": [
+        "searchShows",
+        "searchEpisodes",
+        "getShow",
+        "getEpisode",
+        "listCategories"
+      ],
+      "enumTitles": [
+        "Search podcast shows",
+        "Search episodes",
+        "Get show details + episodes by ID or URL",
+        "Get episode details by ID or URL",
+        "List browse categories"
+      ],
+      "prefill": "searchShows",
+      "title": "Mode",
+      "type": "string"
+    },
+    "searchQuery": {
+      "default": "true crime",
+      "description": "Keyword search query for podcast shows or episodes.",
+      "editor": "textfield",
+      "prefill": "true crime",
+      "title": "Search query",
+      "type": "string"
+    },
+    "showIds": {
+      "default": [],
+      "description": "Spotify show IDs (22-character alphanumeric) or open.spotify.com/show/ URLs.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Show IDs (mode=getShow)",
+      "type": "array"
+    },
+    "startUrls": {
+      "default": [],
+      "description": "Spotify URLs for direct lookup: open.spotify.com/show/... or open.spotify.com/episode/...",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Start URLs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Spotify Podcasts & Episode Metadata Scraper Input",
+  "type": "object"
+}

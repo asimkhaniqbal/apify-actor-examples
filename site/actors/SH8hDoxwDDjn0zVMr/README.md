@@ -1,0 +1,152 @@
+# Spotify Podcast Show & Episode Metadata Extractor
+
+Pull podcast show and episode metadata straight from Spotify's own catalog, the same data that powers the Spotify app's podcast pages. Search shows or episodes by keyword, fetch a specific show together with its full episode list, look up one episode by ID or link, or list the browse categories Spotify exposes for a market — all through the official Spotify Web API so the numbers match what listeners see.
+
+## What this actor does
+
+- **Five modes:** `searchShows`, `searchEpisodes`, `getShow` (show + all its episodes), `getEpisode`, `listCategories`
+- **Flexible lookups:** pass a show/episode ID, a 22-character Spotify ID, or paste an `open.spotify.com` link directly in `startUrls`
+- **Market-aware:** every request is scoped to a country so availability and preview URLs reflect what that market actually sees
+- **Full episode pagination:** `getShow` walks every episode page for a show, not just the first batch
+- **Empty fields are omitted from records** — a show with no description simply won't have a `description` key
+
+## Authentication
+
+This actor calls the Spotify Web API with the Client Credentials flow, so it needs a Spotify app's `clientId` and `clientSecret`. Create one for free at [developer.spotify.com](https://developer.spotify.com/dashboard) — no Spotify Premium or app review needed, just a Spotify account. Without valid credentials the run stops immediately and reports the missing-credentials status message instead of producing output.
+
+## Output per show
+
+- `showId` — Spotify show ID
+- `name` — show title
+- `description` — show synopsis
+- `publisher` — publisher or creator name
+- `language` — primary language code (e.g. `en`)
+- `mediaType` — `audio` or `video`
+- `totalEpisodes` — episode count reported by Spotify
+- `explicit` — whether the show is marked explicit
+- `images[]` — cover art URLs, largest first
+- `externalUrl` — `open.spotify.com/show/...` link
+- `availableMarkets[]` — ISO country codes where the show can be played
+- `languages[]` — language codes, when Spotify returns more than one
+- `recordType` — always `show`
+- `scrapedAt` — ISO 8601 timestamp of the request
+
+## Output per episode
+
+- `episodeId` — Spotify episode ID
+- `showId`, `showName` — parent show identity (filled in even when the episode came from a show lookup)
+- `name` — episode title
+- `description` — episode summary
+- `releaseDate` — publish date as reported by Spotify
+- `durationMs` — episode length in milliseconds
+- `explicit` — whether the episode is marked explicit
+- `languages[]` — spoken language codes
+- `audioPreviewUrl` — 30-second preview clip URL, when Spotify provides one
+- `images[]` — episode artwork URLs
+- `externalUrl` — `open.spotify.com/episode/...` link
+- `recordType` — always `episode`
+- `scrapedAt` — ISO 8601 timestamp of the request
+
+## Output per category (mode = `listCategories`)
+
+- `categoryId` — Spotify browse category ID
+- `name` — category display name
+- `iconUrl` — category icon image URL
+- `recordType` — always `category`
+- `scrapedAt` — ISO 8601 timestamp of the request
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `mode` | string | `searchShows` | `searchShows` / `searchEpisodes` / `getShow` / `getEpisode` / `listCategories` |
+| `clientId` | string | – | Spotify app Client ID from developer.spotify.com (required) |
+| `clientSecret` | string (secret) | – | Spotify app Client Secret (required) |
+| `searchQuery` | string | `true crime` | Keyword query (mode=`searchShows`/`searchEpisodes`) |
+| `showIds` | array | – | Show IDs or `open.spotify.com/show/...` URLs (mode=`getShow`) |
+| `episodeIds` | array | – | Episode IDs or `open.spotify.com/episode/...` URLs (mode=`getEpisode`) |
+| `startUrls` | array | – | `open.spotify.com` show or episode URLs, mixed modes allowed |
+| `market` | string | `US` | ISO 3166-1 alpha-2 country code results are scoped to |
+| `maxItems` | integer | `50` | Maximum records to emit (1–5000) |
+
+## Example: search true-crime shows in the UK
+
+```json
+{
+  "mode": "searchShows",
+  "searchQuery": "true crime",
+  "market": "GB",
+  "maxItems": 40,
+  "clientId": "YOUR_SPOTIFY_CLIENT_ID",
+  "clientSecret": "YOUR_SPOTIFY_CLIENT_SECRET"
+}
+```
+
+### Example: fetch a show plus every episode
+
+```json
+{
+  "mode": "getShow",
+  "showIds": ["5CnDmMUG0S5bSSw612fs8C"],
+  "market": "US",
+  "maxItems": 500,
+  "clientId": "YOUR_SPOTIFY_CLIENT_ID",
+  "clientSecret": "YOUR_SPOTIFY_CLIENT_SECRET"
+}
+```
+
+### Example: look up one episode by link
+
+```json
+{
+  "mode": "getEpisode",
+  "startUrls": ["https://open.spotify.com/episode/512ojhOuo1ktJprKbVcKyQ"],
+  "clientId": "YOUR_SPOTIFY_CLIENT_ID",
+  "clientSecret": "YOUR_SPOTIFY_CLIENT_SECRET"
+}
+```
+
+### Example: browse categories available in Germany
+
+```json
+{
+  "mode": "listCategories",
+  "market": "DE",
+  "clientId": "YOUR_SPOTIFY_CLIENT_ID",
+  "clientSecret": "YOUR_SPOTIFY_CLIENT_SECRET"
+}
+```
+
+## Use cases
+
+- **Podcast discovery tools** — build a searchable index of shows by topic or keyword
+- **Competitive monitoring** — track a competitor show's episode count, cadence and metadata over time
+- **Content aggregators** — pull episode descriptions and release dates to mirror a show's catalog
+- **Market research** — compare show availability and browse categories across countries
+- **Media intelligence** — bulk-resolve a list of show or episode links into structured metadata
+
+## FAQ
+
+**Where does the data come from?**
+Directly from the official Spotify Web API — the same catalog data Spotify's own apps read from.
+
+**Do I need a Spotify Premium account?**
+No. Any free Spotify account can create a developer app and generate the `clientId`/`clientSecret` this actor needs; Premium is not required.
+
+**Why do some episodes have no `audioPreviewUrl`?**
+Not every episode has a public preview clip set by its publisher, so the field is left out rather than returned empty.
+
+**Why does changing `market` change my results?**
+Podcast licensing is market-specific. A show that's unavailable in one country simply won't have a market-restricted preview or may be excluded from search results in that market entirely.
+
+**Can I resolve a URL and an ID in the same run?**
+Yes — mix `startUrls`, `showIds`, `episodeIds`, or a plain ID; the actor detects the entity type from whichever form you give it.
+
+**Does `getShow` return all episodes or just a page?**
+All of them. The actor pages through a show's full episode list rather than stopping at the first batch.
+
+**What happens if my credentials are wrong?**
+The run stops immediately and reports the authentication error as its status message — no partial or placeholder data is produced.
+
+**Is this affiliated with Spotify?**
+No, this is an independent actor that calls Spotify's public developer API; it is not affiliated with or endorsed by Spotify.
