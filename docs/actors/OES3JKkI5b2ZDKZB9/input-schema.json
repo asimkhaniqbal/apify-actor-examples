@@ -1,0 +1,71 @@
+{
+  "description": "Scrape Steam store game data using the public Steam Store API.",
+  "properties": {
+    "appId": {
+      "description": "Steam App ID for appDetail mode.",
+      "editor": "textfield",
+      "title": "App ID",
+      "type": "string"
+    },
+    "appType": {
+      "default": "",
+      "description": "Filter by app type.",
+      "editor": "select",
+      "enum": [
+        "",
+        "game",
+        "dlc",
+        "software"
+      ],
+      "enumTitles": [
+        "All",
+        "Game",
+        "DLC",
+        "Software"
+      ],
+      "title": "App type",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Maximum records to return.",
+      "maximum": 200,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "featured",
+      "description": "Featured/top-seller games, keyword search, or app detail.",
+      "editor": "select",
+      "enum": [
+        "featured",
+        "search",
+        "appDetail"
+      ],
+      "enumTitles": [
+        "Featured/Top Sellers",
+        "Keyword Search",
+        "App Detail"
+      ],
+      "prefill": "featured",
+      "title": "Mode",
+      "type": "string"
+    },
+    "searchQuery": {
+      "default": "adventure",
+      "description": "Keywords to search.",
+      "editor": "textfield",
+      "prefill": "adventure",
+      "title": "Search query",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Steam Store Games Scraper Input",
+  "type": "object"
+}

@@ -1,0 +1,99 @@
+# Steam Game Pricing & Metacritic Scraper
+
+Steam's storefront mixes featured promotions, top sellers, and keyword search into one catalog, each listing carrying its own price, discount, and Metacritic score. This actor reads that catalog three ways — browsing what Steam is currently featuring, searching by keyword, or looking up a specific game by its App ID — and returns one structured record per game.
+
+## What this actor does
+
+- Browses Steam's current top sellers, new releases, specials, and coming-soon lists in that order
+- Searches Steam's catalog by free-text keyword
+- Looks up one specific game by its numeric Steam App ID
+- Filters results down to a single app type: game, DLC, or software
+- Fields Steam doesn't publish for a given game (discount, Metacritic score) are left off the record instead of sent empty
+
+## Output per game
+
+- `appId` — Steam's numeric App ID
+- `appName` — game title
+- `appType` — `game`, `dlc`, or `software`
+- `developer`, `publisher`
+- `shortDescription` — short blurb, capped at 300 characters
+- `currentPrice`, `originalPrice`, `discountPercent` — formatted store pricing
+- `isFree` — whether the game is free to play
+- `metacriticScore` — Metacritic score, when Steam publishes one
+- `genres[]`, `categories[]`
+- `releaseDate`
+- `headerImage` — store page header artwork URL
+- `platforms` — `{windows, mac, linux}` support flags
+- `supportedLanguages` — supported-languages string, capped at 200 characters
+- `appUrl` — the game's store page
+- `recordType: "steam_app"`, `scrapedAt`
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `mode` | string | `featured` | `featured` (top sellers/new/specials), `search` (keyword), or `appDetail` (lookup by App ID) |
+| `searchQuery` | string | `adventure` | Keyword to search (mode=`search`) |
+| `appId` | string | – | Steam App ID to fetch (mode=`appDetail`), e.g. `730` for Counter-Strike 2 |
+| `appType` | string | – | Restrict results to `game`, `dlc`, or `software` |
+| `maxItems` | integer | `20` | Maximum records to return (1–200) |
+
+### Example: browse current top sellers
+
+```json
+{
+  "mode": "featured",
+  "maxItems": 30
+}
+```
+
+### Example: search for adventure games
+
+```json
+{
+  "mode": "search",
+  "searchQuery": "adventure",
+  "appType": "game",
+  "maxItems": 25
+}
+```
+
+### Example: look up a specific game
+
+```json
+{
+  "mode": "appDetail",
+  "appId": "730"
+}
+```
+
+## Use cases
+
+- **Price tracking** — monitor discount percentages across top sellers and specials over time
+- **Game databases** — bulk-import title, genre, and platform data into a catalog or comparison site
+- **Deal aggregation** — surface currently discounted games by keyword or category
+- **Market research** — compare Metacritic scores and pricing across genres
+- **Portfolio monitoring** — look up your own published games by App ID to track their current store listing
+
+## FAQ
+
+**Is this affiliated with Steam or Valve?**
+No. This is an independent, third-party actor that reads Steam's public storefront data. It has no affiliation with Valve or Steam.
+
+**Do I need an account or API key?**
+No. The actor reads Steam's publicly accessible storefront; no login is required.
+
+**What's the difference between `featured` and `search`?**
+`featured` returns whatever Steam is currently promoting as top sellers, new releases, specials, and coming soon, in that order. `search` instead matches your `searchQuery` against Steam's own catalog search.
+
+**How do I find a game's App ID for `appDetail` mode?**
+It's the number in the game's store URL, e.g. `store.steampowered.com/app/730/` → App ID `730`.
+
+**Why is `metacriticScore` sometimes missing?**
+Not every game on Steam has a Metacritic score. The field is only included when Steam's own listing publishes one.
+
+**Why is `discountPercent` sometimes missing even for a sale item?**
+It's only included when Steam reports a non-zero discount for that game at the moment of the run; full-price games simply omit it.
+
+**How fresh is the data?**
+Every run reads Steam's storefront live, so pricing, discounts, and featured lists reflect what Steam shows at the moment the actor runs.
