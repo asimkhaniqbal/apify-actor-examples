@@ -5,13 +5,13 @@
       "display": {
         "component": "table",
         "properties": {
+          "accessMethod": {
+            "format": "text",
+            "label": "Access"
+          },
           "airline": {
             "format": "text",
-            "label": "Airline"
-          },
-          "arrivalTime": {
-            "format": "text",
-            "label": "Arrival Time"
+            "label": "Airline / hotel"
           },
           "currency": {
             "format": "text",
@@ -23,15 +23,15 @@
           },
           "departDate": {
             "format": "text",
-            "label": "Depart"
-          },
-          "departTime": {
-            "format": "text",
-            "label": "Depart Time"
+            "label": "Depart / check-in"
           },
           "destination": {
             "format": "text",
             "label": "Destination"
+          },
+          "destinationCountry": {
+            "format": "text",
+            "label": "Country"
           },
           "duration": {
             "format": "text",
@@ -39,7 +39,11 @@
           },
           "flightId": {
             "format": "text",
-            "label": "Flight ID"
+            "label": "ID"
+          },
+          "hotelName": {
+            "format": "text",
+            "label": "Hotel"
           },
           "origin": {
             "format": "text",
@@ -49,13 +53,29 @@
             "format": "number",
             "label": "Price"
           },
+          "providerName": {
+            "format": "text",
+            "label": "Provider"
+          },
+          "rating": {
+            "format": "number",
+            "label": "Guest rating"
+          },
+          "recordType": {
+            "format": "text",
+            "label": "Type"
+          },
           "returnDate": {
             "format": "text",
-            "label": "Return"
+            "label": "Return / check-out"
           },
           "scrapedAt": {
             "format": "text",
-            "label": "Scraped At"
+            "label": "Scraped at"
+          },
+          "stars": {
+            "format": "number",
+            "label": "Stars"
           },
           "stops": {
             "format": "number",
@@ -66,22 +86,24 @@
       "title": "Kayak Results",
       "transformation": {
         "fields": [
+          "recordType",
           "flightId",
+          "hotelName",
           "origin",
           "destination",
+          "destinationCountry",
           "departDate",
           "returnDate",
           "price",
           "currency",
           "airline",
+          "stars",
+          "rating",
           "stops",
           "duration",
-          "departTime",
-          "arrivalTime",
-          "cabinClass",
-          "tripType",
+          "providerName",
           "deepLink",
-          "recordType",
+          "accessMethod",
           "scrapedAt"
         ]
       }

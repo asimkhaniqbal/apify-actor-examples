@@ -277,4 +277,21 @@
 <h2 id="readme-data-source-limitations">Data source &amp; limitations</h2>
 <p>The actor reads LinkedIn's public people directory (<code>/pub/dir/</code>) and the public, logged-out profile pages it links to. It selects its own access path automatically; no proxy configuration is needed.</p>
 <p>Honest limits: the directory window is about 50 candidates per name; exact connections, skills, full experience history, education degrees and contact details are not public; and headline visibility depends on what LinkedIn and public search indexes expose to logged-out visitors. The search-engine fallback is best-effort and may pause itself when the engines rate-limit. About texts are often truncated for anonymous visitors (flagged with <code>aboutTruncated</code>).</p>
-</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/qbDkwl2DwUF7XO3zX/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>7KkQyVManVFJioeS8</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
+<h2 id="readme-use-it-as-an-api-server-mode">Use it as an API (server mode)</h2>
+<p>Need one answer right away instead of a batch job? Send the input as an HTTP request and the results come back in the response. There's no run to start and poll.</p>
+<pre><code class="language-bash">curl -H &quot;Authorization: Bearer $APIFY_TOKEN&quot; \
+  &quot;https://vexaloom-labs--linkedin-people-search-by-name-with-company.apify.actor/?names=Satya%20Nadella&amp;maxResultsPerName=1&quot;
+</code></pre>
+<p>Or POST the same input as JSON:</p>
+<pre><code class="language-bash">curl -X POST -H &quot;Authorization: Bearer $APIFY_TOKEN&quot; -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;names&quot;: [&quot;Satya Nadella&quot;], &quot;maxResultsPerName&quot;: 1}' \
+  &quot;https://vexaloom-labs--linkedin-people-search-by-name-with-company.apify.actor/&quot;
+</code></pre>
+<ul>
+<li>The fields are the same as in the input above. With GET, repeat a parameter once for each value in a list.</li>
+<li>You get back a JSON array with the same records a normal run saves. They're saved to the run's dataset too.</li>
+<li>Each request is capped at 50 results and 4 minutes. For bigger jobs, start a normal run.</li>
+<li>The request runs in your own Apify account at the Actor's normal price (a start fee plus a price per result). The server shuts down after a minute with no requests.</li>
+<li>The Server tab on this page lists every parameter and lets you try a request from your browser.</li>
+</ul>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/qbDkwl2DwUF7XO3zX/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>QN4LiPhWHPjsLjWTz</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

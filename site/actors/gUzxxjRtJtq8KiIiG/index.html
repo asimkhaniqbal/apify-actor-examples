@@ -781,4 +781,21 @@
 <p><strong>Do <code>www</code> and non-<code>www</code> domains both work?</strong> Yes. The actor tries the exact host first and falls back to the other form only when the first returns no page. <code>resolvedDomain</code> tells you which host was used.</p>
 <p><strong>How fresh is the data?</strong> Ahrefs updates these profiles monthly. <code>scrapedAt</code> records when you collected the row, while <code>asOf</code>, <code>trafficMonth</code> and <code>dataMonth</code> describe the source month.</p>
 <p><strong>Is this affiliated with Ahrefs?</strong> No. This is an independent actor that reads publicly available AhrefsTop pages. It is not endorsed by or affiliated with Ahrefs.</p>
-</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/gUzxxjRtJtq8KiIiG/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>1er5MI6BnUASyOt8P</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
+<h2 id="readme-use-it-as-an-api-server-mode">Use it as an API (server mode)</h2>
+<p>Need one answer right away instead of a batch job? Send the input as an HTTP request and the results come back in the response. There's no run to start and poll.</p>
+<pre><code class="language-bash">curl -H &quot;Authorization: Bearer $APIFY_TOKEN&quot; \
+  &quot;https://guzxxjrtjtq8kiiig.apify.actor/?mode=domain&amp;domains=wikipedia.org&quot;
+</code></pre>
+<p>Or POST the same input as JSON:</p>
+<pre><code class="language-bash">curl -X POST -H &quot;Authorization: Bearer $APIFY_TOKEN&quot; -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;mode&quot;: &quot;domain&quot;, &quot;domains&quot;: [&quot;wikipedia.org&quot;]}' \
+  &quot;https://guzxxjrtjtq8kiiig.apify.actor/&quot;
+</code></pre>
+<ul>
+<li>The fields are the same as in the input above. With GET, repeat a parameter once for each value in a list.</li>
+<li>You get back a JSON array with the same records a normal run saves. They're saved to the run's dataset too.</li>
+<li>Each request is capped at 60 results and 4 minutes. For bigger jobs, start a normal run.</li>
+<li>The request runs in your own Apify account at the Actor's normal price (a start fee plus a price per result). The server shuts down after a minute with no requests.</li>
+<li>The Server tab on this page lists every parameter and lets you try a request from your browser.</li>
+</ul>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/gUzxxjRtJtq8KiIiG/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>NtCeEtvHbzO34IRPW</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

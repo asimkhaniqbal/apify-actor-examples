@@ -1,9 +1,15 @@
 {
   "actorOutputSchemaVersion": 1,
-  "description": "Flight, cheap-destination and hotel records from Kayak with price, airline or hotel name, dates, stops and booking link.",
+  "description": "Flight itineraries, hotel rates and cheap-destination deals from Kayak. Every record is normalised and includes recordType (kayakFlight / kayakHotel / kayakExplore), accessMethod (live / flight-routes / wayback), and scrapedAt so archived or snapshot prices can be distinguished from live search results.",
   "properties": {
+    "dataset": {
+      "description": "Interactive view of the same records in the Apify Console.",
+      "template": "{{links.consoleRunUrl}}",
+      "title": "Dataset (HTML)",
+      "type": "string"
+    },
     "results": {
-      "description": "Dataset containing all scraped Kayak flight, destination, and hotel records.",
+      "description": "Dataset containing all scraped flight, hotel and destination-deal records.",
       "template": "{{links.apiDefaultDatasetUrl}}/items",
       "title": "Kayak results",
       "type": "string"

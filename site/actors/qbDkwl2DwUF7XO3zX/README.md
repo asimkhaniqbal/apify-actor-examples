@@ -110,3 +110,26 @@ Empty fields are omitted, never emitted as `null`. The legacy keys `connectionDe
 The actor reads LinkedIn's public people directory (`/pub/dir/`) and the public, logged-out profile pages it links to. It selects its own access path automatically; no proxy configuration is needed.
 
 Honest limits: the directory window is about 50 candidates per name; exact connections, skills, full experience history, education degrees and contact details are not public; and headline visibility depends on what LinkedIn and public search indexes expose to logged-out visitors. The search-engine fallback is best-effort and may pause itself when the engines rate-limit. About texts are often truncated for anonymous visitors (flagged with `aboutTruncated`).
+
+## Use it as an API (server mode)
+
+Need one answer right away instead of a batch job? Send the input as an HTTP request and the results come back in the response. There's no run to start and poll.
+
+```bash
+curl -H "Authorization: Bearer $APIFY_TOKEN" \
+  "https://vexaloom-labs--linkedin-people-search-by-name-with-company.apify.actor/?names=Satya%20Nadella&maxResultsPerName=1"
+```
+
+Or POST the same input as JSON:
+
+```bash
+curl -X POST -H "Authorization: Bearer $APIFY_TOKEN" -H "Content-Type: application/json" \
+  -d '{"names": ["Satya Nadella"], "maxResultsPerName": 1}' \
+  "https://vexaloom-labs--linkedin-people-search-by-name-with-company.apify.actor/"
+```
+
+- The fields are the same as in the input above. With GET, repeat a parameter once for each value in a list.
+- You get back a JSON array with the same records a normal run saves. They're saved to the run's dataset too.
+- Each request is capped at 50 results and 4 minutes. For bigger jobs, start a normal run.
+- The request runs in your own Apify account at the Actor's normal price (a start fee plus a price per result). The server shuts down after a minute with no requests.
+- The Server tab on this page lists every parameter and lets you try a request from your browser.

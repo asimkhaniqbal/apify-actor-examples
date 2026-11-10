@@ -150,3 +150,26 @@ Find Facebook Pages and public profiles by keyword, or read a list of Facebook U
 
 
 **Is this affiliated with Facebook or Meta?** No. This is an independent tool and is not affiliated with, endorsed by, or sponsored by Meta Platforms, Inc.
+
+## Use it as an API (server mode)
+
+Need one answer right away instead of a batch job? Send the input as an HTTP request and the results come back in the response. There's no run to start and poll.
+
+```bash
+curl -H "Authorization: Bearer $APIFY_TOKEN" \
+  "https://cjq13rwjckkpe9rcc.apify.actor/?mode=search&searchQueries=Starbucks&searchType=pages&maxResults=1&fetchPageDetails=false&includeReviews=false"
+```
+
+Or POST the same input as JSON:
+
+```bash
+curl -X POST -H "Authorization: Bearer $APIFY_TOKEN" -H "Content-Type: application/json" \
+  -d '{"mode": "search", "searchQueries": ["Starbucks"], "searchType": "pages", "maxResults": 1, "fetchPageDetails": false, "includeReviews": false}' \
+  "https://cjq13rwjckkpe9rcc.apify.actor/"
+```
+
+- The fields are the same as in the input above. With GET, repeat a parameter once for each value in a list.
+- You get back a JSON array with the same records a normal run saves. They're saved to the run's dataset too.
+- Each request is capped at 60 results and 4 minutes. For bigger jobs, start a normal run.
+- The request runs in your own Apify account at the Actor's normal price (a start fee plus a price per result). The server shuts down after a minute with no requests.
+- The Server tab on this page lists every parameter and lets you try a request from your browser.

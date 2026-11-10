@@ -2,17 +2,55 @@
   "properties": {
     "adults": {
       "default": 1,
-      "description": "Number of adult passengers.",
+      "description": "Number of adult travellers (1-9).",
       "editor": "number",
       "maximum": 9,
       "minimum": 1,
       "prefill": 1,
-      "title": "Number of Adults",
+      "title": "Adults",
       "type": "integer"
+    },
+    "airlines": {
+      "description": "Only include these airlines, using two-letter IATA codes such as DL, UA or BA. Leave empty for all airlines.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Airlines",
+      "type": "array"
+    },
+    "alliance": {
+      "default": "any",
+      "description": "Restrict results to one airline alliance.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "STAR_ALLIANCE",
+        "ONEWORLD",
+        "SKYTEAM"
+      ],
+      "enumTitles": [
+        "Any alliance",
+        "Star Alliance",
+        "Oneworld",
+        "SkyTeam"
+      ],
+      "prefill": "any",
+      "title": "Airline alliance",
+      "type": "string"
+    },
+    "amenities": {
+      "description": "Kayak amenity IDs that must be present, for example wifi, pool, fitness, parking.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Amenities",
+      "type": "array"
     },
     "cabinClass": {
       "default": "economy",
-      "description": "Preferred cabin class.",
+      "description": "Cabin class for the flight search.",
       "editor": "select",
       "enum": [
         "economy",
@@ -22,47 +60,230 @@
       ],
       "enumTitles": [
         "Economy",
-        "Premium Economy",
+        "Premium economy",
         "Business",
-        "First Class"
+        "First"
       ],
-      "title": "Cabin Class",
+      "prefill": "economy",
+      "title": "Cabin class",
       "type": "string"
     },
+    "children": {
+      "default": 0,
+      "description": "Number of children aged 2-17. Kayak is searched with child ages 8, 10, 12 and 14 for 1-4 children.",
+      "editor": "number",
+      "maximum": 4,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Children (flights)",
+      "type": "integer"
+    },
+    "dealsOnly": {
+      "default": false,
+      "description": "Only show properties flagged as having member or private deals.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Member/private deals only",
+      "type": "boolean"
+    },
     "departDate": {
-      "description": "Departure date in YYYY-MM-DD format.",
+      "description": "Departure date (flights) or check-in date (hotels) in YYYY-MM-DD format. Leave empty for about 30 days from today.",
       "editor": "textfield",
-      "title": "Departure Date",
+      "title": "Departure date / check-in",
       "type": "string"
     },
     "destination": {
-      "description": "Destination airport IATA code or city (e.g. 'LON', 'LHR', 'London'). Optional for exploreDeals mode.",
+      "default": "LON",
+      "description": "Airport or city code to fly to, for example LON, LHR or London. In hotels mode this is the city or area to stay in.",
       "editor": "textfield",
       "prefill": "LON",
-      "title": "Destination",
+      "title": "Destination airport or city",
       "type": "string"
     },
+    "destinationCountry": {
+      "description": "Optional country name or ISO code to keep only deals in that country, for example Spain or ES.",
+      "editor": "textfield",
+      "title": "Destination country",
+      "type": "string"
+    },
+    "freeBreakfast": {
+      "default": false,
+      "description": "Only show rates that include free breakfast.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Free breakfast",
+      "type": "boolean"
+    },
+    "freeCancellation": {
+      "default": false,
+      "description": "Only show rates that can be cancelled free of charge.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Free cancellation",
+      "type": "boolean"
+    },
+    "freeInternet": {
+      "default": false,
+      "description": "Only show properties with free internet.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Free internet",
+      "type": "boolean"
+    },
+    "freeParking": {
+      "default": false,
+      "description": "Only show properties with free parking.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Free parking",
+      "type": "boolean"
+    },
+    "hotelSortBy": {
+      "default": "recommended",
+      "description": "Order of hotel results.",
+      "editor": "select",
+      "enum": [
+        "recommended",
+        "price_low",
+        "rating",
+        "distance",
+        "stars"
+      ],
+      "enumTitles": [
+        "Recommended",
+        "Lowest nightly price",
+        "Guest rating",
+        "Distance from centre",
+        "Star rating"
+      ],
+      "prefill": "recommended",
+      "title": "Sort hotels by",
+      "type": "string"
+    },
+    "hotelStars": {
+      "description": "Only include hotels with these star ratings (1-5). Leave empty for all star ratings.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "sectionCaption": "3. Hotels",
+      "sectionDescription": "Used by the Search hotels mode: dates are check-in/check-out and adults/rooms define the stay.",
+      "title": "Hotel stars",
+      "type": "array"
+    },
     "maxBudget": {
-      "description": "Maximum price per person in USD (for exploreDeals mode).",
+      "description": "For cheap-destination mode, the maximum round-trip price per person in the site currency.",
       "editor": "number",
-      "maximum": 100000,
+      "maximum": 1000000,
       "minimum": 0,
-      "title": "Max Budget (USD)",
+      "sectionCaption": "4. Cheap destinations",
+      "sectionDescription": "Used by the Explore cheap destinations mode. Results are live Kayak explore deals from the origin airport.",
+      "title": "Maximum deal price",
+      "type": "integer"
+    },
+    "maxDurationMinutes": {
+      "description": "Maximum outbound flight duration in minutes, for example 720 for 12 hours.",
+      "editor": "number",
+      "maximum": 10000,
+      "minimum": 0,
+      "title": "Maximum flight duration (minutes)",
       "type": "integer"
     },
     "maxItems": {
       "default": 50,
-      "description": "Maximum number of results to return.",
+      "description": "Maximum number of records to save across the whole run.",
       "editor": "number",
-      "maximum": 500,
+      "maximum": 1000,
       "minimum": 1,
-      "prefill": 50,
-      "title": "Max Items",
+      "prefill": 3,
+      "sectionCaption": "6. Output",
+      "sectionDescription": "Keep this small for scheduled runs; increase it for bulk datasets.",
+      "title": "Maximum results",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Maximum price per result (fare for flights, nightly rate for hotels) in the site currency.",
+      "editor": "number",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Maximum price",
+      "type": "integer"
+    },
+    "maxStops": {
+      "default": "any",
+      "description": "Limit the number of connections. Applies to flights and cheap-destination searches.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "enumTitles": [
+        "Any number of stops",
+        "Nonstop only",
+        "Up to 1 stop",
+        "Up to 2 stops",
+        "Up to 3 stops"
+      ],
+      "prefill": "any",
+      "title": "Maximum stops",
+      "type": "string"
+    },
+    "maxTripDays": {
+      "default": 30,
+      "description": "Maximum number of days for an explore deal.",
+      "editor": "number",
+      "maximum": 60,
+      "minimum": 1,
+      "prefill": 30,
+      "title": "Maximum trip length (days)",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Minimum price per result in the site currency. Leave empty for no minimum.",
+      "editor": "number",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Minimum price",
+      "type": "integer"
+    },
+    "minRating": {
+      "default": "any",
+      "description": "Minimum guest review score shown by Kayak.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "enumTitles": [
+        "Any rating",
+        "6+ okay",
+        "7+ good",
+        "8+ great",
+        "9+ excellent"
+      ],
+      "prefill": "any",
+      "title": "Minimum guest rating",
+      "type": "string"
+    },
+    "minTripDays": {
+      "default": 1,
+      "description": "Minimum number of days for an explore deal.",
+      "editor": "number",
+      "maximum": 60,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Minimum trip length (days)",
       "type": "integer"
     },
     "mode": {
       "default": "searchFlights",
-      "description": "Scraping mode: search flights, search hotels, explore cheap deals, or scrape specific URLs.",
+      "description": "Search live flights, search live hotel rates, discover cheap destinations from an airport, or scrape specific Kayak URLs.",
       "editor": "select",
       "enum": [
         "searchFlights",
@@ -71,55 +292,136 @@
         "byUrls"
       ],
       "enumTitles": [
-        "Search Flights",
-        "Search Hotels",
-        "Explore Cheap Deals",
-        "By URLs"
+        "Search flights",
+        "Search hotels",
+        "Explore cheap destinations",
+        "Scrape specific URLs"
       ],
       "prefill": "searchFlights",
-      "title": "Mode",
+      "sectionCaption": "1. Search mode",
+      "sectionDescription": "Pick one mode. Fields that do not apply to the chosen mode are ignored.",
+      "title": "What do you want to search?",
       "type": "string"
     },
     "origin": {
-      "description": "Origin airport IATA code or city (e.g. 'NYC', 'JFK', 'New York').",
+      "default": "NYC",
+      "description": "Airport or city code to fly from, for example NYC, JFK or New York. Used by flights and cheap-destination modes.",
       "editor": "textfield",
       "prefill": "NYC",
-      "title": "Origin",
+      "sectionCaption": "2. Flights",
+      "sectionDescription": "Used by the Search flights mode. Dates default to roughly one month from today.",
+      "title": "Origin airport or city",
       "type": "string"
     },
+    "payLater": {
+      "default": false,
+      "description": "Only show rates that can be paid at the property.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Pay later",
+      "type": "boolean"
+    },
+    "propertyType": {
+      "default": "any",
+      "description": "Restrict hotel results to hotels or apartment-style rentals.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "hotel",
+        "rental:apartment"
+      ],
+      "enumTitles": [
+        "Any property type",
+        "Hotels",
+        "Apartments"
+      ],
+      "prefill": "any",
+      "title": "Property type",
+      "type": "string"
+    },
+    "redeyeOnly": {
+      "default": false,
+      "description": "Return only overnight (red-eye) itineraries.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Overnight flights only",
+      "type": "boolean"
+    },
     "returnDate": {
-      "description": "Return date for round-trip flights in YYYY-MM-DD format.",
+      "description": "Return date (flights) or check-out date (hotels) in YYYY-MM-DD format. Leave empty for seven days after departure.",
       "editor": "textfield",
-      "title": "Return Date",
+      "title": "Return date / check-out",
+      "type": "string"
+    },
+    "rooms": {
+      "default": 1,
+      "description": "Number of hotel rooms (1-8).",
+      "editor": "number",
+      "maximum": 8,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Rooms",
+      "type": "integer"
+    },
+    "site": {
+      "default": "kayak.com",
+      "description": "Country site used for the search. It determines the currency and point of sale (for example kayak.co.uk returns GBP).",
+      "editor": "select",
+      "enum": [
+        "kayak.com",
+        "kayak.co.uk",
+        "kayak.ca",
+        "kayak.com.au",
+        "kayak.co.in",
+        "kayak.co.nz",
+        "kayak.ie",
+        "kayak.de",
+        "kayak.fr",
+        "kayak.es",
+        "kayak.it",
+        "kayak.com.mx",
+        "kayak.com.br"
+      ],
+      "enumTitles": [
+        "United States (USD)",
+        "United Kingdom (GBP)",
+        "Canada (CAD)",
+        "Australia (AUD)",
+        "India (INR)",
+        "New Zealand (NZD)",
+        "Ireland (EUR)",
+        "Germany (EUR)",
+        "France (EUR)",
+        "Spain (EUR)",
+        "Italy (EUR)",
+        "Mexico (MXN)",
+        "Brazil (BRL)"
+      ],
+      "prefill": "kayak.com",
+      "title": "Kayak site",
       "type": "string"
     },
     "sortBy": {
       "default": "price",
-      "description": "How to sort flight results.",
+      "description": "Order of flight results.",
       "editor": "select",
       "enum": [
         "price",
         "duration",
         "departure",
-        "arrival"
+        "arrival",
+        "best"
       ],
       "enumTitles": [
-        "Price (Lowest)",
-        "Duration (Shortest)",
-        "Departure Time",
-        "Arrival Time"
+        "Lowest price",
+        "Shortest duration",
+        "Earliest departure",
+        "Earliest arrival",
+        "Kayak's best"
       ],
-      "title": "Sort By",
+      "prefill": "price",
+      "title": "Sort flights by",
       "type": "string"
-    },
-    "startUrls": {
-      "description": "List of Kayak search result URLs to scrape (used in byUrls mode).",
-      "editor": "stringList",
-      "items": {
-        "type": "string"
-      },
-      "title": "Start URLs",
-      "type": "array"
     },
     "tripType": {
       "default": "round-trip",
@@ -130,14 +432,34 @@
         "round-trip"
       ],
       "enumTitles": [
-        "One Way",
-        "Round Trip"
+        "One way",
+        "Round trip"
       ],
-      "title": "Trip Type",
+      "prefill": "round-trip",
+      "title": "Trip type",
       "type": "string"
+    },
+    "urls": {
+      "description": "Flight, hotel or explore URLs copied from your browser, for example https://www.kayak.com/flights/NYC-LON/2026-12-10/2026-12-17.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "sectionCaption": "5. Specific URLs",
+      "sectionDescription": "Used by the Scrape specific URLs mode. Flight, hotel, explore and flight-route URLs are detected automatically.",
+      "title": "Kayak URLs",
+      "type": "array"
+    },
+    "wifiOnly": {
+      "default": false,
+      "description": "Return only flights that advertise in-flight Wi-Fi.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Wi-Fi on board only",
+      "type": "boolean"
     }
   },
   "schemaVersion": 1,
-  "title": "Kayak Scraper Input",
+  "title": "Kayak Flight, Hotel & Cheap Destination Finder Input",
   "type": "object"
 }
