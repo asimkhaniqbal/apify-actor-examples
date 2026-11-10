@@ -1,0 +1,143 @@
+{
+  "properties": {
+    "adults": {
+      "default": 1,
+      "description": "Number of adult passengers.",
+      "editor": "number",
+      "maximum": 9,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Number of Adults",
+      "type": "integer"
+    },
+    "cabinClass": {
+      "default": "economy",
+      "description": "Preferred cabin class.",
+      "editor": "select",
+      "enum": [
+        "economy",
+        "premium-economy",
+        "business",
+        "first"
+      ],
+      "enumTitles": [
+        "Economy",
+        "Premium Economy",
+        "Business",
+        "First Class"
+      ],
+      "title": "Cabin Class",
+      "type": "string"
+    },
+    "departDate": {
+      "description": "Departure date in YYYY-MM-DD format.",
+      "editor": "textfield",
+      "title": "Departure Date",
+      "type": "string"
+    },
+    "destination": {
+      "description": "Destination airport IATA code or city (e.g. 'LON', 'LHR', 'London'). Optional for exploreDeals mode.",
+      "editor": "textfield",
+      "prefill": "LON",
+      "title": "Destination",
+      "type": "string"
+    },
+    "maxBudget": {
+      "description": "Maximum price per person in USD (for exploreDeals mode).",
+      "editor": "number",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Max Budget (USD)",
+      "type": "integer"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of results to return.",
+      "editor": "number",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "searchFlights",
+      "description": "Scraping mode: search flights, search hotels, explore cheap deals, or scrape specific URLs.",
+      "editor": "select",
+      "enum": [
+        "searchFlights",
+        "searchHotels",
+        "exploreDeals",
+        "byUrls"
+      ],
+      "enumTitles": [
+        "Search Flights",
+        "Search Hotels",
+        "Explore Cheap Deals",
+        "By URLs"
+      ],
+      "prefill": "searchFlights",
+      "title": "Mode",
+      "type": "string"
+    },
+    "origin": {
+      "description": "Origin airport IATA code or city (e.g. 'NYC', 'JFK', 'New York').",
+      "editor": "textfield",
+      "prefill": "NYC",
+      "title": "Origin",
+      "type": "string"
+    },
+    "returnDate": {
+      "description": "Return date for round-trip flights in YYYY-MM-DD format.",
+      "editor": "textfield",
+      "title": "Return Date",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "price",
+      "description": "How to sort flight results.",
+      "editor": "select",
+      "enum": [
+        "price",
+        "duration",
+        "departure",
+        "arrival"
+      ],
+      "enumTitles": [
+        "Price (Lowest)",
+        "Duration (Shortest)",
+        "Departure Time",
+        "Arrival Time"
+      ],
+      "title": "Sort By",
+      "type": "string"
+    },
+    "startUrls": {
+      "description": "List of Kayak search result URLs to scrape (used in byUrls mode).",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Start URLs",
+      "type": "array"
+    },
+    "tripType": {
+      "default": "round-trip",
+      "description": "One-way or round-trip flight.",
+      "editor": "select",
+      "enum": [
+        "one-way",
+        "round-trip"
+      ],
+      "enumTitles": [
+        "One Way",
+        "Round Trip"
+      ],
+      "title": "Trip Type",
+      "type": "string"
+    }
+  },
+  "schemaVersion": 1,
+  "title": "Kayak Scraper Input",
+  "type": "object"
+}

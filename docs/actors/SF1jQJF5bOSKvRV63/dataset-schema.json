@@ -2,77 +2,142 @@
   "actorSpecification": 1,
   "fields": {
     "properties": {
-      "address": {
-        "description": "District and city",
+      "accessMethod": {
+        "description": "Access path used: direct, proxy, or translate_mirror",
         "type": "string"
       },
+      "address": {
+        "description": "Street address or district and city",
+        "type": "string"
+      },
+      "adults": {
+        "description": "Number of adults",
+        "type": "integer"
+      },
       "checkin": {
-        "description": "Check-in date",
+        "description": "Check-in date (YYYY-MM-DD)",
         "type": "string"
       },
       "checkout": {
-        "description": "Check-out date",
+        "description": "Check-out date (YYYY-MM-DD)",
         "type": "string"
       },
       "city": {
         "description": "City name",
         "type": "string"
       },
-      "currency": {
-        "description": "Currency symbol",
+      "country": {
+        "description": "Country name",
         "type": "string"
       },
+      "currency": {
+        "description": "Currency code",
+        "type": "string"
+      },
+      "detailStatus": {
+        "description": "search_only or enriched",
+        "type": "string"
+      },
+      "discountPercent": {
+        "description": "Visible discount percentage",
+        "type": "number"
+      },
       "distance": {
-        "description": "Distance from downtown",
+        "description": "Distance from downtown on the search result",
+        "type": "string"
+      },
+      "hotelId": {
+        "description": "Booking.com hotel identifier",
+        "type": "string"
+      },
+      "latitude": {
+        "description": "Latitude",
+        "type": "number"
+      },
+      "longitude": {
+        "description": "Longitude",
+        "type": "number"
+      },
+      "mode": {
+        "description": "search or details",
         "type": "string"
       },
       "name": {
-        "description": "Hotel name",
+        "description": "Hotel or property name",
         "type": "string"
       },
+      "nights": {
+        "description": "Number of nights",
+        "type": "integer"
+      },
+      "originalPrice": {
+        "description": "Price before a visible discount",
+        "type": "number"
+      },
       "photoUrl": {
-        "description": "Main hotel photo URL",
+        "description": "Main photo URL",
         "type": "string"
       },
       "price": {
-        "description": "Total price for the stay",
+        "description": "Stay price for the requested dates",
         "type": "number"
       },
+      "pricePerNight": {
+        "description": "Nightly price",
+        "type": "number"
+      },
+      "propertyType": {
+        "description": "Accommodation type",
+        "type": "string"
+      },
       "rating": {
-        "description": "Guest rating (0-10)",
-        "nullable": true,
+        "description": "Guest review score (0-10)",
         "type": "number"
       },
       "reviewCount": {
         "description": "Number of guest reviews",
-        "nullable": true,
         "type": "integer"
       },
       "reviewWord": {
-        "description": "Rating label (Excellent, Very Good, etc.)",
-        "nullable": true,
+        "description": "Rating label (Wonderful, Excellent, Very Good, Good, etc.)",
         "type": "string"
+      },
+      "rooms": {
+        "description": "Number of rooms",
+        "type": "integer"
       },
       "scrapedAt": {
         "description": "Scrape timestamp (ISO 8601)",
         "type": "string"
       },
+      "source": {
+        "description": "Data source",
+        "type": "string"
+      },
+      "stars": {
+        "description": "Star rating (1-5)",
+        "type": "integer"
+      },
+      "taxesAndFees": {
+        "description": "Taxes and fees shown for the stay",
+        "type": "number"
+      },
       "url": {
-        "description": "Direct Booking.com URL",
+        "description": "Canonical Booking.com hotel URL",
         "type": "string"
       }
     },
     "type": "object"
   },
-  "title": "Booking.com Hotels",
+  "title": "Booking.com Hotel Snapshots",
   "views": {
     "overview": {
       "display": {
         "component": "table",
         "properties": {
-          "address": {
+          "city": {
             "format": "text",
-            "label": "Location"
+            "label": "City"
           },
           "currency": {
             "format": "text",
@@ -88,7 +153,11 @@
           },
           "price": {
             "format": "number",
-            "label": "Price"
+            "label": "Stay price"
+          },
+          "pricePerNight": {
+            "format": "number",
+            "label": "Per night"
           },
           "rating": {
             "format": "number",
@@ -102,22 +171,28 @@
             "format": "text",
             "label": "Score"
           },
+          "stars": {
+            "format": "number",
+            "label": "Stars"
+          },
           "url": {
             "format": "link",
             "label": "URL"
           }
         }
       },
-      "title": "Hotels",
+      "title": "Hotel snapshots",
       "transformation": {
         "fields": [
           "name",
           "price",
           "currency",
+          "pricePerNight",
           "rating",
           "reviewCount",
           "reviewWord",
-          "address",
+          "stars",
+          "city",
           "distance",
           "url"
         ]

@@ -1,111 +1,149 @@
 # Booking.com Hotel Price & Rating Snapshot Scraper
 
-Point this actor at a destination and a pair of dates and it returns the hotels Booking.com shows on the first page of results — name, price, rating and location — as clean JSON rows. It's built for quick price and rating pulls rather than a full property breakdown, so it returns fewer fields per hotel than a detail-page scrape but runs through a search in a fraction of the time.
+Pull a clean price-and-rating snapshot from Booking.com for a destination or a list of hotel URLs. This actor is built for speed: it reads search cards in search mode, or a hotel's own page in details mode, and returns flat JSON rows you can compare, schedule or load into a spreadsheet.
 
-## What this actor does
+## Two ways to use it
 
-- Searches Booking.com for any city, region or landmark and reads the listings straight off the results page
-- Lets you set check-in/check-out dates, adult count, room count and currency to match a real traveler's search
-- Captures guest rating, review count, rating label (e.g. "Excellent") and distance-from-center for every hotel returned
-- Caps output at a number of hotels you choose, so you can pull a quick top-N snapshot or a larger batch
-- Fields Booking.com doesn't display for a given hotel come back as an empty string or `0` rather than being left out of the row
+| Mode | What it reads | Best for |
+|---|---|---|
+| **Search a destination** | Booking.com search result cards, expanded with the page's own "Load more results" control | Rate shopping across a city, market snapshots, price monitoring |
+| **Load hotel URLs** | Each hotel's Booking.com page (price and rating block) | Checking specific properties you already track |
+
+Search mode never opens individual hotel pages, so it stays fast even at the 250-row cap. Details mode opens the pages you pass in and returns the property's own current rate, star rating and coordinates.
 
 ## Output per hotel
 
-- `name` — hotel or property name
-- `url` — direct link to the property's Booking.com page
-- `price` — nightly price for the searched dates
-- `currency` — currency the price is shown in
-- `rating` — guest review score (0-10 scale)
-- `reviewCount` — number of guest reviews behind that score
-- `reviewWord` — Booking.com's rating label (e.g. "Excellent", "Very good")
-- `address` — neighborhood or district as shown in the listing
-- `city` — the destination you searched for
-- `distance` — distance from the city center/downtown, as shown on the listing
-- `photoUrl` — main listing photo
-- `checkin`, `checkout` — the dates used for this search
-- `scrapedAt` — ISO-8601 timestamp of when the row was captured
+Every row uses the same field names in both modes. Fields that do not apply to a mode are omitted.
+
+- `hotelId` — Booking.com property identifier from the URL
+- `name` — property name
+- `url` — canonical Booking.com property URL
+- `propertyType` — accommodation type (details mode)
+- `stars` — official star rating (1-5)
+- `address` — street address (details) or district and city (search)
+- `city`, `country`
+- `latitude`, `longitude` — map coordinates (details mode)
+- `distance` — distance from downtown as shown on the search card
+- `rating` — guest score on Booking.com's 0-10 scale
+- `reviewCount` — number of guest reviews
+- `reviewWord` — score label such as "Wonderful" or "Very Good"
+- `price` — price for the whole stay in the requested currency
+- `pricePerNight` — `price` divided by the number of nights
+- `originalPrice`, `discountPercent` — visible struck-through price and discount
+- `taxesAndFees` — taxes and fees shown with the rate
+- `currency` — three-letter currency code
+- `photoUrl` — main property photo
+- `checkin`, `checkout`, `nights`, `adults`, `rooms` — the search parameters used
+- `mode` — `search` or `details`
+- `detailStatus` — `search_only` or `enriched`
+- `source` — `booking.com`
+- `accessMethod` — `translate_mirror` or `browser+translate_mirror` when the direct/proxy paths were challenged
+- `scrapedAt` — capture timestamp in ISO 8601
 
 ## Input
 
-| Field | Type | Default | Description |
+| Field | Type | Default | Notes |
 |---|---|---|---|
-| `location` | string | – | City, region or destination to search, e.g. `Paris` (required) |
-| `checkinDate` | string | – | Check-in date as `YYYY-MM-DD`; defaults to tomorrow if left empty |
-| `checkoutDate` | string | – | Check-out date as `YYYY-MM-DD`; defaults to 3 days after check-in if left empty |
-| `adults` | integer | `2` | Number of adult guests |
-| `rooms` | integer | `1` | Number of rooms |
-| `currency` | string | `USD` | Currency code for returned prices, e.g. `EUR`, `GBP` |
-| `maxResults` | integer | `50` | Maximum number of hotel rows to return (1-500) |
-| `proxyConfiguration` | object | Residential | Proxy group used for the request; Booking.com blocks plain datacenter IPs |
+| `mode` | select | `search` | `search` for a destination, `details` for hotel URLs |
+| `destination` | string | — | City, region or landmark; required in search mode (prefilled with `Paris`) |
+| `startUrls` | array | — | Booking.com hotel links used by details mode (prefilled with one Paris hotel) |
+| `checkIn` | string | — | `YYYY-MM-DD`; empty means tomorrow |
+| `checkOut` | string | — | `YYYY-MM-DD`, must be after check-in; empty means check-in + 3 nights |
+| `adults` | integer | `2` | 1-30 |
+| `rooms` | integer | `1` | 1-30 |
+| `propertyType` | select | `all` | Hotels, apartments, hostels, guesthouses, villas or resorts |
+| `minReviewScore` | number | `0` | 0-10 exact minimum after Booking.com's own filter |
+| `stars` | select | `0` (any) | 1-5 |
+| `freeCancellation` | boolean | `false` | Only properties with a free-cancellation rate |
+| `breakfast` | boolean | `false` | Only properties with a breakfast-included rate |
+| `pool` | boolean | `false` | Only properties with a swimming pool |
+| `minPrice`, `maxPrice` | number | — | Nightly price bounds in the chosen currency |
+| `currency` | string | `USD` | `EUR`, `GBP`, `JPY`, etc. |
+| `language` | select | `en-us` | Page language used for the request |
+| `maxItems` | integer | `10` | 1-250 |
+| `proxyConfiguration` | object | Direct | Optional; without it the actor tries direct, then the free translate-mirror fallback, then Apify proxy |
 
-### Example: weekend city break
+The old input names are still accepted by the code: `location` maps to `destination`, `checkinDate`/`checkoutDate` map to `checkIn`/`checkOut`, and `maxResults` maps to `maxItems`.
+
+## Examples
+
+Weekend price check for Lisbon:
 
 ```json
 {
-  "location": "Lisbon",
-  "checkinDate": "2026-11-20",
-  "checkoutDate": "2026-11-23",
-  "adults": 2,
-  "rooms": 1,
+  "mode": "search",
+  "destination": "Lisbon",
+  "checkIn": "2026-11-20",
+  "checkOut": "2026-11-23",
   "currency": "EUR",
-  "maxResults": 30
+  "maxItems": 30
 }
 ```
 
-### Example: family trip, larger snapshot
+Track two specific hotels:
 
 ```json
 {
-  "location": "Orlando",
-  "checkinDate": "2026-12-15",
-  "checkoutDate": "2026-12-22",
-  "adults": 4,
-  "rooms": 2,
-  "currency": "USD",
-  "maxResults": 100
+  "mode": "details",
+  "startUrls": [
+    { "url": "https://www.booking.com/hotel/fr/du-printemps-paris.html" },
+    { "url": "https://www.booking.com/hotel/fr/sorbonne.html" }
+  ],
+  "checkIn": "2026-12-01",
+  "checkOut": "2026-12-04",
+  "adults": 2,
+  "rooms": 1
 }
 ```
 
-### Example: quick 10-hotel check
+Well-rated hotels with free cancellation:
 
 ```json
 {
-  "location": "Tokyo",
-  "maxResults": 10
+  "mode": "search",
+  "destination": "Berlin",
+  "propertyType": "hotels",
+  "minReviewScore": 8.5,
+  "freeCancellation": true,
+  "maxItems": 20
 }
 ```
 
-## Use cases
+## How pagination works
 
-- **Rate shopping** — pull current nightly prices for a destination before booking group travel
-- **Revenue management** — snapshot competitor pricing and ratings for hotels in the same city
-- **Travel content** — pre-fill a city guide or comparison article with live price and rating ranges
-- **Lead qualification** — quickly check what's available and well-rated in a destination before deeper research
-- **Price trend tracking** — run on a schedule across the same dates to watch how prices move as a trip date approaches
+Booking.com returns a first batch of cards and adds more when its own "Load more results" control is clicked. The actor keeps clicking that control and scrolling until it reaches `maxItems` or the page stops growing. When the live site is WAF-challenged, the translate-mirror fallback reads successive result pages across several sort orders and deduplicates by hotel URL. The practical ceiling is 250 rows per run; split a large market by neighborhood, dates or filters to collect more.
 
 ## FAQ
 
 **Do I need a Booking.com account?**
-No. All data comes from Booking.com's public search results; no login is involved.
+No. The actor reads public search and hotel pages. No login, cookie or API key is required.
 
-**Why does this return fewer fields than a full hotel-detail scrape?**
-This actor is built for speed: it reads only what's visible on the search results page, not each hotel's own detail page. For room types, amenities and policy details, a detail-level scraper is the better fit.
+**Do I need to configure a proxy?**
+No. The actor connects directly first. If Booking.com challenges that connection, it retries through Google Translate's public mirror (no proxy or key) and only then falls back to Apify proxy groups. `accessMethod` tells you which path produced each row.
 
-**Why is a residential proxy configured by default?**
-Booking.com's search pages reject requests from plain datacenter IPs. A residential proxy group lets the search load reliably.
+**Is `price` per night or for the whole stay?**
+`price` is the full stay price Booking.com shows for your dates. `pricePerNight` divides it by `nights`.
 
-**What happens if I leave the dates empty?**
-The actor defaults check-in to tomorrow and check-out to three days later, so you always get real current pricing even without specifying dates.
+**Why is a field missing from some rows?**
+Search cards and hotel pages expose different data. Coordinates and `propertyType` usually come from a hotel page, while `distance` comes from a search card. Empty values are omitted rather than filled with zeros or placeholders.
 
-**How many hotels can one run return?**
-Up to 500 per search via `maxResults`; the actor returns however many Booking.com's search page actually lists, up to that cap.
+**What happens when a hotel has no available rate?**
+Details mode skips that hotel and reports a partial result. If every page fails, the run fails with a clear status instead of writing empty rows.
 
-**Does `rating` use the same 0-10 scale Booking.com shows on the site?**
-Yes, `rating` matches the guest score shown on Booking.com itself, and `reviewWord` is the label Booking.com attaches to that score.
+**Can I scrape more than one destination in one run?**
+Yes at the task level: one run is one destination. Create one task per city, or use details mode with a URL list.
 
-**Can I search in a currency other than USD?**
-Yes, set `currency` to any currency code Booking.com supports (e.g. `EUR`, `GBP`, `JPY`) and prices are returned in that currency.
+**Are prices guaranteed to match the live site a minute later?**
+No. Availability and prices change continuously. Each row records `scrapedAt` so you can tell exactly when the snapshot was taken.
 
 **Is this affiliated with Booking.com?**
-No. This is an independent, third-party actor that reads Booking.com's public search pages; it has no affiliation with Booking.com or Booking Holdings.
+No. It is an independent third-party tool that reads publicly available Booking.com pages.
+
+## Limitations
+
+- Search mode returns what the search page exposes: price, rating, stars, address and distance. It does not open each property, so room types, amenities and full policies are not included.
+- Details mode reads the property page but does not wait for every lazy-loaded section; it returns the price/rating snapshot rather than a full facilities catalogue.
+- Booking.com caps how many search results it will page through, and the actor caps a single run at 250 rows.
+- Sold-out properties can be missing a rate. They are skipped in details mode and may be absent from search results.
+- Booking.com serves more than one search layout. Some sessions expose stars and the load-more control, while a stripped mirror variant exposes cards without star icons. The actor reads whatever the page provides and never invents missing values; price, score and review count remain available.
+- Booking.com can challenge direct, AUTO and residential exits with HTTP 202. The translate-mirror fallback normally recovers search and hotel pages; it can rate-limit (HTTP 429), serve a cached page, or omit a result batch. If every path fails the run stops with `BLOCKED` instead of returning empty or invented rows. Mirror rows are marked `accessMethod: translate_mirror`.
