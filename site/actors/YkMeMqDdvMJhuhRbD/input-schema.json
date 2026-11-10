@@ -1,0 +1,133 @@
+{
+  "properties": {
+    "categories": {
+      "description": "One or more Yahoo News categories to scrape (required for browseCategory mode). Availability depends on the selected Region: US supports all 11; UK/Canada support Top Stories, World, Finance, Sports; Australia supports Top Stories, World; Singapore supports Top Stories, World, Sports; Japan supports Top Stories, Domestic, World, Business, Entertainment, Sports, IT, Science, Local. Categories not available for the chosen region are ignored with a warning.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "topstories",
+          "us",
+          "world",
+          "politics",
+          "finance",
+          "health",
+          "science",
+          "entertainment",
+          "sports",
+          "lifestyle",
+          "oddlyenough",
+          "domestic",
+          "business",
+          "it",
+          "local"
+        ],
+        "enumTitles": [
+          "Top Stories",
+          "US News",
+          "World News",
+          "Politics",
+          "Finance",
+          "Health",
+          "Science",
+          "Entertainment",
+          "Sports",
+          "Lifestyle",
+          "Oddly Enough",
+          "Domestic (JP)",
+          "Business (JP)",
+          "IT (JP)",
+          "Local (JP)"
+        ],
+        "type": "string"
+      },
+      "prefill": [
+        "us",
+        "world"
+      ],
+      "title": "Categories",
+      "type": "array"
+    },
+    "keyword": {
+      "description": "Optional: only return articles whose title or summary contains this keyword (case-insensitive).",
+      "editor": "textfield",
+      "title": "Keyword Filter",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum total articles to return across all queries or categories (1–1000).",
+      "editor": "number",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "getTrending",
+      "description": "Scraping mode: search by keyword, browse news categories, or get trending top stories.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "browseCategory",
+        "getTrending"
+      ],
+      "enumTitles": [
+        "Search",
+        "Browse Category",
+        "Get Trending"
+      ],
+      "prefill": "getTrending",
+      "title": "Mode",
+      "type": "string"
+    },
+    "region": {
+      "default": "us",
+      "description": "Yahoo News regional edition to scrape. Each region publishes a different subset of category feeds — see the Categories field for what's available once you pick a region.",
+      "editor": "select",
+      "enum": [
+        "us",
+        "uk",
+        "ca",
+        "au",
+        "sg",
+        "jp"
+      ],
+      "enumTitles": [
+        "United States (news.yahoo.com)",
+        "United Kingdom (uk.news.yahoo.com)",
+        "Canada (ca.news.yahoo.com)",
+        "Australia (au.news.yahoo.com)",
+        "Singapore (sg.news.yahoo.com)",
+        "Japan (news.yahoo.co.jp)"
+      ],
+      "prefill": "us",
+      "title": "Region",
+      "type": "string"
+    },
+    "searchQueries": {
+      "description": "One or more keywords to search for (required for search mode). Articles from all of the selected region's category feeds are filtered by these keywords. E.g. 'AI', 'climate change', 'Apple iPhone'.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "Trump"
+      ],
+      "title": "Search Queries",
+      "type": "array"
+    },
+    "sourceFilter": {
+      "description": "Optional: only return articles from sources whose name contains this string (case-insensitive). E.g. 'Reuters', 'AP', 'BBC'.",
+      "editor": "textfield",
+      "title": "Source Filter",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Yahoo News Scraper Input",
+  "type": "object"
+}
