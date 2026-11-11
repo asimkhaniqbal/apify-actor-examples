@@ -1,14 +1,15 @@
 {
+  "description": "Get the newest Apartment Therapy articles, search by keyword across the live feed and public archive, or browse a home-and-design category.",
   "properties": {
     "authorFilter": {
-      "description": "Filter results by author name (partial match, case-insensitive).",
+      "description": "Keep only articles whose author name contains this text (case-insensitive).",
       "editor": "textfield",
       "title": "Author Filter",
       "type": "string"
     },
     "category": {
       "default": "main",
-      "description": "Category/topic to browse or filter by. Used when mode=browseCategory.",
+      "description": "Topic to browse. Used when mode=browseCategory; `main` means all topics.",
       "editor": "select",
       "enum": [
         "main",
@@ -23,10 +24,17 @@
         "living-room",
         "house-tours",
         "before-and-after",
+        "home-projects",
+        "cleaning",
+        "plants",
+        "real-estate",
+        "money",
+        "life",
+        "tech",
         "news"
       ],
       "enumTitles": [
-        "All (Main Feed)",
+        "All Topics",
         "Decorating",
         "Organizing",
         "DIY",
@@ -38,9 +46,47 @@
         "Living Room",
         "House Tours",
         "Before & After",
+        "Home Projects",
+        "Cleaning",
+        "Plants & Yard",
+        "Real Estate",
+        "Money",
+        "Life",
+        "Tech",
         "News"
       ],
+      "prefill": "main",
       "title": "Category",
+      "type": "string"
+    },
+    "dateFrom": {
+      "description": "Optional earliest publish date, YYYY-MM-DD.",
+      "editor": "textfield",
+      "title": "Published from",
+      "type": "string"
+    },
+    "dateTo": {
+      "description": "Optional latest publish date, YYYY-MM-DD.",
+      "editor": "textfield",
+      "title": "Published to",
+      "type": "string"
+    },
+    "feed": {
+      "default": "main",
+      "description": "Which Apartment Therapy feed to read: main (home & design), tech (home technology), or all.",
+      "editor": "select",
+      "enum": [
+        "main",
+        "tech",
+        "all"
+      ],
+      "enumTitles": [
+        "Main feed",
+        "Tech feed",
+        "Both feeds"
+      ],
+      "prefill": "main",
+      "title": "Feed",
       "type": "string"
     },
     "maxItems": {
@@ -48,13 +94,22 @@
       "description": "Maximum number of articles to return (1–200).",
       "maximum": 200,
       "minimum": 1,
-      "prefill": 20,
+      "prefill": 3,
       "title": "Max Items",
+      "type": "integer"
+    },
+    "maxPages": {
+      "default": 2,
+      "description": "How many historical RSS snapshots to scan beyond the live feed. 1 = live feed only; 20 = deepest available history.",
+      "maximum": 20,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "History Depth",
       "type": "integer"
     },
     "mode": {
       "default": "getLatest",
-      "description": "What to scrape: getLatest (newest articles), searchArticles (keyword search), or browseCategory (browse a topic).",
+      "description": "What to scrape: getLatest (newest articles), searchArticles (keyword search across the live feed and archive), or browseCategory (browse a topic).",
       "editor": "select",
       "enum": [
         "getLatest",
@@ -71,10 +126,28 @@
       "type": "string"
     },
     "query": {
-      "description": "Keyword(s) to search for in article titles, summaries, and tags. Used when mode=searchArticles.",
+      "description": "Keyword(s) to search in titles, summaries, categories and tags. Used when mode=searchArticles.",
       "editor": "textfield",
       "prefill": "small apartment ideas",
       "title": "Search Query",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Result order. relevance suits keyword searches; newest and oldest sort by publish date.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "newest",
+        "oldest"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Newest first",
+        "Oldest first"
+      ],
+      "prefill": "relevance",
+      "title": "Sort Order",
       "type": "string"
     }
   },

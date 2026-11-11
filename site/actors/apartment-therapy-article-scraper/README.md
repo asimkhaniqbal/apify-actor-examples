@@ -1,88 +1,101 @@
 # Apartment Therapy Article Scraper
 
-Pull articles from **Apartment Therapy**, a home decor and interior design publication covering decorating, DIY projects, organizing, shopping guides, house tours, and small-space living. Get the newest articles, search by keyword, or browse a specific topic.
+Collect **Apartment Therapy** articles about decorating, DIY, organizing, house tours, kitchen and bathroom makeovers, small-space living, shopping guides and home technology. Pull the newest posts, search by keyword across recent and historical content, or browse a topic. Every record is captured cookielessly — no login, API key or proxy setup.
 
-## What this actor does
+## Modes
 
-- Fetches the newest published articles
-- Searches articles by keyword across titles, summaries, and tags
-- Browses articles within a specific topic — decorating, DIY, organizing, shopping, kitchen, bathroom, bedroom, living room, house tours, before & after, or news
-- Filters any of the above further by author name
-- Empty fields are omitted from records
+| Mode | What it returns |
+|---|---|
+| `getLatest` | Newest articles from the live feed, continuing into historical snapshots when `maxItems` is larger than the live feed |
+| `searchArticles` | Keyword matches from the live feed, historical snapshots and the public news index |
+| `browseCategory` | Articles carrying a selected topic tag, including historical snapshots |
 
-## Output per article
-
-- `title` — article headline
-- `articleUrl` — canonical URL on apartmenttherapy.com
-- `author` — author name
-- `publishDate` — publication date, ISO 8601 (UTC)
-- `category` — primary content category, e.g. `Decorating`, `DIY`, `Shopping`
-- `tags` — array of content tags/topics attached to the article
-- `summary` — brief article description
-- `imageUrl` — main article image URL
-- `recordType` — always `article`
-- `scrapedAt` — ISO 8601 timestamp of when the record was captured
+`feed` selects the main home-and-design feed, the tech feed, or both. `authorFilter`, `dateFrom` and `dateTo` narrow any mode. `maxPages` controls how deep the historical scan goes, and `maxItems` caps the result.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `getLatest` | `getLatest` / `searchArticles` / `browseCategory` |
-| `query` | string | – | Keyword(s) to match against titles, summaries, and tags (mode=searchArticles) |
-| `category` | string | `main` | Topic to browse (mode=browseCategory) |
-| `authorFilter` | string | – | Keep only articles by an author whose name contains this text |
-| `maxItems` | integer | `50` | Maximum articles to return (1–200) |
+| `mode` | select | `getLatest` | `getLatest`, `searchArticles` or `browseCategory` |
+| `query` | string | – | Keywords for `searchArticles`; prefill is `small apartment ideas` |
+| `category` | select | `main` | Topic for `browseCategory` (see list below) |
+| `authorFilter` | string | – | Partial, case-insensitive author name |
+| `feed` | select | `main` | `main`, `tech` or `all` |
+| `sortBy` | select | `relevance` | `relevance`, `newest` or `oldest` |
+| `dateFrom` | string | – | Earliest publish date, `YYYY-MM-DD` |
+| `dateTo` | string | – | Latest publish date, `YYYY-MM-DD` |
+| `maxItems` | integer | `50` | Maximum records to return (1–200) |
+| `maxPages` | integer | `2` | Historical snapshots to scan (1–20; 1 = live feed only) |
 
-Available `category` values: `main` (all), `decorating`, `organizing`, `diy`, `shopping`, `small-spaces`, `kitchen`, `bathroom`, `bedroom`, `living-room`, `house-tours`, `before-and-after`, `news`.
+Categories: `main`, `decorating`, `organizing`, `diy`, `shopping`, `small-spaces`, `kitchen`, `bathroom`, `bedroom`, `living-room`, `house-tours`, `before-and-after`, `home-projects`, `cleaning`, `plants`, `real-estate`, `money`, `life`, `tech`, `news`.
 
-### Example: latest articles
+### Examples
 
-```json
-{
-  "mode": "getLatest",
-  "maxItems": 20
-}
-```
-
-### Example: keyword search
+Newest articles:
 
 ```json
-{
-  "mode": "searchArticles",
-  "query": "small apartment ideas",
-  "maxItems": 20
-}
+{"mode": "getLatest", "maxItems": 25}
 ```
 
-### Example: browse a category, filtered by author
+Keyword search across the archive:
 
 ```json
-{
-  "mode": "browseCategory",
-  "category": "diy",
-  "authorFilter": "smith",
-  "maxItems": 30
-}
+{"mode": "searchArticles", "query": "small kitchen storage", "maxItems": 40, "maxPages": 6}
 ```
 
-## Use cases
+Browse a topic with an author and date filter:
 
-- **Content curation** — pull the latest decorating and DIY articles for a newsletter or feed
-- **Trend tracking** — monitor which topics (small spaces, organizing, house tours) are being published most
-- **Author monitoring** — follow new pieces from a specific writer
-- **Research** — collect a set of articles on a topic like "small apartment ideas" for reference
-- **Media monitoring** — keep an eye on a competitor publication's home-and-design coverage
+```json
+{"mode": "browseCategory", "category": "before-and-after", "authorFilter": "sarah", "dateFrom": "2026-01-01", "maxItems": 30, "maxPages": 8}
+```
+
+Deeper history for the latest timeline:
+
+```json
+{"mode": "getLatest", "maxItems": 150, "maxPages": 10}
+```
+
+## Output
+
+| Field | Type | Description |
+|---|---|---|
+| `title` | string | Article headline |
+| `articleUrl` | string | Canonical article URL on apartmenttherapy.com |
+| `sourceUrl` | string | Same canonical URL, provided as the standard source field |
+| `articleId` | string | Numeric article ID from the URL |
+| `slug` | string | URL slug without the numeric ID |
+| `author` | string | Author byline |
+| `publishDate` | string | Publication date, ISO 8601 UTC |
+| `category` | string | Primary topic as published |
+| `categorySlug` | string | Normalised topic slug |
+| `tags` | array | Public topic tags |
+| `summary` | string | Short article description |
+| `imageUrl` | string | Lead image URL |
+| `feed` | string | `main`, `tech` or `web` |
+| `dataSource` | string | `live`, `archive` or `webSearch` |
+| `isSponsored` | boolean | Present when the article is marked sponsored |
+| `hasVideo` | boolean | Present when the article carries the video tag |
+| `recordType` | string | Always `article` |
+| `scrapedAt` | string | Capture time, ISO 8601 UTC |
+
+Empty fields are omitted, never emitted as `null`.
+
+## Data sources and limits
+
+- **Live feed** — Apartment Therapy's public RSS feeds carry the newest 20 main-feed posts and 20 tech posts, including title, author, date, categories, summary and lead image.
+- **Historical snapshots** — the public Internet Archive keeps snapshots of the main feed. `maxPages` scans them newest-first for older complete records. Coverage depends on snapshot availability, so very deep history is not guaranteed.
+- **News index** — keyword search supplements the feed and snapshots with results from Google News' public Apartment Therapy index. These records carry title, date and canonical URL; author, summary, category and image are omitted when the index does not provide them.
+- **WordPress REST API** — `/wp-json/wp/v2/...` returns `403 Access denied` to cookieless server clients (direct, datacenter proxy and residential proxy all tested). The actor uses the public feeds and index instead.
+- Category browsing uses the real topic tags carried by feed and snapshot records. A category that has no recent or snapshotted articles returns no records; raise `maxPages` to search deeper.
 
 ## FAQ
 
-**Where does the data come from?**  Apartment Therapy's own published article feed — the same information available to anyone browsing the site's latest content.
+**How many articles can one run return?** `maxItems` accepts 1–200. The live feed covers the newest 20 per feed; historical snapshots and the news index supply older records.
 
-**How many articles can I get?**  The feed this actor reads carries the most recently published articles (roughly the newest 20 per category); use `maxItems` to cap how many of those you receive. It does not go further back into the full historical archive.
+**Why do some search results lack an author or image?** Search-index records only expose title, publish date and URL. Complete records come from the live feed or historical snapshots.
 
-**Does search cover the entire archive or just recent articles?**  Just the recent articles available in the feed — keyword matching is applied to their titles, summaries, and tags.
+**Can I combine a keyword with a category?** Yes. `searchArticles` honours `category` and `authorFilter` for feed and snapshot records. When either filter is set, search-index records are skipped because they cannot prove the match.
 
-**Can I combine a category with a keyword search?**  Not in a single run — `mode` picks one approach: latest, keyword search, or category browse. `authorFilter` can be combined with any of the three.
+**How do I get the whole archive?** There is no complete public archive endpoint. Use larger `maxPages` values and partition with `category`, `authorFilter`, `dateFrom` and `dateTo` to reach more records.
 
-**Why is `tags` sometimes empty?**  Not every article is tagged with additional topics beyond its primary category; when there are none, the field is omitted.
-
-**Is this affiliated with Apartment Therapy?**  No. This is an independent actor that reads Apartment Therapy's publicly published content and is not affiliated with or endorsed by Apartment Therapy.
+**Is this affiliated with Apartment Therapy?** No. This is an independent actor that reads publicly published content and is not affiliated with or endorsed by Apartment Therapy.
