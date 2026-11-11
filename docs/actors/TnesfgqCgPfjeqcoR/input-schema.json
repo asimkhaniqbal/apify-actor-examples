@@ -1,0 +1,98 @@
+{
+  "description": "Search Subito.it — Italy's largest classifieds marketplace — for items, cars, electronics, and more.",
+  "properties": {
+    "maxItems": {
+      "default": 20,
+      "description": "Maximum number of listings to return.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "searchItems",
+      "description": "What to search for on Subito.it.",
+      "editor": "select",
+      "enum": [
+        "searchAll",
+        "searchCars",
+        "searchElectronics",
+        "searchItems"
+      ],
+      "enumTitles": [
+        "Search all categories",
+        "Search cars & vehicles",
+        "Search electronics",
+        "Search items for sale"
+      ],
+      "prefill": "searchItems",
+      "title": "Mode",
+      "type": "string"
+    },
+    "priceMax": {
+      "description": "Maximum listing price in Euro.",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Max price (EUR)",
+      "type": "integer"
+    },
+    "priceMin": {
+      "description": "Minimum listing price in Euro.",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Min price (EUR)",
+      "type": "integer"
+    },
+    "query": {
+      "default": "iPhone",
+      "description": "Keyword to search for (e.g. 'iPhone', 'divano', 'BMW').",
+      "editor": "textfield",
+      "prefill": "iPhone",
+      "title": "Search query",
+      "type": "string"
+    },
+    "region": {
+      "default": "",
+      "description": "Italian region to filter by (e.g. 'lombardia', 'lazio', 'campania').",
+      "editor": "select",
+      "enum": [
+        "",
+        "lombardia",
+        "lazio",
+        "campania",
+        "veneto",
+        "emilia-romagna",
+        "sicilia",
+        "piemonte",
+        "toscana",
+        "puglia",
+        "calabria",
+        "sardegna"
+      ],
+      "enumTitles": [
+        "All Italy",
+        "Lombardia",
+        "Lazio",
+        "Campania",
+        "Veneto",
+        "Emilia-Romagna",
+        "Sicilia",
+        "Piemonte",
+        "Toscana",
+        "Puglia",
+        "Calabria",
+        "Sardegna"
+      ],
+      "prefill": "",
+      "title": "Region (optional)",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Subito.it Scraper Input",
+  "type": "object"
+}
