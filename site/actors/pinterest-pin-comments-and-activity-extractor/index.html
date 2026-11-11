@@ -1,297 +1,7 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-q7knkjTlKuPDC9YVZu4K8+OVqWe8TAh3TydJc1Rpwms=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Pinterest Pin Comments &amp; Activity Extractor | Vexaloom Labs</title><meta name="description" content="Pull public comments, replies, reactions, and Tried It activity for one or more Pinterest Pins, along with each Pin&#x27;s title, creator, board, and engagement summary."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/"><meta property="og:title" content="Pinterest Pin Comments &amp; Activity Extractor | Vexaloom Labs"><meta property="og:description" content="Pull public comments, replies, reactions, and Tried It activity for one or more Pinterest Pins, along with each Pin&#x27;s title, creator, board, and engagement summary."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/#webpage","name":"Pinterest Pin Comments & Activity Extractor","description":"Pull public comments, replies, reactions, and Tried It activity for one or more Pinterest Pins, along with each Pin's title, creator, board, and engagement summary.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/#article","headline":"Pinterest Pin Comments & Activity Extractor","name":"Pinterest Pin Comments & Activity Extractor","description":"Pull public comments, replies, reactions, and Tried It activity for one or more Pinterest Pins, along with each Pin's title, creator, board, and engagement summary.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/#webpage"},"inLanguage":"en","dateModified":"2026-11-06T11:26:10.947Z"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Pinterest Pin Comments & Activity Extractor","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Pinterest Pin Comments &amp; Activity Extractor</span></div><section id="overview"><h1 class="doc-title">Pinterest Pin Comments &amp; Activity Extractor</h1><p class="lede">Pull public comments, replies, reactions, and Tried It activity for one or more Pinterest Pins, along with each Pin&#x27;s title, creator, board, and engagement summary.</p><p class="summary">Pinterest Pin Comments &amp; Activity Extractor is an Apify Actor published by Vexaloom Labs. It accepts 14 input fields, none of them required at the top level. Its build declares a results dataset with 1 view. Runs happen on Apify, where the Store page lists the current price.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/pinterest-pin-comments-and-activity-extractor">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/QFDd89Ia1Lh4fLqIg/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>Choose comments with replies, Tried It activity, both, or only the Pin summary.</td></tr><tr><td><code>urls</code></td><td>array</td><td>optional</td><td>One or more numeric Pinterest Pin links or IDs, e.g. https://www.pinterest.com/pin/142567144448888376/. Legacy pinUrls and startUrls inputs are still accepted in code.</td></tr><tr><td><code>domain</code></td><td>string</td><td>optional</td><td>Regional Pinterest site used for every request. Use the region shown in the Pin link.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>Choose comments with replies, Tried It activity, both, or only the Pin summary.</td></tr><tr><td><code>urls</code></td><td>array</td><td>optional</td><td>One or more numeric Pinterest Pin links or IDs, e.g. https://www.pinterest.com/pin/142567144448888376/. Legacy pinUrls and startUrls inputs are still accepted in code.</td></tr><tr><td><code>domain</code></td><td>string</td><td>optional</td><td>Regional Pinterest site used for every request. Use the region shown in the Pin link.</td></tr><tr><td><code>maxComments</code></td><td>integer</td><td>optional</td><td>Top-level comments to collect per Pin; replies are counted separately. Legacy limit input is still accepted in code.</td></tr><tr><td><code>includeReplies</code></td><td>boolean</td><td>optional</td><td>Fetch public replies for comments that have them.</td></tr><tr><td><code>maxRepliesPerComment</code></td><td>integer</td><td>optional</td><td>Reply rows to collect for each top-level comment. Set to 0 to skip replies.</td></tr><tr><td><code>maxActivity</code></td><td>integer</td><td>optional</td><td>Tried It and other public activity rows to collect per Pin.</td></tr><tr><td><code>includePinSummary</code></td><td>boolean</td><td>optional</td><td>Emit one pinCommentsSummary row with the Pin, creator, board, media, commerce and engagement context.</td></tr><tr><td><code>commentSort</code></td><td>string</td><td>optional</td><td>Source keeps Pinterest&#x27;s ranking; newest and oldest sort the fetched comments by their published date.</td></tr><tr><td><code>minLikeCount</code></td><td>integer</td><td>optional</td><td>Drop comment, reply and activity rows whose published like count is lower. Rows without a published count are kept.</td></tr><tr><td><code>minHelpfulCount</code></td><td>integer</td><td>optional</td><td>Drop comment, reply and activity rows whose published helpful count is lower. Rows without a published count are kept.</td></tr><tr><td><code>sinceDate</code></td><td>string</td><td>optional</td><td>Optional inclusive date filter (YYYY-MM-DD) for comments, replies and activity. Leave empty for no lower bound.</td></tr><tr><td><code>untilDate</code></td><td>string</td><td>optional</td><td>Optional inclusive date filter (YYYY-MM-DD) for comments, replies and activity. Leave empty for no upper bound.</td></tr><tr><td><code>proxyConfiguration</code></td><td>object</td><td>optional</td><td>Optional Apify proxy override. The actor works directly and falls back to the automatic Apify proxy without user setup.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;description&quot;: &quot;Collect public Pinterest comments, replies and Tried It activity from numeric Pin URLs or IDs. No login or proxy setup is required.&quot;,
-  &quot;properties&quot;: {
-    &quot;commentSort&quot;: {
-      &quot;default&quot;: &quot;source&quot;,
-      &quot;description&quot;: &quot;Source keeps Pinterest&#x27;s ranking; newest and oldest sort the fetched comments by their published date.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;source&quot;,
-        &quot;newest&quot;,
-        &quot;oldest&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Pinterest ranking&quot;,
-        &quot;Newest first&quot;,
-        &quot;Oldest first&quot;
-      ],
-      &quot;prefill&quot;: &quot;source&quot;,
-      &quot;title&quot;: &quot;Comment order&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;domain&quot;: {
-      &quot;default&quot;: &quot;www.pinterest.com&quot;,
-      &quot;description&quot;: &quot;Regional Pinterest site used for every request. Use the region shown in the Pin link.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;www.pinterest.com&quot;,
-        &quot;jp.pinterest.com&quot;,
-        &quot;br.pinterest.com&quot;,
-        &quot;uk.pinterest.com&quot;,
-        &quot;au.pinterest.com&quot;,
-        &quot;nz.pinterest.com&quot;,
-        &quot;co.pinterest.com&quot;,
-        &quot;de.pinterest.com&quot;,
-        &quot;fr.pinterest.com&quot;,
-        &quot;in.pinterest.com&quot;,
-        &quot;es.pinterest.com&quot;,
-        &quot;it.pinterest.com&quot;,
-        &quot;nl.pinterest.com&quot;,
-        &quot;pl.pinterest.com&quot;,
-        &quot;ru.pinterest.com&quot;,
-        &quot;tr.pinterest.com&quot;,
-        &quot;mx.pinterest.com&quot;,
-        &quot;ar.pinterest.com&quot;,
-        &quot;id.pinterest.com&quot;,
-        &quot;ph.pinterest.com&quot;,
-        &quot;th.pinterest.com&quot;,
-        &quot;kr.pinterest.com&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;United States&quot;,
-        &quot;Japan&quot;,
-        &quot;Brazil&quot;,
-        &quot;United Kingdom&quot;,
-        &quot;Australia&quot;,
-        &quot;New Zealand&quot;,
-        &quot;Colombia&quot;,
-        &quot;Germany&quot;,
-        &quot;France&quot;,
-        &quot;India&quot;,
-        &quot;Spain&quot;,
-        &quot;Italy&quot;,
-        &quot;Netherlands&quot;,
-        &quot;Poland&quot;,
-        &quot;Russia&quot;,
-        &quot;Turkey&quot;,
-        &quot;Mexico&quot;,
-        &quot;Argentina&quot;,
-        &quot;Indonesia&quot;,
-        &quot;Philippines&quot;,
-        &quot;Thailand&quot;,
-        &quot;South Korea&quot;
-      ],
-      &quot;prefill&quot;: &quot;www.pinterest.com&quot;,
-      &quot;title&quot;: &quot;Pinterest region&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;includePinSummary&quot;: {
-      &quot;default&quot;: true,
-      &quot;description&quot;: &quot;Emit one pinCommentsSummary row with the Pin, creator, board, media, commerce and engagement context.&quot;,
-      &quot;prefill&quot;: true,
-      &quot;title&quot;: &quot;Include Pin summary&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;includeReplies&quot;: {
-      &quot;default&quot;: true,
-      &quot;description&quot;: &quot;Fetch public replies for comments that have them.&quot;,
-      &quot;prefill&quot;: false,
-      &quot;title&quot;: &quot;Include replies&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;maxActivity&quot;: {
-      &quot;default&quot;: 100,
-      &quot;description&quot;: &quot;Tried It and other public activity rows to collect per Pin.&quot;,
-      &quot;maximum&quot;: 20000,
-      &quot;minimum&quot;: 0,
-      &quot;prefill&quot;: 3,
-      &quot;title&quot;: &quot;Maximum activity rows per Pin&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;maxComments&quot;: {
-      &quot;default&quot;: 10,
-      &quot;description&quot;: &quot;Top-level comments to collect per Pin; replies are counted separately. Legacy limit input is still accepted in code.&quot;,
-      &quot;maximum&quot;: 20000,
-      &quot;minimum&quot;: 1,
-      &quot;prefill&quot;: 3,
-      &quot;title&quot;: &quot;Maximum top-level comments per Pin&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;maxRepliesPerComment&quot;: {
-      &quot;default&quot;: 100,
-      &quot;description&quot;: &quot;Reply rows to collect for each top-level comment. Set to 0 to skip replies.&quot;,
-      &quot;maximum&quot;: 1000,
-      &quot;minimum&quot;: 0,
-      &quot;prefill&quot;: 0,
-      &quot;title&quot;: &quot;Maximum replies per comment&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;minHelpfulCount&quot;: {
-      &quot;default&quot;: 0,
-      &quot;description&quot;: &quot;Drop comment, reply and activity rows whose published helpful count is lower. Rows without a published count are kept.&quot;,
-      &quot;maximum&quot;: 1000000000,
-      &quot;minimum&quot;: 0,
-      &quot;prefill&quot;: 0,
-      &quot;title&quot;: &quot;Minimum helpful votes&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;minLikeCount&quot;: {
-      &quot;default&quot;: 0,
-      &quot;description&quot;: &quot;Drop comment, reply and activity rows whose published like count is lower. Rows without a published count are kept.&quot;,
-      &quot;maximum&quot;: 1000000000,
-      &quot;minimum&quot;: 0,
-      &quot;prefill&quot;: 0,
-      &quot;title&quot;: &quot;Minimum likes&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;mode&quot;: {
-      &quot;default&quot;: &quot;commentsAndActivity&quot;,
-      &quot;description&quot;: &quot;Choose comments with replies, Tried It activity, both, or only the Pin summary.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;commentsAndActivity&quot;,
-        &quot;comments&quot;,
-        &quot;activity&quot;,
-        &quot;pinSummary&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Comments, replies and activity&quot;,
-        &quot;Comments and replies&quot;,
-        &quot;Tried It activity&quot;,
-        &quot;Pin summary only&quot;
-      ],
-      &quot;prefill&quot;: &quot;commentsAndActivity&quot;,
-      &quot;title&quot;: &quot;What to collect&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;proxyConfiguration&quot;: {
-      &quot;description&quot;: &quot;Optional Apify proxy override. The actor works directly and falls back to the automatic Apify proxy without user setup.&quot;,
-      &quot;editor&quot;: &quot;proxy&quot;,
-      &quot;title&quot;: &quot;Optional proxy&quot;,
-      &quot;type&quot;: &quot;object&quot;
-    },
-    &quot;sinceDate&quot;: {
-      &quot;description&quot;: &quot;Optional inclusive date filter (YYYY-MM-DD) for comments, replies and activity. Leave empty for no lower bound.&quot;,
-      &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;prefill&quot;: &quot;&quot;,
-      &quot;title&quot;: &quot;Published on or after&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;untilDate&quot;: {
-      &quot;description&quot;: &quot;Optional inclusive date filter (YYYY-MM-DD) for comments, replies and activity. Leave empty for no upper bound.&quot;,
-      &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;prefill&quot;: &quot;&quot;,
-      &quot;title&quot;: &quot;Published on or before&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;urls&quot;: {
-      &quot;description&quot;: &quot;One or more numeric Pinterest Pin links or IDs, e.g. https://www.pinterest.com/pin/142567144448888376/. Legacy pinUrls and startUrls inputs are still accepted in code.&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;items&quot;: {
-        &quot;type&quot;: &quot;string&quot;
-      },
-      &quot;prefill&quot;: [
-        &quot;https://www.pinterest.com/pin/142567144448888376/&quot;
-      ],
-      &quot;title&quot;: &quot;Pinterest Pin URLs or IDs&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    }
-  },
-  &quot;required&quot;: [],
-  &quot;schemaVersion&quot;: 1,
-  &quot;title&quot;: &quot;Pinterest Pin Comments Input&quot;,
-  &quot;type&quot;: &quot;object&quot;
-}
-</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>records</code></td><td>string</td><td>optional</td><td>Dataset containing Pinterest comment, reply, activity and Pin summary records.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;actorOutputSchemaVersion&quot;: 1,
-  &quot;description&quot;: &quot;One Pin summary row per accessible Pin plus public comment, reply and Tried It activity rows selected by the input mode.&quot;,
-  &quot;properties&quot;: {
-    &quot;records&quot;: {
-      &quot;description&quot;: &quot;Dataset containing Pinterest comment, reply, activity and Pin summary records.&quot;,
-      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    }
-  },
-  &quot;title&quot;: &quot;Pinterest Pin Comments &amp; Activity Extractor Output&quot;
-}
-</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;actorSpecification&quot;: 1,
-  &quot;views&quot;: {
-    &quot;overview&quot;: {
-      &quot;display&quot;: {
-        &quot;component&quot;: &quot;table&quot;,
-        &quot;properties&quot;: {
-          &quot;activityType&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Pinterest activity&quot;
-          },
-          &quot;author&quot;: {
-            &quot;format&quot;: &quot;object&quot;,
-            &quot;label&quot;: &quot;Author&quot;
-          },
-          &quot;commentId&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Comment ID&quot;
-          },
-          &quot;doneAt&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Activity date&quot;
-          },
-          &quot;helpfulCount&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Helpful votes&quot;
-          },
-          &quot;isReply&quot;: {
-            &quot;format&quot;: &quot;boolean&quot;,
-            &quot;label&quot;: &quot;Reply&quot;
-          },
-          &quot;likeCount&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Likes&quot;
-          },
-          &quot;parentCommentId&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Parent comment&quot;
-          },
-          &quot;pinId&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Pin ID&quot;
-          },
-          &quot;recordType&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Record type&quot;
-          },
-          &quot;sourceUrl&quot;: {
-            &quot;format&quot;: &quot;link&quot;,
-            &quot;label&quot;: &quot;Pin URL&quot;
-          },
-          &quot;text&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Comment&quot;
-          },
-          &quot;title&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Pin title&quot;
-          }
-        }
-      },
-      &quot;title&quot;: &quot;Pinterest comments&quot;,
-      &quot;transformation&quot;: {
-        &quot;fields&quot;: [
-          &quot;recordType&quot;,
-          &quot;activityType&quot;,
-          &quot;pinId&quot;,
-          &quot;commentId&quot;,
-          &quot;isReply&quot;,
-          &quot;parentCommentId&quot;,
-          &quot;doneAt&quot;,
-          &quot;text&quot;,
-          &quot;title&quot;,
-          &quot;author&quot;,
-          &quot;likeCount&quot;,
-          &quot;helpfulCount&quot;,
-          &quot;sourceUrl&quot;
-        ]
-      }
-    }
-  }
-}
-</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-pinterest-pin-comments-activity-extractor">Pinterest Pin Comments &amp; Activity Extractor</h2>
-<p>Read public Pinterest Pin conversations: top-level comments, reply threads, and Tried It
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-lmvxHHHtga4ID0zlJg4xwzFBFnPM8tYZ0ZY7AF+Lngg=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; connect-src &#x27;self&#x27;; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Pinterest Pin Comments &amp; Activity Extractor – docs, price and API | Vexaloom Labs</title><meta name="description" content="Pull public comments, replies, reactions, and Tried It activity for one or more Pinterest Pins, along with each Pin&#x27;s title, creator, board, and engagement summary. From $0.99 per 1,000 results on the"><meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/"><meta property="og:title" content="Pinterest Pin Comments &amp; Activity Extractor – docs, price and API | Vexaloom Labs"><meta property="og:description" content="Pull public comments, replies, reactions, and Tried It activity for one or more Pinterest Pins, along with each Pin&#x27;s title, creator, board, and engagement summary. From $0.99 per 1,000 results on the"><meta property="og:type" content="article"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/"><meta property="og:site_name" content="Vexaloom Labs"><meta property="og:image" content="https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-QFDd89Ia1Lh4fLqIg-FNzAxMKYjF-logo.png"><meta name="twitter:card" content="summary"><meta name="theme-color" content="#7c3aed"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e299c13a23d7"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=1bc613038b6a"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs","https://github.com/asimkhaniqbal/apify-actor-examples"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs Actor documentation","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/#webpage","name":"Pinterest Pin Comments & Activity Extractor – docs, price and API","description":"Pull public comments, replies, reactions, and Tried It activity for one or more Pinterest Pins, along with each Pin's title, creator, board, and engagement summary. From $0.99 per 1,000 results on the Free plan.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/#article"},"dateModified":"2026-11-06T11:26:10.947Z","breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/#article","headline":"Pinterest Pin Comments & Activity Extractor – docs, price and API","name":"Pinterest Pin Comments & Activity Extractor – docs, price and API","description":"Pull public comments, replies, reactions, and Tried It activity for one or more Pinterest Pins, along with each Pin's title, creator, board, and engagement summary. From $0.99 per 1,000 results on the Free plan.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/#webpage"},"inLanguage":"en","dateModified":"2026-11-06T11:26:10.947Z","image":"https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-QFDd89Ia1Lh4fLqIg-FNzAxMKYjF-logo.png"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Sites","item":"https://asimkhaniqbal.github.io/apify-actor-examples/sites/"},{"@type":"ListItem","position":3,"name":"Pinterest","item":"https://asimkhaniqbal.github.io/apify-actor-examples/sites/pinterest/"},{"@type":"ListItem","position":4,"name":"Pinterest Pin Comments & Activity Extractor","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/"}]},{"@type":"SoftwareApplication","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/#software","name":"Pinterest Pin Comments & Activity Extractor","description":"Pull public comments, replies, reactions, and Tried It activity for one or more Pinterest Pins, along with each Pin's title, creator, board, and engagement summary.","url":"https://apify.com/vexaloom-labs/pinterest-pin-comments-and-activity-extractor","applicationCategory":"DeveloperApplication","operatingSystem":"Apify platform (web)","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"image":"https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-QFDd89Ia1Lh4fLqIg-FNzAxMKYjF-logo.png","offers":{"@type":"Offer","url":"https://apify.com/vexaloom-labs/pinterest-pin-comments-and-activity-extractor","priceCurrency":"USD","price":"0","priceSpecification":{"@type":"UnitPriceSpecification","price":0.00099,"priceCurrency":"USD","unitText":"result","referenceQuantity":{"@type":"QuantitativeValue","value":1,"unitText":"result"}},"description":"Pay per event: the price per result on Apify's Free plan; a start fee and platform usage are billed separately."}},{"@type":"FAQPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/#faq","mainEntity":[{"@type":"Question","name":"Do I need a Pinterest account or cookies?","acceptedAnswer":{"@type":"Answer","text":"No. The actor reads Pinterest's public signed-out responses."}},{"@type":"Question","name":"Which Pins work?","acceptedAnswer":{"@type":"Answer","text":"Numeric Pins such as 142567144448888376. Opaque share IDs that Pinterest sometimes returns from search are list-only upstream and cannot resolve a Pin detail or comments."}},{"@type":"Question","name":"Why are there fewer comments than the Pin's count?","acceptedAnswer":{"@type":"Answer","text":"The published count can include replies, private or removed comments, or comments Pinterest withholds from signed-out visitors. The actor returns what the public cursor actually serves and never fabricates rows."}},{"@type":"Question","name":"Are replies included?","acceptedAnswer":{"@type":"Answer","text":"Yes when includeReplies is on. Pinterest exposes one public reply level; replies are attached to their top-level comment with parentCommentId."}},{"@type":"Question","name":"Why did an activity row appear even though the Tried It feed was empty?","acceptedAnswer":{"@type":"Answer","text":"Pinterest sometimes publishes activity in the comments stream only. The actor merges both sources and deduplicates by activity ID."}},{"@type":"Question","name":"Does likeCount mean all reactions?","acceptedAnswer":{"@type":"Answer","text":"It is Pinterest's published like/reaction type for that row. The full published breakdown, when present, is in reactionCounts."}},{"@type":"Question","name":"Can I download comment media?","acceptedAnswer":{"@type":"Answer","text":"The actor returns the media references Pinterest publishes (image or video URLs and sizes). It does not download the files."}},{"@type":"Question","name":"What does an omitted field mean?","acceptedAnswer":{"@type":"Answer","text":"Pinterest did not publish that value for the object or for the signed-out session. It does not mean the actor guessed zero."}},{"@type":"Question","name":"Is this affiliated with Pinterest?","acceptedAnswer":{"@type":"Answer","text":"No. This actor reads Pinterest's public responses and is not operated by or affiliated with Pinterest, Inc."}}],"isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/pinterest-pin-comments-and-activity-extractor/#webpage"}}]}</script><script src="/apify-actor-examples/assets/site.js?v=7b7086957d37" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header class="masthead"><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="32" height="32"><span>Vexaloom Labs</span></a><form class="site-search" action="/apify-actor-examples/actors/" role="search" data-search-index="/apify-actor-examples/search.json"><label class="sr-only" for="site-search">Search this site</label><input type="search" role="combobox" id="site-search" name="q" placeholder="Search by site or data" autocomplete="off" aria-autocomplete="list" aria-controls="site-search-results" aria-expanded="false"><ul id="site-search-results" class="search-results" role="listbox" hidden></ul></form><nav class="primary" aria-label="Main"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/sites/">Sites</a><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/guides/">Guides</a></nav></div></header><main id="main"><nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="/apify-actor-examples/">Home</a></li><li><a href="/apify-actor-examples/sites/">Sites</a></li><li><a href="/apify-actor-examples/sites/pinterest/">Pinterest</a></li><li aria-current="page">Pinterest Pin Comments &amp; Activity Extractor</li></ol></nav><div class="doc"><div class="doc-head"><h1>Pinterest Pin Comments &amp; Activity Extractor</h1><p class="lead">Pull public comments, replies, reactions, and Tried It activity for one or more Pinterest Pins, along with each Pin&#x27;s title, creator, board, and engagement summary.</p><dl class="facts"><div><dt>Updated</dt><dd><time datetime="2026-11-06">6 November 2026</time></dd></div><div><dt>Free plan</dt><dd>$0.99 per 1,000 results</dd></div><div><dt>Business plan</dt><dd>$0.49 per 1,000 results</dd></div><div><dt>Input</dt><dd>14 fields, none required</dd></div><div><dt>Output</dt><dd>13 declared fields</dd></div><div><dt>Site</dt><dd><a href="/apify-actor-examples/sites/pinterest/">Pinterest</a></dd></div></dl><div class="cta"><a class="button" href="https://apify.com/vexaloom-labs/pinterest-pin-comments-and-activity-extractor">Open in Apify Store</a><a class="button secondary" href="#run">Copy the API call</a></div></div><div class="doc-body"><nav class="toc" aria-label="On this page"><h2 class="toc-title">On this page</h2><ol><li><a href="#summary">In short</a></li><li><a href="#about">What it does</a></li><li><a href="#output">What you get</a></li><li><a href="#run">Run it</a></li><li><a href="#cost">What it costs</a></li><li><a href="#input">Input reference</a></li><li><a href="#faq">Questions</a></li><li><a href="#notes">Limits and notes</a></li><li><a href="#related">Related Actors</a></li></ol></nav><article class="prose"><p class="summary" id="summary">Pinterest Pin Comments &amp; Activity Extractor is an Apify Actor published by Vexaloom Labs. It accepts 14 input fields, none of them required at the top level. Each result can carry up to 13 declared fields, including <code>recordType</code>, <code>activityType</code>, <code>pinId</code>, <code>commentId</code>, <code>isReply</code> and <code>parentCommentId</code>. It costs $0.99 per 1,000 results on Apify's Free plan and $0.49 on the Business plan.</p><section id="about"><h2>What it does</h2><!--readme--><p>Read public Pinterest Pin conversations: top-level comments, reply threads, and Tried It
 activity, together with a detailed Pin, creator and board summary. Everything is public
 and cookieless; there is no login, cookie or proxy step.</p>
-<h2 id="readme-what-you-can-collect">What you can collect</h2>
-<div class="table-wrap"><table>
+<!--/readme--><h3 id="readme-what-you-can-collect">What you can collect</h3><!--readme--><div class="table-wrap"><table>
 <thead>
 <tr>
 <th>Mode</th>
@@ -319,11 +29,17 @@ and cookieless; there is no login, cookie or proxy step.</p>
 </table></div>
 <p>Use the mode that matches the job. Comments are ranked by Pinterest; <code>commentSort</code> can
 re-order the fetched window by newest or oldest published date.</p>
-<h2 id="readme-output">Output</h2>
-<p>Every row carries <code>recordType</code>, <code>pinId</code>, <code>pinUrl</code>, <code>sourceUrl</code> and <code>scrapedAt</code>.
+<!--/readme--><h3 id="readme-use-cases">Use cases</h3><!--readme--><ul>
+<li>Conversation and sentiment review for selected Pins.</li>
+<li>Moderation queues with author, text, media and engagement context.</li>
+<li>Recipe or product feedback, including Tried It photos and dates.</li>
+<li>Reply-thread analysis without a login.</li>
+<li>Recurring monitoring with date and engagement filters.</li>
+</ul>
+<!--/readme--></section><section id="output"><h2>What you get</h2><p>The Actor saves one record per result to an Apify dataset. Its build declares 13 fields in 1 dataset view. Fields without a value can be left out of a record.</p><div class="table-wrap"><table class="output-table stack"><caption>Output fields</caption><thead><tr><th scope="col">Field</th><th scope="col">Label</th><th scope="col">What it holds</th></tr></thead><tbody><tr><th scope="row"><code>recordType</code></th><td data-label="Label">Record type</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>activityType</code></th><td data-label="Label">Pinterest activity</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>pinId</code></th><td data-label="Label">Pin ID</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>commentId</code></th><td data-label="Label">Comment ID</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>isReply</code></th><td data-label="Label">Reply</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>parentCommentId</code></th><td data-label="Label">Parent comment</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>doneAt</code></th><td data-label="Label">Activity date</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>text</code></th><td data-label="Label">Comment</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>title</code></th><td data-label="Label">Pin title</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>author</code></th><td data-label="Label">Author</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>likeCount</code></th><td data-label="Label">Likes</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>helpfulCount</code></th><td data-label="Label">Helpful votes</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>sourceUrl</code></th><td data-label="Label">Pin URL</td><td data-label="What it holds"></td></tr></tbody></table></div><h3 id="readme-output">Output</h3><!--readme--><p>Every row carries <code>recordType</code>, <code>pinId</code>, <code>pinUrl</code>, <code>sourceUrl</code> and <code>scrapedAt</code>.
 Records are omitted when Pinterest does not publish the value; published zeroes and
 <code>false</code> flags are preserved.</p>
-<h3 id="readme-pin-summary-recordtype-pincommentssummary">Pin summary (<code>recordType: &quot;pinCommentsSummary&quot;</code>)</h3>
+<h4 id="readme-pin-summary-recordtype-pincommentssummary">Pin summary (<code>recordType: &quot;pinCommentsSummary&quot;</code>)</h4>
 <p>Pin identity and context: <code>aggregatedPinId</code>, <code>title</code>, <code>description</code>, <code>createdAt</code>,
 <code>domain</code>, <code>linkUrl</code>, <code>linkDomain</code>, <code>seoTitle</code>, <code>seoDescription</code>, <code>altText</code>, <code>hashtags</code>,
 <code>imageUrl</code>, <code>imageWidth</code>, <code>imageHeight</code>, <code>imageSignature</code>, <code>dominantColor</code>, <code>videoUrl</code>,
@@ -336,7 +52,7 @@ Records are omitted when Pinterest does not publish the value; published zeroes 
 <code>isVerifiedMerchant</code>, <code>domainUrl</code>, <code>profileUrl</code>.</p>
 <p>Nested <code>board</code>: <code>id</code>, <code>name</code>, <code>url</code>, <code>pinCount</code>, <code>followerCount</code>, <code>ownerUsername</code>,
 <code>isCollaborative</code>.</p>
-<h3 id="readme-comments-and-replies-recordtype-comment">Comments and replies (<code>recordType: &quot;comment&quot;</code>)</h3>
+<h4 id="readme-comments-and-replies-recordtype-comment">Comments and replies (<code>recordType: &quot;comment&quot;</code>)</h4>
 <p><code>commentId</code>, <code>nodeId</code>, <code>parentCommentId</code> (replies), <code>isReply</code>, <code>replyDepth</code>, <code>text</code>,
 <code>details</code>, <code>createdAt</code>, <code>likeCount</code>, <code>reactionCounts</code>, <code>reactionByMe</code>, <code>helpfulCount</code>,
 <code>markedHelpfulByMe</code>, <code>replyCount</code>, <code>isEdited</code>, <code>isHighlightedByPinOwner</code>,
@@ -346,7 +62,7 @@ Records are omitted when Pinterest does not publish the value; published zeroes 
 <code>fullName</code>, <code>avatarUrl</code>, <code>isPrivateProfile</code>, <code>type</code>, <code>profileUrl</code>).</p>
 <p>Replies keep <code>recordType: &quot;comment&quot;</code> so existing consumers keep working; <code>isReply</code>,
 <code>parentCommentId</code> and <code>replyDepth</code> identify them.</p>
-<h3 id="readme-activity-recordtype-pinactivity">Activity (<code>recordType: &quot;pinActivity&quot;</code>)</h3>
+<h4 id="readme-activity-recordtype-pinactivity">Activity (<code>recordType: &quot;pinActivity&quot;</code>)</h4>
 <p><code>activityId</code>, <code>commentId</code>, <code>nodeId</code>, <code>text</code>, <code>details</code>, <code>doneAt</code>, <code>likeCount</code>,
 <code>likedByMe</code>, <code>reactionCounts</code>, <code>reactionByMe</code>, <code>helpfulCount</code>, <code>markedHelpfulByMe</code>,
 <code>commentCount</code>, <code>didItType</code>, <code>privacy</code>, <code>hasTryPin</code>, <code>tryPin</code>, <code>hasRecommended</code>,
@@ -355,8 +71,56 @@ Records are omitted when Pinterest does not publish the value; published zeroes 
 <code>isHighlightedByPinOwner</code>, and nested <code>author</code>.</p>
 <p>Activity rows come from Pinterest's Tried It feed and the comments stream. They are
 deduplicated by ID and merged so the richer published fields survive.</p>
-<h2 id="readme-input">Input</h2>
-<div class="table-wrap"><table>
+<!--/readme--></section><section id="run"><h2>Run it</h2><p>Set <code>APIFY_TOKEN</code> to your <a href="https://console.apify.com/settings/integrations">Apify API token</a>, then run the Actor with the input below (one pin with replies). Each run is billed to your Apify account. The <a href="/apify-actor-examples/guides/pinterest-pin-comments-and-activity-extractor/">export tutorial</a> turns the results into a CSV file or an Excel workbook.</p><div class="tabs" data-tabs><div class="tab-list" role="tablist" aria-label="Language"><button type="button" role="tab" id="run-tab-python" aria-controls="run-panel-python" aria-selected="true">Python</button><button type="button" role="tab" id="run-tab-javascript" aria-controls="run-panel-javascript" aria-selected="false" tabindex="-1">JavaScript</button><button type="button" role="tab" id="run-tab-curl" aria-controls="run-panel-curl" aria-selected="false" tabindex="-1">cURL</button><button type="button" role="tab" id="run-tab-mcp" aria-controls="run-panel-mcp" aria-selected="false" tabindex="-1">MCP</button></div><div role="tabpanel" id="run-panel-python" aria-labelledby="run-tab-python" class="tab-panel"><h3 class="tab-title">Python</h3><figure class="code"><pre><code id="run-python" class="language-python"># pip install apify-client
+import os
+from apify_client import ApifyClient
+
+ACTOR = &quot;vexaloom-labs/pinterest-pin-comments-and-activity-extractor&quot;
+client = ApifyClient(os.environ[&quot;APIFY_TOKEN&quot;])
+run_input = {
+    &quot;urls&quot;: [&quot;https://www.pinterest.com/pin/112027111109155913/&quot;],
+    &quot;mode&quot;: &quot;commentsAndActivity&quot;,
+    &quot;maxComments&quot;: 50,
+    &quot;includeReplies&quot;: True,
+    &quot;maxRepliesPerComment&quot;: 25,
+    &quot;maxActivity&quot;: 50,
+    &quot;commentSort&quot;: &quot;newest&quot;,
+}
+
+run = client.actor(ACTOR).call(run_input=run_input)
+for item in client.dataset(run[&quot;defaultDatasetId&quot;]).iterate_items():
+    print(item)
+</code></pre><button type="button" class="copy" data-copy="run-python">Copy</button></figure></div><div role="tabpanel" id="run-panel-javascript" aria-labelledby="run-tab-javascript" class="tab-panel"><h3 class="tab-title">JavaScript</h3><figure class="code"><pre><code id="run-javascript" class="language-javascript">// npm install apify-client
+import { ApifyClient } from &#x27;apify-client&#x27;;
+
+const ACTOR = &#x27;vexaloom-labs/pinterest-pin-comments-and-activity-extractor&#x27;;
+const client = new ApifyClient({ token: process.env.APIFY_TOKEN });
+const input = {
+  &quot;urls&quot;: [
+    &quot;https://www.pinterest.com/pin/112027111109155913/&quot;
+  ],
+  &quot;mode&quot;: &quot;commentsAndActivity&quot;,
+  &quot;maxComments&quot;: 50,
+  &quot;includeReplies&quot;: true,
+  &quot;maxRepliesPerComment&quot;: 25,
+  &quot;maxActivity&quot;: 50,
+  &quot;commentSort&quot;: &quot;newest&quot;
+};
+
+const run = await client.actor(ACTOR).call(input);
+const { items } = await client.dataset(run.defaultDatasetId).listItems();
+console.log(items);
+</code></pre><button type="button" class="copy" data-copy="run-javascript">Copy</button></figure></div><div role="tabpanel" id="run-panel-curl" aria-labelledby="run-tab-curl" class="tab-panel"><h3 class="tab-title">cURL</h3><figure class="code"><pre><code id="run-curl" class="language-bash">curl -X POST &quot;https://api.apify.com/v2/acts/vexaloom-labs~pinterest-pin-comments-and-activity-extractor/run-sync-get-dataset-items?format=json&quot; \
+  -H &quot;Authorization: Bearer $APIFY_TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;urls&quot;: [&quot;https://www.pinterest.com/pin/112027111109155913/&quot;], &quot;mode&quot;: &quot;commentsAndActivity&quot;, &quot;maxComments&quot;: 50, &quot;includeReplies&quot;: true, &quot;maxRepliesPerComment&quot;: 25, &quot;maxActivity&quot;: 50, &quot;commentSort&quot;: &quot;newest&quot;}&#x27;
+</code></pre><button type="button" class="copy" data-copy="run-curl">Copy</button></figure></div><div role="tabpanel" id="run-panel-mcp" aria-labelledby="run-tab-mcp" class="tab-panel"><h3 class="tab-title">MCP</h3><figure class="code"><pre><code id="run-mcp" class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;apify&quot;: {
+      &quot;url&quot;: &quot;https://mcp.apify.com?tools=vexaloom-labs/pinterest-pin-comments-and-activity-extractor&quot;
+    }
+  }
+}</code></pre><button type="button" class="copy" data-copy="run-mcp">Copy</button></figure></div></div></section><section id="cost"><h2>What it costs</h2><p>Pinterest Pin Comments &amp; Activity Extractor uses pay-per-event pricing: a fee for each result saved to the dataset, plus a start fee per run. Paid Apify plans pay less per result. The start fee is charged once per GB of run memory (at least once); the default run uses 4 GB, so a run starts with 4 start events, as the run totals include. You also pay Apify platform usage (compute and proxy) for the run, which these totals do not include.</p><div class="table-wrap"><table class="price-table stack"><caption>Published prices and run totals by Apify plan</caption><thead><tr><th scope="col">Plan</th><th scope="col">Per result</th><th scope="col">Per 1,000</th><th scope="col">Start fee</th><th scope="col">100 results</th><th scope="col">1,000 results</th><th scope="col">10,000 results</th></tr></thead><tbody><tr><th scope="row">Free plan</th><td data-label="Per result">$0.00099</td><td data-label="Per 1,000">$0.99</td><td data-label="Start fee">$0.10</td><td data-label="100 results">$0.50</td><td data-label="1,000 results">$1.39</td><td data-label="10,000 results">$10.30</td></tr><tr><th scope="row">Starter plan</th><td data-label="Per result">$0.00082</td><td data-label="Per 1,000">$0.82</td><td data-label="Start fee">$0.077</td><td data-label="100 results">$0.39</td><td data-label="1,000 results">$1.13</td><td data-label="10,000 results">$8.51</td></tr><tr><th scope="row">Scale plan</th><td data-label="Per result">$0.00066</td><td data-label="Per 1,000">$0.66</td><td data-label="Start fee">$0.053</td><td data-label="100 results">$0.28</td><td data-label="1,000 results">$0.87</td><td data-label="10,000 results">$6.81</td></tr><tr><th scope="row">Business plan</th><td data-label="Per result">$0.00049</td><td data-label="Per 1,000">$0.49</td><td data-label="Start fee">$0.03</td><td data-label="100 results">$0.17</td><td data-label="1,000 results">$0.61</td><td data-label="10,000 results">$5.02</td></tr></tbody></table></div><p class="fine">Run totals are the Actor's charges at the default memory: start fees plus the per-result price. Check the <a href="https://apify.com/vexaloom-labs/pinterest-pin-comments-and-activity-extractor">Store page</a> before a large run; prices can change with notice.</p></section><section id="input"><h2>Input reference</h2><p>All 14 fields of the published input schema, in the publisher's order. No field is required at the top level, but the README can describe conditions. Download the <a href="input-schema.json">input schema</a> as JSON.</p><div class="table-wrap"><table class="input-table stack"><caption>Input fields in the published schema</caption><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead><tbody><tr><th scope="row"><code>mode</code><span class="field-title">What to collect</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Choose comments with replies, Tried It activity, both, or only the Pin summary.<!--/readme--><span class="field-meta">Default <code>&quot;commentsAndActivity&quot;</code>; Allowed commentsAndActivity, comments, activity, pinSummary</span></td></tr><tr><th scope="row"><code>urls</code><span class="field-title">Pinterest Pin URLs or IDs</span></th><td data-label="Type">array</td><td data-label="Description"><!--readme-->One or more numeric Pinterest Pin links or IDs, e.g. https://www.pinterest.com/pin/142567144448888376/. Legacy pinUrls and startUrls inputs are still accepted in code.<!--/readme--><span class="field-meta">Example <code>[&quot;https://www.pinterest.com/pin/142567144448888376/&quot;]</code></span></td></tr><tr><th scope="row"><code>domain</code><span class="field-title">Pinterest region</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Regional Pinterest site used for every request. Use the region shown in the Pin link.<!--/readme--><span class="field-meta">Default <code>&quot;www.pinterest.com&quot;</code>; Allowed www.pinterest.com, jp.pinterest.com, br.pinterest.com, uk.pinterest.com, au.pinterest.com, nz.pinterest.com, co.pinterest.com, de.pinterest.com and 14 more</span></td></tr><tr><th scope="row"><code>maxComments</code><span class="field-title">Maximum top-level comments per Pin</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Top-level comments to collect per Pin; replies are counted separately. Legacy limit input is still accepted in code.<!--/readme--><span class="field-meta">Default <code>10</code>; Example <code>3</code>; Allowed 1 to 20000</span></td></tr><tr><th scope="row"><code>includeReplies</code><span class="field-title">Include replies</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Fetch public replies for comments that have them.<!--/readme--><span class="field-meta">Default <code>true</code>; Example <code>false</code></span></td></tr><tr><th scope="row"><code>maxRepliesPerComment</code><span class="field-title">Maximum replies per comment</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Reply rows to collect for each top-level comment. Set to 0 to skip replies.<!--/readme--><span class="field-meta">Default <code>100</code>; Example <code>0</code>; Allowed 0 to 1000</span></td></tr><tr><th scope="row"><code>maxActivity</code><span class="field-title">Maximum activity rows per Pin</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Tried It and other public activity rows to collect per Pin.<!--/readme--><span class="field-meta">Default <code>100</code>; Example <code>3</code>; Allowed 0 to 20000</span></td></tr><tr><th scope="row"><code>includePinSummary</code><span class="field-title">Include Pin summary</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Emit one pinCommentsSummary row with the Pin, creator, board, media, commerce and engagement context.<!--/readme--><span class="field-meta">Default <code>true</code></span></td></tr><tr><th scope="row"><code>commentSort</code><span class="field-title">Comment order</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Source keeps Pinterest's ranking; newest and oldest sort the fetched comments by their published date.<!--/readme--><span class="field-meta">Default <code>&quot;source&quot;</code>; Allowed source, newest, oldest</span></td></tr><tr><th scope="row"><code>minLikeCount</code><span class="field-title">Minimum likes</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Drop comment, reply and activity rows whose published like count is lower. Rows without a published count are kept.<!--/readme--><span class="field-meta">Default <code>0</code>; Allowed 0 to 1000000000</span></td></tr><tr><th scope="row"><code>minHelpfulCount</code><span class="field-title">Minimum helpful votes</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Drop comment, reply and activity rows whose published helpful count is lower. Rows without a published count are kept.<!--/readme--><span class="field-meta">Default <code>0</code>; Allowed 0 to 1000000000</span></td></tr><tr><th scope="row"><code>sinceDate</code><span class="field-title">Published on or after</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Optional inclusive date filter (YYYY-MM-DD) for comments, replies and activity. Leave empty for no lower bound.<!--/readme--><span class="field-meta">Example <code>&quot;&quot;</code></span></td></tr><tr><th scope="row"><code>untilDate</code><span class="field-title">Published on or before</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Optional inclusive date filter (YYYY-MM-DD) for comments, replies and activity. Leave empty for no upper bound.<!--/readme--><span class="field-meta">Example <code>&quot;&quot;</code></span></td></tr><tr><th scope="row"><code>proxyConfiguration</code><span class="field-title">Optional proxy</span></th><td data-label="Type">object</td><td data-label="Description"><!--readme-->Optional Apify proxy override. The actor works directly and falls back to the automatic Apify proxy without user setup.<!--/readme--></td></tr></tbody></table></div><details class="publisher-notes"><summary>The publisher's input notes</summary><h3 id="readme-input">Input</h3><!--readme--><div class="table-wrap"><table>
 <thead>
 <tr>
 <th>Field</th>
@@ -452,7 +216,7 @@ deduplicated by ID and merged so the richer published fields survive.</p>
 </tr>
 </tbody>
 </table></div>
-<h3 id="readme-example-one-pin-with-replies">Example: one Pin with replies</h3>
+<h4 id="readme-example-one-pin-with-replies">Example: one Pin with replies</h4>
 <pre><code class="language-json">{
   &quot;urls&quot;: [&quot;https://www.pinterest.com/pin/112027111109155913/&quot;],
   &quot;mode&quot;: &quot;commentsAndActivity&quot;,
@@ -463,7 +227,7 @@ deduplicated by ID and merged so the richer published fields survive.</p>
   &quot;commentSort&quot;: &quot;newest&quot;
 }
 </code></pre>
-<h3 id="readme-example-recent-activity-only">Example: recent activity only</h3>
+<h4 id="readme-example-recent-activity-only">Example: recent activity only</h4>
 <pre><code class="language-json">{
   &quot;urls&quot;: [&quot;112027111109155913&quot;],
   &quot;mode&quot;: &quot;activity&quot;,
@@ -471,7 +235,7 @@ deduplicated by ID and merged so the richer published fields survive.</p>
   &quot;sinceDate&quot;: &quot;2024-01-01&quot;
 }
 </code></pre>
-<h3 id="readme-example-several-pins">Example: several Pins</h3>
+<h4 id="readme-example-several-pins">Example: several Pins</h4>
 <pre><code class="language-json">{
   &quot;urls&quot;: [
     &quot;https://www.pinterest.com/pin/142567144448888376/&quot;,
@@ -482,53 +246,34 @@ deduplicated by ID and merged so the richer published fields survive.</p>
   &quot;includePinSummary&quot;: false
 }
 </code></pre>
-<h3 id="readme-legacy-inputs">Legacy inputs</h3>
+<h4 id="readme-legacy-inputs">Legacy inputs</h4>
 <p>Saved tasks that still send <code>pinUrls</code>, <code>startUrls</code>, <code>limit</code>, <code>cookies</code> or <code>cookiesJson</code>
 keep running: the aliases are mapped in code, and cookie keys are ignored with a
 warning because the public surface does not need them. These keys are intentionally
 not shown in the input form.</p>
-<h2 id="readme-how-pagination-and-filters-work">How pagination and filters work</h2>
-<p>Comments are paged with Pinterest's public bookmark cursor until the source is
+<!--/readme--></details></section><section id="faq"><h2>Questions</h2><div class="qa"><h3 id="faq-do-i-need-a-pinterest-account-or-cookies"><!--readme-->Do I need a Pinterest account or cookies?<!--/readme--></h3><!--readme--><p>No. The actor reads Pinterest's public signed-out responses.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-which-pins-work"><!--readme-->Which Pins work?<!--/readme--></h3><!--readme--><p>Numeric Pins such as <code>142567144448888376</code>. Opaque share IDs that Pinterest sometimes
+returns from search are list-only upstream and cannot resolve a Pin detail or comments.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-why-are-there-fewer-comments-than-the-pin-s-count"><!--readme-->Why are there fewer comments than the Pin's count?<!--/readme--></h3><!--readme--><p>The published count can include replies, private or removed comments, or comments
+Pinterest withholds from signed-out visitors. The actor returns what the public cursor
+actually serves and never fabricates rows.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-are-replies-included"><!--readme-->Are replies included?<!--/readme--></h3><!--readme--><p>Yes when <code>includeReplies</code> is on. Pinterest exposes one public reply level; replies are
+attached to their top-level comment with <code>parentCommentId</code>.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-why-did-an-activity-row-appear-even-though-the-tried-it-feed"><!--readme-->Why did an activity row appear even though the Tried It feed was empty?<!--/readme--></h3><!--readme--><p>Pinterest sometimes publishes activity in the comments stream only. The actor merges
+both sources and deduplicates by activity ID.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-does-likecount-mean-all-reactions"><!--readme-->Does likeCount mean all reactions?<!--/readme--></h3><!--readme--><p>It is Pinterest's published like/reaction type for that row. The full published
+breakdown, when present, is in <code>reactionCounts</code>.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-can-i-download-comment-media"><!--readme-->Can I download comment media?<!--/readme--></h3><!--readme--><p>The actor returns the media references Pinterest publishes (image or video URLs and
+sizes). It does not download the files.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-what-does-an-omitted-field-mean"><!--readme-->What does an omitted field mean?<!--/readme--></h3><!--readme--><p>Pinterest did not publish that value for the object or for the signed-out session. It
+does not mean the actor guessed zero.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-is-this-affiliated-with-pinterest"><!--readme-->Is this affiliated with Pinterest?<!--/readme--></h3><!--readme--><p>No. This actor reads Pinterest's public responses and is not operated by or affiliated
+with Pinterest, Inc.</p>
+<!--/readme--></div></section><section id="notes"><h2>Limits and notes</h2><h3 id="readme-how-pagination-and-filters-work">How pagination and filters work</h3><!--readme--><p>Comments are paged with Pinterest's public bookmark cursor until the source is
 exhausted or <code>maxComments</code> top-level rows are collected. Replies are fetched only for
 comments with a published reply count and are capped by <code>maxRepliesPerComment</code>.
 Activity follows the same cursor until <code>maxActivity</code> rows are collected.</p>
 <p><code>commentSort</code>, <code>minLikeCount</code>, <code>minHelpfulCount</code>, <code>sinceDate</code> and <code>untilDate</code> are
 applied to the rows fetched in that window. They never invent values: a row without a
 published count or date is kept rather than assumed to be zero or out of range.</p>
-<h2 id="readme-use-cases">Use cases</h2>
-<ul>
-<li>Conversation and sentiment review for selected Pins.</li>
-<li>Moderation queues with author, text, media and engagement context.</li>
-<li>Recipe or product feedback, including Tried It photos and dates.</li>
-<li>Reply-thread analysis without a login.</li>
-<li>Recurring monitoring with date and engagement filters.</li>
-</ul>
-<h2 id="readme-faq">FAQ</h2>
-<h3 id="readme-do-i-need-a-pinterest-account-or-cookies">Do I need a Pinterest account or cookies?</h3>
-<p>No. The actor reads Pinterest's public signed-out responses.</p>
-<h3 id="readme-which-pins-work">Which Pins work?</h3>
-<p>Numeric Pins such as <code>142567144448888376</code>. Opaque share IDs that Pinterest sometimes
-returns from search are list-only upstream and cannot resolve a Pin detail or comments.</p>
-<h3 id="readme-why-are-there-fewer-comments-than-the-pin-s-count">Why are there fewer comments than the Pin's count?</h3>
-<p>The published count can include replies, private or removed comments, or comments
-Pinterest withholds from signed-out visitors. The actor returns what the public cursor
-actually serves and never fabricates rows.</p>
-<h3 id="readme-are-replies-included">Are replies included?</h3>
-<p>Yes when <code>includeReplies</code> is on. Pinterest exposes one public reply level; replies are
-attached to their top-level comment with <code>parentCommentId</code>.</p>
-<h3 id="readme-why-did-an-activity-row-appear-even-though-the-tried-it-feed-was-empty">Why did an activity row appear even though the Tried It feed was empty?</h3>
-<p>Pinterest sometimes publishes activity in the comments stream only. The actor merges
-both sources and deduplicates by activity ID.</p>
-<h3 id="readme-does-likecount-mean-all-reactions">Does <code>likeCount</code> mean all reactions?</h3>
-<p>It is Pinterest's published like/reaction type for that row. The full published
-breakdown, when present, is in <code>reactionCounts</code>.</p>
-<h3 id="readme-can-i-download-comment-media">Can I download comment media?</h3>
-<p>The actor returns the media references Pinterest publishes (image or video URLs and
-sizes). It does not download the files.</p>
-<h3 id="readme-what-does-an-omitted-field-mean">What does an omitted field mean?</h3>
-<p>Pinterest did not publish that value for the object or for the signed-out session. It
-does not mean the actor guessed zero.</p>
-<h3 id="readme-is-this-affiliated-with-pinterest">Is this affiliated with Pinterest?</h3>
-<p>No. This actor reads Pinterest's public responses and is not operated by or affiliated
-with Pinterest, Inc.</p>
-</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/pinterest-pin-comments-and-activity-extractor/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>jzOeBCtohAb2PkYW6</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
+<!--/readme--></section><section id="related"><h2>Related Actors</h2><ul class="related" role="list"><li><a href="/apify-actor-examples/actors/pinterest-media-downloader-2/">Pinterest Media Downloader</a><p>Download public Pinterest image, GIF, Story Pin, and video media with source metadata and Key-Value Store links.</p></li><li><a href="/apify-actor-examples/actors/pinterest-pins-profiles-and-boards-collector/">Pinterest Pins, Profiles and Boards Collector with Filters</a><p>Collect public Pinterest Pins, profiles, boards, search results and comments by keyword or URL, with filters for saves, creator followers, verification, ads and shoppable Pins.</p></li><li><a href="/apify-actor-examples/actors/pinterest-trending-topics-and-shopping-category/">Pinterest Trending Topics &amp; Shopping Category Scraper</a><p>Collect Pinterest&#x27;s public featured and editorial trend topics, its shopping category taxonomy, and shopping-category click metrics with history and forecast, by region.</p></li><li><a href="/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/">2GIS Business Directory Extractor for CIS &amp; Middle East</a><p>Search 2GIS for businesses by category and city across Russia, the UAE, Kazakhstan and the wider CIS, and get name, address, rating, hours, contacts and social links for each place.</p></li><li><a href="/apify-actor-examples/actors/alibaba-com-wholesale-sourcing-and-supplier/">Alibaba.com Wholesale Sourcing &amp; Supplier Vetting Finder</a><p>Search Alibaba.com&#x27;s B2B marketplace (not AliExpress) for products or suppliers. Get price, MOQ, Trade Assurance status, supplier verification, years on platform, and response time for each listing.</p></li><li><a href="/apify-actor-examples/actors/allegro-pl-listings-by-search-category-or-url/">Allegro.pl Listings by Search, Category or URL</a><p>Find Allegro.pl products by keyword search, category page, or direct offer URL, with price, seller rating, condition, shipping, and rating details, filterable by price range and free shipping.</p></li></ul><p class="more"><a href="/apify-actor-examples/sites/pinterest/">Compare all 4 Pinterest Actors</a> <a href="/apify-actor-examples/topics/lead-generation/">All lead generation Actors</a></p></section><section id="files"><h2>Source files</h2><p>This page is rebuilt from the default published build <code>jzOeBCtohAb2PkYW6</code>. Download what it was built from: <a href="README.md">README</a>, <a href="input-schema.json">input schema</a>, <a href="output-schema.json">output schema</a>, <a href="dataset-schema.json">dataset schema</a>, <a href="key-value-schema.json">key-value store schema</a>.</p></section></article></div></div></main><footer class="footer"><div class="inner"><p><strong>Vexaloom Labs</strong> builds and publishes these Actors on Apify. This site is generated from their published READMEs, schemas and prices.</p><nav aria-label="Footer"><a href="/apify-actor-examples/actors/">All Actors</a><a href="/apify-actor-examples/sites/">Sites</a><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/guides/">Guides</a><a href="/apify-actor-examples/sources/">How these pages are made</a><a href="https://apify.com/vexaloom-labs">Vexaloom Labs on Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></footer></body></html>

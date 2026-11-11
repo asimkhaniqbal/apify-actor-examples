@@ -1,421 +1,5 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-7wctZXHyc3CjCxhUrGrTNlq3n0iGgoKYRzwGZKouNJo=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Twitch Live Stream, Channel &amp; VOD Metadata Extractor | Vexaloom Labs</title><meta name="description" content="Get Twitch top live streams, channel profiles, category directories, VOD metadata and clip details, or resolve any twitch.tv URL into structured data."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/"><meta property="og:title" content="Twitch Live Stream, Channel &amp; VOD Metadata Extractor | Vexaloom Labs"><meta property="og:description" content="Get Twitch top live streams, channel profiles, category directories, VOD metadata and clip details, or resolve any twitch.tv URL into structured data."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/#webpage","name":"Twitch Live Stream, Channel & VOD Metadata Extractor","description":"Get Twitch top live streams, channel profiles, category directories, VOD metadata and clip details, or resolve any twitch.tv URL into structured data.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/#article","headline":"Twitch Live Stream, Channel & VOD Metadata Extractor","name":"Twitch Live Stream, Channel & VOD Metadata Extractor","description":"Get Twitch top live streams, channel profiles, category directories, VOD metadata and clip details, or resolve any twitch.tv URL into structured data.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/#webpage"},"inLanguage":"en","dateModified":"2026-10-28T08:02:04.854Z"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Twitch Live Stream, Channel & VOD Metadata Extractor","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Twitch Live Stream, Channel &amp; VOD Metadata Extractor</span></div><section id="overview"><h1 class="doc-title">Twitch Live Stream, Channel &amp; VOD Metadata Extractor</h1><p class="lede">Get Twitch top live streams, channel profiles, category directories, VOD metadata and clip details, or resolve any twitch.tv URL into structured data.</p><p class="summary">Twitch Live Stream, Channel &amp; VOD Metadata Extractor is an Apify Actor published by Vexaloom Labs. It accepts 27 input fields, and <code>mode</code> is required. Its build declares a results dataset with 1 view. Runs happen on Apify, where the Store page lists the current price.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/twitch-live-stream-channel-and-vod-metadata">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/awepzbjt4Zv29dF9p/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to fetch.</td></tr><tr><td><code>searchQuery</code></td><td>string</td><td>optional</td><td>Free-text query for `mode=search` — matches channels, categories, and videos.</td></tr><tr><td><code>searchType</code></td><td>string</td><td>optional</td><td>Restrict search results to one index. `all` returns channels, categories, and videos.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to fetch.</td></tr><tr><td><code>searchQuery</code></td><td>string</td><td>optional</td><td>Free-text query for `mode=search` — matches channels, categories, and videos.</td></tr><tr><td><code>searchType</code></td><td>string</td><td>optional</td><td>Restrict search results to one index. `all` returns channels, categories, and videos.</td></tr><tr><td><code>channelName</code></td><td>string</td><td>optional</td><td>Twitch channel login or channel URL, e.g. `lirik` or `https://www.twitch.tv/lirik`.</td></tr><tr><td><code>channelNames</code></td><td>array</td><td>optional</td><td>Batch channel logins or channel URLs. Duplicates and the single `channelName` are merged.</td></tr><tr><td><code>categorySlug</code></td><td>string</td><td>optional</td><td>Category slug (`just-chatting`), exact name (`Just Chatting`), or directory URL.</td></tr><tr><td><code>videoId</code></td><td>string</td><td>optional</td><td>Twitch VOD ID or VOD URL, e.g. `2766365638`.</td></tr><tr><td><code>videoIds</code></td><td>array</td><td>optional</td><td>Batch VOD IDs or VOD URLs. Duplicates and the single `videoId` are merged.</td></tr><tr><td><code>clipSlug</code></td><td>string</td><td>optional</td><td>Twitch clip slug or clip URL, e.g. `AcceptablePleasantAuberginePanicVis-EVdxDQ1vsQAQZpBS`.</td></tr><tr><td><code>clipSlugs</code></td><td>array</td><td>optional</td><td>Batch clip slugs or clip URLs. Duplicates and the single `clipSlug` are merged.</td></tr><tr><td><code>twitchUrls</code></td><td>array</td><td>optional</td><td>Channel, VOD, clip, or category URLs. Category and channel `/videos` and `/clips` tabs are supported.</td></tr><tr><td><code>language</code></td><td>string</td><td>optional</td><td>Filter live streams, VODs, and clips to one broadcast language. Leave on `(any)` for no filter.</td></tr><tr><td><code>streamSort</code></td><td>string</td><td>optional</td><td>Sort live streams by viewers (high to low or low to high), recently started, or recommended.</td></tr><tr><td><code>streamTags</code></td><td>array</td><td>optional</td><td>Only live streams carrying all of these freeform tags, e.g. `English`, `DropsEnabled`, `NoBackseating`.</td></tr><tr><td><code>streamType</code></td><td>string</td><td>optional</td><td>Restrict channel or category VODs to one broadcast type. Leave blank for all types.</td></tr><tr><td><code>videoSort</code></td><td>string</td><td>optional</td><td>Sort channel or category VODs by publish time or view count.</td></tr><tr><td><code>clipPeriod</code></td><td>string</td><td>optional</td><td>Time window over which clips were created.</td></tr><tr><td><code>clipSort</code></td><td>string</td><td>optional</td><td>Sort clips by views or trending score.</td></tr><tr><td><code>includeChannelClips</code></td><td>boolean</td><td>optional</td><td>Also fetch and emit top clips for each channel.</td></tr><tr><td><code>includeChannelVideos</code></td><td>boolean</td><td>optional</td><td>Also fetch and emit recent VODs for each channel.</td></tr><tr><td><code>minViewersCount</code></td><td>integer</td><td>optional</td><td>Drop live streams (and categories) below this viewer count.</td></tr><tr><td><code>minViewCount</code></td><td>integer</td><td>optional</td><td>Drop VODs and clips below this total view count.</td></tr><tr><td><code>minFollowersCount</code></td><td>integer</td><td>optional</td><td>Drop channels and live streams below this follower count. VODs and clips are unaffected.</td></tr><tr><td><code>maxFollowersCount</code></td><td>integer</td><td>optional</td><td>Drop channels and live streams above this follower count. Useful for finding smaller creators.</td></tr><tr><td><code>onlyLive</code></td><td>boolean</td><td>optional</td><td>Drop channel profile records for channels that are not live right now. Their VODs and clips are still returned.</td></tr><tr><td><code>containsKeyword</code></td><td>string</td><td>optional</td><td>Case-insensitive substring filter on stream, VOD, and clip titles.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Hard cap on emitted records. Twitch source caps still apply (e.g. about 1,000 clips per category).</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;description&quot;: &quot;Search Twitch, fetch top live streams, browse categories and category VODs, or look up channels, videos, and clips by ID or URL. No Twitch login is required.&quot;,
-  &quot;properties&quot;: {
-    &quot;categorySlug&quot;: {
-      &quot;description&quot;: &quot;Category slug (`just-chatting`), exact name (`Just Chatting`), or directory URL.&quot;,
-      &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;title&quot;: &quot;Category slug, name, or URL (mode=byCategory, byCategoryVideos, topClips)&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;channelName&quot;: {
-      &quot;description&quot;: &quot;Twitch channel login or channel URL, e.g. `lirik` or `https://www.twitch.tv/lirik`.&quot;,
-      &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;title&quot;: &quot;Channel login (mode=byChannel)&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;channelNames&quot;: {
-      &quot;default&quot;: [],
-      &quot;description&quot;: &quot;Batch channel logins or channel URLs. Duplicates and the single `channelName` are merged.&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;prefill&quot;: [],
-      &quot;title&quot;: &quot;Channel logins or URLs (mode=byChannel)&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;clipPeriod&quot;: {
-      &quot;default&quot;: &quot;LAST_WEEK&quot;,
-      &quot;description&quot;: &quot;Time window over which clips were created.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;LAST_DAY&quot;,
-        &quot;LAST_WEEK&quot;,
-        &quot;LAST_MONTH&quot;,
-        &quot;ALL_TIME&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Last 24 hours&quot;,
-        &quot;Last 7 days&quot;,
-        &quot;Last 30 days&quot;,
-        &quot;All time&quot;
-      ],
-      &quot;prefill&quot;: &quot;LAST_WEEK&quot;,
-      &quot;title&quot;: &quot;Clip time window&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;clipSlug&quot;: {
-      &quot;description&quot;: &quot;Twitch clip slug or clip URL, e.g. `AcceptablePleasantAuberginePanicVis-EVdxDQ1vsQAQZpBS`.&quot;,
-      &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;title&quot;: &quot;Clip slug (mode=byClip)&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;clipSlugs&quot;: {
-      &quot;default&quot;: [],
-      &quot;description&quot;: &quot;Batch clip slugs or clip URLs. Duplicates and the single `clipSlug` are merged.&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;prefill&quot;: [],
-      &quot;title&quot;: &quot;Clip slugs or URLs (mode=byClip)&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;clipSort&quot;: {
-      &quot;default&quot;: &quot;VIEWS_DESC&quot;,
-      &quot;description&quot;: &quot;Sort clips by views or trending score.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;VIEWS_DESC&quot;,
-        &quot;TRENDING&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Most viewed first&quot;,
-        &quot;Trending&quot;
-      ],
-      &quot;prefill&quot;: &quot;VIEWS_DESC&quot;,
-      &quot;title&quot;: &quot;Clip order&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;containsKeyword&quot;: {
-      &quot;description&quot;: &quot;Case-insensitive substring filter on stream, VOD, and clip titles.&quot;,
-      &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;title&quot;: &quot;Title contains keyword&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;includeChannelClips&quot;: {
-      &quot;default&quot;: true,
-      &quot;description&quot;: &quot;Also fetch and emit top clips for each channel.&quot;,
-      &quot;prefill&quot;: true,
-      &quot;sectionCaption&quot;: &quot;Channel Enrichment&quot;,
-      &quot;title&quot;: &quot;Include clips (mode=byChannel)&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;includeChannelVideos&quot;: {
-      &quot;default&quot;: true,
-      &quot;description&quot;: &quot;Also fetch and emit recent VODs for each channel.&quot;,
-      &quot;prefill&quot;: true,
-      &quot;title&quot;: &quot;Include VODs (mode=byChannel)&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;language&quot;: {
-      &quot;default&quot;: &quot;EN&quot;,
-      &quot;description&quot;: &quot;Filter live streams, VODs, and clips to one broadcast language. Leave on `(any)` for no filter.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;&quot;,
-        &quot;EN&quot;,
-        &quot;ES&quot;,
-        &quot;DE&quot;,
-        &quot;FR&quot;,
-        &quot;PT&quot;,
-        &quot;RU&quot;,
-        &quot;JA&quot;,
-        &quot;KO&quot;,
-        &quot;ZH&quot;,
-        &quot;IT&quot;,
-        &quot;TR&quot;,
-        &quot;PL&quot;,
-        &quot;AR&quot;,
-        &quot;TH&quot;,
-        &quot;ID&quot;,
-        &quot;VI&quot;,
-        &quot;NL&quot;,
-        &quot;SV&quot;,
-        &quot;FI&quot;,
-        &quot;DA&quot;,
-        &quot;NO&quot;,
-        &quot;CS&quot;,
-        &quot;HU&quot;,
-        &quot;EL&quot;,
-        &quot;RO&quot;,
-        &quot;BG&quot;,
-        &quot;UK&quot;,
-        &quot;HE&quot;,
-        &quot;MS&quot;,
-        &quot;TL&quot;,
-        &quot;ASL&quot;,
-        &quot;OTHER&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;(any)&quot;,
-        &quot;English (EN)&quot;,
-        &quot;Spanish (ES)&quot;,
-        &quot;German (DE)&quot;,
-        &quot;French (FR)&quot;,
-        &quot;Portuguese (PT)&quot;,
-        &quot;Russian (RU)&quot;,
-        &quot;Japanese (JA)&quot;,
-        &quot;Korean (KO)&quot;,
-        &quot;Chinese (ZH)&quot;,
-        &quot;Italian (IT)&quot;,
-        &quot;Turkish (TR)&quot;,
-        &quot;Polish (PL)&quot;,
-        &quot;Arabic (AR)&quot;,
-        &quot;Thai (TH)&quot;,
-        &quot;Indonesian (ID)&quot;,
-        &quot;Vietnamese (VI)&quot;,
-        &quot;Dutch (NL)&quot;,
-        &quot;Swedish (SV)&quot;,
-        &quot;Finnish (FI)&quot;,
-        &quot;Danish (DA)&quot;,
-        &quot;Norwegian (NO)&quot;,
-        &quot;Czech (CS)&quot;,
-        &quot;Hungarian (HU)&quot;,
-        &quot;Greek (EL)&quot;,
-        &quot;Romanian (RO)&quot;,
-        &quot;Bulgarian (BG)&quot;,
-        &quot;Ukrainian (UK)&quot;,
-        &quot;Hebrew (HE)&quot;,
-        &quot;Malay (MS)&quot;,
-        &quot;Tagalog (TL)&quot;,
-        &quot;American Sign Language (ASL)&quot;,
-        &quot;Other&quot;
-      ],
-      &quot;prefill&quot;: &quot;EN&quot;,
-      &quot;sectionCaption&quot;: &quot;Filters &amp; Sorting&quot;,
-      &quot;title&quot;: &quot;Broadcast language&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;maxFollowersCount&quot;: {
-      &quot;description&quot;: &quot;Drop channels and live streams above this follower count. Useful for finding smaller creators.&quot;,
-      &quot;maximum&quot;: 100000000,
-      &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Maximum followers&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;maxItems&quot;: {
-      &quot;default&quot;: 50,
-      &quot;description&quot;: &quot;Hard cap on emitted records. Twitch source caps still apply (e.g. about 1,000 clips per category).&quot;,
-      &quot;maximum&quot;: 5000,
-      &quot;minimum&quot;: 1,
-      &quot;prefill&quot;: 3,
-      &quot;sectionCaption&quot;: &quot;Limits&quot;,
-      &quot;title&quot;: &quot;Max items&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;minFollowersCount&quot;: {
-      &quot;description&quot;: &quot;Drop channels and live streams below this follower count. VODs and clips are unaffected.&quot;,
-      &quot;maximum&quot;: 100000000,
-      &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Minimum followers&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;minViewCount&quot;: {
-      &quot;description&quot;: &quot;Drop VODs and clips below this total view count.&quot;,
-      &quot;maximum&quot;: 100000000,
-      &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Minimum total views&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;minViewersCount&quot;: {
-      &quot;description&quot;: &quot;Drop live streams (and categories) below this viewer count.&quot;,
-      &quot;maximum&quot;: 1000000,
-      &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Minimum concurrent viewers&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;mode&quot;: {
-      &quot;default&quot;: &quot;topStreams&quot;,
-      &quot;description&quot;: &quot;What to fetch.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;topStreams&quot;,
-        &quot;topGames&quot;,
-        &quot;search&quot;,
-        &quot;byChannel&quot;,
-        &quot;byCategory&quot;,
-        &quot;byCategoryVideos&quot;,
-        &quot;topClips&quot;,
-        &quot;byVideo&quot;,
-        &quot;byClip&quot;,
-        &quot;byUrl&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Top live streams&quot;,
-        &quot;Top games / categories&quot;,
-        &quot;Search Twitch (channels / categories / videos)&quot;,
-        &quot;Channel info + recent VODs + clips + schedule&quot;,
-        &quot;Browse a category (live streams)&quot;,
-        &quot;Browse a category (VODs)&quot;,
-        &quot;Top clips for a category&quot;,
-        &quot;Lookup VODs by video ID&quot;,
-        &quot;Lookup clips by slug&quot;,
-        &quot;Resolve Twitch URLs&quot;
-      ],
-      &quot;prefill&quot;: &quot;topStreams&quot;,
-      &quot;sectionCaption&quot;: &quot;Mode &amp; Query&quot;,
-      &quot;title&quot;: &quot;Mode&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;onlyLive&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Drop channel profile records for channels that are not live right now. Their VODs and clips are still returned.&quot;,
-      &quot;prefill&quot;: false,
-      &quot;title&quot;: &quot;Only live channels&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;searchQuery&quot;: {
-      &quot;default&quot;: &quot;lirik&quot;,
-      &quot;description&quot;: &quot;Free-text query for `mode=search` — matches channels, categories, and videos.&quot;,
-      &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;prefill&quot;: &quot;lirik&quot;,
-      &quot;title&quot;: &quot;Search query (mode=search)&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;searchType&quot;: {
-      &quot;default&quot;: &quot;all&quot;,
-      &quot;description&quot;: &quot;Restrict search results to one index. `all` returns channels, categories, and videos.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;all&quot;,
-        &quot;channel&quot;,
-        &quot;game&quot;,
-        &quot;video&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;All result types&quot;,
-        &quot;Channels only&quot;,
-        &quot;Categories only&quot;,
-        &quot;Videos only&quot;
-      ],
-      &quot;prefill&quot;: &quot;all&quot;,
-      &quot;title&quot;: &quot;Search result type (mode=search)&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;streamSort&quot;: {
-      &quot;default&quot;: &quot;VIEWER_COUNT&quot;,
-      &quot;description&quot;: &quot;Sort live streams by viewers (high to low or low to high), recently started, or recommended.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;VIEWER_COUNT&quot;,
-        &quot;VIEWER_COUNT_ASC&quot;,
-        &quot;RECENT&quot;,
-        &quot;RELEVANCE&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Most viewers first&quot;,
-        &quot;Fewest viewers first&quot;,
-        &quot;Recently started first&quot;,
-        &quot;Recommended&quot;
-      ],
-      &quot;prefill&quot;: &quot;VIEWER_COUNT&quot;,
-      &quot;title&quot;: &quot;Live stream order&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;streamTags&quot;: {
-      &quot;default&quot;: [],
-      &quot;description&quot;: &quot;Only live streams carrying all of these freeform tags, e.g. `English`, `DropsEnabled`, `NoBackseating`.&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;prefill&quot;: [],
-      &quot;title&quot;: &quot;Stream tags&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;streamType&quot;: {
-      &quot;default&quot;: &quot;&quot;,
-      &quot;description&quot;: &quot;Restrict channel or category VODs to one broadcast type. Leave blank for all types.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;&quot;,
-        &quot;ARCHIVE&quot;,
-        &quot;HIGHLIGHT&quot;,
-        &quot;UPLOAD&quot;,
-        &quot;PAST_PREMIERE&quot;,
-        &quot;PREMIERE_UPLOAD&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;(any)&quot;,
-        &quot;Archive (past broadcast)&quot;,
-        &quot;Highlight&quot;,
-        &quot;Upload&quot;,
-        &quot;Past Premiere&quot;,
-        &quot;Premiere Upload&quot;
-      ],
-      &quot;prefill&quot;: &quot;&quot;,
-      &quot;title&quot;: &quot;VOD type&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;twitchUrls&quot;: {
-      &quot;default&quot;: [],
-      &quot;description&quot;: &quot;Channel, VOD, clip, or category URLs. Category and channel `/videos` and `/clips` tabs are supported.&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;prefill&quot;: [],
-      &quot;title&quot;: &quot;Twitch URLs (mode=byUrl)&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;videoId&quot;: {
-      &quot;description&quot;: &quot;Twitch VOD ID or VOD URL, e.g. `2766365638`.&quot;,
-      &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;title&quot;: &quot;Video ID (mode=byVideo)&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;videoIds&quot;: {
-      &quot;default&quot;: [],
-      &quot;description&quot;: &quot;Batch VOD IDs or VOD URLs. Duplicates and the single `videoId` are merged.&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;prefill&quot;: [],
-      &quot;title&quot;: &quot;Video IDs or URLs (mode=byVideo)&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;videoSort&quot;: {
-      &quot;default&quot;: &quot;TIME&quot;,
-      &quot;description&quot;: &quot;Sort channel or category VODs by publish time or view count.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;TIME&quot;,
-        &quot;VIEWS&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Newest first (TIME)&quot;,
-        &quot;Most viewed first (VIEWS)&quot;
-      ],
-      &quot;prefill&quot;: &quot;TIME&quot;,
-      &quot;title&quot;: &quot;VOD order&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    }
-  },
-  &quot;required&quot;: [
-    &quot;mode&quot;
-  ],
-  &quot;schemaVersion&quot;: 1,
-  &quot;title&quot;: &quot;Twitch Scraper Input&quot;,
-  &quot;type&quot;: &quot;object&quot;
-}
-</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>records</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped Twitch records (streams, channels, videos, clips, games).</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;actorOutputSchemaVersion&quot;: 1,
-  &quot;description&quot;: &quot;Twitch records — live streams, channels, videos (VODs), clips, and games (categories) with viewers, followers, durations, thumbnails, broadcaster details, socials, schedules, and direct URLs.&quot;,
-  &quot;properties&quot;: {
-    &quot;records&quot;: {
-      &quot;description&quot;: &quot;Dataset containing all scraped Twitch records (streams, channels, videos, clips, games).&quot;,
-      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
-      &quot;title&quot;: &quot;Twitch records&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    }
-  },
-  &quot;title&quot;: &quot;Twitch Live Stream, Channel &amp; VOD Metadata Extractor Output&quot;
-}
-</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;actorSpecification&quot;: 1,
-  &quot;views&quot;: {
-    &quot;overview&quot;: {
-      &quot;display&quot;: {
-        &quot;component&quot;: &quot;table&quot;,
-        &quot;properties&quot;: {}
-      },
-      &quot;title&quot;: &quot;Twitch records&quot;,
-      &quot;transformation&quot;: {
-        &quot;fields&quot;: [
-          &quot;recordType&quot;,
-          &quot;title&quot;,
-          &quot;channelName&quot;,
-          &quot;displayName&quot;,
-          &quot;viewersCount&quot;,
-          &quot;viewCount&quot;,
-          &quot;gameName&quot;,
-          &quot;url&quot;
-        ]
-      }
-    }
-  }
-}
-</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-twitch-live-stream-channel-vod-metadata-extractor">Twitch Live Stream, Channel &amp; VOD Metadata Extractor</h2>
-<p>Collect <strong>Twitch</strong> metadata without a login, OAuth app, or API key: live streams, channel profiles with social links and published schedules, category directories, category VODs, individual VODs and clips, search results, and resolved twitch.tv links. Every record is public data returned in clean JSON, with empty fields omitted.</p>
-<h2 id="readme-what-this-actor-does">What this actor does</h2>
-<ul>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-t+ZEdudYhbUI2w6cNcHvJD/QC4zBHJxF+s96hakawuc=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; connect-src &#x27;self&#x27;; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Twitch Live Stream, Channel &amp; VOD Metadata Extractor docs | Vexaloom Labs</title><meta name="description" content="Get Twitch top live streams, channel profiles, category directories, VOD metadata and clip details, or resolve any twitch.tv URL into structured data. From $0.99 per 1,000 results on the Free plan."><meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/"><meta property="og:title" content="Twitch Live Stream, Channel &amp; VOD Metadata Extractor docs | Vexaloom Labs"><meta property="og:description" content="Get Twitch top live streams, channel profiles, category directories, VOD metadata and clip details, or resolve any twitch.tv URL into structured data. From $0.99 per 1,000 results on the Free plan."><meta property="og:type" content="article"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/"><meta property="og:site_name" content="Vexaloom Labs"><meta property="og:image" content="https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-awepzbjt4Zv29dF9p-Mg5YmLqb7x-logo.png"><meta name="twitter:card" content="summary"><meta name="theme-color" content="#7c3aed"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e299c13a23d7"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=1bc613038b6a"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs","https://github.com/asimkhaniqbal/apify-actor-examples"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs Actor documentation","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/#webpage","name":"Twitch Live Stream, Channel & VOD Metadata Extractor docs","description":"Get Twitch top live streams, channel profiles, category directories, VOD metadata and clip details, or resolve any twitch.tv URL into structured data. From $0.99 per 1,000 results on the Free plan.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/#article"},"dateModified":"2026-10-28T08:02:04.854Z","breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/#article","headline":"Twitch Live Stream, Channel & VOD Metadata Extractor docs","name":"Twitch Live Stream, Channel & VOD Metadata Extractor docs","description":"Get Twitch top live streams, channel profiles, category directories, VOD metadata and clip details, or resolve any twitch.tv URL into structured data. From $0.99 per 1,000 results on the Free plan.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/#webpage"},"inLanguage":"en","dateModified":"2026-10-28T08:02:04.854Z","image":"https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-awepzbjt4Zv29dF9p-Mg5YmLqb7x-logo.png"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Topics","item":"https://asimkhaniqbal.github.io/apify-actor-examples/topics/"},{"@type":"ListItem","position":3,"name":"Social Media","item":"https://asimkhaniqbal.github.io/apify-actor-examples/topics/social-media/"},{"@type":"ListItem","position":4,"name":"Twitch Live Stream, Channel & VOD Metadata Extractor","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/"}]},{"@type":"SoftwareApplication","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/#software","name":"Twitch Live Stream, Channel & VOD Metadata Extractor","description":"Get Twitch top live streams, channel profiles, category directories, VOD metadata and clip details, or resolve any twitch.tv URL into structured data.","url":"https://apify.com/vexaloom-labs/twitch-live-stream-channel-and-vod-metadata","applicationCategory":"DeveloperApplication","operatingSystem":"Apify platform (web)","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"image":"https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-awepzbjt4Zv29dF9p-Mg5YmLqb7x-logo.png","offers":{"@type":"Offer","url":"https://apify.com/vexaloom-labs/twitch-live-stream-channel-and-vod-metadata","priceCurrency":"USD","price":"0","priceSpecification":{"@type":"UnitPriceSpecification","price":0.00099,"priceCurrency":"USD","unitText":"result","referenceQuantity":{"@type":"QuantitativeValue","value":1,"unitText":"result"}},"description":"Pay per event: the price per result on Apify's Free plan; a start fee and platform usage are billed separately."}},{"@type":"FAQPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/#faq","mainEntity":[{"@type":"Question","name":"Do I need a Twitch account, OAuth token, or API key?","acceptedAnswer":{"@type":"Answer","text":"No. All modes work without a login or developer credentials."}},{"@type":"Question","name":"Why does a run stop before `maxItems`?","acceptedAnswer":{"@type":"Answer","text":"Twitch sometimes has fewer matching rows than requested. Clip lists stop at about 1,000 rows, search categories at about 30 matches, search channels at about 1,000 per term, and search videos at Twitch's 10,000-match ceiling. In byUrl, the cap is shared across the supplied URLs, so a small maxItems can stop before every URL is expanded. The actor reports when the source ends or a cap is reached instead of padding the dataset."}},{"@type":"Question","name":"Why are some channel fields missing?","acceptedAnswer":{"@type":"Answer","text":"Social links, schedules, panels, teams, and bio emails are optional on Twitch. They are included when the channel publishes them and omitted otherwise."}},{"@type":"Question","name":"How many live streams can one run return?","acceptedAnswer":{"@type":"Answer","text":"The live directory pages in groups of up to 30. Requesting thousands of rows means many pages and a longer run; the prefill stays small to keep daily tests cheap."}},{"@type":"Question","name":"Can this pull chat messages or video files?","acceptedAnswer":{"@type":"Answer","text":"No. This actor covers stream, channel, VOD, clip, and category metadata only. Chat replays and media downloads are separate tasks."}},{"@type":"Question","name":"What is the difference between `byCategory` and `byCategoryVideos`?","acceptedAnswer":{"@type":"Answer","text":"byCategory returns channels that are live in the category now. byCategoryVideos returns published VODs for that category."}},{"@type":"Question","name":"How do I find a category slug?","acceptedAnswer":{"@type":"Answer","text":"Open the category on Twitch and copy the last part of its URL, or use topGames and read slug."}},{"@type":"Question","name":"Are duplicate records removed?","acceptedAnswer":{"@type":"Answer","text":"Yes. Streams, channels, VODs, clips, and categories are deduplicated by their Twitch IDs across pages and batches."}},{"@type":"Question","name":"Is this affiliated with Twitch?","acceptedAnswer":{"@type":"Answer","text":"No. This actor reads public Twitch data and is not affiliated with, endorsed by, or sponsored by Twitch."}}],"isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/#webpage"}}]}</script><script src="/apify-actor-examples/assets/site.js?v=7b7086957d37" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header class="masthead"><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="32" height="32"><span>Vexaloom Labs</span></a><form class="site-search" action="/apify-actor-examples/actors/" role="search" data-search-index="/apify-actor-examples/search.json"><label class="sr-only" for="site-search">Search this site</label><input type="search" role="combobox" id="site-search" name="q" placeholder="Search by site or data" autocomplete="off" aria-autocomplete="list" aria-controls="site-search-results" aria-expanded="false"><ul id="site-search-results" class="search-results" role="listbox" hidden></ul></form><nav class="primary" aria-label="Main"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/sites/">Sites</a><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/guides/">Guides</a></nav></div></header><main id="main"><nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="/apify-actor-examples/">Home</a></li><li><a href="/apify-actor-examples/topics/">Topics</a></li><li><a href="/apify-actor-examples/topics/social-media/">Social Media</a></li><li aria-current="page">Twitch Live Stream, Channel &amp; VOD Metadata Extractor</li></ol></nav><div class="doc"><div class="doc-head"><h1>Twitch Live Stream, Channel &amp; VOD Metadata Extractor</h1><p class="lead">Get Twitch top live streams, channel profiles, category directories, VOD metadata and clip details, or resolve any twitch.tv URL into structured data.</p><dl class="facts"><div><dt>Updated</dt><dd><time datetime="2026-10-28">28 October 2026</time></dd></div><div><dt>Free plan</dt><dd>$0.99 per 1,000 results</dd></div><div><dt>Business plan</dt><dd>$0.49 per 1,000 results</dd></div><div><dt>Input</dt><dd>27 fields, 1 required</dd></div><div><dt>Output</dt><dd>8 declared fields</dd></div><div><dt>Site</dt><dd><a href="/apify-actor-examples/actors/twitch-live-stream-channel-and-vod-metadata/">Twitch</a></dd></div></dl><div class="cta"><a class="button" href="https://apify.com/vexaloom-labs/twitch-live-stream-channel-and-vod-metadata">Open in Apify Store</a><a class="button secondary" href="#run">Copy the API call</a></div></div><div class="doc-body"><nav class="toc" aria-label="On this page"><h2 class="toc-title">On this page</h2><ol><li><a href="#summary">In short</a></li><li><a href="#about">What it does</a></li><li><a href="#output">What you get</a></li><li><a href="#run">Run it</a></li><li><a href="#cost">What it costs</a></li><li><a href="#input">Input reference</a></li><li><a href="#faq">Questions</a></li><li><a href="#related">Related Actors</a></li></ol></nav><article class="prose"><p class="summary" id="summary">Twitch Live Stream, Channel &amp; VOD Metadata Extractor is an Apify Actor published by Vexaloom Labs. It accepts 27 input fields, and <code>mode</code> is required. Each result can carry up to 8 declared fields, including <code>recordType</code>, <code>title</code>, <code>channelName</code>, <code>displayName</code>, <code>viewersCount</code> and <code>viewCount</code>. It costs $0.99 per 1,000 results on Apify's Free plan and $0.49 on the Business plan.</p><section id="about"><h2>What it does</h2><!--readme--><p>Collect <strong>Twitch</strong> metadata without a login, OAuth app, or API key: live streams, channel profiles with social links and published schedules, category directories, category VODs, individual VODs and clips, search results, and resolved twitch.tv links. Every record is public data returned in clean JSON, with empty fields omitted.</p>
+<!--/readme--><h3 id="readme-what-this-actor-does">What this actor does</h3><!--readme--><ul>
 <li>Returns the live directory globally or inside one category, with viewer counts, language, start time, tags, broadcaster followers, partner status, and stream quality details</li>
 <li>Builds channel profiles with bio, images, follower count, roles, social links, About panels, primary team, upcoming schedule, total VOD count, and emails published in the bio</li>
 <li>Pages channel VODs and clips deeply, with VOD type/sort and clip period/sort controls</li>
@@ -423,8 +7,7 @@
 <li>Adds category VODs, batch channel/VOD/clip lookup, multi-URL resolution, and category stats on stream records</li>
 <li>Omits empty values at every depth instead of returning <code>null</code>, empty strings, or empty objects</li>
 </ul>
-<h2 id="readme-modes">Modes</h2>
-<div class="table-wrap"><table>
+<!--/readme--><h3 id="readme-modes">Modes</h3><!--readme--><div class="table-wrap"><table>
 <thead>
 <tr>
 <th>Mode</th>
@@ -474,9 +57,16 @@
 </tr>
 </tbody>
 </table></div>
-<h2 id="readme-output-per-record">Output per record</h2>
-<p>Every record carries a <code>recordType</code> of <code>stream</code>, <code>channel</code>, <code>video</code>, <code>clip</code>, or <code>game</code>, plus <code>scrapedAt</code>. Invalid URLs produce a typed <code>error</code> row, which does not count toward <code>maxItems</code>.</p>
-<h3 id="readme-live-stream-recordtype-stream">Live stream (<code>recordType: &quot;stream&quot;</code>)</h3>
+<!--/readme--><h3 id="readme-use-cases">Use cases</h3><!--readme--><ul>
+<li><strong>Creator discovery</strong> — find channels by category, language, tags, follower range, or viewer count</li>
+<li><strong>Sponsorship research</strong> — compare live audiences and follower totals across streamers</li>
+<li><strong>Clip curation</strong> — pull top or trending clips for a category or channel over a chosen window</li>
+<li><strong>VOD archives</strong> — collect titles, durations, views, and categories for past broadcasts</li>
+<li><strong>Market monitoring</strong> — track category viewers, broadcaster counts, and changing top streams</li>
+<li><strong>Link enrichment</strong> — turn lists of Twitch links into structured channel, VOD, clip, or category rows</li>
+</ul>
+<!--/readme--></section><section id="output"><h2>What you get</h2><p>The Actor saves one record per result to an Apify dataset. Its build declares 8 fields in 1 dataset view, and the README documents 33 more. Fields without a value can be left out of a record.</p><div class="table-wrap"><table class="output-table stack"><caption>Output fields</caption><thead><tr><th scope="col">Field</th><th scope="col">Label</th><th scope="col">What it holds</th></tr></thead><tbody><tr><th scope="row"><code>recordType</code></th><td data-label="Label"></td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>title</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Stream title<!--/readme--></td></tr><tr><th scope="row"><code>channelName</code></th><td data-label="Label"></td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>displayName</code></th><td data-label="Label"></td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>viewersCount</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Current concurrent viewers<!--/readme--></td></tr><tr><th scope="row"><code>viewCount</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Total views<!--/readme--></td></tr><tr><th scope="row"><code>gameName</code></th><td data-label="Label"></td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>url</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Channel URL<!--/readme--></td></tr><tr><th scope="row"><code>streamId</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Twitch stream ID<!--/readme--></td></tr><tr><th scope="row"><code>streamType</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Broadcast type<!--/readme--></td></tr><tr><th scope="row"><code>language</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Broadcast language code<!--/readme--></td></tr><tr><th scope="row"><code>startedAt</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Stream start timestamp<!--/readme--></td></tr><tr><th scope="row"><code>previewImageURL</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Live preview thumbnail<!--/readme--></td></tr><tr><th scope="row"><code>followersCount</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Broadcaster follower count<!--/readme--></td></tr><tr><th scope="row"><code>tags</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Freeform stream tags<!--/readme--></td></tr><tr><th scope="row"><code>isMature</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Mature-content flag<!--/readme--></td></tr><tr><th scope="row"><code>contentClassificationLabels</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Twitch content labels, when present<!--/readme--></td></tr><tr><th scope="row"><code>broadcaster</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Broadcaster object with images, color, followers, roles, social links<!--/readme--></td></tr><tr><th scope="row"><code>game</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Category object with artwork and category stats when available<!--/readme--></td></tr><tr><th scope="row"><code>description</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Public channel bio<!--/readme--></td></tr><tr><th scope="row"><code>createdAt</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Account creation date<!--/readme--></td></tr><tr><th scope="row"><code>primaryColorHex</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Brand color<!--/readme--></td></tr><tr><th scope="row"><code>isLive</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Whether the channel is live<!--/readme--></td></tr><tr><th scope="row"><code>liveStream</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Nested live-stream details when live<!--/readme--></td></tr><tr><th scope="row"><code>lastBroadcast</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Most recent broadcast details<!--/readme--></td></tr><tr><th scope="row"><code>socialLinks</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Social links shown on the channel page<!--/readme--></td></tr><tr><th scope="row"><code>panels</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->About-page panels with title, text, image, and link<!--/readme--></td></tr><tr><th scope="row"><code>primaryTeam</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Primary Twitch team, when set<!--/readme--></td></tr><tr><th scope="row"><code>upcomingSchedule</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Published upcoming schedule segments<!--/readme--></td></tr><tr><th scope="row"><code>videosCount</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Total current VODs on the channel<!--/readme--></td></tr><tr><th scope="row"><code>contactEmails</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Emails published in the public bio<!--/readme--></td></tr><tr><th scope="row"><code>videoId</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->VOD ID<!--/readme--></td></tr><tr><th scope="row"><code>lengthSeconds</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Duration in seconds<!--/readme--></td></tr><tr><th scope="row"><code>contentTags</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Twitch content tags<!--/readme--></td></tr><tr><th scope="row"><code>durationSeconds</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Clip length<!--/readme--></td></tr><tr><th scope="row"><code>isFeatured</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Featured flag, when true<!--/readme--></td></tr><tr><th scope="row"><code>videoOffsetSeconds</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Offset into the source broadcast, when known<!--/readme--></td></tr><tr><th scope="row"><code>curator</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Who created the clip<!--/readme--></td></tr><tr><th scope="row"><code>sourceVideo</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Source VOD ID and title, when linked<!--/readme--></td></tr><tr><th scope="row"><code>gameId</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Category ID<!--/readme--></td></tr><tr><th scope="row"><code>originalReleaseDate</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Release date when published<!--/readme--></td></tr></tbody></table></div><details class="publisher-notes"><summary>The publisher's output notes</summary><h3 id="readme-output-per-record">Output per record</h3><!--readme--><p>Every record carries a <code>recordType</code> of <code>stream</code>, <code>channel</code>, <code>video</code>, <code>clip</code>, or <code>game</code>, plus <code>scrapedAt</code>. Invalid URLs produce a typed <code>error</code> row, which does not count toward <code>maxItems</code>.</p>
+<h4 id="readme-live-stream-recordtype-stream">Live stream (<code>recordType: &quot;stream&quot;</code>)</h4>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -559,7 +149,7 @@
 </tr>
 </tbody>
 </table></div>
-<h3 id="readme-channel-recordtype-channel">Channel (<code>recordType: &quot;channel&quot;</code>)</h3>
+<h4 id="readme-channel-recordtype-channel">Channel (<code>recordType: &quot;channel&quot;</code>)</h4>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -646,7 +236,7 @@
 </tr>
 </tbody>
 </table></div>
-<h3 id="readme-vod-recordtype-video">VOD (<code>recordType: &quot;video&quot;</code>)</h3>
+<h4 id="readme-vod-recordtype-video">VOD (<code>recordType: &quot;video&quot;</code>)</h4>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -705,7 +295,7 @@
 </tr>
 </tbody>
 </table></div>
-<h3 id="readme-clip-recordtype-clip">Clip (<code>recordType: &quot;clip&quot;</code>)</h3>
+<h4 id="readme-clip-recordtype-clip">Clip (<code>recordType: &quot;clip&quot;</code>)</h4>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -772,7 +362,7 @@
 </tr>
 </tbody>
 </table></div>
-<h3 id="readme-category-recordtype-game">Category (<code>recordType: &quot;game&quot;</code>)</h3>
+<h4 id="readme-category-recordtype-game">Category (<code>recordType: &quot;game&quot;</code>)</h4>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -819,8 +409,48 @@
 </tr>
 </tbody>
 </table></div>
-<h2 id="readme-input">Input</h2>
-<div class="table-wrap"><table>
+<!--/readme--></details></section><section id="run"><h2>Run it</h2><p>Set <code>APIFY_TOKEN</code> to your <a href="https://console.apify.com/settings/integrations">Apify API token</a>, then run the Actor with the input below (top live streams in english). Each run is billed to your Apify account. The <a href="/apify-actor-examples/guides/twitch-live-stream-channel-and-vod-metadata/">export tutorial</a> turns the results into a CSV file or an Excel workbook.</p><div class="tabs" data-tabs><div class="tab-list" role="tablist" aria-label="Language"><button type="button" role="tab" id="run-tab-python" aria-controls="run-panel-python" aria-selected="true">Python</button><button type="button" role="tab" id="run-tab-javascript" aria-controls="run-panel-javascript" aria-selected="false" tabindex="-1">JavaScript</button><button type="button" role="tab" id="run-tab-curl" aria-controls="run-panel-curl" aria-selected="false" tabindex="-1">cURL</button><button type="button" role="tab" id="run-tab-mcp" aria-controls="run-panel-mcp" aria-selected="false" tabindex="-1">MCP</button></div><div role="tabpanel" id="run-panel-python" aria-labelledby="run-tab-python" class="tab-panel"><h3 class="tab-title">Python</h3><figure class="code"><pre><code id="run-python" class="language-python"># pip install apify-client
+import os
+from apify_client import ApifyClient
+
+ACTOR = &quot;vexaloom-labs/twitch-live-stream-channel-and-vod-metadata&quot;
+client = ApifyClient(os.environ[&quot;APIFY_TOKEN&quot;])
+run_input = {
+    &quot;mode&quot;: &quot;topStreams&quot;,
+    &quot;language&quot;: &quot;EN&quot;,
+    &quot;streamSort&quot;: &quot;VIEWER_COUNT&quot;,
+    &quot;maxItems&quot;: 50,
+}
+
+run = client.actor(ACTOR).call(run_input=run_input)
+for item in client.dataset(run[&quot;defaultDatasetId&quot;]).iterate_items():
+    print(item)
+</code></pre><button type="button" class="copy" data-copy="run-python">Copy</button></figure></div><div role="tabpanel" id="run-panel-javascript" aria-labelledby="run-tab-javascript" class="tab-panel"><h3 class="tab-title">JavaScript</h3><figure class="code"><pre><code id="run-javascript" class="language-javascript">// npm install apify-client
+import { ApifyClient } from &#x27;apify-client&#x27;;
+
+const ACTOR = &#x27;vexaloom-labs/twitch-live-stream-channel-and-vod-metadata&#x27;;
+const client = new ApifyClient({ token: process.env.APIFY_TOKEN });
+const input = {
+  &quot;mode&quot;: &quot;topStreams&quot;,
+  &quot;language&quot;: &quot;EN&quot;,
+  &quot;streamSort&quot;: &quot;VIEWER_COUNT&quot;,
+  &quot;maxItems&quot;: 50
+};
+
+const run = await client.actor(ACTOR).call(input);
+const { items } = await client.dataset(run.defaultDatasetId).listItems();
+console.log(items);
+</code></pre><button type="button" class="copy" data-copy="run-javascript">Copy</button></figure></div><div role="tabpanel" id="run-panel-curl" aria-labelledby="run-tab-curl" class="tab-panel"><h3 class="tab-title">cURL</h3><figure class="code"><pre><code id="run-curl" class="language-bash">curl -X POST &quot;https://api.apify.com/v2/acts/vexaloom-labs~twitch-live-stream-channel-and-vod-metadata/run-sync-get-dataset-items?format=json&quot; \
+  -H &quot;Authorization: Bearer $APIFY_TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;mode&quot;: &quot;topStreams&quot;, &quot;language&quot;: &quot;EN&quot;, &quot;streamSort&quot;: &quot;VIEWER_COUNT&quot;, &quot;maxItems&quot;: 50}&#x27;
+</code></pre><button type="button" class="copy" data-copy="run-curl">Copy</button></figure></div><div role="tabpanel" id="run-panel-mcp" aria-labelledby="run-tab-mcp" class="tab-panel"><h3 class="tab-title">MCP</h3><figure class="code"><pre><code id="run-mcp" class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;apify&quot;: {
+      &quot;url&quot;: &quot;https://mcp.apify.com?tools=vexaloom-labs/twitch-live-stream-channel-and-vod-metadata&quot;
+    }
+  }
+}</code></pre><button type="button" class="copy" data-copy="run-mcp">Copy</button></figure></div></div></section><section id="cost"><h2>What it costs</h2><p>Twitch Live Stream, Channel &amp; VOD Metadata Extractor uses pay-per-event pricing: a fee for each result saved to the dataset, plus a start fee per run. Paid Apify plans pay less per result. The start fee is charged once per GB of run memory (at least once); the default run uses 4 GB, so a run starts with 4 start events, as the run totals include. You also pay Apify platform usage (compute and proxy) for the run, which these totals do not include.</p><div class="table-wrap"><table class="price-table stack"><caption>Published prices and run totals by Apify plan</caption><thead><tr><th scope="col">Plan</th><th scope="col">Per result</th><th scope="col">Per 1,000</th><th scope="col">Start fee</th><th scope="col">100 results</th><th scope="col">1,000 results</th><th scope="col">10,000 results</th></tr></thead><tbody><tr><th scope="row">Free plan</th><td data-label="Per result">$0.00099</td><td data-label="Per 1,000">$0.99</td><td data-label="Start fee">$0.10</td><td data-label="100 results">$0.50</td><td data-label="1,000 results">$1.39</td><td data-label="10,000 results">$10.30</td></tr><tr><th scope="row">Starter plan</th><td data-label="Per result">$0.00082</td><td data-label="Per 1,000">$0.82</td><td data-label="Start fee">$0.077</td><td data-label="100 results">$0.39</td><td data-label="1,000 results">$1.13</td><td data-label="10,000 results">$8.51</td></tr><tr><th scope="row">Scale plan</th><td data-label="Per result">$0.00066</td><td data-label="Per 1,000">$0.66</td><td data-label="Start fee">$0.053</td><td data-label="100 results">$0.28</td><td data-label="1,000 results">$0.87</td><td data-label="10,000 results">$6.81</td></tr><tr><th scope="row">Business plan</th><td data-label="Per result">$0.00049</td><td data-label="Per 1,000">$0.49</td><td data-label="Start fee">$0.03</td><td data-label="100 results">$0.17</td><td data-label="1,000 results">$0.61</td><td data-label="10,000 results">$5.02</td></tr></tbody></table></div><p class="fine">Run totals are the Actor's charges at the default memory: start fees plus the per-result price. Check the <a href="https://apify.com/vexaloom-labs/twitch-live-stream-channel-and-vod-metadata">Store page</a> before a large run; prices can change with notice.</p></section><section id="input"><h2>Input reference</h2><p>All 27 fields of the published input schema, in the publisher's order. Required fields are marked. Download the <a href="input-schema.json">input schema</a> as JSON.</p><div class="table-wrap"><table class="input-table stack"><caption>Input fields in the published schema</caption><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead><tbody><tr><th scope="row"><code>mode</code><span class="field-title">Mode</span></th><td data-label="Type">string <span class="req">required</span></td><td data-label="Description"><!--readme-->What to fetch.<!--/readme--><span class="field-meta">Default <code>&quot;topStreams&quot;</code>; Allowed topStreams, topGames, search, byChannel, byCategory, byCategoryVideos, topClips, byVideo and 2 more</span></td></tr><tr><th scope="row"><code>searchQuery</code><span class="field-title">Search query (mode=search)</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Free-text query for <code>mode=search</code> — matches channels, categories, and videos.<!--/readme--><span class="field-meta">Default <code>&quot;lirik&quot;</code></span></td></tr><tr><th scope="row"><code>searchType</code><span class="field-title">Search result type (mode=search)</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Restrict search results to one index. <code>all</code> returns channels, categories, and videos.<!--/readme--><span class="field-meta">Default <code>&quot;all&quot;</code>; Allowed all, channel, game, video</span></td></tr><tr><th scope="row"><code>channelName</code><span class="field-title">Channel login (mode=byChannel)</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Twitch channel login or channel URL, e.g. <code>lirik</code> or <code>https://www.twitch.tv/lirik</code>.<!--/readme--></td></tr><tr><th scope="row"><code>channelNames</code><span class="field-title">Channel logins or URLs (mode=byChannel)</span></th><td data-label="Type">array</td><td data-label="Description"><!--readme-->Batch channel logins or channel URLs. Duplicates and the single <code>channelName</code> are merged.<!--/readme--><span class="field-meta">Default <code>[]</code></span></td></tr><tr><th scope="row"><code>categorySlug</code><span class="field-title">Category slug, name, or URL (mode=byCategory, byCategoryVideos, topClips)</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Category slug (<code>just-chatting</code>), exact name (<code>Just Chatting</code>), or directory URL.<!--/readme--></td></tr><tr><th scope="row"><code>videoId</code><span class="field-title">Video ID (mode=byVideo)</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Twitch VOD ID or VOD URL, e.g. <code>2766365638</code>.<!--/readme--></td></tr><tr><th scope="row"><code>videoIds</code><span class="field-title">Video IDs or URLs (mode=byVideo)</span></th><td data-label="Type">array</td><td data-label="Description"><!--readme-->Batch VOD IDs or VOD URLs. Duplicates and the single <code>videoId</code> are merged.<!--/readme--><span class="field-meta">Default <code>[]</code></span></td></tr><tr><th scope="row"><code>clipSlug</code><span class="field-title">Clip slug (mode=byClip)</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Twitch clip slug or clip URL, e.g. <code>AcceptablePleasantAuberginePanicVis-EVdxDQ1vsQAQZpBS</code>.<!--/readme--></td></tr><tr><th scope="row"><code>clipSlugs</code><span class="field-title">Clip slugs or URLs (mode=byClip)</span></th><td data-label="Type">array</td><td data-label="Description"><!--readme-->Batch clip slugs or clip URLs. Duplicates and the single <code>clipSlug</code> are merged.<!--/readme--><span class="field-meta">Default <code>[]</code></span></td></tr><tr><th scope="row"><code>twitchUrls</code><span class="field-title">Twitch URLs (mode=byUrl)</span></th><td data-label="Type">array</td><td data-label="Description"><!--readme-->Channel, VOD, clip, or category URLs. Category and channel <code>/videos</code> and <code>/clips</code> tabs are supported.<!--/readme--><span class="field-meta">Default <code>[]</code></span></td></tr><tr><th scope="row"><code>language</code><span class="field-title">Broadcast language</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Filter live streams, VODs, and clips to one broadcast language. Leave on <code>(any)</code> for no filter.<!--/readme--><span class="field-meta">Default <code>&quot;EN&quot;</code>; Allowed , EN, ES, DE, FR, PT, RU, JA and 25 more</span></td></tr><tr><th scope="row"><code>streamSort</code><span class="field-title">Live stream order</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Sort live streams by viewers (high to low or low to high), recently started, or recommended.<!--/readme--><span class="field-meta">Default <code>&quot;VIEWER_COUNT&quot;</code>; Allowed VIEWER_COUNT, VIEWER_COUNT_ASC, RECENT, RELEVANCE</span></td></tr><tr><th scope="row"><code>streamTags</code><span class="field-title">Stream tags</span></th><td data-label="Type">array</td><td data-label="Description"><!--readme-->Only live streams carrying all of these freeform tags, e.g. <code>English</code>, <code>DropsEnabled</code>, <code>NoBackseating</code>.<!--/readme--><span class="field-meta">Default <code>[]</code></span></td></tr><tr><th scope="row"><code>streamType</code><span class="field-title">VOD type</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Restrict channel or category VODs to one broadcast type. Leave blank for all types.<!--/readme--><span class="field-meta">Default <code>&quot;&quot;</code>; Allowed , ARCHIVE, HIGHLIGHT, UPLOAD, PAST_PREMIERE, PREMIERE_UPLOAD</span></td></tr><tr><th scope="row"><code>videoSort</code><span class="field-title">VOD order</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Sort channel or category VODs by publish time or view count.<!--/readme--><span class="field-meta">Default <code>&quot;TIME&quot;</code>; Allowed TIME, VIEWS</span></td></tr><tr><th scope="row"><code>clipPeriod</code><span class="field-title">Clip time window</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Time window over which clips were created.<!--/readme--><span class="field-meta">Default <code>&quot;LAST_WEEK&quot;</code>; Allowed LAST_DAY, LAST_WEEK, LAST_MONTH, ALL_TIME</span></td></tr><tr><th scope="row"><code>clipSort</code><span class="field-title">Clip order</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Sort clips by views or trending score.<!--/readme--><span class="field-meta">Default <code>&quot;VIEWS_DESC&quot;</code>; Allowed VIEWS_DESC, TRENDING</span></td></tr><tr><th scope="row"><code>includeChannelClips</code><span class="field-title">Include clips (mode=byChannel)</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Also fetch and emit top clips for each channel.<!--/readme--><span class="field-meta">Default <code>true</code></span></td></tr><tr><th scope="row"><code>includeChannelVideos</code><span class="field-title">Include VODs (mode=byChannel)</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Also fetch and emit recent VODs for each channel.<!--/readme--><span class="field-meta">Default <code>true</code></span></td></tr><tr><th scope="row"><code>minViewersCount</code><span class="field-title">Minimum concurrent viewers</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Drop live streams (and categories) below this viewer count.<!--/readme--><span class="field-meta">Allowed 0 to 1000000</span></td></tr><tr><th scope="row"><code>minViewCount</code><span class="field-title">Minimum total views</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Drop VODs and clips below this total view count.<!--/readme--><span class="field-meta">Allowed 0 to 100000000</span></td></tr><tr><th scope="row"><code>minFollowersCount</code><span class="field-title">Minimum followers</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Drop channels and live streams below this follower count. VODs and clips are unaffected.<!--/readme--><span class="field-meta">Allowed 0 to 100000000</span></td></tr><tr><th scope="row"><code>maxFollowersCount</code><span class="field-title">Maximum followers</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Drop channels and live streams above this follower count. Useful for finding smaller creators.<!--/readme--><span class="field-meta">Allowed 0 to 100000000</span></td></tr><tr><th scope="row"><code>onlyLive</code><span class="field-title">Only live channels</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Drop channel profile records for channels that are not live right now. Their VODs and clips are still returned.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr><tr><th scope="row"><code>containsKeyword</code><span class="field-title">Title contains keyword</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Case-insensitive substring filter on stream, VOD, and clip titles.<!--/readme--></td></tr><tr><th scope="row"><code>maxItems</code><span class="field-title">Max items</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Hard cap on emitted records. Twitch source caps still apply (e.g. about 1,000 clips per category).<!--/readme--><span class="field-meta">Default <code>50</code>; Example <code>3</code>; Allowed 1 to 5000</span></td></tr></tbody></table></div><details class="publisher-notes"><summary>The publisher's input notes</summary><h3 id="readme-input">Input</h3><!--readme--><div class="table-wrap"><table>
 <thead>
 <tr>
 <th>Field</th>
@@ -994,7 +624,7 @@
 </tr>
 </tbody>
 </table></div>
-<h3 id="readme-example-top-live-streams-in-english">Example: top live streams in English</h3>
+<h4 id="readme-example-top-live-streams-in-english">Example: top live streams in English</h4>
 <pre><code class="language-json">{
   &quot;mode&quot;: &quot;topStreams&quot;,
   &quot;language&quot;: &quot;EN&quot;,
@@ -1002,7 +632,7 @@
   &quot;maxItems&quot;: 50
 }
 </code></pre>
-<h3 id="readme-example-channel-profiles-with-schedules-and-media">Example: channel profiles with schedules and media</h3>
+<h4 id="readme-example-channel-profiles-with-schedules-and-media">Example: channel profiles with schedules and media</h4>
 <pre><code class="language-json">{
   &quot;mode&quot;: &quot;byChannel&quot;,
   &quot;channelNames&quot;: [&quot;lirik&quot;, &quot;xqc&quot;, &quot;pokimane&quot;],
@@ -1011,7 +641,7 @@
   &quot;maxItems&quot;: 60
 }
 </code></pre>
-<h3 id="readme-example-category-vods">Example: category VODs</h3>
+<h4 id="readme-example-category-vods">Example: category VODs</h4>
 <pre><code class="language-json">{
   &quot;mode&quot;: &quot;byCategoryVideos&quot;,
   &quot;categorySlug&quot;: &quot;minecraft&quot;,
@@ -1020,7 +650,7 @@
   &quot;maxItems&quot;: 100
 }
 </code></pre>
-<h3 id="readme-example-mixed-url-resolution">Example: mixed URL resolution</h3>
+<h4 id="readme-example-mixed-url-resolution">Example: mixed URL resolution</h4>
 <pre><code class="language-json">{
   &quot;mode&quot;: &quot;byUrl&quot;,
   &quot;twitchUrls&quot;: [
@@ -1031,32 +661,13 @@
   &quot;maxItems&quot;: 40
 }
 </code></pre>
-<h2 id="readme-use-cases">Use cases</h2>
-<ul>
-<li><strong>Creator discovery</strong> — find channels by category, language, tags, follower range, or viewer count</li>
-<li><strong>Sponsorship research</strong> — compare live audiences and follower totals across streamers</li>
-<li><strong>Clip curation</strong> — pull top or trending clips for a category or channel over a chosen window</li>
-<li><strong>VOD archives</strong> — collect titles, durations, views, and categories for past broadcasts</li>
-<li><strong>Market monitoring</strong> — track category viewers, broadcaster counts, and changing top streams</li>
-<li><strong>Link enrichment</strong> — turn lists of Twitch links into structured channel, VOD, clip, or category rows</li>
-</ul>
-<h2 id="readme-faq">FAQ</h2>
-<p><strong>Do I need a Twitch account, OAuth token, or API key?</strong>
-No. All modes work without a login or developer credentials.</p>
-<p><strong>Why does a run stop before <code>maxItems</code>?</strong>
-Twitch sometimes has fewer matching rows than requested. Clip lists stop at about 1,000 rows, search categories at about 30 matches, search channels at about 1,000 per term, and search videos at Twitch's 10,000-match ceiling. In <code>byUrl</code>, the cap is shared across the supplied URLs, so a small <code>maxItems</code> can stop before every URL is expanded. The actor reports when the source ends or a cap is reached instead of padding the dataset.</p>
-<p><strong>Why are some channel fields missing?</strong>
-Social links, schedules, panels, teams, and bio emails are optional on Twitch. They are included when the channel publishes them and omitted otherwise.</p>
-<p><strong>How many live streams can one run return?</strong>
-The live directory pages in groups of up to 30. Requesting thousands of rows means many pages and a longer run; the prefill stays small to keep daily tests cheap.</p>
-<p><strong>Can this pull chat messages or video files?</strong>
-No. This actor covers stream, channel, VOD, clip, and category metadata only. Chat replays and media downloads are separate tasks.</p>
-<p><strong>What is the difference between <code>byCategory</code> and <code>byCategoryVideos</code>?</strong>
-<code>byCategory</code> returns channels that are live in the category now. <code>byCategoryVideos</code> returns published VODs for that category.</p>
-<p><strong>How do I find a category slug?</strong>
-Open the category on Twitch and copy the last part of its URL, or use <code>topGames</code> and read <code>slug</code>.</p>
-<p><strong>Are duplicate records removed?</strong>
-Yes. Streams, channels, VODs, clips, and categories are deduplicated by their Twitch IDs across pages and batches.</p>
-<p><strong>Is this affiliated with Twitch?</strong>
-No. This actor reads public Twitch data and is not affiliated with, endorsed by, or sponsored by Twitch.</p>
-</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/twitch-live-stream-channel-and-vod-metadata/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>LulWkQbhoV6gIZUhD</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
+<!--/readme--></details></section><section id="faq"><h2>Questions</h2><div class="qa"><h3 id="faq-do-i-need-a-twitch-account-oauth-token-or-api-key"><!--readme-->Do I need a Twitch account, OAuth token, or API key?<!--/readme--></h3><!--readme--><p>No. All modes work without a login or developer credentials.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-why-does-a-run-stop-before-maxitems"><!--readme-->Why does a run stop before <code>maxItems</code>?<!--/readme--></h3><!--readme--><p>Twitch sometimes has fewer matching rows than requested. Clip lists stop at about 1,000 rows, search categories at about 30 matches, search channels at about 1,000 per term, and search videos at Twitch's 10,000-match ceiling. In <code>byUrl</code>, the cap is shared across the supplied URLs, so a small <code>maxItems</code> can stop before every URL is expanded. The actor reports when the source ends or a cap is reached instead of padding the dataset.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-why-are-some-channel-fields-missing"><!--readme-->Why are some channel fields missing?<!--/readme--></h3><!--readme--><p>Social links, schedules, panels, teams, and bio emails are optional on Twitch. They are included when the channel publishes them and omitted otherwise.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-how-many-live-streams-can-one-run-return"><!--readme-->How many live streams can one run return?<!--/readme--></h3><!--readme--><p>The live directory pages in groups of up to 30. Requesting thousands of rows means many pages and a longer run; the prefill stays small to keep daily tests cheap.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-can-this-pull-chat-messages-or-video-files"><!--readme-->Can this pull chat messages or video files?<!--/readme--></h3><!--readme--><p>No. This actor covers stream, channel, VOD, clip, and category metadata only. Chat replays and media downloads are separate tasks.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-what-is-the-difference-between-bycategory-and-bycategoryvide"><!--readme-->What is the difference between <code>byCategory</code> and <code>byCategoryVideos</code>?<!--/readme--></h3><!--readme--><p><code>byCategory</code> returns channels that are live in the category now. <code>byCategoryVideos</code> returns published VODs for that category.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-how-do-i-find-a-category-slug"><!--readme-->How do I find a category slug?<!--/readme--></h3><!--readme--><p>Open the category on Twitch and copy the last part of its URL, or use <code>topGames</code> and read <code>slug</code>.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-are-duplicate-records-removed"><!--readme-->Are duplicate records removed?<!--/readme--></h3><!--readme--><p>Yes. Streams, channels, VODs, clips, and categories are deduplicated by their Twitch IDs across pages and batches.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-is-this-affiliated-with-twitch"><!--readme-->Is this affiliated with Twitch?<!--/readme--></h3><!--readme--><p>No. This actor reads public Twitch data and is not affiliated with, endorsed by, or sponsored by Twitch.</p>
+<!--/readme--></div></section><section id="related"><h2>Related Actors</h2><ul class="related" role="list"><li><a href="/apify-actor-examples/actors/facebook-event-details-and-new-event-monitor/">Facebook Event Details &amp; New-Event Monitor Scraper</a><p>Fetch public Facebook event details by URL, page listing, or keyword/city search, with venue GPS, hosts, ticket links, and a monitor mode that reports only newly-posted events.</p></li><li><a href="/apify-actor-examples/actors/facebook-group-feed-and-engagement-extractor/">Facebook Group Feed &amp; Engagement Extractor</a><p>Pull posts from any public Facebook group with full text, media, reaction breakdown, top comments and reshares, plus optional group member count, admins and rules.</p></li><li><a href="/apify-actor-examples/actors/facebook-page-and-profile-finder-by-keyword-or-url/">Facebook Page &amp; Profile Finder by Keyword or URL</a><p>Find Facebook Pages or public profiles by keyword, or scrape a list of Facebook URLs directly, and get back contact info, category, ratings, follower counts, reviews, and recent posts.</p></li><li><a href="/apify-actor-examples/actors/facebook-page-photo-gallery-and-engagement-scraper/">Facebook Page Photo Gallery &amp; Engagement Scraper</a><p>Collect photos from public Facebook pages, profiles, and albums with full-resolution image URLs, alt text, captions, reaction breakdowns, share and comment counts, and tagged people.</p></li><li><a href="/apify-actor-examples/actors/facebook-political-and-commercial-ad-transparency/">Facebook Political &amp; Commercial Ad Transparency Extractor</a><p>Search the Facebook Ad Library by keyword, advertiser Page ID, Ad ID, or funding-entity name, and get ad text, media, run dates, platforms, and spend or impressions for political and issue ads.</p></li><li><a href="/apify-actor-examples/actors/facebook-post-and-group-comment-thread-extractor/">Facebook Post &amp; Group Comment Thread Extractor</a><p>Get comments and nested reply threads from public Facebook posts, Watch videos, photos, and group posts, with per-reaction-type counts, author details, and date filtering. No login or cookies required.</p></li></ul><p class="more"><a href="/apify-actor-examples/topics/social-media/">All social media Actors</a></p></section><section id="files"><h2>Source files</h2><p>This page is rebuilt from the default published build <code>LulWkQbhoV6gIZUhD</code>. Download what it was built from: <a href="README.md">README</a>, <a href="input-schema.json">input schema</a>, <a href="output-schema.json">output schema</a>, <a href="dataset-schema.json">dataset schema</a>, <a href="key-value-schema.json">key-value store schema</a>.</p></section></article></div></div></main><footer class="footer"><div class="inner"><p><strong>Vexaloom Labs</strong> builds and publishes these Actors on Apify. This site is generated from their published READMEs, schemas and prices.</p><nav aria-label="Footer"><a href="/apify-actor-examples/actors/">All Actors</a><a href="/apify-actor-examples/sites/">Sites</a><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/guides/">Guides</a><a href="/apify-actor-examples/sources/">How these pages are made</a><a href="https://apify.com/vexaloom-labs">Vexaloom Labs on Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></footer></body></html>

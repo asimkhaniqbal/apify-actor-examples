@@ -1,518 +1,5 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-pVE6BkmmSr2l+8nvuD4x+jqSY3QY7iRq1+rE8+WVzVM=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>YouTube Video Metadata &amp; Chapter Extractor | Vexaloom Labs</title><meta name="description" content="Get full metadata for any YouTube video or Short: channel info, chapters, endscreen elements, caption track list, related videos and comments, from a URL or video ID."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/"><meta property="og:title" content="YouTube Video Metadata &amp; Chapter Extractor | Vexaloom Labs"><meta property="og:description" content="Get full metadata for any YouTube video or Short: channel info, chapters, endscreen elements, caption track list, related videos and comments, from a URL or video ID."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/#webpage","name":"YouTube Video Metadata & Chapter Extractor","description":"Get full metadata for any YouTube video or Short: channel info, chapters, endscreen elements, caption track list, related videos and comments, from a URL or video ID.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/#article","headline":"YouTube Video Metadata & Chapter Extractor","name":"YouTube Video Metadata & Chapter Extractor","description":"Get full metadata for any YouTube video or Short: channel info, chapters, endscreen elements, caption track list, related videos and comments, from a URL or video ID.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/#webpage"},"inLanguage":"en","dateModified":"2026-10-26T15:38:43.451Z"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"YouTube Video Metadata & Chapter Extractor","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>YouTube Video Metadata &amp; Chapter Extractor</span></div><section id="overview"><h1 class="doc-title">YouTube Video Metadata &amp; Chapter Extractor</h1><p class="lede">Get full metadata for any YouTube video or Short: channel info, chapters, endscreen elements, caption track list, related videos and comments, from a URL or video ID.</p><p class="summary">YouTube Video Metadata &amp; Chapter Extractor is an Apify Actor published by Vexaloom Labs. It accepts 9 input fields, and <code>videoUrls</code> is required. Its build declares a results dataset with 2 views. Runs happen on Apify, where the Store page lists the current price.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/youtube-video-metadata-and-chapter-extractor">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/cGTM28m4PZXzrUeWS/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>videoUrls</code></td><td>array</td><td>required</td><td>YouTube watch, youtu.be, Shorts, embed or live links, or 11-character video IDs. Duplicates are removed.</td></tr><tr><td><code>maxComments</code></td><td>integer</td><td>optional</td><td>Maximum comment texts to collect per video. Set to 0 to skip comments. The display comment count is extracted separately.</td></tr><tr><td><code>includeChapters</code></td><td>boolean</td><td>optional</td><td>Extract manual and automatic chapters with title, start, end and source.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>videoUrls</code></td><td>array</td><td>required</td><td>YouTube watch, youtu.be, Shorts, embed or live links, or 11-character video IDs. Duplicates are removed.</td></tr><tr><td><code>maxComments</code></td><td>integer</td><td>optional</td><td>Maximum comment texts to collect per video. Set to 0 to skip comments. The display comment count is extracted separately.</td></tr><tr><td><code>includeChapters</code></td><td>boolean</td><td>optional</td><td>Extract manual and automatic chapters with title, start, end and source.</td></tr><tr><td><code>includeHeatmap</code></td><td>boolean</td><td>optional</td><td>Add the Most replayed heatmap segments and labels when YouTube provides them.</td></tr><tr><td><code>includeEndscreen</code></td><td>boolean</td><td>optional</td><td>Extract endscreen elements shown at the end of the video.</td></tr><tr><td><code>includeCards</code></td><td>boolean</td><td>optional</td><td>Extract interactive info cards embedded in the video.</td></tr><tr><td><code>includeTranscriptMetadata</code></td><td>boolean</td><td>optional</td><td>List available caption tracks with language and manual or auto-generated status.</td></tr><tr><td><code>includeTranscript</code></td><td>boolean</td><td>optional</td><td>Download the transcript when a caption track is available. Adds one request per video.</td></tr><tr><td><code>includeRelatedVideos</code></td><td>integer</td><td>optional</td><td>Number of related videos to extract from the watch page sidebar. 0 skips them.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;description&quot;: &quot;Scrape metadata, chapters, heatmap and caption availability for YouTube videos or Shorts.&quot;,
-  &quot;properties&quot;: {
-    &quot;includeCards&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Extract interactive info cards embedded in the video.&quot;,
-      &quot;prefill&quot;: false,
-      &quot;title&quot;: &quot;Extract info cards&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;includeChapters&quot;: {
-      &quot;default&quot;: true,
-      &quot;description&quot;: &quot;Extract manual and automatic chapters with title, start, end and source.&quot;,
-      &quot;prefill&quot;: true,
-      &quot;title&quot;: &quot;Extract chapters&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;includeEndscreen&quot;: {
-      &quot;default&quot;: true,
-      &quot;description&quot;: &quot;Extract endscreen elements shown at the end of the video.&quot;,
-      &quot;prefill&quot;: false,
-      &quot;title&quot;: &quot;Extract endscreen&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;includeHeatmap&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Add the Most replayed heatmap segments and labels when YouTube provides them.&quot;,
-      &quot;prefill&quot;: false,
-      &quot;title&quot;: &quot;Extract heatmap&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;includeRelatedVideos&quot;: {
-      &quot;default&quot;: 0,
-      &quot;description&quot;: &quot;Number of related videos to extract from the watch page sidebar. 0 skips them.&quot;,
-      &quot;editor&quot;: &quot;number&quot;,
-      &quot;maximum&quot;: 50,
-      &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Max related videos&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;includeTranscript&quot;: {
-      &quot;default&quot;: true,
-      &quot;description&quot;: &quot;Download the transcript when a caption track is available. Adds one request per video.&quot;,
-      &quot;prefill&quot;: false,
-      &quot;title&quot;: &quot;Extract transcript text&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;includeTranscriptMetadata&quot;: {
-      &quot;default&quot;: true,
-      &quot;description&quot;: &quot;List available caption tracks with language and manual or auto-generated status.&quot;,
-      &quot;prefill&quot;: true,
-      &quot;title&quot;: &quot;List caption tracks&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;maxComments&quot;: {
-      &quot;default&quot;: 0,
-      &quot;description&quot;: &quot;Maximum comment texts to collect per video. Set to 0 to skip comments. The display comment count is extracted separately.&quot;,
-      &quot;editor&quot;: &quot;number&quot;,
-      &quot;maximum&quot;: 1000,
-      &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Max comments per video&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;videoUrls&quot;: {
-      &quot;description&quot;: &quot;YouTube watch, youtu.be, Shorts, embed or live links, or 11-character video IDs. Duplicates are removed.&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;items&quot;: {
-        &quot;type&quot;: &quot;string&quot;
-      },
-      &quot;minItems&quot;: 1,
-      &quot;prefill&quot;: [
-        &quot;jNQXAC9IVRw&quot;,
-        &quot;dQw4w9WgXcQ&quot;,
-        &quot;M7lc1UVf-VE&quot;
-      ],
-      &quot;title&quot;: &quot;Video URLs or IDs&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    }
-  },
-  &quot;required&quot;: [
-    &quot;videoUrls&quot;
-  ],
-  &quot;schemaVersion&quot;: 1,
-  &quot;title&quot;: &quot;YouTube Video Metadata &amp; Chapter Extractor Input&quot;,
-  &quot;type&quot;: &quot;object&quot;
-}
-</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>videos</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped full video details, nested collections, and comments.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;actorOutputSchemaVersion&quot;: 1,
-  &quot;description&quot;: &quot;One record per video with exact metadata, manual and automatic chapters, heatmap segments, caption-track availability, live and age status, comments and transcript when available.&quot;,
-  &quot;properties&quot;: {
-    &quot;videos&quot;: {
-      &quot;description&quot;: &quot;Dataset containing all scraped full video details, nested collections, and comments.&quot;,
-      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
-      &quot;title&quot;: &quot;YouTube Video Details Scraper dataset&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    }
-  },
-  &quot;title&quot;: &quot;YouTube Video Metadata &amp; Chapter Extractor Output&quot;
-}
-</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;actorSpecification&quot;: 1,
-  &quot;views&quot;: {
-    &quot;detailed&quot;: {
-      &quot;display&quot;: {
-        &quot;component&quot;: &quot;table&quot;,
-        &quot;properties&quot;: {
-          &quot;availableCountries&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Available Countries&quot;
-          },
-          &quot;captionTrackCount&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Caption tracks&quot;
-          },
-          &quot;captionTracks&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Caption Tracks&quot;
-          },
-          &quot;category&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Category&quot;
-          },
-          &quot;channel.badges&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Channel Badges&quot;
-          },
-          &quot;channel.handle&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Handle&quot;
-          },
-          &quot;channel.id&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Channel ID&quot;
-          },
-          &quot;channel.name&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Channel Name&quot;
-          },
-          &quot;channel.subscriberCount&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Subscribers&quot;
-          },
-          &quot;channel.subscriberCountText&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Subscribers Text&quot;
-          },
-          &quot;channel.url&quot;: {
-            &quot;format&quot;: &quot;link&quot;,
-            &quot;label&quot;: &quot;Channel URL&quot;
-          },
-          &quot;channelId&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Channel ID&quot;
-          },
-          &quot;channelName&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Channel&quot;
-          },
-          &quot;chapterSource&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Chapter source&quot;
-          },
-          &quot;chapters&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Chapters&quot;
-          },
-          &quot;clipEndMs&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Clip End (ms)&quot;
-          },
-          &quot;clipId&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Clip ID&quot;
-          },
-          &quot;clipStartMs&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Clip Start (ms)&quot;
-          },
-          &quot;commentCount&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Comments&quot;
-          },
-          &quot;commentCountText&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Comments (display)&quot;
-          },
-          &quot;comments&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Comments&quot;
-          },
-          &quot;commentsDisabled&quot;: {
-            &quot;format&quot;: &quot;boolean&quot;,
-            &quot;label&quot;: &quot;Comments Disabled&quot;
-          },
-          &quot;defaultAudioLanguage&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Audio Language&quot;
-          },
-          &quot;description&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Description&quot;
-          },
-          &quot;durationSeconds&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Duration (s)&quot;
-          },
-          &quot;endscreen&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Endscreen&quot;
-          },
-          &quot;engagementRate&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Engagement Rate&quot;
-          },
-          &quot;hasAutoCaptions&quot;: {
-            &quot;format&quot;: &quot;boolean&quot;,
-            &quot;label&quot;: &quot;Auto captions&quot;
-          },
-          &quot;hasManualCaptions&quot;: {
-            &quot;format&quot;: &quot;boolean&quot;,
-            &quot;label&quot;: &quot;Manual captions&quot;
-          },
-          &quot;hashtags&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Hashtags&quot;
-          },
-          &quot;heatmap&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Heatmap&quot;
-          },
-          &quot;heatmapSegmentCount&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Heatmap segments&quot;
-          },
-          &quot;inputUrl&quot;: {
-            &quot;format&quot;: &quot;link&quot;,
-            &quot;label&quot;: &quot;Input URL&quot;
-          },
-          &quot;isAgeGated&quot;: {
-            &quot;format&quot;: &quot;boolean&quot;,
-            &quot;label&quot;: &quot;Age Gated&quot;
-          },
-          &quot;isFamilySafe&quot;: {
-            &quot;format&quot;: &quot;boolean&quot;,
-            &quot;label&quot;: &quot;Family Safe&quot;
-          },
-          &quot;isLiveNow&quot;: {
-            &quot;format&quot;: &quot;boolean&quot;,
-            &quot;label&quot;: &quot;Live now&quot;
-          },
-          &quot;isPlayable&quot;: {
-            &quot;format&quot;: &quot;boolean&quot;,
-            &quot;label&quot;: &quot;Is Playable&quot;
-          },
-          &quot;isShortsEligible&quot;: {
-            &quot;format&quot;: &quot;boolean&quot;,
-            &quot;label&quot;: &quot;Shorts Eligible&quot;
-          },
-          &quot;isUnlisted&quot;: {
-            &quot;format&quot;: &quot;boolean&quot;,
-            &quot;label&quot;: &quot;Unlisted&quot;
-          },
-          &quot;isUpcoming&quot;: {
-            &quot;format&quot;: &quot;boolean&quot;,
-            &quot;label&quot;: &quot;Upcoming&quot;
-          },
-          &quot;likeCount&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Likes&quot;
-          },
-          &quot;liveStatus&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Live Status&quot;
-          },
-          &quot;mostReplayed&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Most replayed&quot;
-          },
-          &quot;playabilityStatus&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Playability Status&quot;
-          },
-          &quot;publishedAt&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Published at&quot;
-          },
-          &quot;publishedDate&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Published&quot;
-          },
-          &quot;relatedVideos&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Related Videos&quot;
-          },
-          &quot;requiresLogin&quot;: {
-            &quot;format&quot;: &quot;boolean&quot;,
-            &quot;label&quot;: &quot;Requires Login&quot;
-          },
-          &quot;resolution&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Resolution&quot;
-          },
-          &quot;scrapedAt&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Scraped At&quot;
-          },
-          &quot;success&quot;: {
-            &quot;format&quot;: &quot;boolean&quot;,
-            &quot;label&quot;: &quot;Success&quot;
-          },
-          &quot;tags&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Tags&quot;
-          },
-          &quot;thumbnails&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Thumbnails&quot;
-          },
-          &quot;title&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Title&quot;
-          },
-          &quot;transcript&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Transcript&quot;
-          },
-          &quot;type&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Type&quot;
-          },
-          &quot;uploadType&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Upload Type&quot;
-          },
-          &quot;url&quot;: {
-            &quot;format&quot;: &quot;link&quot;,
-            &quot;label&quot;: &quot;URL&quot;
-          },
-          &quot;videoId&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Video ID&quot;
-          },
-          &quot;viewCount&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Views&quot;
-          }
-        }
-      },
-      &quot;title&quot;: &quot;Detailed&quot;,
-      &quot;transformation&quot;: {
-        &quot;fields&quot;: [
-          &quot;type&quot;,
-          &quot;videoId&quot;,
-          &quot;url&quot;,
-          &quot;title&quot;,
-          &quot;description&quot;,
-          &quot;channelId&quot;,
-          &quot;channelName&quot;,
-          &quot;publishedDate&quot;,
-          &quot;publishedAt&quot;,
-          &quot;durationSeconds&quot;,
-          &quot;viewCount&quot;,
-          &quot;likeCount&quot;,
-          &quot;commentCount&quot;,
-          &quot;commentCountText&quot;,
-          &quot;tags&quot;,
-          &quot;category&quot;,
-          &quot;defaultAudioLanguage&quot;,
-          &quot;liveStatus&quot;,
-          &quot;isLiveNow&quot;,
-          &quot;isUpcoming&quot;,
-          &quot;isUnlisted&quot;,
-          &quot;engagementRate&quot;,
-          &quot;hashtags&quot;,
-          &quot;uploadType&quot;,
-          &quot;resolution&quot;,
-          &quot;isFamilySafe&quot;,
-          &quot;isShortsEligible&quot;,
-          &quot;thumbnails&quot;,
-          &quot;playabilityStatus&quot;,
-          &quot;isPlayable&quot;,
-          &quot;isAgeGated&quot;,
-          &quot;requiresLogin&quot;,
-          &quot;commentsDisabled&quot;,
-          &quot;availableCountries&quot;,
-          &quot;captionTracks&quot;,
-          &quot;captionTrackCount&quot;,
-          &quot;hasManualCaptions&quot;,
-          &quot;hasAutoCaptions&quot;,
-          &quot;chapters&quot;,
-          &quot;heatmap&quot;,
-          &quot;mostReplayed&quot;,
-          &quot;heatmapSegmentCount&quot;,
-          &quot;chapterSource&quot;,
-          &quot;endscreen&quot;,
-          &quot;relatedVideos&quot;,
-          &quot;transcript&quot;,
-          &quot;comments&quot;,
-          &quot;clipId&quot;,
-          &quot;clipStartMs&quot;,
-          &quot;clipEndMs&quot;,
-          &quot;channel.id&quot;,
-          &quot;channel.name&quot;,
-          &quot;channel.handle&quot;,
-          &quot;channel.url&quot;,
-          &quot;channel.subscriberCount&quot;,
-          &quot;channel.subscriberCountText&quot;,
-          &quot;channel.badges&quot;,
-          &quot;success&quot;,
-          &quot;inputUrl&quot;,
-          &quot;scrapedAt&quot;
-        ],
-        &quot;flatten&quot;: [
-          &quot;channel&quot;
-        ]
-      }
-    },
-    &quot;overview&quot;: {
-      &quot;display&quot;: {
-        &quot;component&quot;: &quot;table&quot;,
-        &quot;properties&quot;: {
-          &quot;category&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Category&quot;
-          },
-          &quot;channelName&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Channel&quot;
-          },
-          &quot;commentCount&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Comments&quot;
-          },
-          &quot;commentsDisabled&quot;: {
-            &quot;format&quot;: &quot;boolean&quot;,
-            &quot;label&quot;: &quot;Comments Disabled&quot;
-          },
-          &quot;durationSeconds&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Duration (s)&quot;
-          },
-          &quot;isAgeGated&quot;: {
-            &quot;format&quot;: &quot;boolean&quot;,
-            &quot;label&quot;: &quot;Age Gated&quot;
-          },
-          &quot;isPlayable&quot;: {
-            &quot;format&quot;: &quot;boolean&quot;,
-            &quot;label&quot;: &quot;Playable&quot;
-          },
-          &quot;likeCount&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Likes&quot;
-          },
-          &quot;playabilityStatus&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Playability&quot;
-          },
-          &quot;publishedAt&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Published at&quot;
-          },
-          &quot;publishedDate&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Published&quot;
-          },
-          &quot;success&quot;: {
-            &quot;format&quot;: &quot;boolean&quot;,
-            &quot;label&quot;: &quot;Success&quot;
-          },
-          &quot;title&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Title&quot;
-          },
-          &quot;url&quot;: {
-            &quot;format&quot;: &quot;link&quot;,
-            &quot;label&quot;: &quot;URL&quot;
-          },
-          &quot;videoId&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Video ID&quot;
-          },
-          &quot;viewCount&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Views&quot;
-          }
-        }
-      },
-      &quot;title&quot;: &quot;Overview&quot;,
-      &quot;transformation&quot;: {
-        &quot;fields&quot;: [
-          &quot;videoId&quot;,
-          &quot;url&quot;,
-          &quot;title&quot;,
-          &quot;channelName&quot;,
-          &quot;viewCount&quot;,
-          &quot;likeCount&quot;,
-          &quot;commentCount&quot;,
-          &quot;durationSeconds&quot;,
-          &quot;publishedDate&quot;,
-          &quot;publishedAt&quot;,
-          &quot;category&quot;,
-          &quot;playabilityStatus&quot;,
-          &quot;isPlayable&quot;,
-          &quot;isAgeGated&quot;,
-          &quot;commentsDisabled&quot;,
-          &quot;success&quot;
-        ]
-      }
-    }
-  }
-}
-</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-youtube-video-metadata-chapter-extractor">YouTube Video Metadata &amp; Chapter Extractor</h2>
-<p>Give this actor YouTube video or Short links (or bare 11-character IDs) and get one structured row per video: exact metadata, manual and automatic chapters, heatmap segments, caption-track availability, live and age status, and optional comments or transcript text. No YouTube API key, cookies, or proxy setup.</p>
-<h2 id="readme-what-this-actor-does">What this actor does</h2>
-<ul>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-lONYHj8aHrQpB9gv8LA90i5Co4jFQWRk/y5t1TYBgL0=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; connect-src &#x27;self&#x27;; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>YouTube Video Metadata &amp; Chapter Extractor – docs, price and API | Vexaloom Labs</title><meta name="description" content="Get full metadata for any YouTube video or Short: channel info, chapters, endscreen elements, caption track list, related videos and comments, from a URL or video ID. From $0.99 per 1,000 results on t"><meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/"><meta property="og:title" content="YouTube Video Metadata &amp; Chapter Extractor – docs, price and API | Vexaloom Labs"><meta property="og:description" content="Get full metadata for any YouTube video or Short: channel info, chapters, endscreen elements, caption track list, related videos and comments, from a URL or video ID. From $0.99 per 1,000 results on t"><meta property="og:type" content="article"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/"><meta property="og:site_name" content="Vexaloom Labs"><meta property="og:image" content="https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-cGTM28m4PZXzrUeWS-nOleBczmcW-logo.png"><meta name="twitter:card" content="summary"><meta name="theme-color" content="#7c3aed"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e299c13a23d7"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=1bc613038b6a"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs","https://github.com/asimkhaniqbal/apify-actor-examples"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs Actor documentation","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/#webpage","name":"YouTube Video Metadata & Chapter Extractor – docs, price and API","description":"Get full metadata for any YouTube video or Short: channel info, chapters, endscreen elements, caption track list, related videos and comments, from a URL or video ID. From $0.99 per 1,000 results on the Free plan.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/#article"},"dateModified":"2026-10-26T15:38:43.451Z","breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/#article","headline":"YouTube Video Metadata & Chapter Extractor – docs, price and API","name":"YouTube Video Metadata & Chapter Extractor – docs, price and API","description":"Get full metadata for any YouTube video or Short: channel info, chapters, endscreen elements, caption track list, related videos and comments, from a URL or video ID. From $0.99 per 1,000 results on the Free plan.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/#webpage"},"inLanguage":"en","dateModified":"2026-10-26T15:38:43.451Z","image":"https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-cGTM28m4PZXzrUeWS-nOleBczmcW-logo.png"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Sites","item":"https://asimkhaniqbal.github.io/apify-actor-examples/sites/"},{"@type":"ListItem","position":3,"name":"YouTube","item":"https://asimkhaniqbal.github.io/apify-actor-examples/sites/youtube/"},{"@type":"ListItem","position":4,"name":"YouTube Video Metadata & Chapter Extractor","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/"}]},{"@type":"SoftwareApplication","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/#software","name":"YouTube Video Metadata & Chapter Extractor","description":"Get full metadata for any YouTube video or Short: channel info, chapters, endscreen elements, caption track list, related videos and comments, from a URL or video ID.","url":"https://apify.com/vexaloom-labs/youtube-video-metadata-and-chapter-extractor","applicationCategory":"DeveloperApplication","operatingSystem":"Apify platform (web)","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"image":"https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-cGTM28m4PZXzrUeWS-nOleBczmcW-logo.png","offers":{"@type":"Offer","url":"https://apify.com/vexaloom-labs/youtube-video-metadata-and-chapter-extractor","priceCurrency":"USD","price":"0","priceSpecification":{"@type":"UnitPriceSpecification","price":0.00099,"priceCurrency":"USD","unitText":"result","referenceQuantity":{"@type":"QuantitativeValue","value":1,"unitText":"result"}},"description":"Pay per event: the price per result on Apify's Free plan; a start fee and platform usage are billed separately."}},{"@type":"FAQPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/#faq","mainEntity":[{"@type":"Question","name":"Does it need cookies or a proxy?","acceptedAnswer":{"@type":"Answer","text":"No. It reads public YouTube pages and public InnerTube endpoints without cookies, logins or API keys. No proxy setup is required. After a block it can retry through Apify's built-in datacenter proxy automatically; there is no proxy field and nothing to configure."}},{"@type":"Question","name":"Why is `commentCount` missing when I can see a count on YouTube?","acceptedAnswer":{"@type":"Answer","text":"YouTube shows abbreviated counts such as 2.4M. That value is returned in commentCountText. commentCount is populated only when the display value is an exact integer, so a rounded number is never presented as exact."}},{"@type":"Question","name":"Why is a description short or a field missing?","acceptedAnswer":{"@type":"Answer","text":"On Apify cloud/datacenter IPs YouTube sometimes shows a bot-check page. The actor still returns the chapters and heatmap visible on that page and recovers what it can, but some fields (publish time, duration, tags, caption tracks, transcript) may be missing and a gated description can be cut to about 160 characters. It never invents values. Re-running can recover more because the gate is per request."}},{"@type":"Question","name":"Why is a heatmap missing?","acceptedAnswer":{"@type":"Answer","text":"YouTube does not publish Most replayed data for every video. It is commonly absent on live streams, very new or low-view videos, some music videos and age-restricted videos. The field is omitted rather than fabricated."}},{"@type":"Question","name":"Why do some videos have no chapters?","acceptedAnswer":{"@type":"Answer","text":"Only creators who add chapters, or videos where YouTube generates automatic chapters, have them. chapterSource tells you which kind was found. Videos with neither have no chapters field."}},{"@type":"Question","name":"Are auto-generated chapters supported?","acceptedAnswer":{"@type":"Answer","text":"Yes. They use YouTube's AUTOCHAPTERS surface and are labelled auto; creator chapters are labelled manual."}},{"@type":"Question","name":"Why are captions missing for some videos?","acceptedAnswer":{"@type":"Answer","text":"YouTube only exposes caption tracks when the uploader provided them or the platform generated them. Live streams, some age-restricted videos and bot-gated pages often have none. captionTrackCount, hasManualCaptions and hasAutoCaptions show what was observed; a zero on a gated page can mean \"not observed\" rather than \"no captions\"."}},{"@type":"Question","name":"Is the transcript always available?","acceptedAnswer":{"@type":"Answer","text":"No. Transcript text is returned only when a caption track can be downloaded. Set includeTranscript to false to skip the extra request."}},{"@type":"Question","name":"What happens for age-restricted or private videos?","acceptedAnswer":{"@type":"Answer","text":"Age-restricted videos can return real metadata with isAgeGated: true. Private, removed or members-only videos produce a failure row with success: false and the reason YouTube gave. The actor does not bypass access controls."}},{"@type":"Question","name":"Does a failed link stop the run?","acceptedAnswer":{"@type":"Answer","text":"No. Every unique input gets its own row; failures do not stop the remaining videos."}},{"@type":"Question","name":"Is this affiliated with YouTube?","acceptedAnswer":{"@type":"Answer","text":"No. It is an independent tool that reads publicly available YouTube data."}}],"isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-video-metadata-and-chapter-extractor/#webpage"}}]}</script><script src="/apify-actor-examples/assets/site.js?v=7b7086957d37" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header class="masthead"><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="32" height="32"><span>Vexaloom Labs</span></a><form class="site-search" action="/apify-actor-examples/actors/" role="search" data-search-index="/apify-actor-examples/search.json"><label class="sr-only" for="site-search">Search this site</label><input type="search" role="combobox" id="site-search" name="q" placeholder="Search by site or data" autocomplete="off" aria-autocomplete="list" aria-controls="site-search-results" aria-expanded="false"><ul id="site-search-results" class="search-results" role="listbox" hidden></ul></form><nav class="primary" aria-label="Main"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/sites/">Sites</a><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/guides/">Guides</a></nav></div></header><main id="main"><nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="/apify-actor-examples/">Home</a></li><li><a href="/apify-actor-examples/sites/">Sites</a></li><li><a href="/apify-actor-examples/sites/youtube/">YouTube</a></li><li aria-current="page">YouTube Video Metadata &amp; Chapter Extractor</li></ol></nav><div class="doc"><div class="doc-head"><h1>YouTube Video Metadata &amp; Chapter Extractor</h1><p class="lead">Get full metadata for any YouTube video or Short: channel info, chapters, endscreen elements, caption track list, related videos and comments, from a URL or video ID.</p><dl class="facts"><div><dt>Updated</dt><dd><time datetime="2026-10-26">26 October 2026</time></dd></div><div><dt>Free plan</dt><dd>$0.99 per 1,000 results</dd></div><div><dt>Business plan</dt><dd>$0.49 per 1,000 results</dd></div><div><dt>Input</dt><dd>9 fields, 1 required</dd></div><div><dt>Output</dt><dd>60 declared fields</dd></div><div><dt>Site</dt><dd><a href="/apify-actor-examples/sites/youtube/">YouTube</a></dd></div></dl><div class="cta"><a class="button" href="https://apify.com/vexaloom-labs/youtube-video-metadata-and-chapter-extractor">Open in Apify Store</a><a class="button secondary" href="#run">Copy the API call</a></div></div><div class="doc-body"><nav class="toc" aria-label="On this page"><h2 class="toc-title">On this page</h2><ol><li><a href="#summary">In short</a></li><li><a href="#about">What it does</a></li><li><a href="#output">What you get</a></li><li><a href="#run">Run it</a></li><li><a href="#cost">What it costs</a></li><li><a href="#input">Input reference</a></li><li><a href="#faq">Questions</a></li><li><a href="#notes">Limits and notes</a></li><li><a href="#related">Related Actors</a></li></ol></nav><article class="prose"><p class="summary" id="summary">YouTube Video Metadata &amp; Chapter Extractor is an Apify Actor published by Vexaloom Labs. It accepts 9 input fields, and <code>videoUrls</code> is required. Each result can carry up to 60 declared fields, including <code>videoId</code>, <code>url</code>, <code>title</code>, <code>channelName</code>, <code>viewCount</code> and <code>likeCount</code>. It costs $0.99 per 1,000 results on Apify's Free plan and $0.49 on the Business plan.</p><section id="about"><h2>What it does</h2><!--readme--><p>Give this actor YouTube video or Short links (or bare 11-character IDs) and get one structured row per video: exact metadata, manual and automatic chapters, heatmap segments, caption-track availability, live and age status, and optional comments or transcript text. No YouTube API key, cookies, or proxy setup.</p>
+<!--/readme--><h3 id="readme-what-this-actor-does">What this actor does</h3><!--readme--><ul>
 <li><strong>Exact metadata:</strong> title, description, channel, exact views and likes, duration, ISO publish time, category, creator keywords, thumbnails and canonical URL.</li>
 <li><strong>Chapters:</strong> manual creator chapters and YouTube-generated automatic chapters, each with title, start, end, source and a deep link. Description timestamps are used only when YouTube exposes no chapter panel.</li>
 <li><strong>Heatmap:</strong> optional Most replayed segments and YouTube's own labels. Heatmap is available when YouTube provides it and is omitted otherwise.</li>
@@ -522,8 +9,15 @@
 <li><strong>Comments:</strong> up to 1,000 comment texts per video when enabled. The display comment count is captured separately.</li>
 <li><strong>Omit-empty:</strong> a field is present only when YouTube returned real data. On a gated page some values, including caption summaries, can be unavailable rather than genuinely empty; see Limitations.</li>
 </ul>
-<h2 id="readme-output">Output</h2>
-<p>Each dataset row is one unique video.</p>
+<!--/readme--><h3 id="readme-use-cases">Use cases</h3><!--readme--><ul>
+<li><strong>Content research:</strong> compare exact views, likes, dates and chapter structure across a list of videos.</li>
+<li><strong>SEO and publishing:</strong> inspect titles, descriptions, tags, categories and hashtags from competitors.</li>
+<li><strong>Retention analysis:</strong> see which parts YouTube marks as Most replayed and how they line up with chapters.</li>
+<li><strong>Caption and accessibility audits:</strong> find which languages have manual captions versus auto-generated tracks.</li>
+<li><strong>Monitoring:</strong> re-run the same list to track view growth, live status and availability changes.</li>
+<li><strong>AI and analytics pipelines:</strong> feed clean, stable JSON into summaries, dashboards or datasets.</li>
+</ul>
+<!--/readme--></section><section id="output"><h2>What you get</h2><p>The Actor saves one record per result to an Apify dataset. Its build declares 60 fields in 2 dataset views, and the README documents 2 more. Fields without a value can be left out of a record.</p><div class="table-wrap"><table class="output-table stack"><caption>Output fields</caption><thead><tr><th scope="col">Field</th><th scope="col">Label</th><th scope="col">What it holds</th></tr></thead><tbody><tr><th scope="row"><code>videoId</code></th><td data-label="Label">Video ID</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>url</code></th><td data-label="Label">URL</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>title</code></th><td data-label="Label">Title</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>channelName</code></th><td data-label="Label">Channel</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>viewCount</code></th><td data-label="Label">Views</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>likeCount</code></th><td data-label="Label">Likes</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>commentCount</code></th><td data-label="Label">Comments</td><td data-label="What it holds"><!--readme-->Only when the display value is an exact integer<!--/readme--></td></tr><tr><th scope="row"><code>durationSeconds</code></th><td data-label="Label">Duration (s)</td><td data-label="What it holds"><!--readme-->Omitted for live streams or unknown duration<!--/readme--></td></tr><tr><th scope="row"><code>publishedDate</code></th><td data-label="Label">Published</td><td data-label="What it holds"><!--readme--><code>YYYY-MM-DD</code><!--/readme--></td></tr><tr><th scope="row"><code>publishedAt</code></th><td data-label="Label">Published at</td><td data-label="What it holds"><!--readme-->ISO-8601 timestamp with the original offset; omitted when YouTube hides it on a gated page<!--/readme--></td></tr><tr><th scope="row"><code>category</code></th><td data-label="Label">Category</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>playabilityStatus</code></th><td data-label="Label">Playability</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>isPlayable</code></th><td data-label="Label">Playable</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>isAgeGated</code></th><td data-label="Label">Age Gated</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>commentsDisabled</code></th><td data-label="Label">Comments Disabled</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>success</code></th><td data-label="Label">Success</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>type</code></th><td data-label="Label">Type</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>description</code></th><td data-label="Label">Description</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>channelId</code></th><td data-label="Label">Channel ID</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>commentCountText</code></th><td data-label="Label">Comments (display)</td><td data-label="What it holds"><!--readme-->Display count such as <code>2.4M</code><!--/readme--></td></tr><tr><th scope="row"><code>tags</code></th><td data-label="Label">Tags</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>defaultAudioLanguage</code></th><td data-label="Label">Audio Language</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>liveStatus</code></th><td data-label="Label">Live Status</td><td data-label="What it holds"><!--readme--><code>live_now</code>, <code>was_live</code> or <code>upcoming</code>; omitted for regular uploads<!--/readme--></td></tr><tr><th scope="row"><code>isLiveNow</code></th><td data-label="Label">Live now</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>isUpcoming</code></th><td data-label="Label">Upcoming</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>isUnlisted</code></th><td data-label="Label">Unlisted</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>engagementRate</code></th><td data-label="Label">Engagement Rate</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>hashtags</code></th><td data-label="Label">Hashtags</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>uploadType</code></th><td data-label="Label">Upload Type</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>resolution</code></th><td data-label="Label">Resolution</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>isFamilySafe</code></th><td data-label="Label">Family Safe</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>isShortsEligible</code></th><td data-label="Label">Shorts Eligible</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>thumbnails</code></th><td data-label="Label">Thumbnails</td><td data-label="What it holds"><!--readme-->default, medium, high, standard, maxres when available<!--/readme--></td></tr><tr><th scope="row"><code>requiresLogin</code></th><td data-label="Label">Requires Login</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>availableCountries</code></th><td data-label="Label">Available Countries</td><td data-label="What it holds"><!--readme-->Country codes YouTube reports<!--/readme--></td></tr><tr><th scope="row"><code>captionTracks</code></th><td data-label="Label">Caption Tracks</td><td data-label="What it holds"><!--readme-->language, name, auto-generated flag, translatable; empty when YouTube exposes none or gates the page<!--/readme--></td></tr><tr><th scope="row"><code>captionTrackCount</code></th><td data-label="Label">Caption tracks</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>hasManualCaptions</code></th><td data-label="Label">Manual captions</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>hasAutoCaptions</code></th><td data-label="Label">Auto captions</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>chapters</code></th><td data-label="Label">Chapters</td><td data-label="What it holds"><!--readme-->title, startSeconds, endSeconds, startTimeText, source, url, thumbnailUrl<!--/readme--></td></tr><tr><th scope="row"><code>heatmap</code></th><td data-label="Label">Heatmap</td><td data-label="What it holds"><!--readme-->startSeconds, endSeconds, intensity (when enabled)<!--/readme--></td></tr><tr><th scope="row"><code>mostReplayed</code></th><td data-label="Label">Most replayed</td><td data-label="What it holds"><!--readme-->YouTube's Most replayed labels (when enabled)<!--/readme--></td></tr><tr><th scope="row"><code>heatmapSegmentCount</code></th><td data-label="Label">Heatmap segments</td><td data-label="What it holds"><!--readme-->Present only when a heatmap exists<!--/readme--></td></tr><tr><th scope="row"><code>chapterSource</code></th><td data-label="Label">Chapter source</td><td data-label="What it holds"><!--readme--><code>manual</code>, <code>auto</code> or <code>description</code><!--/readme--></td></tr><tr><th scope="row"><code>endscreen</code></th><td data-label="Label">Endscreen</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>relatedVideos</code></th><td data-label="Label">Related Videos</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>transcript</code></th><td data-label="Label">Transcript</td><td data-label="What it holds"><!--readme-->Timed <code>{start, dur, text}</code> segments when available<!--/readme--></td></tr><tr><th scope="row"><code>comments</code></th><td data-label="Label">Comments</td><td data-label="What it holds"><!--readme-->Comment texts when <code>maxComments</code> &gt; 0<!--/readme--></td></tr><tr><th scope="row"><code>clipId</code></th><td data-label="Label">Clip ID</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>clipStartMs</code></th><td data-label="Label">Clip Start (ms)</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>clipEndMs</code></th><td data-label="Label">Clip End (ms)</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>channel.id</code></th><td data-label="Label">Channel ID</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>channel.name</code></th><td data-label="Label">Channel Name</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>channel.handle</code></th><td data-label="Label">Handle</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>channel.url</code></th><td data-label="Label">Channel URL</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>channel.subscriberCount</code></th><td data-label="Label">Subscribers</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>channel.subscriberCountText</code></th><td data-label="Label">Subscribers Text</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>channel.badges</code></th><td data-label="Label">Channel Badges</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>inputUrl</code></th><td data-label="Label">Input URL</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>scrapedAt</code></th><td data-label="Label">Scraped At</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>channel</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->id, name, handle, url, subscriber count/text, logo, badges<!--/readme--></td></tr><tr><th scope="row"><code>uploadDate</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Raw YouTube upload value<!--/readme--></td></tr></tbody></table></div><details class="publisher-notes"><summary>The publisher's output notes</summary><h3 id="readme-output">Output</h3><!--readme--><p>Each dataset row is one unique video.</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -676,8 +170,48 @@
 </tbody>
 </table></div>
 <p>Failure rows are written for invalid, removed, private or region-blocked links. They keep the input URL, a real video ID when known, <code>success: false</code> and an explanatory <code>error</code>; they never invent metadata.</p>
-<h2 id="readme-input">Input</h2>
-<div class="table-wrap"><table>
+<!--/readme--></details></section><section id="run"><h2>Run it</h2><p>Set <code>APIFY_TOKEN</code> to your <a href="https://console.apify.com/settings/integrations">Apify API token</a>, then run the Actor with the input below (core metadata and chapters). Each run is billed to your Apify account. The <a href="/apify-actor-examples/guides/youtube-video-metadata-and-chapter-extractor/">export tutorial</a> turns the results into a CSV file or an Excel workbook.</p><div class="tabs" data-tabs><div class="tab-list" role="tablist" aria-label="Language"><button type="button" role="tab" id="run-tab-python" aria-controls="run-panel-python" aria-selected="true">Python</button><button type="button" role="tab" id="run-tab-javascript" aria-controls="run-panel-javascript" aria-selected="false" tabindex="-1">JavaScript</button><button type="button" role="tab" id="run-tab-curl" aria-controls="run-panel-curl" aria-selected="false" tabindex="-1">cURL</button><button type="button" role="tab" id="run-tab-mcp" aria-controls="run-panel-mcp" aria-selected="false" tabindex="-1">MCP</button></div><div role="tabpanel" id="run-panel-python" aria-labelledby="run-tab-python" class="tab-panel"><h3 class="tab-title">Python</h3><figure class="code"><pre><code id="run-python" class="language-python"># pip install apify-client
+import os
+from apify_client import ApifyClient
+
+ACTOR = &quot;vexaloom-labs/youtube-video-metadata-and-chapter-extractor&quot;
+client = ApifyClient(os.environ[&quot;APIFY_TOKEN&quot;])
+run_input = {
+    &quot;videoUrls&quot;: [&quot;https://www.youtube.com/watch?v=dQw4w9WgXcQ&quot;],
+    &quot;includeChapters&quot;: True,
+    &quot;includeHeatmap&quot;: False,
+}
+
+run = client.actor(ACTOR).call(run_input=run_input)
+for item in client.dataset(run[&quot;defaultDatasetId&quot;]).iterate_items():
+    print(item)
+</code></pre><button type="button" class="copy" data-copy="run-python">Copy</button></figure></div><div role="tabpanel" id="run-panel-javascript" aria-labelledby="run-tab-javascript" class="tab-panel"><h3 class="tab-title">JavaScript</h3><figure class="code"><pre><code id="run-javascript" class="language-javascript">// npm install apify-client
+import { ApifyClient } from &#x27;apify-client&#x27;;
+
+const ACTOR = &#x27;vexaloom-labs/youtube-video-metadata-and-chapter-extractor&#x27;;
+const client = new ApifyClient({ token: process.env.APIFY_TOKEN });
+const input = {
+  &quot;videoUrls&quot;: [
+    &quot;https://www.youtube.com/watch?v=dQw4w9WgXcQ&quot;
+  ],
+  &quot;includeChapters&quot;: true,
+  &quot;includeHeatmap&quot;: false
+};
+
+const run = await client.actor(ACTOR).call(input);
+const { items } = await client.dataset(run.defaultDatasetId).listItems();
+console.log(items);
+</code></pre><button type="button" class="copy" data-copy="run-javascript">Copy</button></figure></div><div role="tabpanel" id="run-panel-curl" aria-labelledby="run-tab-curl" class="tab-panel"><h3 class="tab-title">cURL</h3><figure class="code"><pre><code id="run-curl" class="language-bash">curl -X POST &quot;https://api.apify.com/v2/acts/vexaloom-labs~youtube-video-metadata-and-chapter-extractor/run-sync-get-dataset-items?format=json&quot; \
+  -H &quot;Authorization: Bearer $APIFY_TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;videoUrls&quot;: [&quot;https://www.youtube.com/watch?v=dQw4w9WgXcQ&quot;], &quot;includeChapters&quot;: true, &quot;includeHeatmap&quot;: false}&#x27;
+</code></pre><button type="button" class="copy" data-copy="run-curl">Copy</button></figure></div><div role="tabpanel" id="run-panel-mcp" aria-labelledby="run-tab-mcp" class="tab-panel"><h3 class="tab-title">MCP</h3><figure class="code"><pre><code id="run-mcp" class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;apify&quot;: {
+      &quot;url&quot;: &quot;https://mcp.apify.com?tools=vexaloom-labs/youtube-video-metadata-and-chapter-extractor&quot;
+    }
+  }
+}</code></pre><button type="button" class="copy" data-copy="run-mcp">Copy</button></figure></div></div></section><section id="cost"><h2>What it costs</h2><p>YouTube Video Metadata &amp; Chapter Extractor uses pay-per-event pricing: a fee for each result saved to the dataset, plus a start fee per run. Paid Apify plans pay less per result. The start fee is charged once per GB of run memory (at least once); the default run uses 4 GB, so a run starts with 4 start events, as the run totals include. You also pay Apify platform usage (compute and proxy) for the run, which these totals do not include.</p><div class="table-wrap"><table class="price-table stack"><caption>Published prices and run totals by Apify plan</caption><thead><tr><th scope="col">Plan</th><th scope="col">Per result</th><th scope="col">Per 1,000</th><th scope="col">Start fee</th><th scope="col">100 results</th><th scope="col">1,000 results</th><th scope="col">10,000 results</th></tr></thead><tbody><tr><th scope="row">Free plan</th><td data-label="Per result">$0.00099</td><td data-label="Per 1,000">$0.99</td><td data-label="Start fee">$0.10</td><td data-label="100 results">$0.50</td><td data-label="1,000 results">$1.39</td><td data-label="10,000 results">$10.30</td></tr><tr><th scope="row">Starter plan</th><td data-label="Per result">$0.00082</td><td data-label="Per 1,000">$0.82</td><td data-label="Start fee">$0.077</td><td data-label="100 results">$0.39</td><td data-label="1,000 results">$1.13</td><td data-label="10,000 results">$8.51</td></tr><tr><th scope="row">Scale plan</th><td data-label="Per result">$0.00066</td><td data-label="Per 1,000">$0.66</td><td data-label="Start fee">$0.053</td><td data-label="100 results">$0.28</td><td data-label="1,000 results">$0.87</td><td data-label="10,000 results">$6.81</td></tr><tr><th scope="row">Business plan</th><td data-label="Per result">$0.00049</td><td data-label="Per 1,000">$0.49</td><td data-label="Start fee">$0.03</td><td data-label="100 results">$0.17</td><td data-label="1,000 results">$0.61</td><td data-label="10,000 results">$5.02</td></tr></tbody></table></div><p class="fine">Run totals are the Actor's charges at the default memory: start fees plus the per-result price. Check the <a href="https://apify.com/vexaloom-labs/youtube-video-metadata-and-chapter-extractor">Store page</a> before a large run; prices can change with notice.</p></section><section id="input"><h2>Input reference</h2><p>All 9 fields of the published input schema, in the publisher's order. Required fields are marked. Download the <a href="input-schema.json">input schema</a> as JSON.</p><div class="table-wrap"><table class="input-table stack"><caption>Input fields in the published schema</caption><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead><tbody><tr><th scope="row"><code>videoUrls</code><span class="field-title">Video URLs or IDs</span></th><td data-label="Type">array <span class="req">required</span></td><td data-label="Description"><!--readme-->YouTube watch, youtu.be, Shorts, embed or live links, or 11-character video IDs. Duplicates are removed.<!--/readme--><span class="field-meta">Example <code>[&quot;jNQXAC9IVRw&quot;, &quot;dQw4w9WgXcQ&quot;, &quot;M7lc1UVf-VE&quot;]</code></span></td></tr><tr><th scope="row"><code>maxComments</code><span class="field-title">Max comments per video</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Maximum comment texts to collect per video. Set to 0 to skip comments. The display comment count is extracted separately.<!--/readme--><span class="field-meta">Default <code>0</code>; Allowed 0 to 1000</span></td></tr><tr><th scope="row"><code>includeChapters</code><span class="field-title">Extract chapters</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Extract manual and automatic chapters with title, start, end and source.<!--/readme--><span class="field-meta">Default <code>true</code></span></td></tr><tr><th scope="row"><code>includeHeatmap</code><span class="field-title">Extract heatmap</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Add the Most replayed heatmap segments and labels when YouTube provides them.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr><tr><th scope="row"><code>includeEndscreen</code><span class="field-title">Extract endscreen</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Extract endscreen elements shown at the end of the video.<!--/readme--><span class="field-meta">Default <code>true</code>; Example <code>false</code></span></td></tr><tr><th scope="row"><code>includeCards</code><span class="field-title">Extract info cards</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Extract interactive info cards embedded in the video.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr><tr><th scope="row"><code>includeTranscriptMetadata</code><span class="field-title">List caption tracks</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->List available caption tracks with language and manual or auto-generated status.<!--/readme--><span class="field-meta">Default <code>true</code></span></td></tr><tr><th scope="row"><code>includeTranscript</code><span class="field-title">Extract transcript text</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Download the transcript when a caption track is available. Adds one request per video.<!--/readme--><span class="field-meta">Default <code>true</code>; Example <code>false</code></span></td></tr><tr><th scope="row"><code>includeRelatedVideos</code><span class="field-title">Max related videos</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Number of related videos to extract from the watch page sidebar. 0 skips them.<!--/readme--><span class="field-meta">Default <code>0</code>; Allowed 0 to 50</span></td></tr></tbody></table></div><details class="publisher-notes"><summary>The publisher's input notes</summary><h3 id="readme-input">Input</h3><!--readme--><div class="table-wrap"><table>
 <thead>
 <tr>
 <th>Field</th>
@@ -743,14 +277,14 @@
 </tr>
 </tbody>
 </table></div>
-<h3 id="readme-example-core-metadata-and-chapters">Example: core metadata and chapters</h3>
+<h4 id="readme-example-core-metadata-and-chapters">Example: core metadata and chapters</h4>
 <pre><code class="language-json">{
   &quot;videoUrls&quot;: [&quot;https://www.youtube.com/watch?v=dQw4w9WgXcQ&quot;],
   &quot;includeChapters&quot;: true,
   &quot;includeHeatmap&quot;: false
 }
 </code></pre>
-<h3 id="readme-example-batch-ids-with-heatmap-and-comments">Example: batch IDs with heatmap and comments</h3>
+<h4 id="readme-example-batch-ids-with-heatmap-and-comments">Example: batch IDs with heatmap and comments</h4>
 <pre><code class="language-json">{
   &quot;videoUrls&quot;: [&quot;jNQXAC9IVRw&quot;, &quot;https://youtu.be/dQw4w9WgXcQ&quot;, &quot;https://www.youtube.com/shorts/IaSm0LeErrc&quot;],
   &quot;includeHeatmap&quot;: true,
@@ -758,40 +292,18 @@
   &quot;includeTranscript&quot;: false
 }
 </code></pre>
-<h2 id="readme-use-cases">Use cases</h2>
-<ul>
-<li><strong>Content research:</strong> compare exact views, likes, dates and chapter structure across a list of videos.</li>
-<li><strong>SEO and publishing:</strong> inspect titles, descriptions, tags, categories and hashtags from competitors.</li>
-<li><strong>Retention analysis:</strong> see which parts YouTube marks as Most replayed and how they line up with chapters.</li>
-<li><strong>Caption and accessibility audits:</strong> find which languages have manual captions versus auto-generated tracks.</li>
-<li><strong>Monitoring:</strong> re-run the same list to track view growth, live status and availability changes.</li>
-<li><strong>AI and analytics pipelines:</strong> feed clean, stable JSON into summaries, dashboards or datasets.</li>
-</ul>
-<h2 id="readme-faq">FAQ</h2>
-<p><strong>Does it need cookies or a proxy?</strong>
-No. It reads public YouTube pages and public InnerTube endpoints without cookies, logins or API keys. No proxy setup is required. After a block it can retry through Apify's built-in datacenter proxy automatically; there is no proxy field and nothing to configure.</p>
-<p><strong>Why is <code>commentCount</code> missing when I can see a count on YouTube?</strong>
-YouTube shows abbreviated counts such as <code>2.4M</code>. That value is returned in <code>commentCountText</code>. <code>commentCount</code> is populated only when the display value is an exact integer, so a rounded number is never presented as exact.</p>
-<p><strong>Why is a description short or a field missing?</strong>
-On Apify cloud/datacenter IPs YouTube sometimes shows a bot-check page. The actor still returns the chapters and heatmap visible on that page and recovers what it can, but some fields (publish time, duration, tags, caption tracks, transcript) may be missing and a gated description can be cut to about 160 characters. It never invents values. Re-running can recover more because the gate is per request.</p>
-<p><strong>Why is a heatmap missing?</strong>
-YouTube does not publish Most replayed data for every video. It is commonly absent on live streams, very new or low-view videos, some music videos and age-restricted videos. The field is omitted rather than fabricated.</p>
-<p><strong>Why do some videos have no chapters?</strong>
-Only creators who add chapters, or videos where YouTube generates automatic chapters, have them. <code>chapterSource</code> tells you which kind was found. Videos with neither have no <code>chapters</code> field.</p>
-<p><strong>Are auto-generated chapters supported?</strong>
-Yes. They use YouTube's <code>AUTO_CHAPTERS</code> surface and are labelled <code>auto</code>; creator chapters are labelled <code>manual</code>.</p>
-<p><strong>Why are captions missing for some videos?</strong>
-YouTube only exposes caption tracks when the uploader provided them or the platform generated them. Live streams, some age-restricted videos and bot-gated pages often have none. <code>captionTrackCount</code>, <code>hasManualCaptions</code> and <code>hasAutoCaptions</code> show what was observed; a zero on a gated page can mean &quot;not observed&quot; rather than &quot;no captions&quot;.</p>
-<p><strong>Is the transcript always available?</strong>
-No. Transcript text is returned only when a caption track can be downloaded. Set <code>includeTranscript</code> to <code>false</code> to skip the extra request.</p>
-<p><strong>What happens for age-restricted or private videos?</strong>
-Age-restricted videos can return real metadata with <code>isAgeGated: true</code>. Private, removed or members-only videos produce a failure row with <code>success: false</code> and the reason YouTube gave. The actor does not bypass access controls.</p>
-<p><strong>Does a failed link stop the run?</strong>
-No. Every unique input gets its own row; failures do not stop the remaining videos.</p>
-<p><strong>Is this affiliated with YouTube?</strong>
-No. It is an independent tool that reads publicly available YouTube data.</p>
-<h2 id="readme-limitations">Limitations</h2>
-<ul>
+<!--/readme--></details></section><section id="faq"><h2>Questions</h2><div class="qa"><h3 id="faq-does-it-need-cookies-or-a-proxy"><!--readme-->Does it need cookies or a proxy?<!--/readme--></h3><!--readme--><p>No. It reads public YouTube pages and public InnerTube endpoints without cookies, logins or API keys. No proxy setup is required. After a block it can retry through Apify's built-in datacenter proxy automatically; there is no proxy field and nothing to configure.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-why-is-commentcount-missing-when-i-can-see-a-count-on-youtub"><!--readme-->Why is <code>commentCount</code> missing when I can see a count on YouTube?<!--/readme--></h3><!--readme--><p>YouTube shows abbreviated counts such as <code>2.4M</code>. That value is returned in <code>commentCountText</code>. <code>commentCount</code> is populated only when the display value is an exact integer, so a rounded number is never presented as exact.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-why-is-a-description-short-or-a-field-missing"><!--readme-->Why is a description short or a field missing?<!--/readme--></h3><!--readme--><p>On Apify cloud/datacenter IPs YouTube sometimes shows a bot-check page. The actor still returns the chapters and heatmap visible on that page and recovers what it can, but some fields (publish time, duration, tags, caption tracks, transcript) may be missing and a gated description can be cut to about 160 characters. It never invents values. Re-running can recover more because the gate is per request.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-why-is-a-heatmap-missing"><!--readme-->Why is a heatmap missing?<!--/readme--></h3><!--readme--><p>YouTube does not publish Most replayed data for every video. It is commonly absent on live streams, very new or low-view videos, some music videos and age-restricted videos. The field is omitted rather than fabricated.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-why-do-some-videos-have-no-chapters"><!--readme-->Why do some videos have no chapters?<!--/readme--></h3><!--readme--><p>Only creators who add chapters, or videos where YouTube generates automatic chapters, have them. <code>chapterSource</code> tells you which kind was found. Videos with neither have no <code>chapters</code> field.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-are-auto-generated-chapters-supported"><!--readme-->Are auto-generated chapters supported?<!--/readme--></h3><!--readme--><p>Yes. They use YouTube's <code>AUTO_CHAPTERS</code> surface and are labelled <code>auto</code>; creator chapters are labelled <code>manual</code>.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-why-are-captions-missing-for-some-videos"><!--readme-->Why are captions missing for some videos?<!--/readme--></h3><!--readme--><p>YouTube only exposes caption tracks when the uploader provided them or the platform generated them. Live streams, some age-restricted videos and bot-gated pages often have none. <code>captionTrackCount</code>, <code>hasManualCaptions</code> and <code>hasAutoCaptions</code> show what was observed; a zero on a gated page can mean &quot;not observed&quot; rather than &quot;no captions&quot;.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-is-the-transcript-always-available"><!--readme-->Is the transcript always available?<!--/readme--></h3><!--readme--><p>No. Transcript text is returned only when a caption track can be downloaded. Set <code>includeTranscript</code> to <code>false</code> to skip the extra request.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-what-happens-for-age-restricted-or-private-videos"><!--readme-->What happens for age-restricted or private videos?<!--/readme--></h3><!--readme--><p>Age-restricted videos can return real metadata with <code>isAgeGated: true</code>. Private, removed or members-only videos produce a failure row with <code>success: false</code> and the reason YouTube gave. The actor does not bypass access controls.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-does-a-failed-link-stop-the-run"><!--readme-->Does a failed link stop the run?<!--/readme--></h3><!--readme--><p>No. Every unique input gets its own row; failures do not stop the remaining videos.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-is-this-affiliated-with-youtube"><!--readme-->Is this affiliated with YouTube?<!--/readme--></h3><!--readme--><p>No. It is an independent tool that reads publicly available YouTube data.</p>
+<!--/readme--></div></section><section id="notes"><h2>Limits and notes</h2><h3 id="readme-limitations">Limitations</h3><!--readme--><ul>
 <li>Heatmap, automatic chapters, captions and transcripts are conditional on what YouTube publishes for each video.</li>
 <li>Cloud runs can be partially gated by YouTube. Missing fields (publish time, duration, tags, caption tracks, transcript) are omitted rather than guessed; a gated description can be truncated to about 160 characters, and summary values such as <code>captionTrackCount: 0</code> can mean &quot;not observed&quot; rather than &quot;none&quot;. Re-running can recover more because the gate is per request.</li>
 <li>A Short is labelled <code>short</code> when the input uses a <code>/shorts/</code> link or YouTube exposes the Shorts player; a bare ID without those signals is labelled <code>video</code> (<code>isShortsEligible</code> and duration are still returned).</li>
@@ -799,4 +311,4 @@ No. It is an independent tool that reads publicly available YouTube data.</p>
 <li>Private, members-only and login-gated content is not supported.</li>
 <li>YouTube's public endpoints can intermittently ask for a bot check; the actor retries with a fresh connection before reporting a real failure.</li>
 </ul>
-</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/youtube-video-metadata-and-chapter-extractor/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>VOgav5hJOcKjn0MxC</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
+<!--/readme--></section><section id="related"><h2>Related Actors</h2><ul class="related" role="list"><li><a href="/apify-actor-examples/actors/youtube-channel-video-catalog-and-profile-scraper/">YouTube Channel Video Catalog &amp; Profile Scraper</a><p>Get a YouTube channel&#x27;s profile details (subscribers, description, links, verification) together with its video, Shorts, playlist or live-stream catalog, for one channel or many at once.</p></li><li><a href="/apify-actor-examples/actors/youtube-playlist-contents-and-channel-playlist/">YouTube Playlist Contents &amp; Channel Playlist Finder</a><p>List every video in a YouTube playlist, or discover every public playlist a channel owns, with titles, durations, thumbnails, and playlist metadata.</p></li><li><a href="/apify-actor-examples/actors/youtube-search-results-and-entity-type-scraper/">YouTube Search Results &amp; Entity Type Scraper</a><p>Search YouTube by keyword for videos, Shorts, channels, or playlists, with view counts, duration, and channel details, filterable by upload date, duration, sort order, and region.</p></li><li><a href="/apify-actor-examples/actors/youtube-shorts-metadata-extractor-for-channels/">YouTube Shorts Metadata Extractor for Channels &amp; Hashtags</a><p>Pull Shorts from a channel&#x27;s Shorts tab, a hashtag feed, or specific Shorts links, with views, likes, comment counts, upload dates and channel profile detail.</p></li><li><a href="/apify-actor-examples/actors/facebook-event-details-and-new-event-monitor/">Facebook Event Details &amp; New-Event Monitor Scraper</a><p>Fetch public Facebook event details by URL, page listing, or keyword/city search, with venue GPS, hosts, ticket links, and a monitor mode that reports only newly-posted events.</p></li><li><a href="/apify-actor-examples/actors/facebook-group-feed-and-engagement-extractor/">Facebook Group Feed &amp; Engagement Extractor</a><p>Pull posts from any public Facebook group with full text, media, reaction breakdown, top comments and reshares, plus optional group member count, admins and rules.</p></li></ul><p class="more"><a href="/apify-actor-examples/sites/youtube/">Compare all 5 YouTube Actors</a> <a href="/apify-actor-examples/topics/social-media/">All social media Actors</a></p></section><section id="files"><h2>Source files</h2><p>This page is rebuilt from the default published build <code>VOgav5hJOcKjn0MxC</code>. Download what it was built from: <a href="README.md">README</a>, <a href="input-schema.json">input schema</a>, <a href="output-schema.json">output schema</a>, <a href="dataset-schema.json">dataset schema</a>, <a href="key-value-schema.json">key-value store schema</a>.</p></section></article></div></div></main><footer class="footer"><div class="inner"><p><strong>Vexaloom Labs</strong> builds and publishes these Actors on Apify. This site is generated from their published READMEs, schemas and prices.</p><nav aria-label="Footer"><a href="/apify-actor-examples/actors/">All Actors</a><a href="/apify-actor-examples/sites/">Sites</a><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/guides/">Guides</a><a href="/apify-actor-examples/sources/">How these pages are made</a><a href="https://apify.com/vexaloom-labs">Vexaloom Labs on Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></footer></body></html>

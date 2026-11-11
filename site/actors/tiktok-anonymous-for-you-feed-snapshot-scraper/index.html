@@ -1,645 +1,5 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-htxlIyMS19wu+5YkJ96WA7c+ZdIZLqPiPzIszNQRnAk=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>TikTok Anonymous For You Feed Snapshot Scraper | Vexaloom Labs</title><meta name="description" content="Capture a snapshot of posts currently surfacing on TikTok&#x27;s anonymous For You feed, with engagement stats, author, music, and hashtag details for each video or slideshow."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/"><meta property="og:title" content="TikTok Anonymous For You Feed Snapshot Scraper | Vexaloom Labs"><meta property="og:description" content="Capture a snapshot of posts currently surfacing on TikTok&#x27;s anonymous For You feed, with engagement stats, author, music, and hashtag details for each video or slideshow."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/#webpage","name":"TikTok Anonymous For You Feed Snapshot Scraper","description":"Capture a snapshot of posts currently surfacing on TikTok's anonymous For You feed, with engagement stats, author, music, and hashtag details for each video or slideshow.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/#article","headline":"TikTok Anonymous For You Feed Snapshot Scraper","name":"TikTok Anonymous For You Feed Snapshot Scraper","description":"Capture a snapshot of posts currently surfacing on TikTok's anonymous For You feed, with engagement stats, author, music, and hashtag details for each video or slideshow.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/#webpage"},"inLanguage":"en","dateModified":"2026-11-05T04:04:36.567Z"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"TikTok Anonymous For You Feed Snapshot Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>TikTok Anonymous For You Feed Snapshot Scraper</span></div><section id="overview"><h1 class="doc-title">TikTok Anonymous For You Feed Snapshot Scraper</h1><p class="lede">Capture a snapshot of posts currently surfacing on TikTok&#x27;s anonymous For You feed, with engagement stats, author, music, and hashtag details for each video or slideshow.</p><p class="summary">TikTok Anonymous For You Feed Snapshot Scraper is an Apify Actor published by Vexaloom Labs. It accepts 5 input fields, none of them required at the top level. Its build declares a results dataset with 1 view. Runs happen on Apify, where the Store page lists the current price.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/tiktok-anonymous-for-you-feed-snapshot-scraper">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/P50cIhupfxfmYN9hW/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of For You posts to collect. Set to 0 to return no items.</td></tr><tr><td><code>region</code></td><td>string</td><td>optional</td><td>Market hint for the feed. AUTO follows the connection region. A selected market asks TikTok for that market and uses a matching datacenter exit when one is available; TikTok may still override the hint.</td></tr><tr><td><code>minPlayCount</code></td><td>integer</td><td>optional</td><td>Drop posts with fewer plays than this value. 0 disables the filter.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of For You posts to collect. Set to 0 to return no items.</td></tr><tr><td><code>region</code></td><td>string</td><td>optional</td><td>Market hint for the feed. AUTO follows the connection region. A selected market asks TikTok for that market and uses a matching datacenter exit when one is available; TikTok may still override the hint.</td></tr><tr><td><code>minPlayCount</code></td><td>integer</td><td>optional</td><td>Drop posts with fewer plays than this value. 0 disables the filter.</td></tr><tr><td><code>postedWithinDays</code></td><td>integer</td><td>optional</td><td>Only keep posts created in the last N days. 0 disables the filter.</td></tr><tr><td><code>excludeAds</code></td><td>boolean</td><td>optional</td><td>Drop posts that TikTok marks as advertisements.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;description&quot;: &quot;Capture an anonymous snapshot of TikTok&#x27;s For You feed. No cookies, login, or proxy configuration required.&quot;,
-  &quot;properties&quot;: {
-    &quot;excludeAds&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Drop posts that TikTok marks as advertisements.&quot;,
-      &quot;prefill&quot;: false,
-      &quot;title&quot;: &quot;Exclude Ads&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;maxItems&quot;: {
-      &quot;default&quot;: 30,
-      &quot;description&quot;: &quot;Maximum number of For You posts to collect. Set to 0 to return no items.&quot;,
-      &quot;maximum&quot;: 300,
-      &quot;minimum&quot;: 0,
-      &quot;prefill&quot;: 3,
-      &quot;title&quot;: &quot;Maximum Posts&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;minPlayCount&quot;: {
-      &quot;default&quot;: 0,
-      &quot;description&quot;: &quot;Drop posts with fewer plays than this value. 0 disables the filter.&quot;,
-      &quot;maximum&quot;: 1000000000,
-      &quot;minimum&quot;: 0,
-      &quot;prefill&quot;: 0,
-      &quot;title&quot;: &quot;Minimum Play Count&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;postedWithinDays&quot;: {
-      &quot;default&quot;: 0,
-      &quot;description&quot;: &quot;Only keep posts created in the last N days. 0 disables the filter.&quot;,
-      &quot;maximum&quot;: 365,
-      &quot;minimum&quot;: 0,
-      &quot;prefill&quot;: 0,
-      &quot;title&quot;: &quot;Posted Within (Days)&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;region&quot;: {
-      &quot;default&quot;: &quot;AUTO&quot;,
-      &quot;description&quot;: &quot;Market hint for the feed. AUTO follows the connection region. A selected market asks TikTok for that market and uses a matching datacenter exit when one is available; TikTok may still override the hint.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;AUTO&quot;,
-        &quot;US&quot;,
-        &quot;GB&quot;,
-        &quot;CA&quot;,
-        &quot;AU&quot;,
-        &quot;NZ&quot;,
-        &quot;IE&quot;,
-        &quot;DE&quot;,
-        &quot;FR&quot;,
-        &quot;ES&quot;,
-        &quot;IT&quot;,
-        &quot;NL&quot;,
-        &quot;SE&quot;,
-        &quot;NO&quot;,
-        &quot;DK&quot;,
-        &quot;FI&quot;,
-        &quot;PL&quot;,
-        &quot;PT&quot;,
-        &quot;BR&quot;,
-        &quot;MX&quot;,
-        &quot;AR&quot;,
-        &quot;CL&quot;,
-        &quot;CO&quot;,
-        &quot;IN&quot;,
-        &quot;PK&quot;,
-        &quot;BD&quot;,
-        &quot;ID&quot;,
-        &quot;MY&quot;,
-        &quot;PH&quot;,
-        &quot;SG&quot;,
-        &quot;TH&quot;,
-        &quot;VN&quot;,
-        &quot;JP&quot;,
-        &quot;KR&quot;,
-        &quot;TR&quot;,
-        &quot;SA&quot;,
-        &quot;AE&quot;,
-        &quot;ZA&quot;,
-        &quot;NG&quot;,
-        &quot;EG&quot;,
-        &quot;KE&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Automatic (connection region)&quot;,
-        &quot;United States&quot;,
-        &quot;United Kingdom&quot;,
-        &quot;Canada&quot;,
-        &quot;Australia&quot;,
-        &quot;New Zealand&quot;,
-        &quot;Ireland&quot;,
-        &quot;Germany&quot;,
-        &quot;France&quot;,
-        &quot;Spain&quot;,
-        &quot;Italy&quot;,
-        &quot;Netherlands&quot;,
-        &quot;Sweden&quot;,
-        &quot;Norway&quot;,
-        &quot;Denmark&quot;,
-        &quot;Finland&quot;,
-        &quot;Poland&quot;,
-        &quot;Portugal&quot;,
-        &quot;Brazil&quot;,
-        &quot;Mexico&quot;,
-        &quot;Argentina&quot;,
-        &quot;Chile&quot;,
-        &quot;Colombia&quot;,
-        &quot;India&quot;,
-        &quot;Pakistan&quot;,
-        &quot;Bangladesh&quot;,
-        &quot;Indonesia&quot;,
-        &quot;Malaysia&quot;,
-        &quot;Philippines&quot;,
-        &quot;Singapore&quot;,
-        &quot;Thailand&quot;,
-        &quot;Vietnam&quot;,
-        &quot;Japan&quot;,
-        &quot;South Korea&quot;,
-        &quot;Turkey&quot;,
-        &quot;Saudi Arabia&quot;,
-        &quot;United Arab Emirates&quot;,
-        &quot;South Africa&quot;,
-        &quot;Nigeria&quot;,
-        &quot;Egypt&quot;,
-        &quot;Kenya&quot;
-      ],
-      &quot;prefill&quot;: &quot;AUTO&quot;,
-      &quot;title&quot;: &quot;Region&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    }
-  },
-  &quot;required&quot;: [],
-  &quot;schemaVersion&quot;: 1,
-  &quot;title&quot;: &quot;TikTok For You Feed Scraper Input&quot;,
-  &quot;type&quot;: &quot;object&quot;
-}
-</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>data</code></td><td>string</td><td>optional</td><td>Dataset containing TikTok For You feed post records. Each row includes rank, postId, postUrl, caption, feedType, observedRegion, isPersonalized, engagement counts and rate, collectedAt, author, music, video, subtitles, POI, hashtags, and category labels.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;actorOutputSchemaVersion&quot;: 1,
-  &quot;description&quot;: &quot;Posts captured from the anonymous TikTok For You feed, with rank, engagement metrics, author, music, video, subtitles, POI, and category details.&quot;,
-  &quot;properties&quot;: {
-    &quot;data&quot;: {
-      &quot;description&quot;: &quot;Dataset containing TikTok For You feed post records. Each row includes rank, postId, postUrl, caption, feedType, observedRegion, isPersonalized, engagement counts and rate, collectedAt, author, music, video, subtitles, POI, hashtags, and category labels.&quot;,
-      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
-      &quot;title&quot;: &quot;For You Feed Posts&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    }
-  },
-  &quot;title&quot;: &quot;TikTok Anonymous For You Feed Snapshot Scraper Output&quot;
-}
-</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;actorSpecification&quot;: 1,
-  &quot;fields&quot;: {
-    &quot;adAuthorization&quot;: {
-      &quot;description&quot;: &quot;Ad authorization flag reported by TikTok for some promoted posts&quot;,
-      &quot;title&quot;: &quot;Ad Authorization&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;aigcLabelType&quot;: {
-      &quot;description&quot;: &quot;TikTok&#x27;s AI-generated-content label type when present&quot;,
-      &quot;title&quot;: &quot;AIGC Label Type&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;author&quot;: {
-      &quot;description&quot;: &quot;Post author/creator information&quot;,
-      &quot;properties&quot;: {
-        &quot;avatarUrl&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;bio&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;displayName&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;followerCount&quot;: {
-          &quot;type&quot;: &quot;integer&quot;
-        },
-        &quot;followingCount&quot;: {
-          &quot;type&quot;: &quot;integer&quot;
-        },
-        &quot;heartCount&quot;: {
-          &quot;type&quot;: &quot;integer&quot;
-        },
-        &quot;id&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;privateAccount&quot;: {
-          &quot;type&quot;: &quot;boolean&quot;
-        },
-        &quot;roomId&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;secUid&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;username&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;verified&quot;: {
-          &quot;type&quot;: &quot;boolean&quot;
-        },
-        &quot;videoCount&quot;: {
-          &quot;type&quot;: &quot;integer&quot;
-        }
-      },
-      &quot;title&quot;: &quot;Author&quot;,
-      &quot;type&quot;: &quot;object&quot;
-    },
-    &quot;caption&quot;: {
-      &quot;description&quot;: &quot;Post caption text including hashtags and mentions&quot;,
-      &quot;title&quot;: &quot;Caption&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;categoryType&quot;: {
-      &quot;description&quot;: &quot;TikTok&#x27;s numeric content category for the post&quot;,
-      &quot;title&quot;: &quot;Category Type&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;collectCount&quot;: {
-      &quot;description&quot;: &quot;Number of bookmarks/collects (from statsV2)&quot;,
-      &quot;title&quot;: &quot;Collect Count&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;collectedAt&quot;: {
-      &quot;description&quot;: &quot;ISO 8601 UTC datetime when the snapshot was collected&quot;,
-      &quot;title&quot;: &quot;Collected At&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;commentCount&quot;: {
-      &quot;description&quot;: &quot;Number of comments (from statsV2)&quot;,
-      &quot;title&quot;: &quot;Comment Count&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;createTime&quot;: {
-      &quot;description&quot;: &quot;Unix timestamp when the post was created&quot;,
-      &quot;title&quot;: &quot;Create Time (Unix)&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;createdAt&quot;: {
-      &quot;description&quot;: &quot;ISO 8601 UTC datetime when the post was created&quot;,
-      &quot;title&quot;: &quot;Created At&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;diversificationId&quot;: {
-      &quot;description&quot;: &quot;Feed diversification identifier when the source provides it&quot;,
-      &quot;title&quot;: &quot;Diversification ID&quot;,
-      &quot;type&quot;: [
-        &quot;integer&quot;,
-        &quot;string&quot;
-      ]
-    },
-    &quot;diversificationLabels&quot;: {
-      &quot;description&quot;: &quot;Content diversification labels from the SSR payload&quot;,
-      &quot;items&quot;: {
-        &quot;type&quot;: &quot;string&quot;
-      },
-      &quot;title&quot;: &quot;Diversification Labels&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;duetEnabled&quot;: {
-      &quot;description&quot;: &quot;Whether duets are allowed&quot;,
-      &quot;title&quot;: &quot;Duet Enabled&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;engagementRate&quot;: {
-      &quot;description&quot;: &quot;Likes plus comments plus shares divided by plays, rounded to 4 decimals&quot;,
-      &quot;title&quot;: &quot;Engagement Rate&quot;,
-      &quot;type&quot;: &quot;number&quot;
-    },
-    &quot;feedType&quot;: {
-      &quot;description&quot;: &quot;Always &#x27;foryou&#x27; for this actor&quot;,
-      &quot;title&quot;: &quot;Feed Type&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;hashtags&quot;: {
-      &quot;description&quot;: &quot;Hashtags used in the post&quot;,
-      &quot;items&quot;: {
-        &quot;properties&quot;: {
-          &quot;id&quot;: {
-            &quot;type&quot;: &quot;string&quot;
-          },
-          &quot;isCommerce&quot;: {
-            &quot;type&quot;: &quot;boolean&quot;
-          },
-          &quot;name&quot;: {
-            &quot;type&quot;: &quot;string&quot;
-          }
-        },
-        &quot;type&quot;: &quot;object&quot;
-      },
-      &quot;title&quot;: &quot;Hashtags&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;images&quot;: {
-      &quot;description&quot;: &quot;Slideshow images for photo posts (postType=&#x27;slideshow&#x27;)&quot;,
-      &quot;title&quot;: &quot;Images&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;isAd&quot;: {
-      &quot;description&quot;: &quot;Whether this post is a paid advertisement&quot;,
-      &quot;title&quot;: &quot;Is Ad&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;isAigc&quot;: {
-      &quot;description&quot;: &quot;Present and true when TikTok labels the content as AI-generated&quot;,
-      &quot;title&quot;: &quot;Is AIGC&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;isPersonalized&quot;: {
-      &quot;description&quot;: &quot;Always false — the feed is anonymous (no login required)&quot;,
-      &quot;title&quot;: &quot;Is Personalized&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;itemControl&quot;: {
-      &quot;description&quot;: &quot;Per-post interaction permissions reported by TikTok&quot;,
-      &quot;properties&quot;: {
-        &quot;canComment&quot;: {
-          &quot;type&quot;: &quot;boolean&quot;
-        },
-        &quot;canCreatorRedirect&quot;: {
-          &quot;type&quot;: &quot;boolean&quot;
-        },
-        &quot;canMusicRedirect&quot;: {
-          &quot;type&quot;: &quot;boolean&quot;
-        },
-        &quot;canRepost&quot;: {
-          &quot;type&quot;: &quot;boolean&quot;
-        },
-        &quot;canShare&quot;: {
-          &quot;type&quot;: &quot;boolean&quot;
-        }
-      },
-      &quot;title&quot;: &quot;Item Control&quot;,
-      &quot;type&quot;: &quot;object&quot;
-    },
-    &quot;likeCount&quot;: {
-      &quot;description&quot;: &quot;Number of likes (from statsV2)&quot;,
-      &quot;title&quot;: &quot;Like Count&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;locationCreated&quot;: {
-      &quot;description&quot;: &quot;Country code where the post was created, when the source provides it&quot;,
-      &quot;title&quot;: &quot;Location Created&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;mediaUrlExpiresAt&quot;: {
-      &quot;description&quot;: &quot;ISO 8601 UTC timestamp when the signed media URLs (playUrl, cover, etc.) expire&quot;,
-      &quot;title&quot;: &quot;Media URL Expires At&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;mentions&quot;: {
-      &quot;description&quot;: &quot;@mentions in the post caption&quot;,
-      &quot;items&quot;: {
-        &quot;properties&quot;: {
-          &quot;awemeId&quot;: {
-            &quot;type&quot;: &quot;string&quot;
-          },
-          &quot;end&quot;: {
-            &quot;type&quot;: &quot;integer&quot;
-          },
-          &quot;start&quot;: {
-            &quot;type&quot;: &quot;integer&quot;
-          },
-          &quot;username&quot;: {
-            &quot;type&quot;: &quot;string&quot;
-          }
-        },
-        &quot;type&quot;: &quot;object&quot;
-      },
-      &quot;title&quot;: &quot;Mentions&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;music&quot;: {
-      &quot;description&quot;: &quot;Sound/music used in the post&quot;,
-      &quot;properties&quot;: {
-        &quot;album&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;authorName&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;coverUrl&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;duration&quot;: {
-          &quot;type&quot;: &quot;integer&quot;
-        },
-        &quot;id&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;original&quot;: {
-          &quot;type&quot;: &quot;boolean&quot;
-        },
-        &quot;playUrl&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;title&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        }
-      },
-      &quot;title&quot;: &quot;Music&quot;,
-      &quot;type&quot;: &quot;object&quot;
-    },
-    &quot;observedRegion&quot;: {
-      &quot;description&quot;: &quot;Requested market label (or AUTO when following the connection region)&quot;,
-      &quot;title&quot;: &quot;Observed Region&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;playCount&quot;: {
-      &quot;description&quot;: &quot;Number of video plays (from statsV2)&quot;,
-      &quot;title&quot;: &quot;Play Count&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;poi&quot;: {
-      &quot;description&quot;: &quot;Place tagged on the post when present&quot;,
-      &quot;properties&quot;: {
-        &quot;address&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;category&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;city&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;cityCode&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;countryCode&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;id&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;latitude&quot;: {
-          &quot;type&quot;: &quot;number&quot;
-        },
-        &quot;longitude&quot;: {
-          &quot;type&quot;: &quot;number&quot;
-        },
-        &quot;name&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;province&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        }
-      },
-      &quot;title&quot;: &quot;Point of Interest&quot;,
-      &quot;type&quot;: &quot;object&quot;
-    },
-    &quot;postId&quot;: {
-      &quot;description&quot;: &quot;TikTok&#x27;s unique post ID (64-bit int as string)&quot;,
-      &quot;title&quot;: &quot;Post ID&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;postType&quot;: {
-      &quot;description&quot;: &quot;Either &#x27;video&#x27; or &#x27;slideshow&#x27;&quot;,
-      &quot;title&quot;: &quot;Post Type&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;postUrl&quot;: {
-      &quot;description&quot;: &quot;Direct URL to the TikTok post&quot;,
-      &quot;title&quot;: &quot;Post URL&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;rank&quot;: {
-      &quot;description&quot;: &quot;1-based position in this snapshot after filters&quot;,
-      &quot;title&quot;: &quot;Rank&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;repostCount&quot;: {
-      &quot;description&quot;: &quot;Number of reposts (from statsV2)&quot;,
-      &quot;title&quot;: &quot;Repost Count&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;shareCount&quot;: {
-      &quot;description&quot;: &quot;Number of shares (from statsV2)&quot;,
-      &quot;title&quot;: &quot;Share Count&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;shareEnabled&quot;: {
-      &quot;description&quot;: &quot;Whether sharing is enabled&quot;,
-      &quot;title&quot;: &quot;Share Enabled&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;stitchEnabled&quot;: {
-      &quot;description&quot;: &quot;Whether stitching is allowed&quot;,
-      &quot;title&quot;: &quot;Stitch Enabled&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;textLanguage&quot;: {
-      &quot;description&quot;: &quot;Language code of the caption text&quot;,
-      &quot;title&quot;: &quot;Text Language&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;textTranslatable&quot;: {
-      &quot;description&quot;: &quot;Whether TikTok offers a translation for the caption&quot;,
-      &quot;title&quot;: &quot;Text Translatable&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;video&quot;: {
-      &quot;description&quot;: &quot;Video technical metadata and media URLs&quot;,
-      &quot;properties&quot;: {
-        &quot;codecType&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;cover&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;definition&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;duration&quot;: {
-          &quot;type&quot;: &quot;integer&quot;
-        },
-        &quot;dynamicCover&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;format&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;height&quot;: {
-          &quot;type&quot;: &quot;integer&quot;
-        },
-        &quot;originCover&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;playUrl&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;quality&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;ratio&quot;: {
-          &quot;type&quot;: &quot;string&quot;
-        },
-        &quot;size&quot;: {
-          &quot;type&quot;: &quot;integer&quot;
-        },
-        &quot;subtitles&quot;: {
-          &quot;items&quot;: {
-            &quot;properties&quot;: {
-              &quot;expiresAt&quot;: {
-                &quot;type&quot;: &quot;string&quot;
-              },
-              &quot;format&quot;: {
-                &quot;type&quot;: &quot;string&quot;
-              },
-              &quot;languageCode&quot;: {
-                &quot;type&quot;: &quot;string&quot;
-              },
-              &quot;languageName&quot;: {
-                &quot;type&quot;: &quot;string&quot;
-              },
-              &quot;url&quot;: {
-                &quot;type&quot;: &quot;string&quot;
-              }
-            },
-            &quot;type&quot;: &quot;object&quot;
-          },
-          &quot;type&quot;: &quot;array&quot;
-        },
-        &quot;width&quot;: {
-          &quot;type&quot;: &quot;integer&quot;
-        }
-      },
-      &quot;title&quot;: &quot;Video&quot;,
-      &quot;type&quot;: &quot;object&quot;
-    }
-  },
-  &quot;title&quot;: &quot;TikTok For You Feed Posts&quot;,
-  &quot;views&quot;: {
-    &quot;overview&quot;: {
-      &quot;description&quot;: &quot;TikTok For You page posts with engagement metrics and snapshot position.&quot;,
-      &quot;display&quot;: {
-        &quot;component&quot;: &quot;table&quot;,
-        &quot;properties&quot;: {
-          &quot;caption&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Caption&quot;
-          },
-          &quot;commentCount&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Comments&quot;
-          },
-          &quot;createdAt&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Created At&quot;
-          },
-          &quot;engagementRate&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Engagement Rate&quot;
-          },
-          &quot;likeCount&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Likes&quot;
-          },
-          &quot;observedRegion&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Region&quot;
-          },
-          &quot;playCount&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Plays&quot;
-          },
-          &quot;postId&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Post ID&quot;
-          },
-          &quot;postUrl&quot;: {
-            &quot;format&quot;: &quot;link&quot;,
-            &quot;label&quot;: &quot;Post URL&quot;
-          },
-          &quot;rank&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Rank&quot;
-          }
-        }
-      },
-      &quot;title&quot;: &quot;Feed Overview&quot;,
-      &quot;transformation&quot;: {
-        &quot;fields&quot;: [
-          &quot;rank&quot;,
-          &quot;postId&quot;,
-          &quot;postUrl&quot;,
-          &quot;caption&quot;,
-          &quot;observedRegion&quot;,
-          &quot;playCount&quot;,
-          &quot;likeCount&quot;,
-          &quot;commentCount&quot;,
-          &quot;engagementRate&quot;,
-          &quot;createdAt&quot;
-        ]
-      }
-    }
-  }
-}
-</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-tiktok-anonymous-for-you-feed-snapshot-scraper">TikTok Anonymous For You Feed Snapshot Scraper</h2>
-<p>TikTok's For You feed is a moving recommendation stream. This actor captures an anonymous snapshot of the posts surfacing on it — no account, cookies, or login — and returns the ranking, engagement counts, creator details, music, video metadata, subtitles, tagged places, and category labels for each post.</p>
-<h2 id="readme-what-this-actor-does">What this actor does</h2>
-<ul>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-se3TNAMtae8QbLQ0LF9HFOF5p93B5ktljs2CKQ9PnwI=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; connect-src &#x27;self&#x27;; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>TikTok Anonymous For You Feed Snapshot Scraper – docs, price and API | Vexaloom Labs</title><meta name="description" content="Capture a snapshot of posts currently surfacing on TikTok&#x27;s anonymous For You feed, with engagement stats, author, music, and hashtag details for each video or slideshow."><meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/"><meta property="og:title" content="TikTok Anonymous For You Feed Snapshot Scraper – docs, price and API | Vexaloom Labs"><meta property="og:description" content="Capture a snapshot of posts currently surfacing on TikTok&#x27;s anonymous For You feed, with engagement stats, author, music, and hashtag details for each video or slideshow."><meta property="og:type" content="article"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/"><meta property="og:site_name" content="Vexaloom Labs"><meta property="og:image" content="https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-P50cIhupfxfmYN9hW-0RZlwwX7Zh-logo.png"><meta name="twitter:card" content="summary"><meta name="theme-color" content="#7c3aed"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e299c13a23d7"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=1bc613038b6a"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs","https://github.com/asimkhaniqbal/apify-actor-examples"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs Actor documentation","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/#webpage","name":"TikTok Anonymous For You Feed Snapshot Scraper – docs, price and API","description":"Capture a snapshot of posts currently surfacing on TikTok's anonymous For You feed, with engagement stats, author, music, and hashtag details for each video or slideshow.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/#article"},"dateModified":"2026-11-05T04:04:36.567Z","breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/#article","headline":"TikTok Anonymous For You Feed Snapshot Scraper – docs, price and API","name":"TikTok Anonymous For You Feed Snapshot Scraper – docs, price and API","description":"Capture a snapshot of posts currently surfacing on TikTok's anonymous For You feed, with engagement stats, author, music, and hashtag details for each video or slideshow.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/#webpage"},"inLanguage":"en","dateModified":"2026-11-05T04:04:36.567Z","image":"https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-P50cIhupfxfmYN9hW-0RZlwwX7Zh-logo.png"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Sites","item":"https://asimkhaniqbal.github.io/apify-actor-examples/sites/"},{"@type":"ListItem","position":3,"name":"TikTok","item":"https://asimkhaniqbal.github.io/apify-actor-examples/sites/tiktok/"},{"@type":"ListItem","position":4,"name":"TikTok Anonymous For You Feed Snapshot Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/"}]},{"@type":"SoftwareApplication","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/#software","name":"TikTok Anonymous For You Feed Snapshot Scraper","description":"Capture a snapshot of posts currently surfacing on TikTok's anonymous For You feed, with engagement stats, author, music, and hashtag details for each video or slideshow.","url":"https://apify.com/vexaloom-labs/tiktok-anonymous-for-you-feed-snapshot-scraper","applicationCategory":"DeveloperApplication","operatingSystem":"Apify platform (web)","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"image":"https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-P50cIhupfxfmYN9hW-0RZlwwX7Zh-logo.png","offers":{"@type":"Offer","url":"https://apify.com/vexaloom-labs/tiktok-anonymous-for-you-feed-snapshot-scraper","priceCurrency":"USD","price":"0","priceSpecification":{"@type":"UnitPriceSpecification","price":0.00099,"priceCurrency":"USD","unitText":"result","referenceQuantity":{"@type":"QuantitativeValue","value":1,"unitText":"result"}},"description":"Pay per event: the price per result on Apify's Free plan; a start fee and platform usage are billed separately."}},{"@type":"FAQPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/#faq","mainEntity":[{"@type":"Question","name":"Q: Do I need a TikTok account or cookies?","acceptedAnswer":{"@type":"Answer","text":"A: No. The actor works as an anonymous visitor. It accepts no credentials, session IDs, API keys, or proxy configuration."}},{"@type":"Question","name":"Q: Can I choose a specific country's feed?","acceptedAnswer":{"@type":"Answer","text":"A: region is a best-effort hint. TikTok decides the feed from the connection location, so a selected market may be partially or fully overridden. The actor reports the requested label in observedRegion and never fabricates a detected country."}},{"@type":"Question","name":"Q: How many posts can I get in one run?","acceptedAnswer":{"@type":"Answer","text":"A: You can request up to 300. The anonymous feed rotates and has no resumable cursor; one fresh session usually yields around 20–25 unique posts, so deeper requests rotate sessions. If the source exhausts first, the run reports the honest delivered count."}},{"@type":"Question","name":"Q: Why did I get fewer posts than `maxItems`?","acceptedAnswer":{"@type":"Answer","text":"A: Either TikTok stopped serving new posts, the run reached its bounded session search cap, or the active filters removed them. The status message states which case applies and how many posts were filtered out."}},{"@type":"Question","name":"Q: Will two runs return the same posts?","acceptedAnswer":{"@type":"Answer","text":"A: Not necessarily. Each run negotiates fresh anonymous sessions, so the snapshot changes over time."}},{"@type":"Question","name":"Q: Are media links permanent?","acceptedAnswer":{"@type":"Answer","text":"A: No. Video, cover, and subtitle URLs are signed and expire, usually within about two days. mediaUrlExpiresAt records the expiry where it can be parsed; use postUrl as the stable reference."}},{"@type":"Question","name":"Q: Why are some fields missing on some posts?","acceptedAnswer":{"@type":"Answer","text":"A: TikTok only includes fields such as poi, locationCreated, subtitles, or music album for some posts. Empty values are omitted rather than written as null."}},{"@type":"Question","name":"Q: Does this return personalized recommendations?","acceptedAnswer":{"@type":"Answer","text":"A: No. The feed is an anonymous, non-personalized observation and every row carries isPersonalized: false."}}],"isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-anonymous-for-you-feed-snapshot-scraper/#webpage"}}]}</script><script src="/apify-actor-examples/assets/site.js?v=7b7086957d37" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header class="masthead"><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="32" height="32"><span>Vexaloom Labs</span></a><form class="site-search" action="/apify-actor-examples/actors/" role="search" data-search-index="/apify-actor-examples/search.json"><label class="sr-only" for="site-search">Search this site</label><input type="search" role="combobox" id="site-search" name="q" placeholder="Search by site or data" autocomplete="off" aria-autocomplete="list" aria-controls="site-search-results" aria-expanded="false"><ul id="site-search-results" class="search-results" role="listbox" hidden></ul></form><nav class="primary" aria-label="Main"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/sites/">Sites</a><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/guides/">Guides</a></nav></div></header><main id="main"><nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="/apify-actor-examples/">Home</a></li><li><a href="/apify-actor-examples/sites/">Sites</a></li><li><a href="/apify-actor-examples/sites/tiktok/">TikTok</a></li><li aria-current="page">TikTok Anonymous For You Feed Snapshot Scraper</li></ol></nav><div class="doc"><div class="doc-head"><h1>TikTok Anonymous For You Feed Snapshot Scraper</h1><p class="lead">Capture a snapshot of posts currently surfacing on TikTok&#x27;s anonymous For You feed, with engagement stats, author, music, and hashtag details for each video or slideshow.</p><dl class="facts"><div><dt>Updated</dt><dd><time datetime="2026-11-05">5 November 2026</time></dd></div><div><dt>Free plan</dt><dd>$0.99 per 1,000 results</dd></div><div><dt>Business plan</dt><dd>$0.49 per 1,000 results</dd></div><div><dt>Input</dt><dd>5 fields, none required</dd></div><div><dt>Output</dt><dd>10 declared fields</dd></div><div><dt>Site</dt><dd><a href="/apify-actor-examples/sites/tiktok/">TikTok</a></dd></div></dl><div class="cta"><a class="button" href="https://apify.com/vexaloom-labs/tiktok-anonymous-for-you-feed-snapshot-scraper">Open in Apify Store</a><a class="button secondary" href="#run">Copy the API call</a></div></div><div class="doc-body"><nav class="toc" aria-label="On this page"><h2 class="toc-title">On this page</h2><ol><li><a href="#summary">In short</a></li><li><a href="#about">What it does</a></li><li><a href="#output">What you get</a></li><li><a href="#run">Run it</a></li><li><a href="#cost">What it costs</a></li><li><a href="#input">Input reference</a></li><li><a href="#faq">Questions</a></li><li><a href="#notes">Limits and notes</a></li><li><a href="#related">Related Actors</a></li></ol></nav><article class="prose"><p class="summary" id="summary">TikTok Anonymous For You Feed Snapshot Scraper is an Apify Actor published by Vexaloom Labs. It accepts 5 input fields, none of them required at the top level. Each result can carry up to 10 declared fields, including <code>rank</code>, <code>postId</code>, <code>postUrl</code>, <code>caption</code>, <code>observedRegion</code> and <code>playCount</code>. It costs $0.99 per 1,000 results on Apify's Free plan and $0.49 on the Business plan.</p><section id="about"><h2>What it does</h2><!--readme--><p>TikTok's For You feed is a moving recommendation stream. This actor captures an anonymous snapshot of the posts surfacing on it — no account, cookies, or login — and returns the ranking, engagement counts, creator details, music, video metadata, subtitles, tagged places, and category labels for each post.</p>
+<!--/readme--><h3 id="readme-what-this-actor-does">What this actor does</h3><!--readme--><ul>
 <li>Collects posts from TikTok's anonymous For You feed, starting with the warm page payload and extending the snapshot across fresh anonymous sessions.</li>
 <li>Deduplicates by post ID and stops when the requested count is reached or the rotating feed stops producing new posts.</li>
 <li>Labels each post with its snapshot <code>rank</code>, <code>collectedAt</code>, and a derived <code>engagementRate</code>.</li>
@@ -647,74 +7,14 @@
 <li>Omits fields a post does not carry instead of writing nulls or placeholders.</li>
 <li>Falls back to a headless browser only when the lightweight collection path returns nothing.</li>
 </ul>
-<h2 id="readme-input">Input</h2>
-<div class="table-wrap"><table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>maxItems</code></td>
-<td>integer</td>
-<td><code>30</code></td>
-<td>Maximum posts to collect (0–300). <code>0</code> returns no rows.</td>
-</tr>
-<tr>
-<td><code>region</code></td>
-<td>select</td>
-<td><code>AUTO</code></td>
-<td><code>AUTO</code> follows the connection region. A market code (40 supported markets) asks TikTok for that market and uses a matching exit when available; TikTok may still override the hint.</td>
-</tr>
-<tr>
-<td><code>minPlayCount</code></td>
-<td>integer</td>
-<td><code>0</code></td>
-<td>Drop posts below this play count. <code>0</code> disables the filter.</td>
-</tr>
-<tr>
-<td><code>postedWithinDays</code></td>
-<td>integer</td>
-<td><code>0</code></td>
-<td>Keep only posts created in the last N days (0–365). <code>0</code> disables the filter.</td>
-</tr>
-<tr>
-<td><code>excludeAds</code></td>
-<td>boolean</td>
-<td><code>false</code></td>
-<td>Remove posts TikTok marks as advertisements.</td>
-</tr>
-</tbody>
-</table></div>
-<h3 id="readme-example-quick-us-snapshot">Example: quick US snapshot</h3>
-<pre><code class="language-json">{
-  &quot;maxItems&quot;: 20,
-  &quot;region&quot;: &quot;US&quot;
-}
-</code></pre>
-<h3 id="readme-example-recent-high-reach-posts-no-ads">Example: recent high-reach posts, no ads</h3>
-<pre><code class="language-json">{
-  &quot;maxItems&quot;: 50,
-  &quot;region&quot;: &quot;GB&quot;,
-  &quot;minPlayCount&quot;: 100000,
-  &quot;postedWithinDays&quot;: 7,
-  &quot;excludeAds&quot;: true
-}
-</code></pre>
-<h3 id="readme-example-daily-trend-check">Example: daily trend check</h3>
-<pre><code class="language-json">{
-  &quot;maxItems&quot;: 40,
-  &quot;region&quot;: &quot;AUTO&quot;,
-  &quot;postedWithinDays&quot;: 1
-}
-</code></pre>
-<p>Saved tasks that still send the old <code>regionObservation</code> key keep working: when <code>region</code> is absent, a supported <code>regionObservation</code> value is used as the market hint. Other values are kept only as the informational <code>observedRegion</code> label.</p>
-<h2 id="readme-output-per-post">Output per post</h2>
-<div class="table-wrap"><table>
+<!--/readme--><h3 id="readme-use-cases">Use cases</h3><!--readme--><ul>
+<li><strong>Trend researchers</strong> tracking which formats, sounds, and creators the recommendation engine is surfacing.</li>
+<li><strong>Brand and sponsorship teams</strong> spotting promoted posts and ad labels in an organic feed.</li>
+<li><strong>Competitive intelligence</strong> comparing creator reach and engagement across markets.</li>
+<li><strong>Academic researchers</strong> building anonymous feed snapshots for content-distribution studies.</li>
+<li><strong>Media and dashboard teams</strong> feeding live trend monitoring with ranked post data.</li>
+</ul>
+<!--/readme--></section><section id="output"><h2>What you get</h2><p>The Actor saves one record per result to an Apify dataset. Its build declares 10 fields in 1 dataset view, and the README documents 18 more. Fields without a value can be left out of a record.</p><div class="table-wrap"><table class="output-table stack"><caption>Output fields</caption><thead><tr><th scope="col">Field</th><th scope="col">Label</th><th scope="col">What it holds</th></tr></thead><tbody><tr><th scope="row"><code>rank</code></th><td data-label="Label">Rank</td><td data-label="What it holds"><!--readme-->1-based position in this snapshot after filters.<!--/readme--></td></tr><tr><th scope="row"><code>postId</code></th><td data-label="Label">Post ID</td><td data-label="What it holds"><!--readme-->TikTok's unique post ID.<!--/readme--></td></tr><tr><th scope="row"><code>postUrl</code></th><td data-label="Label">Post URL</td><td data-label="What it holds"><!--readme-->Direct URL to the post.<!--/readme--></td></tr><tr><th scope="row"><code>caption</code></th><td data-label="Label">Caption</td><td data-label="What it holds"><!--readme-->Caption text, including hashtags and mentions as typed.<!--/readme--></td></tr><tr><th scope="row"><code>observedRegion</code></th><td data-label="Label">Region</td><td data-label="What it holds"><!--readme-->Requested market label, or <code>AUTO</code> when following the connection region.<!--/readme--></td></tr><tr><th scope="row"><code>playCount</code></th><td data-label="Label">Plays</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>likeCount</code></th><td data-label="Label">Likes</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>commentCount</code></th><td data-label="Label">Comments</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>engagementRate</code></th><td data-label="Label">Engagement Rate</td><td data-label="What it holds"><!--readme--><code>(likes + comments + shares) / plays</code>, rounded to four decimals.<!--/readme--></td></tr><tr><th scope="row"><code>createdAt</code></th><td data-label="Label">Created At</td><td data-label="What it holds"><!--readme-->Creation time as an ISO 8601 UTC string.<!--/readme--></td></tr><tr><th scope="row"><code>postType</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme--><code>&quot;video&quot;</code> or <code>&quot;slideshow&quot;</code>.<!--/readme--></td></tr><tr><th scope="row"><code>feedType</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Always <code>&quot;foryou&quot;</code> for this actor.<!--/readme--></td></tr><tr><th scope="row"><code>isPersonalized</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Always <code>false</code> — the feed is anonymous.<!--/readme--></td></tr><tr><th scope="row"><code>createTime</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Unix timestamp when the post was created.<!--/readme--></td></tr><tr><th scope="row"><code>collectedAt</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Collection time as an ISO 8601 UTC string.<!--/readme--></td></tr><tr><th scope="row"><code>locationCreated</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Country code where the post was created, when the source provides it.<!--/readme--></td></tr><tr><th scope="row"><code>textLanguage</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Language code detected for the caption.<!--/readme--></td></tr><tr><th scope="row"><code>textTranslatable</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Whether TikTok offers a caption translation.<!--/readme--></td></tr><tr><th scope="row"><code>categoryType</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->TikTok's numeric content category.<!--/readme--></td></tr><tr><th scope="row"><code>author</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Object: <code>id</code>, <code>secUid</code>, <code>username</code>, <code>displayName</code>, <code>bio</code>, <code>verified</code>, <code>privateAccount</code>, <code>roomId</code>, <code>avatarUrl</code>, <code>followerCount</code>, <code>followingCount</code>, <code>heartCount</code>, <code>videoCount</code>.<!--/readme--></td></tr><tr><th scope="row"><code>music</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Object: <code>id</code>, <code>title</code>, <code>authorName</code>, <code>original</code>, <code>duration</code>, <code>album</code>, <code>playUrl</code>, <code>coverUrl</code>.<!--/readme--></td></tr><tr><th scope="row"><code>video</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Object: <code>width</code>, <code>height</code>, <code>duration</code>, <code>ratio</code>, <code>definition</code>, <code>codecType</code>, <code>format</code>, <code>size</code>, <code>quality</code>, <code>playUrl</code>, <code>cover</code>, <code>originCover</code>, <code>dynamicCover</code>, <code>subtitles[]</code> (<code>languageCode</code>, <code>languageName</code>, <code>format</code>, <code>url</code>, <code>expiresAt</code>).<!--/readme--></td></tr><tr><th scope="row"><code>poi</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Tagged place when present: <code>id</code>, <code>name</code>, <code>address</code>, <code>category</code>, <code>city</code>, <code>cityCode</code>, <code>countryCode</code>, <code>province</code>, <code>latitude</code>, <code>longitude</code>.<!--/readme--></td></tr><tr><th scope="row"><code>itemControl</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Interaction permissions: <code>canComment</code>, <code>canRepost</code>, <code>canShare</code>, <code>canMusicRedirect</code>, <code>canCreatorRedirect</code>.<!--/readme--></td></tr><tr><th scope="row"><code>hashtags</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Array of <code>{id, name, isCommerce}</code> objects.<!--/readme--></td></tr><tr><th scope="row"><code>mentions</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Array of <code>{username, start, end, awemeId}</code> objects.<!--/readme--></td></tr><tr><th scope="row"><code>images</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Slideshow image URLs for photo posts.<!--/readme--></td></tr><tr><th scope="row"><code>mediaUrlExpiresAt</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->ISO 8601 UTC time when signed media URLs expire.<!--/readme--></td></tr></tbody></table></div><details class="publisher-notes"><summary>The publisher's output notes</summary><h3 id="readme-output-per-post">Output per post</h3><!--readme--><div class="table-wrap"><table>
 <thead>
 <tr>
 <th>Field</th>
@@ -844,37 +144,121 @@
 </tr>
 </tbody>
 </table></div>
-<h2 id="readme-use-cases">Use cases</h2>
-<ul>
-<li><strong>Trend researchers</strong> tracking which formats, sounds, and creators the recommendation engine is surfacing.</li>
-<li><strong>Brand and sponsorship teams</strong> spotting promoted posts and ad labels in an organic feed.</li>
-<li><strong>Competitive intelligence</strong> comparing creator reach and engagement across markets.</li>
-<li><strong>Academic researchers</strong> building anonymous feed snapshots for content-distribution studies.</li>
-<li><strong>Media and dashboard teams</strong> feeding live trend monitoring with ranked post data.</li>
-</ul>
-<h2 id="readme-faq">FAQ</h2>
-<p><strong>Q: Do I need a TikTok account or cookies?</strong><br />
-A: No. The actor works as an anonymous visitor. It accepts no credentials, session IDs, API keys, or proxy configuration.</p>
-<p><strong>Q: Can I choose a specific country's feed?</strong><br />
-A: <code>region</code> is a best-effort hint. TikTok decides the feed from the connection location, so a selected market may be partially or fully overridden. The actor reports the requested label in <code>observedRegion</code> and never fabricates a detected country.</p>
-<p><strong>Q: How many posts can I get in one run?</strong><br />
-A: You can request up to 300. The anonymous feed rotates and has no resumable cursor; one fresh session usually yields around 20–25 unique posts, so deeper requests rotate sessions. If the source exhausts first, the run reports the honest delivered count.</p>
-<p><strong>Q: Why did I get fewer posts than <code>maxItems</code>?</strong><br />
-A: Either TikTok stopped serving new posts, the run reached its bounded session search cap, or the active filters removed them. The status message states which case applies and how many posts were filtered out.</p>
-<p><strong>Q: Will two runs return the same posts?</strong><br />
-A: Not necessarily. Each run negotiates fresh anonymous sessions, so the snapshot changes over time.</p>
-<p><strong>Q: Are media links permanent?</strong><br />
-A: No. Video, cover, and subtitle URLs are signed and expire, usually within about two days. <code>mediaUrlExpiresAt</code> records the expiry where it can be parsed; use <code>postUrl</code> as the stable reference.</p>
-<p><strong>Q: Why are some fields missing on some posts?</strong><br />
-A: TikTok only includes fields such as <code>poi</code>, <code>locationCreated</code>, subtitles, or music album for some posts. Empty values are omitted rather than written as null.</p>
-<p><strong>Q: Does this return personalized recommendations?</strong><br />
-A: No. The feed is an anonymous, non-personalized observation and every row carries <code>isPersonalized: false</code>.</p>
-<h2 id="readme-notes-and-limits">Notes and limits</h2>
-<ul>
+<!--/readme--></details></section><section id="run"><h2>Run it</h2><p>Set <code>APIFY_TOKEN</code> to your <a href="https://console.apify.com/settings/integrations">Apify API token</a>, then run the Actor with the input below (quick us snapshot). Each run is billed to your Apify account. The <a href="/apify-actor-examples/guides/tiktok-anonymous-for-you-feed-snapshot-scraper/">export tutorial</a> turns the results into a CSV file or an Excel workbook.</p><div class="tabs" data-tabs><div class="tab-list" role="tablist" aria-label="Language"><button type="button" role="tab" id="run-tab-python" aria-controls="run-panel-python" aria-selected="true">Python</button><button type="button" role="tab" id="run-tab-javascript" aria-controls="run-panel-javascript" aria-selected="false" tabindex="-1">JavaScript</button><button type="button" role="tab" id="run-tab-curl" aria-controls="run-panel-curl" aria-selected="false" tabindex="-1">cURL</button><button type="button" role="tab" id="run-tab-mcp" aria-controls="run-panel-mcp" aria-selected="false" tabindex="-1">MCP</button></div><div role="tabpanel" id="run-panel-python" aria-labelledby="run-tab-python" class="tab-panel"><h3 class="tab-title">Python</h3><figure class="code"><pre><code id="run-python" class="language-python"># pip install apify-client
+import os
+from apify_client import ApifyClient
+
+ACTOR = &quot;vexaloom-labs/tiktok-anonymous-for-you-feed-snapshot-scraper&quot;
+client = ApifyClient(os.environ[&quot;APIFY_TOKEN&quot;])
+run_input = {
+    &quot;maxItems&quot;: 20,
+    &quot;region&quot;: &quot;US&quot;,
+}
+
+run = client.actor(ACTOR).call(run_input=run_input)
+for item in client.dataset(run[&quot;defaultDatasetId&quot;]).iterate_items():
+    print(item)
+</code></pre><button type="button" class="copy" data-copy="run-python">Copy</button></figure></div><div role="tabpanel" id="run-panel-javascript" aria-labelledby="run-tab-javascript" class="tab-panel"><h3 class="tab-title">JavaScript</h3><figure class="code"><pre><code id="run-javascript" class="language-javascript">// npm install apify-client
+import { ApifyClient } from &#x27;apify-client&#x27;;
+
+const ACTOR = &#x27;vexaloom-labs/tiktok-anonymous-for-you-feed-snapshot-scraper&#x27;;
+const client = new ApifyClient({ token: process.env.APIFY_TOKEN });
+const input = {
+  &quot;maxItems&quot;: 20,
+  &quot;region&quot;: &quot;US&quot;
+};
+
+const run = await client.actor(ACTOR).call(input);
+const { items } = await client.dataset(run.defaultDatasetId).listItems();
+console.log(items);
+</code></pre><button type="button" class="copy" data-copy="run-javascript">Copy</button></figure></div><div role="tabpanel" id="run-panel-curl" aria-labelledby="run-tab-curl" class="tab-panel"><h3 class="tab-title">cURL</h3><figure class="code"><pre><code id="run-curl" class="language-bash">curl -X POST &quot;https://api.apify.com/v2/acts/vexaloom-labs~tiktok-anonymous-for-you-feed-snapshot-scraper/run-sync-get-dataset-items?format=json&quot; \
+  -H &quot;Authorization: Bearer $APIFY_TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;maxItems&quot;: 20, &quot;region&quot;: &quot;US&quot;}&#x27;
+</code></pre><button type="button" class="copy" data-copy="run-curl">Copy</button></figure></div><div role="tabpanel" id="run-panel-mcp" aria-labelledby="run-tab-mcp" class="tab-panel"><h3 class="tab-title">MCP</h3><figure class="code"><pre><code id="run-mcp" class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;apify&quot;: {
+      &quot;url&quot;: &quot;https://mcp.apify.com?tools=vexaloom-labs/tiktok-anonymous-for-you-feed-snapshot-scraper&quot;
+    }
+  }
+}</code></pre><button type="button" class="copy" data-copy="run-mcp">Copy</button></figure></div></div></section><section id="cost"><h2>What it costs</h2><p>TikTok Anonymous For You Feed Snapshot Scraper uses pay-per-event pricing: a fee for each result saved to the dataset, plus a start fee per run. Paid Apify plans pay less per result. The start fee is charged once per GB of run memory (at least once); the default run uses 4 GB, so a run starts with 4 start events, as the run totals include. You also pay Apify platform usage (compute and proxy) for the run, which these totals do not include.</p><div class="table-wrap"><table class="price-table stack"><caption>Published prices and run totals by Apify plan</caption><thead><tr><th scope="col">Plan</th><th scope="col">Per result</th><th scope="col">Per 1,000</th><th scope="col">Start fee</th><th scope="col">100 results</th><th scope="col">1,000 results</th><th scope="col">10,000 results</th></tr></thead><tbody><tr><th scope="row">Free plan</th><td data-label="Per result">$0.00099</td><td data-label="Per 1,000">$0.99</td><td data-label="Start fee">$0.10</td><td data-label="100 results">$0.50</td><td data-label="1,000 results">$1.39</td><td data-label="10,000 results">$10.30</td></tr><tr><th scope="row">Starter plan</th><td data-label="Per result">$0.00082</td><td data-label="Per 1,000">$0.82</td><td data-label="Start fee">$0.077</td><td data-label="100 results">$0.39</td><td data-label="1,000 results">$1.13</td><td data-label="10,000 results">$8.51</td></tr><tr><th scope="row">Scale plan</th><td data-label="Per result">$0.00066</td><td data-label="Per 1,000">$0.66</td><td data-label="Start fee">$0.053</td><td data-label="100 results">$0.28</td><td data-label="1,000 results">$0.87</td><td data-label="10,000 results">$6.81</td></tr><tr><th scope="row">Business plan</th><td data-label="Per result">$0.00049</td><td data-label="Per 1,000">$0.49</td><td data-label="Start fee">$0.03</td><td data-label="100 results">$0.17</td><td data-label="1,000 results">$0.61</td><td data-label="10,000 results">$5.02</td></tr></tbody></table></div><p class="fine">Run totals are the Actor's charges at the default memory: start fees plus the per-result price. Check the <a href="https://apify.com/vexaloom-labs/tiktok-anonymous-for-you-feed-snapshot-scraper">Store page</a> before a large run; prices can change with notice.</p></section><section id="input"><h2>Input reference</h2><p>All 5 fields of the published input schema, in the publisher's order. No field is required at the top level, but the README can describe conditions. Download the <a href="input-schema.json">input schema</a> as JSON.</p><div class="table-wrap"><table class="input-table stack"><caption>Input fields in the published schema</caption><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead><tbody><tr><th scope="row"><code>maxItems</code><span class="field-title">Maximum Posts</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Maximum number of For You posts to collect. Set to 0 to return no items.<!--/readme--><span class="field-meta">Default <code>30</code>; Example <code>3</code>; Allowed 0 to 300</span></td></tr><tr><th scope="row"><code>region</code><span class="field-title">Region</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Market hint for the feed. AUTO follows the connection region. A selected market asks TikTok for that market and uses a matching datacenter exit when one is available; TikTok may still override the hint.<!--/readme--><span class="field-meta">Default <code>&quot;AUTO&quot;</code>; Allowed AUTO, US, GB, CA, AU, NZ, IE, DE and 33 more</span></td></tr><tr><th scope="row"><code>minPlayCount</code><span class="field-title">Minimum Play Count</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Drop posts with fewer plays than this value. 0 disables the filter.<!--/readme--><span class="field-meta">Default <code>0</code>; Allowed 0 to 1000000000</span></td></tr><tr><th scope="row"><code>postedWithinDays</code><span class="field-title">Posted Within (Days)</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Only keep posts created in the last N days. 0 disables the filter.<!--/readme--><span class="field-meta">Default <code>0</code>; Allowed 0 to 365</span></td></tr><tr><th scope="row"><code>excludeAds</code><span class="field-title">Exclude Ads</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Drop posts that TikTok marks as advertisements.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr></tbody></table></div><details class="publisher-notes"><summary>The publisher's input notes</summary><h3 id="readme-input">Input</h3><!--readme--><div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>maxItems</code></td>
+<td>integer</td>
+<td><code>30</code></td>
+<td>Maximum posts to collect (0–300). <code>0</code> returns no rows.</td>
+</tr>
+<tr>
+<td><code>region</code></td>
+<td>select</td>
+<td><code>AUTO</code></td>
+<td><code>AUTO</code> follows the connection region. A market code (40 supported markets) asks TikTok for that market and uses a matching exit when available; TikTok may still override the hint.</td>
+</tr>
+<tr>
+<td><code>minPlayCount</code></td>
+<td>integer</td>
+<td><code>0</code></td>
+<td>Drop posts below this play count. <code>0</code> disables the filter.</td>
+</tr>
+<tr>
+<td><code>postedWithinDays</code></td>
+<td>integer</td>
+<td><code>0</code></td>
+<td>Keep only posts created in the last N days (0–365). <code>0</code> disables the filter.</td>
+</tr>
+<tr>
+<td><code>excludeAds</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Remove posts TikTok marks as advertisements.</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="readme-example-quick-us-snapshot">Example: quick US snapshot</h4>
+<pre><code class="language-json">{
+  &quot;maxItems&quot;: 20,
+  &quot;region&quot;: &quot;US&quot;
+}
+</code></pre>
+<h4 id="readme-example-recent-high-reach-posts-no-ads">Example: recent high-reach posts, no ads</h4>
+<pre><code class="language-json">{
+  &quot;maxItems&quot;: 50,
+  &quot;region&quot;: &quot;GB&quot;,
+  &quot;minPlayCount&quot;: 100000,
+  &quot;postedWithinDays&quot;: 7,
+  &quot;excludeAds&quot;: true
+}
+</code></pre>
+<h4 id="readme-example-daily-trend-check">Example: daily trend check</h4>
+<pre><code class="language-json">{
+  &quot;maxItems&quot;: 40,
+  &quot;region&quot;: &quot;AUTO&quot;,
+  &quot;postedWithinDays&quot;: 1
+}
+</code></pre>
+<p>Saved tasks that still send the old <code>regionObservation</code> key keep working: when <code>region</code> is absent, a supported <code>regionObservation</code> value is used as the market hint. Other values are kept only as the informational <code>observedRegion</code> label.</p>
+<!--/readme--></details></section><section id="faq"><h2>Questions</h2><div class="qa"><h3 id="faq-q-do-i-need-a-tiktok-account-or-cookies"><!--readme-->Q: Do I need a TikTok account or cookies?<!--/readme--></h3><!--readme--><p>A: No. The actor works as an anonymous visitor. It accepts no credentials, session IDs, API keys, or proxy configuration.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-q-can-i-choose-a-specific-country-s-feed"><!--readme-->Q: Can I choose a specific country's feed?<!--/readme--></h3><!--readme--><p>A: <code>region</code> is a best-effort hint. TikTok decides the feed from the connection location, so a selected market may be partially or fully overridden. The actor reports the requested label in <code>observedRegion</code> and never fabricates a detected country.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-q-how-many-posts-can-i-get-in-one-run"><!--readme-->Q: How many posts can I get in one run?<!--/readme--></h3><!--readme--><p>A: You can request up to 300. The anonymous feed rotates and has no resumable cursor; one fresh session usually yields around 20–25 unique posts, so deeper requests rotate sessions. If the source exhausts first, the run reports the honest delivered count.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-q-why-did-i-get-fewer-posts-than-maxitems"><!--readme-->Q: Why did I get fewer posts than <code>maxItems</code>?<!--/readme--></h3><!--readme--><p>A: Either TikTok stopped serving new posts, the run reached its bounded session search cap, or the active filters removed them. The status message states which case applies and how many posts were filtered out.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-q-will-two-runs-return-the-same-posts"><!--readme-->Q: Will two runs return the same posts?<!--/readme--></h3><!--readme--><p>A: Not necessarily. Each run negotiates fresh anonymous sessions, so the snapshot changes over time.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-q-are-media-links-permanent"><!--readme-->Q: Are media links permanent?<!--/readme--></h3><!--readme--><p>A: No. Video, cover, and subtitle URLs are signed and expire, usually within about two days. <code>mediaUrlExpiresAt</code> records the expiry where it can be parsed; use <code>postUrl</code> as the stable reference.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-q-why-are-some-fields-missing-on-some-posts"><!--readme-->Q: Why are some fields missing on some posts?<!--/readme--></h3><!--readme--><p>A: TikTok only includes fields such as <code>poi</code>, <code>locationCreated</code>, subtitles, or music album for some posts. Empty values are omitted rather than written as null.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-q-does-this-return-personalized-recommendations"><!--readme-->Q: Does this return personalized recommendations?<!--/readme--></h3><!--readme--><p>A: No. The feed is an anonymous, non-personalized observation and every row carries <code>isPersonalized: false</code>.</p>
+<!--/readme--></div></section><section id="notes"><h2>Limits and notes</h2><h3 id="readme-notes-and-limits">Notes and limits</h3><!--readme--><ul>
 <li>The snapshot is a point-in-time observation, not a replayable list. Posts may repeat across sessions and are deduplicated by ID.</li>
 <li>A deep request is bounded by a session search cap. If the cap is reached first, the status message says so instead of claiming the source is exhausted.</li>
 <li><code>locationCreated</code> is supplied mainly by the initial page payload and is absent for most API-served posts.</li>
 <li>Region selection can consume Apify Proxy traffic when a matching datacenter exit is available; <code>AUTO</code> uses the connection directly.</li>
 <li>Signed media URLs should be refreshed by re-running the actor when they expire.</li>
 </ul>
-</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/tiktok-anonymous-for-you-feed-snapshot-scraper/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>IewtZ1qwYr8qhwUl2</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
+<!--/readme--></section><section id="related"><h2>Related Actors</h2><ul class="related" role="list"><li><a href="/apify-actor-examples/actors/tiktok-account-stats-and-repost-history-scraper/">TikTok Account Stats &amp; Repost History Scraper</a><p>Look up TikTok accounts for follower/like/video stats, recent videos, and reposted content in one run. Optional session cookie unlocks a profile&#x27;s full video history. No cookie required for account stats or reposts.</p></li><li><a href="/apify-actor-examples/actors/tiktok-comment-and-reply-thread-extractor/">TikTok Comment &amp; Reply Thread Extractor</a><p>Pull comments and reply threads from TikTok videos by URL or post ID, with pinned/hearted-by-author flags, commenter details, and like counts. No TikTok account or cookies required.</p></li><li><a href="/apify-actor-examples/actors/tiktok-dsa-ads-transparency-library-scraper/">TikTok DSA Ads Transparency Library Scraper</a><p>Search TikTok&#x27;s EU/EEA ad transparency database by keyword, advertiser or ad ID. Get creative media, advertiser identity, impression buckets, audit status and per-region/age/gender targeting.</p></li><li><a href="/apify-actor-examples/actors/tiktok-keyword-search-and-discovery-scraper/">TikTok Keyword Search &amp; Discovery Scraper</a><p>Search TikTok by keyword or phrase and get matching videos with engagement stats, author profiles, music metadata, hashtags, and location tags, with optional discovery expansion for more results.</p></li><li><a href="/apify-actor-examples/actors/tiktok-playlist-discovery-and-video-order-scraper/">TikTok Playlist Discovery &amp; Video Order Scraper</a><p>Scrape TikTok playlists - discover all playlists for a profile, get playlist metadata, and extract all videos. Supports playlist URLs, IDs, and profile URLs. No cookies required.</p></li><li><a href="/apify-actor-examples/actors/tiktok-sound-lookup-metadata-and-videos-using-it/">TikTok Sound Lookup: Metadata &amp; Videos Using It</a><p>Look up any TikTok sound by URL or ID and get back its title, creator, duration, cover art, and streaming links, plus every video currently using that sound with captions, hashtags, and engagement counts.</p></li></ul><p class="more"><a href="/apify-actor-examples/sites/tiktok/">Compare all 8 TikTok Actors</a> <a href="/apify-actor-examples/topics/social-media/">All social media Actors</a></p></section><section id="files"><h2>Source files</h2><p>This page is rebuilt from the default published build <code>IewtZ1qwYr8qhwUl2</code>. Download what it was built from: <a href="README.md">README</a>, <a href="input-schema.json">input schema</a>, <a href="output-schema.json">output schema</a>, <a href="dataset-schema.json">dataset schema</a>, <a href="key-value-schema.json">key-value store schema</a>.</p></section></article></div></div></main><footer class="footer"><div class="inner"><p><strong>Vexaloom Labs</strong> builds and publishes these Actors on Apify. This site is generated from their published READMEs, schemas and prices.</p><nav aria-label="Footer"><a href="/apify-actor-examples/actors/">All Actors</a><a href="/apify-actor-examples/sites/">Sites</a><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/guides/">Guides</a><a href="/apify-actor-examples/sources/">How these pages are made</a><a href="https://apify.com/vexaloom-labs">Vexaloom Labs on Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></footer></body></html>

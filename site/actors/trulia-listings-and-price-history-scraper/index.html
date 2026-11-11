@@ -1,431 +1,264 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-1/lvZLXvGrpUCHIq0/Chfa5whkJcrTlfHPeFjmCIlpQ=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Trulia Listings &amp; Price History Scraper | Vexaloom Labs</title><meta name="description" content="Scrape property listings from Trulia - for sale, for rent, and sold. Supports search pages and direct property URLs. No login required."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/"><meta property="og:title" content="Trulia Listings &amp; Price History Scraper | Vexaloom Labs"><meta property="og:description" content="Scrape property listings from Trulia - for sale, for rent, and sold. Supports search pages and direct property URLs. No login required."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/#webpage","name":"Trulia Listings & Price History Scraper","description":"Scrape property listings from Trulia - for sale, for rent, and sold. Supports search pages and direct property URLs. No login required.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/#article","headline":"Trulia Listings & Price History Scraper","name":"Trulia Listings & Price History Scraper","description":"Scrape property listings from Trulia - for sale, for rent, and sold. Supports search pages and direct property URLs. No login required.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/#webpage"},"inLanguage":"en","dateModified":"2026-11-10T17:27:10.509Z"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Trulia Listings & Price History Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Trulia Listings &amp; Price History Scraper</span></div><section id="overview"><h1 class="doc-title">Trulia Listings &amp; Price History Scraper</h1><p class="lede">Scrape property listings from Trulia - for sale, for rent, and sold. Supports search pages and direct property URLs. No login required.</p><p class="summary">Trulia Listings &amp; Price History Scraper is an Apify Actor published by Vexaloom Labs. It accepts 4 input fields, none of them required at the top level. Its build declares a results dataset with 2 views. Runs happen on Apify, where the Store page lists the current price.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/trulia-listings-and-price-history-scraper">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/WfnnIhpImgHWx0afZ/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>startUrls</code></td><td>array</td><td>optional</td><td>Trulia search result pages (e.g. https://www.trulia.com/for_sale/Austin,TX/) or individual property pages. Apply filters on Trulia first, then paste the URL here.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of property records to return from search pages. Ignored for direct property URLs.</td></tr><tr><td><code>fetchDetails</code></td><td>boolean</td><td>optional</td><td>Fetch the full property detail page for each search result. Adds price history, tax history, features, open house schedule, and agent phone. Doubles the number of HTTP requests.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>startUrls</code></td><td>array</td><td>optional</td><td>Trulia search result pages (e.g. https://www.trulia.com/for_sale/Austin,TX/) or individual property pages. Apply filters on Trulia first, then paste the URL here.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of property records to return from search pages. Ignored for direct property URLs.</td></tr><tr><td><code>fetchDetails</code></td><td>boolean</td><td>optional</td><td>Fetch the full property detail page for each search result. Adds price history, tax history, features, open house schedule, and agent phone. Doubles the number of HTTP requests.</td></tr><tr><td><code>proxyConfiguration</code></td><td>object</td><td>optional</td><td>Proxy configuration. Trulia&#x27;s PerimeterX protection blocks datacenter IPs — residential proxy is required for reliable scraping on Apify cloud.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;properties&quot;: {
-    &quot;fetchDetails&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Fetch the full property detail page for each search result. Adds price history, tax history, features, open house schedule, and agent phone. Doubles the number of HTTP requests.&quot;,
-      &quot;editor&quot;: &quot;checkbox&quot;,
-      &quot;title&quot;: &quot;Fetch Property Details&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;maxItems&quot;: {
-      &quot;default&quot;: 3,
-      &quot;description&quot;: &quot;Maximum number of property records to return from search pages. Ignored for direct property URLs.&quot;,
-      &quot;editor&quot;: &quot;number&quot;,
-      &quot;maximum&quot;: 10000,
-      &quot;minimum&quot;: 1,
-      &quot;prefill&quot;: 3,
-      &quot;title&quot;: &quot;Max Items&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;proxyConfiguration&quot;: {
-      &quot;default&quot;: {
-        &quot;apifyProxyGroups&quot;: [
-          &quot;RESIDENTIAL&quot;
-        ],
-        &quot;useApifyProxy&quot;: true
-      },
-      &quot;description&quot;: &quot;Proxy configuration. Trulia&#x27;s PerimeterX protection blocks datacenter IPs — residential proxy is required for reliable scraping on Apify cloud.&quot;,
-      &quot;editor&quot;: &quot;proxy&quot;,
-      &quot;prefill&quot;: {
-        &quot;apifyProxyGroups&quot;: [
-          &quot;RESIDENTIAL&quot;
-        ],
-        &quot;useApifyProxy&quot;: true
-      },
-      &quot;title&quot;: &quot;Proxy Configuration&quot;,
-      &quot;type&quot;: &quot;object&quot;
-    },
-    &quot;startUrls&quot;: {
-      &quot;default&quot;: [
-        &quot;https://www.trulia.com/for_sale/Austin,TX/&quot;
-      ],
-      &quot;description&quot;: &quot;Trulia search result pages (e.g. https://www.trulia.com/for_sale/Austin,TX/) or individual property pages. Apply filters on Trulia first, then paste the URL here.&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;prefill&quot;: [
-        &quot;https://www.trulia.com/for_sale/Austin,TX/&quot;
-      ],
-      &quot;title&quot;: &quot;Start URLs&quot;,
-      &quot;type&quot;: &quot;array&quot;
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-HJoW0/ZXvAovIYRjIVDVrUDHYhWX7IhrRr0cTBIbWrs=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; connect-src &#x27;self&#x27;; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Trulia Listings &amp; Price History Scraper – docs, price and API | Vexaloom Labs</title><meta name="description" content="Scrape property listings from Trulia - for sale, for rent, and sold. Supports search pages and direct property URLs. No login required. From $0.99 per 1,000 results on the Free plan."><meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/"><meta property="og:title" content="Trulia Listings &amp; Price History Scraper – docs, price and API | Vexaloom Labs"><meta property="og:description" content="Scrape property listings from Trulia - for sale, for rent, and sold. Supports search pages and direct property URLs. No login required. From $0.99 per 1,000 results on the Free plan."><meta property="og:type" content="article"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/"><meta property="og:site_name" content="Vexaloom Labs"><meta property="og:image" content="https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-WfnnIhpImgHWx0afZ-1R8WkiJnjH-logo.png"><meta name="twitter:card" content="summary"><meta name="theme-color" content="#7c3aed"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e299c13a23d7"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=1bc613038b6a"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs","https://github.com/asimkhaniqbal/apify-actor-examples"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs Actor documentation","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/#webpage","name":"Trulia Listings & Price History Scraper – docs, price and API","description":"Scrape property listings from Trulia - for sale, for rent, and sold. Supports search pages and direct property URLs. No login required. From $0.99 per 1,000 results on the Free plan.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/#article"},"dateModified":"2026-11-11T09:01:16.242Z","breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/#article","headline":"Trulia Listings & Price History Scraper – docs, price and API","name":"Trulia Listings & Price History Scraper – docs, price and API","description":"Scrape property listings from Trulia - for sale, for rent, and sold. Supports search pages and direct property URLs. No login required. From $0.99 per 1,000 results on the Free plan.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/#webpage"},"inLanguage":"en","dateModified":"2026-11-11T09:01:16.242Z","image":"https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-WfnnIhpImgHWx0afZ-1R8WkiJnjH-logo.png"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Topics","item":"https://asimkhaniqbal.github.io/apify-actor-examples/topics/"},{"@type":"ListItem","position":3,"name":"Lead Generation","item":"https://asimkhaniqbal.github.io/apify-actor-examples/topics/lead-generation/"},{"@type":"ListItem","position":4,"name":"Trulia Listings & Price History Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/"}]},{"@type":"SoftwareApplication","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/#software","name":"Trulia Listings & Price History Scraper","description":"Scrape property listings from Trulia - for sale, for rent, and sold. Supports search pages and direct property URLs. No login required.","url":"https://apify.com/vexaloom-labs/trulia-listings-and-price-history-scraper","applicationCategory":"DeveloperApplication","operatingSystem":"Apify platform (web)","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"image":"https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-WfnnIhpImgHWx0afZ-1R8WkiJnjH-logo.png","offers":{"@type":"Offer","url":"https://apify.com/vexaloom-labs/trulia-listings-and-price-history-scraper","priceCurrency":"USD","price":"0","priceSpecification":{"@type":"UnitPriceSpecification","price":0.00099,"priceCurrency":"USD","unitText":"result","referenceQuantity":{"@type":"QuantitativeValue","value":1,"unitText":"result"}},"description":"Pay per event: the price per result on Apify's Free plan; a start fee and platform usage are billed separately."}},{"@type":"FAQPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/#faq","mainEntity":[{"@type":"Question","name":"Do I need a Trulia or Zillow account?","acceptedAnswer":{"@type":"Answer","text":"No. The actor reads the public pages Trulia serves without a login."}},{"@type":"Question","name":"Do I need to configure a proxy?","acceptedAnswer":{"@type":"Answer","text":"No. It tries a direct connection first and switches to an Apify proxy only if Trulia blocks the request. You do not need to supply proxy credentials."}},{"@type":"Question","name":"How many listings can one search return?","acceptedAnswer":{"@type":"Answer","text":"Trulia exposes up to 25 result pages per search — about 1,000 listings. For a larger market, split the work by ZIP code, price band, bedroom count, or property type, then combine the datasets."}},{"@type":"Question","name":"Why are some sold prices missing?","acceptedAnswer":{"@type":"Answer","text":"Some counties and MLSs suppress the recorded sale price. The sold date and the price-history timeline are still returned when Trulia publishes them."}},{"@type":"Question","name":"Why do rental communities show a price range instead of one price?","acceptedAnswer":{"@type":"Answer","text":"A community page represents multiple floor plans. priceMin and priceMax carry the range and price is set to the lower bound."}},{"@type":"Question","name":"Can I get school ratings or neighborhood demographics?","acceptedAnswer":{"@type":"Answer","text":"Not in this actor. Trulia shows school names and local survey summaries on some pages, but the reliable public dataset is listing, price, tax, and property data."}},{"@type":"Question","name":"What happens to invalid URLs?","acceptedAnswer":{"@type":"Answer","text":"They produce a record with inputUrl, error, and scrapedAt so one bad URL does not lose the rest of the run."}}],"isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/#webpage"}}]}</script><script src="/apify-actor-examples/assets/site.js?v=7b7086957d37" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header class="masthead"><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="32" height="32"><span>Vexaloom Labs</span></a><form class="site-search" action="/apify-actor-examples/actors/" role="search" data-search-index="/apify-actor-examples/search.json"><label class="sr-only" for="site-search">Search this site</label><input type="search" role="combobox" id="site-search" name="q" placeholder="Search by site or data" autocomplete="off" aria-autocomplete="list" aria-controls="site-search-results" aria-expanded="false"><ul id="site-search-results" class="search-results" role="listbox" hidden></ul></form><nav class="primary" aria-label="Main"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/sites/">Sites</a><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/guides/">Guides</a></nav></div></header><main id="main"><nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="/apify-actor-examples/">Home</a></li><li><a href="/apify-actor-examples/topics/">Topics</a></li><li><a href="/apify-actor-examples/topics/lead-generation/">Lead Generation</a></li><li aria-current="page">Trulia Listings &amp; Price History Scraper</li></ol></nav><div class="doc"><div class="doc-head"><h1>Trulia Listings &amp; Price History Scraper</h1><p class="lead">Scrape property listings from Trulia - for sale, for rent, and sold. Supports search pages and direct property URLs. No login required.</p><dl class="facts"><div><dt>Updated</dt><dd><time datetime="2026-11-11">11 November 2026</time></dd></div><div><dt>Free plan</dt><dd>$0.99 per 1,000 results</dd></div><div><dt>Business plan</dt><dd>$0.49 per 1,000 results</dd></div><div><dt>Input</dt><dd>16 fields, none required</dd></div><div><dt>Output</dt><dd>56 declared fields</dd></div><div><dt>Site</dt><dd><a href="/apify-actor-examples/actors/trulia-listings-and-price-history-scraper/">Trulia</a></dd></div></dl><div class="cta"><a class="button" href="https://apify.com/vexaloom-labs/trulia-listings-and-price-history-scraper">Open in Apify Store</a><a class="button secondary" href="#run">Copy the API call</a></div></div><div class="doc-body"><nav class="toc" aria-label="On this page"><h2 class="toc-title">On this page</h2><ol><li><a href="#summary">In short</a></li><li><a href="#about">What it does</a></li><li><a href="#output">What you get</a></li><li><a href="#run">Run it</a></li><li><a href="#cost">What it costs</a></li><li><a href="#input">Input reference</a></li><li><a href="#faq">Questions</a></li><li><a href="#notes">Limits and notes</a></li><li><a href="#related">Related Actors</a></li></ol></nav><article class="prose"><p class="summary" id="summary">Trulia Listings &amp; Price History Scraper is an Apify Actor published by Vexaloom Labs. It accepts 16 input fields, none of them required at the top level. Each result can carry up to 56 declared fields, including <code>listingType</code>, <code>listingStatus</code>, <code>propertyType</code>, <code>price</code>, <code>priceMin</code> and <code>priceMax</code>. It costs $0.99 per 1,000 results on Apify's Free plan and $0.49 on the Business plan.</p><section id="about"><h2>What it does</h2><!--readme--><p>Turn Trulia into a structured housing dataset. Search any U.S. market with price, bedroom, bathroom, square-footage, and property-type filters — or paste Trulia search, property, and rental-community URLs — and get one clean record per listing, with optional price history, tax history, open houses, and agent contact details.</p>
+<!--/readme--><h3 id="readme-what-you-can-collect">What you can collect</h3><!--readme--><ul>
+<li><strong>Listing basics</strong> — price (and price range for communities), formatted price, currency, address, city, state, ZIP, county, neighborhood, latitude, longitude</li>
+<li><strong>Property facts</strong> — beds, baths, square feet, lot size, year built, HOA fee, price per square foot, property type, community name</li>
+<li><strong>Status</strong> — for sale, for rent, recently sold, off-market, new listing and open-house tags</li>
+<li><strong>History</strong> — complete price history (listed, price change, pending, sold, removed) and county tax assessments</li>
+<li><strong>Contact and attribution</strong> — listing agent, agent phone, brokerage, MLS number, MLS attribution</li>
+<li><strong>Rentals</strong> — price ranges, pet policy, required monthly and one-time fees</li>
+<li><strong>Media</strong> — listing photo URLs and photo count</li>
+<li><strong>Optional detail fields</strong> — full description, features grouped by room/system, scheduled open houses, estimated value, sold date and sold price</li>
+</ul>
+<p>Every record is omit-empty: a field appears only when Trulia published a real value for that listing. No <code>null</code>, blank-string, or sentinel values are written.</p>
+<!--/readme--><h3 id="readme-use-cases">Use cases</h3><!--readme--><ul>
+<li><strong>Comparable sales</strong> — collect recently sold homes and their price history for valuation work</li>
+<li><strong>Market monitoring</strong> — schedule a ZIP or neighborhood search and diff price, status, and days on market</li>
+<li><strong>Rental benchmarking</strong> — pull asking rents, pet policies, and required fees across a metro</li>
+<li><strong>Investor screening</strong> — filter by price, size, and property type, then enrich each candidate with tax and HOA data</li>
+<li><strong>Agent and brokerage tracking</strong> — see which agents and MLSs list in a market</li>
+</ul>
+<!--/readme--></section><section id="output"><h2>What you get</h2><p>The Actor saves one record per result to an Apify dataset. Its build declares 56 fields in 2 dataset views. Fields without a value can be left out of a record.</p><div class="table-wrap"><table class="output-table stack"><caption>Output fields</caption><thead><tr><th scope="col">Field</th><th scope="col">Label</th><th scope="col">What it holds</th></tr></thead><tbody><tr><th scope="row"><code>listingType</code></th><td data-label="Label">listingType</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>listingStatus</code></th><td data-label="Label">listingStatus</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>propertyType</code></th><td data-label="Label">propertyType</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>price</code></th><td data-label="Label">Price</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>priceMin</code></th><td data-label="Label">PriceMin</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>priceMax</code></th><td data-label="Label">PriceMax</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>priceLabel</code></th><td data-label="Label">priceLabel</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>bedrooms</code></th><td data-label="Label">bedrooms</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>bedroomsMax</code></th><td data-label="Label">bedroomsMax</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>bathrooms</code></th><td data-label="Label">bathrooms</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>bathroomsMax</code></th><td data-label="Label">bathroomsMax</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>sqft</code></th><td data-label="Label">sqft</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>sqftMax</code></th><td data-label="Label">sqftMax</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>address</code></th><td data-label="Label">address</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>city</code></th><td data-label="Label">city</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>state</code></th><td data-label="Label">state</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>zipCode</code></th><td data-label="Label">zipCode</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>agentName</code></th><td data-label="Label">agentName</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>brokerName</code></th><td data-label="Label">brokerName</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>url</code></th><td data-label="Label">Trulia URL</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>scrapedAt</code></th><td data-label="Label">scrapedAt</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>recordType</code></th><td data-label="Label">Record Type</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>sourceUrl</code></th><td data-label="Label">Source URL</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>propertyName</code></th><td data-label="Label">propertyName</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>priceCurrency</code></th><td data-label="Label">priceCurrency</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>priceType</code></th><td data-label="Label">priceType</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>pricePerSqft</code></th><td data-label="Label">pricePerSqft</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>estimatedValue</code></th><td data-label="Label">estimatedValue</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>county</code></th><td data-label="Label">county</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>neighborhood</code></th><td data-label="Label">neighborhood</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>latitude</code></th><td data-label="Label">latitude</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>longitude</code></th><td data-label="Label">longitude</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>lotSize</code></th><td data-label="Label">lotSize</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>lotSizeAcres</code></th><td data-label="Label">lotSizeAcres</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>lotSizeSqft</code></th><td data-label="Label">lotSizeSqft</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>yearBuilt</code></th><td data-label="Label">yearBuilt</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>hoaFee</code></th><td data-label="Label">hoaFee</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>listingDate</code></th><td data-label="Label">listingDate</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>daysOnMarket</code></th><td data-label="Label">daysOnMarket</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>soldDate</code></th><td data-label="Label">soldDate</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>soldPrice</code></th><td data-label="Label">soldPrice</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>agentPhone</code></th><td data-label="Label">agentPhone</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>mlsId</code></th><td data-label="Label">mlsId</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>attribution</code></th><td data-label="Label">attribution</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>petsAllowed</code></th><td data-label="Label">petsAllowed</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>tags</code></th><td data-label="Label">Tags</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>description</code></th><td data-label="Label">Description</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>priceHistory</code></th><td data-label="Label">Pricehistory</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>taxHistory</code></th><td data-label="Label">Taxhistory</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>rentalFees</code></th><td data-label="Label">Rentalfees</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>features</code></th><td data-label="Label">Features</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>openHouses</code></th><td data-label="Label">Openhouses</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>photos</code></th><td data-label="Label">Photos</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>photoCount</code></th><td data-label="Label">photoCount</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>inputUrl</code></th><td data-label="Label">inputUrl</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>error</code></th><td data-label="Label">error</td><td data-label="What it holds"></td></tr></tbody></table></div><figure class="code"><figcaption>Sample record from the publisher&#x27;s README (Output example)</figcaption><pre><code id="sample-record" class="language-json">{
+  &quot;url&quot;: &quot;https://www.trulia.com/home/1801-w-saint-johns-st-austin-tx-78757-464681422&quot;,
+  &quot;listingType&quot;: &quot;for_sale&quot;,
+  &quot;listingStatus&quot;: &quot;For Sale&quot;,
+  &quot;propertyType&quot;: &quot;Single Family Home&quot;,
+  &quot;price&quot;: 1449000,
+  &quot;priceLabel&quot;: &quot;$1,449,000&quot;,
+  &quot;priceCurrency&quot;: &quot;USD&quot;,
+  &quot;address&quot;: &quot;1801 W  Saint Johns St&quot;,
+  &quot;city&quot;: &quot;Austin&quot;,
+  &quot;state&quot;: &quot;TX&quot;,
+  &quot;zipCode&quot;: &quot;78757&quot;,
+  &quot;neighborhood&quot;: &quot;Crestview&quot;,
+  &quot;latitude&quot;: 30.344343,
+  &quot;longitude&quot;: -97.7303,
+  &quot;bedrooms&quot;: 4,
+  &quot;bathrooms&quot;: 4.5,
+  &quot;sqft&quot;: 2534,
+  &quot;yearBuilt&quot;: 2026,
+  &quot;pricePerSqft&quot;: &quot;$572&quot;,
+  &quot;agentName&quot;: &quot;Darsh Parikh&quot;,
+  &quot;agentPhone&quot;: &quot;(512) 593-3138&quot;,
+  &quot;brokerName&quot;: &quot;Compass RE Texas, LLC&quot;,
+  &quot;mlsId&quot;: &quot;5501580&quot;,
+  &quot;priceHistory&quot;: [
+    {
+      &quot;date&quot;: &quot;2026-11-11T00:00:00+00:00&quot;,
+      &quot;price&quot;: 1449000,
+      &quot;priceLabel&quot;: &quot;$1,449,000&quot;,
+      &quot;event&quot;: &quot;Listed For Sale&quot;,
+      &quot;source&quot;: &quot;Unlock MLS #5501580&quot;
     }
-  },
-  &quot;schemaVersion&quot;: 1,
-  &quot;title&quot;: &quot;Trulia Property Scraper Input&quot;,
-  &quot;type&quot;: &quot;object&quot;
-}
-</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>results</code></td><td>string</td><td>optional</td><td>Dataset containing scraped property records</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;actorOutputSchemaVersion&quot;: 1,
-  &quot;description&quot;: &quot;Property listing data scraped from Trulia.&quot;,
-  &quot;properties&quot;: {
-    &quot;results&quot;: {
-      &quot;description&quot;: &quot;Dataset containing scraped property records&quot;,
-      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
-      &quot;type&quot;: &quot;string&quot;
+  ],
+  &quot;openHouses&quot;: [
+    {
+      &quot;startTime&quot;: &quot;2026-11-12T21:00:00+00:00&quot;,
+      &quot;date&quot;: &quot;Thursday, November 12&quot;
     }
-  },
-  &quot;title&quot;: &quot;Trulia Listings &amp; Price History Scraper Output&quot;,
-  &quot;type&quot;: &quot;object&quot;
+  ],
+  &quot;scrapedAt&quot;: &quot;2026-11-11T07:24:01+00:00&quot;
+}</code></pre><button type="button" class="copy" data-copy="sample-record">Copy</button></figure><h3 id="readme-output-example">Output example</h3><!--readme--><pre><code class="language-json">{
+  &quot;url&quot;: &quot;https://www.trulia.com/home/1801-w-saint-johns-st-austin-tx-78757-464681422&quot;,
+  &quot;listingType&quot;: &quot;for_sale&quot;,
+  &quot;listingStatus&quot;: &quot;For Sale&quot;,
+  &quot;propertyType&quot;: &quot;Single Family Home&quot;,
+  &quot;price&quot;: 1449000,
+  &quot;priceLabel&quot;: &quot;$1,449,000&quot;,
+  &quot;priceCurrency&quot;: &quot;USD&quot;,
+  &quot;address&quot;: &quot;1801 W  Saint Johns St&quot;,
+  &quot;city&quot;: &quot;Austin&quot;,
+  &quot;state&quot;: &quot;TX&quot;,
+  &quot;zipCode&quot;: &quot;78757&quot;,
+  &quot;neighborhood&quot;: &quot;Crestview&quot;,
+  &quot;latitude&quot;: 30.344343,
+  &quot;longitude&quot;: -97.7303,
+  &quot;bedrooms&quot;: 4,
+  &quot;bathrooms&quot;: 4.5,
+  &quot;sqft&quot;: 2534,
+  &quot;yearBuilt&quot;: 2026,
+  &quot;pricePerSqft&quot;: &quot;$572&quot;,
+  &quot;agentName&quot;: &quot;Darsh Parikh&quot;,
+  &quot;agentPhone&quot;: &quot;(512) 593-3138&quot;,
+  &quot;brokerName&quot;: &quot;Compass RE Texas, LLC&quot;,
+  &quot;mlsId&quot;: &quot;5501580&quot;,
+  &quot;priceHistory&quot;: [
+    {
+      &quot;date&quot;: &quot;2026-11-11T00:00:00+00:00&quot;,
+      &quot;price&quot;: 1449000,
+      &quot;priceLabel&quot;: &quot;$1,449,000&quot;,
+      &quot;event&quot;: &quot;Listed For Sale&quot;,
+      &quot;source&quot;: &quot;Unlock MLS #5501580&quot;
+    }
+  ],
+  &quot;openHouses&quot;: [
+    {
+      &quot;startTime&quot;: &quot;2026-11-12T21:00:00+00:00&quot;,
+      &quot;date&quot;: &quot;Thursday, November 12&quot;
+    }
+  ],
+  &quot;scrapedAt&quot;: &quot;2026-11-11T07:24:01+00:00&quot;
 }
-</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;actorSpecification&quot;: 1,
-  &quot;title&quot;: &quot;Trulia Properties&quot;,
-  &quot;views&quot;: {
-    &quot;detailed&quot;: {
-      &quot;display&quot;: {
-        &quot;component&quot;: &quot;table&quot;,
-        &quot;properties&quot;: {
-          &quot;address&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Address&quot;
-          },
-          &quot;agentName&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Agent&quot;
-          },
-          &quot;agentPhone&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Agent Phone&quot;
-          },
-          &quot;bathrooms&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Baths&quot;
-          },
-          &quot;bedrooms&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Beds&quot;
-          },
-          &quot;brokerName&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Broker&quot;
-          },
-          &quot;city&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;City&quot;
-          },
-          &quot;daysOnMarket&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Days on Mkt&quot;
-          },
-          &quot;error&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Error&quot;
-          },
-          &quot;features&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Features&quot;
-          },
-          &quot;inputUrl&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Input URL&quot;
-          },
-          &quot;latitude&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Lat&quot;
-          },
-          &quot;listingDate&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Listed&quot;
-          },
-          &quot;listingType&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Type&quot;
-          },
-          &quot;longitude&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Lng&quot;
-          },
-          &quot;mlsId&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;MLS ID&quot;
-          },
-          &quot;neighborhood&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Neighborhood&quot;
-          },
-          &quot;openHouses&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Open Houses&quot;
-          },
-          &quot;photos&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Photos&quot;
-          },
-          &quot;price&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Price (USD)&quot;
-          },
-          &quot;priceHistory&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Price History&quot;
-          },
-          &quot;priceLabel&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Price&quot;
-          },
-          &quot;propertyType&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Property&quot;
-          },
-          &quot;scrapedAt&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Scraped At&quot;
-          },
-          &quot;sqft&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Sq Ft&quot;
-          },
-          &quot;state&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;State&quot;
-          },
-          &quot;taxHistory&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Tax History&quot;
-          },
-          &quot;url&quot;: {
-            &quot;format&quot;: &quot;link&quot;,
-            &quot;label&quot;: &quot;Trulia URL&quot;
-          },
-          &quot;zipCode&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;ZIP&quot;
-          }
-        }
-      },
-      &quot;title&quot;: &quot;Detailed View&quot;,
-      &quot;transformation&quot;: {
-        &quot;fields&quot;: [
-          &quot;url&quot;,
-          &quot;listingType&quot;,
-          &quot;propertyType&quot;,
-          &quot;price&quot;,
-          &quot;priceLabel&quot;,
-          &quot;address&quot;,
-          &quot;city&quot;,
-          &quot;state&quot;,
-          &quot;zipCode&quot;,
-          &quot;neighborhood&quot;,
-          &quot;latitude&quot;,
-          &quot;longitude&quot;,
-          &quot;bedrooms&quot;,
-          &quot;bathrooms&quot;,
-          &quot;sqft&quot;,
-          &quot;listingDate&quot;,
-          &quot;daysOnMarket&quot;,
-          &quot;agentName&quot;,
-          &quot;agentPhone&quot;,
-          &quot;brokerName&quot;,
-          &quot;mlsId&quot;,
-          &quot;priceHistory&quot;,
-          &quot;taxHistory&quot;,
-          &quot;features&quot;,
-          &quot;openHouses&quot;,
-          &quot;photos&quot;,
-          &quot;scrapedAt&quot;,
-          &quot;inputUrl&quot;,
-          &quot;error&quot;
-        ]
-      }
-    },
-    &quot;overview&quot;: {
-      &quot;display&quot;: {
-        &quot;component&quot;: &quot;table&quot;,
-        &quot;properties&quot;: {
-          &quot;address&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Address&quot;
-          },
-          &quot;agentName&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Agent&quot;
-          },
-          &quot;bathrooms&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Baths&quot;
-          },
-          &quot;bedrooms&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Beds&quot;
-          },
-          &quot;brokerName&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Broker&quot;
-          },
-          &quot;city&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;City&quot;
-          },
-          &quot;listingType&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Type&quot;
-          },
-          &quot;price&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Price (USD)&quot;
-          },
-          &quot;priceLabel&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Price&quot;
-          },
-          &quot;propertyType&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Property&quot;
-          },
-          &quot;scrapedAt&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Scraped At&quot;
-          },
-          &quot;sqft&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Sq Ft&quot;
-          },
-          &quot;state&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;State&quot;
-          },
-          &quot;url&quot;: {
-            &quot;format&quot;: &quot;link&quot;,
-            &quot;label&quot;: &quot;Trulia URL&quot;
-          },
-          &quot;zipCode&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;ZIP&quot;
-          }
-        }
-      },
-      &quot;title&quot;: &quot;Listing Overview&quot;,
-      &quot;transformation&quot;: {
-        &quot;fields&quot;: [
-          &quot;listingType&quot;,
-          &quot;propertyType&quot;,
-          &quot;price&quot;,
-          &quot;priceLabel&quot;,
-          &quot;bedrooms&quot;,
-          &quot;bathrooms&quot;,
-          &quot;sqft&quot;,
-          &quot;address&quot;,
-          &quot;city&quot;,
-          &quot;state&quot;,
-          &quot;zipCode&quot;,
-          &quot;agentName&quot;,
-          &quot;brokerName&quot;,
-          &quot;url&quot;,
-          &quot;scrapedAt&quot;
-        ]
-      }
+</code></pre>
+<!--/readme--></section><section id="run"><h2>Run it</h2><p>Set <code>APIFY_TOKEN</code> to your <a href="https://console.apify.com/settings/integrations">Apify API token</a>, then run the Actor with the input below (austin homes under $700k, 3+ beds). Each run is billed to your Apify account. The <a href="/apify-actor-examples/guides/trulia-listings-and-price-history-scraper/">export tutorial</a> turns the results into a CSV file or an Excel workbook.</p><div class="tabs" data-tabs><div class="tab-list" role="tablist" aria-label="Language"><button type="button" role="tab" id="run-tab-python" aria-controls="run-panel-python" aria-selected="true">Python</button><button type="button" role="tab" id="run-tab-javascript" aria-controls="run-panel-javascript" aria-selected="false" tabindex="-1">JavaScript</button><button type="button" role="tab" id="run-tab-curl" aria-controls="run-panel-curl" aria-selected="false" tabindex="-1">cURL</button><button type="button" role="tab" id="run-tab-mcp" aria-controls="run-panel-mcp" aria-selected="false" tabindex="-1">MCP</button></div><div role="tabpanel" id="run-panel-python" aria-labelledby="run-tab-python" class="tab-panel"><h3 class="tab-title">Python</h3><figure class="code"><pre><code id="run-python" class="language-python"># pip install apify-client
+import os
+from apify_client import ApifyClient
+
+ACTOR = &quot;vexaloom-labs/trulia-listings-and-price-history-scraper&quot;
+client = ApifyClient(os.environ[&quot;APIFY_TOKEN&quot;])
+run_input = {
+    &quot;mode&quot;: &quot;search&quot;,
+    &quot;location&quot;: &quot;Austin, TX&quot;,
+    &quot;listingType&quot;: &quot;for_sale&quot;,
+    &quot;maxPrice&quot;: 700000,
+    &quot;minBeds&quot;: 3,
+    &quot;maxItems&quot;: 100,
+    &quot;fetchDetails&quot;: True,
+}
+
+run = client.actor(ACTOR).call(run_input=run_input)
+for item in client.dataset(run[&quot;defaultDatasetId&quot;]).iterate_items():
+    print(item)
+</code></pre><button type="button" class="copy" data-copy="run-python">Copy</button></figure></div><div role="tabpanel" id="run-panel-javascript" aria-labelledby="run-tab-javascript" class="tab-panel"><h3 class="tab-title">JavaScript</h3><figure class="code"><pre><code id="run-javascript" class="language-javascript">// npm install apify-client
+import { ApifyClient } from &#x27;apify-client&#x27;;
+
+const ACTOR = &#x27;vexaloom-labs/trulia-listings-and-price-history-scraper&#x27;;
+const client = new ApifyClient({ token: process.env.APIFY_TOKEN });
+const input = {
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;location&quot;: &quot;Austin, TX&quot;,
+  &quot;listingType&quot;: &quot;for_sale&quot;,
+  &quot;maxPrice&quot;: 700000,
+  &quot;minBeds&quot;: 3,
+  &quot;maxItems&quot;: 100,
+  &quot;fetchDetails&quot;: true
+};
+
+const run = await client.actor(ACTOR).call(input);
+const { items } = await client.dataset(run.defaultDatasetId).listItems();
+console.log(items);
+</code></pre><button type="button" class="copy" data-copy="run-javascript">Copy</button></figure></div><div role="tabpanel" id="run-panel-curl" aria-labelledby="run-tab-curl" class="tab-panel"><h3 class="tab-title">cURL</h3><figure class="code"><pre><code id="run-curl" class="language-bash">curl -X POST &quot;https://api.apify.com/v2/acts/vexaloom-labs~trulia-listings-and-price-history-scraper/run-sync-get-dataset-items?format=json&quot; \
+  -H &quot;Authorization: Bearer $APIFY_TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;mode&quot;: &quot;search&quot;, &quot;location&quot;: &quot;Austin, TX&quot;, &quot;listingType&quot;: &quot;for_sale&quot;, &quot;maxPrice&quot;: 700000, &quot;minBeds&quot;: 3, &quot;maxItems&quot;: 100, &quot;fetchDetails&quot;: true}&#x27;
+</code></pre><button type="button" class="copy" data-copy="run-curl">Copy</button></figure></div><div role="tabpanel" id="run-panel-mcp" aria-labelledby="run-tab-mcp" class="tab-panel"><h3 class="tab-title">MCP</h3><figure class="code"><pre><code id="run-mcp" class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;apify&quot;: {
+      &quot;url&quot;: &quot;https://mcp.apify.com?tools=vexaloom-labs/trulia-listings-and-price-history-scraper&quot;
     }
   }
-}
-</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-trulia-listings-price-history-scraper">Trulia Listings &amp; Price History Scraper</h2>
-<p>Turn any Trulia search results page or individual property page into structured data — for-sale, for-rent, and sold listings all work. Paste a Trulia URL with whatever filters you've already applied on the site (price, beds, neighborhood, property type) and this actor collects every matching listing, optionally following through to each one's own page for price history, tax history, and open-house details.</p>
-<h2 id="readme-what-this-actor-does">What this actor does</h2>
-<ul>
-<li><strong>Search or direct mode in one input:</strong> mix Trulia search-result URLs (paginated automatically) with individual property URLs in the same run</li>
-<li><strong>Covers for-sale, for-rent, and sold listings</strong> — just change the URL path (<code>/for_sale/</code>, <code>/for_rent/</code>, <code>/sold/</code>)</li>
-<li><strong>Optional deep fetch:</strong> enable <code>fetchDetails</code> to add price history, tax history, full feature lists, open-house schedules, and the agent's phone number</li>
-<li><strong>Filters inherited from the URL:</strong> any filter you set on Trulia's own site (price range, bedrooms, property type, etc.) carries straight through, since the actor just follows the URL you give it</li>
-<li><strong>Empty fields are omitted</strong> — a field only appears on a record when Trulia actually published that value for the listing</li>
-</ul>
-<h2 id="readme-output-per-property">Output per property</h2>
-<ul>
-<li><code>url</code> — canonical Trulia property URL</li>
-<li><code>listingType</code> — <code>for_sale</code>, <code>for_rent</code>, or <code>sold</code></li>
-<li><code>propertyType</code> — e.g. Single Family Residential, Condo, Townhouse</li>
-<li><code>price</code> — numeric price in USD</li>
-<li><code>priceLabel</code> — formatted price as shown on the page (e.g. <code>$485,000</code>)</li>
-<li><code>address</code>, <code>city</code>, <code>state</code>, <code>zipCode</code>, <code>neighborhood</code></li>
-<li><code>latitude</code>, <code>longitude</code></li>
-<li><code>bedrooms</code>, <code>bathrooms</code>, <code>sqft</code></li>
-<li><code>photos[]</code> — listing photo URLs</li>
-<li><code>listingDate</code>, <code>daysOnMarket</code></li>
-<li><code>agentName</code>, <code>brokerName</code>, <code>mlsId</code></li>
-<li><code>priceHistory[]</code> — past price changes, each with date/price/event/source (requires <code>fetchDetails</code>)</li>
-<li><code>taxHistory[]</code> — past tax-year assessments and tax amounts (requires <code>fetchDetails</code>)</li>
-<li><code>features</code> — feature categories grouped by section, including highlights (requires <code>fetchDetails</code>)</li>
-<li><code>openHouses[]</code> — scheduled open-house start/end times (requires <code>fetchDetails</code>)</li>
-<li><code>agentPhone</code> — listing agent's phone number (requires <code>fetchDetails</code>)</li>
-<li><code>scrapedAt</code> — ISO 8601 UTC timestamp</li>
-</ul>
-<p>If a specific URL can't be fetched or parsed, that record instead contains <code>inputUrl</code>, <code>error</code>, and <code>scrapedAt</code>, so you can see exactly which input failed without losing the rest of the run.</p>
-<h2 id="readme-input">Input</h2>
-<div class="table-wrap"><table>
+}</code></pre><button type="button" class="copy" data-copy="run-mcp">Copy</button></figure></div></div></section><section id="cost"><h2>What it costs</h2><p>Trulia Listings &amp; Price History Scraper uses pay-per-event pricing: a fee for each result saved to the dataset, plus a start fee per run. Paid Apify plans pay less per result. The start fee is charged once per GB of run memory (at least once); the default run uses 4 GB, so a run starts with 4 start events, as the run totals include. You also pay Apify platform usage (compute and proxy) for the run, which these totals do not include.</p><div class="table-wrap"><table class="price-table stack"><caption>Published prices and run totals by Apify plan</caption><thead><tr><th scope="col">Plan</th><th scope="col">Per result</th><th scope="col">Per 1,000</th><th scope="col">Start fee</th><th scope="col">100 results</th><th scope="col">1,000 results</th><th scope="col">10,000 results</th></tr></thead><tbody><tr><th scope="row">Free plan</th><td data-label="Per result">$0.00099</td><td data-label="Per 1,000">$0.99</td><td data-label="Start fee">$0.10</td><td data-label="100 results">$0.50</td><td data-label="1,000 results">$1.39</td><td data-label="10,000 results">$10.30</td></tr><tr><th scope="row">Starter plan</th><td data-label="Per result">$0.00082</td><td data-label="Per 1,000">$0.82</td><td data-label="Start fee">$0.077</td><td data-label="100 results">$0.39</td><td data-label="1,000 results">$1.13</td><td data-label="10,000 results">$8.51</td></tr><tr><th scope="row">Scale plan</th><td data-label="Per result">$0.00066</td><td data-label="Per 1,000">$0.66</td><td data-label="Start fee">$0.053</td><td data-label="100 results">$0.28</td><td data-label="1,000 results">$0.87</td><td data-label="10,000 results">$6.81</td></tr><tr><th scope="row">Business plan</th><td data-label="Per result">$0.00049</td><td data-label="Per 1,000">$0.49</td><td data-label="Start fee">$0.03</td><td data-label="100 results">$0.17</td><td data-label="1,000 results">$0.61</td><td data-label="10,000 results">$5.02</td></tr></tbody></table></div><p class="fine">Run totals are the Actor's charges at the default memory: start fees plus the per-result price. Check the <a href="https://apify.com/vexaloom-labs/trulia-listings-and-price-history-scraper">Store page</a> before a large run; prices can change with notice.</p></section><section id="input"><h2>Input reference</h2><p>All 16 fields of the published input schema, in the publisher's order. No field is required at the top level, but the README can describe conditions. Download the <a href="input-schema.json">input schema</a> as JSON.</p><div class="table-wrap"><table class="input-table stack"><caption>Input fields in the published schema</caption><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead><tbody><tr><th scope="row"><code>mode</code><span class="field-title">Mode</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Search by location using the filters below, or paste Trulia URLs.<!--/readme--><span class="field-meta">Default <code>&quot;search&quot;</code>; Allowed search, urls</span></td></tr><tr><th scope="row"><code>location</code><span class="field-title">Location</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->City and state, ZIP code, or neighborhood. Examples: Austin, TX · 78704 · New York, NY.<!--/readme--><span class="field-meta">Default <code>&quot;&quot;</code>; Example <code>&quot;Austin, TX&quot;</code></span></td></tr><tr><th scope="row"><code>listingType</code><span class="field-title">Listing Type</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Search for-sale homes, rentals, or recently sold homes.<!--/readme--><span class="field-meta">Default <code>&quot;for_sale&quot;</code>; Allowed for_sale, for_rent, sold</span></td></tr><tr><th scope="row"><code>propertyType</code><span class="field-title">Property Type</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Restrict results to one property type.<!--/readme--><span class="field-meta">Default <code>&quot;any&quot;</code>; Allowed any, single_family, condo, townhouse, multi_family, apartment, coop, land and 1 more</span></td></tr><tr><th scope="row"><code>minPrice</code><span class="field-title">Minimum Price (USD)</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Lowest listing price to include.<!--/readme--><span class="field-meta">Allowed 0 to 100000000</span></td></tr><tr><th scope="row"><code>maxPrice</code><span class="field-title">Maximum Price (USD)</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Highest listing price to include.<!--/readme--><span class="field-meta">Allowed 0 to 100000000</span></td></tr><tr><th scope="row"><code>minBeds</code><span class="field-title">Minimum Bedrooms</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Smallest number of bedrooms to include.<!--/readme--><span class="field-meta">Allowed 0 to 50</span></td></tr><tr><th scope="row"><code>maxBeds</code><span class="field-title">Maximum Bedrooms</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Largest number of bedrooms to include.<!--/readme--><span class="field-meta">Allowed 0 to 50</span></td></tr><tr><th scope="row"><code>minBaths</code><span class="field-title">Minimum Bathrooms</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Smallest number of bathrooms to include.<!--/readme--><span class="field-meta">Allowed 0 to 50</span></td></tr><tr><th scope="row"><code>maxBaths</code><span class="field-title">Maximum Bathrooms</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Largest number of bathrooms to include.<!--/readme--><span class="field-meta">Allowed 0 to 50</span></td></tr><tr><th scope="row"><code>minSqft</code><span class="field-title">Minimum Square Feet</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Smallest living area to include.<!--/readme--><span class="field-meta">Allowed 0 to 1000000</span></td></tr><tr><th scope="row"><code>maxSqft</code><span class="field-title">Maximum Square Feet</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Largest living area to include.<!--/readme--><span class="field-meta">Allowed 0 to 1000000</span></td></tr><tr><th scope="row"><code>maxItems</code><span class="field-title">Max Listings</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Maximum number of listing records to collect across all URLs.<!--/readme--><span class="field-meta">Default <code>40</code>; Example <code>3</code>; Allowed 1 to 10000</span></td></tr><tr><th scope="row"><code>fetchDetails</code><span class="field-title">Fetch Full Property Details</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Open each listing page to add price history, tax history, full features, open houses, and agent phone.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr><tr><th scope="row"><code>urls</code><span class="field-title">Trulia URLs (URL mode)</span></th><td data-label="Type">array</td><td data-label="Description"><!--readme-->Trulia search pages, property pages, or rental-community pages. Existing filters in a search URL are preserved.<!--/readme--><span class="field-meta">Default <code>[]</code></span></td></tr><tr><th scope="row"><code>proxyConfiguration</code><span class="field-title">Proxy Configuration</span></th><td data-label="Type">object</td><td data-label="Description"><!--readme-->Leave the default for automatic proxy selection. Trulia's PerimeterX protects some routes, and the actor falls back to an Apify proxy only when a direct request is blocked.<!--/readme--></td></tr></tbody></table></div><details class="publisher-notes"><summary>The publisher's input notes</summary><h3 id="readme-input">Input</h3><!--readme--><div class="table-wrap"><table>
 <thead>
 <tr>
 <th>Field</th>
-<th>Type</th>
 <th>Default</th>
-<th>Description</th>
+<th>What it does</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>startUrls</code></td>
-<td>array</td>
-<td><code>[&quot;https://www.trulia.com/for_sale/Austin,TX/&quot;]</code></td>
-<td>Trulia search-result pages or individual property pages</td>
+<td><code>mode</code></td>
+<td><code>search</code></td>
+<td><code>search</code> uses the filters below; <code>urls</code> scrapes the URLs you paste</td>
+</tr>
+<tr>
+<td><code>location</code></td>
+<td>–</td>
+<td>City and state (<code>Austin, TX</code>), ZIP (<code>78704</code>), or neighborhood</td>
+</tr>
+<tr>
+<td><code>listingType</code></td>
+<td><code>for_sale</code></td>
+<td><code>for_sale</code>, <code>for_rent</code>, or <code>sold</code></td>
+</tr>
+<tr>
+<td><code>propertyType</code></td>
+<td><code>any</code></td>
+<td>Any, single-family, condo, townhouse, multi-family, apartment, co-op, land, mobile/manufactured</td>
+</tr>
+<tr>
+<td><code>minPrice</code> / <code>maxPrice</code></td>
+<td>–</td>
+<td>Price range in USD</td>
+</tr>
+<tr>
+<td><code>minBeds</code> / <code>maxBeds</code></td>
+<td>–</td>
+<td>Bedroom range</td>
+</tr>
+<tr>
+<td><code>minBaths</code> / <code>maxBaths</code></td>
+<td>–</td>
+<td>Bathroom range</td>
+</tr>
+<tr>
+<td><code>minSqft</code> / <code>maxSqft</code></td>
+<td>–</td>
+<td>Living-area range in square feet</td>
 </tr>
 <tr>
 <td><code>maxItems</code></td>
-<td>integer</td>
-<td><code>3</code></td>
-<td>Max listings to collect from search pages (1–10,000); ignored for direct property URLs</td>
+<td><code>40</code></td>
+<td>Total listing cap across all inputs (1–10,000)</td>
 </tr>
 <tr>
 <td><code>fetchDetails</code></td>
-<td>boolean</td>
 <td><code>false</code></td>
-<td>Fetch each listing's own detail page for price/tax history, features, and open houses</td>
+<td>Open each listing page for price history, tax history, features, open houses, and agent phone</td>
+</tr>
+<tr>
+<td><code>urls</code></td>
+<td>–</td>
+<td>Trulia search, property, or rental-community URLs used in URL mode</td>
 </tr>
 <tr>
 <td><code>proxyConfiguration</code></td>
-<td>object</td>
-<td>Apify residential proxy</td>
-<td>Proxy configuration; residential is required because Trulia's PerimeterX protection blocks datacenter IPs</td>
+<td>automatic</td>
+<td>Optional. The actor tries a direct connection first and falls back to an Apify proxy automatically</td>
 </tr>
 </tbody>
 </table></div>
-<h3 id="readme-example-for-sale-homes-in-austin-under-600k">Example: for-sale homes in Austin under $600K</h3>
+<h4 id="readme-example-austin-homes-under-700k-3-beds">Example: Austin homes under $700K, 3+ beds</h4>
 <pre><code class="language-json">{
-  &quot;startUrls&quot;: [&quot;https://www.trulia.com/for_sale/Austin,TX/0-600000_price/&quot;],
-  &quot;maxItems&quot;: 100
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;location&quot;: &quot;Austin, TX&quot;,
+  &quot;listingType&quot;: &quot;for_sale&quot;,
+  &quot;maxPrice&quot;: 700000,
+  &quot;minBeds&quot;: 3,
+  &quot;maxItems&quot;: 100,
+  &quot;fetchDetails&quot;: true
 }
 </code></pre>
-<h3 id="readme-example-3-bedroom-rentals-in-new-york-with-full-detail">Example: 3+ bedroom rentals in New York with full detail</h3>
+<h4 id="readme-example-sold-comps-in-one-zip">Example: sold comps in one ZIP</h4>
 <pre><code class="language-json">{
-  &quot;startUrls&quot;: [&quot;https://www.trulia.com/for_rent/New_York,NY/3p_beds/&quot;],
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;location&quot;: &quot;78704&quot;,
+  &quot;listingType&quot;: &quot;sold&quot;,
   &quot;maxItems&quot;: 50,
   &quot;fetchDetails&quot;: true
 }
 </code></pre>
-<h3 id="readme-example-specific-property-pages">Example: specific property pages</h3>
+<h4 id="readme-example-paste-trulia-urls">Example: paste Trulia URLs</h4>
 <pre><code class="language-json">{
-  &quot;startUrls&quot;: [
-    &quot;https://www.trulia.com/p/tx/austin/123-main-st-austin-tx-78701--1234567890&quot;,
-    &quot;https://www.trulia.com/p/ma/boston/456-oak-ave-boston-ma-02108--9876543210&quot;
+  &quot;mode&quot;: &quot;urls&quot;,
+  &quot;urls&quot;: [
+    &quot;https://www.trulia.com/for_rent/Austin,TX/2p_beds/&quot;,
+    &quot;https://www.trulia.com/home/1801-w-saint-johns-st-austin-tx-78757-464681422&quot;
   ],
+  &quot;maxItems&quot;: 20,
   &quot;fetchDetails&quot;: true
 }
 </code></pre>
-<h2 id="readme-use-cases">Use cases</h2>
-<ul>
-<li><strong>Market research</strong> — pull every active listing in a metro area to analyze pricing by neighborhood and property type</li>
-<li><strong>Investor screening</strong> — collect sold-listing price and tax history to estimate comps for a target address</li>
-<li><strong>Rental analysis</strong> — gather for-rent listings filtered by bedroom count to benchmark rents in a market</li>
-<li><strong>Agent/brokerage monitoring</strong> — track which agents and brokerages are listing in a given area</li>
-<li><strong>Price-drop tracking</strong> — re-run on the same search URL periodically and diff <code>price</code>/<code>priceLabel</code> over time</li>
+<!--/readme--></details></section><section id="faq"><h2>Questions</h2><div class="qa"><h3 id="faq-do-i-need-a-trulia-or-zillow-account"><!--readme-->Do I need a Trulia or Zillow account?<!--/readme--></h3><!--readme--><p>No. The actor reads the public pages Trulia serves without a login.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-do-i-need-to-configure-a-proxy"><!--readme-->Do I need to configure a proxy?<!--/readme--></h3><!--readme--><p>No. It tries a direct connection first and switches to an Apify proxy only if Trulia blocks the request. You do not need to supply proxy credentials.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-how-many-listings-can-one-search-return"><!--readme-->How many listings can one search return?<!--/readme--></h3><!--readme--><p>Trulia exposes up to 25 result pages per search — about 1,000 listings. For a larger market, split the work by ZIP code, price band, bedroom count, or property type, then combine the datasets.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-why-are-some-sold-prices-missing"><!--readme-->Why are some sold prices missing?<!--/readme--></h3><!--readme--><p>Some counties and MLSs suppress the recorded sale price. The sold date and the price-history timeline are still returned when Trulia publishes them.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-why-do-rental-communities-show-a-price-range-instead-of-one"><!--readme-->Why do rental communities show a price range instead of one price?<!--/readme--></h3><!--readme--><p>A community page represents multiple floor plans. <code>priceMin</code> and <code>priceMax</code> carry the range and <code>price</code> is set to the lower bound.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-can-i-get-school-ratings-or-neighborhood-demographics"><!--readme-->Can I get school ratings or neighborhood demographics?<!--/readme--></h3><!--readme--><p>Not in this actor. Trulia shows school names and local survey summaries on some pages, but the reliable public dataset is listing, price, tax, and property data.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-what-happens-to-invalid-urls"><!--readme-->What happens to invalid URLs?<!--/readme--></h3><!--readme--><p>They produce a record with <code>inputUrl</code>, <code>error</code>, and <code>scrapedAt</code> so one bad URL does not lose the rest of the run.</p>
+<!--/readme--></div></section><section id="notes"><h2>Limits and notes</h2><h3 id="readme-two-ways-to-run-it">Two ways to run it</h3><!--readme--><ul>
+<li><strong>Search by location and filters</strong> — give a city, ZIP, or neighborhood, choose for-sale, for-rent, or sold, and narrow by price, beds, baths, size, and property type. The actor paginates the search for you.</li>
+<li><strong>Scrape specific Trulia URLs</strong> — paste one or more search pages, property pages, or rental-community pages. Any filter already applied in a Trulia search URL is preserved.</li>
 </ul>
-<h2 id="readme-faq">FAQ</h2>
-<p><strong>Do I need a Trulia or Zillow account?</strong>
-No. This actor only reads data visible on Trulia's public pages without logging in.</p>
-<p><strong>Is a proxy required?</strong>
-Yes. Trulia's PerimeterX bot protection blocks datacenter IPs, so residential proxy is required for reliable results on Apify's cloud; the default <code>proxyConfiguration</code> is already set to a residential group.</p>
-<p><strong>How many listings can I get from one search URL?</strong>
-That depends on the market — a typical city search can return anywhere from a few dozen to several thousand matching listings. The actor paginates through the search results automatically up to your <code>maxItems</code> cap.</p>
-<p><strong>What's missing compared to a logged-in Trulia/Zillow account?</strong>
-Full school ratings and reports, detailed neighborhood demographics, crime scores, mortgage pre-qualification data, and private listing notes are all gated behind an account and aren't available to this actor.</p>
-<p><strong>Can I scrape sold listings?</strong>
-Yes — use a URL under <code>https://www.trulia.com/sold/</code>, e.g. <code>https://www.trulia.com/sold/Austin,TX/</code>.</p>
-<p><strong>What's the difference between a search URL and a direct property URL in <code>startUrls</code>?</strong>
-A search URL gets paginated and yields many listing records up to <code>maxItems</code>. A direct property URL returns exactly one record for that property. You can mix both types in the same <code>startUrls</code> list.</p>
-<p><strong>Why do some fields only show up when <code>fetchDetails</code> is enabled?</strong>
-Price history, tax history, the full feature list, open houses, and the agent's phone number only live on each property's own detail page, not on the search-results card — so the actor only fetches them when you opt in, since it roughly doubles the number of page requests per run.</p>
-</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/trulia-listings-and-price-history-scraper/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>gc0ke6ToNS1cuqB3p</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
+<p>Both modes can be used in the same run.</p>
+<!--/readme--><h3 id="readme-notes">Notes</h3><!--readme--><p>Use the actor for public, lawful research. Respect Trulia's terms, robots policy, and applicable law when scheduling runs or redistributing data.</p>
+<!--/readme--></section><section id="related"><h2>Related Actors</h2><ul class="related" role="list"><li><a href="/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/">2GIS Business Directory Extractor for CIS &amp; Middle East</a><p>Search 2GIS for businesses by category and city across Russia, the UAE, Kazakhstan and the wider CIS, and get name, address, rating, hours, contacts and social links for each place.</p></li><li><a href="/apify-actor-examples/actors/alibaba-com-wholesale-sourcing-and-supplier/">Alibaba.com Wholesale Sourcing &amp; Supplier Vetting Finder</a><p>Search Alibaba.com&#x27;s B2B marketplace (not AliExpress) for products or suppliers. Get price, MOQ, Trade Assurance status, supplier verification, years on platform, and response time for each listing.</p></li><li><a href="/apify-actor-examples/actors/allegro-pl-listings-by-search-category-or-url/">Allegro.pl Listings by Search, Category or URL</a><p>Find Allegro.pl products by keyword search, category page, or direct offer URL, with price, seller rating, condition, shipping, and rating details, filterable by price range and free shipping.</p></li><li><a href="/apify-actor-examples/actors/amazon-customer-review-and-rating-summary-scraper/">Amazon Customer Review &amp; Rating Summary Scraper</a><p>Get Amazon customer reviews and a product-level rating summary by product URL, keyword, or category, with star-rating and sort filters, across 23 Amazon domains.</p></li><li><a href="/apify-actor-examples/actors/autoscout24-vehicle-listings-with-dealer-contact/">AutoScout24 Vehicle Listings with Dealer Contact Details</a><p>Search AutoScout24 across eight European countries by make, price, mileage and location, and get full vehicle specs, equipment, photos and dealer contact details.</p></li><li><a href="/apify-actor-examples/actors/craigslist-classifieds-scraper-with-category/">Craigslist Classifieds Scraper with Category Attributes</a><p>Scrape Craigslist search results and individual posts across any city subdomain, with category-specific attributes for jobs, housing, autos, and for-sale posts. No login or proxy required.</p></li></ul><p class="more"><a href="/apify-actor-examples/topics/lead-generation/">All lead generation Actors</a></p></section><section id="files"><h2>Source files</h2><p>This page is rebuilt from the default published build <code>0hDIgRrHOifzPcYCD</code>. Download what it was built from: <a href="README.md">README</a>, <a href="input-schema.json">input schema</a>, <a href="output-schema.json">output schema</a>, <a href="dataset-schema.json">dataset schema</a>, <a href="key-value-schema.json">key-value store schema</a>.</p></section></article></div></div></main><footer class="footer"><div class="inner"><p><strong>Vexaloom Labs</strong> builds and publishes these Actors on Apify. This site is generated from their published READMEs, schemas and prices.</p><nav aria-label="Footer"><a href="/apify-actor-examples/actors/">All Actors</a><a href="/apify-actor-examples/sites/">Sites</a><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/guides/">Guides</a><a href="/apify-actor-examples/sources/">How these pages are made</a><a href="https://apify.com/vexaloom-labs">Vexaloom Labs on Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></footer></body></html>

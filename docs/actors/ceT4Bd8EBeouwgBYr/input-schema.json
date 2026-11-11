@@ -1,0 +1,85 @@
+{
+  "properties": {
+    "authorFilter": {
+      "description": "Filter results by author name (partial match, case-insensitive).",
+      "editor": "textfield",
+      "title": "Author Filter",
+      "type": "string"
+    },
+    "category": {
+      "default": "main",
+      "description": "Category/topic to browse or filter by. Used when mode=browseCategory.",
+      "editor": "select",
+      "enum": [
+        "main",
+        "decorating",
+        "organizing",
+        "diy",
+        "shopping",
+        "small-spaces",
+        "kitchen",
+        "bathroom",
+        "bedroom",
+        "living-room",
+        "house-tours",
+        "before-and-after",
+        "news"
+      ],
+      "enumTitles": [
+        "All (Main Feed)",
+        "Decorating",
+        "Organizing",
+        "DIY",
+        "Shopping",
+        "Small Spaces",
+        "Kitchen",
+        "Bathroom",
+        "Bedroom",
+        "Living Room",
+        "House Tours",
+        "Before & After",
+        "News"
+      ],
+      "title": "Category",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of articles to return (1–200).",
+      "maximum": 200,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "getLatest",
+      "description": "What to scrape: getLatest (newest articles), searchArticles (keyword search), or browseCategory (browse a topic).",
+      "editor": "select",
+      "enum": [
+        "getLatest",
+        "searchArticles",
+        "browseCategory"
+      ],
+      "enumTitles": [
+        "Get Latest Articles",
+        "Search Articles by Keyword",
+        "Browse by Category"
+      ],
+      "prefill": "getLatest",
+      "title": "Scraping Mode",
+      "type": "string"
+    },
+    "query": {
+      "description": "Keyword(s) to search for in article titles, summaries, and tags. Used when mode=searchArticles.",
+      "editor": "textfield",
+      "prefill": "small apartment ideas",
+      "title": "Search Query",
+      "type": "string"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "Apartment Therapy Scraper Input",
+  "type": "object"
+}

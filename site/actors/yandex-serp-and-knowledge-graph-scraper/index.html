@@ -1,480 +1,5 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-ub3gJeWffFoWvbkUdSwMXPy5nBxLOYLe3iHZ/p1SLXA=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Yandex SERP &amp; Knowledge Graph Scraper | Vexaloom Labs</title><meta name="description" content="Query Yandex across 17 regional domains and get organic results, ads, knowledge graph cards, inline images and videos, and related searches per page, with language, region and rece"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/"><meta property="og:title" content="Yandex SERP &amp; Knowledge Graph Scraper | Vexaloom Labs"><meta property="og:description" content="Query Yandex across 17 regional domains and get organic results, ads, knowledge graph cards, inline images and videos, and related searches per page, with language, region and rece"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/#webpage","name":"Yandex SERP & Knowledge Graph Scraper","description":"Query Yandex across 17 regional domains and get organic results, ads, knowledge graph cards, inline images and videos, and related searches per page, with language, region and recency filters.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/#article","headline":"Yandex SERP & Knowledge Graph Scraper","name":"Yandex SERP & Knowledge Graph Scraper","description":"Query Yandex across 17 regional domains and get organic results, ads, knowledge graph cards, inline images and videos, and related searches per page, with language, region and recency filters.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/#webpage"},"inLanguage":"en","dateModified":"2026-10-30T18:10:53.896Z"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Yandex SERP & Knowledge Graph Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Yandex SERP &amp; Knowledge Graph Scraper</span></div><section id="overview"><h1 class="doc-title">Yandex SERP &amp; Knowledge Graph Scraper</h1><p class="lede">Query Yandex across 17 regional domains and get organic results, ads, knowledge graph cards, inline images and videos, and related searches per page, with language, region and recency filters.</p><p class="summary">Yandex SERP &amp; Knowledge Graph Scraper is an Apify Actor published by Vexaloom Labs. It accepts 17 input fields, and <code>mode</code> is required. Its build declares a results dataset with 2 views. Runs happen on Apify, where the Store page lists the current price.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/yandex-serp-and-knowledge-graph-scraper">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/k8mATrelzfQPwRaY0/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>Search by keyword or parse existing Yandex SERP URLs.</td></tr><tr><td><code>queries</code></td><td>array</td><td>optional</td><td>One or more search queries (mode=search). Each query is processed separately.</td></tr><tr><td><code>serpUrls</code></td><td>array</td><td>optional</td><td>Yandex search-result URLs, one per page (mode=byUrls). Direct Yandex URLs and translated Yandex URLs are accepted.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>Search by keyword or parse existing Yandex SERP URLs.</td></tr><tr><td><code>queries</code></td><td>array</td><td>optional</td><td>One or more search queries (mode=search). Each query is processed separately.</td></tr><tr><td><code>serpUrls</code></td><td>array</td><td>optional</td><td>Yandex search-result URLs, one per page (mode=byUrls). Direct Yandex URLs and translated Yandex URLs are accepted.</td></tr><tr><td><code>domain</code></td><td>string</td><td>optional</td><td>Regional Yandex front. yandex.com is the international entry point; Yandex may serve it from its Russia front (reported as servedDomain).</td></tr><tr><td><code>language</code></td><td>string</td><td>optional</td><td>Yandex interface and search language. Match it to your query language to keep result text untranslated.</td></tr><tr><td><code>region</code></td><td>string</td><td>optional</td><td>Named Yandex region preset. Leave empty to use Yandex&#x27;s default region. regionId overrides this value.</td></tr><tr><td><code>regionId</code></td><td>integer</td><td>optional</td><td>Numeric Yandex region ID (lr). Overrides the Region preset. For example 213 is Moscow and 983 is Turkey.</td></tr><tr><td><code>maxPages</code></td><td>integer</td><td>optional</td><td>Number of result pages to read per query (1-25). Yandex serves at most 25 pages.</td></tr><tr><td><code>startPage</code></td><td>integer</td><td>optional</td><td>Zero-based page to start from (0-24). Use it to resume a deep result window.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Global cap on unique items across all queries and pages (1-10,000). In rows mode this is the row count; in pages mode it caps the items inside page records.</td></tr><tr><td><code>timeFilter</code></td><td>string</td><td>optional</td><td>Limit results by recency. The values map to Yandex&#x27;s own past-day, past-two-weeks and past-month filters.</td></tr><tr><td><code>fixTypos</code></td><td>boolean</td><td>optional</td><td>Let Yandex correct misspelled queries. Turn it off for exact-match searches.</td></tr><tr><td><code>includeAds</code></td><td>boolean</td><td>optional</td><td>Include sponsored Yandex Direct rows with their click URL and displayed domain.</td></tr><tr><td><code>includeBlocks</code></td><td>boolean</td><td>optional</td><td>Include knowledge graph, AI answer, inline images, inline videos, products, local companies and weather when present.</td></tr><tr><td><code>includeRelatedSearches</code></td><td>boolean</td><td>optional</td><td>Include the related-search suggestions shown below the results (requires Include SERP Blocks).</td></tr><tr><td><code>outputFormat</code></td><td>string</td><td>optional</td><td>Page records preserve the existing dataset shape; rows emit one flat record per result or block item.</td></tr><tr><td><code>failIfEmpty</code></td><td>boolean</td><td>optional</td><td>Fail the run when no records were produced, instead of finishing with an empty dataset.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;description&quot;: &quot;Search Yandex or parse Yandex SERP URLs and collect organic results, ads, knowledge graph and AI answers, inline images and videos, products, local companies, weather, and related searches.&quot;,
-  &quot;properties&quot;: {
-    &quot;domain&quot;: {
-      &quot;default&quot;: &quot;yandex.com&quot;,
-      &quot;description&quot;: &quot;Regional Yandex front. yandex.com is the international entry point; Yandex may serve it from its Russia front (reported as servedDomain).&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;yandex.com&quot;,
-        &quot;yandex.by&quot;,
-        &quot;yandex.kz&quot;,
-        &quot;yandex.uz&quot;,
-        &quot;yandex.com.tr&quot;,
-        &quot;yandex.com.ge&quot;,
-        &quot;yandex.az&quot;,
-        &quot;yandex.md&quot;,
-        &quot;yandex.tj&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;International (yandex.com)&quot;,
-        &quot;Belarus (yandex.by)&quot;,
-        &quot;Kazakhstan (yandex.kz)&quot;,
-        &quot;Uzbekistan (yandex.uz)&quot;,
-        &quot;Turkey (yandex.com.tr)&quot;,
-        &quot;Georgia (yandex.com.ge)&quot;,
-        &quot;Azerbaijan (yandex.az)&quot;,
-        &quot;Moldova (yandex.md)&quot;,
-        &quot;Tajikistan (yandex.tj)&quot;
-      ],
-      &quot;title&quot;: &quot;Yandex Domain&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;failIfEmpty&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Fail the run when no records were produced, instead of finishing with an empty dataset.&quot;,
-      &quot;prefill&quot;: false,
-      &quot;title&quot;: &quot;Fail If Empty&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;fixTypos&quot;: {
-      &quot;default&quot;: true,
-      &quot;description&quot;: &quot;Let Yandex correct misspelled queries. Turn it off for exact-match searches.&quot;,
-      &quot;prefill&quot;: true,
-      &quot;title&quot;: &quot;Fix Typos&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;includeAds&quot;: {
-      &quot;default&quot;: true,
-      &quot;description&quot;: &quot;Include sponsored Yandex Direct rows with their click URL and displayed domain.&quot;,
-      &quot;prefill&quot;: true,
-      &quot;title&quot;: &quot;Include Ads&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;includeBlocks&quot;: {
-      &quot;default&quot;: true,
-      &quot;description&quot;: &quot;Include knowledge graph, AI answer, inline images, inline videos, products, local companies and weather when present.&quot;,
-      &quot;prefill&quot;: true,
-      &quot;title&quot;: &quot;Include SERP Blocks&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;includeRelatedSearches&quot;: {
-      &quot;default&quot;: true,
-      &quot;description&quot;: &quot;Include the related-search suggestions shown below the results (requires Include SERP Blocks).&quot;,
-      &quot;prefill&quot;: true,
-      &quot;title&quot;: &quot;Include Related Searches&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;language&quot;: {
-      &quot;default&quot;: &quot;en&quot;,
-      &quot;description&quot;: &quot;Yandex interface and search language. Match it to your query language to keep result text untranslated.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;en&quot;,
-        &quot;ru&quot;,
-        &quot;tr&quot;,
-        &quot;kk&quot;,
-        &quot;uz&quot;,
-        &quot;az&quot;,
-        &quot;be&quot;,
-        &quot;uk&quot;,
-        &quot;de&quot;,
-        &quot;fr&quot;,
-        &quot;es&quot;,
-        &quot;it&quot;,
-        &quot;pt&quot;,
-        &quot;pl&quot;,
-        &quot;cs&quot;,
-        &quot;ar&quot;,
-        &quot;he&quot;,
-        &quot;fa&quot;,
-        &quot;id&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;English&quot;,
-        &quot;Russian&quot;,
-        &quot;Turkish&quot;,
-        &quot;Kazakh&quot;,
-        &quot;Uzbek&quot;,
-        &quot;Azerbaijani&quot;,
-        &quot;Belarusian&quot;,
-        &quot;Ukrainian&quot;,
-        &quot;German&quot;,
-        &quot;French&quot;,
-        &quot;Spanish&quot;,
-        &quot;Italian&quot;,
-        &quot;Portuguese&quot;,
-        &quot;Polish&quot;,
-        &quot;Czech&quot;,
-        &quot;Arabic&quot;,
-        &quot;Hebrew&quot;,
-        &quot;Persian&quot;,
-        &quot;Indonesian&quot;
-      ],
-      &quot;title&quot;: &quot;Language&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;maxItems&quot;: {
-      &quot;default&quot;: 100,
-      &quot;description&quot;: &quot;Global cap on unique items across all queries and pages (1-10,000). In rows mode this is the row count; in pages mode it caps the items inside page records.&quot;,
-      &quot;maximum&quot;: 10000,
-      &quot;minimum&quot;: 1,
-      &quot;prefill&quot;: 1,
-      &quot;title&quot;: &quot;Max Items&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;maxPages&quot;: {
-      &quot;default&quot;: 3,
-      &quot;description&quot;: &quot;Number of result pages to read per query (1-25). Yandex serves at most 25 pages.&quot;,
-      &quot;maximum&quot;: 25,
-      &quot;minimum&quot;: 1,
-      &quot;prefill&quot;: 1,
-      &quot;title&quot;: &quot;Max Pages Per Query&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;mode&quot;: {
-      &quot;default&quot;: &quot;search&quot;,
-      &quot;description&quot;: &quot;Search by keyword or parse existing Yandex SERP URLs.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;search&quot;,
-        &quot;byUrls&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Search by keyword&quot;,
-        &quot;Scrape Yandex SERP URLs&quot;
-      ],
-      &quot;prefill&quot;: &quot;search&quot;,
-      &quot;title&quot;: &quot;Mode&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;outputFormat&quot;: {
-      &quot;default&quot;: &quot;pages&quot;,
-      &quot;description&quot;: &quot;Page records preserve the existing dataset shape; rows emit one flat record per result or block item.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;pages&quot;,
-        &quot;rows&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;One record per SERP page&quot;,
-        &quot;One record per result item&quot;
-      ],
-      &quot;prefill&quot;: &quot;pages&quot;,
-      &quot;title&quot;: &quot;Output Format&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;queries&quot;: {
-      &quot;description&quot;: &quot;One or more search queries (mode=search). Each query is processed separately.&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;items&quot;: {
-        &quot;type&quot;: &quot;string&quot;
-      },
-      &quot;minItems&quot;: 1,
-      &quot;prefill&quot;: [
-        &quot;python programming&quot;
-      ],
-      &quot;title&quot;: &quot;Search Queries&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;region&quot;: {
-      &quot;default&quot;: &quot;&quot;,
-      &quot;description&quot;: &quot;Named Yandex region preset. Leave empty to use Yandex&#x27;s default region. regionId overrides this value.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;&quot;,
-        &quot;ru&quot;,
-        &quot;moscow&quot;,
-        &quot;spb&quot;,
-        &quot;novosibirsk&quot;,
-        &quot;yekaterinburg&quot;,
-        &quot;kazan&quot;,
-        &quot;nizhny-novgorod&quot;,
-        &quot;chelyabinsk&quot;,
-        &quot;omsk&quot;,
-        &quot;samara&quot;,
-        &quot;rostov-on-don&quot;,
-        &quot;ufa&quot;,
-        &quot;krasnoyarsk&quot;,
-        &quot;voronezh&quot;,
-        &quot;perm&quot;,
-        &quot;volgograd&quot;,
-        &quot;by&quot;,
-        &quot;minsk&quot;,
-        &quot;kz&quot;,
-        &quot;almaty&quot;,
-        &quot;astana&quot;,
-        &quot;uz&quot;,
-        &quot;tashkent&quot;,
-        &quot;tr&quot;,
-        &quot;istanbul&quot;,
-        &quot;ankara&quot;,
-        &quot;izmir&quot;,
-        &quot;ge&quot;,
-        &quot;az&quot;,
-        &quot;md&quot;,
-        &quot;tj&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Any region (default)&quot;,
-        &quot;Russia&quot;,
-        &quot;Moscow&quot;,
-        &quot;Saint Petersburg&quot;,
-        &quot;Novosibirsk&quot;,
-        &quot;Yekaterinburg&quot;,
-        &quot;Kazan&quot;,
-        &quot;Nizhny Novgorod&quot;,
-        &quot;Chelyabinsk&quot;,
-        &quot;Omsk&quot;,
-        &quot;Samara&quot;,
-        &quot;Rostov-on-Don&quot;,
-        &quot;Ufa&quot;,
-        &quot;Krasnoyarsk&quot;,
-        &quot;Voronezh&quot;,
-        &quot;Perm&quot;,
-        &quot;Volgograd&quot;,
-        &quot;Belarus&quot;,
-        &quot;Minsk&quot;,
-        &quot;Kazakhstan&quot;,
-        &quot;Almaty&quot;,
-        &quot;Astana&quot;,
-        &quot;Uzbekistan&quot;,
-        &quot;Tashkent&quot;,
-        &quot;Turkey&quot;,
-        &quot;Istanbul&quot;,
-        &quot;Ankara&quot;,
-        &quot;Izmir&quot;,
-        &quot;Georgia&quot;,
-        &quot;Azerbaijan&quot;,
-        &quot;Moldova&quot;,
-        &quot;Tajikistan&quot;
-      ],
-      &quot;title&quot;: &quot;Region&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;regionId&quot;: {
-      &quot;description&quot;: &quot;Numeric Yandex region ID (lr). Overrides the Region preset. For example 213 is Moscow and 983 is Turkey.&quot;,
-      &quot;maximum&quot;: 3000000,
-      &quot;minimum&quot;: 1,
-      &quot;title&quot;: &quot;Region ID&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;serpUrls&quot;: {
-      &quot;description&quot;: &quot;Yandex search-result URLs, one per page (mode=byUrls). Direct Yandex URLs and translated Yandex URLs are accepted.&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;items&quot;: {
-        &quot;type&quot;: &quot;string&quot;
-      },
-      &quot;title&quot;: &quot;Yandex SERP URLs&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;startPage&quot;: {
-      &quot;default&quot;: 0,
-      &quot;description&quot;: &quot;Zero-based page to start from (0-24). Use it to resume a deep result window.&quot;,
-      &quot;maximum&quot;: 24,
-      &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Start Page&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;timeFilter&quot;: {
-      &quot;default&quot;: &quot;any&quot;,
-      &quot;description&quot;: &quot;Limit results by recency. The values map to Yandex&#x27;s own past-day, past-two-weeks and past-month filters.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;any&quot;,
-        &quot;day&quot;,
-        &quot;twoWeeks&quot;,
-        &quot;month&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Any time&quot;,
-        &quot;Past 24 hours&quot;,
-        &quot;Past two weeks&quot;,
-        &quot;Past month&quot;
-      ],
-      &quot;title&quot;: &quot;Time Filter&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    }
-  },
-  &quot;required&quot;: [
-    &quot;mode&quot;
-  ],
-  &quot;schemaVersion&quot;: 1,
-  &quot;title&quot;: &quot;Yandex SERP &amp; Knowledge Graph Scraper Input&quot;,
-  &quot;type&quot;: &quot;object&quot;
-}
-</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>results</code></td><td>string</td><td>optional</td><td>Dataset containing scraped Yandex SERP pages or flat result rows.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;actorOutputSchemaVersion&quot;: 1,
-  &quot;description&quot;: &quot;Yandex search pages or flat result rows with organic results, ads, knowledge graph and AI answers, inline images and videos, products, local companies, weather and related searches.&quot;,
-  &quot;properties&quot;: {
-    &quot;results&quot;: {
-      &quot;description&quot;: &quot;Dataset containing scraped Yandex SERP pages or flat result rows.&quot;,
-      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
-      &quot;title&quot;: &quot;Yandex search results&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    }
-  },
-  &quot;title&quot;: &quot;Yandex SERP &amp; Knowledge Graph Scraper Output&quot;
-}
-</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;actorSpecification&quot;: 1,
-  &quot;title&quot;: &quot;Yandex Search Results&quot;,
-  &quot;views&quot;: {
-    &quot;detailed&quot;: {
-      &quot;display&quot;: {
-        &quot;component&quot;: &quot;table&quot;,
-        &quot;properties&quot;: {
-          &quot;ads_results&quot;: {
-            &quot;format&quot;: &quot;array&quot;,
-            &quot;label&quot;: &quot;Ads&quot;
-          },
-          &quot;aiAnswer&quot;: {
-            &quot;format&quot;: &quot;object&quot;,
-            &quot;label&quot;: &quot;AI Answer&quot;
-          },
-          &quot;companies&quot;: {
-            &quot;format&quot;: &quot;array&quot;,
-            &quot;label&quot;: &quot;Companies&quot;
-          },
-          &quot;domain&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Domain&quot;
-          },
-          &quot;inline_images&quot;: {
-            &quot;format&quot;: &quot;array&quot;,
-            &quot;label&quot;: &quot;Images&quot;
-          },
-          &quot;inline_videos&quot;: {
-            &quot;format&quot;: &quot;array&quot;,
-            &quot;label&quot;: &quot;Videos&quot;
-          },
-          &quot;knowledge_graph&quot;: {
-            &quot;format&quot;: &quot;object&quot;,
-            &quot;label&quot;: &quot;Knowledge Graph&quot;
-          },
-          &quot;lang&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Language&quot;
-          },
-          &quot;organic_results&quot;: {
-            &quot;format&quot;: &quot;array&quot;,
-            &quot;label&quot;: &quot;Organic Results&quot;
-          },
-          &quot;page&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Page&quot;
-          },
-          &quot;pagination_info&quot;: {
-            &quot;format&quot;: &quot;object&quot;,
-            &quot;label&quot;: &quot;Pagination&quot;
-          },
-          &quot;products&quot;: {
-            &quot;format&quot;: &quot;array&quot;,
-            &quot;label&quot;: &quot;Products&quot;
-          },
-          &quot;query&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Query&quot;
-          },
-          &quot;related_searches&quot;: {
-            &quot;format&quot;: &quot;array&quot;,
-            &quot;label&quot;: &quot;Related Searches&quot;
-          },
-          &quot;scraped_at&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Scraped At&quot;
-          },
-          &quot;search_metadata&quot;: {
-            &quot;format&quot;: &quot;object&quot;,
-            &quot;label&quot;: &quot;Metadata&quot;
-          },
-          &quot;total_results_text&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Total Results&quot;
-          },
-          &quot;url&quot;: {
-            &quot;format&quot;: &quot;link&quot;,
-            &quot;label&quot;: &quot;URL&quot;
-          },
-          &quot;weather&quot;: {
-            &quot;format&quot;: &quot;object&quot;,
-            &quot;label&quot;: &quot;Weather&quot;
-          }
-        }
-      },
-      &quot;title&quot;: &quot;Detailed View&quot;,
-      &quot;transformation&quot;: {
-        &quot;fields&quot;: [
-          &quot;query&quot;,
-          &quot;page&quot;,
-          &quot;url&quot;,
-          &quot;domain&quot;,
-          &quot;lang&quot;,
-          &quot;total_results_text&quot;,
-          &quot;organic_results&quot;,
-          &quot;ads_results&quot;,
-          &quot;knowledge_graph&quot;,
-          &quot;aiAnswer&quot;,
-          &quot;inline_images&quot;,
-          &quot;inline_videos&quot;,
-          &quot;products&quot;,
-          &quot;companies&quot;,
-          &quot;weather&quot;,
-          &quot;related_searches&quot;,
-          &quot;search_metadata&quot;,
-          &quot;pagination_info&quot;,
-          &quot;scraped_at&quot;
-        ]
-      }
-    },
-    &quot;overview&quot;: {
-      &quot;display&quot;: {
-        &quot;component&quot;: &quot;table&quot;,
-        &quot;properties&quot;: {
-          &quot;domain&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Domain&quot;
-          },
-          &quot;organic_results&quot;: {
-            &quot;format&quot;: &quot;array&quot;,
-            &quot;label&quot;: &quot;Organic Results&quot;
-          },
-          &quot;page&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;Page&quot;
-          },
-          &quot;query&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Query&quot;
-          },
-          &quot;scraped_at&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Scraped At&quot;
-          },
-          &quot;total_results_text&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;Total Results&quot;
-          }
-        }
-      },
-      &quot;title&quot;: &quot;Results Overview&quot;,
-      &quot;transformation&quot;: {
-        &quot;fields&quot;: [
-          &quot;query&quot;,
-          &quot;page&quot;,
-          &quot;domain&quot;,
-          &quot;total_results_text&quot;,
-          &quot;organic_results&quot;,
-          &quot;scraped_at&quot;
-        ]
-      }
-    }
-  }
-}
-</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-yandex-serp-knowledge-graph-scraper">Yandex SERP &amp; Knowledge Graph Scraper</h2>
-<p>Scrape <strong>Yandex</strong> web search across nine regional fronts and get the whole result page, not just ten blue links: organic rankings, sponsored rows, knowledge graph and AI answers, inline images and videos, product tiles, local companies, weather, and related searches. Choose page records for the familiar one-record-per-SERP shape or flat rows for rank tracking, ad intelligence and analytics. No login, API key, or proxy setup.</p>
-<h2 id="readme-what-it-does">What it does</h2>
-<ul>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-4sgYhEAiAqGN53FgVKYXFpFuwgj4n4GjQ5kmyAK3xpI=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; connect-src &#x27;self&#x27;; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Yandex SERP &amp; Knowledge Graph Scraper – docs, price and API | Vexaloom Labs</title><meta name="description" content="Query Yandex across 17 regional domains and get organic results, ads, knowledge graph cards, inline images and videos, and related searches per page, with language, region and recency filters."><meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/"><meta property="og:title" content="Yandex SERP &amp; Knowledge Graph Scraper – docs, price and API | Vexaloom Labs"><meta property="og:description" content="Query Yandex across 17 regional domains and get organic results, ads, knowledge graph cards, inline images and videos, and related searches per page, with language, region and recency filters."><meta property="og:type" content="article"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/"><meta property="og:site_name" content="Vexaloom Labs"><meta property="og:image" content="https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-k8mATrelzfQPwRaY0-FlUeGhpYx7-logo.png"><meta name="twitter:card" content="summary"><meta name="theme-color" content="#7c3aed"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e299c13a23d7"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=1bc613038b6a"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs","https://github.com/asimkhaniqbal/apify-actor-examples"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs Actor documentation","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/#webpage","name":"Yandex SERP & Knowledge Graph Scraper – docs, price and API","description":"Query Yandex across 17 regional domains and get organic results, ads, knowledge graph cards, inline images and videos, and related searches per page, with language, region and recency filters.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/#article"},"dateModified":"2026-10-30T18:10:53.896Z","breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/#article","headline":"Yandex SERP & Knowledge Graph Scraper – docs, price and API","name":"Yandex SERP & Knowledge Graph Scraper – docs, price and API","description":"Query Yandex across 17 regional domains and get organic results, ads, knowledge graph cards, inline images and videos, and related searches per page, with language, region and recency filters.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/#webpage"},"inLanguage":"en","dateModified":"2026-10-30T18:10:53.896Z","image":"https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-k8mATrelzfQPwRaY0-FlUeGhpYx7-logo.png"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Sites","item":"https://asimkhaniqbal.github.io/apify-actor-examples/sites/"},{"@type":"ListItem","position":3,"name":"Yandex","item":"https://asimkhaniqbal.github.io/apify-actor-examples/sites/yandex/"},{"@type":"ListItem","position":4,"name":"Yandex SERP & Knowledge Graph Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/"}]},{"@type":"SoftwareApplication","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/#software","name":"Yandex SERP & Knowledge Graph Scraper","description":"Query Yandex across 17 regional domains and get organic results, ads, knowledge graph cards, inline images and videos, and related searches per page, with language, region and recency filters.","url":"https://apify.com/vexaloom-labs/yandex-serp-and-knowledge-graph-scraper","applicationCategory":"DeveloperApplication","operatingSystem":"Apify platform (web)","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"image":"https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-k8mATrelzfQPwRaY0-FlUeGhpYx7-logo.png","offers":{"@type":"Offer","url":"https://apify.com/vexaloom-labs/yandex-serp-and-knowledge-graph-scraper","priceCurrency":"USD","price":"0","priceSpecification":{"@type":"UnitPriceSpecification","price":0.00099,"priceCurrency":"USD","unitText":"result","referenceQuantity":{"@type":"QuantitativeValue","value":1,"unitText":"result"}},"description":"Pay per event: the price per result on Apify's Free plan; a start fee and platform usage are billed separately."}},{"@type":"FAQPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/#faq","mainEntity":[{"@type":"Question","name":"Do I need a proxy or a Yandex account?","acceptedAnswer":{"@type":"Answer","text":"No. The actor uses a working connection path automatically and needs no login, cookie, or API key."}},{"@type":"Question","name":"Why do some fields disappear from a record?","acceptedAnswer":{"@type":"Answer","text":"Empty values are omitted on purpose. If a page has no knowledge graph, no ad, no price, or no video, that field is absent rather than null or an empty array."}},{"@type":"Question","name":"Why does serveddomain differ from the domain I selected?","acceptedAnswer":{"@type":"Answer","text":"Yandex sometimes serves an international or regional entry point from another front, and .com is commonly served from .ru. The requested and actual fronts are both reported in searchmetadata."}},{"@type":"Question","name":"Why do I get fewer results than I asked for?","acceptedAnswer":{"@type":"Answer","text":"Yandex serves at most 10 results per page and 25 pages per query, so one query tops out around 250 results. Split a large job by region, time window, or query variant to collect more."}},{"@type":"Question","name":"Are sponsored results included?","acceptedAnswer":{"@type":"Answer","text":"Yes, when includeAds is true. Each ad has a click URL and a displayed domain. A final destination URL is included only when Yandex exposes it; the actor never invents one."}},{"@type":"Question","name":"What is the difference between position and organicPosition?","acceptedAnswer":{"@type":"Answer","text":"position counts every result slot in page order, including ads. organicPosition counts only organic rows. Use the latter for classic rank tracking."}},{"@type":"Question","name":"Can I scrape a URL I already have?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use mode: \"byUrls\" and paste one or more Yandex result URLs. The actor reads the query, region, page and time filter from each URL."}},{"@type":"Question","name":"Are old saved tasks still supported?","acceptedAnswer":{"@type":"Answer","text":"Yes. Legacy keys such as searchQueries, yandexDomain, lang, lr, noReask, old time-filter names and the old proxy field are accepted and mapped automatically. They are not shown in the input form anymore."}},{"@type":"Question","name":"Is this affiliated with Yandex?","acceptedAnswer":{"@type":"Answer","text":"No. This is an independent third-party actor that reads publicly available Yandex search pages."}}],"isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/yandex-serp-and-knowledge-graph-scraper/#webpage"}}]}</script><script src="/apify-actor-examples/assets/site.js?v=7b7086957d37" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header class="masthead"><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="32" height="32"><span>Vexaloom Labs</span></a><form class="site-search" action="/apify-actor-examples/actors/" role="search" data-search-index="/apify-actor-examples/search.json"><label class="sr-only" for="site-search">Search this site</label><input type="search" role="combobox" id="site-search" name="q" placeholder="Search by site or data" autocomplete="off" aria-autocomplete="list" aria-controls="site-search-results" aria-expanded="false"><ul id="site-search-results" class="search-results" role="listbox" hidden></ul></form><nav class="primary" aria-label="Main"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/sites/">Sites</a><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/guides/">Guides</a></nav></div></header><main id="main"><nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="/apify-actor-examples/">Home</a></li><li><a href="/apify-actor-examples/sites/">Sites</a></li><li><a href="/apify-actor-examples/sites/yandex/">Yandex</a></li><li aria-current="page">Yandex SERP &amp; Knowledge Graph Scraper</li></ol></nav><div class="doc"><div class="doc-head"><h1>Yandex SERP &amp; Knowledge Graph Scraper</h1><p class="lead">Query Yandex across 17 regional domains and get organic results, ads, knowledge graph cards, inline images and videos, and related searches per page, with language, region and recency filters.</p><dl class="facts"><div><dt>Updated</dt><dd><time datetime="2026-10-30">30 October 2026</time></dd></div><div><dt>Free plan</dt><dd>$0.99 per 1,000 results</dd></div><div><dt>Business plan</dt><dd>$0.49 per 1,000 results</dd></div><div><dt>Input</dt><dd>17 fields, 1 required</dd></div><div><dt>Output</dt><dd>19 declared fields</dd></div><div><dt>Site</dt><dd><a href="/apify-actor-examples/sites/yandex/">Yandex</a></dd></div></dl><div class="cta"><a class="button" href="https://apify.com/vexaloom-labs/yandex-serp-and-knowledge-graph-scraper">Open in Apify Store</a><a class="button secondary" href="#run">Copy the API call</a></div></div><div class="doc-body"><nav class="toc" aria-label="On this page"><h2 class="toc-title">On this page</h2><ol><li><a href="#summary">In short</a></li><li><a href="#about">What it does</a></li><li><a href="#output">What you get</a></li><li><a href="#run">Run it</a></li><li><a href="#cost">What it costs</a></li><li><a href="#input">Input reference</a></li><li><a href="#faq">Questions</a></li><li><a href="#notes">Limits and notes</a></li><li><a href="#related">Related Actors</a></li></ol></nav><article class="prose"><p class="summary" id="summary">Yandex SERP &amp; Knowledge Graph Scraper is an Apify Actor published by Vexaloom Labs. It accepts 17 input fields, and <code>mode</code> is required. Each result can carry up to 19 declared fields, including <code>query</code>, <code>page</code>, <code>domain</code>, <code>total_results_text</code>, <code>organic_results</code> and <code>scraped_at</code>. It costs $0.99 per 1,000 results on Apify's Free plan and $0.49 on the Business plan.</p><section id="about"><h2>What it does</h2><!--readme--><p>Scrape <strong>Yandex</strong> web search across nine regional fronts and get the whole result page, not just ten blue links: organic rankings, sponsored rows, knowledge graph and AI answers, inline images and videos, product tiles, local companies, weather, and related searches. Choose page records for the familiar one-record-per-SERP shape or flat rows for rank tracking, ad intelligence and analytics. No login, API key, or proxy setup.</p>
+<!--/readme--><h3 id="readme-what-it-does">What it does</h3><!--readme--><ul>
 <li><strong>Two modes:</strong> search by keyword, or parse Yandex SERP URLs you already have.</li>
 <li><strong>Nine live fronts:</strong> <code>yandex.com</code>, <code>.by</code>, <code>.kz</code>, <code>.uz</code>, <code>.com.tr</code>, <code>.com.ge</code>, <code>.az</code>, <code>.md</code>, <code>.tj</code>.</li>
 <li><strong>Rank tracking by region:</strong> 30+ named region presets plus a numeric <code>regionId</code> override, 19 interface languages, and correct past-day / two-week / month filters.</li>
@@ -482,8 +7,7 @@
 <li><strong>Page or row output:</strong> keep today's page records or switch to one flat row per item with <code>recordType</code>.</li>
 <li><strong>Clean data:</strong> empty fields, arrays and objects are omitted at every depth, never sent as <code>null</code>.</li>
 </ul>
-<h2 id="readme-services">Services</h2>
-<div class="table-wrap"><table>
+<!--/readme--><h3 id="readme-services">Services</h3><!--readme--><div class="table-wrap"><table>
 <thead>
 <tr>
 <th>Service</th>
@@ -529,16 +53,90 @@
 </tr>
 </tbody>
 </table></div>
-<h2 id="readme-how-it-works">How it works</h2>
-<ol>
+<!--/readme--><h3 id="readme-how-it-works">How it works</h3><!--readme--><ol>
 <li>The actor builds a Yandex search URL from your query, domain, language, region and time filter.</li>
 <li>It reads the server-rendered result page, using Yandex's own translated result view when a regional front challenges the request.</li>
 <li>It parses every result block in page order and assigns ranks across organic and sponsored rows.</li>
 <li>It removes duplicate URLs and duplicate block items, then stops at <code>maxItems</code>, an empty page, or the end of Yandex's 25-page window.</li>
 <li>It pushes either one page record or one flat row per item. Page records keep the original dataset fields and add the new blocks beside them.</li>
 </ol>
-<h2 id="readme-input">Input</h2>
-<div class="table-wrap"><table>
+<!--/readme--></section><section id="output"><h2>What you get</h2><p>The Actor saves one record per result to an Apify dataset. Its build declares 19 fields in 2 dataset views. Fields without a value can be left out of a record.</p><div class="table-wrap"><table class="output-table stack"><caption>Output fields</caption><thead><tr><th scope="col">Field</th><th scope="col">Label</th><th scope="col">What it holds</th></tr></thead><tbody><tr><th scope="row"><code>query</code></th><td data-label="Label">Query</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>page</code></th><td data-label="Label">Page</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>domain</code></th><td data-label="Label">Domain</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>total_results_text</code></th><td data-label="Label">Total Results</td><td data-label="What it holds"><!--readme-->the result-count sentence when Yandex publishes one<!--/readme--></td></tr><tr><th scope="row"><code>organic_results</code></th><td data-label="Label">Organic Results</td><td data-label="What it holds"><!--readme--><code>position</code> (all slots), <code>organicPosition</code>, <code>resultType</code>, <code>title</code>, <code>link</code>, <code>displayed_link</code>, <code>displayedDomain</code>, <code>host</code>, <code>snippet</code>, <code>favicon</code>, <code>thumbnail</code>, <code>date</code>, <code>sitelinks[]</code>, <code>rating</code>, <code>reviewCount</code>, <code>price</code>, <code>priceCurrency</code>, <code>shopName</code>, <code>delivery[]</code><!--/readme--></td></tr><tr><th scope="row"><code>scraped_at</code></th><td data-label="Label">Scraped At</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>url</code></th><td data-label="Label">URL</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>lang</code></th><td data-label="Label">Language</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>ads_results</code></th><td data-label="Label">Ads</td><td data-label="What it holds"><!--readme--><code>position</code>, <code>title</code>, <code>link</code>, <code>clickUrl</code>, <code>displayed_link</code>, <code>displayedDomain</code>, <code>url</code> (only when Yandex exposes the destination), <code>snippet</code>, <code>sitelinks[]</code><!--/readme--></td></tr><tr><th scope="row"><code>knowledge_graph</code></th><td data-label="Label">Knowledge Graph</td><td data-label="What it holds"><!--readme--><code>title</code>, <code>description</code>, <code>image_url</code>, <code>source_url</code>, <code>attributes{}</code>, <code>label</code>, <code>answerText</code>, <code>sources[]</code>, <code>seeAlso[]</code><!--/readme--></td></tr><tr><th scope="row"><code>aiAnswer</code></th><td data-label="Label">AI Answer</td><td data-label="What it holds"><!--readme--><code>label</code>, <code>text</code>, <code>sources[]</code>, <code>imageUrl</code> for standalone AI answer blocks<!--/readme--></td></tr><tr><th scope="row"><code>inline_images</code></th><td data-label="Label">Images</td><td data-label="What it holds"><!--readme--><code>title</code>, <code>thumbnail_url</code>, <code>source_url</code>, <code>originalImageUrl</code>, <code>sourceHost</code>, <code>alt</code><!--/readme--></td></tr><tr><th scope="row"><code>inline_videos</code></th><td data-label="Label">Videos</td><td data-label="What it holds"><!--readme--><code>title</code>, <code>link</code>, <code>thumbnail_url</code>, <code>duration</code>, <code>durationSeconds</code>, <code>views</code>, <code>publishedAt</code>, <code>previewVideoUrl</code>, <code>sourceHost</code><!--/readme--></td></tr><tr><th scope="row"><code>products</code></th><td data-label="Label">Products</td><td data-label="What it holds"><!--readme--><code>title</code>, <code>url</code>, <code>price</code>, <code>priceCurrency</code>, <code>oldPrice</code>, <code>rating</code>, <code>reviewCount</code>, <code>shopName</code>, <code>delivery[]</code>, <code>imageUrl</code><!--/readme--></td></tr><tr><th scope="row"><code>companies</code></th><td data-label="Label">Companies</td><td data-label="What it holds"><!--readme--><code>title</code>, <code>url</code>, <code>rating</code>, <code>reviewCount</code>, <code>category</code>, <code>hours</code>, <code>priceLevel</code>, <code>address</code>, <code>metro</code>, <code>distance</code>, <code>features[]</code>, <code>imageUrl</code><!--/readme--></td></tr><tr><th scope="row"><code>weather</code></th><td data-label="Label">Weather</td><td data-label="What it holds"><!--readme--><code>location</code>, <code>dateText</code>, <code>temperature</code>, <code>feelsLike</code>, <code>condition</code>, <code>wind</code>, <code>forecast[]</code>, <code>hourly[]</code>, <code>url</code><!--/readme--></td></tr><tr><th scope="row"><code>related_searches</code></th><td data-label="Label">Related Searches</td><td data-label="What it holds"><!--readme--><code>query</code>, <code>link</code><!--/readme--></td></tr><tr><th scope="row"><code>search_metadata</code></th><td data-label="Label">Metadata</td><td data-label="What it holds"><!--readme--><code>requested_domain</code>, <code>served_domain</code>, <code>locale_switched</code>, <code>source_path</code>, <code>captcha_encountered</code>, <code>pages_fetched</code>, <code>results_found</code>, <code>region_id</code>, <code>region_name</code><!--/readme--></td></tr><tr><th scope="row"><code>pagination_info</code></th><td data-label="Label">Pagination</td><td data-label="What it holds"><!--readme--><code>current_page</code>, <code>max_pages_set</code>, <code>has_next_page</code>, <code>results_per_page</code>, <code>start_page</code>, <code>source_exhausted</code><!--/readme--></td></tr></tbody></table></div><details class="publisher-notes"><summary>The publisher's output notes</summary><h3 id="readme-output">Output</h3><!--readme--><h4 id="readme-pages-mode-outputformat-pages">Pages mode (<code>outputFormat: &quot;pages&quot;</code>)</h4>
+<p>One record per SERP page. Existing fields are preserved; new fields appear only when the block exists.</p>
+<ul>
+<li><code>query</code>, <code>page</code>, <code>url</code>, <code>domain</code>, <code>lang</code>, <code>scraped_at</code></li>
+<li><code>total_results_text</code> — the result-count sentence when Yandex publishes one</li>
+<li><code>organic_results[]</code> — <code>position</code> (all slots), <code>organicPosition</code>, <code>resultType</code>, <code>title</code>, <code>link</code>, <code>displayed_link</code>, <code>displayedDomain</code>, <code>host</code>, <code>snippet</code>, <code>favicon</code>, <code>thumbnail</code>, <code>date</code>, <code>sitelinks[]</code>, <code>rating</code>, <code>reviewCount</code>, <code>price</code>, <code>priceCurrency</code>, <code>shopName</code>, <code>delivery[]</code></li>
+<li><code>ads_results[]</code> — <code>position</code>, <code>title</code>, <code>link</code>, <code>clickUrl</code>, <code>displayed_link</code>, <code>displayedDomain</code>, <code>url</code> (only when Yandex exposes the destination), <code>snippet</code>, <code>sitelinks[]</code></li>
+<li><code>knowledge_graph</code> — <code>title</code>, <code>description</code>, <code>image_url</code>, <code>source_url</code>, <code>attributes{}</code>, <code>label</code>, <code>answerText</code>, <code>sources[]</code>, <code>seeAlso[]</code></li>
+<li><code>aiAnswer</code> — <code>label</code>, <code>text</code>, <code>sources[]</code>, <code>imageUrl</code> for standalone AI answer blocks</li>
+<li><code>inline_images[]</code> — <code>title</code>, <code>thumbnail_url</code>, <code>source_url</code>, <code>originalImageUrl</code>, <code>sourceHost</code>, <code>alt</code></li>
+<li><code>inline_videos[]</code> — <code>title</code>, <code>link</code>, <code>thumbnail_url</code>, <code>duration</code>, <code>durationSeconds</code>, <code>views</code>, <code>publishedAt</code>, <code>previewVideoUrl</code>, <code>sourceHost</code></li>
+<li><code>products[]</code> — <code>title</code>, <code>url</code>, <code>price</code>, <code>priceCurrency</code>, <code>oldPrice</code>, <code>rating</code>, <code>reviewCount</code>, <code>shopName</code>, <code>delivery[]</code>, <code>imageUrl</code></li>
+<li><code>companies[]</code> — <code>title</code>, <code>url</code>, <code>rating</code>, <code>reviewCount</code>, <code>category</code>, <code>hours</code>, <code>priceLevel</code>, <code>address</code>, <code>metro</code>, <code>distance</code>, <code>features[]</code>, <code>imageUrl</code></li>
+<li><code>weather</code> — <code>location</code>, <code>dateText</code>, <code>temperature</code>, <code>feelsLike</code>, <code>condition</code>, <code>wind</code>, <code>forecast[]</code>, <code>hourly[]</code>, <code>url</code></li>
+<li><code>related_searches[]</code> — <code>query</code>, <code>link</code></li>
+<li><code>search_metadata</code> — <code>requested_domain</code>, <code>served_domain</code>, <code>locale_switched</code>, <code>source_path</code>, <code>captcha_encountered</code>, <code>pages_fetched</code>, <code>results_found</code>, <code>region_id</code>, <code>region_name</code></li>
+<li><code>pagination_info</code> — <code>current_page</code>, <code>max_pages_set</code>, <code>has_next_page</code>, <code>results_per_page</code>, <code>start_page</code>, <code>source_exhausted</code></li>
+</ul>
+<h4 id="readme-rows-mode-outputformat-rows">Rows mode (<code>outputFormat: &quot;rows&quot;</code>)</h4>
+<p>One record per item with <code>recordType</code> set to <code>organic</code>, <code>ad</code>, <code>knowledgeGraph</code>, <code>aiAnswer</code>, <code>inlineImage</code>, <code>inlineVideo</code>, <code>product</code>, <code>company</code>, <code>weather</code>, or <code>relatedSearch</code>.</p>
+<p>Every row carries <code>query</code>, <code>page</code>, <code>domain</code>, <code>language</code>, <code>regionId</code>, <code>regionName</code>, <code>sourcePath</code>, <code>scrapedAt</code>, and the fields that belong to its type: <code>position</code>, <code>organicPosition</code>, <code>resultType</code>, <code>blockType</code>, <code>title</code>, <code>url</code>, <code>clickUrl</code>, <code>displayedUrl</code>, <code>displayedDomain</code>, <code>host</code>, <code>snippet</code>, <code>thumbnail</code>, <code>favicon</code>, <code>sitelinks[]</code>, <code>rating</code>, <code>reviewCount</code>, <code>price</code>, <code>priceCurrency</code>, <code>oldPrice</code>, <code>shopName</code>, <code>delivery[]</code>, <code>duration</code>, <code>durationSeconds</code>, <code>views</code>, <code>publishedAt</code>, <code>sourceHost</code>, <code>imageUrl</code>, <code>originalImageUrl</code>, <code>sources[]</code>, <code>attributes{}</code>, plus weather and company details when relevant.</p>
+<!--/readme--></details></section><section id="run"><h2>Run it</h2><p>Set <code>APIFY_TOKEN</code> to your <a href="https://console.apify.com/settings/integrations">Apify API token</a>, then run the Actor with the input below (rank tracking in moscow). Each run is billed to your Apify account. The <a href="/apify-actor-examples/guides/yandex-serp-and-knowledge-graph-scraper/">export tutorial</a> turns the results into a CSV file or an Excel workbook.</p><div class="tabs" data-tabs><div class="tab-list" role="tablist" aria-label="Language"><button type="button" role="tab" id="run-tab-python" aria-controls="run-panel-python" aria-selected="true">Python</button><button type="button" role="tab" id="run-tab-javascript" aria-controls="run-panel-javascript" aria-selected="false" tabindex="-1">JavaScript</button><button type="button" role="tab" id="run-tab-curl" aria-controls="run-panel-curl" aria-selected="false" tabindex="-1">cURL</button><button type="button" role="tab" id="run-tab-mcp" aria-controls="run-panel-mcp" aria-selected="false" tabindex="-1">MCP</button></div><div role="tabpanel" id="run-panel-python" aria-labelledby="run-tab-python" class="tab-panel"><h3 class="tab-title">Python</h3><figure class="code"><pre><code id="run-python" class="language-python"># pip install apify-client
+import os
+from apify_client import ApifyClient
+
+ACTOR = &quot;vexaloom-labs/yandex-serp-and-knowledge-graph-scraper&quot;
+client = ApifyClient(os.environ[&quot;APIFY_TOKEN&quot;])
+run_input = {
+    &quot;mode&quot;: &quot;search&quot;,
+    &quot;queries&quot;: [&quot;купить пластиковые окна&quot;, &quot;пластиковые окна цена&quot;],
+    &quot;domain&quot;: &quot;yandex.com&quot;,
+    &quot;language&quot;: &quot;ru&quot;,
+    &quot;regionId&quot;: 213,
+    &quot;maxPages&quot;: 5,
+    &quot;maxItems&quot;: 500,
+    &quot;timeFilter&quot;: &quot;month&quot;,
+    &quot;outputFormat&quot;: &quot;rows&quot;,
+}
+
+run = client.actor(ACTOR).call(run_input=run_input)
+for item in client.dataset(run[&quot;defaultDatasetId&quot;]).iterate_items():
+    print(item)
+</code></pre><button type="button" class="copy" data-copy="run-python">Copy</button></figure></div><div role="tabpanel" id="run-panel-javascript" aria-labelledby="run-tab-javascript" class="tab-panel"><h3 class="tab-title">JavaScript</h3><figure class="code"><pre><code id="run-javascript" class="language-javascript">// npm install apify-client
+import { ApifyClient } from &#x27;apify-client&#x27;;
+
+const ACTOR = &#x27;vexaloom-labs/yandex-serp-and-knowledge-graph-scraper&#x27;;
+const client = new ApifyClient({ token: process.env.APIFY_TOKEN });
+const input = {
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;queries&quot;: [
+    &quot;купить пластиковые окна&quot;,
+    &quot;пластиковые окна цена&quot;
+  ],
+  &quot;domain&quot;: &quot;yandex.com&quot;,
+  &quot;language&quot;: &quot;ru&quot;,
+  &quot;regionId&quot;: 213,
+  &quot;maxPages&quot;: 5,
+  &quot;maxItems&quot;: 500,
+  &quot;timeFilter&quot;: &quot;month&quot;,
+  &quot;outputFormat&quot;: &quot;rows&quot;
+};
+
+const run = await client.actor(ACTOR).call(input);
+const { items } = await client.dataset(run.defaultDatasetId).listItems();
+console.log(items);
+</code></pre><button type="button" class="copy" data-copy="run-javascript">Copy</button></figure></div><div role="tabpanel" id="run-panel-curl" aria-labelledby="run-tab-curl" class="tab-panel"><h3 class="tab-title">cURL</h3><figure class="code"><pre><code id="run-curl" class="language-bash">curl -X POST &quot;https://api.apify.com/v2/acts/vexaloom-labs~yandex-serp-and-knowledge-graph-scraper/run-sync-get-dataset-items?format=json&quot; \
+  -H &quot;Authorization: Bearer $APIFY_TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;mode&quot;: &quot;search&quot;, &quot;queries&quot;: [&quot;купить пластиковые окна&quot;, &quot;пластиковые окна цена&quot;], &quot;domain&quot;: &quot;yandex.com&quot;, &quot;language&quot;: &quot;ru&quot;, &quot;regionId&quot;: 213, &quot;maxPages&quot;: 5, &quot;maxItems&quot;: 500, &quot;timeFilter&quot;: &quot;month&quot;, &quot;outputFormat&quot;: &quot;rows&quot;}&#x27;
+</code></pre><button type="button" class="copy" data-copy="run-curl">Copy</button></figure></div><div role="tabpanel" id="run-panel-mcp" aria-labelledby="run-tab-mcp" class="tab-panel"><h3 class="tab-title">MCP</h3><figure class="code"><pre><code id="run-mcp" class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;apify&quot;: {
+      &quot;url&quot;: &quot;https://mcp.apify.com?tools=vexaloom-labs/yandex-serp-and-knowledge-graph-scraper&quot;
+    }
+  }
+}</code></pre><button type="button" class="copy" data-copy="run-mcp">Copy</button></figure></div></div><div class="examples" id="example-inputs"><p class="examples-intro">More inputs from the publisher's README:</p><h3 id="readme-usage-cost">Usage cost</h3><!--readme--><p>You pay Apify's standard actor start and dataset-item pricing for this run. There is no proxy, API key, or external data subscription to configure, and the actor never asks you to supply credentials.</p>
+<!--/readme--></div></section><section id="cost"><h2>What it costs</h2><p>Yandex SERP &amp; Knowledge Graph Scraper uses pay-per-event pricing: a fee for each result saved to the dataset, plus a start fee per run. Paid Apify plans pay less per result. The start fee is charged once per GB of run memory (at least once); the default run uses 4 GB, so a run starts with 4 start events, as the run totals include. You also pay Apify platform usage (compute and proxy) for the run, which these totals do not include.</p><div class="table-wrap"><table class="price-table stack"><caption>Published prices and run totals by Apify plan</caption><thead><tr><th scope="col">Plan</th><th scope="col">Per result</th><th scope="col">Per 1,000</th><th scope="col">Start fee</th><th scope="col">100 results</th><th scope="col">1,000 results</th><th scope="col">10,000 results</th></tr></thead><tbody><tr><th scope="row">Free plan</th><td data-label="Per result">$0.00099</td><td data-label="Per 1,000">$0.99</td><td data-label="Start fee">$0.10</td><td data-label="100 results">$0.50</td><td data-label="1,000 results">$1.39</td><td data-label="10,000 results">$10.30</td></tr><tr><th scope="row">Starter plan</th><td data-label="Per result">$0.00082</td><td data-label="Per 1,000">$0.82</td><td data-label="Start fee">$0.077</td><td data-label="100 results">$0.39</td><td data-label="1,000 results">$1.13</td><td data-label="10,000 results">$8.51</td></tr><tr><th scope="row">Scale plan</th><td data-label="Per result">$0.00066</td><td data-label="Per 1,000">$0.66</td><td data-label="Start fee">$0.053</td><td data-label="100 results">$0.28</td><td data-label="1,000 results">$0.87</td><td data-label="10,000 results">$6.81</td></tr><tr><th scope="row">Business plan</th><td data-label="Per result">$0.00049</td><td data-label="Per 1,000">$0.49</td><td data-label="Start fee">$0.03</td><td data-label="100 results">$0.17</td><td data-label="1,000 results">$0.61</td><td data-label="10,000 results">$5.02</td></tr></tbody></table></div><p class="fine">Run totals are the Actor's charges at the default memory: start fees plus the per-result price. Check the <a href="https://apify.com/vexaloom-labs/yandex-serp-and-knowledge-graph-scraper">Store page</a> before a large run; prices can change with notice.</p></section><section id="input"><h2>Input reference</h2><p>All 17 fields of the published input schema, in the publisher's order. Required fields are marked. Download the <a href="input-schema.json">input schema</a> as JSON.</p><div class="table-wrap"><table class="input-table stack"><caption>Input fields in the published schema</caption><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead><tbody><tr><th scope="row"><code>mode</code><span class="field-title">Mode</span></th><td data-label="Type">string <span class="req">required</span></td><td data-label="Description"><!--readme-->Search by keyword or parse existing Yandex SERP URLs.<!--/readme--><span class="field-meta">Default <code>&quot;search&quot;</code>; Allowed search, byUrls</span></td></tr><tr><th scope="row"><code>queries</code><span class="field-title">Search Queries</span></th><td data-label="Type">array</td><td data-label="Description"><!--readme-->One or more search queries (mode=search). Each query is processed separately.<!--/readme--><span class="field-meta">Example <code>[&quot;python programming&quot;]</code></span></td></tr><tr><th scope="row"><code>serpUrls</code><span class="field-title">Yandex SERP URLs</span></th><td data-label="Type">array</td><td data-label="Description"><!--readme-->Yandex search-result URLs, one per page (mode=byUrls). Direct Yandex URLs and translated Yandex URLs are accepted.<!--/readme--></td></tr><tr><th scope="row"><code>domain</code><span class="field-title">Yandex Domain</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Regional Yandex front. yandex.com is the international entry point; Yandex may serve it from its Russia front (reported as servedDomain).<!--/readme--><span class="field-meta">Default <code>&quot;yandex.com&quot;</code>; Allowed yandex.com, yandex.by, yandex.kz, yandex.uz, yandex.com.tr, yandex.com.ge, yandex.az, yandex.md and 1 more</span></td></tr><tr><th scope="row"><code>language</code><span class="field-title">Language</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Yandex interface and search language. Match it to your query language to keep result text untranslated.<!--/readme--><span class="field-meta">Default <code>&quot;en&quot;</code>; Allowed en, ru, tr, kk, uz, az, be, uk and 11 more</span></td></tr><tr><th scope="row"><code>region</code><span class="field-title">Region</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Named Yandex region preset. Leave empty to use Yandex's default region. regionId overrides this value.<!--/readme--><span class="field-meta">Default <code>&quot;&quot;</code>; Allowed , ru, moscow, spb, novosibirsk, yekaterinburg, kazan, nizhny-novgorod and 24 more</span></td></tr><tr><th scope="row"><code>regionId</code><span class="field-title">Region ID</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Numeric Yandex region ID (lr). Overrides the Region preset. For example 213 is Moscow and 983 is Turkey.<!--/readme--><span class="field-meta">Allowed 1 to 3000000</span></td></tr><tr><th scope="row"><code>maxPages</code><span class="field-title">Max Pages Per Query</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Number of result pages to read per query (1-25). Yandex serves at most 25 pages.<!--/readme--><span class="field-meta">Default <code>3</code>; Example <code>1</code>; Allowed 1 to 25</span></td></tr><tr><th scope="row"><code>startPage</code><span class="field-title">Start Page</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Zero-based page to start from (0-24). Use it to resume a deep result window.<!--/readme--><span class="field-meta">Default <code>0</code>; Allowed 0 to 24</span></td></tr><tr><th scope="row"><code>maxItems</code><span class="field-title">Max Items</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Global cap on unique items across all queries and pages (1-10,000). In rows mode this is the row count; in pages mode it caps the items inside page records.<!--/readme--><span class="field-meta">Default <code>100</code>; Example <code>1</code>; Allowed 1 to 10000</span></td></tr><tr><th scope="row"><code>timeFilter</code><span class="field-title">Time Filter</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Limit results by recency. The values map to Yandex's own past-day, past-two-weeks and past-month filters.<!--/readme--><span class="field-meta">Default <code>&quot;any&quot;</code>; Allowed any, day, twoWeeks, month</span></td></tr><tr><th scope="row"><code>fixTypos</code><span class="field-title">Fix Typos</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Let Yandex correct misspelled queries. Turn it off for exact-match searches.<!--/readme--><span class="field-meta">Default <code>true</code></span></td></tr><tr><th scope="row"><code>includeAds</code><span class="field-title">Include Ads</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Include sponsored Yandex Direct rows with their click URL and displayed domain.<!--/readme--><span class="field-meta">Default <code>true</code></span></td></tr><tr><th scope="row"><code>includeBlocks</code><span class="field-title">Include SERP Blocks</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Include knowledge graph, AI answer, inline images, inline videos, products, local companies and weather when present.<!--/readme--><span class="field-meta">Default <code>true</code></span></td></tr><tr><th scope="row"><code>includeRelatedSearches</code><span class="field-title">Include Related Searches</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Include the related-search suggestions shown below the results (requires Include SERP Blocks).<!--/readme--><span class="field-meta">Default <code>true</code></span></td></tr><tr><th scope="row"><code>outputFormat</code><span class="field-title">Output Format</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Page records preserve the existing dataset shape; rows emit one flat record per result or block item.<!--/readme--><span class="field-meta">Default <code>&quot;pages&quot;</code>; Allowed pages, rows</span></td></tr><tr><th scope="row"><code>failIfEmpty</code><span class="field-title">Fail If Empty</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Fail the run when no records were produced, instead of finishing with an empty dataset.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr></tbody></table></div><details class="publisher-notes"><summary>The publisher's input notes</summary><h3 id="readme-input">Input</h3><!--readme--><div class="table-wrap"><table>
 <thead>
 <tr>
 <th>Field</th>
@@ -652,7 +250,7 @@
 </tr>
 </tbody>
 </table></div>
-<h3 id="readme-example-rank-tracking-in-moscow">Example: rank tracking in Moscow</h3>
+<h4 id="readme-example-rank-tracking-in-moscow">Example: rank tracking in Moscow</h4>
 <pre><code class="language-json">{
   &quot;mode&quot;: &quot;search&quot;,
   &quot;queries&quot;: [&quot;купить пластиковые окна&quot;, &quot;пластиковые окна цена&quot;],
@@ -665,7 +263,7 @@
   &quot;outputFormat&quot;: &quot;rows&quot;
 }
 </code></pre>
-<h3 id="readme-example-audit-a-saved-serp-url">Example: audit a saved SERP URL</h3>
+<h4 id="readme-example-audit-a-saved-serp-url">Example: audit a saved SERP URL</h4>
 <pre><code class="language-json">{
   &quot;mode&quot;: &quot;byUrls&quot;,
   &quot;serpUrls&quot;: [&quot;https://yandex.com.tr/search/?text=ikinci+el+araba&amp;lr=87&amp;p=0&quot;],
@@ -674,51 +272,16 @@
   &quot;outputFormat&quot;: &quot;pages&quot;
 }
 </code></pre>
-<h2 id="readme-output">Output</h2>
-<h3 id="readme-pages-mode-outputformat-pages">Pages mode (<code>outputFormat: &quot;pages&quot;</code>)</h3>
-<p>One record per SERP page. Existing fields are preserved; new fields appear only when the block exists.</p>
-<ul>
-<li><code>query</code>, <code>page</code>, <code>url</code>, <code>domain</code>, <code>lang</code>, <code>scraped_at</code></li>
-<li><code>total_results_text</code> — the result-count sentence when Yandex publishes one</li>
-<li><code>organic_results[]</code> — <code>position</code> (all slots), <code>organicPosition</code>, <code>resultType</code>, <code>title</code>, <code>link</code>, <code>displayed_link</code>, <code>displayedDomain</code>, <code>host</code>, <code>snippet</code>, <code>favicon</code>, <code>thumbnail</code>, <code>date</code>, <code>sitelinks[]</code>, <code>rating</code>, <code>reviewCount</code>, <code>price</code>, <code>priceCurrency</code>, <code>shopName</code>, <code>delivery[]</code></li>
-<li><code>ads_results[]</code> — <code>position</code>, <code>title</code>, <code>link</code>, <code>clickUrl</code>, <code>displayed_link</code>, <code>displayedDomain</code>, <code>url</code> (only when Yandex exposes the destination), <code>snippet</code>, <code>sitelinks[]</code></li>
-<li><code>knowledge_graph</code> — <code>title</code>, <code>description</code>, <code>image_url</code>, <code>source_url</code>, <code>attributes{}</code>, <code>label</code>, <code>answerText</code>, <code>sources[]</code>, <code>seeAlso[]</code></li>
-<li><code>aiAnswer</code> — <code>label</code>, <code>text</code>, <code>sources[]</code>, <code>imageUrl</code> for standalone AI answer blocks</li>
-<li><code>inline_images[]</code> — <code>title</code>, <code>thumbnail_url</code>, <code>source_url</code>, <code>originalImageUrl</code>, <code>sourceHost</code>, <code>alt</code></li>
-<li><code>inline_videos[]</code> — <code>title</code>, <code>link</code>, <code>thumbnail_url</code>, <code>duration</code>, <code>durationSeconds</code>, <code>views</code>, <code>publishedAt</code>, <code>previewVideoUrl</code>, <code>sourceHost</code></li>
-<li><code>products[]</code> — <code>title</code>, <code>url</code>, <code>price</code>, <code>priceCurrency</code>, <code>oldPrice</code>, <code>rating</code>, <code>reviewCount</code>, <code>shopName</code>, <code>delivery[]</code>, <code>imageUrl</code></li>
-<li><code>companies[]</code> — <code>title</code>, <code>url</code>, <code>rating</code>, <code>reviewCount</code>, <code>category</code>, <code>hours</code>, <code>priceLevel</code>, <code>address</code>, <code>metro</code>, <code>distance</code>, <code>features[]</code>, <code>imageUrl</code></li>
-<li><code>weather</code> — <code>location</code>, <code>dateText</code>, <code>temperature</code>, <code>feelsLike</code>, <code>condition</code>, <code>wind</code>, <code>forecast[]</code>, <code>hourly[]</code>, <code>url</code></li>
-<li><code>related_searches[]</code> — <code>query</code>, <code>link</code></li>
-<li><code>search_metadata</code> — <code>requested_domain</code>, <code>served_domain</code>, <code>locale_switched</code>, <code>source_path</code>, <code>captcha_encountered</code>, <code>pages_fetched</code>, <code>results_found</code>, <code>region_id</code>, <code>region_name</code></li>
-<li><code>pagination_info</code> — <code>current_page</code>, <code>max_pages_set</code>, <code>has_next_page</code>, <code>results_per_page</code>, <code>start_page</code>, <code>source_exhausted</code></li>
-</ul>
-<h3 id="readme-rows-mode-outputformat-rows">Rows mode (<code>outputFormat: &quot;rows&quot;</code>)</h3>
-<p>One record per item with <code>recordType</code> set to <code>organic</code>, <code>ad</code>, <code>knowledgeGraph</code>, <code>aiAnswer</code>, <code>inlineImage</code>, <code>inlineVideo</code>, <code>product</code>, <code>company</code>, <code>weather</code>, or <code>relatedSearch</code>.</p>
-<p>Every row carries <code>query</code>, <code>page</code>, <code>domain</code>, <code>language</code>, <code>regionId</code>, <code>regionName</code>, <code>sourcePath</code>, <code>scrapedAt</code>, and the fields that belong to its type: <code>position</code>, <code>organicPosition</code>, <code>resultType</code>, <code>blockType</code>, <code>title</code>, <code>url</code>, <code>clickUrl</code>, <code>displayedUrl</code>, <code>displayedDomain</code>, <code>host</code>, <code>snippet</code>, <code>thumbnail</code>, <code>favicon</code>, <code>sitelinks[]</code>, <code>rating</code>, <code>reviewCount</code>, <code>price</code>, <code>priceCurrency</code>, <code>oldPrice</code>, <code>shopName</code>, <code>delivery[]</code>, <code>duration</code>, <code>durationSeconds</code>, <code>views</code>, <code>publishedAt</code>, <code>sourceHost</code>, <code>imageUrl</code>, <code>originalImageUrl</code>, <code>sources[]</code>, <code>attributes{}</code>, plus weather and company details when relevant.</p>
-<h2 id="readme-usage-cost">Usage cost</h2>
-<p>You pay Apify's standard actor start and dataset-item pricing for this run. There is no proxy, API key, or external data subscription to configure, and the actor never asks you to supply credentials.</p>
-<h2 id="readme-faq">FAQ</h2>
-<h3 id="readme-do-i-need-a-proxy-or-a-yandex-account">Do I need a proxy or a Yandex account?</h3>
-<p>No. The actor uses a working connection path automatically and needs no login, cookie, or API key.</p>
-<h3 id="readme-why-do-some-fields-disappear-from-a-record">Why do some fields disappear from a record?</h3>
-<p>Empty values are omitted on purpose. If a page has no knowledge graph, no ad, no price, or no video, that field is absent rather than <code>null</code> or an empty array.</p>
-<h3 id="readme-why-does-served-domain-differ-from-the-domain-i-selected">Why does <code>served_domain</code> differ from the domain I selected?</h3>
-<p>Yandex sometimes serves an international or regional entry point from another front, and <code>.com</code> is commonly served from <code>.ru</code>. The requested and actual fronts are both reported in <code>search_metadata</code>.</p>
-<h3 id="readme-why-do-i-get-fewer-results-than-i-asked-for">Why do I get fewer results than I asked for?</h3>
-<p>Yandex serves at most 10 results per page and 25 pages per query, so one query tops out around 250 results. Split a large job by region, time window, or query variant to collect more.</p>
-<h3 id="readme-are-sponsored-results-included">Are sponsored results included?</h3>
-<p>Yes, when <code>includeAds</code> is true. Each ad has a click URL and a displayed domain. A final destination URL is included only when Yandex exposes it; the actor never invents one.</p>
-<h3 id="readme-what-is-the-difference-between-position-and-organicposition">What is the difference between <code>position</code> and <code>organicPosition</code>?</h3>
-<p><code>position</code> counts every result slot in page order, including ads. <code>organicPosition</code> counts only organic rows. Use the latter for classic rank tracking.</p>
-<h3 id="readme-can-i-scrape-a-url-i-already-have">Can I scrape a URL I already have?</h3>
-<p>Yes. Use <code>mode: &quot;byUrls&quot;</code> and paste one or more Yandex result URLs. The actor reads the query, region, page and time filter from each URL.</p>
-<h3 id="readme-are-old-saved-tasks-still-supported">Are old saved tasks still supported?</h3>
-<p>Yes. Legacy keys such as <code>searchQueries</code>, <code>yandexDomain</code>, <code>lang</code>, <code>lr</code>, <code>noReask</code>, old time-filter names and the old proxy field are accepted and mapped automatically. They are not shown in the input form anymore.</p>
-<h3 id="readme-is-this-affiliated-with-yandex">Is this affiliated with Yandex?</h3>
-<p>No. This is an independent third-party actor that reads publicly available Yandex search pages.</p>
-<h2 id="readme-notes">Notes</h2>
-<ul>
+<!--/readme--></details></section><section id="faq"><h2>Questions</h2><div class="qa"><h3 id="faq-do-i-need-a-proxy-or-a-yandex-account"><!--readme-->Do I need a proxy or a Yandex account?<!--/readme--></h3><!--readme--><p>No. The actor uses a working connection path automatically and needs no login, cookie, or API key.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-why-do-some-fields-disappear-from-a-record"><!--readme-->Why do some fields disappear from a record?<!--/readme--></h3><!--readme--><p>Empty values are omitted on purpose. If a page has no knowledge graph, no ad, no price, or no video, that field is absent rather than <code>null</code> or an empty array.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-why-does-serveddomain-differ-from-the-domain-i-selected"><!--readme-->Why does serveddomain differ from the domain I selected?<!--/readme--></h3><!--readme--><p>Yandex sometimes serves an international or regional entry point from another front, and <code>.com</code> is commonly served from <code>.ru</code>. The requested and actual fronts are both reported in <code>search_metadata</code>.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-why-do-i-get-fewer-results-than-i-asked-for"><!--readme-->Why do I get fewer results than I asked for?<!--/readme--></h3><!--readme--><p>Yandex serves at most 10 results per page and 25 pages per query, so one query tops out around 250 results. Split a large job by region, time window, or query variant to collect more.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-are-sponsored-results-included"><!--readme-->Are sponsored results included?<!--/readme--></h3><!--readme--><p>Yes, when <code>includeAds</code> is true. Each ad has a click URL and a displayed domain. A final destination URL is included only when Yandex exposes it; the actor never invents one.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-what-is-the-difference-between-position-and-organicposition"><!--readme-->What is the difference between position and organicPosition?<!--/readme--></h3><!--readme--><p><code>position</code> counts every result slot in page order, including ads. <code>organicPosition</code> counts only organic rows. Use the latter for classic rank tracking.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-can-i-scrape-a-url-i-already-have"><!--readme-->Can I scrape a URL I already have?<!--/readme--></h3><!--readme--><p>Yes. Use <code>mode: &quot;byUrls&quot;</code> and paste one or more Yandex result URLs. The actor reads the query, region, page and time filter from each URL.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-are-old-saved-tasks-still-supported"><!--readme-->Are old saved tasks still supported?<!--/readme--></h3><!--readme--><p>Yes. Legacy keys such as <code>searchQueries</code>, <code>yandexDomain</code>, <code>lang</code>, <code>lr</code>, <code>noReask</code>, old time-filter names and the old proxy field are accepted and mapped automatically. They are not shown in the input form anymore.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-is-this-affiliated-with-yandex"><!--readme-->Is this affiliated with Yandex?<!--/readme--></h3><!--readme--><p>No. This is an independent third-party actor that reads publicly available Yandex search pages.</p>
+<!--/readme--></div></section><section id="notes"><h2>Limits and notes</h2><h3 id="readme-notes">Notes</h3><!--readme--><ul>
 <li>Yandex serves 10 organic results per page; page numbers are zero-based in the input and one-based in the output.</li>
 <li><code>maxItems</code> counts unique items across all queries. In pages mode it limits the items inside page records; in rows mode it limits rows.</li>
 <li><code>regionId</code> wins over <code>region</code>. Use it when you need an exact Yandex region rather than a named preset.</li>
@@ -726,8 +289,7 @@
 <li>Empty values are omitted at every depth. Arrays and nested objects are never sent as <code>null</code>, <code>&quot;&quot;</code>, <code>[]</code> or <code>{}</code>.</li>
 <li>The actor stops on <code>maxItems</code>, an empty page, or the end of Yandex's page window. It never stops on a wall-clock timer.</li>
 </ul>
-<h2 id="readme-limitations">Limitations</h2>
-<ul>
+<!--/readme--><h3 id="readme-limitations">Limitations</h3><!--readme--><ul>
 <li><strong>Vertical search is separate.</strong> This actor returns the inline blocks that appear inside the web SERP. Dedicated image, video, news, and maps search belong to the separate Yandex vertical actors.</li>
 <li><strong>Inline blocks are conditional.</strong> Yandex decides per query, front and layout whether to render image, video, product, company or weather cards. The actor emits a block only when the served page contains it; an absent block is not an error and is never synthesized.</li>
 <li><strong>Ad destinations are sometimes hidden.</strong> Yandex often keeps only a click-tracker URL. <code>clickUrl</code> and <code>displayedDomain</code> are always honest; a direct destination is added only when Yandex reveals it.</li>
@@ -737,4 +299,4 @@
 <li><strong>Translated result text.</strong> When Yandex serves a regional front through its translated view, the original language is preserved when <code>language</code> matches the query language. A language mismatch can produce translated snippets.</li>
 <li><strong>Localized labels.</strong> Some SERP labels (for example weather conditions and company categories) stay in the language Yandex renders for that front; the actor does not machine-translate them.</li>
 </ul>
-</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/yandex-serp-and-knowledge-graph-scraper/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>bSVngXIyYRPALNUTs</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
+<!--/readme--></section><section id="related"><h2>Related Actors</h2><ul class="related" role="list"><li><a href="/apify-actor-examples/actors/yandex-news-story-clusters-across-russia/">Yandex News Story Clusters Across Russia &amp; the CIS</a><p>Search or browse Yandex News and get story clusters with every linked article, topic tags, source names and publication dates across Russian and CIS editions.</p></li><li><a href="/apify-actor-examples/actors/ahrefs-domain-rating-backlinks-and-traffic-lookup/">Ahrefs Domain Rating, Backlinks &amp; Traffic Lookup</a><p>Look up a domain&#x27;s public Ahrefs Domain Rating, linking-website count, global rank, and estimated organic traffic, with a mode to fetch just authority or just backlink metrics.</p></li><li><a href="/apify-actor-examples/actors/aliexpress-multi-region-search-store-and-review/">AliExpress Multi-Region Search, Store &amp; Review Scraper</a><p>Search AliExpress or fetch product, store, and review records by ID or URL across 18 regional storefronts and 42 currencies, with price, rating, and ship-from/ship-to filters.</p></li><li><a href="/apify-actor-examples/actors/domain-scoped-site-crawler-for-markdown-datasets/">Domain-Scoped Site Crawler for Markdown Datasets</a><p>Crawl a website from one or more start URLs, staying on the same domain, and get back clean Markdown, text, or HTML per page with title, description, and crawl depth. Built for feeding LLM, RAG, or knowledge-base pipelines.</p></li><li><a href="/apify-actor-examples/actors/espn-scores-standings-teams-and-news-by-league/">ESPN Scores, Standings, Teams &amp; News by League</a><p>Pull live and recent scores, league standings, team rosters, news headlines, and full game boxscores for NFL, NBA, MLB, NHL, MLS, Premier League, La Liga, F1, UFC, PGA Golf, ATP Tennis, and more.</p></li><li><a href="/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/">Google Flights Fare &amp; Itinerary Filter Scraper</a><p>Search Google Flights for one-way or round-trip fares across any cabin class, then narrow results by stops, total duration, airline, and price range, with an optional price-alert flag.</p></li></ul><p class="more"><a href="/apify-actor-examples/sites/yandex/">Compare all 2 Yandex Actors</a> <a href="/apify-actor-examples/topics/developer-tools/">All developer tools Actors</a></p></section><section id="files"><h2>Source files</h2><p>This page is rebuilt from the default published build <code>bSVngXIyYRPALNUTs</code>. Download what it was built from: <a href="README.md">README</a>, <a href="input-schema.json">input schema</a>, <a href="output-schema.json">output schema</a>, <a href="dataset-schema.json">dataset schema</a>, <a href="key-value-schema.json">key-value store schema</a>.</p></section></article></div></div></main><footer class="footer"><div class="inner"><p><strong>Vexaloom Labs</strong> builds and publishes these Actors on Apify. This site is generated from their published READMEs, schemas and prices.</p><nav aria-label="Footer"><a href="/apify-actor-examples/actors/">All Actors</a><a href="/apify-actor-examples/sites/">Sites</a><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/guides/">Guides</a><a href="/apify-actor-examples/sources/">How these pages are made</a><a href="https://apify.com/vexaloom-labs">Vexaloom Labs on Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></footer></body></html>

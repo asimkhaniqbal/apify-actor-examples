@@ -1,1073 +1,5 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-qdixIGYJwBRNxyplllHXngtSOqSPfgDSfhu8wYXw7ew=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Google Flights Fare &amp; Itinerary Filter Scraper | Vexaloom Labs</title><meta name="description" content="Search Google Flights for one-way or round-trip fares across any cabin class, then narrow results by stops, total duration, airline, and price range, with an optional price-alert f"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/"><meta property="og:title" content="Google Flights Fare &amp; Itinerary Filter Scraper | Vexaloom Labs"><meta property="og:description" content="Search Google Flights for one-way or round-trip fares across any cabin class, then narrow results by stops, total duration, airline, and price range, with an optional price-alert f"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/#webpage","name":"Google Flights Fare & Itinerary Filter Scraper","description":"Search Google Flights for one-way or round-trip fares across any cabin class, then narrow results by stops, total duration, airline, and price range, with an optional price-alert flag.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/#article","headline":"Google Flights Fare & Itinerary Filter Scraper","name":"Google Flights Fare & Itinerary Filter Scraper","description":"Search Google Flights for one-way or round-trip fares across any cabin class, then narrow results by stops, total duration, airline, and price range, with an optional price-alert flag.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/#webpage"},"inLanguage":"en","dateModified":"2026-10-23T09:08:39.931Z"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Google Flights Fare & Itinerary Filter Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Google Flights Fare &amp; Itinerary Filter Scraper</span></div><section id="overview"><h1 class="doc-title">Google Flights Fare &amp; Itinerary Filter Scraper</h1><p class="lede">Search Google Flights for one-way or round-trip fares across any cabin class, then narrow results by stops, total duration, airline, and price range, with an optional price-alert flag.</p><p class="summary">Google Flights Fare &amp; Itinerary Filter Scraper is an Apify Actor published by Vexaloom Labs. It accepts 30 input fields, and <code>mode</code> is required. Its build declares a results dataset with 1 view. Runs happen on Apify, where the Store page lists the current price.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/google-flights-fare-and-itinerary-filter-scraper">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/8lx7PfBaJQLrtPwBv/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>Search flights, or collect the cheapest fare for each date around your departure date.</td></tr><tr><td><code>originAirport</code></td><td>string</td><td>optional</td><td>Three-letter IATA airport or city code, e.g. JFK, LHR, NYC. One code per search; use `searches` for alternate airports.</td></tr><tr><td><code>destinationAirport</code></td><td>string</td><td>optional</td><td>Three-letter IATA airport or city code, e.g. LHR, HND, LON. One code per search; use `searches` for alternate airports.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>Search flights, or collect the cheapest fare for each date around your departure date.</td></tr><tr><td><code>originAirport</code></td><td>string</td><td>optional</td><td>Three-letter IATA airport or city code, e.g. JFK, LHR, NYC. One code per search; use `searches` for alternate airports.</td></tr><tr><td><code>destinationAirport</code></td><td>string</td><td>optional</td><td>Three-letter IATA airport or city code, e.g. LHR, HND, LON. One code per search; use `searches` for alternate airports.</td></tr><tr><td><code>outboundDate</code></td><td>string</td><td>optional</td><td>Departure date in YYYY-MM-DD format. Leave empty to use 30 days from today (UTC); the chosen date is logged.</td></tr><tr><td><code>returnDate</code></td><td>string</td><td>optional</td><td>Return date in YYYY-MM-DD format. Leave empty for a one-way search.</td></tr><tr><td><code>adults</code></td><td>integer</td><td>optional</td><td>Travellers aged 12 and over (1-9).</td></tr><tr><td><code>children</code></td><td>integer</td><td>optional</td><td>Travellers aged 2-11 (0-8).</td></tr><tr><td><code>infants</code></td><td>integer</td><td>optional</td><td>Infants under 2 travelling on an adult lap (0-8). Cannot exceed the number of adults.</td></tr><tr><td><code>infantsInSeat</code></td><td>integer</td><td>optional</td><td>Infants under 2 travelling in their own seat (0-8).</td></tr><tr><td><code>cabinClass</code></td><td>string</td><td>optional</td><td>Cabin to search.</td></tr><tr><td><code>currency</code></td><td>string</td><td>optional</td><td>Currency for every price.</td></tr><tr><td><code>language</code></td><td>string</td><td>optional</td><td>Language Google Flights uses for airport and airline names.</td></tr><tr><td><code>country</code></td><td>string</td><td>optional</td><td>Country whose fares and availability Google should show.</td></tr><tr><td><code>maxStops</code></td><td>string</td><td>optional</td><td>Largest number of stops allowed on any leg.</td></tr><tr><td><code>airlines</code></td><td>array</td><td>optional</td><td>Two-letter IATA airline codes to keep, e.g. [&quot;BA&quot;,&quot;AA&quot;]. Flights marketed by or codesharing with these airlines are kept. Empty means all airlines.</td></tr><tr><td><code>excludeAirlines</code></td><td>array</td><td>optional</td><td>Two-letter IATA airline codes to remove, e.g. [&quot;FR&quot;].</td></tr><tr><td><code>minPrice</code></td><td>integer</td><td>optional</td><td>Drop fares below this price, in the chosen currency.</td></tr><tr><td><code>maxPrice</code></td><td>integer</td><td>optional</td><td>Drop fares above this price, in the chosen currency.</td></tr><tr><td><code>maxDurationMinutes</code></td><td>integer</td><td>optional</td><td>Drop itineraries longer than this, including layovers.</td></tr><tr><td><code>departureTimeRange</code></td><td>string</td><td>optional</td><td>Only departures in this local-time window.</td></tr><tr><td><code>arrivalTimeRange</code></td><td>string</td><td>optional</td><td>Only arrivals in this local-time window.</td></tr><tr><td><code>lessEmissions</code></td><td>boolean</td><td>optional</td><td>Keep itineraries Google marks as producing less CO2 than typical for the route.</td></tr><tr><td><code>sortBy</code></td><td>string</td><td>optional</td><td>How to order the returned flights.</td></tr><tr><td><code>maxResults</code></td><td>integer</td><td>optional</td><td>Maximum number of flight or calendar rows to return; in calendar mode it also caps the number of days.</td></tr><tr><td><code>returnOptionsTop</code></td><td>integer</td><td>optional</td><td>For round trips, fetch return flights for this many top outbound options. 0 turns this off.</td></tr><tr><td><code>returnOptionsPerOutbound</code></td><td>integer</td><td>optional</td><td>How many return flights to attach to each selected outbound.</td></tr><tr><td><code>includePriceInsights</code></td><td>boolean</td><td>optional</td><td>Add Google&#x27;s current, typical and historical price range when available.</td></tr><tr><td><code>priceGraphDays</code></td><td>integer</td><td>optional</td><td>Number of calendar days to return in price-calendar mode (1-61), starting on the departure date; also capped by maxResults.</td></tr><tr><td><code>priceAlertThreshold</code></td><td>number</td><td>optional</td><td>When set, add a priceBelowThreshold flag to every fare in the chosen currency.</td></tr><tr><td><code>searches</code></td><td>array</td><td>optional</td><td>Optional list of searches to run in one go. Each item needs originAirport, destinationAirport, outboundDate and an optional returnDate. Up to 20.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;description&quot;: &quot;Search Google Flights by route and date. Choose one-way or round-trip, filter fares, fetch return options, or collect a price calendar.&quot;,
-  &quot;properties&quot;: {
-    &quot;adults&quot;: {
-      &quot;default&quot;: 1,
-      &quot;description&quot;: &quot;Travellers aged 12 and over (1-9).&quot;,
-      &quot;maximum&quot;: 9,
-      &quot;minimum&quot;: 1,
-      &quot;prefill&quot;: 1,
-      &quot;title&quot;: &quot;Adults&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;airlines&quot;: {
-      &quot;default&quot;: [],
-      &quot;description&quot;: &quot;Two-letter IATA airline codes to keep, e.g. [\&quot;BA\&quot;,\&quot;AA\&quot;]. Flights marketed by or codesharing with these airlines are kept. Empty means all airlines.&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;prefill&quot;: [],
-      &quot;title&quot;: &quot;Only these airlines&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;arrivalTimeRange&quot;: {
-      &quot;default&quot;: &quot;any&quot;,
-      &quot;description&quot;: &quot;Only arrivals in this local-time window.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;any&quot;,
-        &quot;00-06&quot;,
-        &quot;06-12&quot;,
-        &quot;12-18&quot;,
-        &quot;18-24&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Any time&quot;,
-        &quot;00:00-06:00&quot;,
-        &quot;06:00-12:00&quot;,
-        &quot;12:00-18:00&quot;,
-        &quot;18:00-24:00&quot;
-      ],
-      &quot;prefill&quot;: &quot;any&quot;,
-      &quot;title&quot;: &quot;Arrival time&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;cabinClass&quot;: {
-      &quot;default&quot;: &quot;economy&quot;,
-      &quot;description&quot;: &quot;Cabin to search.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;economy&quot;,
-        &quot;premium_economy&quot;,
-        &quot;business&quot;,
-        &quot;first&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Economy&quot;,
-        &quot;Premium economy&quot;,
-        &quot;Business&quot;,
-        &quot;First&quot;
-      ],
-      &quot;prefill&quot;: &quot;economy&quot;,
-      &quot;title&quot;: &quot;Cabin class&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;children&quot;: {
-      &quot;default&quot;: 0,
-      &quot;description&quot;: &quot;Travellers aged 2-11 (0-8).&quot;,
-      &quot;maximum&quot;: 8,
-      &quot;minimum&quot;: 0,
-      &quot;prefill&quot;: 0,
-      &quot;title&quot;: &quot;Children&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;country&quot;: {
-      &quot;default&quot;: &quot;US&quot;,
-      &quot;description&quot;: &quot;Country whose fares and availability Google should show.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;AF&quot;,
-        &quot;AL&quot;,
-        &quot;DZ&quot;,
-        &quot;AS&quot;,
-        &quot;AD&quot;,
-        &quot;AO&quot;,
-        &quot;AG&quot;,
-        &quot;AR&quot;,
-        &quot;AM&quot;,
-        &quot;AU&quot;,
-        &quot;AT&quot;,
-        &quot;AZ&quot;,
-        &quot;BS&quot;,
-        &quot;BH&quot;,
-        &quot;BD&quot;,
-        &quot;BY&quot;,
-        &quot;BE&quot;,
-        &quot;BZ&quot;,
-        &quot;BJ&quot;,
-        &quot;BT&quot;,
-        &quot;BO&quot;,
-        &quot;BA&quot;,
-        &quot;BW&quot;,
-        &quot;BR&quot;,
-        &quot;BN&quot;,
-        &quot;BG&quot;,
-        &quot;BF&quot;,
-        &quot;BI&quot;,
-        &quot;KH&quot;,
-        &quot;CM&quot;,
-        &quot;CA&quot;,
-        &quot;CV&quot;,
-        &quot;CF&quot;,
-        &quot;TD&quot;,
-        &quot;CL&quot;,
-        &quot;CN&quot;,
-        &quot;CO&quot;,
-        &quot;CG&quot;,
-        &quot;CD&quot;,
-        &quot;CK&quot;,
-        &quot;CR&quot;,
-        &quot;CI&quot;,
-        &quot;HR&quot;,
-        &quot;CU&quot;,
-        &quot;CY&quot;,
-        &quot;CZ&quot;,
-        &quot;DK&quot;,
-        &quot;DJ&quot;,
-        &quot;DM&quot;,
-        &quot;DO&quot;,
-        &quot;EC&quot;,
-        &quot;EG&quot;,
-        &quot;SV&quot;,
-        &quot;EE&quot;,
-        &quot;ET&quot;,
-        &quot;FJ&quot;,
-        &quot;FI&quot;,
-        &quot;FR&quot;,
-        &quot;GA&quot;,
-        &quot;GM&quot;,
-        &quot;GE&quot;,
-        &quot;DE&quot;,
-        &quot;GH&quot;,
-        &quot;GI&quot;,
-        &quot;GR&quot;,
-        &quot;GL&quot;,
-        &quot;GT&quot;,
-        &quot;GG&quot;,
-        &quot;GY&quot;,
-        &quot;HT&quot;,
-        &quot;HN&quot;,
-        &quot;HK&quot;,
-        &quot;HU&quot;,
-        &quot;IS&quot;,
-        &quot;IN&quot;,
-        &quot;ID&quot;,
-        &quot;IR&quot;,
-        &quot;IQ&quot;,
-        &quot;IE&quot;,
-        &quot;IM&quot;,
-        &quot;IL&quot;,
-        &quot;IT&quot;,
-        &quot;JM&quot;,
-        &quot;JP&quot;,
-        &quot;JE&quot;,
-        &quot;JO&quot;,
-        &quot;KZ&quot;,
-        &quot;KE&quot;,
-        &quot;KI&quot;,
-        &quot;KW&quot;,
-        &quot;KG&quot;,
-        &quot;LA&quot;,
-        &quot;LV&quot;,
-        &quot;LB&quot;,
-        &quot;LS&quot;,
-        &quot;LY&quot;,
-        &quot;LI&quot;,
-        &quot;LT&quot;,
-        &quot;LU&quot;,
-        &quot;MG&quot;,
-        &quot;MW&quot;,
-        &quot;MY&quot;,
-        &quot;MV&quot;,
-        &quot;ML&quot;,
-        &quot;MT&quot;,
-        &quot;MU&quot;,
-        &quot;MX&quot;,
-        &quot;FM&quot;,
-        &quot;MD&quot;,
-        &quot;MN&quot;,
-        &quot;ME&quot;,
-        &quot;MA&quot;,
-        &quot;MZ&quot;,
-        &quot;MM&quot;,
-        &quot;NA&quot;,
-        &quot;NR&quot;,
-        &quot;NP&quot;,
-        &quot;NL&quot;,
-        &quot;NZ&quot;,
-        &quot;NI&quot;,
-        &quot;NE&quot;,
-        &quot;NG&quot;,
-        &quot;NU&quot;,
-        &quot;MK&quot;,
-        &quot;NO&quot;,
-        &quot;OM&quot;,
-        &quot;PK&quot;,
-        &quot;PS&quot;,
-        &quot;PA&quot;,
-        &quot;PG&quot;,
-        &quot;PY&quot;,
-        &quot;PE&quot;,
-        &quot;PH&quot;,
-        &quot;PN&quot;,
-        &quot;PL&quot;,
-        &quot;PT&quot;,
-        &quot;PR&quot;,
-        &quot;QA&quot;,
-        &quot;RO&quot;,
-        &quot;RU&quot;,
-        &quot;RW&quot;,
-        &quot;WS&quot;,
-        &quot;SM&quot;,
-        &quot;ST&quot;,
-        &quot;SA&quot;,
-        &quot;SN&quot;,
-        &quot;RS&quot;,
-        &quot;SC&quot;,
-        &quot;SL&quot;,
-        &quot;SG&quot;,
-        &quot;SK&quot;,
-        &quot;SI&quot;,
-        &quot;SB&quot;,
-        &quot;SO&quot;,
-        &quot;ZA&quot;,
-        &quot;KR&quot;,
-        &quot;ES&quot;,
-        &quot;LK&quot;,
-        &quot;SH&quot;,
-        &quot;VC&quot;,
-        &quot;SR&quot;,
-        &quot;SE&quot;,
-        &quot;CH&quot;,
-        &quot;TW&quot;,
-        &quot;TJ&quot;,
-        &quot;TZ&quot;,
-        &quot;TH&quot;,
-        &quot;TL&quot;,
-        &quot;TG&quot;,
-        &quot;TO&quot;,
-        &quot;TT&quot;,
-        &quot;TN&quot;,
-        &quot;TR&quot;,
-        &quot;TM&quot;,
-        &quot;UG&quot;,
-        &quot;UA&quot;,
-        &quot;AE&quot;,
-        &quot;GB&quot;,
-        &quot;US&quot;,
-        &quot;UY&quot;,
-        &quot;UZ&quot;,
-        &quot;VU&quot;,
-        &quot;VE&quot;,
-        &quot;VN&quot;,
-        &quot;ZM&quot;,
-        &quot;ZW&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Afghanistan&quot;,
-        &quot;Albania&quot;,
-        &quot;Algeria&quot;,
-        &quot;American Samoa&quot;,
-        &quot;Andorra&quot;,
-        &quot;Angola&quot;,
-        &quot;Antigua &amp; Barbuda&quot;,
-        &quot;Argentina&quot;,
-        &quot;Armenia&quot;,
-        &quot;Australia&quot;,
-        &quot;Austria&quot;,
-        &quot;Azerbaijan&quot;,
-        &quot;Bahamas&quot;,
-        &quot;Bahrain&quot;,
-        &quot;Bangladesh&quot;,
-        &quot;Belarus&quot;,
-        &quot;Belgium&quot;,
-        &quot;Belize&quot;,
-        &quot;Benin&quot;,
-        &quot;Bhutan&quot;,
-        &quot;Bolivia&quot;,
-        &quot;Bosnia &amp; Herzegovina&quot;,
-        &quot;Botswana&quot;,
-        &quot;Brazil&quot;,
-        &quot;Brunei&quot;,
-        &quot;Bulgaria&quot;,
-        &quot;Burkina Faso&quot;,
-        &quot;Burundi&quot;,
-        &quot;Cambodia&quot;,
-        &quot;Cameroon&quot;,
-        &quot;Canada&quot;,
-        &quot;Cape Verde&quot;,
-        &quot;Central African Republic&quot;,
-        &quot;Chad&quot;,
-        &quot;Chile&quot;,
-        &quot;China&quot;,
-        &quot;Colombia&quot;,
-        &quot;Congo - Brazzaville&quot;,
-        &quot;Congo - Kinshasa&quot;,
-        &quot;Cook Islands&quot;,
-        &quot;Costa Rica&quot;,
-        &quot;Côte d’Ivoire&quot;,
-        &quot;Croatia&quot;,
-        &quot;Cuba&quot;,
-        &quot;Cyprus&quot;,
-        &quot;Czechia&quot;,
-        &quot;Denmark&quot;,
-        &quot;Djibouti&quot;,
-        &quot;Dominica&quot;,
-        &quot;Dominican Republic&quot;,
-        &quot;Ecuador&quot;,
-        &quot;Egypt&quot;,
-        &quot;El Salvador&quot;,
-        &quot;Estonia&quot;,
-        &quot;Ethiopia&quot;,
-        &quot;Fiji&quot;,
-        &quot;Finland&quot;,
-        &quot;France&quot;,
-        &quot;Gabon&quot;,
-        &quot;Gambia&quot;,
-        &quot;Georgia&quot;,
-        &quot;Germany&quot;,
-        &quot;Ghana&quot;,
-        &quot;Gibraltar&quot;,
-        &quot;Greece&quot;,
-        &quot;Greenland&quot;,
-        &quot;Guatemala&quot;,
-        &quot;Guernsey&quot;,
-        &quot;Guyana&quot;,
-        &quot;Haiti&quot;,
-        &quot;Honduras&quot;,
-        &quot;Hong Kong&quot;,
-        &quot;Hungary&quot;,
-        &quot;Iceland&quot;,
-        &quot;India&quot;,
-        &quot;Indonesia&quot;,
-        &quot;Iran&quot;,
-        &quot;Iraq&quot;,
-        &quot;Ireland&quot;,
-        &quot;Isle of Man&quot;,
-        &quot;Israel&quot;,
-        &quot;Italy&quot;,
-        &quot;Jamaica&quot;,
-        &quot;Japan&quot;,
-        &quot;Jersey&quot;,
-        &quot;Jordan&quot;,
-        &quot;Kazakhstan&quot;,
-        &quot;Kenya&quot;,
-        &quot;Kiribati&quot;,
-        &quot;Kuwait&quot;,
-        &quot;Kyrgyzstan&quot;,
-        &quot;Laos&quot;,
-        &quot;Latvia&quot;,
-        &quot;Lebanon&quot;,
-        &quot;Lesotho&quot;,
-        &quot;Libya&quot;,
-        &quot;Liechtenstein&quot;,
-        &quot;Lithuania&quot;,
-        &quot;Luxembourg&quot;,
-        &quot;Madagascar&quot;,
-        &quot;Malawi&quot;,
-        &quot;Malaysia&quot;,
-        &quot;Maldives&quot;,
-        &quot;Mali&quot;,
-        &quot;Malta&quot;,
-        &quot;Mauritius&quot;,
-        &quot;Mexico&quot;,
-        &quot;Micronesia&quot;,
-        &quot;Moldova&quot;,
-        &quot;Mongolia&quot;,
-        &quot;Montenegro&quot;,
-        &quot;Morocco&quot;,
-        &quot;Mozambique&quot;,
-        &quot;Myanmar (Burma)&quot;,
-        &quot;Namibia&quot;,
-        &quot;Nauru&quot;,
-        &quot;Nepal&quot;,
-        &quot;Netherlands&quot;,
-        &quot;New Zealand&quot;,
-        &quot;Nicaragua&quot;,
-        &quot;Niger&quot;,
-        &quot;Nigeria&quot;,
-        &quot;Niue&quot;,
-        &quot;North Macedonia&quot;,
-        &quot;Norway&quot;,
-        &quot;Oman&quot;,
-        &quot;Pakistan&quot;,
-        &quot;Palestine&quot;,
-        &quot;Panama&quot;,
-        &quot;Papua New Guinea&quot;,
-        &quot;Paraguay&quot;,
-        &quot;Peru&quot;,
-        &quot;Philippines&quot;,
-        &quot;Pitcairn Islands&quot;,
-        &quot;Poland&quot;,
-        &quot;Portugal&quot;,
-        &quot;Puerto Rico&quot;,
-        &quot;Qatar&quot;,
-        &quot;Romania&quot;,
-        &quot;Russia&quot;,
-        &quot;Rwanda&quot;,
-        &quot;Samoa&quot;,
-        &quot;San Marino&quot;,
-        &quot;São Tomé &amp; Príncipe&quot;,
-        &quot;Saudi Arabia&quot;,
-        &quot;Senegal&quot;,
-        &quot;Serbia&quot;,
-        &quot;Seychelles&quot;,
-        &quot;Sierra Leone&quot;,
-        &quot;Singapore&quot;,
-        &quot;Slovakia&quot;,
-        &quot;Slovenia&quot;,
-        &quot;Solomon Islands&quot;,
-        &quot;Somalia&quot;,
-        &quot;South Africa&quot;,
-        &quot;South Korea&quot;,
-        &quot;Spain&quot;,
-        &quot;Sri Lanka&quot;,
-        &quot;St. Helena&quot;,
-        &quot;St. Vincent &amp; Grenadines&quot;,
-        &quot;Suriname&quot;,
-        &quot;Sweden&quot;,
-        &quot;Switzerland&quot;,
-        &quot;Taiwan&quot;,
-        &quot;Tajikistan&quot;,
-        &quot;Tanzania&quot;,
-        &quot;Thailand&quot;,
-        &quot;Timor-Leste&quot;,
-        &quot;Togo&quot;,
-        &quot;Tonga&quot;,
-        &quot;Trinidad &amp; Tobago&quot;,
-        &quot;Tunisia&quot;,
-        &quot;Türkiye&quot;,
-        &quot;Turkmenistan&quot;,
-        &quot;Uganda&quot;,
-        &quot;Ukraine&quot;,
-        &quot;United Arab Emirates&quot;,
-        &quot;United Kingdom&quot;,
-        &quot;United States&quot;,
-        &quot;Uruguay&quot;,
-        &quot;Uzbekistan&quot;,
-        &quot;Vanuatu&quot;,
-        &quot;Venezuela&quot;,
-        &quot;Vietnam&quot;,
-        &quot;Zambia&quot;,
-        &quot;Zimbabwe&quot;
-      ],
-      &quot;prefill&quot;: &quot;US&quot;,
-      &quot;title&quot;: &quot;Country&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;currency&quot;: {
-      &quot;default&quot;: &quot;USD&quot;,
-      &quot;description&quot;: &quot;Currency for every price.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;ALL&quot;,
-        &quot;DZD&quot;,
-        &quot;ARS&quot;,
-        &quot;AMD&quot;,
-        &quot;AWG&quot;,
-        &quot;AUD&quot;,
-        &quot;AZN&quot;,
-        &quot;BSD&quot;,
-        &quot;BHD&quot;,
-        &quot;BYN&quot;,
-        &quot;BMD&quot;,
-        &quot;BAM&quot;,
-        &quot;BRL&quot;,
-        &quot;GBP&quot;,
-        &quot;CAD&quot;,
-        &quot;XPF&quot;,
-        &quot;CLP&quot;,
-        &quot;CNY&quot;,
-        &quot;COP&quot;,
-        &quot;CRC&quot;,
-        &quot;CUP&quot;,
-        &quot;CZK&quot;,
-        &quot;DKK&quot;,
-        &quot;DOP&quot;,
-        &quot;EGP&quot;,
-        &quot;EUR&quot;,
-        &quot;GEL&quot;,
-        &quot;HKD&quot;,
-        &quot;HUF&quot;,
-        &quot;ISK&quot;,
-        &quot;INR&quot;,
-        &quot;IDR&quot;,
-        &quot;IRR&quot;,
-        &quot;ILS&quot;,
-        &quot;JMD&quot;,
-        &quot;JPY&quot;,
-        &quot;JOD&quot;,
-        &quot;KZT&quot;,
-        &quot;KWD&quot;,
-        &quot;LBP&quot;,
-        &quot;MKD&quot;,
-        &quot;MYR&quot;,
-        &quot;MXN&quot;,
-        &quot;MDL&quot;,
-        &quot;MAD&quot;,
-        &quot;TWD&quot;,
-        &quot;NZD&quot;,
-        &quot;NGN&quot;,
-        &quot;NOK&quot;,
-        &quot;OMR&quot;,
-        &quot;PKR&quot;,
-        &quot;PAB&quot;,
-        &quot;PEN&quot;,
-        &quot;PHP&quot;,
-        &quot;PLN&quot;,
-        &quot;QAR&quot;,
-        &quot;RON&quot;,
-        &quot;RUB&quot;,
-        &quot;SAR&quot;,
-        &quot;RSD&quot;,
-        &quot;SGD&quot;,
-        &quot;ZAR&quot;,
-        &quot;KRW&quot;,
-        &quot;SEK&quot;,
-        &quot;CHF&quot;,
-        &quot;THB&quot;,
-        &quot;TRY&quot;,
-        &quot;UAH&quot;,
-        &quot;AED&quot;,
-        &quot;USD&quot;,
-        &quot;VND&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Albanian Lek&quot;,
-        &quot;Algerian Dinar&quot;,
-        &quot;Argentine Peso&quot;,
-        &quot;Armenian Dram&quot;,
-        &quot;Aruban Florin&quot;,
-        &quot;Australian Dollar&quot;,
-        &quot;Azerbaijani Manat&quot;,
-        &quot;Bahamian Dollar&quot;,
-        &quot;Bahraini Dinar&quot;,
-        &quot;Belarusian Ruble&quot;,
-        &quot;Bermudan Dollar&quot;,
-        &quot;Bosnia-Herzegovina Convertible Mark&quot;,
-        &quot;Brazilian Real&quot;,
-        &quot;British Pound&quot;,
-        &quot;Canadian Dollar&quot;,
-        &quot;CFP Franc&quot;,
-        &quot;Chilean Peso&quot;,
-        &quot;Chinese Yuan&quot;,
-        &quot;Colombian Peso&quot;,
-        &quot;Costa Rican Colón&quot;,
-        &quot;Cuban Peso&quot;,
-        &quot;Czech Koruna&quot;,
-        &quot;Danish Krone&quot;,
-        &quot;Dominican Peso&quot;,
-        &quot;Egyptian Pound&quot;,
-        &quot;Euro&quot;,
-        &quot;Georgian Lari&quot;,
-        &quot;Hong Kong Dollar&quot;,
-        &quot;Hungarian Forint&quot;,
-        &quot;Icelandic Króna&quot;,
-        &quot;Indian Rupee&quot;,
-        &quot;Indonesian Rupiah&quot;,
-        &quot;Iranian Rial&quot;,
-        &quot;Israeli New Shekel&quot;,
-        &quot;Jamaican Dollar&quot;,
-        &quot;Japanese Yen&quot;,
-        &quot;Jordanian Dinar&quot;,
-        &quot;Kazakhstani Tenge&quot;,
-        &quot;Kuwaiti Dinar&quot;,
-        &quot;Lebanese Pound&quot;,
-        &quot;Macedonian Denar&quot;,
-        &quot;Malaysian Ringgit&quot;,
-        &quot;Mexican Peso&quot;,
-        &quot;Moldovan Leu&quot;,
-        &quot;Moroccan Dirham&quot;,
-        &quot;New Taiwan Dollar&quot;,
-        &quot;New Zealand Dollar&quot;,
-        &quot;Nigerian Naira&quot;,
-        &quot;Norwegian Krone&quot;,
-        &quot;Omani Rial&quot;,
-        &quot;Pakistani Rupee&quot;,
-        &quot;Panamanian Balboa&quot;,
-        &quot;Peruvian Sol&quot;,
-        &quot;Philippine Peso&quot;,
-        &quot;Polish Zloty&quot;,
-        &quot;Qatari Riyal&quot;,
-        &quot;Romanian Leu&quot;,
-        &quot;Russian Ruble&quot;,
-        &quot;Saudi Riyal&quot;,
-        &quot;Serbian Dinar&quot;,
-        &quot;Singapore Dollar&quot;,
-        &quot;South African Rand&quot;,
-        &quot;South Korean Won&quot;,
-        &quot;Swedish Krona&quot;,
-        &quot;Swiss Franc&quot;,
-        &quot;Thai Baht&quot;,
-        &quot;Turkish Lira&quot;,
-        &quot;Ukrainian Hryvnia&quot;,
-        &quot;United Arab Emirates Dirham&quot;,
-        &quot;US Dollar&quot;,
-        &quot;Vietnamese Dong&quot;
-      ],
-      &quot;prefill&quot;: &quot;USD&quot;,
-      &quot;title&quot;: &quot;Currency&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;departureTimeRange&quot;: {
-      &quot;default&quot;: &quot;any&quot;,
-      &quot;description&quot;: &quot;Only departures in this local-time window.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;any&quot;,
-        &quot;00-06&quot;,
-        &quot;06-12&quot;,
-        &quot;12-18&quot;,
-        &quot;18-24&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Any time&quot;,
-        &quot;00:00-06:00&quot;,
-        &quot;06:00-12:00&quot;,
-        &quot;12:00-18:00&quot;,
-        &quot;18:00-24:00&quot;
-      ],
-      &quot;prefill&quot;: &quot;any&quot;,
-      &quot;title&quot;: &quot;Departure time&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;destinationAirport&quot;: {
-      &quot;default&quot;: &quot;LHR&quot;,
-      &quot;description&quot;: &quot;Three-letter IATA airport or city code, e.g. LHR, HND, LON. One code per search; use `searches` for alternate airports.&quot;,
-      &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;prefill&quot;: &quot;LHR&quot;,
-      &quot;title&quot;: &quot;Destination airport or city&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;excludeAirlines&quot;: {
-      &quot;default&quot;: [],
-      &quot;description&quot;: &quot;Two-letter IATA airline codes to remove, e.g. [\&quot;FR\&quot;].&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;prefill&quot;: [],
-      &quot;title&quot;: &quot;Exclude these airlines&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;includePriceInsights&quot;: {
-      &quot;default&quot;: true,
-      &quot;description&quot;: &quot;Add Google&#x27;s current, typical and historical price range when available.&quot;,
-      &quot;prefill&quot;: false,
-      &quot;title&quot;: &quot;Include price insights&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;infants&quot;: {
-      &quot;default&quot;: 0,
-      &quot;description&quot;: &quot;Infants under 2 travelling on an adult lap (0-8). Cannot exceed the number of adults.&quot;,
-      &quot;maximum&quot;: 8,
-      &quot;minimum&quot;: 0,
-      &quot;prefill&quot;: 0,
-      &quot;title&quot;: &quot;Infants on lap&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;infantsInSeat&quot;: {
-      &quot;default&quot;: 0,
-      &quot;description&quot;: &quot;Infants under 2 travelling in their own seat (0-8).&quot;,
-      &quot;maximum&quot;: 8,
-      &quot;minimum&quot;: 0,
-      &quot;prefill&quot;: 0,
-      &quot;title&quot;: &quot;Infants in a seat&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;language&quot;: {
-      &quot;default&quot;: &quot;en&quot;,
-      &quot;description&quot;: &quot;Language Google Flights uses for airport and airline names.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;af&quot;,
-        &quot;bs&quot;,
-        &quot;ca&quot;,
-        &quot;cs&quot;,
-        &quot;da&quot;,
-        &quot;de&quot;,
-        &quot;et&quot;,
-        &quot;en-GB&quot;,
-        &quot;en-US&quot;,
-        &quot;es&quot;,
-        &quot;es-419&quot;,
-        &quot;eu&quot;,
-        &quot;fil&quot;,
-        &quot;fr&quot;,
-        &quot;gl&quot;,
-        &quot;hr&quot;,
-        &quot;id&quot;,
-        &quot;is&quot;,
-        &quot;it&quot;,
-        &quot;sw&quot;,
-        &quot;lv&quot;,
-        &quot;lt&quot;,
-        &quot;hu&quot;,
-        &quot;ms&quot;,
-        &quot;nl&quot;,
-        &quot;no&quot;,
-        &quot;pl&quot;,
-        &quot;pt-BR&quot;,
-        &quot;pt-PT&quot;,
-        &quot;ro&quot;,
-        &quot;sq&quot;,
-        &quot;sk&quot;,
-        &quot;sl&quot;,
-        &quot;sr-Latn&quot;,
-        &quot;fi&quot;,
-        &quot;sv&quot;,
-        &quot;vi&quot;,
-        &quot;tr&quot;,
-        &quot;el&quot;,
-        &quot;bg&quot;,
-        &quot;mk&quot;,
-        &quot;mn&quot;,
-        &quot;ru&quot;,
-        &quot;sr&quot;,
-        &quot;uk&quot;,
-        &quot;ka&quot;,
-        &quot;iw&quot;,
-        &quot;ur&quot;,
-        &quot;ar&quot;,
-        &quot;fa&quot;,
-        &quot;am&quot;,
-        &quot;ne&quot;,
-        &quot;mr&quot;,
-        &quot;hi&quot;,
-        &quot;as&quot;,
-        &quot;bn&quot;,
-        &quot;pa&quot;,
-        &quot;gu&quot;,
-        &quot;or&quot;,
-        &quot;ta&quot;,
-        &quot;te&quot;,
-        &quot;kn&quot;,
-        &quot;ml&quot;,
-        &quot;si&quot;,
-        &quot;th&quot;,
-        &quot;lo&quot;,
-        &quot;km&quot;,
-        &quot;ko&quot;,
-        &quot;zh-HK&quot;,
-        &quot;ja&quot;,
-        &quot;zh-CN&quot;,
-        &quot;zh-TW&quot;,
-        &quot;en&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Afrikaans&quot;,
-        &quot;Bosnian&quot;,
-        &quot;Catalan&quot;,
-        &quot;Czech&quot;,
-        &quot;Danish&quot;,
-        &quot;German&quot;,
-        &quot;Estonian&quot;,
-        &quot;English (United Kingdom)&quot;,
-        &quot;English (United States)&quot;,
-        &quot;Spanish (Spain)&quot;,
-        &quot;Spanish (Latin America)&quot;,
-        &quot;Basque&quot;,
-        &quot;Filipino&quot;,
-        &quot;French&quot;,
-        &quot;Galician&quot;,
-        &quot;Croatian&quot;,
-        &quot;Indonesian&quot;,
-        &quot;Icelandic&quot;,
-        &quot;Italian&quot;,
-        &quot;Swahili&quot;,
-        &quot;Latvian&quot;,
-        &quot;Lithuanian&quot;,
-        &quot;Hungarian&quot;,
-        &quot;Malay&quot;,
-        &quot;Dutch&quot;,
-        &quot;Norwegian&quot;,
-        &quot;Polish&quot;,
-        &quot;Portuguese (Brazil)&quot;,
-        &quot;Portuguese (Portugal)&quot;,
-        &quot;Romanian&quot;,
-        &quot;Albanian&quot;,
-        &quot;Slovak&quot;,
-        &quot;Slovenian&quot;,
-        &quot;Serbian (Latin)&quot;,
-        &quot;Finnish&quot;,
-        &quot;Swedish&quot;,
-        &quot;Vietnamese&quot;,
-        &quot;Turkish&quot;,
-        &quot;Greek&quot;,
-        &quot;Bulgarian&quot;,
-        &quot;Macedonian&quot;,
-        &quot;Mongolian&quot;,
-        &quot;Russian&quot;,
-        &quot;Serbian (Cyrillic)&quot;,
-        &quot;Ukrainian&quot;,
-        &quot;Georgian&quot;,
-        &quot;Hebrew&quot;,
-        &quot;Urdu&quot;,
-        &quot;Arabic&quot;,
-        &quot;Persian&quot;,
-        &quot;Amharic&quot;,
-        &quot;Nepali&quot;,
-        &quot;Marathi&quot;,
-        &quot;Hindi&quot;,
-        &quot;Assamese&quot;,
-        &quot;Bangla&quot;,
-        &quot;Punjabi&quot;,
-        &quot;Gujarati&quot;,
-        &quot;Odia&quot;,
-        &quot;Tamil&quot;,
-        &quot;Telugu&quot;,
-        &quot;Kannada&quot;,
-        &quot;Malayalam&quot;,
-        &quot;Sinhala&quot;,
-        &quot;Thai&quot;,
-        &quot;Lao&quot;,
-        &quot;Khmer&quot;,
-        &quot;Korean&quot;,
-        &quot;Chinese (Hong Kong)&quot;,
-        &quot;Japanese&quot;,
-        &quot;Chinese (Simplified)&quot;,
-        &quot;Chinese (Traditional)&quot;,
-        &quot;English&quot;
-      ],
-      &quot;prefill&quot;: &quot;en&quot;,
-      &quot;title&quot;: &quot;Language&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;lessEmissions&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Keep itineraries Google marks as producing less CO2 than typical for the route.&quot;,
-      &quot;prefill&quot;: false,
-      &quot;title&quot;: &quot;Lower-emission flights only&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;maxDurationMinutes&quot;: {
-      &quot;description&quot;: &quot;Drop itineraries longer than this, including layovers.&quot;,
-      &quot;maximum&quot;: 4320,
-      &quot;minimum&quot;: 30,
-      &quot;title&quot;: &quot;Maximum total duration (minutes)&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;maxPrice&quot;: {
-      &quot;description&quot;: &quot;Drop fares above this price, in the chosen currency.&quot;,
-      &quot;maximum&quot;: 100000,
-      &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Maximum price&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;maxResults&quot;: {
-      &quot;default&quot;: 61,
-      &quot;description&quot;: &quot;Maximum number of flight or calendar rows to return; in calendar mode it also caps the number of days.&quot;,
-      &quot;maximum&quot;: 200,
-      &quot;minimum&quot;: 1,
-      &quot;prefill&quot;: 1,
-      &quot;title&quot;: &quot;Maximum results&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;maxStops&quot;: {
-      &quot;default&quot;: &quot;any&quot;,
-      &quot;description&quot;: &quot;Largest number of stops allowed on any leg.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;any&quot;,
-        &quot;nonstop&quot;,
-        &quot;one_stop&quot;,
-        &quot;two_or_fewer&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Any&quot;,
-        &quot;Nonstop only&quot;,
-        &quot;One stop or fewer&quot;,
-        &quot;Two stops or fewer&quot;
-      ],
-      &quot;prefill&quot;: &quot;any&quot;,
-      &quot;title&quot;: &quot;Maximum stops&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;minPrice&quot;: {
-      &quot;description&quot;: &quot;Drop fares below this price, in the chosen currency.&quot;,
-      &quot;maximum&quot;: 100000,
-      &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Minimum price&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;mode&quot;: {
-      &quot;default&quot;: &quot;search&quot;,
-      &quot;description&quot;: &quot;Search flights, or collect the cheapest fare for each date around your departure date.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;search&quot;,
-        &quot;calendar&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Search flights&quot;,
-        &quot;Price calendar&quot;
-      ],
-      &quot;prefill&quot;: &quot;search&quot;,
-      &quot;title&quot;: &quot;Mode&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;originAirport&quot;: {
-      &quot;default&quot;: &quot;JFK&quot;,
-      &quot;description&quot;: &quot;Three-letter IATA airport or city code, e.g. JFK, LHR, NYC. One code per search; use `searches` for alternate airports.&quot;,
-      &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;prefill&quot;: &quot;JFK&quot;,
-      &quot;title&quot;: &quot;Origin airport or city&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;outboundDate&quot;: {
-      &quot;description&quot;: &quot;Departure date in YYYY-MM-DD format. Leave empty to use 30 days from today (UTC); the chosen date is logged.&quot;,
-      &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;prefill&quot;: &quot;2026-12-10&quot;,
-      &quot;title&quot;: &quot;Departure date&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;priceAlertThreshold&quot;: {
-      &quot;description&quot;: &quot;When set, add a priceBelowThreshold flag to every fare in the chosen currency.&quot;,
-      &quot;maximum&quot;: 100000,
-      &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Price alert threshold&quot;,
-      &quot;type&quot;: &quot;number&quot;
-    },
-    &quot;priceGraphDays&quot;: {
-      &quot;default&quot;: 61,
-      &quot;description&quot;: &quot;Number of calendar days to return in price-calendar mode (1-61), starting on the departure date; also capped by maxResults.&quot;,
-      &quot;maximum&quot;: 61,
-      &quot;minimum&quot;: 1,
-      &quot;prefill&quot;: 1,
-      &quot;title&quot;: &quot;Price calendar days&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;returnDate&quot;: {
-      &quot;description&quot;: &quot;Return date in YYYY-MM-DD format. Leave empty for a one-way search.&quot;,
-      &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;title&quot;: &quot;Return date&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;returnOptionsPerOutbound&quot;: {
-      &quot;default&quot;: 5,
-      &quot;description&quot;: &quot;How many return flights to attach to each selected outbound.&quot;,
-      &quot;maximum&quot;: 20,
-      &quot;minimum&quot;: 1,
-      &quot;prefill&quot;: 5,
-      &quot;title&quot;: &quot;Return options per outbound&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;returnOptionsTop&quot;: {
-      &quot;default&quot;: 0,
-      &quot;description&quot;: &quot;For round trips, fetch return flights for this many top outbound options. 0 turns this off.&quot;,
-      &quot;maximum&quot;: 20,
-      &quot;minimum&quot;: 0,
-      &quot;prefill&quot;: 0,
-      &quot;title&quot;: &quot;Return options for top outbounds&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;searches&quot;: {
-      &quot;description&quot;: &quot;Optional list of searches to run in one go. Each item needs originAirport, destinationAirport, outboundDate and an optional returnDate. Up to 20.&quot;,
-      &quot;editor&quot;: &quot;json&quot;,
-      &quot;items&quot;: {
-        &quot;properties&quot;: {
-          &quot;destinationAirport&quot;: {
-            &quot;description&quot;: &quot;Destination IATA airport or city code (one per search).&quot;,
-            &quot;title&quot;: &quot;Destination airport or city&quot;,
-            &quot;type&quot;: &quot;string&quot;
-          },
-          &quot;originAirport&quot;: {
-            &quot;description&quot;: &quot;Origin IATA airport or city code (one per search).&quot;,
-            &quot;title&quot;: &quot;Origin airport or city&quot;,
-            &quot;type&quot;: &quot;string&quot;
-          },
-          &quot;outboundDate&quot;: {
-            &quot;description&quot;: &quot;Departure date YYYY-MM-DD.&quot;,
-            &quot;title&quot;: &quot;Departure date&quot;,
-            &quot;type&quot;: &quot;string&quot;
-          },
-          &quot;returnDate&quot;: {
-            &quot;description&quot;: &quot;Return date YYYY-MM-DD; leave empty for one-way.&quot;,
-            &quot;title&quot;: &quot;Return date&quot;,
-            &quot;type&quot;: &quot;string&quot;
-          }
-        },
-        &quot;required&quot;: [
-          &quot;originAirport&quot;,
-          &quot;destinationAirport&quot;
-        ],
-        &quot;type&quot;: &quot;object&quot;
-      },
-      &quot;title&quot;: &quot;Additional searches&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;sortBy&quot;: {
-      &quot;default&quot;: &quot;top&quot;,
-      &quot;description&quot;: &quot;How to order the returned flights.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;top&quot;,
-        &quot;cheapest&quot;,
-        &quot;fastest&quot;,
-        &quot;earliestDeparture&quot;,
-        &quot;latestDeparture&quot;,
-        &quot;lowestEmissions&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Google&#x27;s top picks&quot;,
-        &quot;Cheapest first&quot;,
-        &quot;Fastest first&quot;,
-        &quot;Earliest departure&quot;,
-        &quot;Latest departure&quot;,
-        &quot;Lowest emissions&quot;
-      ],
-      &quot;prefill&quot;: &quot;top&quot;,
-      &quot;title&quot;: &quot;Sort results by&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    }
-  },
-  &quot;required&quot;: [
-    &quot;mode&quot;
-  ],
-  &quot;schemaVersion&quot;: 1,
-  &quot;title&quot;: &quot;Google Flights Fare &amp; Itinerary Filter Scraper Input&quot;,
-  &quot;type&quot;: &quot;object&quot;
-}
-</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>flights</code></td><td>string</td><td>optional</td><td>Dataset containing the scraped Google Flights itineraries and price-calendar rows.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;actorOutputSchemaVersion&quot;: 1,
-  &quot;description&quot;: &quot;Flight itinerary records with fares, airlines, schedules, layovers, aircraft, emissions and booking links, plus price-calendar day records.&quot;,
-  &quot;properties&quot;: {
-    &quot;flights&quot;: {
-      &quot;description&quot;: &quot;Dataset containing the scraped Google Flights itineraries and price-calendar rows.&quot;,
-      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
-      &quot;title&quot;: &quot;Flight Options&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    }
-  },
-  &quot;title&quot;: &quot;Google Flights Fare &amp; Itinerary Filter Scraper Output&quot;
-}
-</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;actorSpecification&quot;: 1,
-  &quot;views&quot;: {
-    &quot;overview&quot;: {
-      &quot;display&quot;: {
-        &quot;component&quot;: &quot;table&quot;,
-        &quot;properties&quot;: {}
-      },
-      &quot;title&quot;: &quot;Google Flights&quot;,
-      &quot;transformation&quot;: {
-        &quot;fields&quot;: [
-          &quot;price&quot;,
-          &quot;currency&quot;,
-          &quot;airline&quot;,
-          &quot;departureAirport&quot;,
-          &quot;departureTime&quot;,
-          &quot;arrivalAirport&quot;,
-          &quot;arrivalTime&quot;,
-          &quot;durationMinutes&quot;,
-          &quot;stops&quot;,
-          &quot;emissionsGrams&quot;,
-          &quot;bookingUrl&quot;,
-          &quot;scrapedAt&quot;
-        ]
-      }
-    }
-  }
-}
-</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-google-flights-fare-itinerary-filter-scraper">Google Flights Fare &amp; Itinerary Filter Scraper</h2>
-<p>Search Google Flights for a route and date and get one structured record per itinerary — fare, airline, flight numbers, local departure and arrival times, duration, stops, layovers, aircraft, CO2 estimate and a link to open the itinerary on Google Flights. Works for one-way and round-trip searches in 71 currencies, 186 countries and 73 languages. No login, no cookies, no proxy setup.</p>
-<h2 id="readme-what-this-actor-does">What this actor does</h2>
-<ul>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-3VbIaSuGmT/nbVpZ4++NuqBG1GoQOP2uwGHzNV8+Irs=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; connect-src &#x27;self&#x27;; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Google Flights Fare &amp; Itinerary Filter Scraper – docs, price and API | Vexaloom Labs</title><meta name="description" content="Search Google Flights for one-way or round-trip fares across any cabin class, then narrow results by stops, total duration, airline, and price range, with an optional price-alert flag."><meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/"><meta property="og:title" content="Google Flights Fare &amp; Itinerary Filter Scraper – docs, price and API | Vexaloom Labs"><meta property="og:description" content="Search Google Flights for one-way or round-trip fares across any cabin class, then narrow results by stops, total duration, airline, and price range, with an optional price-alert flag."><meta property="og:type" content="article"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/"><meta property="og:site_name" content="Vexaloom Labs"><meta property="og:image" content="https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-8lx7PfBaJQLrtPwBv-ANTvx3WwJN-logo.png"><meta name="twitter:card" content="summary"><meta name="theme-color" content="#7c3aed"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e299c13a23d7"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=1bc613038b6a"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs","https://github.com/asimkhaniqbal/apify-actor-examples"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs Actor documentation","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/#webpage","name":"Google Flights Fare & Itinerary Filter Scraper – docs, price and API","description":"Search Google Flights for one-way or round-trip fares across any cabin class, then narrow results by stops, total duration, airline, and price range, with an optional price-alert flag.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/#article"},"dateModified":"2026-10-23T09:08:39.931Z","breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/#article","headline":"Google Flights Fare & Itinerary Filter Scraper – docs, price and API","name":"Google Flights Fare & Itinerary Filter Scraper – docs, price and API","description":"Search Google Flights for one-way or round-trip fares across any cabin class, then narrow results by stops, total duration, airline, and price range, with an optional price-alert flag.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/#webpage"},"inLanguage":"en","dateModified":"2026-10-23T09:08:39.931Z","image":"https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-8lx7PfBaJQLrtPwBv-ANTvx3WwJN-logo.png"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Topics","item":"https://asimkhaniqbal.github.io/apify-actor-examples/topics/"},{"@type":"ListItem","position":3,"name":"Developer Tools","item":"https://asimkhaniqbal.github.io/apify-actor-examples/topics/developer-tools/"},{"@type":"ListItem","position":4,"name":"Google Flights Fare & Itinerary Filter Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/"}]},{"@type":"SoftwareApplication","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/#software","name":"Google Flights Fare & Itinerary Filter Scraper","description":"Search Google Flights for one-way or round-trip fares across any cabin class, then narrow results by stops, total duration, airline, and price range, with an optional price-alert flag.","url":"https://apify.com/vexaloom-labs/google-flights-fare-and-itinerary-filter-scraper","applicationCategory":"DeveloperApplication","operatingSystem":"Apify platform (web)","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"image":"https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-8lx7PfBaJQLrtPwBv-ANTvx3WwJN-logo.png","offers":{"@type":"Offer","url":"https://apify.com/vexaloom-labs/google-flights-fare-and-itinerary-filter-scraper","priceCurrency":"USD","price":"0","priceSpecification":{"@type":"UnitPriceSpecification","price":0.00099,"priceCurrency":"USD","unitText":"result","referenceQuantity":{"@type":"QuantitativeValue","value":1,"unitText":"result"}},"description":"Pay per event: the price per result on Apify's Free plan; a start fee and platform usage are billed separately."}},{"@type":"FAQPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/#faq","mainEntity":[{"@type":"Question","name":"Do I need cookies, a Google account, or an API key?","acceptedAnswer":{"@type":"Answer","text":"No. The actor reads public search pages without signing in."}},{"@type":"Question","name":"Do I need to configure a proxy?","acceptedAnswer":{"@type":"Answer","text":"No. The actor chooses a working connection to Google Flights automatically. Just fill in the input and run it."}},{"@type":"Question","name":"Why does a round-trip record show only the outbound flight?","acceptedAnswer":{"@type":"Answer","text":"Google lists round trips as outbound choices priced for the whole trip. Set returnOptionsTop to attach the actual return flights for the top outbound options."}},{"@type":"Question","name":"Where are the airline sellers and baggage fees?","acceptedAnswer":{"@type":"Answer","text":"They are behind Google's separate booking panel. The actor gives you a bookingUrl that opens the exact itinerary on Google Flights, where the sellers and bag rules are shown."}},{"@type":"Question","name":"Why do I get fewer rows than on Google Flights?","acceptedAnswer":{"@type":"Answer","text":"The public results page lists a subset of the full board; maxResults caps the actor's output further. This is a source limit, not a filter error."}},{"@type":"Question","name":"How fresh are the prices?","acceptedAnswer":{"@type":"Answer","text":"They are read when the run executes. Google prices change frequently and are advisory until purchase."}},{"@type":"Question","name":"Can I search several airports or cities at once?","acceptedAnswer":{"@type":"Answer","text":"Use the searches list. Each entry takes one airport or city code per side; comma-separated codes in one field are not combined (only the first is searched)."}},{"@type":"Question","name":"How does the price calendar work?","acceptedAnswer":{"@type":"Answer","text":"Calendar mode searches each departure date separately and keeps the cheapest matching fare. Each date starts at outboundDate and moves forward, priceGraphDays sets the window, and maxResults also caps the number of days. The rows are real future fares, not past price estimates."}},{"@type":"Question","name":"What happens if I leave the departure date empty?","acceptedAnswer":{"@type":"Answer","text":"The actor uses 30 days from today in UTC and logs the date it chose, so saved tasks keep producing results without a fixed date. You can always set an exact date."}},{"@type":"Question","name":"Is this affiliated with Google?","acceptedAnswer":{"@type":"Answer","text":"No. This is an independent third-party actor that reads publicly available Google Flights search results."}}],"isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/#webpage"}}]}</script><script src="/apify-actor-examples/assets/site.js?v=7b7086957d37" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header class="masthead"><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="32" height="32"><span>Vexaloom Labs</span></a><form class="site-search" action="/apify-actor-examples/actors/" role="search" data-search-index="/apify-actor-examples/search.json"><label class="sr-only" for="site-search">Search this site</label><input type="search" role="combobox" id="site-search" name="q" placeholder="Search by site or data" autocomplete="off" aria-autocomplete="list" aria-controls="site-search-results" aria-expanded="false"><ul id="site-search-results" class="search-results" role="listbox" hidden></ul></form><nav class="primary" aria-label="Main"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/sites/">Sites</a><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/guides/">Guides</a></nav></div></header><main id="main"><nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="/apify-actor-examples/">Home</a></li><li><a href="/apify-actor-examples/topics/">Topics</a></li><li><a href="/apify-actor-examples/topics/developer-tools/">Developer Tools</a></li><li aria-current="page">Google Flights Fare &amp; Itinerary Filter Scraper</li></ol></nav><div class="doc"><div class="doc-head"><h1>Google Flights Fare &amp; Itinerary Filter Scraper</h1><p class="lead">Search Google Flights for one-way or round-trip fares across any cabin class, then narrow results by stops, total duration, airline, and price range, with an optional price-alert flag.</p><dl class="facts"><div><dt>Updated</dt><dd><time datetime="2026-10-23">23 October 2026</time></dd></div><div><dt>Free plan</dt><dd>$0.99 per 1,000 results</dd></div><div><dt>Business plan</dt><dd>$0.49 per 1,000 results</dd></div><div><dt>Input</dt><dd>30 fields, 1 required</dd></div><div><dt>Output</dt><dd>12 declared fields</dd></div><div><dt>Site</dt><dd><a href="/apify-actor-examples/actors/google-flights-fare-and-itinerary-filter-scraper/">Google Flights</a></dd></div></dl><div class="cta"><a class="button" href="https://apify.com/vexaloom-labs/google-flights-fare-and-itinerary-filter-scraper">Open in Apify Store</a><a class="button secondary" href="#run">Copy the API call</a></div></div><div class="doc-body"><nav class="toc" aria-label="On this page"><h2 class="toc-title">On this page</h2><ol><li><a href="#summary">In short</a></li><li><a href="#about">What it does</a></li><li><a href="#output">What you get</a></li><li><a href="#run">Run it</a></li><li><a href="#cost">What it costs</a></li><li><a href="#input">Input reference</a></li><li><a href="#faq">Questions</a></li><li><a href="#notes">Limits and notes</a></li><li><a href="#related">Related Actors</a></li></ol></nav><article class="prose"><p class="summary" id="summary">Google Flights Fare &amp; Itinerary Filter Scraper is an Apify Actor published by Vexaloom Labs. It accepts 30 input fields, and <code>mode</code> is required. Each result can carry up to 12 declared fields, including <code>price</code>, <code>currency</code>, <code>airline</code>, <code>departureAirport</code>, <code>departureTime</code> and <code>arrivalAirport</code>. It costs $0.99 per 1,000 results on Apify's Free plan and $0.49 on the Business plan.</p><section id="about"><h2>What it does</h2><!--readme--><p>Search Google Flights for a route and date and get one structured record per itinerary — fare, airline, flight numbers, local departure and arrival times, duration, stops, layovers, aircraft, CO2 estimate and a link to open the itinerary on Google Flights. Works for one-way and round-trip searches in 71 currencies, 186 countries and 73 languages. No login, no cookies, no proxy setup.</p>
+<!--/readme--><h3 id="readme-what-this-actor-does">What this actor does</h3><!--readme--><ul>
 <li>Searches Google Flights by airport or city code (one code per side; use <code>searches</code> for alternate airports)</li>
 <li>Returns one-way and round-trip fares, with optional return-flight options for the top outbound choices</li>
 <li>Filters by stops, airline include/exclude, cabin, passengers, price range, total duration, departure/arrival time window and lower-emission itineraries</li>
@@ -1076,8 +8,15 @@
 <li>Supports batch searches, so one run can cover several routes and dates</li>
 <li>Empty fields are omitted from records</li>
 </ul>
-<h2 id="readme-output-per-flight">Output per flight</h2>
-<ul>
+<!--/readme--><h3 id="readme-use-cases">Use cases</h3><!--readme--><ul>
+<li><strong>Fare monitoring</strong> — schedule a route and compare today's fares with yesterday's</li>
+<li><strong>Corporate travel</strong> — benchmark business-class fares across carriers on a fixed route</li>
+<li><strong>Travel deals</strong> — sort by cheapest and filter to nonstop or low-emission options</li>
+<li><strong>Fare calendars</strong> — collect a daily price curve before choosing travel dates</li>
+<li><strong>Route analysis</strong> — compare airlines, aircraft, layovers and CO2 on the same city pair</li>
+<li><strong>Multi-market research</strong> — query the same route in different currencies and countries</li>
+</ul>
+<!--/readme--></section><section id="output"><h2>What you get</h2><p>The Actor saves one record per result to an Apify dataset. Its build declares 12 fields in 1 dataset view, and the README documents 7 more. Fields without a value can be left out of a record.</p><div class="table-wrap"><table class="output-table stack"><caption>Output fields</caption><thead><tr><th scope="col">Field</th><th scope="col">Label</th><th scope="col">What it holds</th></tr></thead><tbody><tr><th scope="row"><code>price</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->total for all passengers in the selected currency; a round-trip price is the trip total<!--/readme--></td></tr><tr><th scope="row"><code>currency</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->total for all passengers in the selected currency; a round-trip price is the trip total<!--/readme--></td></tr><tr><th scope="row"><code>airline</code></th><td data-label="Label"></td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>departureAirport</code></th><td data-label="Label"></td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>departureTime</code></th><td data-label="Label"></td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>arrivalAirport</code></th><td data-label="Label"></td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>arrivalTime</code></th><td data-label="Label"></td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>durationMinutes</code></th><td data-label="Label"></td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>stops</code></th><td data-label="Label"></td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>emissionsGrams</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Google's CO2 estimate for the itinerary and a typical flight on the route; <code>emissionsDeltaPercent</code> when Google supplies it<!--/readme--></td></tr><tr><th scope="row"><code>bookingUrl</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->opens this exact itinerary on Google Flights (one-way rows and return options)<!--/readme--></td></tr><tr><th scope="row"><code>scrapedAt</code></th><td data-label="Label"></td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>flightNumber</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->marketing flight numbers (e.g. <code>BA178</code>)<!--/readme--></td></tr><tr><th scope="row"><code>flightNumbers</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->marketing flight numbers (e.g. <code>BA178</code>)<!--/readme--></td></tr><tr><th scope="row"><code>segments</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->per-flight airline, flight number, codeshares, airports, local times, duration, aircraft, legroom and CO2 grams<!--/readme--></td></tr><tr><th scope="row"><code>typicalEmissionsGrams</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Google's CO2 estimate for the itinerary and a typical flight on the route; <code>emissionsDeltaPercent</code> when Google supplies it<!--/readme--></td></tr><tr><th scope="row"><code>googleFlightsUrl</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->opens the selected outbound and its return choices on Google Flights<!--/readme--></td></tr><tr><th scope="row"><code>priceInsights</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->current lowest, typical low, history low/high and the difference from typical, when Google provides it<!--/readme--></td></tr><tr><th scope="row"><code>returnOptions</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->return-flight itineraries (<code>recordType: &quot;returnOption&quot;</code>) with segments, price, duration and a booking link (when requested)<!--/readme--></td></tr></tbody></table></div><details class="publisher-notes"><summary>The publisher's output notes</summary><h3 id="readme-output-per-flight">Output per flight</h3><!--readme--><ul>
 <li><code>price</code>, <code>currency</code> — total for all passengers in the selected currency; a round-trip price is the trip total</li>
 <li><code>airline</code>, <code>airlineCode</code>, <code>airlines[]</code>, <code>airlineCodes[]</code>, <code>operatingAirlines[]</code></li>
 <li><code>flightNumber</code>, <code>flightNumbers[]</code> — marketing flight numbers (e.g. <code>BA178</code>)</li>
@@ -1094,13 +33,55 @@
 <li><code>pricePerHour</code>, <code>priceBelowThreshold</code> (when a threshold is set), <code>cabin</code>, <code>outboundDate</code>, <code>returnDate</code></li>
 <li><code>recordType: &quot;flight&quot;</code>, <code>scrapedAt</code></li>
 </ul>
-<h3 id="readme-output-per-calendar-day-mode-calendar">Output per calendar day (mode = <code>calendar</code>)</h3>
+<h4 id="readme-output-per-calendar-day-mode-calendar">Output per calendar day (mode = <code>calendar</code>)</h4>
 <ul>
 <li><code>recordType: &quot;priceCalendarDay&quot;</code>, <code>date</code>, <code>price</code>, <code>currency</code>, <code>isCheapest</code> (true for every day tied at the lowest price)</li>
 <li><code>originAirport</code>, <code>destinationAirport</code>, <code>outboundDate</code>, <code>returnDate</code>, <code>searchId</code>, <code>scrapedAt</code></li>
 </ul>
-<h2 id="readme-input">Input</h2>
-<div class="table-wrap"><table>
+<!--/readme--></details></section><section id="run"><h2>Run it</h2><p>Set <code>APIFY_TOKEN</code> to your <a href="https://console.apify.com/settings/integrations">Apify API token</a>, then run the Actor with the input below (price calendar for the next two months). Each run is billed to your Apify account. The <a href="/apify-actor-examples/guides/google-flights-fare-and-itinerary-filter-scraper/">export tutorial</a> turns the results into a CSV file or an Excel workbook.</p><div class="tabs" data-tabs><div class="tab-list" role="tablist" aria-label="Language"><button type="button" role="tab" id="run-tab-python" aria-controls="run-panel-python" aria-selected="true">Python</button><button type="button" role="tab" id="run-tab-javascript" aria-controls="run-panel-javascript" aria-selected="false" tabindex="-1">JavaScript</button><button type="button" role="tab" id="run-tab-curl" aria-controls="run-panel-curl" aria-selected="false" tabindex="-1">cURL</button><button type="button" role="tab" id="run-tab-mcp" aria-controls="run-panel-mcp" aria-selected="false" tabindex="-1">MCP</button></div><div role="tabpanel" id="run-panel-python" aria-labelledby="run-tab-python" class="tab-panel"><h3 class="tab-title">Python</h3><figure class="code"><pre><code id="run-python" class="language-python"># pip install apify-client
+import os
+from apify_client import ApifyClient
+
+ACTOR = &quot;vexaloom-labs/google-flights-fare-and-itinerary-filter-scraper&quot;
+client = ApifyClient(os.environ[&quot;APIFY_TOKEN&quot;])
+run_input = {
+    &quot;mode&quot;: &quot;calendar&quot;,
+    &quot;originAirport&quot;: &quot;NYC&quot;,
+    &quot;destinationAirport&quot;: &quot;LON&quot;,
+    &quot;outboundDate&quot;: &quot;2026-12-20&quot;,
+    &quot;priceGraphDays&quot;: 61,
+}
+
+run = client.actor(ACTOR).call(run_input=run_input)
+for item in client.dataset(run[&quot;defaultDatasetId&quot;]).iterate_items():
+    print(item)
+</code></pre><button type="button" class="copy" data-copy="run-python">Copy</button></figure></div><div role="tabpanel" id="run-panel-javascript" aria-labelledby="run-tab-javascript" class="tab-panel"><h3 class="tab-title">JavaScript</h3><figure class="code"><pre><code id="run-javascript" class="language-javascript">// npm install apify-client
+import { ApifyClient } from &#x27;apify-client&#x27;;
+
+const ACTOR = &#x27;vexaloom-labs/google-flights-fare-and-itinerary-filter-scraper&#x27;;
+const client = new ApifyClient({ token: process.env.APIFY_TOKEN });
+const input = {
+  &quot;mode&quot;: &quot;calendar&quot;,
+  &quot;originAirport&quot;: &quot;NYC&quot;,
+  &quot;destinationAirport&quot;: &quot;LON&quot;,
+  &quot;outboundDate&quot;: &quot;2026-12-20&quot;,
+  &quot;priceGraphDays&quot;: 61
+};
+
+const run = await client.actor(ACTOR).call(input);
+const { items } = await client.dataset(run.defaultDatasetId).listItems();
+console.log(items);
+</code></pre><button type="button" class="copy" data-copy="run-javascript">Copy</button></figure></div><div role="tabpanel" id="run-panel-curl" aria-labelledby="run-tab-curl" class="tab-panel"><h3 class="tab-title">cURL</h3><figure class="code"><pre><code id="run-curl" class="language-bash">curl -X POST &quot;https://api.apify.com/v2/acts/vexaloom-labs~google-flights-fare-and-itinerary-filter-scraper/run-sync-get-dataset-items?format=json&quot; \
+  -H &quot;Authorization: Bearer $APIFY_TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;mode&quot;: &quot;calendar&quot;, &quot;originAirport&quot;: &quot;NYC&quot;, &quot;destinationAirport&quot;: &quot;LON&quot;, &quot;outboundDate&quot;: &quot;2026-12-20&quot;, &quot;priceGraphDays&quot;: 61}&#x27;
+</code></pre><button type="button" class="copy" data-copy="run-curl">Copy</button></figure></div><div role="tabpanel" id="run-panel-mcp" aria-labelledby="run-tab-mcp" class="tab-panel"><h3 class="tab-title">MCP</h3><figure class="code"><pre><code id="run-mcp" class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;apify&quot;: {
+      &quot;url&quot;: &quot;https://mcp.apify.com?tools=vexaloom-labs/google-flights-fare-and-itinerary-filter-scraper&quot;
+    }
+  }
+}</code></pre><button type="button" class="copy" data-copy="run-mcp">Copy</button></figure></div></div></section><section id="cost"><h2>What it costs</h2><p>Google Flights Fare &amp; Itinerary Filter Scraper uses pay-per-event pricing: a fee for each result saved to the dataset, plus a start fee per run. Paid Apify plans pay less per result. The start fee is charged once per GB of run memory (at least once); the default run uses 4 GB, so a run starts with 4 start events, as the run totals include. You also pay Apify platform usage (compute and proxy) for the run, which these totals do not include.</p><div class="table-wrap"><table class="price-table stack"><caption>Published prices and run totals by Apify plan</caption><thead><tr><th scope="col">Plan</th><th scope="col">Per result</th><th scope="col">Per 1,000</th><th scope="col">Start fee</th><th scope="col">100 results</th><th scope="col">1,000 results</th><th scope="col">10,000 results</th></tr></thead><tbody><tr><th scope="row">Free plan</th><td data-label="Per result">$0.00099</td><td data-label="Per 1,000">$0.99</td><td data-label="Start fee">$0.10</td><td data-label="100 results">$0.50</td><td data-label="1,000 results">$1.39</td><td data-label="10,000 results">$10.30</td></tr><tr><th scope="row">Starter plan</th><td data-label="Per result">$0.00082</td><td data-label="Per 1,000">$0.82</td><td data-label="Start fee">$0.077</td><td data-label="100 results">$0.39</td><td data-label="1,000 results">$1.13</td><td data-label="10,000 results">$8.51</td></tr><tr><th scope="row">Scale plan</th><td data-label="Per result">$0.00066</td><td data-label="Per 1,000">$0.66</td><td data-label="Start fee">$0.053</td><td data-label="100 results">$0.28</td><td data-label="1,000 results">$0.87</td><td data-label="10,000 results">$6.81</td></tr><tr><th scope="row">Business plan</th><td data-label="Per result">$0.00049</td><td data-label="Per 1,000">$0.49</td><td data-label="Start fee">$0.03</td><td data-label="100 results">$0.17</td><td data-label="1,000 results">$0.61</td><td data-label="10,000 results">$5.02</td></tr></tbody></table></div><p class="fine">Run totals are the Actor's charges at the default memory: start fees plus the per-result price. Check the <a href="https://apify.com/vexaloom-labs/google-flights-fare-and-itinerary-filter-scraper">Store page</a> before a large run; prices can change with notice.</p></section><section id="input"><h2>Input reference</h2><p>All 30 fields of the published input schema, in the publisher's order. Required fields are marked. Download the <a href="input-schema.json">input schema</a> as JSON.</p><div class="table-wrap"><table class="input-table stack"><caption>Input fields in the published schema</caption><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead><tbody><tr><th scope="row"><code>mode</code><span class="field-title">Mode</span></th><td data-label="Type">string <span class="req">required</span></td><td data-label="Description"><!--readme-->Search flights, or collect the cheapest fare for each date around your departure date.<!--/readme--><span class="field-meta">Default <code>&quot;search&quot;</code>; Allowed search, calendar</span></td></tr><tr><th scope="row"><code>originAirport</code><span class="field-title">Origin airport or city</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Three-letter IATA airport or city code, e.g. JFK, LHR, NYC. One code per search; use <code>searches</code> for alternate airports.<!--/readme--><span class="field-meta">Default <code>&quot;JFK&quot;</code></span></td></tr><tr><th scope="row"><code>destinationAirport</code><span class="field-title">Destination airport or city</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Three-letter IATA airport or city code, e.g. LHR, HND, LON. One code per search; use <code>searches</code> for alternate airports.<!--/readme--><span class="field-meta">Default <code>&quot;LHR&quot;</code></span></td></tr><tr><th scope="row"><code>outboundDate</code><span class="field-title">Departure date</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Departure date in YYYY-MM-DD format. Leave empty to use 30 days from today (UTC); the chosen date is logged.<!--/readme--><span class="field-meta">Example <code>&quot;2026-12-10&quot;</code></span></td></tr><tr><th scope="row"><code>returnDate</code><span class="field-title">Return date</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Return date in YYYY-MM-DD format. Leave empty for a one-way search.<!--/readme--></td></tr><tr><th scope="row"><code>adults</code><span class="field-title">Adults</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Travellers aged 12 and over (1-9).<!--/readme--><span class="field-meta">Default <code>1</code>; Allowed 1 to 9</span></td></tr><tr><th scope="row"><code>children</code><span class="field-title">Children</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Travellers aged 2-11 (0-8).<!--/readme--><span class="field-meta">Default <code>0</code>; Allowed 0 to 8</span></td></tr><tr><th scope="row"><code>infants</code><span class="field-title">Infants on lap</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Infants under 2 travelling on an adult lap (0-8). Cannot exceed the number of adults.<!--/readme--><span class="field-meta">Default <code>0</code>; Allowed 0 to 8</span></td></tr><tr><th scope="row"><code>infantsInSeat</code><span class="field-title">Infants in a seat</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Infants under 2 travelling in their own seat (0-8).<!--/readme--><span class="field-meta">Default <code>0</code>; Allowed 0 to 8</span></td></tr><tr><th scope="row"><code>cabinClass</code><span class="field-title">Cabin class</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Cabin to search.<!--/readme--><span class="field-meta">Default <code>&quot;economy&quot;</code>; Allowed economy, premium_economy, business, first</span></td></tr><tr><th scope="row"><code>currency</code><span class="field-title">Currency</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Currency for every price.<!--/readme--><span class="field-meta">Default <code>&quot;USD&quot;</code>; Allowed ALL, DZD, ARS, AMD, AWG, AUD, AZN, BSD and 63 more</span></td></tr><tr><th scope="row"><code>language</code><span class="field-title">Language</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Language Google Flights uses for airport and airline names.<!--/readme--><span class="field-meta">Default <code>&quot;en&quot;</code>; Allowed af, bs, ca, cs, da, de, et, en-GB and 65 more</span></td></tr><tr><th scope="row"><code>country</code><span class="field-title">Country</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Country whose fares and availability Google should show.<!--/readme--><span class="field-meta">Default <code>&quot;US&quot;</code>; Allowed AF, AL, DZ, AS, AD, AO, AG, AR and 178 more</span></td></tr><tr><th scope="row"><code>maxStops</code><span class="field-title">Maximum stops</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Largest number of stops allowed on any leg.<!--/readme--><span class="field-meta">Default <code>&quot;any&quot;</code>; Allowed any, nonstop, one_stop, two_or_fewer</span></td></tr><tr><th scope="row"><code>airlines</code><span class="field-title">Only these airlines</span></th><td data-label="Type">array</td><td data-label="Description"><!--readme-->Two-letter IATA airline codes to keep, e.g. [&quot;BA&quot;,&quot;AA&quot;]. Flights marketed by or codesharing with these airlines are kept. Empty means all airlines.<!--/readme--><span class="field-meta">Default <code>[]</code></span></td></tr><tr><th scope="row"><code>excludeAirlines</code><span class="field-title">Exclude these airlines</span></th><td data-label="Type">array</td><td data-label="Description"><!--readme-->Two-letter IATA airline codes to remove, e.g. [&quot;FR&quot;].<!--/readme--><span class="field-meta">Default <code>[]</code></span></td></tr><tr><th scope="row"><code>minPrice</code><span class="field-title">Minimum price</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Drop fares below this price, in the chosen currency.<!--/readme--><span class="field-meta">Allowed 0 to 100000</span></td></tr><tr><th scope="row"><code>maxPrice</code><span class="field-title">Maximum price</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Drop fares above this price, in the chosen currency.<!--/readme--><span class="field-meta">Allowed 0 to 100000</span></td></tr><tr><th scope="row"><code>maxDurationMinutes</code><span class="field-title">Maximum total duration (minutes)</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Drop itineraries longer than this, including layovers.<!--/readme--><span class="field-meta">Allowed 30 to 4320</span></td></tr><tr><th scope="row"><code>departureTimeRange</code><span class="field-title">Departure time</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Only departures in this local-time window.<!--/readme--><span class="field-meta">Default <code>&quot;any&quot;</code>; Allowed any, 00-06, 06-12, 12-18, 18-24</span></td></tr><tr><th scope="row"><code>arrivalTimeRange</code><span class="field-title">Arrival time</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Only arrivals in this local-time window.<!--/readme--><span class="field-meta">Default <code>&quot;any&quot;</code>; Allowed any, 00-06, 06-12, 12-18, 18-24</span></td></tr><tr><th scope="row"><code>lessEmissions</code><span class="field-title">Lower-emission flights only</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Keep itineraries Google marks as producing less CO2 than typical for the route.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr><tr><th scope="row"><code>sortBy</code><span class="field-title">Sort results by</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->How to order the returned flights.<!--/readme--><span class="field-meta">Default <code>&quot;top&quot;</code>; Allowed top, cheapest, fastest, earliestDeparture, latestDeparture, lowestEmissions</span></td></tr><tr><th scope="row"><code>maxResults</code><span class="field-title">Maximum results</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Maximum number of flight or calendar rows to return; in calendar mode it also caps the number of days.<!--/readme--><span class="field-meta">Default <code>61</code>; Example <code>1</code>; Allowed 1 to 200</span></td></tr><tr><th scope="row"><code>returnOptionsTop</code><span class="field-title">Return options for top outbounds</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->For round trips, fetch return flights for this many top outbound options. 0 turns this off.<!--/readme--><span class="field-meta">Default <code>0</code>; Allowed 0 to 20</span></td></tr><tr><th scope="row"><code>returnOptionsPerOutbound</code><span class="field-title">Return options per outbound</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->How many return flights to attach to each selected outbound.<!--/readme--><span class="field-meta">Default <code>5</code>; Allowed 1 to 20</span></td></tr><tr><th scope="row"><code>includePriceInsights</code><span class="field-title">Include price insights</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Add Google's current, typical and historical price range when available.<!--/readme--><span class="field-meta">Default <code>true</code>; Example <code>false</code></span></td></tr><tr><th scope="row"><code>priceGraphDays</code><span class="field-title">Price calendar days</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Number of calendar days to return in price-calendar mode (1-61), starting on the departure date; also capped by maxResults.<!--/readme--><span class="field-meta">Default <code>61</code>; Example <code>1</code>; Allowed 1 to 61</span></td></tr><tr><th scope="row"><code>priceAlertThreshold</code><span class="field-title">Price alert threshold</span></th><td data-label="Type">number</td><td data-label="Description"><!--readme-->When set, add a priceBelowThreshold flag to every fare in the chosen currency.<!--/readme--><span class="field-meta">Allowed 0 to 100000</span></td></tr><tr><th scope="row"><code>searches</code><span class="field-title">Additional searches</span></th><td data-label="Type">array</td><td data-label="Description"><!--readme-->Optional list of searches to run in one go. Each item needs originAirport, destinationAirport, outboundDate and an optional returnDate. Up to 20.<!--/readme--></td></tr></tbody></table></div><details class="publisher-notes"><summary>The publisher's input notes</summary><h3 id="readme-input">Input</h3><!--readme--><div class="table-wrap"><table>
 <thead>
 <tr>
 <th>Field</th>
@@ -1286,7 +267,7 @@
 </tr>
 </tbody>
 </table></div>
-<h3 id="readme-example-nonstop-business-class-london-to-new-york">Example: nonstop business class, London to New York</h3>
+<h4 id="readme-example-nonstop-business-class-london-to-new-york">Example: nonstop business class, London to New York</h4>
 <pre><code class="language-json">{
   &quot;originAirport&quot;: &quot;LHR&quot;,
   &quot;destinationAirport&quot;: &quot;JFK&quot;,
@@ -1298,7 +279,7 @@
   &quot;includePriceInsights&quot;: true
 }
 </code></pre>
-<h3 id="readme-example-cheapest-economy-fares-to-tokyo">Example: cheapest economy fares to Tokyo</h3>
+<h4 id="readme-example-cheapest-economy-fares-to-tokyo">Example: cheapest economy fares to Tokyo</h4>
 <pre><code class="language-json">{
   &quot;originAirport&quot;: &quot;SFO&quot;,
   &quot;destinationAirport&quot;: &quot;HND&quot;,
@@ -1308,7 +289,7 @@
   &quot;maxResults&quot;: 25
 }
 </code></pre>
-<h3 id="readme-example-price-calendar-for-the-next-two-months">Example: price calendar for the next two months</h3>
+<h4 id="readme-example-price-calendar-for-the-next-two-months">Example: price calendar for the next two months</h4>
 <pre><code class="language-json">{
   &quot;mode&quot;: &quot;calendar&quot;,
   &quot;originAirport&quot;: &quot;NYC&quot;,
@@ -1317,7 +298,7 @@
   &quot;priceGraphDays&quot;: 61
 }
 </code></pre>
-<h3 id="readme-example-several-routes-in-one-run">Example: several routes in one run</h3>
+<h4 id="readme-example-several-routes-in-one-run">Example: several routes in one run</h4>
 <pre><code class="language-json">{
   &quot;mode&quot;: &quot;search&quot;,
   &quot;currency&quot;: &quot;EUR&quot;,
@@ -1328,17 +309,17 @@
   ]
 }
 </code></pre>
-<h2 id="readme-use-cases">Use cases</h2>
-<ul>
-<li><strong>Fare monitoring</strong> — schedule a route and compare today's fares with yesterday's</li>
-<li><strong>Corporate travel</strong> — benchmark business-class fares across carriers on a fixed route</li>
-<li><strong>Travel deals</strong> — sort by cheapest and filter to nonstop or low-emission options</li>
-<li><strong>Fare calendars</strong> — collect a daily price curve before choosing travel dates</li>
-<li><strong>Route analysis</strong> — compare airlines, aircraft, layovers and CO2 on the same city pair</li>
-<li><strong>Multi-market research</strong> — query the same route in different currencies and countries</li>
-</ul>
-<h2 id="readme-limitations">Limitations</h2>
-<ul>
+<!--/readme--></details></section><section id="faq"><h2>Questions</h2><div class="qa"><h3 id="faq-do-i-need-cookies-a-google-account-or-an-api-key"><!--readme-->Do I need cookies, a Google account, or an API key?<!--/readme--></h3><!--readme--><p>No. The actor reads public search pages without signing in.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-do-i-need-to-configure-a-proxy"><!--readme-->Do I need to configure a proxy?<!--/readme--></h3><!--readme--><p>No. The actor chooses a working connection to Google Flights automatically. Just fill in the input and run it.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-why-does-a-round-trip-record-show-only-the-outbound-flight"><!--readme-->Why does a round-trip record show only the outbound flight?<!--/readme--></h3><!--readme--><p>Google lists round trips as outbound choices priced for the whole trip. Set <code>returnOptionsTop</code> to attach the actual return flights for the top outbound options.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-where-are-the-airline-sellers-and-baggage-fees"><!--readme-->Where are the airline sellers and baggage fees?<!--/readme--></h3><!--readme--><p>They are behind Google's separate booking panel. The actor gives you a <code>bookingUrl</code> that opens the exact itinerary on Google Flights, where the sellers and bag rules are shown.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-why-do-i-get-fewer-rows-than-on-google-flights"><!--readme-->Why do I get fewer rows than on Google Flights?<!--/readme--></h3><!--readme--><p>The public results page lists a subset of the full board; <code>maxResults</code> caps the actor's output further. This is a source limit, not a filter error.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-how-fresh-are-the-prices"><!--readme-->How fresh are the prices?<!--/readme--></h3><!--readme--><p>They are read when the run executes. Google prices change frequently and are advisory until purchase.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-can-i-search-several-airports-or-cities-at-once"><!--readme-->Can I search several airports or cities at once?<!--/readme--></h3><!--readme--><p>Use the <code>searches</code> list. Each entry takes one airport or city code per side; comma-separated codes in one field are not combined (only the first is searched).</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-how-does-the-price-calendar-work"><!--readme-->How does the price calendar work?<!--/readme--></h3><!--readme--><p>Calendar mode searches each departure date separately and keeps the cheapest matching fare. Each date starts at <code>outboundDate</code> and moves forward, <code>priceGraphDays</code> sets the window, and <code>maxResults</code> also caps the number of days. The rows are real future fares, not past price estimates.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-what-happens-if-i-leave-the-departure-date-empty"><!--readme-->What happens if I leave the departure date empty?<!--/readme--></h3><!--readme--><p>The actor uses 30 days from today in UTC and logs the date it chose, so saved tasks keep producing results without a fixed date. You can always set an exact date.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-is-this-affiliated-with-google"><!--readme-->Is this affiliated with Google?<!--/readme--></h3><!--readme--><p>No. This is an independent third-party actor that reads publicly available Google Flights search results.</p>
+<!--/readme--></div></section><section id="notes"><h2>Limits and notes</h2><h3 id="readme-limitations">Limitations</h3><!--readme--><ul>
 <li><strong>Multi-city trips are not available</strong> from Google's public search page. Run each leg as a separate one-way search; those are separate tickets, not a single through-fare.</li>
 <li><strong>Comma-separated airport lists are not combined.</strong> Only the first code in a field is searched; add one <code>searches</code> entry per airport or city.</li>
 <li><strong>The booking-options panel (sellers, fare brands, bag fees) is not included.</strong> Google loads it separately after the itinerary page. Open <code>bookingUrl</code> to see it on Google Flights.</li>
@@ -1347,15 +328,4 @@
 <li><strong>Premium and first-class searches sometimes have no price insight</strong>, and Google occasionally lists a schedule without a fare. Those unpriced rows are skipped.</li>
 <li>Prices are a snapshot and are not guaranteed at booking time.</li>
 </ul>
-<h2 id="readme-faq">FAQ</h2>
-<p><strong>Do I need cookies, a Google account, or an API key?</strong> No. The actor reads public search pages without signing in.</p>
-<p><strong>Do I need to configure a proxy?</strong> No. The actor chooses a working connection to Google Flights automatically. Just fill in the input and run it.</p>
-<p><strong>Why does a round-trip record show only the outbound flight?</strong> Google lists round trips as outbound choices priced for the whole trip. Set <code>returnOptionsTop</code> to attach the actual return flights for the top outbound options.</p>
-<p><strong>Where are the airline sellers and baggage fees?</strong> They are behind Google's separate booking panel. The actor gives you a <code>bookingUrl</code> that opens the exact itinerary on Google Flights, where the sellers and bag rules are shown.</p>
-<p><strong>Why do I get fewer rows than on Google Flights?</strong> The public results page lists a subset of the full board; <code>maxResults</code> caps the actor's output further. This is a source limit, not a filter error.</p>
-<p><strong>How fresh are the prices?</strong> They are read when the run executes. Google prices change frequently and are advisory until purchase.</p>
-<p><strong>Can I search several airports or cities at once?</strong> Use the <code>searches</code> list. Each entry takes one airport or city code per side; comma-separated codes in one field are not combined (only the first is searched).</p>
-<p><strong>How does the price calendar work?</strong> Calendar mode searches each departure date separately and keeps the cheapest matching fare. Each date starts at <code>outboundDate</code> and moves forward, <code>priceGraphDays</code> sets the window, and <code>maxResults</code> also caps the number of days. The rows are real future fares, not past price estimates.</p>
-<p><strong>What happens if I leave the departure date empty?</strong> The actor uses 30 days from today in UTC and logs the date it chose, so saved tasks keep producing results without a fixed date. You can always set an exact date.</p>
-<p><strong>Is this affiliated with Google?</strong> No. This is an independent third-party actor that reads publicly available Google Flights search results.</p>
-</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/google-flights-fare-and-itinerary-filter-scraper/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>JMe14jW0FAs170tz8</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
+<!--/readme--></section><section id="related"><h2>Related Actors</h2><ul class="related" role="list"><li><a href="/apify-actor-examples/actors/ahrefs-domain-rating-backlinks-and-traffic-lookup/">Ahrefs Domain Rating, Backlinks &amp; Traffic Lookup</a><p>Look up a domain&#x27;s public Ahrefs Domain Rating, linking-website count, global rank, and estimated organic traffic, with a mode to fetch just authority or just backlink metrics.</p></li><li><a href="/apify-actor-examples/actors/aliexpress-multi-region-search-store-and-review/">AliExpress Multi-Region Search, Store &amp; Review Scraper</a><p>Search AliExpress or fetch product, store, and review records by ID or URL across 18 regional storefronts and 42 currencies, with price, rating, and ship-from/ship-to filters.</p></li><li><a href="/apify-actor-examples/actors/domain-scoped-site-crawler-for-markdown-datasets/">Domain-Scoped Site Crawler for Markdown Datasets</a><p>Crawl a website from one or more start URLs, staying on the same domain, and get back clean Markdown, text, or HTML per page with title, description, and crawl depth. Built for feeding LLM, RAG, or knowledge-base pipelines.</p></li><li><a href="/apify-actor-examples/actors/espn-scores-standings-teams-and-news-by-league/">ESPN Scores, Standings, Teams &amp; News by League</a><p>Pull live and recent scores, league standings, team rosters, news headlines, and full game boxscores for NFL, NBA, MLB, NHL, MLS, Premier League, La Liga, F1, UFC, PGA Golf, ATP Tennis, and more.</p></li><li><a href="/apify-actor-examples/actors/google-maps-address-and-coordinate-geocoding/">Google Maps Address &amp; Coordinate Geocoding Lookup</a><p>Convert addresses to coordinates or coordinates back to addresses using Google Maps, in batch, with structured address components, place IDs, plus codes and place categories.</p></li><li><a href="/apify-actor-examples/actors/google-maps-hours-open-now-status-and-holiday/">Google Maps Hours, Open-Now Status &amp; Holiday Schedule</a><p>Get structured opening hours for all 7 days, live open/closed status, holiday schedules and a next open/close countdown from any Google Maps place page. Accepts a batch of place URLs or Place IDs.</p></li></ul><p class="more"><a href="/apify-actor-examples/topics/developer-tools/">All developer tools Actors</a></p></section><section id="files"><h2>Source files</h2><p>This page is rebuilt from the default published build <code>JMe14jW0FAs170tz8</code>. Download what it was built from: <a href="README.md">README</a>, <a href="input-schema.json">input schema</a>, <a href="output-schema.json">output schema</a>, <a href="dataset-schema.json">dataset schema</a>, <a href="key-value-schema.json">key-value store schema</a>.</p></section></article></div></div></main><footer class="footer"><div class="inner"><p><strong>Vexaloom Labs</strong> builds and publishes these Actors on Apify. This site is generated from their published READMEs, schemas and prices.</p><nav aria-label="Footer"><a href="/apify-actor-examples/actors/">All Actors</a><a href="/apify-actor-examples/sites/">Sites</a><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/guides/">Guides</a><a href="/apify-actor-examples/sources/">How these pages are made</a><a href="https://apify.com/vexaloom-labs">Vexaloom Labs on Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></footer></body></html>

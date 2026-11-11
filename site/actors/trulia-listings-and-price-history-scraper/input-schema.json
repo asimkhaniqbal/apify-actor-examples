@@ -2,53 +2,173 @@
   "properties": {
     "fetchDetails": {
       "default": false,
-      "description": "Fetch the full property detail page for each search result. Adds price history, tax history, features, open house schedule, and agent phone. Doubles the number of HTTP requests.",
+      "description": "Open each listing page to add price history, tax history, full features, open houses, and agent phone.",
       "editor": "checkbox",
-      "title": "Fetch Property Details",
+      "prefill": false,
+      "title": "Fetch Full Property Details",
       "type": "boolean"
     },
+    "listingType": {
+      "default": "for_sale",
+      "description": "Search for-sale homes, rentals, or recently sold homes.",
+      "editor": "select",
+      "enum": [
+        "for_sale",
+        "for_rent",
+        "sold"
+      ],
+      "enumTitles": [
+        "For sale",
+        "For rent",
+        "Recently sold"
+      ],
+      "prefill": "for_sale",
+      "title": "Listing Type",
+      "type": "string"
+    },
+    "location": {
+      "default": "",
+      "description": "City and state, ZIP code, or neighborhood. Examples: Austin, TX · 78704 · New York, NY.",
+      "editor": "textfield",
+      "prefill": "Austin, TX",
+      "title": "Location",
+      "type": "string"
+    },
+    "maxBaths": {
+      "description": "Largest number of bathrooms to include.",
+      "editor": "number",
+      "maximum": 50,
+      "minimum": 0,
+      "title": "Maximum Bathrooms",
+      "type": "integer"
+    },
+    "maxBeds": {
+      "description": "Largest number of bedrooms to include.",
+      "editor": "number",
+      "maximum": 50,
+      "minimum": 0,
+      "title": "Maximum Bedrooms",
+      "type": "integer"
+    },
     "maxItems": {
-      "default": 3,
-      "description": "Maximum number of property records to return from search pages. Ignored for direct property URLs.",
+      "default": 40,
+      "description": "Maximum number of listing records to collect across all URLs.",
       "editor": "number",
       "maximum": 10000,
       "minimum": 1,
       "prefill": 3,
-      "title": "Max Items",
+      "title": "Max Listings",
       "type": "integer"
     },
+    "maxPrice": {
+      "description": "Highest listing price to include.",
+      "editor": "number",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Maximum Price (USD)",
+      "type": "integer"
+    },
+    "maxSqft": {
+      "description": "Largest living area to include.",
+      "editor": "number",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Maximum Square Feet",
+      "type": "integer"
+    },
+    "minBaths": {
+      "description": "Smallest number of bathrooms to include.",
+      "editor": "number",
+      "maximum": 50,
+      "minimum": 0,
+      "title": "Minimum Bathrooms",
+      "type": "integer"
+    },
+    "minBeds": {
+      "description": "Smallest number of bedrooms to include.",
+      "editor": "number",
+      "maximum": 50,
+      "minimum": 0,
+      "title": "Minimum Bedrooms",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Lowest listing price to include.",
+      "editor": "number",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Minimum Price (USD)",
+      "type": "integer"
+    },
+    "minSqft": {
+      "description": "Smallest living area to include.",
+      "editor": "number",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Minimum Square Feet",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "Search by location using the filters below, or paste Trulia URLs.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "urls"
+      ],
+      "enumTitles": [
+        "Search by location and filters",
+        "Scrape specific Trulia URLs"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "propertyType": {
+      "default": "any",
+      "description": "Restrict results to one property type.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "single_family",
+        "condo",
+        "townhouse",
+        "multi_family",
+        "apartment",
+        "coop",
+        "land",
+        "mobile_manufactured"
+      ],
+      "enumTitles": [
+        "Any property type",
+        "Single-family home",
+        "Condo",
+        "Townhouse",
+        "Multi-family",
+        "Apartment",
+        "Co-op",
+        "Land",
+        "Mobile / manufactured"
+      ],
+      "prefill": "any",
+      "title": "Property Type",
+      "type": "string"
+    },
     "proxyConfiguration": {
-      "default": {
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
-        ],
-        "useApifyProxy": true
-      },
-      "description": "Proxy configuration. Trulia's PerimeterX protection blocks datacenter IPs — residential proxy is required for reliable scraping on Apify cloud.",
+      "description": "Leave the default for automatic proxy selection. Trulia's PerimeterX protects some routes, and the actor falls back to an Apify proxy only when a direct request is blocked.",
       "editor": "proxy",
-      "prefill": {
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
-        ],
-        "useApifyProxy": true
-      },
       "title": "Proxy Configuration",
       "type": "object"
     },
-    "startUrls": {
-      "default": [
-        "https://www.trulia.com/for_sale/Austin,TX/"
-      ],
-      "description": "Trulia search result pages (e.g. https://www.trulia.com/for_sale/Austin,TX/) or individual property pages. Apply filters on Trulia first, then paste the URL here.",
+    "urls": {
+      "default": [],
+      "description": "Trulia search pages, property pages, or rental-community pages. Existing filters in a search URL are preserved.",
       "editor": "stringList",
-      "prefill": [
-        "https://www.trulia.com/for_sale/Austin,TX/"
-      ],
-      "title": "Start URLs",
+      "title": "Trulia URLs (URL mode)",
       "type": "array"
     }
   },
   "schemaVersion": 1,
-  "title": "Trulia Property Scraper Input",
+  "title": "Trulia Search, Listings & Price History",
   "type": "object"
 }

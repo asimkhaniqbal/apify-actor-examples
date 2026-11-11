@@ -1,794 +1,5 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-aoqmeBKx16Y2EyxbOO2tsT0eJL9EcH8l7zxTzyssbY8=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>2GIS Business Directory Extractor for CIS &amp; Middle East | Vexaloom Labs</title><meta name="description" content="Search 2GIS for businesses by category and city across Russia, the UAE, Kazakhstan and the wider CIS, and get name, address, rating, hours, contacts and social links for each place"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/"><meta property="og:title" content="2GIS Business Directory Extractor for CIS &amp; Middle East | Vexaloom Labs"><meta property="og:description" content="Search 2GIS for businesses by category and city across Russia, the UAE, Kazakhstan and the wider CIS, and get name, address, rating, hours, contacts and social links for each place"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/#webpage","name":"2GIS Business Directory Extractor for CIS & Middle East","description":"Search 2GIS for businesses by category and city across Russia, the UAE, Kazakhstan and the wider CIS, and get name, address, rating, hours, contacts and social links for each place.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/#article","headline":"2GIS Business Directory Extractor for CIS & Middle East","name":"2GIS Business Directory Extractor for CIS & Middle East","description":"Search 2GIS for businesses by category and city across Russia, the UAE, Kazakhstan and the wider CIS, and get name, address, rating, hours, contacts and social links for each place.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/#webpage"},"inLanguage":"en","dateModified":"2026-10-27T06:49:21.961Z"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"2GIS Business Directory Extractor for CIS & Middle East","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>2GIS Business Directory Extractor for CIS &amp; Middle East</span></div><section id="overview"><h1 class="doc-title">2GIS Business Directory Extractor for CIS &amp; Middle East</h1><p class="lede">Search 2GIS for businesses by category and city across Russia, the UAE, Kazakhstan and the wider CIS, and get name, address, rating, hours, contacts and social links for each place.</p><p class="summary">2GIS Business Directory Extractor for CIS &amp; Middle East is an Apify Actor published by Vexaloom Labs. It accepts 44 input fields, and <code>mode</code> is required. Its build declares a results dataset with 1 view. Runs happen on Apify, where the Store page lists the current price.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/2gis-business-directory-extractor-for-cis">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/egAceUslWJ9ezEaPL/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to read: search the directory, expand 2GIS links, or look up place IDs.</td></tr><tr><td><code>searchQueries</code></td><td>array</td><td>optional</td><td>What to look for, one term per line (mode=search). Example: coffee, restaurant, стоматология. Use the local language for better coverage.</td></tr><tr><td><code>locationQuery</code></td><td>string</td><td>optional</td><td>City or area to search in (mode=search), for example Moscow, Алматы or Dubai. Can be a local or English name.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to read: search the directory, expand 2GIS links, or look up place IDs.</td></tr><tr><td><code>searchQueries</code></td><td>array</td><td>optional</td><td>What to look for, one term per line (mode=search). Example: coffee, restaurant, стоматология. Use the local language for better coverage.</td></tr><tr><td><code>locationQuery</code></td><td>string</td><td>optional</td><td>City or area to search in (mode=search), for example Moscow, Алматы or Dubai. Can be a local or English name.</td></tr><tr><td><code>cities</code></td><td>array</td><td>optional</td><td>Optional additional cities. Every search term runs in every city (mode=search).</td></tr><tr><td><code>cityIds</code></td><td>array</td><td>optional</td><td>Optional exact 2GIS city IDs. Use instead of city names when you already know the ID.</td></tr><tr><td><code>startUrls</code></td><td>array</td><td>optional</td><td>Search, place (/firm/), organization (/branches/) or building (/inside/) links, go.2gis.com short links, or bare place IDs (mode=urls).</td></tr><tr><td><code>placeIds</code></td><td>array</td><td>optional</td><td>2GIS branch IDs to read directly (mode=ids).</td></tr><tr><td><code>latitude</code></td><td>number</td><td>optional</td><td>Center latitude for an area search (mode=search). Set together with longitude; overrides the city center.</td></tr><tr><td><code>longitude</code></td><td>number</td><td>optional</td><td>Center longitude for an area search (mode=search). Set together with latitude.</td></tr><tr><td><code>radiusMeters</code></td><td>integer</td><td>optional</td><td>Search radius around latitude/longitude, in meters (1–50000).</td></tr><tr><td><code>bbox</code></td><td>string</td><td>optional</td><td>Optional rectangle as lon1,lat1,lon2,lat2. Overrides city and point search.</td></tr><tr><td><code>country</code></td><td>string</td><td>optional</td><td>2GIS country site. Leave on Auto-detect to derive it from the city or link.</td></tr><tr><td><code>language</code></td><td>string</td><td>optional</td><td>Language of names and content returned by 2GIS. Auto uses the country site&#x27;s default.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of places per search term + city/area combination.</td></tr><tr><td><code>sortBy</code></td><td>string</td><td>optional</td><td>Order of search results. Distance needs a latitude/longitude or map area.</td></tr><tr><td><code>rubricIds</code></td><td>array</td><td>optional</td><td>Only places in these 2GIS categories (rubric IDs), for example 162 for coffee shops.</td></tr><tr><td><code>districtIds</code></td><td>array</td><td>optional</td><td>Optional district IDs. Useful for splitting a large city into smaller searches.</td></tr><tr><td><code>minRating</code></td><td>number</td><td>optional</td><td>Keep only places rated at least this value (0–5).</td></tr><tr><td><code>minReviews</code></td><td>integer</td><td>optional</td><td>Keep only places with at least this many reviews.</td></tr><tr><td><code>websiteFilter</code></td><td>string</td><td>optional</td><td>Return all places, only places with a website, or only places without one.</td></tr><tr><td><code>filterHasPhotos</code></td><td>boolean</td><td>optional</td><td>Only return places that have photos on 2GIS.</td></tr><tr><td><code>filterOpenNow</code></td><td>boolean</td><td>optional</td><td>Only return places open at the time of the run.</td></tr><tr><td><code>filter24x7</code></td><td>boolean</td><td>optional</td><td>Only return places open around the clock.</td></tr><tr><td><code>filterHasGoods</code></td><td>boolean</td><td>optional</td><td>Only return places that published goods or a menu.</td></tr><tr><td><code>filterHasRating</code></td><td>boolean</td><td>optional</td><td>Only return places with a rating.</td></tr><tr><td><code>filterHasReviews</code></td><td>boolean</td><td>optional</td><td>Only return places with reviews.</td></tr><tr><td><code>filterDelivery</code></td><td>boolean</td><td>optional</td><td>Only return places whose published attributes mention delivery.</td></tr><tr><td><code>filterTakeaway</code></td><td>boolean</td><td>optional</td><td>Only return places whose attributes mention takeaway or pickup.</td></tr><tr><td><code>filterCardPayment</code></td><td>boolean</td><td>optional</td><td>Only return places whose attributes mention card payment.</td></tr><tr><td><code>filterWifi</code></td><td>boolean</td><td>optional</td><td>Only return places whose attributes mention Wi-Fi.</td></tr><tr><td><code>minAverageCheck</code></td><td>integer</td><td>optional</td><td>Keep only places whose published average check is at least this value, in local currency.</td></tr><tr><td><code>maxAverageCheck</code></td><td>integer</td><td>optional</td><td>Keep only places whose published average check is at most this value, in local currency.</td></tr><tr><td><code>skipAds</code></td><td>boolean</td><td>optional</td><td>Drop paid/promoted search results.</td></tr><tr><td><code>includeContacts</code></td><td>boolean</td><td>optional</td><td>Add phones, websites, emails, social links and messengers.</td></tr><tr><td><code>includeReviews</code></td><td>boolean</td><td>optional</td><td>Add review texts to each place when 2GIS exposes them. Rating and review counts are always included.</td></tr><tr><td><code>maxReviewsPerPlace</code></td><td>integer</td><td>optional</td><td>Maximum review texts per place when reviews are enabled (1–1000).</td></tr><tr><td><code>reviewsSort</code></td><td>string</td><td>optional</td><td>Order of review texts.</td></tr><tr><td><code>reviewsMinRating</code></td><td>integer</td><td>optional</td><td>Keep only reviews with at least this star rating (1–5).</td></tr><tr><td><code>reviewsWithAnswer</code></td><td>boolean</td><td>optional</td><td>Keep only reviews that have an official business reply.</td></tr><tr><td><code>reviewsSince</code></td><td>string</td><td>optional</td><td>Keep only reviews created on or after this date (YYYY-MM-DD).</td></tr><tr><td><code>reviewsKeyword</code></td><td>string</td><td>optional</td><td>Keep only reviews whose text contains this word or phrase.</td></tr><tr><td><code>includePhotos</code></td><td>boolean</td><td>optional</td><td>Add photo URLs when 2GIS exposes them. A main photo URL and photo count are included whenever available.</td></tr><tr><td><code>maxPhotosPerPlace</code></td><td>integer</td><td>optional</td><td>Maximum photo URLs per place when photos are enabled (1–100).</td></tr><tr><td><code>scrapeOrgBranches</code></td><td>boolean</td><td>optional</td><td>When a place link is given, also return the other branches of the same organization.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;description&quot;: &quot;Find businesses in the 2GIS directory by search term, city, point or map area, or read specific search, place, organization and building links. No account, API key or proxy is needed.&quot;,
-  &quot;properties&quot;: {
-    &quot;bbox&quot;: {
-      &quot;description&quot;: &quot;Optional rectangle as lon1,lat1,lon2,lat2. Overrides city and point search.&quot;,
-      &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;title&quot;: &quot;Map area&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;cities&quot;: {
-      &quot;description&quot;: &quot;Optional additional cities. Every search term runs in every city (mode=search).&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;title&quot;: &quot;More cities&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;cityIds&quot;: {
-      &quot;description&quot;: &quot;Optional exact 2GIS city IDs. Use instead of city names when you already know the ID.&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;title&quot;: &quot;City IDs&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;country&quot;: {
-      &quot;default&quot;: &quot;auto&quot;,
-      &quot;description&quot;: &quot;2GIS country site. Leave on Auto-detect to derive it from the city or link.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;auto&quot;,
-        &quot;ru&quot;,
-        &quot;kz&quot;,
-        &quot;ae&quot;,
-        &quot;kg&quot;,
-        &quot;uz&quot;,
-        &quot;by&quot;,
-        &quot;az&quot;,
-        &quot;am&quot;,
-        &quot;ge&quot;,
-        &quot;tj&quot;,
-        &quot;cy&quot;,
-        &quot;cz&quot;,
-        &quot;it&quot;,
-        &quot;cl&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Auto-detect&quot;,
-        &quot;Russia (2gis.ru)&quot;,
-        &quot;Kazakhstan (2gis.kz)&quot;,
-        &quot;UAE (2gis.ae)&quot;,
-        &quot;Kyrgyzstan (2gis.kg)&quot;,
-        &quot;Uzbekistan (2gis.uz)&quot;,
-        &quot;Belarus (2gis.by)&quot;,
-        &quot;Azerbaijan (2gis.az)&quot;,
-        &quot;Armenia (2gis.am)&quot;,
-        &quot;Georgia (2gis.ge)&quot;,
-        &quot;Tajikistan (2gis.tj)&quot;,
-        &quot;Cyprus (2gis.com.cy)&quot;,
-        &quot;Czechia (2gis.cz)&quot;,
-        &quot;Italy (2gis.it)&quot;,
-        &quot;Chile (2gis.cl)&quot;
-      ],
-      &quot;title&quot;: &quot;Country site&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;districtIds&quot;: {
-      &quot;description&quot;: &quot;Optional district IDs. Useful for splitting a large city into smaller searches.&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;title&quot;: &quot;District IDs&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;filter24x7&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Only return places open around the clock.&quot;,
-      &quot;title&quot;: &quot;Open 24/7 only&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;filterCardPayment&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Only return places whose attributes mention card payment.&quot;,
-      &quot;title&quot;: &quot;Card payment only&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;filterDelivery&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Only return places whose published attributes mention delivery.&quot;,
-      &quot;title&quot;: &quot;Delivery only&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;filterHasGoods&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Only return places that published goods or a menu.&quot;,
-      &quot;title&quot;: &quot;Has goods/menu only&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;filterHasPhotos&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Only return places that have photos on 2GIS.&quot;,
-      &quot;title&quot;: &quot;Has photos only&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;filterHasRating&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Only return places with a rating.&quot;,
-      &quot;title&quot;: &quot;Has rating only&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;filterHasReviews&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Only return places with reviews.&quot;,
-      &quot;title&quot;: &quot;Has reviews only&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;filterOpenNow&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Only return places open at the time of the run.&quot;,
-      &quot;title&quot;: &quot;Open now only&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;filterTakeaway&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Only return places whose attributes mention takeaway or pickup.&quot;,
-      &quot;title&quot;: &quot;Takeaway only&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;filterWifi&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Only return places whose attributes mention Wi-Fi.&quot;,
-      &quot;title&quot;: &quot;Wi-Fi only&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;includeContacts&quot;: {
-      &quot;default&quot;: true,
-      &quot;description&quot;: &quot;Add phones, websites, emails, social links and messengers.&quot;,
-      &quot;prefill&quot;: true,
-      &quot;title&quot;: &quot;Include contacts&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;includePhotos&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Add photo URLs when 2GIS exposes them. A main photo URL and photo count are included whenever available.&quot;,
-      &quot;title&quot;: &quot;Include photo URLs&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;includeReviews&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Add review texts to each place when 2GIS exposes them. Rating and review counts are always included.&quot;,
-      &quot;title&quot;: &quot;Include reviews&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;language&quot;: {
-      &quot;default&quot;: &quot;auto&quot;,
-      &quot;description&quot;: &quot;Language of names and content returned by 2GIS. Auto uses the country site&#x27;s default.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;auto&quot;,
-        &quot;ru_RU&quot;,
-        &quot;ru_KZ&quot;,
-        &quot;en_RU&quot;,
-        &quot;en_AE&quot;,
-        &quot;ar_AE&quot;,
-        &quot;kk_KZ&quot;,
-        &quot;ky_KG&quot;,
-        &quot;uz_UZ&quot;,
-        &quot;az_AZ&quot;,
-        &quot;hy_AM&quot;,
-        &quot;ka_GE&quot;,
-        &quot;tg_TJ&quot;,
-        &quot;cs_CZ&quot;,
-        &quot;it_IT&quot;,
-        &quot;es_CL&quot;,
-        &quot;en_CY&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Auto&quot;,
-        &quot;Russian (Russia)&quot;,
-        &quot;Russian (Kazakhstan)&quot;,
-        &quot;English (Russia)&quot;,
-        &quot;English (UAE)&quot;,
-        &quot;Arabic (UAE)&quot;,
-        &quot;Kazakh&quot;,
-        &quot;Kyrgyz&quot;,
-        &quot;Uzbek&quot;,
-        &quot;Azerbaijani&quot;,
-        &quot;Armenian&quot;,
-        &quot;Georgian&quot;,
-        &quot;Tajik&quot;,
-        &quot;Czech&quot;,
-        &quot;Italian&quot;,
-        &quot;Spanish (Chile)&quot;,
-        &quot;English (Cyprus)&quot;
-      ],
-      &quot;title&quot;: &quot;Language&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;latitude&quot;: {
-      &quot;description&quot;: &quot;Center latitude for an area search (mode=search). Set together with longitude; overrides the city center.&quot;,
-      &quot;maximum&quot;: 90,
-      &quot;minimum&quot;: -90,
-      &quot;title&quot;: &quot;Latitude&quot;,
-      &quot;type&quot;: &quot;number&quot;
-    },
-    &quot;locationQuery&quot;: {
-      &quot;description&quot;: &quot;City or area to search in (mode=search), for example Moscow, Алматы or Dubai. Can be a local or English name.&quot;,
-      &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;prefill&quot;: &quot;Moscow&quot;,
-      &quot;title&quot;: &quot;City&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;longitude&quot;: {
-      &quot;description&quot;: &quot;Center longitude for an area search (mode=search). Set together with latitude.&quot;,
-      &quot;maximum&quot;: 180,
-      &quot;minimum&quot;: -180,
-      &quot;title&quot;: &quot;Longitude&quot;,
-      &quot;type&quot;: &quot;number&quot;
-    },
-    &quot;maxAverageCheck&quot;: {
-      &quot;description&quot;: &quot;Keep only places whose published average check is at most this value, in local currency.&quot;,
-      &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Maximum average check&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;maxItems&quot;: {
-      &quot;default&quot;: 50,
-      &quot;description&quot;: &quot;Maximum number of places per search term + city/area combination.&quot;,
-      &quot;editor&quot;: &quot;number&quot;,
-      &quot;maximum&quot;: 10000,
-      &quot;minimum&quot;: 1,
-      &quot;prefill&quot;: 3,
-      &quot;title&quot;: &quot;Max places&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;maxPhotosPerPlace&quot;: {
-      &quot;default&quot;: 5,
-      &quot;description&quot;: &quot;Maximum photo URLs per place when photos are enabled (1–100).&quot;,
-      &quot;editor&quot;: &quot;number&quot;,
-      &quot;maximum&quot;: 100,
-      &quot;minimum&quot;: 1,
-      &quot;title&quot;: &quot;Max photos per place&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;maxReviewsPerPlace&quot;: {
-      &quot;default&quot;: 10,
-      &quot;description&quot;: &quot;Maximum review texts per place when reviews are enabled (1–1000).&quot;,
-      &quot;editor&quot;: &quot;number&quot;,
-      &quot;maximum&quot;: 1000,
-      &quot;minimum&quot;: 1,
-      &quot;title&quot;: &quot;Max reviews per place&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;minAverageCheck&quot;: {
-      &quot;description&quot;: &quot;Keep only places whose published average check is at least this value, in local currency.&quot;,
-      &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Minimum average check&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;minRating&quot;: {
-      &quot;description&quot;: &quot;Keep only places rated at least this value (0–5).&quot;,
-      &quot;maximum&quot;: 5,
-      &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Minimum rating&quot;,
-      &quot;type&quot;: &quot;number&quot;
-    },
-    &quot;minReviews&quot;: {
-      &quot;description&quot;: &quot;Keep only places with at least this many reviews.&quot;,
-      &quot;minimum&quot;: 0,
-      &quot;title&quot;: &quot;Minimum reviews&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;mode&quot;: {
-      &quot;default&quot;: &quot;search&quot;,
-      &quot;description&quot;: &quot;What to read: search the directory, expand 2GIS links, or look up place IDs.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;search&quot;,
-        &quot;urls&quot;,
-        &quot;ids&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Search by keyword + city/area&quot;,
-        &quot;Read 2GIS links&quot;,
-        &quot;Look up place IDs&quot;
-      ],
-      &quot;prefill&quot;: &quot;search&quot;,
-      &quot;title&quot;: &quot;Mode&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;placeIds&quot;: {
-      &quot;description&quot;: &quot;2GIS branch IDs to read directly (mode=ids).&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;title&quot;: &quot;Place IDs&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;radiusMeters&quot;: {
-      &quot;default&quot;: 20000,
-      &quot;description&quot;: &quot;Search radius around latitude/longitude, in meters (1–50000).&quot;,
-      &quot;editor&quot;: &quot;number&quot;,
-      &quot;maximum&quot;: 50000,
-      &quot;minimum&quot;: 1,
-      &quot;title&quot;: &quot;Radius (meters)&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;reviewsKeyword&quot;: {
-      &quot;description&quot;: &quot;Keep only reviews whose text contains this word or phrase.&quot;,
-      &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;title&quot;: &quot;Review keyword&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;reviewsMinRating&quot;: {
-      &quot;description&quot;: &quot;Keep only reviews with at least this star rating (1–5).&quot;,
-      &quot;maximum&quot;: 5,
-      &quot;minimum&quot;: 1,
-      &quot;title&quot;: &quot;Minimum review rating&quot;,
-      &quot;type&quot;: &quot;integer&quot;
-    },
-    &quot;reviewsSince&quot;: {
-      &quot;description&quot;: &quot;Keep only reviews created on or after this date (YYYY-MM-DD).&quot;,
-      &quot;editor&quot;: &quot;textfield&quot;,
-      &quot;title&quot;: &quot;Reviews since&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;reviewsSort&quot;: {
-      &quot;default&quot;: &quot;date_created&quot;,
-      &quot;description&quot;: &quot;Order of review texts.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;date_created&quot;,
-        &quot;date_edited&quot;,
-        &quot;rating&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Newest first&quot;,
-        &quot;Recently edited&quot;,
-        &quot;Highest rating&quot;
-      ],
-      &quot;title&quot;: &quot;Review order&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;reviewsWithAnswer&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Keep only reviews that have an official business reply.&quot;,
-      &quot;title&quot;: &quot;Reviews with a business reply&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;rubricIds&quot;: {
-      &quot;description&quot;: &quot;Only places in these 2GIS categories (rubric IDs), for example 162 for coffee shops.&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;title&quot;: &quot;Category IDs&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;scrapeOrgBranches&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;When a place link is given, also return the other branches of the same organization.&quot;,
-      &quot;title&quot;: &quot;Expand organization branches&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;searchQueries&quot;: {
-      &quot;description&quot;: &quot;What to look for, one term per line (mode=search). Example: coffee, restaurant, стоматология. Use the local language for better coverage.&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;prefill&quot;: [
-        &quot;coffee&quot;
-      ],
-      &quot;title&quot;: &quot;Search terms&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;skipAds&quot;: {
-      &quot;default&quot;: false,
-      &quot;description&quot;: &quot;Drop paid/promoted search results.&quot;,
-      &quot;title&quot;: &quot;Skip promoted places&quot;,
-      &quot;type&quot;: &quot;boolean&quot;
-    },
-    &quot;sortBy&quot;: {
-      &quot;default&quot;: &quot;relevance&quot;,
-      &quot;description&quot;: &quot;Order of search results. Distance needs a latitude/longitude or map area.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;relevance&quot;,
-        &quot;rating&quot;,
-        &quot;distance&quot;,
-        &quot;flamp_rating&quot;,
-        &quot;creation_time&quot;,
-        &quot;opened_time&quot;,
-        &quot;name&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;Relevance&quot;,
-        &quot;Rating (highest first)&quot;,
-        &quot;Distance (nearest first)&quot;,
-        &quot;Flamp rating&quot;,
-        &quot;Newest branch&quot;,
-        &quot;Recently opened&quot;,
-        &quot;Name (A–Z)&quot;
-      ],
-      &quot;title&quot;: &quot;Sort by&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    },
-    &quot;startUrls&quot;: {
-      &quot;description&quot;: &quot;Search, place (/firm/), organization (/branches/) or building (/inside/) links, go.2gis.com short links, or bare place IDs (mode=urls).&quot;,
-      &quot;editor&quot;: &quot;stringList&quot;,
-      &quot;title&quot;: &quot;2GIS links&quot;,
-      &quot;type&quot;: &quot;array&quot;
-    },
-    &quot;websiteFilter&quot;: {
-      &quot;default&quot;: &quot;all&quot;,
-      &quot;description&quot;: &quot;Return all places, only places with a website, or only places without one.&quot;,
-      &quot;editor&quot;: &quot;select&quot;,
-      &quot;enum&quot;: [
-        &quot;all&quot;,
-        &quot;with&quot;,
-        &quot;without&quot;
-      ],
-      &quot;enumTitles&quot;: [
-        &quot;All places&quot;,
-        &quot;With a website&quot;,
-        &quot;Without a website&quot;
-      ],
-      &quot;title&quot;: &quot;Website&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    }
-  },
-  &quot;required&quot;: [
-    &quot;mode&quot;
-  ],
-  &quot;schemaVersion&quot;: 1,
-  &quot;title&quot;: &quot;2GIS Business Directory Input&quot;,
-  &quot;type&quot;: &quot;object&quot;
-}
-</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>results</code></td><td>string</td><td>optional</td><td>All 2GIS place records from the run, in the default dataset.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;actorOutputSchemaVersion&quot;: 1,
-  &quot;description&quot;: &quot;Places from 2GIS country sites, including contacts, hours, ratings, review statistics, attributes, photos and location data.&quot;,
-  &quot;properties&quot;: {
-    &quot;results&quot;: {
-      &quot;description&quot;: &quot;All 2GIS place records from the run, in the default dataset.&quot;,
-      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
-      &quot;title&quot;: &quot;Results&quot;,
-      &quot;type&quot;: &quot;string&quot;
-    }
-  },
-  &quot;title&quot;: &quot;2GIS Business Directory Extractor for CIS &amp; Middle East Output&quot;,
-  &quot;type&quot;: &quot;object&quot;
-}
-</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
-  &quot;actorSpecification&quot;: 1,
-  &quot;fields&quot;: {},
-  &quot;title&quot;: &quot;2GIS Business Directory Extractor for CIS &amp; Middle East Output&quot;,
-  &quot;views&quot;: {
-    &quot;overview&quot;: {
-      &quot;display&quot;: {
-        &quot;component&quot;: &quot;table&quot;,
-        &quot;properties&quot;: {
-          &quot;address&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;address&quot;
-          },
-          &quot;addressCity&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;addressCity&quot;
-          },
-          &quot;addressComment&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;addressComment&quot;
-          },
-          &quot;attributeGroups&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;attributeGroups&quot;
-          },
-          &quot;attributes&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;attributes&quot;
-          },
-          &quot;attributesByTag&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;attributesByTag&quot;
-          },
-          &quot;brand&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;brand&quot;
-          },
-          &quot;categories&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;categories&quot;
-          },
-          &quot;categoryIds&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;categoryIds&quot;
-          },
-          &quot;city&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;city&quot;
-          },
-          &quot;country&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;country&quot;
-          },
-          &quot;createdAt&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;createdAt&quot;
-          },
-          &quot;delivery&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;delivery&quot;
-          },
-          &quot;description&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;description&quot;
-          },
-          &quot;district&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;district&quot;
-          },
-          &quot;districtArea&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;districtArea&quot;
-          },
-          &quot;emails&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;emails&quot;
-          },
-          &quot;extension&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;extension&quot;
-          },
-          &quot;fullName&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;fullName&quot;
-          },
-          &quot;hasDiscount&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;hasDiscount&quot;
-          },
-          &quot;hasGoods&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;hasGoods&quot;
-          },
-          &quot;houseNumber&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;houseNumber&quot;
-          },
-          &quot;id&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;id&quot;
-          },
-          &quot;is24x7&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;is24x7&quot;
-          },
-          &quot;isClosed&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;isClosed&quot;
-          },
-          &quot;isPromoted&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;isPromoted&quot;
-          },
-          &quot;landmark&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;landmark&quot;
-          },
-          &quot;latitude&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;latitude&quot;
-          },
-          &quot;longitude&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;longitude&quot;
-          },
-          &quot;mainPhotoUrl&quot;: {
-            &quot;format&quot;: &quot;link&quot;,
-            &quot;label&quot;: &quot;mainPhotoUrl&quot;
-          },
-          &quot;messengers&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;messengers&quot;
-          },
-          &quot;name&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;name&quot;
-          },
-          &quot;nearestMetro&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;nearestMetro&quot;
-          },
-          &quot;nearestStations&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;nearestStations&quot;
-          },
-          &quot;orgBranchCount&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;orgBranchCount&quot;
-          },
-          &quot;orgId&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;orgId&quot;
-          },
-          &quot;orgName&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;orgName&quot;
-          },
-          &quot;orgRating&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;orgRating&quot;
-          },
-          &quot;orgReviewCount&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;orgReviewCount&quot;
-          },
-          &quot;phones&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;phones&quot;
-          },
-          &quot;phonesFormatted&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;phonesFormatted&quot;
-          },
-          &quot;photoCount&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;photoCount&quot;
-          },
-          &quot;photos&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;photos&quot;
-          },
-          &quot;postcode&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;postcode&quot;
-          },
-          &quot;primaryCategory&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;primaryCategory&quot;
-          },
-          &quot;rating&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;rating&quot;
-          },
-          &quot;ratingCategory&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;ratingCategory&quot;
-          },
-          &quot;ratingCount&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;ratingCount&quot;
-          },
-          &quot;recordType&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;recordType&quot;
-          },
-          &quot;region&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;region&quot;
-          },
-          &quot;reviewCount&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;reviewCount&quot;
-          },
-          &quot;reviews&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;reviews&quot;
-          },
-          &quot;scheduleText&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;scheduleText&quot;
-          },
-          &quot;scrapedAt&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;scrapedAt&quot;
-          },
-          &quot;searchCity&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;searchCity&quot;
-          },
-          &quot;searchQuery&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;searchQuery&quot;
-          },
-          &quot;shortName&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;shortName&quot;
-          },
-          &quot;socialLinks&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;socialLinks&quot;
-          },
-          &quot;street&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;street&quot;
-          },
-          &quot;timezoneOffset&quot;: {
-            &quot;format&quot;: &quot;number&quot;,
-            &quot;label&quot;: &quot;timezoneOffset&quot;
-          },
-          &quot;type&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;type&quot;
-          },
-          &quot;updatedAt&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;updatedAt&quot;
-          },
-          &quot;url&quot;: {
-            &quot;format&quot;: &quot;link&quot;,
-            &quot;label&quot;: &quot;url&quot;
-          },
-          &quot;website&quot;: {
-            &quot;format&quot;: &quot;link&quot;,
-            &quot;label&quot;: &quot;website&quot;
-          },
-          &quot;websites&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;websites&quot;
-          },
-          &quot;workingHours&quot;: {
-            &quot;format&quot;: &quot;text&quot;,
-            &quot;label&quot;: &quot;workingHours&quot;
-          }
-        }
-      },
-      &quot;title&quot;: &quot;Places Overview&quot;,
-      &quot;transformation&quot;: {
-        &quot;fields&quot;: [
-          &quot;id&quot;,
-          &quot;name&quot;,
-          &quot;fullName&quot;,
-          &quot;shortName&quot;,
-          &quot;extension&quot;,
-          &quot;type&quot;,
-          &quot;recordType&quot;,
-          &quot;url&quot;,
-          &quot;categories&quot;,
-          &quot;categoryIds&quot;,
-          &quot;primaryCategory&quot;,
-          &quot;address&quot;,
-          &quot;addressComment&quot;,
-          &quot;postcode&quot;,
-          &quot;street&quot;,
-          &quot;houseNumber&quot;,
-          &quot;landmark&quot;,
-          &quot;country&quot;,
-          &quot;region&quot;,
-          &quot;city&quot;,
-          &quot;addressCity&quot;,
-          &quot;district&quot;,
-          &quot;districtArea&quot;,
-          &quot;latitude&quot;,
-          &quot;longitude&quot;,
-          &quot;timezoneOffset&quot;,
-          &quot;phones&quot;,
-          &quot;phonesFormatted&quot;,
-          &quot;website&quot;,
-          &quot;websites&quot;,
-          &quot;emails&quot;,
-          &quot;socialLinks&quot;,
-          &quot;messengers&quot;,
-          &quot;rating&quot;,
-          &quot;reviewCount&quot;,
-          &quot;ratingCount&quot;,
-          &quot;orgRating&quot;,
-          &quot;orgReviewCount&quot;,
-          &quot;ratingCategory&quot;,
-          &quot;workingHours&quot;,
-          &quot;scheduleText&quot;,
-          &quot;is24x7&quot;,
-          &quot;isClosed&quot;,
-          &quot;orgId&quot;,
-          &quot;orgName&quot;,
-          &quot;orgBranchCount&quot;,
-          &quot;brand&quot;,
-          &quot;attributes&quot;,
-          &quot;attributeGroups&quot;,
-          &quot;attributesByTag&quot;,
-          &quot;photoCount&quot;,
-          &quot;mainPhotoUrl&quot;,
-          &quot;photos&quot;,
-          &quot;reviews&quot;,
-          &quot;isPromoted&quot;,
-          &quot;hasGoods&quot;,
-          &quot;hasDiscount&quot;,
-          &quot;delivery&quot;,
-          &quot;nearestStations&quot;,
-          &quot;nearestMetro&quot;,
-          &quot;searchQuery&quot;,
-          &quot;searchCity&quot;,
-          &quot;scrapedAt&quot;,
-          &quot;updatedAt&quot;,
-          &quot;createdAt&quot;,
-          &quot;description&quot;
-        ]
-      }
-    }
-  }
-}
-</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-2gis-business-directory-extractor-for-cis-middle-east">2GIS Business Directory Extractor for CIS &amp; Middle East</h2>
-<p>Scrape <strong>2GIS</strong> business listings across 14 country sites — Russia, Kazakhstan, the UAE, Kyrgyzstan, Uzbekistan, Belarus, Azerbaijan, Armenia, Georgia, Tajikistan, Cyprus, Czechia, Italy and Chile. Search by keyword and city or map area, or paste search, place, organization and building links. Records include the address and coordinates, categories, rating and review counts when published, opening hours, contacts, social links and published attributes, plus a main photo when 2GIS exposes one. No account, API key or proxy is needed.</p>
-<h2 id="readme-what-this-actor-does">What this actor does</h2>
-<ul>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-xav3tNf2fTJajTNO5KGLilJ1AIBbJQ7uJdlLJsUaxKc=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; connect-src &#x27;self&#x27;; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>2GIS Business Directory Extractor for CIS &amp; Middle East docs | Vexaloom Labs</title><meta name="description" content="Search 2GIS for businesses by category and city across Russia, the UAE, Kazakhstan and the wider CIS, and get name, address, rating, hours, contacts and social links for each place."><meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/"><meta property="og:title" content="2GIS Business Directory Extractor for CIS &amp; Middle East docs | Vexaloom Labs"><meta property="og:description" content="Search 2GIS for businesses by category and city across Russia, the UAE, Kazakhstan and the wider CIS, and get name, address, rating, hours, contacts and social links for each place."><meta property="og:type" content="article"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/"><meta property="og:site_name" content="Vexaloom Labs"><meta property="og:image" content="https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-egAceUslWJ9ezEaPL-Wv7WKpDQpD-logo.png"><meta name="twitter:card" content="summary"><meta name="theme-color" content="#7c3aed"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e299c13a23d7"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=1bc613038b6a"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs","https://github.com/asimkhaniqbal/apify-actor-examples"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs Actor documentation","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/#webpage","name":"2GIS Business Directory Extractor for CIS & Middle East docs","description":"Search 2GIS for businesses by category and city across Russia, the UAE, Kazakhstan and the wider CIS, and get name, address, rating, hours, contacts and social links for each place.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/#article"},"dateModified":"2026-10-27T06:49:21.961Z","breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/#article","headline":"2GIS Business Directory Extractor for CIS & Middle East docs","name":"2GIS Business Directory Extractor for CIS & Middle East docs","description":"Search 2GIS for businesses by category and city across Russia, the UAE, Kazakhstan and the wider CIS, and get name, address, rating, hours, contacts and social links for each place.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/#webpage"},"inLanguage":"en","dateModified":"2026-10-27T06:49:21.961Z","image":"https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-egAceUslWJ9ezEaPL-Wv7WKpDQpD-logo.png"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Topics","item":"https://asimkhaniqbal.github.io/apify-actor-examples/topics/"},{"@type":"ListItem","position":3,"name":"Lead Generation","item":"https://asimkhaniqbal.github.io/apify-actor-examples/topics/lead-generation/"},{"@type":"ListItem","position":4,"name":"2GIS Business Directory Extractor for CIS & Middle East","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/"}]},{"@type":"SoftwareApplication","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/#software","name":"2GIS Business Directory Extractor for CIS & Middle East","description":"Search 2GIS for businesses by category and city across Russia, the UAE, Kazakhstan and the wider CIS, and get name, address, rating, hours, contacts and social links for each place.","url":"https://apify.com/vexaloom-labs/2gis-business-directory-extractor-for-cis","applicationCategory":"DeveloperApplication","operatingSystem":"Apify platform (web)","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"image":"https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-egAceUslWJ9ezEaPL-Wv7WKpDQpD-logo.png","offers":{"@type":"Offer","url":"https://apify.com/vexaloom-labs/2gis-business-directory-extractor-for-cis","priceCurrency":"USD","price":"0","priceSpecification":{"@type":"UnitPriceSpecification","price":0.00099,"priceCurrency":"USD","unitText":"result","referenceQuantity":{"@type":"QuantitativeValue","value":1,"unitText":"result"}},"description":"Pay per event: the price per result on Apify's Free plan; a start fee and platform usage are billed separately."}},{"@type":"FAQPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/#faq","mainEntity":[{"@type":"Question","name":"Do I need a 2GIS account or API key?","acceptedAnswer":{"@type":"Answer","text":"No. The actor reads 2GIS's public directory data and needs no account, API key, cookie or proxy. Just choose a search term and a city."}},{"@type":"Question","name":"Which countries are supported?","acceptedAnswer":{"@type":"Answer","text":"Russia, Kazakhstan, the UAE, Kyrgyzstan, Uzbekistan, Belarus, Azerbaijan, Armenia, Georgia, Tajikistan, Cyprus, Czechia, Italy and Chile. The country site is detected automatically from a link or resolved from the city."}},{"@type":"Question","name":"Why are some fields missing from a place?","acceptedAnswer":{"@type":"Answer","text":"2GIS listings vary. A website, email, social link, photo or review is only included when the business has published it. Empty fields are omitted rather than filled with null or placeholder values."}},{"@type":"Question","name":"What is the difference between rating and orgRating?","acceptedAnswer":{"@type":"Answer","text":"rating belongs to the individual branch. orgRating and orgReviewCount aggregate the whole organization. ratingCount counts star votes, while reviewCount counts written reviews."}},{"@type":"Question","name":"Do reviews and photos work for every place?","acceptedAnswer":{"@type":"Answer","text":"Rating and review counts are included whenever 2GIS publishes them. Review texts and photo URLs are optional and depend on what 2GIS exposes for that place. A main photo URL and an exact photo count are included when 2GIS returns them; places with no reviews or photos simply omit those fields."}},{"@type":"Question","name":"How do I get more than the default number of places?","acceptedAnswer":{"@type":"Answer","text":"Raise maxItems. For very large categories, split the search by district, category (rubricIds) or several narrower search terms. The run status message tells you if more places were available than were requested."}},{"@type":"Question","name":"How do I search in Russian, Kazakh or Arabic?","acceptedAnswer":{"@type":"Answer","text":"Use the local spelling in searchQueries and locationQuery (for example кофейня and Москва), or set language to the content language you want."}},{"@type":"Question","name":"Is this affiliated with 2GIS?","acceptedAnswer":{"@type":"Answer","text":"No. This is a third-party actor that reads the public 2GIS directory. It is not affiliated with, endorsed by, or sponsored by 2GIS."}}],"isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/#webpage"}}]}</script><script src="/apify-actor-examples/assets/site.js?v=7b7086957d37" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header class="masthead"><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="32" height="32"><span>Vexaloom Labs</span></a><form class="site-search" action="/apify-actor-examples/actors/" role="search" data-search-index="/apify-actor-examples/search.json"><label class="sr-only" for="site-search">Search this site</label><input type="search" role="combobox" id="site-search" name="q" placeholder="Search by site or data" autocomplete="off" aria-autocomplete="list" aria-controls="site-search-results" aria-expanded="false"><ul id="site-search-results" class="search-results" role="listbox" hidden></ul></form><nav class="primary" aria-label="Main"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/sites/">Sites</a><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/guides/">Guides</a></nav></div></header><main id="main"><nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="/apify-actor-examples/">Home</a></li><li><a href="/apify-actor-examples/topics/">Topics</a></li><li><a href="/apify-actor-examples/topics/lead-generation/">Lead Generation</a></li><li aria-current="page">2GIS Business Directory Extractor for CIS &amp; Middle East</li></ol></nav><div class="doc"><div class="doc-head"><h1>2GIS Business Directory Extractor for CIS &amp; Middle East</h1><p class="lead">Search 2GIS for businesses by category and city across Russia, the UAE, Kazakhstan and the wider CIS, and get name, address, rating, hours, contacts and social links for each place.</p><dl class="facts"><div><dt>Updated</dt><dd><time datetime="2026-10-27">27 October 2026</time></dd></div><div><dt>Free plan</dt><dd>$0.99 per 1,000 results</dd></div><div><dt>Business plan</dt><dd>$0.49 per 1,000 results</dd></div><div><dt>Input</dt><dd>44 fields, 1 required</dd></div><div><dt>Output</dt><dd>66 declared fields</dd></div><div><dt>Site</dt><dd><a href="/apify-actor-examples/actors/2gis-business-directory-extractor-for-cis/">2GIS</a></dd></div></dl><div class="cta"><a class="button" href="https://apify.com/vexaloom-labs/2gis-business-directory-extractor-for-cis">Open in Apify Store</a><a class="button secondary" href="#run">Copy the API call</a></div></div><div class="doc-body"><nav class="toc" aria-label="On this page"><h2 class="toc-title">On this page</h2><ol><li><a href="#summary">In short</a></li><li><a href="#about">What it does</a></li><li><a href="#output">What you get</a></li><li><a href="#run">Run it</a></li><li><a href="#cost">What it costs</a></li><li><a href="#input">Input reference</a></li><li><a href="#faq">Questions</a></li><li><a href="#related">Related Actors</a></li></ol></nav><article class="prose"><p class="summary" id="summary">2GIS Business Directory Extractor for CIS &amp; Middle East is an Apify Actor published by Vexaloom Labs. It accepts 44 input fields, and <code>mode</code> is required. Each result can carry up to 66 declared fields, including <code>id</code>, <code>name</code>, <code>fullName</code>, <code>shortName</code>, <code>extension</code> and <code>type</code>. It costs $0.99 per 1,000 results on Apify's Free plan and $0.49 on the Business plan.</p><section id="about"><h2>What it does</h2><!--readme--><p>Scrape <strong>2GIS</strong> business listings across 14 country sites — Russia, Kazakhstan, the UAE, Kyrgyzstan, Uzbekistan, Belarus, Azerbaijan, Armenia, Georgia, Tajikistan, Cyprus, Czechia, Italy and Chile. Search by keyword and city or map area, or paste search, place, organization and building links. Records include the address and coordinates, categories, rating and review counts when published, opening hours, contacts, social links and published attributes, plus a main photo when 2GIS exposes one. No account, API key or proxy is needed.</p>
+<!--/readme--><h3 id="readme-what-this-actor-does">What this actor does</h3><!--readme--><ul>
 <li><strong>Three modes:</strong> search by keyword + city/area, read 2GIS links, or look up place IDs.</li>
 <li><strong>Rich place data:</strong> phones, websites, emails, social links, messengers, hours, rating, review counts, attributes, nearest transit and a main photo.</li>
 <li><strong>Organization and branch discovery:</strong> expand an organization to its branches, or read every business inside a building.</li>
@@ -796,8 +7,15 @@
 <li><strong>Optional enrichment:</strong> review texts with rating, author, date and business replies; photo URLs.</li>
 <li><strong>Clean output:</strong> every empty field is omitted, so records contain no nulls or placeholder values.</li>
 </ul>
-<h2 id="readme-output-per-place">Output per place</h2>
-<ul>
+<!--/readme--><h3 id="readme-use-cases">Use cases</h3><!--readme--><ul>
+<li><strong>Local lead generation</strong> — collect businesses by city and category with phone, website and email contacts.</li>
+<li><strong>Market research</strong> — compare category coverage, ratings and review volumes across cities and countries.</li>
+<li><strong>Competitor tracking</strong> — follow a chain's branches, addresses, hours and rating changes.</li>
+<li><strong>Reputation monitoring</strong> — export ratings, review counts and optional review texts with business replies.</li>
+<li><strong>Directory enrichment</strong> — fill missing contacts, coordinates and opening hours in your own listings.</li>
+<li><strong>Coverage checks</strong> — find businesses without a website, without photos or without reviews.</li>
+</ul>
+<!--/readme--></section><section id="output"><h2>What you get</h2><p>The Actor saves one record per result to an Apify dataset. Its build declares 66 fields in 1 dataset view. Fields without a value can be left out of a record.</p><div class="table-wrap"><table class="output-table stack"><caption>Output fields</caption><thead><tr><th scope="col">Field</th><th scope="col">Label</th><th scope="col">What it holds</th></tr></thead><tbody><tr><th scope="row"><code>id</code></th><td data-label="Label">id</td><td data-label="What it holds"><!--readme-->2GIS branch ID<!--/readme--></td></tr><tr><th scope="row"><code>name</code></th><td data-label="Label">name</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>fullName</code></th><td data-label="Label">fullName</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>shortName</code></th><td data-label="Label">shortName</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>extension</code></th><td data-label="Label">extension</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>type</code></th><td data-label="Label">type</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>recordType</code></th><td data-label="Label">recordType</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>url</code></th><td data-label="Label">url</td><td data-label="What it holds"><!--readme-->the place page on the correct 2GIS country site<!--/readme--></td></tr><tr><th scope="row"><code>categories</code></th><td data-label="Label">categories</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>categoryIds</code></th><td data-label="Label">categoryIds</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>primaryCategory</code></th><td data-label="Label">primaryCategory</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>address</code></th><td data-label="Label">address</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>addressComment</code></th><td data-label="Label">addressComment</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>postcode</code></th><td data-label="Label">postcode</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>street</code></th><td data-label="Label">street</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>houseNumber</code></th><td data-label="Label">houseNumber</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>landmark</code></th><td data-label="Label">landmark</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>country</code></th><td data-label="Label">country</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>region</code></th><td data-label="Label">region</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>city</code></th><td data-label="Label">city</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>addressCity</code></th><td data-label="Label">addressCity</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>district</code></th><td data-label="Label">district</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>districtArea</code></th><td data-label="Label">districtArea</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>latitude</code></th><td data-label="Label">latitude</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>longitude</code></th><td data-label="Label">longitude</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>timezoneOffset</code></th><td data-label="Label">timezoneOffset</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>phones</code></th><td data-label="Label">phones</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>phonesFormatted</code></th><td data-label="Label">phonesFormatted</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>website</code></th><td data-label="Label">website</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>websites</code></th><td data-label="Label">websites</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>emails</code></th><td data-label="Label">emails</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>socialLinks</code></th><td data-label="Label">socialLinks</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>messengers</code></th><td data-label="Label">messengers</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>rating</code></th><td data-label="Label">rating</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>reviewCount</code></th><td data-label="Label">reviewCount</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>ratingCount</code></th><td data-label="Label">ratingCount</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>orgRating</code></th><td data-label="Label">orgRating</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>orgReviewCount</code></th><td data-label="Label">orgReviewCount</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>ratingCategory</code></th><td data-label="Label">ratingCategory</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>workingHours</code></th><td data-label="Label">workingHours</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>scheduleText</code></th><td data-label="Label">scheduleText</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>is24x7</code></th><td data-label="Label">is24x7</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>isClosed</code></th><td data-label="Label">isClosed</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>orgId</code></th><td data-label="Label">orgId</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>orgName</code></th><td data-label="Label">orgName</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>orgBranchCount</code></th><td data-label="Label">orgBranchCount</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>brand</code></th><td data-label="Label">brand</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>attributes</code></th><td data-label="Label">attributes</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>attributeGroups</code></th><td data-label="Label">attributeGroups</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>attributesByTag</code></th><td data-label="Label">attributesByTag</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>photoCount</code></th><td data-label="Label">photoCount</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>mainPhotoUrl</code></th><td data-label="Label">mainPhotoUrl</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>photos</code></th><td data-label="Label">photos</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>reviews</code></th><td data-label="Label">reviews</td><td data-label="What it holds"><!--readme-->review text, rating, author, date, photos and business reply (when enabled)<!--/readme--></td></tr><tr><th scope="row"><code>isPromoted</code></th><td data-label="Label">isPromoted</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>hasGoods</code></th><td data-label="Label">hasGoods</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>hasDiscount</code></th><td data-label="Label">hasDiscount</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>delivery</code></th><td data-label="Label">delivery</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>nearestStations</code></th><td data-label="Label">nearestStations</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>nearestMetro</code></th><td data-label="Label">nearestMetro</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>searchQuery</code></th><td data-label="Label">searchQuery</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>searchCity</code></th><td data-label="Label">searchCity</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>scrapedAt</code></th><td data-label="Label">scrapedAt</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>updatedAt</code></th><td data-label="Label">updatedAt</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>createdAt</code></th><td data-label="Label">createdAt</td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>description</code></th><td data-label="Label">description</td><td data-label="What it holds"></td></tr></tbody></table></div><details class="publisher-notes"><summary>The publisher's output notes</summary><h3 id="readme-output-per-place">Output per place</h3><!--readme--><ul>
 <li><code>id</code> — 2GIS branch ID</li>
 <li><code>name</code>, <code>fullName</code>, <code>shortName</code>, <code>extension</code>, <code>type</code>, <code>recordType</code></li>
 <li><code>url</code> — the place page on the correct 2GIS country site</li>
@@ -816,8 +34,54 @@
 <li><code>nearestStations[]</code>, <code>nearestMetro[]</code></li>
 <li><code>searchQuery</code>, <code>searchCity</code>, <code>scrapedAt</code>, <code>updatedAt</code>, <code>createdAt</code>, <code>description</code></li>
 </ul>
-<h2 id="readme-input">Input</h2>
-<div class="table-wrap"><table>
+<!--/readme--></details></section><section id="run"><h2>Run it</h2><p>Set <code>APIFY_TOKEN</code> to your <a href="https://console.apify.com/settings/integrations">Apify API token</a>, then run the Actor with the input below (coffee shops in moscow). Each run is billed to your Apify account. The <a href="/apify-actor-examples/guides/2gis-business-directory-extractor-for-cis/">export tutorial</a> turns the results into a CSV file or an Excel workbook.</p><div class="tabs" data-tabs><div class="tab-list" role="tablist" aria-label="Language"><button type="button" role="tab" id="run-tab-python" aria-controls="run-panel-python" aria-selected="true">Python</button><button type="button" role="tab" id="run-tab-javascript" aria-controls="run-panel-javascript" aria-selected="false" tabindex="-1">JavaScript</button><button type="button" role="tab" id="run-tab-curl" aria-controls="run-panel-curl" aria-selected="false" tabindex="-1">cURL</button><button type="button" role="tab" id="run-tab-mcp" aria-controls="run-panel-mcp" aria-selected="false" tabindex="-1">MCP</button></div><div role="tabpanel" id="run-panel-python" aria-labelledby="run-tab-python" class="tab-panel"><h3 class="tab-title">Python</h3><figure class="code"><pre><code id="run-python" class="language-python"># pip install apify-client
+import os
+from apify_client import ApifyClient
+
+ACTOR = &quot;vexaloom-labs/2gis-business-directory-extractor-for-cis&quot;
+client = ApifyClient(os.environ[&quot;APIFY_TOKEN&quot;])
+run_input = {
+    &quot;mode&quot;: &quot;search&quot;,
+    &quot;searchQueries&quot;: [&quot;coffee&quot;],
+    &quot;locationQuery&quot;: &quot;Moscow&quot;,
+    &quot;maxItems&quot;: 25,
+    &quot;websiteFilter&quot;: &quot;with&quot;,
+    &quot;sortBy&quot;: &quot;rating&quot;,
+}
+
+run = client.actor(ACTOR).call(run_input=run_input)
+for item in client.dataset(run[&quot;defaultDatasetId&quot;]).iterate_items():
+    print(item)
+</code></pre><button type="button" class="copy" data-copy="run-python">Copy</button></figure></div><div role="tabpanel" id="run-panel-javascript" aria-labelledby="run-tab-javascript" class="tab-panel"><h3 class="tab-title">JavaScript</h3><figure class="code"><pre><code id="run-javascript" class="language-javascript">// npm install apify-client
+import { ApifyClient } from &#x27;apify-client&#x27;;
+
+const ACTOR = &#x27;vexaloom-labs/2gis-business-directory-extractor-for-cis&#x27;;
+const client = new ApifyClient({ token: process.env.APIFY_TOKEN });
+const input = {
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;searchQueries&quot;: [
+    &quot;coffee&quot;
+  ],
+  &quot;locationQuery&quot;: &quot;Moscow&quot;,
+  &quot;maxItems&quot;: 25,
+  &quot;websiteFilter&quot;: &quot;with&quot;,
+  &quot;sortBy&quot;: &quot;rating&quot;
+};
+
+const run = await client.actor(ACTOR).call(input);
+const { items } = await client.dataset(run.defaultDatasetId).listItems();
+console.log(items);
+</code></pre><button type="button" class="copy" data-copy="run-javascript">Copy</button></figure></div><div role="tabpanel" id="run-panel-curl" aria-labelledby="run-tab-curl" class="tab-panel"><h3 class="tab-title">cURL</h3><figure class="code"><pre><code id="run-curl" class="language-bash">curl -X POST &quot;https://api.apify.com/v2/acts/vexaloom-labs~2gis-business-directory-extractor-for-cis/run-sync-get-dataset-items?format=json&quot; \
+  -H &quot;Authorization: Bearer $APIFY_TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;mode&quot;: &quot;search&quot;, &quot;searchQueries&quot;: [&quot;coffee&quot;], &quot;locationQuery&quot;: &quot;Moscow&quot;, &quot;maxItems&quot;: 25, &quot;websiteFilter&quot;: &quot;with&quot;, &quot;sortBy&quot;: &quot;rating&quot;}&#x27;
+</code></pre><button type="button" class="copy" data-copy="run-curl">Copy</button></figure></div><div role="tabpanel" id="run-panel-mcp" aria-labelledby="run-tab-mcp" class="tab-panel"><h3 class="tab-title">MCP</h3><figure class="code"><pre><code id="run-mcp" class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;apify&quot;: {
+      &quot;url&quot;: &quot;https://mcp.apify.com?tools=vexaloom-labs/2gis-business-directory-extractor-for-cis&quot;
+    }
+  }
+}</code></pre><button type="button" class="copy" data-copy="run-mcp">Copy</button></figure></div></div></section><section id="cost"><h2>What it costs</h2><p>2GIS Business Directory Extractor for CIS &amp; Middle East uses pay-per-event pricing: a fee for each result saved to the dataset, plus a start fee per run. Paid Apify plans pay less per result. The start fee is charged once per GB of run memory (at least once); the default run uses 4 GB, so a run starts with 4 start events, as the run totals include. You also pay Apify platform usage (compute and proxy) for the run, which these totals do not include.</p><div class="table-wrap"><table class="price-table stack"><caption>Published prices and run totals by Apify plan</caption><thead><tr><th scope="col">Plan</th><th scope="col">Per result</th><th scope="col">Per 1,000</th><th scope="col">Start fee</th><th scope="col">100 results</th><th scope="col">1,000 results</th><th scope="col">10,000 results</th></tr></thead><tbody><tr><th scope="row">Free plan</th><td data-label="Per result">$0.00099</td><td data-label="Per 1,000">$0.99</td><td data-label="Start fee">$0.10</td><td data-label="100 results">$0.50</td><td data-label="1,000 results">$1.39</td><td data-label="10,000 results">$10.30</td></tr><tr><th scope="row">Starter plan</th><td data-label="Per result">$0.00082</td><td data-label="Per 1,000">$0.82</td><td data-label="Start fee">$0.077</td><td data-label="100 results">$0.39</td><td data-label="1,000 results">$1.13</td><td data-label="10,000 results">$8.51</td></tr><tr><th scope="row">Scale plan</th><td data-label="Per result">$0.00066</td><td data-label="Per 1,000">$0.66</td><td data-label="Start fee">$0.053</td><td data-label="100 results">$0.28</td><td data-label="1,000 results">$0.87</td><td data-label="10,000 results">$6.81</td></tr><tr><th scope="row">Business plan</th><td data-label="Per result">$0.00049</td><td data-label="Per 1,000">$0.49</td><td data-label="Start fee">$0.03</td><td data-label="100 results">$0.17</td><td data-label="1,000 results">$0.61</td><td data-label="10,000 results">$5.02</td></tr></tbody></table></div><p class="fine">Run totals are the Actor's charges at the default memory: start fees plus the per-result price. Check the <a href="https://apify.com/vexaloom-labs/2gis-business-directory-extractor-for-cis">Store page</a> before a large run; prices can change with notice.</p></section><section id="input"><h2>Input reference</h2><p>All 44 fields of the published input schema, in the publisher's order. Required fields are marked. Download the <a href="input-schema.json">input schema</a> as JSON.</p><div class="table-wrap"><table class="input-table stack"><caption>Input fields in the published schema</caption><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead><tbody><tr><th scope="row"><code>mode</code><span class="field-title">Mode</span></th><td data-label="Type">string <span class="req">required</span></td><td data-label="Description"><!--readme-->What to read: search the directory, expand 2GIS links, or look up place IDs.<!--/readme--><span class="field-meta">Default <code>&quot;search&quot;</code>; Allowed search, urls, ids</span></td></tr><tr><th scope="row"><code>searchQueries</code><span class="field-title">Search terms</span></th><td data-label="Type">array</td><td data-label="Description"><!--readme-->What to look for, one term per line (mode=search). Example: coffee, restaurant, стоматология. Use the local language for better coverage.<!--/readme--><span class="field-meta">Example <code>[&quot;coffee&quot;]</code></span></td></tr><tr><th scope="row"><code>locationQuery</code><span class="field-title">City</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->City or area to search in (mode=search), for example Moscow, Алматы or Dubai. Can be a local or English name.<!--/readme--><span class="field-meta">Example <code>&quot;Moscow&quot;</code></span></td></tr><tr><th scope="row"><code>cities</code><span class="field-title">More cities</span></th><td data-label="Type">array</td><td data-label="Description"><!--readme-->Optional additional cities. Every search term runs in every city (mode=search).<!--/readme--></td></tr><tr><th scope="row"><code>cityIds</code><span class="field-title">City IDs</span></th><td data-label="Type">array</td><td data-label="Description"><!--readme-->Optional exact 2GIS city IDs. Use instead of city names when you already know the ID.<!--/readme--></td></tr><tr><th scope="row"><code>startUrls</code><span class="field-title">2GIS links</span></th><td data-label="Type">array</td><td data-label="Description"><!--readme-->Search, place (/firm/), organization (/branches/) or building (/inside/) links, go.2gis.com short links, or bare place IDs (mode=urls).<!--/readme--></td></tr><tr><th scope="row"><code>placeIds</code><span class="field-title">Place IDs</span></th><td data-label="Type">array</td><td data-label="Description"><!--readme-->2GIS branch IDs to read directly (mode=ids).<!--/readme--></td></tr><tr><th scope="row"><code>latitude</code><span class="field-title">Latitude</span></th><td data-label="Type">number</td><td data-label="Description"><!--readme-->Center latitude for an area search (mode=search). Set together with longitude; overrides the city center.<!--/readme--><span class="field-meta">Allowed -90 to 90</span></td></tr><tr><th scope="row"><code>longitude</code><span class="field-title">Longitude</span></th><td data-label="Type">number</td><td data-label="Description"><!--readme-->Center longitude for an area search (mode=search). Set together with latitude.<!--/readme--><span class="field-meta">Allowed -180 to 180</span></td></tr><tr><th scope="row"><code>radiusMeters</code><span class="field-title">Radius (meters)</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Search radius around latitude/longitude, in meters (1–50000).<!--/readme--><span class="field-meta">Default <code>20000</code>; Allowed 1 to 50000</span></td></tr><tr><th scope="row"><code>bbox</code><span class="field-title">Map area</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Optional rectangle as lon1,lat1,lon2,lat2. Overrides city and point search.<!--/readme--></td></tr><tr><th scope="row"><code>country</code><span class="field-title">Country site</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->2GIS country site. Leave on Auto-detect to derive it from the city or link.<!--/readme--><span class="field-meta">Default <code>&quot;auto&quot;</code>; Allowed auto, ru, kz, ae, kg, uz, by, az and 7 more</span></td></tr><tr><th scope="row"><code>language</code><span class="field-title">Language</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Language of names and content returned by 2GIS. Auto uses the country site's default.<!--/readme--><span class="field-meta">Default <code>&quot;auto&quot;</code>; Allowed auto, ru_RU, ru_KZ, en_RU, en_AE, ar_AE, kk_KZ, ky_KG and 9 more</span></td></tr><tr><th scope="row"><code>maxItems</code><span class="field-title">Max places</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Maximum number of places per search term + city/area combination.<!--/readme--><span class="field-meta">Default <code>50</code>; Example <code>3</code>; Allowed 1 to 10000</span></td></tr><tr><th scope="row"><code>sortBy</code><span class="field-title">Sort by</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Order of search results. Distance needs a latitude/longitude or map area.<!--/readme--><span class="field-meta">Default <code>&quot;relevance&quot;</code>; Allowed relevance, rating, distance, flamp_rating, creation_time, opened_time, name</span></td></tr><tr><th scope="row"><code>rubricIds</code><span class="field-title">Category IDs</span></th><td data-label="Type">array</td><td data-label="Description"><!--readme-->Only places in these 2GIS categories (rubric IDs), for example 162 for coffee shops.<!--/readme--></td></tr><tr><th scope="row"><code>districtIds</code><span class="field-title">District IDs</span></th><td data-label="Type">array</td><td data-label="Description"><!--readme-->Optional district IDs. Useful for splitting a large city into smaller searches.<!--/readme--></td></tr><tr><th scope="row"><code>minRating</code><span class="field-title">Minimum rating</span></th><td data-label="Type">number</td><td data-label="Description"><!--readme-->Keep only places rated at least this value (0–5).<!--/readme--><span class="field-meta">Allowed 0 to 5</span></td></tr><tr><th scope="row"><code>minReviews</code><span class="field-title">Minimum reviews</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Keep only places with at least this many reviews.<!--/readme--><span class="field-meta">Allowed at least 0</span></td></tr><tr><th scope="row"><code>websiteFilter</code><span class="field-title">Website</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Return all places, only places with a website, or only places without one.<!--/readme--><span class="field-meta">Default <code>&quot;all&quot;</code>; Allowed all, with, without</span></td></tr><tr><th scope="row"><code>filterHasPhotos</code><span class="field-title">Has photos only</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Only return places that have photos on 2GIS.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr><tr><th scope="row"><code>filterOpenNow</code><span class="field-title">Open now only</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Only return places open at the time of the run.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr><tr><th scope="row"><code>filter24x7</code><span class="field-title">Open 24/7 only</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Only return places open around the clock.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr><tr><th scope="row"><code>filterHasGoods</code><span class="field-title">Has goods/menu only</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Only return places that published goods or a menu.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr><tr><th scope="row"><code>filterHasRating</code><span class="field-title">Has rating only</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Only return places with a rating.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr><tr><th scope="row"><code>filterHasReviews</code><span class="field-title">Has reviews only</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Only return places with reviews.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr><tr><th scope="row"><code>filterDelivery</code><span class="field-title">Delivery only</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Only return places whose published attributes mention delivery.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr><tr><th scope="row"><code>filterTakeaway</code><span class="field-title">Takeaway only</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Only return places whose attributes mention takeaway or pickup.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr><tr><th scope="row"><code>filterCardPayment</code><span class="field-title">Card payment only</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Only return places whose attributes mention card payment.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr><tr><th scope="row"><code>filterWifi</code><span class="field-title">Wi-Fi only</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Only return places whose attributes mention Wi-Fi.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr><tr><th scope="row"><code>minAverageCheck</code><span class="field-title">Minimum average check</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Keep only places whose published average check is at least this value, in local currency.<!--/readme--><span class="field-meta">Allowed at least 0</span></td></tr><tr><th scope="row"><code>maxAverageCheck</code><span class="field-title">Maximum average check</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Keep only places whose published average check is at most this value, in local currency.<!--/readme--><span class="field-meta">Allowed at least 0</span></td></tr><tr><th scope="row"><code>skipAds</code><span class="field-title">Skip promoted places</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Drop paid/promoted search results.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr><tr><th scope="row"><code>includeContacts</code><span class="field-title">Include contacts</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Add phones, websites, emails, social links and messengers.<!--/readme--><span class="field-meta">Default <code>true</code></span></td></tr><tr><th scope="row"><code>includeReviews</code><span class="field-title">Include reviews</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Add review texts to each place when 2GIS exposes them. Rating and review counts are always included.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr><tr><th scope="row"><code>maxReviewsPerPlace</code><span class="field-title">Max reviews per place</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Maximum review texts per place when reviews are enabled (1–1000).<!--/readme--><span class="field-meta">Default <code>10</code>; Allowed 1 to 1000</span></td></tr><tr><th scope="row"><code>reviewsSort</code><span class="field-title">Review order</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Order of review texts.<!--/readme--><span class="field-meta">Default <code>&quot;date_created&quot;</code>; Allowed date_created, date_edited, rating</span></td></tr><tr><th scope="row"><code>reviewsMinRating</code><span class="field-title">Minimum review rating</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Keep only reviews with at least this star rating (1–5).<!--/readme--><span class="field-meta">Allowed 1 to 5</span></td></tr><tr><th scope="row"><code>reviewsWithAnswer</code><span class="field-title">Reviews with a business reply</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Keep only reviews that have an official business reply.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr><tr><th scope="row"><code>reviewsSince</code><span class="field-title">Reviews since</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Keep only reviews created on or after this date (YYYY-MM-DD).<!--/readme--></td></tr><tr><th scope="row"><code>reviewsKeyword</code><span class="field-title">Review keyword</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Keep only reviews whose text contains this word or phrase.<!--/readme--></td></tr><tr><th scope="row"><code>includePhotos</code><span class="field-title">Include photo URLs</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Add photo URLs when 2GIS exposes them. A main photo URL and photo count are included whenever available.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr><tr><th scope="row"><code>maxPhotosPerPlace</code><span class="field-title">Max photos per place</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Maximum photo URLs per place when photos are enabled (1–100).<!--/readme--><span class="field-meta">Default <code>5</code>; Allowed 1 to 100</span></td></tr><tr><th scope="row"><code>scrapeOrgBranches</code><span class="field-title">Expand organization branches</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->When a place link is given, also return the other branches of the same organization.<!--/readme--><span class="field-meta">Default <code>false</code></span></td></tr></tbody></table></div><details class="publisher-notes"><summary>The publisher's input notes</summary><h3 id="readme-input">Input</h3><!--readme--><div class="table-wrap"><table>
 <thead>
 <tr>
 <th>Field</th>
@@ -1081,7 +345,7 @@
 </tr>
 </tbody>
 </table></div>
-<h3 id="readme-example-coffee-shops-in-moscow">Example: coffee shops in Moscow</h3>
+<h4 id="readme-example-coffee-shops-in-moscow">Example: coffee shops in Moscow</h4>
 <pre><code class="language-json">{
   &quot;mode&quot;: &quot;search&quot;,
   &quot;searchQueries&quot;: [&quot;coffee&quot;],
@@ -1091,7 +355,7 @@
   &quot;sortBy&quot;: &quot;rating&quot;
 }
 </code></pre>
-<h3 id="readme-example-dubai-restaurants-that-are-open-now">Example: Dubai restaurants that are open now</h3>
+<h4 id="readme-example-dubai-restaurants-that-are-open-now">Example: Dubai restaurants that are open now</h4>
 <pre><code class="language-json">{
   &quot;mode&quot;: &quot;search&quot;,
   &quot;searchQueries&quot;: [&quot;restaurant&quot;],
@@ -1101,7 +365,7 @@
   &quot;maxItems&quot;: 50
 }
 </code></pre>
-<h3 id="readme-example-read-a-place-and-its-organization-s-branches">Example: read a place and its organization's branches</h3>
+<h4 id="readme-example-read-a-place-and-its-organization-s-branches">Example: read a place and its organization's branches</h4>
 <pre><code class="language-json">{
   &quot;mode&quot;: &quot;urls&quot;,
   &quot;startUrls&quot;: [&quot;https://2gis.ru/moscow/firm/70000001044357973&quot;],
@@ -1110,37 +374,19 @@
   &quot;maxReviewsPerPlace&quot;: 5
 }
 </code></pre>
-<h3 id="readme-example-every-business-inside-a-building">Example: every business inside a building</h3>
+<h4 id="readme-example-every-business-inside-a-building">Example: every business inside a building</h4>
 <pre><code class="language-json">{
   &quot;mode&quot;: &quot;urls&quot;,
   &quot;startUrls&quot;: [&quot;https://2gis.ru/moscow/inside/4504235290707169&quot;],
   &quot;maxItems&quot;: 100
 }
 </code></pre>
-<h2 id="readme-use-cases">Use cases</h2>
-<ul>
-<li><strong>Local lead generation</strong> — collect businesses by city and category with phone, website and email contacts.</li>
-<li><strong>Market research</strong> — compare category coverage, ratings and review volumes across cities and countries.</li>
-<li><strong>Competitor tracking</strong> — follow a chain's branches, addresses, hours and rating changes.</li>
-<li><strong>Reputation monitoring</strong> — export ratings, review counts and optional review texts with business replies.</li>
-<li><strong>Directory enrichment</strong> — fill missing contacts, coordinates and opening hours in your own listings.</li>
-<li><strong>Coverage checks</strong> — find businesses without a website, without photos or without reviews.</li>
-</ul>
-<h2 id="readme-faq">FAQ</h2>
-<h3 id="readme-do-i-need-a-2gis-account-or-api-key">Do I need a 2GIS account or API key?</h3>
-<p>No. The actor reads 2GIS's public directory data and needs no account, API key, cookie or proxy. Just choose a search term and a city.</p>
-<h3 id="readme-which-countries-are-supported">Which countries are supported?</h3>
-<p>Russia, Kazakhstan, the UAE, Kyrgyzstan, Uzbekistan, Belarus, Azerbaijan, Armenia, Georgia, Tajikistan, Cyprus, Czechia, Italy and Chile. The country site is detected automatically from a link or resolved from the city.</p>
-<h3 id="readme-why-are-some-fields-missing-from-a-place">Why are some fields missing from a place?</h3>
-<p>2GIS listings vary. A website, email, social link, photo or review is only included when the business has published it. Empty fields are omitted rather than filled with null or placeholder values.</p>
-<h3 id="readme-what-is-the-difference-between-rating-and-orgrating">What is the difference between <code>rating</code> and <code>orgRating</code>?</h3>
-<p><code>rating</code> belongs to the individual branch. <code>orgRating</code> and <code>orgReviewCount</code> aggregate the whole organization. <code>ratingCount</code> counts star votes, while <code>reviewCount</code> counts written reviews.</p>
-<h3 id="readme-do-reviews-and-photos-work-for-every-place">Do reviews and photos work for every place?</h3>
-<p>Rating and review counts are included whenever 2GIS publishes them. Review texts and photo URLs are optional and depend on what 2GIS exposes for that place. A main photo URL and an exact photo count are included when 2GIS returns them; places with no reviews or photos simply omit those fields.</p>
-<h3 id="readme-how-do-i-get-more-than-the-default-number-of-places">How do I get more than the default number of places?</h3>
-<p>Raise <code>maxItems</code>. For very large categories, split the search by district, category (<code>rubricIds</code>) or several narrower search terms. The run status message tells you if more places were available than were requested.</p>
-<h3 id="readme-how-do-i-search-in-russian-kazakh-or-arabic">How do I search in Russian, Kazakh or Arabic?</h3>
-<p>Use the local spelling in <code>searchQueries</code> and <code>locationQuery</code> (for example <code>кофейня</code> and <code>Москва</code>), or set <code>language</code> to the content language you want.</p>
-<h3 id="readme-is-this-affiliated-with-2gis">Is this affiliated with 2GIS?</h3>
-<p>No. This is a third-party actor that reads the public 2GIS directory. It is not affiliated with, endorsed by, or sponsored by 2GIS.</p>
-</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/2gis-business-directory-extractor-for-cis/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>VmwSyA6i1GQqfVvgJ</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
+<!--/readme--></details></section><section id="faq"><h2>Questions</h2><div class="qa"><h3 id="faq-do-i-need-a-2gis-account-or-api-key"><!--readme-->Do I need a 2GIS account or API key?<!--/readme--></h3><!--readme--><p>No. The actor reads 2GIS's public directory data and needs no account, API key, cookie or proxy. Just choose a search term and a city.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-which-countries-are-supported"><!--readme-->Which countries are supported?<!--/readme--></h3><!--readme--><p>Russia, Kazakhstan, the UAE, Kyrgyzstan, Uzbekistan, Belarus, Azerbaijan, Armenia, Georgia, Tajikistan, Cyprus, Czechia, Italy and Chile. The country site is detected automatically from a link or resolved from the city.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-why-are-some-fields-missing-from-a-place"><!--readme-->Why are some fields missing from a place?<!--/readme--></h3><!--readme--><p>2GIS listings vary. A website, email, social link, photo or review is only included when the business has published it. Empty fields are omitted rather than filled with null or placeholder values.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-what-is-the-difference-between-rating-and-orgrating"><!--readme-->What is the difference between rating and orgRating?<!--/readme--></h3><!--readme--><p><code>rating</code> belongs to the individual branch. <code>orgRating</code> and <code>orgReviewCount</code> aggregate the whole organization. <code>ratingCount</code> counts star votes, while <code>reviewCount</code> counts written reviews.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-do-reviews-and-photos-work-for-every-place"><!--readme-->Do reviews and photos work for every place?<!--/readme--></h3><!--readme--><p>Rating and review counts are included whenever 2GIS publishes them. Review texts and photo URLs are optional and depend on what 2GIS exposes for that place. A main photo URL and an exact photo count are included when 2GIS returns them; places with no reviews or photos simply omit those fields.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-how-do-i-get-more-than-the-default-number-of-places"><!--readme-->How do I get more than the default number of places?<!--/readme--></h3><!--readme--><p>Raise <code>maxItems</code>. For very large categories, split the search by district, category (<code>rubricIds</code>) or several narrower search terms. The run status message tells you if more places were available than were requested.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-how-do-i-search-in-russian-kazakh-or-arabic"><!--readme-->How do I search in Russian, Kazakh or Arabic?<!--/readme--></h3><!--readme--><p>Use the local spelling in <code>searchQueries</code> and <code>locationQuery</code> (for example <code>кофейня</code> and <code>Москва</code>), or set <code>language</code> to the content language you want.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-is-this-affiliated-with-2gis"><!--readme-->Is this affiliated with 2GIS?<!--/readme--></h3><!--readme--><p>No. This is a third-party actor that reads the public 2GIS directory. It is not affiliated with, endorsed by, or sponsored by 2GIS.</p>
+<!--/readme--></div></section><section id="related"><h2>Related Actors</h2><ul class="related" role="list"><li><a href="/apify-actor-examples/actors/alibaba-com-wholesale-sourcing-and-supplier/">Alibaba.com Wholesale Sourcing &amp; Supplier Vetting Finder</a><p>Search Alibaba.com&#x27;s B2B marketplace (not AliExpress) for products or suppliers. Get price, MOQ, Trade Assurance status, supplier verification, years on platform, and response time for each listing.</p></li><li><a href="/apify-actor-examples/actors/allegro-pl-listings-by-search-category-or-url/">Allegro.pl Listings by Search, Category or URL</a><p>Find Allegro.pl products by keyword search, category page, or direct offer URL, with price, seller rating, condition, shipping, and rating details, filterable by price range and free shipping.</p></li><li><a href="/apify-actor-examples/actors/amazon-customer-review-and-rating-summary-scraper/">Amazon Customer Review &amp; Rating Summary Scraper</a><p>Get Amazon customer reviews and a product-level rating summary by product URL, keyword, or category, with star-rating and sort filters, across 23 Amazon domains.</p></li><li><a href="/apify-actor-examples/actors/autoscout24-vehicle-listings-with-dealer-contact/">AutoScout24 Vehicle Listings with Dealer Contact Details</a><p>Search AutoScout24 across eight European countries by make, price, mileage and location, and get full vehicle specs, equipment, photos and dealer contact details.</p></li><li><a href="/apify-actor-examples/actors/craigslist-classifieds-scraper-with-category/">Craigslist Classifieds Scraper with Category Attributes</a><p>Scrape Craigslist search results and individual posts across any city subdomain, with category-specific attributes for jobs, housing, autos, and for-sale posts. No login or proxy required.</p></li><li><a href="/apify-actor-examples/actors/ebay-item-store-and-store-category-detail/">eBay Item, Store &amp; Store Category Detail Extractor</a><p>Extract detailed product data from eBay individual item pages, seller store fronts, and store category pages, or search by keyword across 8 marketplaces, with item specifics, images, seller trust signals and shipping/return terms.</p></li></ul><p class="more"><a href="/apify-actor-examples/topics/lead-generation/">All lead generation Actors</a></p></section><section id="files"><h2>Source files</h2><p>This page is rebuilt from the default published build <code>VmwSyA6i1GQqfVvgJ</code>. Download what it was built from: <a href="README.md">README</a>, <a href="input-schema.json">input schema</a>, <a href="output-schema.json">output schema</a>, <a href="dataset-schema.json">dataset schema</a>, <a href="key-value-schema.json">key-value store schema</a>.</p></section></article></div></div></main><footer class="footer"><div class="inner"><p><strong>Vexaloom Labs</strong> builds and publishes these Actors on Apify. This site is generated from their published READMEs, schemas and prices.</p><nav aria-label="Footer"><a href="/apify-actor-examples/actors/">All Actors</a><a href="/apify-actor-examples/sites/">Sites</a><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/guides/">Guides</a><a href="/apify-actor-examples/sources/">How these pages are made</a><a href="https://apify.com/vexaloom-labs">Vexaloom Labs on Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></footer></body></html>

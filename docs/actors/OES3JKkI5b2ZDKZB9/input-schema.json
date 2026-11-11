@@ -1,65 +1,276 @@
 {
-  "description": "Scrape Steam store game data using the public Steam Store API.",
+  "description": "Collect Steam store game records from keyword search, storefront charts, App IDs, or store URLs.",
   "properties": {
-    "appId": {
-      "description": "Steam App ID for appDetail mode.",
-      "editor": "textfield",
-      "title": "App ID",
-      "type": "string"
+    "appIds": {
+      "description": "Numeric App IDs or store URLs, one per line. Used when mode is Look up App IDs.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "1245620"
+      ],
+      "title": "Steam App IDs",
+      "type": "array"
     },
-    "appType": {
-      "default": "",
-      "description": "Filter by app type.",
+    "appTypeFilter": {
+      "default": "all",
+      "description": "Keep only games, DLC, demos, or software. 'All' keeps every app type Steam returns.",
       "editor": "select",
       "enum": [
-        "",
+        "all",
         "game",
         "dlc",
+        "demo",
         "software"
       ],
       "enumTitles": [
-        "All",
-        "Game",
+        "All app types",
+        "Games",
         "DLC",
+        "Demos",
         "Software"
       ],
+      "prefill": "all",
+      "sectionCaption": "Filters",
       "title": "App type",
+      "type": "string"
+    },
+    "browseCategory": {
+      "default": "topSellers",
+      "description": "Which storefront chart to browse. Used when mode is Browse a Steam chart.",
+      "editor": "select",
+      "enum": [
+        "topSellers",
+        "newReleases",
+        "specials",
+        "comingSoon",
+        "weeklongDeals",
+        "popularNew",
+        "featuredMix"
+      ],
+      "enumTitles": [
+        "Top sellers",
+        "New releases",
+        "Current specials",
+        "Coming soon",
+        "Weeklong deals",
+        "Popular new releases",
+        "Featured mix (all four featured lists)"
+      ],
+      "prefill": "topSellers",
+      "title": "Steam chart",
+      "type": "string"
+    },
+    "country": {
+      "default": "us",
+      "description": "Two-letter Steam store country code, e.g. us, gb, de, ca. Controls currency and regional availability.",
+      "editor": "textfield",
+      "prefill": "us",
+      "sectionCaption": "Storefront and output",
+      "title": "Store country",
+      "type": "string"
+    },
+    "includeReviewSummary": {
+      "default": true,
+      "description": "Add Steam's positive/negative review totals and review label. Adds one request per record.",
+      "prefill": false,
+      "title": "Include review summary",
+      "type": "boolean"
+    },
+    "includeTags": {
+      "default": true,
+      "description": "Read the public store page for its community tags and DLC names. Adds one request per record.",
+      "prefill": false,
+      "title": "Include Steam tags",
+      "type": "boolean"
+    },
+    "language": {
+      "default": "english",
+      "description": "Language Steam uses for app names, descriptions, and store-page text.",
+      "editor": "select",
+      "enum": [
+        "english",
+        "german",
+        "french",
+        "spanish",
+        "italian",
+        "portuguese",
+        "brazilian",
+        "russian",
+        "japanese",
+        "korean",
+        "schinese",
+        "tchinese",
+        "polish",
+        "dutch",
+        "danish",
+        "finnish",
+        "norwegian",
+        "swedish",
+        "czech",
+        "hungarian",
+        "romanian",
+        "turkish",
+        "thai",
+        "vietnamese",
+        "ukrainian",
+        "bulgarian",
+        "greek",
+        "indonesian",
+        "latam"
+      ],
+      "enumTitles": [
+        "English",
+        "German",
+        "French",
+        "Spanish",
+        "Italian",
+        "Portuguese",
+        "Portuguese (Brazil)",
+        "Russian",
+        "Japanese",
+        "Korean",
+        "Simplified Chinese",
+        "Traditional Chinese",
+        "Polish",
+        "Dutch",
+        "Danish",
+        "Finnish",
+        "Norwegian",
+        "Swedish",
+        "Czech",
+        "Hungarian",
+        "Romanian",
+        "Turkish",
+        "Thai",
+        "Vietnamese",
+        "Ukrainian",
+        "Bulgarian",
+        "Greek",
+        "Indonesian",
+        "Spanish (Latin America)"
+      ],
+      "prefill": "english",
+      "title": "Store language",
       "type": "string"
     },
     "maxItems": {
       "default": 20,
-      "description": "Maximum records to return.",
-      "maximum": 200,
+      "description": "Stop after this many records have been saved.",
+      "maximum": 1000,
       "minimum": 1,
-      "prefill": 20,
-      "title": "Max items",
+      "prefill": 1,
+      "title": "Maximum records",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Keep records whose final price is at or below this amount in the storefront currency. Leave empty for no limit.",
+      "maximum": 10000,
+      "minimum": 0,
+      "title": "Maximum price",
+      "type": "number"
+    },
+    "minDiscount": {
+      "default": 0,
+      "description": "Keep records whose discount is at least this percentage. 0 disables the filter.",
+      "maximum": 100,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum discount (%)",
+      "type": "integer"
+    },
+    "minMetacritic": {
+      "default": 0,
+      "description": "Keep records with a Metacritic score at or above this value. 0 disables the filter.",
+      "maximum": 100,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum Metacritic score",
       "type": "integer"
     },
     "mode": {
-      "default": "featured",
-      "description": "Featured/top-seller games, keyword search, or app detail.",
+      "default": "search",
+      "description": "Choose how to find games: keyword search, a Steam chart, specific App IDs, or pasted store URLs.",
       "editor": "select",
       "enum": [
-        "featured",
         "search",
-        "appDetail"
+        "browse",
+        "appDetail",
+        "urls",
+        "featured"
       ],
       "enumTitles": [
-        "Featured/Top Sellers",
-        "Keyword Search",
-        "App Detail"
+        "Search by keyword",
+        "Browse a Steam chart",
+        "Look up App IDs",
+        "Paste store URLs",
+        "Featured mix (top sellers, new, specials, coming soon)"
       ],
-      "prefill": "featured",
+      "prefill": "search",
+      "sectionCaption": "What to scrape",
       "title": "Mode",
       "type": "string"
     },
-    "searchQuery": {
-      "default": "adventure",
-      "description": "Keywords to search.",
-      "editor": "textfield",
-      "prefill": "adventure",
-      "title": "Search query",
+    "onlyDiscounted": {
+      "default": false,
+      "description": "Drop records that are not currently on sale.",
+      "prefill": false,
+      "title": "Only discounted games",
+      "type": "boolean"
+    },
+    "searchQueries": {
+      "default": [
+        "adventure"
+      ],
+      "description": "One or more game names or keywords. Used when mode is Search by keyword.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "Hades"
+      ],
+      "title": "Search queries",
+      "type": "array"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "How Steam should order search and chart results before filtering.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "released",
+        "priceAsc",
+        "priceDesc",
+        "reviews",
+        "metacritic",
+        "nameAsc"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Release date (newest)",
+        "Price (low to high)",
+        "Price (high to low)",
+        "User reviews",
+        "Metacritic score",
+        "Name (A to Z)"
+      ],
+      "prefill": "relevance",
+      "title": "Sort order",
       "type": "string"
+    },
+    "storeUrls": {
+      "description": "Full store URLs, one per line. Used when mode is Paste store URLs.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "https://store.steampowered.com/app/570/"
+      ],
+      "title": "Steam store URLs",
+      "type": "array"
     }
   },
   "required": [
