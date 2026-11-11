@@ -1,0 +1,730 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-gZhB9huBcCPlG9cUAoxNuD0oxC4RDJ84UenNAbiZ1z8=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>X Keyword Search with Mention &amp; Reply Operators | Vexaloom Labs</title><meta name="description" content="Search X (Twitter) by keyword with filters for date, language, engagement, media, verification, mentioned handle, author, reply target, and conversation thread, plus Top/Latest sor"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/x-keyword-search-with-mention-and-reply-operators/"><meta property="og:title" content="X Keyword Search with Mention &amp; Reply Operators | Vexaloom Labs"><meta property="og:description" content="Search X (Twitter) by keyword with filters for date, language, engagement, media, verification, mentioned handle, author, reply target, and conversation thread, plus Top/Latest sor"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/x-keyword-search-with-mention-and-reply-operators/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/x-keyword-search-with-mention-and-reply-operators/#webpage","name":"X Keyword Search with Mention & Reply Operators","description":"Search X (Twitter) by keyword with filters for date, language, engagement, media, verification, mentioned handle, author, reply target, and conversation thread, plus Top/Latest sort.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/x-keyword-search-with-mention-and-reply-operators/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/x-keyword-search-with-mention-and-reply-operators/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/x-keyword-search-with-mention-and-reply-operators/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/x-keyword-search-with-mention-and-reply-operators/#article","headline":"X Keyword Search with Mention & Reply Operators","name":"X Keyword Search with Mention & Reply Operators","description":"Search X (Twitter) by keyword with filters for date, language, engagement, media, verification, mentioned handle, author, reply target, and conversation thread, plus Top/Latest sort.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/x-keyword-search-with-mention-and-reply-operators/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/x-keyword-search-with-mention-and-reply-operators/#webpage"},"inLanguage":"en","dateModified":"2026-11-05T04:09:23.739Z"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/x-keyword-search-with-mention-and-reply-operators/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"X Keyword Search with Mention & Reply Operators","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/x-keyword-search-with-mention-and-reply-operators/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>X Keyword Search with Mention &amp; Reply Operators</span></div><section id="overview"><h1 class="doc-title">X Keyword Search with Mention &amp; Reply Operators</h1><p class="lede">Search X (Twitter) by keyword with filters for date, language, engagement, media, verification, mentioned handle, author, reply target, and conversation thread, plus Top/Latest sort.</p><p class="summary">X Keyword Search with Mention &amp; Reply Operators is an Apify Actor published by Vexaloom Labs. It accepts 23 input fields, and <code>mode</code> is required. Its build declares a results dataset with 1 view. Runs happen on Apify, where the Store page lists the current price.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/x-keyword-search-with-mention-and-reply-operators">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/xgRc7Nc7IkbNcF3bC/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>Search by keyword, collect an author&#x27;s posts, fetch specific post URLs, or open a conversation thread.</td></tr><tr><td><code>keywords</code></td><td>array</td><td>optional</td><td>Words, phrases or hashtags to search for. Each keyword is collected separately and every row shows the keyword that found it (searchTerm).</td></tr><tr><td><code>authorHandles</code></td><td>array</td><td>optional</td><td>Used by the &#x27;Posts by author&#x27; mode. Accepts @handle, handle, or https://x.com/handle profile URLs.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>Search by keyword, collect an author&#x27;s posts, fetch specific post URLs, or open a conversation thread.</td></tr><tr><td><code>keywords</code></td><td>array</td><td>optional</td><td>Words, phrases or hashtags to search for. Each keyword is collected separately and every row shows the keyword that found it (searchTerm).</td></tr><tr><td><code>authorHandles</code></td><td>array</td><td>optional</td><td>Used by the &#x27;Posts by author&#x27; mode. Accepts @handle, handle, or https://x.com/handle profile URLs.</td></tr><tr><td><code>postUrls</code></td><td>array</td><td>optional</td><td>Used by the &#x27;Specific post URLs&#x27; mode. Accepts x.com or twitter.com post links and bare post IDs.</td></tr><tr><td><code>conversationId</code></td><td>string</td><td>optional</td><td>Used by the &#x27;Conversation thread&#x27; mode. Paste the root post ID or a post URL in that thread.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Stop after this many posts per keyword or author. The URL and conversation modes use it as a total cap.</td></tr><tr><td><code>sort</code></td><td>string</td><td>optional</td><td>Latest is newest first. Top is ordered by likes and reposts. Top + Latest returns the top half by engagement, then the newest remaining posts.</td></tr><tr><td><code>language</code></td><td>string</td><td>optional</td><td>Only keep posts in this language. The default searches every language.</td></tr><tr><td><code>dateFrom</code></td><td>string</td><td>optional</td><td>Only keep posts published on or after this date (UTC).</td></tr><tr><td><code>dateTo</code></td><td>string</td><td>optional</td><td>Only keep posts published on or before this date (UTC).</td></tr><tr><td><code>excludeRetweets</code></td><td>boolean</td><td>optional</td><td>Drop reposts and keep original posts only.</td></tr><tr><td><code>excludeReplies</code></td><td>boolean</td><td>optional</td><td>Drop replies and keep top-level posts only.</td></tr><tr><td><code>onlyVerifiedUsers</code></td><td>boolean</td><td>optional</td><td>Keep posts from verified or blue-check accounts only.</td></tr><tr><td><code>onlyImages</code></td><td>boolean</td><td>optional</td><td>Keep posts that contain at least one photo.</td></tr><tr><td><code>onlyVideos</code></td><td>boolean</td><td>optional</td><td>Keep posts that contain at least one video or GIF.</td></tr><tr><td><code>onlyQuotes</code></td><td>boolean</td><td>optional</td><td>Keep posts that quote another post.</td></tr><tr><td><code>minimumLikes</code></td><td>integer</td><td>optional</td><td>Drop posts below this like count. Posts whose count is unavailable are dropped and reported in the run summary.</td></tr><tr><td><code>minimumRetweets</code></td><td>integer</td><td>optional</td><td>Drop posts below this repost count. Counts are filled from the public fallback source when available.</td></tr><tr><td><code>minimumReplies</code></td><td>integer</td><td>optional</td><td>Drop posts below this reply count. Posts with no available reply count are dropped and reported.</td></tr><tr><td><code>mentioning</code></td><td>string</td><td>optional</td><td>Only keep posts that mention this handle (with or without @). Applied after collection.</td></tr><tr><td><code>author</code></td><td>string</td><td>optional</td><td>Only keep posts written by this handle (with or without @).</td></tr><tr><td><code>inReplyTo</code></td><td>string</td><td>optional</td><td>Only keep posts that are replies to this handle (with or without @).</td></tr><tr><td><code>proxyConfiguration</code></td><td>object</td><td>optional</td><td>Optional. No proxy is needed. If supplied, it is used for the best-effort guest search supplement as well as page requests.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;properties&quot;: {
+    &quot;author&quot;: {
+      &quot;description&quot;: &quot;Only keep posts written by this handle (with or without @).&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;nullable&quot;: true,
+      &quot;title&quot;: &quot;Posted by handle&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;authorHandles&quot;: {
+      &quot;description&quot;: &quot;Used by the &#x27;Posts by author&#x27; mode. Accepts @handle, handle, or https://x.com/handle profile URLs.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;example&quot;: [
+        &quot;@apify&quot;,
+        &quot;https://x.com/OpenAI&quot;
+      ],
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Author handles or profile URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;conversationId&quot;: {
+      &quot;description&quot;: &quot;Used by the &#x27;Conversation thread&#x27; mode. Paste the root post ID or a post URL in that thread.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;nullable&quot;: true,
+      &quot;title&quot;: &quot;Conversation ID or post URL&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;dateFrom&quot;: {
+      &quot;description&quot;: &quot;Only keep posts published on or after this date (UTC).&quot;,
+      &quot;editor&quot;: &quot;datepicker&quot;,
+      &quot;nullable&quot;: true,
+      &quot;title&quot;: &quot;Start date&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;dateTo&quot;: {
+      &quot;description&quot;: &quot;Only keep posts published on or before this date (UTC).&quot;,
+      &quot;editor&quot;: &quot;datepicker&quot;,
+      &quot;nullable&quot;: true,
+      &quot;title&quot;: &quot;End date&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;excludeReplies&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Drop replies and keep top-level posts only.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Exclude replies&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;excludeRetweets&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Drop reposts and keep original posts only.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Exclude reposts&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;inReplyTo&quot;: {
+      &quot;description&quot;: &quot;Only keep posts that are replies to this handle (with or without @).&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;nullable&quot;: true,
+      &quot;title&quot;: &quot;Replying to handle&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;keywords&quot;: {
+      &quot;description&quot;: &quot;Words, phrases or hashtags to search for. Each keyword is collected separately and every row shows the keyword that found it (searchTerm).&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;example&quot;: [
+        &quot;web scraping&quot;,
+        &quot;#AI&quot;,
+        &quot;OpenAI&quot;
+      ],
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [
+        &quot;apify&quot;
+      ],
+      &quot;title&quot;: &quot;Keywords or phrases&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;language&quot;: {
+      &quot;default&quot;: &quot;Any language&quot;,
+      &quot;description&quot;: &quot;Only keep posts in this language. The default searches every language.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;Any language&quot;,
+        &quot;en&quot;,
+        &quot;es&quot;,
+        &quot;zh&quot;,
+        &quot;hi&quot;,
+        &quot;ar&quot;,
+        &quot;bn&quot;,
+        &quot;pt&quot;,
+        &quot;ru&quot;,
+        &quot;ja&quot;,
+        &quot;de&quot;,
+        &quot;fr&quot;,
+        &quot;ko&quot;,
+        &quot;tr&quot;,
+        &quot;vi&quot;,
+        &quot;te&quot;,
+        &quot;mr&quot;,
+        &quot;ta&quot;,
+        &quot;ur&quot;,
+        &quot;it&quot;,
+        &quot;th&quot;,
+        &quot;gu&quot;,
+        &quot;fa&quot;,
+        &quot;pl&quot;,
+        &quot;uk&quot;,
+        &quot;ml&quot;,
+        &quot;kn&quot;,
+        &quot;id&quot;,
+        &quot;ms&quot;,
+        &quot;sw&quot;,
+        &quot;ha&quot;,
+        &quot;am&quot;,
+        &quot;my&quot;,
+        &quot;pa&quot;,
+        &quot;nl&quot;,
+        &quot;ro&quot;,
+        &quot;el&quot;,
+        &quot;he&quot;,
+        &quot;sv&quot;,
+        &quot;hu&quot;,
+        &quot;cs&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any language&quot;,
+        &quot;English&quot;,
+        &quot;Spanish&quot;,
+        &quot;Chinese&quot;,
+        &quot;Hindi&quot;,
+        &quot;Arabic&quot;,
+        &quot;Bengali&quot;,
+        &quot;Portuguese&quot;,
+        &quot;Russian&quot;,
+        &quot;Japanese&quot;,
+        &quot;German&quot;,
+        &quot;French&quot;,
+        &quot;Korean&quot;,
+        &quot;Turkish&quot;,
+        &quot;Vietnamese&quot;,
+        &quot;Telugu&quot;,
+        &quot;Marathi&quot;,
+        &quot;Tamil&quot;,
+        &quot;Urdu&quot;,
+        &quot;Italian&quot;,
+        &quot;Thai&quot;,
+        &quot;Gujarati&quot;,
+        &quot;Persian&quot;,
+        &quot;Polish&quot;,
+        &quot;Ukrainian&quot;,
+        &quot;Malayalam&quot;,
+        &quot;Kannada&quot;,
+        &quot;Indonesian&quot;,
+        &quot;Malay&quot;,
+        &quot;Swahili&quot;,
+        &quot;Hausa&quot;,
+        &quot;Amharic&quot;,
+        &quot;Burmese&quot;,
+        &quot;Punjabi&quot;,
+        &quot;Dutch&quot;,
+        &quot;Romanian&quot;,
+        &quot;Greek&quot;,
+        &quot;Hebrew&quot;,
+        &quot;Swedish&quot;,
+        &quot;Hungarian&quot;,
+        &quot;Czech&quot;
+      ],
+      &quot;prefill&quot;: &quot;Any language&quot;,
+      &quot;title&quot;: &quot;Language&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 20,
+      &quot;description&quot;: &quot;Stop after this many posts per keyword or author. The URL and conversation modes use it as a total cap.&quot;,
+      &quot;maximum&quot;: 1000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 3,
+      &quot;sectionCaption&quot;: &quot;Collection&quot;,
+      &quot;sectionDescription&quot;: &quot;Coverage and result limits.&quot;,
+      &quot;title&quot;: &quot;Maximum posts&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mentioning&quot;: {
+      &quot;description&quot;: &quot;Only keep posts that mention this handle (with or without @). Applied after collection.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;nullable&quot;: true,
+      &quot;sectionCaption&quot;: &quot;Post filters&quot;,
+      &quot;sectionDescription&quot;: &quot;These are applied to collected posts, never sent as opaque search operators.&quot;,
+      &quot;title&quot;: &quot;Mentioning handle&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;minimumLikes&quot;: {
+      &quot;description&quot;: &quot;Drop posts below this like count. Posts whose count is unavailable are dropped and reported in the run summary.&quot;,
+      &quot;maximum&quot;: 100000000,
+      &quot;minimum&quot;: 0,
+      &quot;nullable&quot;: true,
+      &quot;title&quot;: &quot;Minimum likes&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;minimumReplies&quot;: {
+      &quot;description&quot;: &quot;Drop posts below this reply count. Posts with no available reply count are dropped and reported.&quot;,
+      &quot;maximum&quot;: 100000000,
+      &quot;minimum&quot;: 0,
+      &quot;nullable&quot;: true,
+      &quot;title&quot;: &quot;Minimum replies&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;minimumRetweets&quot;: {
+      &quot;description&quot;: &quot;Drop posts below this repost count. Counts are filled from the public fallback source when available.&quot;,
+      &quot;maximum&quot;: 100000000,
+      &quot;minimum&quot;: 0,
+      &quot;nullable&quot;: true,
+      &quot;title&quot;: &quot;Minimum reposts&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;search&quot;,
+      &quot;description&quot;: &quot;Search by keyword, collect an author&#x27;s posts, fetch specific post URLs, or open a conversation thread.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;search&quot;,
+        &quot;byAuthor&quot;,
+        &quot;byUrls&quot;,
+        &quot;conversation&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Search by keyword&quot;,
+        &quot;Posts by author&quot;,
+        &quot;Specific post URLs&quot;,
+        &quot;Conversation thread&quot;
+      ],
+      &quot;prefill&quot;: &quot;search&quot;,
+      &quot;sectionCaption&quot;: &quot;Mode and targets&quot;,
+      &quot;sectionDescription&quot;: &quot;Choose one mode, then fill the target field that belongs to it.&quot;,
+      &quot;title&quot;: &quot;What do you want to collect?&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;onlyImages&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Keep posts that contain at least one photo.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Posts with images only&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;onlyQuotes&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Keep posts that quote another post.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Quote posts only&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;onlyVerifiedUsers&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Keep posts from verified or blue-check accounts only.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Verified accounts only&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;onlyVideos&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Keep posts that contain at least one video or GIF.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Posts with videos only&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;postUrls&quot;: {
+      &quot;description&quot;: &quot;Used by the &#x27;Specific post URLs&#x27; mode. Accepts x.com or twitter.com post links and bare post IDs.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;example&quot;: [
+        &quot;https://x.com/apify/status/2118015298603274372&quot;
+      ],
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Post URLs or IDs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;proxyConfiguration&quot;: {
+      &quot;description&quot;: &quot;Optional. No proxy is needed. If supplied, it is used for the best-effort guest search supplement as well as page requests.&quot;,
+      &quot;editor&quot;: &quot;proxy&quot;,
+      &quot;nullable&quot;: true,
+      &quot;sectionCaption&quot;: &quot;Advanced&quot;,
+      &quot;sectionDescription&quot;: &quot;Optional settings for special network environments.&quot;,
+      &quot;title&quot;: &quot;Proxy configuration&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;sort&quot;: {
+      &quot;default&quot;: &quot;Top&quot;,
+      &quot;description&quot;: &quot;Latest is newest first. Top is ordered by likes and reposts. Top + Latest returns the top half by engagement, then the newest remaining posts.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;Top&quot;,
+        &quot;Latest&quot;,
+        &quot;Top + Latest&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Top - most engagement first&quot;,
+        &quot;Latest - newest first&quot;,
+        &quot;Top + Latest - both&quot;
+      ],
+      &quot;prefill&quot;: &quot;Latest&quot;,
+      &quot;title&quot;: &quot;Result order&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;mode&quot;
+  ],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;X Keyword Search with Mention &amp; Reply Operators&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>tweets</code></td><td>string</td><td>optional</td><td>Dataset containing one row per collected X post, deduplicated by post ID.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;X posts with full text, author profile, engagement counters, media, quoted post and reply context. Empty runs write a RUN_SUMMARY to the key-value store instead of a status row.&quot;,
+  &quot;properties&quot;: {
+    &quot;tweets&quot;: {
+      &quot;description&quot;: &quot;Dataset containing one row per collected X post, deduplicated by post ID.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Posts&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;X Keyword Search with Mention &amp; Reply Operators Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;views&quot;: {
+    &quot;tweets&quot;: {
+      &quot;display&quot;: {
+        &quot;columns&quot;: [
+          {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Type&quot;
+          },
+          {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Keyword&quot;
+          },
+          {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Post&quot;
+          },
+          {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Author&quot;
+          },
+          {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Date&quot;
+          },
+          {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Language&quot;
+          },
+          {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Replies&quot;
+          },
+          {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Reposts&quot;
+          },
+          {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Likes&quot;
+          },
+          {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Quotes&quot;
+          },
+          {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Bookmarks&quot;
+          },
+          {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Views&quot;
+          },
+          {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Engagement rate&quot;
+          },
+          {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Repost?&quot;
+          },
+          {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Quote?&quot;
+          },
+          {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Reply?&quot;
+          },
+          {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Reply to&quot;
+          },
+          {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Quoted post ID&quot;
+          },
+          {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;URL&quot;
+          },
+          {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Media&quot;
+          },
+          {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Data collected at&quot;
+          }
+        ],
+        &quot;component&quot;: &quot;table&quot;
+      },
+      &quot;title&quot;: &quot;Tweets&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;type&quot;,
+          &quot;searchTerm&quot;,
+          &quot;text&quot;,
+          &quot;author.username&quot;,
+          &quot;createdAt&quot;,
+          &quot;language&quot;,
+          &quot;replyCount&quot;,
+          &quot;retweetCount&quot;,
+          &quot;likeCount&quot;,
+          &quot;quoteCount&quot;,
+          &quot;bookmarkCount&quot;,
+          &quot;viewCount&quot;,
+          &quot;engagementRate&quot;,
+          &quot;isRetweet&quot;,
+          &quot;isQuote&quot;,
+          &quot;isReply&quot;,
+          &quot;inReplyToUsername&quot;,
+          &quot;quotedTweetId&quot;,
+          &quot;url&quot;,
+          &quot;media&quot;,
+          &quot;collectedAt&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-twitter-keywords-scraper-pro">Twitter Keywords Scraper Pro</h2>
+<p>Collect public X (Twitter) posts without logging in, without cookies and without an API key.
+Search by keyword, walk an author's recent timeline, fetch exact post URLs, or open a
+conversation thread — then export clean rows with the author, engagement counts, media,
+quoted post and reply context already filled in.</p>
+<blockquote>
+<p><strong>Coverage note:</strong> X puts its own full search behind a login. This actor uses the public
+Bing News x.com index plus public post pages, so it returns a real subset of public X
+posts, not X's complete search index. That hard limit is explained below.</p>
+</blockquote>
+<h2 id="readme-what-you-get">What you get</h2>
+<p>Every dataset row is one post (<code>type: &quot;post&quot;</code>) with:</p>
+<ul>
+<li><strong>Post</strong>: <code>id</code>, <code>url</code>, <code>text</code>, <code>createdAt</code>, <code>language</code>, <code>conversationId</code></li>
+<li><strong>Engagement</strong>: <code>likeCount</code>, <code>replyCount</code>, <code>retweetCount</code>, <code>quoteCount</code>, <code>bookmarkCount</code>,
+<code>viewCount</code>, <code>engagementRate</code></li>
+<li><strong>Flags</strong>: <code>isReply</code>, <code>isRetweet</code>, <code>isQuote</code>, <code>isNoteTweet</code>, <code>possiblySensitive</code></li>
+<li><strong>Reply context</strong>: <code>inReplyToTweetId</code>, <code>inReplyToUserId</code>, <code>inReplyToUsername</code>, <code>parentTweet</code></li>
+<li><strong>Quote context</strong>: <code>quotedTweetId</code>, nested <code>quotedTweet</code></li>
+<li><strong>Entities</strong>: <code>hashtags</code>, <code>mentions</code>, <code>urls</code>, <code>cashtags</code></li>
+<li><strong>Media</strong>: photo, video or GIF with <code>url</code>, <code>previewImageUrl</code>, <code>width</code>, <code>height</code>,
+<code>variants</code>, <code>durationSeconds</code>, <code>altText</code></li>
+<li><strong>Author</strong>: <code>id</code>, <code>username</code>, <code>name</code>, <code>bio</code>, <code>followers</code>, <code>following</code>, <code>location</code>,
+<code>website</code>, <code>profileImageUrl</code>, <code>bannerUrl</code>, <code>createdAt</code>, <code>postCount</code>, <code>mediaCount</code>,
+<code>verified</code>, <code>isBlueVerified</code></li>
+<li><strong>Attribution</strong>: <code>searchTerm</code> (keyword, handle, URL or conversation ID) and <code>collectedAt</code></li>
+</ul>
+<p>Empty values are omitted at every depth. Missing counters are omitted, never invented as
+zero. An empty run writes a <code>RUN_SUMMARY</code> to the key-value store and leaves the dataset
+empty — there are no status or sentinel rows.</p>
+<h2 id="readme-four-modes">Four modes</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Input</th>
+<th>What it collects</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>search</code></td>
+<td><code>keywords</code></td>
+<td>Public posts found for each keyword through the Bing News x.com index, optionally supplemented by X guest search when you supply a proxy.</td>
+</tr>
+<tr>
+<td><code>byAuthor</code></td>
+<td><code>authorHandles</code></td>
+<td>The profile page's metadata and recent posts, plus the public syndication timeline (up to ~21 posts per author).</td>
+</tr>
+<tr>
+<td><code>byUrls</code></td>
+<td><code>postUrls</code></td>
+<td>Exact posts from URLs or IDs, using the post page, syndication, FxTwitter and oEmbed fallbacks.</td>
+</tr>
+<tr>
+<td><code>conversation</code></td>
+<td><code>conversationId</code></td>
+<td>The focal post plus the reply previews X renders publicly, with the focal post kept first.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="readme-quick-start">Quick start</h2>
+<h3 id="readme-keyword-search">Keyword search</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;keywords&quot;: [&quot;apify&quot;, &quot;#AI&quot;, &quot;OpenAI&quot;],
+  &quot;maxItems&quot;: 50,
+  &quot;sort&quot;: &quot;Latest&quot;,
+  &quot;language&quot;: &quot;en&quot;
+}
+</code></pre>
+<h3 id="readme-posts-by-author">Posts by author</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;byAuthor&quot;,
+  &quot;authorHandles&quot;: [&quot;@apify&quot;, &quot;https://x.com/OpenAI&quot;],
+  &quot;maxItems&quot;: 20
+}
+</code></pre>
+<h3 id="readme-specific-post-urls">Specific post URLs</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;byUrls&quot;,
+  &quot;postUrls&quot;: [
+    &quot;https://x.com/apify/status/2118015298603274372&quot;,
+    &quot;2117931222320259247&quot;
+  ]
+}
+</code></pre>
+<h3 id="readme-conversation-thread">Conversation thread</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;conversation&quot;,
+  &quot;conversationId&quot;: &quot;https://x.com/apify/status/2118015298603274372&quot;,
+  &quot;maxItems&quot;: 20
+}
+</code></pre>
+<h2 id="readme-inputs">Inputs</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Type</th>
+<th>Default</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td>select</td>
+<td><code>search</code></td>
+<td><code>search</code>, <code>byAuthor</code>, <code>byUrls</code> or <code>conversation</code>. Required.</td>
+</tr>
+<tr>
+<td><code>keywords</code></td>
+<td>string list</td>
+<td>–</td>
+<td>Used by <code>search</code>. A single string is also accepted.</td>
+</tr>
+<tr>
+<td><code>authorHandles</code></td>
+<td>string list</td>
+<td>–</td>
+<td>Used by <code>byAuthor</code>. Accepts <code>@handle</code>, <code>handle</code> or a profile URL.</td>
+</tr>
+<tr>
+<td><code>postUrls</code></td>
+<td>string list</td>
+<td>–</td>
+<td>Used by <code>byUrls</code>. Accepts post URLs and bare IDs.</td>
+</tr>
+<tr>
+<td><code>conversationId</code></td>
+<td>text</td>
+<td>–</td>
+<td>Used by <code>conversation</code>. Accepts an ID or a post URL.</td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>integer 1–1000</td>
+<td><code>20</code></td>
+<td>Per keyword/author in search and author modes; total cap in URL and conversation modes.</td>
+</tr>
+<tr>
+<td><code>sort</code></td>
+<td>select</td>
+<td><code>Top</code></td>
+<td><code>Top</code> (engagement), <code>Latest</code> (newest), <code>Top + Latest</code> (top half by engagement, then the newest remaining posts).</td>
+</tr>
+<tr>
+<td><code>language</code></td>
+<td>select</td>
+<td><code>Any language</code></td>
+<td>Any language or an ISO-639-1 code. Applied after collection.</td>
+</tr>
+<tr>
+<td><code>dateFrom</code>, <code>dateTo</code></td>
+<td>date pickers</td>
+<td>–</td>
+<td>Inclusive UTC date bounds.</td>
+</tr>
+<tr>
+<td><code>excludeRetweets</code>, <code>excludeReplies</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Drop reposts or replies.</td>
+</tr>
+<tr>
+<td><code>onlyVerifiedUsers</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Keep verified or blue-check accounts.</td>
+</tr>
+<tr>
+<td><code>onlyImages</code>, <code>onlyVideos</code>, <code>onlyQuotes</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Keep photo posts, video/GIF posts, or quote posts.</td>
+</tr>
+<tr>
+<td><code>minimumLikes</code>, <code>minimumRetweets</code>, <code>minimumReplies</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Drop rows below the threshold; rows whose count is unavailable are dropped and reported.</td>
+</tr>
+<tr>
+<td><code>mentioning</code>, <code>author</code>, <code>inReplyTo</code></td>
+<td>text</td>
+<td>–</td>
+<td>Client-side operator filters: mention handle, author handle, reply target handle.</td>
+</tr>
+<tr>
+<td><code>proxyConfiguration</code></td>
+<td>proxy</td>
+<td>–</td>
+<td>Optional. Nothing needs a proxy; when supplied it is also used for the best-effort guest search supplement.</td>
+</tr>
+</tbody>
+</table></div>
+<p>No cookie, token, API key or proxy field is required. Legacy saved inputs that use
+<code>maxTweets</code>, <code>searchType</code>, <code>startDate</code>, <code>endDate</code> or <code>tweetLanguage</code> keep working: the actor
+maps those keys in code even though they no longer appear in the form.</p>
+<h2 id="readme-how-collection-works">How collection works</h2>
+<ol>
+<li><strong>Discovery (<code>search</code>)</strong> — queries Bing News RSS for <code>site:x.com &lt;keyword&gt;</code> with plain
+variants (the keyword, quoted phrase, <code>x.com</code>, <code>twitter</code>, <code>news</code>, <code>today</code>, <code>2026</code>,
+<code>update</code>, <code>announcement</code>) and collects unique post IDs. A small job stops after one
+request; large jobs page through <code>first=13,26,39,52</code> with a roughly 460-ID ceiling.</li>
+<li><strong>Hydration</strong> — fetches each ID from the public syndication CDN in parallel. Deleted,
+protected and tombstoned posts are skipped and counted in the summary. Local probes
+hydrated 197 of 202 IDs (97.5%) and 193 of 199 (97.0%).</li>
+<li><strong>Profile and post pages</strong> — <code>byAuthor</code> reads the logged-out <code>x.com/&lt;handle&gt;</code> page (exact
+profile metadata and recent posts) and falls back to the syndication profile timeline.
+<code>byUrls</code> and <code>conversation</code> read the logged-out post page, which embeds the focal post,
+quoted post and visible reply previews.</li>
+<li><strong>Fallback enrichment</strong> — FxTwitter fills missing view/bookmark/retweet/quote counters
+and author profile fields. oEmbed is the last resort for a known post ID. A mirror
+outage never fails a run; missing fields stay omitted.</li>
+<li><strong>Client-side filters</strong> — X-style operators (<code>mentioning</code>, <code>author</code>, <code>inReplyTo</code>) and
+every date/language/engagement/media/verification/flag filter are applied locally after
+hydration. The index never receives opaque operator text.</li>
+<li><strong>Deterministic output</strong> — dedupe by post ID, sort, cap, recompute <code>engagementRate</code> and
+emit omit-empty rows.</li>
+</ol>
+<h2 id="readme-coverage-and-honest-limits">Coverage and honest limits</h2>
+<ul>
+<li><strong>Full X search requires a login.</strong> X's search page redirects logged-out visitors to a
+login wall, and the guest SearchTimeline endpoint answers only a minority of requests
+and virtually never from datacenter IPs. This actor therefore uses the public index as
+its primary discovery path. Building full search coverage would require a logged-in
+account pool or a paid provider, which this actor deliberately does not use.</li>
+<li><strong>The index is smaller than X search.</strong> A keyword usually yields tens to a few hundred
+public posts, weighted toward newsworthy and recently linked posts. Broad one-word
+keywords can hit the roughly 460-candidate discovery ceiling; narrow keywords may yield only a
+handful.</li>
+<li><strong><code>Top</code> is an engagement sort.</strong> It orders by likes and reposts; it is not X's private
+ranking model. <code>Top + Latest</code> combines an engagement half with the newest remaining posts.</li>
+<li><strong>Conversation depth is a preview.</strong> Logged-out X renders the focal post plus a few
+visible replies, so a thread returns those posts, not every reply.</li>
+<li><strong>Not covered:</strong> geo/place filters, People/Lists tabs, follower/following lists,
+sentiment/AI scoring and full-text search beyond the index. These need endpoints that
+are not public without a login.</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Do I need cookies, a login or an API key?</strong>
+No. The actor is cookieless and keyless. A proxy is optional; the default run works without
+one and never creates a paid proxy group on its own.</p>
+<p><strong>Why do I get fewer posts than the X search box shows?</strong>
+X's full search is login-gated. The actor reads the public Bing News x.com index and public
+post pages, which cover a real but smaller subset of public posts. That is the documented
+hard limit, not a bug.</p>
+<p><strong>How many posts can one keyword return?</strong>
+The discovery buffer is capped at roughly 460 unique IDs, but the practical yield is usually tens
+to a few hundred per keyword, depending on how many public posts the index knows. <code>maxItems</code>
+still caps what is emitted.</p>
+<p><strong>How fresh are the results?</strong>
+Discovery favours recently indexed and newsworthy posts, and each post's exact timestamp
+comes from X's public payload. Use <code>dateFrom</code>/<code>dateTo</code> to keep only the window you need.</p>
+<p><strong>Does <code>Top</code> match X's Top tab?</strong>
+No. X does not expose its ranking model publicly, so <code>Top</code> sorts the collected posts by
+likes and reposts. <code>Latest</code> sorts by the real post timestamp.</p>
+<p><strong>Why did a run return nothing?</strong>
+The dataset stays empty and the key-value store <code>RUN_SUMMARY</code> says why: no indexed posts,
+all candidates deleted/tombstoned, every post removed by filters, or invalid input. The
+status message shows the same reason. There are no placeholder rows.</p>
+<p><strong>Why are view or bookmark counts missing on some rows?</strong>
+Syndication does not expose every counter. The actor asks FxTwitter to fill the gaps, but
+when the mirror also lacks a value the field is omitted rather than fabricated.</p>
+<p><strong>Can I get replies and quotes?</strong>
+Yes. Reply IDs/handles and the parent post are emitted when X exposes them, and quoted posts
+are nested under <code>quotedTweet</code> with <code>quotedTweetId</code>. <code>conversation</code> mode adds the visible
+reply previews of a thread.</p>
+<p><strong>Is the actor affiliated with X?</strong>
+No. It reads only public, logged-out pages and public mirrors. It does not bypass a login,
+sell account access, or require your credentials.</p>
+<h2 id="readme-output-summary">Output summary</h2>
+<p>The default dataset view is called <strong>Posts</strong>. For every run, the <code>RUN_SUMMARY</code> key in the
+default key-value store records <code>status</code> (<code>complete</code>, <code>partial</code> or <code>empty</code>), mode, candidate
+and hydrated counts, emitted rows, dropped-filter counts, index coverage and elapsed time.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/x-keyword-search-with-mention-and-reply-operators/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>I7cduHm9oKbw9FGRa</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

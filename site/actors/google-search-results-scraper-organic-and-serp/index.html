@@ -1,0 +1,814 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-zdkwH60+YJZ4WdMRjHu80OsPVCAsaGNyEO4N7jGPMbk=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Google Search Results Scraper: Organic &amp; SERP Boxes | Vexaloom Labs</title><meta name="description" content="Search Google and get organic results plus AI Overview, knowledge panel, People Also Ask, related searches, local pack, top stories and ads for each query, across 48 countries with"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-search-results-scraper-organic-and-serp/"><meta property="og:title" content="Google Search Results Scraper: Organic &amp; SERP Boxes | Vexaloom Labs"><meta property="og:description" content="Search Google and get organic results plus AI Overview, knowledge panel, People Also Ask, related searches, local pack, top stories and ads for each query, across 48 countries with"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-search-results-scraper-organic-and-serp/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-search-results-scraper-organic-and-serp/#webpage","name":"Google Search Results Scraper: Organic & SERP Boxes","description":"Search Google and get organic results plus AI Overview, knowledge panel, People Also Ask, related searches, local pack, top stories and ads for each query, across 48 countries with language and date filters.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-search-results-scraper-organic-and-serp/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-search-results-scraper-organic-and-serp/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-search-results-scraper-organic-and-serp/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-search-results-scraper-organic-and-serp/#article","headline":"Google Search Results Scraper: Organic & SERP Boxes","name":"Google Search Results Scraper: Organic & SERP Boxes","description":"Search Google and get organic results plus AI Overview, knowledge panel, People Also Ask, related searches, local pack, top stories and ads for each query, across 48 countries with language and date filters.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-search-results-scraper-organic-and-serp/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-search-results-scraper-organic-and-serp/#webpage"},"inLanguage":"en","dateModified":"2026-10-24T19:51:58.303Z"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-search-results-scraper-organic-and-serp/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Google Search Results Scraper: Organic & SERP Boxes","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-search-results-scraper-organic-and-serp/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Google Search Results Scraper: Organic &amp; SERP Boxes</span></div><section id="overview"><h1 class="doc-title">Google Search Results Scraper: Organic &amp; SERP Boxes</h1><p class="lede">Search Google and get organic results plus AI Overview, knowledge panel, People Also Ask, related searches, local pack, top stories and ads for each query, across 48 countries with language and date filters.</p><p class="summary">Google Search Results Scraper: Organic &amp; SERP Boxes is an Apify Actor published by Vexaloom Labs. It accepts 24 input fields, and <code>queries</code> is required. Its build declares a results dataset with 2 views. Runs happen on Apify, where the Store page lists the current price.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/google-search-results-scraper-organic-and-serp">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/PlIxbe9L7Qn7c76R7/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>queries</code></td><td>array</td><td>required</td><td>Google search queries. Each is searched separately; blank entries are dropped with a warning.</td></tr><tr><td><code>searchType</code></td><td>string</td><td>optional</td><td>Which Google surface to scrape: web organic results, news cards, images, or videos.</td></tr><tr><td><code>maxResults</code></td><td>integer</td><td>optional</td><td>Maximum items to return per query. Web results stop at Google&#x27;s own ceiling of roughly 70-100; images return 50-100 per query and news/videos paginate in pages of 10.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>queries</code></td><td>array</td><td>required</td><td>Google search queries. Each is searched separately; blank entries are dropped with a warning.</td></tr><tr><td><code>searchType</code></td><td>string</td><td>optional</td><td>Which Google surface to scrape: web organic results, news cards, images, or videos.</td></tr><tr><td><code>maxResults</code></td><td>integer</td><td>optional</td><td>Maximum items to return per query. Web results stop at Google&#x27;s own ceiling of roughly 70-100; images return 50-100 per query and news/videos paginate in pages of 10.</td></tr><tr><td><code>countryCode</code></td><td>string</td><td>optional</td><td>Country for the Google domain and searcher-location (gl) signal. Leave empty for US (google.com); if Precise Location is set and this is empty, the country is derived from it.</td></tr><tr><td><code>restrictResultsCountry</code></td><td>string</td><td>optional</td><td>Only return pages whose content originates from this country (Google&#x27;s cr parameter), independent of Country/gl. Leave empty for no restriction.</td></tr><tr><td><code>languageCode</code></td><td>string</td><td>optional</td><td>Language of Google&#x27;s own interface, e.g. en, de, fr, es. This does not restrict the language of the matched pages.</td></tr><tr><td><code>restrictResultsLanguage</code></td><td>string</td><td>optional</td><td>Only return pages written in this language, e.g. en or en,fr for either. Leave empty for no restriction.</td></tr><tr><td><code>maxPagesPerQuery</code></td><td>integer</td><td>optional</td><td>Result pages to crawl per query for web, news and videos. Images are a single page. Web results stop at Google&#x27;s own ceiling of roughly 7-10 pages.</td></tr><tr><td><code>timePeriod</code></td><td>string</td><td>optional</td><td>Filter results by relative time. Leave empty for any time.</td></tr><tr><td><code>safeSearch</code></td><td>string</td><td>optional</td><td>Filter explicit content (safe=). Leave empty for Google&#x27;s default.</td></tr><tr><td><code>includeAiOverview</code></td><td>boolean</td><td>optional</td><td>Opt-in browser-rendered AI Overview for web searches. Slower and not guaranteed: Google may not show one, and the text is best-effort. Only applies to web search.</td></tr><tr><td><code>includeDestinationUrl</code></td><td>boolean</td><td>optional</td><td>Add a destinationUrl field with the real destination behind Google&#x27;s redirect link. Adds one lookup per organic result. Only applies to web search.</td></tr><tr><td><code>csvFriendlyOutput</code></td><td>boolean</td><td>optional</td><td>For web search, output one organic/paid result per row instead of one SERP page per row. Other SERP features are not included in this layout.</td></tr><tr><td><code>includeExtraBoxes</code></td><td>boolean</td><td>optional</td><td>For web search, also extract weather, time zone, currency/unit converter, stock, jobs, videos, shopping and dictionary boxes when present.</td></tr><tr><td><code>uule</code></td><td>string</td><td>optional</td><td>Optional Google-encoded location for city-level targeting. Best-effort: country targeting is reliable, city precision is not guaranteed. Leave empty to use Country only.</td></tr><tr><td><code>dateFrom</code></td><td>string</td><td>optional</td><td>Only include results published on or after this date (YYYY-MM-DD). Must be used with Date to.</td></tr><tr><td><code>dateTo</code></td><td>string</td><td>optional</td><td>Only include results published on or before this date (YYYY-MM-DD). Must be used with Date from.</td></tr><tr><td><code>exactPhrase</code></td><td>boolean</td><td>optional</td><td>Wrap each query in quotes so Google matches it as an exact phrase.</td></tr><tr><td><code>site</code></td><td>string</td><td>optional</td><td>Restrict results to this domain, e.g. nike.com. Every organic result is checked against it; off-domain results Google slips in are dropped.</td></tr><tr><td><code>intitle</code></td><td>string</td><td>optional</td><td>Restrict results to pages containing this word in the title. Sent to Google as-is.</td></tr><tr><td><code>intext</code></td><td>string</td><td>optional</td><td>Restrict results to pages containing this word in the body text. Sent to Google as-is.</td></tr><tr><td><code>inurl</code></td><td>string</td><td>optional</td><td>Restrict results to pages containing this word in the URL. Sent to Google as-is.</td></tr><tr><td><code>fileType</code></td><td>string</td><td>optional</td><td>Restrict results to a file type, e.g. pdf, doc, xls. Sent to Google as-is.</td></tr><tr><td><code>excludeTerms</code></td><td>string</td><td>optional</td><td>Words to exclude, comma- or space-separated, e.g. jaguar, cats.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Scrape Google web, news, image and video results with country/language targeting, time filters, operators and optional AI Overview or real destination URLs.&quot;,
+  &quot;properties&quot;: {
+    &quot;countryCode&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Country for the Google domain and searcher-location (gl) signal. Leave empty for US (google.com); if Precise Location is set and this is empty, the country is derived from it.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;us&quot;,
+        &quot;uk&quot;,
+        &quot;ca&quot;,
+        &quot;au&quot;,
+        &quot;de&quot;,
+        &quot;fr&quot;,
+        &quot;es&quot;,
+        &quot;it&quot;,
+        &quot;br&quot;,
+        &quot;mx&quot;,
+        &quot;in&quot;,
+        &quot;jp&quot;,
+        &quot;kr&quot;,
+        &quot;nl&quot;,
+        &quot;be&quot;,
+        &quot;at&quot;,
+        &quot;ch&quot;,
+        &quot;se&quot;,
+        &quot;no&quot;,
+        &quot;dk&quot;,
+        &quot;fi&quot;,
+        &quot;pl&quot;,
+        &quot;cz&quot;,
+        &quot;pt&quot;,
+        &quot;ie&quot;,
+        &quot;nz&quot;,
+        &quot;za&quot;,
+        &quot;sg&quot;,
+        &quot;hk&quot;,
+        &quot;tw&quot;,
+        &quot;ph&quot;,
+        &quot;th&quot;,
+        &quot;id&quot;,
+        &quot;my&quot;,
+        &quot;vn&quot;,
+        &quot;ar&quot;,
+        &quot;cl&quot;,
+        &quot;co&quot;,
+        &quot;pe&quot;,
+        &quot;tr&quot;,
+        &quot;ru&quot;,
+        &quot;ua&quot;,
+        &quot;il&quot;,
+        &quot;ae&quot;,
+        &quot;sa&quot;,
+        &quot;eg&quot;,
+        &quot;ng&quot;,
+        &quot;ke&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;United States (default)&quot;,
+        &quot;United States&quot;,
+        &quot;United Kingdom&quot;,
+        &quot;Canada&quot;,
+        &quot;Australia&quot;,
+        &quot;Germany&quot;,
+        &quot;France&quot;,
+        &quot;Spain&quot;,
+        &quot;Italy&quot;,
+        &quot;Brazil&quot;,
+        &quot;Mexico&quot;,
+        &quot;India&quot;,
+        &quot;Japan&quot;,
+        &quot;South Korea&quot;,
+        &quot;Netherlands&quot;,
+        &quot;Belgium&quot;,
+        &quot;Austria&quot;,
+        &quot;Switzerland&quot;,
+        &quot;Sweden&quot;,
+        &quot;Norway&quot;,
+        &quot;Denmark&quot;,
+        &quot;Finland&quot;,
+        &quot;Poland&quot;,
+        &quot;Czech Republic&quot;,
+        &quot;Portugal&quot;,
+        &quot;Ireland&quot;,
+        &quot;New Zealand&quot;,
+        &quot;South Africa&quot;,
+        &quot;Singapore&quot;,
+        &quot;Hong Kong&quot;,
+        &quot;Taiwan&quot;,
+        &quot;Philippines&quot;,
+        &quot;Thailand&quot;,
+        &quot;Indonesia&quot;,
+        &quot;Malaysia&quot;,
+        &quot;Vietnam&quot;,
+        &quot;Argentina&quot;,
+        &quot;Chile&quot;,
+        &quot;Colombia&quot;,
+        &quot;Peru&quot;,
+        &quot;Turkey&quot;,
+        &quot;Russia&quot;,
+        &quot;Ukraine&quot;,
+        &quot;Israel&quot;,
+        &quot;UAE&quot;,
+        &quot;Saudi Arabia&quot;,
+        &quot;Egypt&quot;,
+        &quot;Nigeria&quot;,
+        &quot;Kenya&quot;
+      ],
+      &quot;prefill&quot;: &quot;us&quot;,
+      &quot;title&quot;: &quot;Country&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;csvFriendlyOutput&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;For web search, output one organic/paid result per row instead of one SERP page per row. Other SERP features are not included in this layout.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;CSV friendly output (one result per row)&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;dateFrom&quot;: {
+      &quot;description&quot;: &quot;Only include results published on or after this date (YYYY-MM-DD). Must be used with Date to.&quot;,
+      &quot;editor&quot;: &quot;datepicker&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Date from&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;dateTo&quot;: {
+      &quot;description&quot;: &quot;Only include results published on or before this date (YYYY-MM-DD). Must be used with Date from.&quot;,
+      &quot;editor&quot;: &quot;datepicker&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Date to&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;exactPhrase&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Wrap each query in quotes so Google matches it as an exact phrase.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Exact phrase match&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;excludeTerms&quot;: {
+      &quot;description&quot;: &quot;Words to exclude, comma- or space-separated, e.g. jaguar, cats.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Exclude terms (-word)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;fileType&quot;: {
+      &quot;description&quot;: &quot;Restrict results to a file type, e.g. pdf, doc, xls. Sent to Google as-is.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;File type (filetype:)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;includeAiOverview&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Opt-in browser-rendered AI Overview for web searches. Slower and not guaranteed: Google may not show one, and the text is best-effort. Only applies to web search.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include AI Overview (slower, best-effort)&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeDestinationUrl&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Add a destinationUrl field with the real destination behind Google&#x27;s redirect link. Adds one lookup per organic result. Only applies to web search.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Resolve real result URLs&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeExtraBoxes&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;For web search, also extract weather, time zone, currency/unit converter, stock, jobs, videos, shopping and dictionary boxes when present.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include extra info boxes&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;intext&quot;: {
+      &quot;description&quot;: &quot;Restrict results to pages containing this word in the body text. Sent to Google as-is.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Word in text (intext:)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;intitle&quot;: {
+      &quot;description&quot;: &quot;Restrict results to pages containing this word in the title. Sent to Google as-is.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Word in title (intitle:)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;inurl&quot;: {
+      &quot;description&quot;: &quot;Restrict results to pages containing this word in the URL. Sent to Google as-is.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Word in URL (inurl:)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;languageCode&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Language of Google&#x27;s own interface, e.g. en, de, fr, es. This does not restrict the language of the matched pages.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;en&quot;,
+      &quot;title&quot;: &quot;Interface language (hl)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;maxPagesPerQuery&quot;: {
+      &quot;default&quot;: 1,
+      &quot;description&quot;: &quot;Result pages to crawl per query for web, news and videos. Images are a single page. Web results stop at Google&#x27;s own ceiling of roughly 7-10 pages.&quot;,
+      &quot;maximum&quot;: 10,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 1,
+      &quot;title&quot;: &quot;Max pages per query&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxResults&quot;: {
+      &quot;default&quot;: 100,
+      &quot;description&quot;: &quot;Maximum items to return per query. Web results stop at Google&#x27;s own ceiling of roughly 70-100; images return 50-100 per query and news/videos paginate in pages of 10.&quot;,
+      &quot;maximum&quot;: 200,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 3,
+      &quot;title&quot;: &quot;Max results per query&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;queries&quot;: {
+      &quot;description&quot;: &quot;Google search queries. Each is searched separately; blank entries are dropped with a warning.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;minItems&quot;: 1,
+      &quot;prefill&quot;: [
+        &quot;Hotels in NYC&quot;
+      ],
+      &quot;title&quot;: &quot;Search Queries&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;restrictResultsCountry&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Only return pages whose content originates from this country (Google&#x27;s cr parameter), independent of Country/gl. Leave empty for no restriction.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;us&quot;,
+        &quot;uk&quot;,
+        &quot;ca&quot;,
+        &quot;au&quot;,
+        &quot;de&quot;,
+        &quot;fr&quot;,
+        &quot;es&quot;,
+        &quot;it&quot;,
+        &quot;br&quot;,
+        &quot;mx&quot;,
+        &quot;in&quot;,
+        &quot;jp&quot;,
+        &quot;kr&quot;,
+        &quot;nl&quot;,
+        &quot;be&quot;,
+        &quot;at&quot;,
+        &quot;ch&quot;,
+        &quot;se&quot;,
+        &quot;no&quot;,
+        &quot;dk&quot;,
+        &quot;fi&quot;,
+        &quot;pl&quot;,
+        &quot;cz&quot;,
+        &quot;pt&quot;,
+        &quot;ie&quot;,
+        &quot;nz&quot;,
+        &quot;za&quot;,
+        &quot;sg&quot;,
+        &quot;hk&quot;,
+        &quot;tw&quot;,
+        &quot;ph&quot;,
+        &quot;th&quot;,
+        &quot;id&quot;,
+        &quot;my&quot;,
+        &quot;vn&quot;,
+        &quot;ar&quot;,
+        &quot;cl&quot;,
+        &quot;co&quot;,
+        &quot;pe&quot;,
+        &quot;tr&quot;,
+        &quot;ru&quot;,
+        &quot;ua&quot;,
+        &quot;il&quot;,
+        &quot;ae&quot;,
+        &quot;sa&quot;,
+        &quot;eg&quot;,
+        &quot;ng&quot;,
+        &quot;ke&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any country (default)&quot;,
+        &quot;United States&quot;,
+        &quot;United Kingdom&quot;,
+        &quot;Canada&quot;,
+        &quot;Australia&quot;,
+        &quot;Germany&quot;,
+        &quot;France&quot;,
+        &quot;Spain&quot;,
+        &quot;Italy&quot;,
+        &quot;Brazil&quot;,
+        &quot;Mexico&quot;,
+        &quot;India&quot;,
+        &quot;Japan&quot;,
+        &quot;South Korea&quot;,
+        &quot;Netherlands&quot;,
+        &quot;Belgium&quot;,
+        &quot;Austria&quot;,
+        &quot;Switzerland&quot;,
+        &quot;Sweden&quot;,
+        &quot;Norway&quot;,
+        &quot;Denmark&quot;,
+        &quot;Finland&quot;,
+        &quot;Poland&quot;,
+        &quot;Czech Republic&quot;,
+        &quot;Portugal&quot;,
+        &quot;Ireland&quot;,
+        &quot;New Zealand&quot;,
+        &quot;South Africa&quot;,
+        &quot;Singapore&quot;,
+        &quot;Hong Kong&quot;,
+        &quot;Taiwan&quot;,
+        &quot;Philippines&quot;,
+        &quot;Thailand&quot;,
+        &quot;Indonesia&quot;,
+        &quot;Malaysia&quot;,
+        &quot;Vietnam&quot;,
+        &quot;Argentina&quot;,
+        &quot;Chile&quot;,
+        &quot;Colombia&quot;,
+        &quot;Peru&quot;,
+        &quot;Turkey&quot;,
+        &quot;Russia&quot;,
+        &quot;Ukraine&quot;,
+        &quot;Israel&quot;,
+        &quot;UAE&quot;,
+        &quot;Saudi Arabia&quot;,
+        &quot;Egypt&quot;,
+        &quot;Nigeria&quot;,
+        &quot;Kenya&quot;
+      ],
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Restrict results to country (cr)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;restrictResultsLanguage&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Only return pages written in this language, e.g. en or en,fr for either. Leave empty for no restriction.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Restrict results language (lr)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;safeSearch&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Filter explicit content (safe=). Leave empty for Google&#x27;s default.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;active&quot;,
+        &quot;off&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Default&quot;,
+        &quot;Filter explicit results&quot;,
+        &quot;Do not filter&quot;
+      ],
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;SafeSearch&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;searchType&quot;: {
+      &quot;default&quot;: &quot;web&quot;,
+      &quot;description&quot;: &quot;Which Google surface to scrape: web organic results, news cards, images, or videos.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;web&quot;,
+        &quot;news&quot;,
+        &quot;images&quot;,
+        &quot;videos&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Web results&quot;,
+        &quot;News&quot;,
+        &quot;Images&quot;,
+        &quot;Videos&quot;
+      ],
+      &quot;prefill&quot;: &quot;web&quot;,
+      &quot;title&quot;: &quot;Search type&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;site&quot;: {
+      &quot;description&quot;: &quot;Restrict results to this domain, e.g. nike.com. Every organic result is checked against it; off-domain results Google slips in are dropped.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Site (site: operator)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;timePeriod&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Filter results by relative time. Leave empty for any time.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;hour&quot;,
+        &quot;day&quot;,
+        &quot;week&quot;,
+        &quot;month&quot;,
+        &quot;year&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any time&quot;,
+        &quot;Past hour&quot;,
+        &quot;Past 24 hours&quot;,
+        &quot;Past week&quot;,
+        &quot;Past month&quot;,
+        &quot;Past year&quot;
+      ],
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Time period&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;uule&quot;: {
+      &quot;description&quot;: &quot;Optional Google-encoded location for city-level targeting. Best-effort: country targeting is reliable, city precision is not guaranteed. Leave empty to use Country only.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Precise location (uule)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;queries&quot;
+  ],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Google Search Results (SERP) Scraper Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>results</code></td><td>string</td><td>optional</td><td>Dataset with scraped SERP data</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;One record per search query/page with web organic results, news cards, images, videos, AI Overview, People Also Ask, local pack, related queries and paid results.&quot;,
+  &quot;properties&quot;: {
+    &quot;results&quot;: {
+      &quot;description&quot;: &quot;Dataset with scraped SERP data&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Google Search Results Scraper: Web, News, Images &amp; Videos Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;title&quot;: &quot;Google Search Results&quot;,
+  &quot;views&quot;: {
+    &quot;detailed&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;aiOverview&quot;: {
+            &quot;format&quot;: &quot;object&quot;,
+            &quot;label&quot;: &quot;AI Overview&quot;
+          },
+          &quot;hasNextPage&quot;: {
+            &quot;format&quot;: &quot;boolean&quot;,
+            &quot;label&quot;: &quot;Has Next Page&quot;
+          },
+          &quot;imageResults&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Image Results&quot;
+          },
+          &quot;knowledgePanel&quot;: {
+            &quot;format&quot;: &quot;object&quot;,
+            &quot;label&quot;: &quot;Knowledge Panel&quot;
+          },
+          &quot;localPack&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Local Pack&quot;
+          },
+          &quot;newsResults&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;News Results&quot;
+          },
+          &quot;organicResults&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Organic Results&quot;
+          },
+          &quot;paidResults&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Paid Results&quot;
+          },
+          &quot;peopleAlsoAsk&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;People Also Ask&quot;
+          },
+          &quot;relatedQueries&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Related Queries&quot;
+          },
+          &quot;resultsTotal&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Total Results&quot;
+          },
+          &quot;searchQuery&quot;: {
+            &quot;format&quot;: &quot;object&quot;,
+            &quot;label&quot;: &quot;Search Query&quot;
+          },
+          &quot;sportsTable&quot;: {
+            &quot;format&quot;: &quot;object&quot;,
+            &quot;label&quot;: &quot;Sports Table&quot;
+          },
+          &quot;topStories&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Top Stories&quot;
+          },
+          &quot;videoResults&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Video Results&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Detailed View&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;searchQuery&quot;,
+          &quot;hasNextPage&quot;,
+          &quot;resultsTotal&quot;,
+          &quot;organicResults&quot;,
+          &quot;aiOverview&quot;,
+          &quot;knowledgePanel&quot;,
+          &quot;peopleAlsoAsk&quot;,
+          &quot;relatedQueries&quot;,
+          &quot;localPack&quot;,
+          &quot;topStories&quot;,
+          &quot;sportsTable&quot;,
+          &quot;paidResults&quot;,
+          &quot;imageResults&quot;,
+          &quot;newsResults&quot;,
+          &quot;videoResults&quot;
+        ]
+      }
+    },
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;hasNextPage&quot;: {
+            &quot;format&quot;: &quot;boolean&quot;,
+            &quot;label&quot;: &quot;Has Next Page&quot;
+          },
+          &quot;organicResults&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Organic Results&quot;
+          },
+          &quot;resultsTotal&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Total Results&quot;
+          },
+          &quot;searchQuery.countryCode&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Country&quot;
+          },
+          &quot;searchQuery.page&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Page&quot;
+          },
+          &quot;searchQuery.term&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Search Query&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Results Overview&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;searchQuery&quot;,
+          &quot;resultsTotal&quot;,
+          &quot;hasNextPage&quot;,
+          &quot;organicResults&quot;
+        ],
+        &quot;flatten&quot;: [
+          &quot;searchQuery&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-google-search-results-scraper-web-news-images-videos">Google Search Results Scraper: Web, News, Images &amp; Videos</h2>
+<p>Run any search term through Google and get back structured results for the surface you need: classic web results with ads and SERP features, the News tab, the Images tab, or the Videos tab. Point it at a list of queries, choose a country and language, and it returns one structured record per query/page.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li>Searches web, news, images or videos with one <code>searchType</code> choice</li>
+<li>Web results: organic results, ads, People Also Ask, related searches, knowledge panel, local pack, top stories, sports tables and optional extra boxes</li>
+<li>Images: title, source, page URL, thumbnail, original image URL and dimensions</li>
+<li>News: headline, source, link, published time and snippet</li>
+<li>Videos: title, link, video ID, publisher/channel, duration and thumbnail</li>
+<li>Country/language targeting, time filters, custom date ranges, city-level <code>uule</code> hints and Google search operators</li>
+<li>Optional real destination URLs for web organic results, and an optional browser-rendered AI Overview</li>
+<li>No proxy setup or credentials required: the actor handles its own access</li>
+</ul>
+<h2 id="readme-output-per-search-result-page">Output per search result page</h2>
+<p>Each run produces one record per query (per page, if <code>maxPagesPerQuery</code> &gt; 1). Fields that Google does not render for a query are omitted, not filled with placeholders.</p>
+<p><strong>Web (<code>searchType: &quot;web&quot;</code>):</strong></p>
+<ul>
+<li><code>searchQuery</code> — term, page, country, language, search type and results-per-page metadata</li>
+<li><code>organicResults</code> — <code>{position, title, url, displayedUrl, destinationUrl, snippet, siteLinks}</code>. <code>url</code> is the working Google result link; set <code>includeDestinationUrl</code> to add the real destination.</li>
+<li><code>paidResults</code> — ad slots, when Google renders any</li>
+<li><code>peopleAlsoAsk</code> — related questions</li>
+<li><code>relatedQueries</code> — suggested searches</li>
+<li><code>knowledgePanel</code> — entity panel for people, places and organizations</li>
+<li><code>localPack</code> — local business results with rating, review count and address</li>
+<li><code>topStories</code> — news carousel results</li>
+<li><code>sportsTable</code> — standings when Google renders a real table (best-effort; current grid layouts may not populate it)</li>
+<li><code>aiOverview</code> — only when <code>includeAiOverview</code> is enabled and Google renders one</li>
+<li><code>resultsTotal</code> — Google's own rough estimate, which fluctuates between pages and renders; treat it as volatile, not a stable volume metric</li>
+<li><code>hasNextPage</code> — whether another page is available</li>
+<li><code>weatherBox</code>, <code>stockBox</code>, <code>timeZoneBox</code>, <code>currencyConverterBox</code>, <code>unitConverterBox</code>, <code>jobsPack</code>, <code>videoPack</code>, <code>shoppingPack</code>, <code>dictionaryBox</code> — opt-in via <code>includeExtraBoxes</code></li>
+</ul>
+<p><strong>News (<code>searchType: &quot;news&quot;</code>):</strong> <code>newsResults[]</code> with <code>position</code>, <code>title</code>, <code>url</code>, <code>source</code>, <code>publishedAt</code> (ISO 8601 when Google exposes a timestamp), <code>publishedTimeText</code> and <code>snippet</code>.</p>
+<p><strong>Images (<code>searchType: &quot;images&quot;</code>):</strong> <code>imageResults[]</code> with <code>position</code>, <code>title</code>, <code>source</code>, <code>pageUrl</code>, <code>thumbnailUrl</code>, <code>originalImageUrl</code>, <code>width</code> and <code>height</code>. Original URLs come from the publisher as Google reports them; some hosts block hotlinks or let URLs expire, so validate before fetching. The thumbnail is returned independently.</p>
+<p><strong>Videos (<code>searchType: &quot;videos&quot;</code>):</strong> <code>videoResults[]</code> with <code>position</code>, <code>title</code>, <code>url</code>, <code>videoId</code>, <code>publisher</code>, <code>channel</code>, <code>duration</code> and <code>thumbnailUrl</code>.</p>
+<p><strong>Error rows:</strong> a query that fails outright, or is blocked on every attempt, produces <code>{&quot;type&quot;: &quot;error&quot;, &quot;query&quot;: ..., &quot;reason&quot;: ...}</code> instead of page records.</p>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>queries</code></td>
+<td>array</td>
+<td>–</td>
+<td>Search terms; each is searched separately.</td>
+</tr>
+<tr>
+<td><code>searchType</code></td>
+<td>string</td>
+<td><code>web</code></td>
+<td><code>web</code>, <code>news</code>, <code>images</code> or <code>videos</code>.</td>
+</tr>
+<tr>
+<td><code>maxResults</code></td>
+<td>integer</td>
+<td><code>100</code></td>
+<td>Maximum items per query (1–200). Web results stop at Google's own ~70–100 ceiling; images return 50–100; news/videos paginate in 10-result steps (news pages may render 10–22 cards).</td>
+</tr>
+<tr>
+<td><code>countryCode</code></td>
+<td>string</td>
+<td><em>(empty = US)</em></td>
+<td>Country for the Google domain and searcher-location signal.</td>
+</tr>
+<tr>
+<td><code>restrictResultsCountry</code></td>
+<td>string</td>
+<td><em>(empty = any)</em></td>
+<td>Only return pages targeting this country (Google's <code>cr</code>).</td>
+</tr>
+<tr>
+<td><code>languageCode</code></td>
+<td>string</td>
+<td><em>(empty)</em></td>
+<td>Google interface language (e.g. <code>en</code>, <code>de</code>).</td>
+</tr>
+<tr>
+<td><code>restrictResultsLanguage</code></td>
+<td>string</td>
+<td><em>(empty)</em></td>
+<td>Only return pages written in this language (e.g. <code>en</code> or <code>en,fr</code>).</td>
+</tr>
+<tr>
+<td><code>maxPagesPerQuery</code></td>
+<td>integer</td>
+<td><code>1</code></td>
+<td>Pages to crawl per query for web/news/videos (1–10). Images are one page.</td>
+</tr>
+<tr>
+<td><code>timePeriod</code></td>
+<td>string</td>
+<td><em>(empty = any)</em></td>
+<td><code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code> or <code>year</code>.</td>
+</tr>
+<tr>
+<td><code>safeSearch</code></td>
+<td>string</td>
+<td><em>(empty = default)</em></td>
+<td><code>active</code> or <code>off</code>.</td>
+</tr>
+<tr>
+<td><code>includeAiOverview</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Opt-in browser-rendered AI Overview for web. Slower; not guaranteed.</td>
+</tr>
+<tr>
+<td><code>includeDestinationUrl</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Resolve web organic links to their real destination. Adds one lookup per result.</td>
+</tr>
+<tr>
+<td><code>csvFriendlyOutput</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Web only: one organic/paid result per row.</td>
+</tr>
+<tr>
+<td><code>includeExtraBoxes</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Web only: weather, time zone, converter, stock, jobs, videos, shopping, dictionary boxes.</td>
+</tr>
+<tr>
+<td><code>uule</code></td>
+<td>string</td>
+<td><em>(empty)</em></td>
+<td>Google-encoded location for city-level targeting; best-effort.</td>
+</tr>
+<tr>
+<td><code>dateFrom</code> / <code>dateTo</code></td>
+<td>string</td>
+<td><em>(empty)</em></td>
+<td>Custom date range (<code>YYYY-MM-DD</code>), set together. Overrides <code>timePeriod</code>.</td>
+</tr>
+<tr>
+<td><code>exactPhrase</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Wrap each query in quotes.</td>
+</tr>
+<tr>
+<td><code>site</code></td>
+<td>string</td>
+<td><em>(empty)</em></td>
+<td><code>site:</code> operator; results are checked against the domain and off-domain ones are dropped.</td>
+</tr>
+<tr>
+<td><code>intitle</code> / <code>intext</code> / <code>inurl</code> / <code>fileType</code></td>
+<td>string</td>
+<td><em>(empty)</em></td>
+<td>Search operators sent to Google as-is.</td>
+</tr>
+<tr>
+<td><code>excludeTerms</code></td>
+<td>string</td>
+<td><em>(empty)</em></td>
+<td>Words to exclude, comma- or space-separated.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-examples">Examples</h3>
+<p>Web rank check with a time filter:</p>
+<pre><code class="language-json">{
+  &quot;queries&quot;: [&quot;best running shoes 2026&quot;],
+  &quot;searchType&quot;: &quot;web&quot;,
+  &quot;countryCode&quot;: &quot;us&quot;,
+  &quot;maxResults&quot;: 30,
+  &quot;maxPagesPerQuery&quot;: 4,
+  &quot;timePeriod&quot;: &quot;month&quot;,
+  &quot;includeDestinationUrl&quot;: true
+}
+</code></pre>
+<p>News monitoring:</p>
+<pre><code class="language-json">{
+  &quot;queries&quot;: [&quot;tesla&quot;],
+  &quot;searchType&quot;: &quot;news&quot;,
+  &quot;countryCode&quot;: &quot;us&quot;,
+  &quot;maxResults&quot;: 20,
+  &quot;maxPagesPerQuery&quot;: 2
+}
+</code></pre>
+<p>Image research:</p>
+<pre><code class="language-json">{
+  &quot;queries&quot;: [&quot;tesla cybertruck&quot;],
+  &quot;searchType&quot;: &quot;images&quot;,
+  &quot;countryCode&quot;: &quot;us&quot;,
+  &quot;maxResults&quot;: 50
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>SEO monitoring</strong> — track web ranking positions across countries and languages</li>
+<li><strong>News monitoring</strong> — collect headlines, sources and publication times</li>
+<li><strong>Visual research</strong> — gather image thumbnails, sources and dimensions</li>
+<li><strong>Video research</strong> — collect video titles, channels and durations</li>
+<li><strong>SERP feature tracking</strong> — monitor ads, PAA, knowledge panels, local packs and AI Overviews</li>
+<li><strong>Content research</strong> — mine related searches and questions</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Is this an official Google product?</strong>
+No. This is an independent actor that reads publicly available Google result pages. It is not affiliated with, endorsed by, or sponsored by Google.</p>
+<p><strong>Do I need a proxy or Google account?</strong>
+No. The actor handles its own access and needs no cookies, logins, API keys or proxy configuration.</p>
+<p><strong>How many results can I get per query?</strong>
+Web results stop at Google's own ceiling of roughly 70–100, even if you ask for 200. Images return 50–100 per query. News and videos paginate in 10-result steps and stop when Google stops returning results; a news page may render 10–22 cards.</p>
+<p><strong>Why is <code>resultsTotal</code> sometimes a small number?</strong>
+It is Google's own estimate on that specific render. It fluctuates between pages and query types, so use it as a rough signal rather than a stable search-volume metric.</p>
+<p><strong>Why are <code>paidResults</code>, <code>knowledgePanel</code>, <code>localPack</code> or <code>topStories</code> often empty?</strong>
+Google only renders those features for some queries. Ads are sparse even on commercial terms; local packs need local intent; knowledge panels need an entity. Their absence is normal, not an extraction failure.</p>
+<p><strong>Why is <code>aiOverview</code> empty?</strong>
+AI Overview is opt-in because it requires a slower browser-rendered fetch, and Google still may not show one for a given query. The text is best-effort and headings/bullets may be flattened.</p>
+<p><strong>What is <code>destinationUrl</code>?</strong>
+Google usually wraps organic links in a redirect. With <code>includeDestinationUrl</code> enabled, the actor follows that redirect and adds the real destination. If the lookup fails, <code>destinationUrl</code> is omitted and the working Google link remains in <code>url</code>.</p>
+<p><strong>Why did <code>site:</code> return fewer results than expected?</strong>
+Google silently widens <code>site:</code> searches once the restricted corpus runs out. The actor checks each result against your domain and drops ones that do not belong, so a smaller but accurate set is expected. Social cards with follower counts are recognized as on-domain.</p>
+<p><strong>Does CSV mode include news, images or videos?</strong>
+No. <code>csvFriendlyOutput</code> is a web-only reshape. Use the default JSON layout for the other search types.</p>
+<p><strong>Are image URLs permanent?</strong>
+Thumbnail URLs are served by Google and are reliable. Original image URLs come from the publisher and may expire or be hotlink-protected; the actor returns the URL Google provides and does not runtime-validate every original, so a few may return 403/404.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/google-search-results-scraper-organic-and-serp/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>NG6Y2OAdaEEnxj85d</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

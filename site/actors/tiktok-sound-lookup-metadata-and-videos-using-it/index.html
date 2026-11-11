@@ -1,0 +1,824 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-tsRzOLSRReQzm2URKx3KP484fkGLmilgqUWRnMoXtnY=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>TikTok Sound Lookup: Metadata &amp; Videos Using It | Vexaloom Labs</title><meta name="description" content="Look up any TikTok sound by URL or ID and get back its title, creator, duration, cover art, and streaming links, plus every video currently using that sound with captions, hashtags"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-sound-lookup-metadata-and-videos-using-it/"><meta property="og:title" content="TikTok Sound Lookup: Metadata &amp; Videos Using It | Vexaloom Labs"><meta property="og:description" content="Look up any TikTok sound by URL or ID and get back its title, creator, duration, cover art, and streaming links, plus every video currently using that sound with captions, hashtags"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-sound-lookup-metadata-and-videos-using-it/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-sound-lookup-metadata-and-videos-using-it/#webpage","name":"TikTok Sound Lookup: Metadata & Videos Using It","description":"Look up any TikTok sound by URL or ID and get back its title, creator, duration, cover art, and streaming links, plus every video currently using that sound with captions, hashtags, and engagement counts.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-sound-lookup-metadata-and-videos-using-it/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-sound-lookup-metadata-and-videos-using-it/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-sound-lookup-metadata-and-videos-using-it/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-sound-lookup-metadata-and-videos-using-it/#article","headline":"TikTok Sound Lookup: Metadata & Videos Using It","name":"TikTok Sound Lookup: Metadata & Videos Using It","description":"Look up any TikTok sound by URL or ID and get back its title, creator, duration, cover art, and streaming links, plus every video currently using that sound with captions, hashtags, and engagement counts.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-sound-lookup-metadata-and-videos-using-it/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-sound-lookup-metadata-and-videos-using-it/#webpage"},"inLanguage":"en","dateModified":"2026-10-31T18:24:34.245Z"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-sound-lookup-metadata-and-videos-using-it/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"TikTok Sound Lookup: Metadata & Videos Using It","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/tiktok-sound-lookup-metadata-and-videos-using-it/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>TikTok Sound Lookup: Metadata &amp; Videos Using It</span></div><section id="overview"><h1 class="doc-title">TikTok Sound Lookup: Metadata &amp; Videos Using It</h1><p class="lede">Look up any TikTok sound by URL or ID and get back its title, creator, duration, cover art, and streaming links, plus every video currently using that sound with captions, hashtags, and engagement counts.</p><p class="summary">TikTok Sound Lookup: Metadata &amp; Videos Using It is an Apify Actor published by Vexaloom Labs. It accepts 13 input fields, none of them required at the top level. Its build declares a results dataset with 2 views. Runs happen on Apify, where the Store page lists the current price.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/tiktok-sound-lookup-metadata-and-videos-using-it">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/IqJBdUeSYHgtHc7Lb/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>Choose how to find sounds: by sound URL/ID, or by keyword search.</td></tr><tr><td><code>musicUrls</code></td><td>array</td><td>optional</td><td>(mode=bySound) TikTok sound page URLs. Example: https://www.tiktok.com/music/original-sound-7595604258835401494</td></tr><tr><td><code>musicIds</code></td><td>array</td><td>optional</td><td>(mode=bySound) Numeric TikTok sound IDs, 15-20 digits, as an alternative to full URLs.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>Choose how to find sounds: by sound URL/ID, or by keyword search.</td></tr><tr><td><code>musicUrls</code></td><td>array</td><td>optional</td><td>(mode=bySound) TikTok sound page URLs. Example: https://www.tiktok.com/music/original-sound-7595604258835401494</td></tr><tr><td><code>musicIds</code></td><td>array</td><td>optional</td><td>(mode=bySound) Numeric TikTok sound IDs, 15-20 digits, as an alternative to full URLs.</td></tr><tr><td><code>searchQueries</code></td><td>array</td><td>optional</td><td>(mode=searchSounds) Keywords to search in TikTok&#x27;s sound catalogue, e.g. lofi, phonk, afrobeats. Each query returns up to 30 sounds; duplicates are removed across queries.</td></tr><tr><td><code>maxSoundsPerQuery</code></td><td>integer</td><td>optional</td><td>(mode=searchSounds) Keep at most this many sounds per keyword. TikTok returns a maximum of 30.</td></tr><tr><td><code>maxPostsPerSound</code></td><td>integer</td><td>optional</td><td>Videos to collect per sound (0-500). Set 0 for sound metadata only. TikTok can cap the public feed per run, so fewer rows may be returned and the run status reports any shortfall.</td></tr><tr><td><code>includeMusicMetadata</code></td><td>boolean</td><td>optional</td><td>Emit a metadata row per sound with title, creator/artist, duration, covers, DSP IDs, tags and video count.</td></tr><tr><td><code>includePosts</code></td><td>boolean</td><td>optional</td><td>Emit one row per video that uses the sound, with author, caption, hashtags, mentions, POI, effects, slideshow images and engagement counts.</td></tr><tr><td><code>includeErrorRows</code></td><td>boolean</td><td>optional</td><td>Emit a row with rowType=&#x27;error&#x27; when an input cannot be read, instead of only logging it. Off by default.</td></tr><tr><td><code>publishedWithin</code></td><td>string</td><td>optional</td><td>Keep only videos published inside this window. Applied after collection, to video rows.</td></tr><tr><td><code>minPlayCount</code></td><td>integer</td><td>optional</td><td>Drop videos below this play count. 0 keeps everything. Videos without a play count are kept only when this is 0.</td></tr><tr><td><code>minLikeCount</code></td><td>integer</td><td>optional</td><td>Drop videos below this like count. 0 keeps everything. Videos without a like count are kept only when this is 0.</td></tr><tr><td><code>uniqueCreatorsOnly</code></td><td>boolean</td><td>optional</td><td>Keep only the highest-play video per author across the run. Useful for audience and creator discovery.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Look up TikTok sounds by URL/ID or search by keyword. Returns sound metadata, artist and DSP details, plus the videos using each sound.&quot;,
+  &quot;properties&quot;: {
+    &quot;includeErrorRows&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Emit a row with rowType=&#x27;error&#x27; when an input cannot be read, instead of only logging it. Off by default.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include Error Rows&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeMusicMetadata&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Emit a metadata row per sound with title, creator/artist, duration, covers, DSP IDs, tags and video count.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Include Sound Metadata&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includePosts&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Emit one row per video that uses the sound, with author, caption, hashtags, mentions, POI, effects, slideshow images and engagement counts.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Include Videos Using The Sound&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;maxPostsPerSound&quot;: {
+      &quot;default&quot;: 30,
+      &quot;description&quot;: &quot;Videos to collect per sound (0-500). Set 0 for sound metadata only. TikTok can cap the public feed per run, so fewer rows may be returned and the run status reports any shortfall.&quot;,
+      &quot;maximum&quot;: 500,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 5,
+      &quot;title&quot;: &quot;Max Videos Per Sound&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxSoundsPerQuery&quot;: {
+      &quot;default&quot;: 10,
+      &quot;description&quot;: &quot;(mode=searchSounds) Keep at most this many sounds per keyword. TikTok returns a maximum of 30.&quot;,
+      &quot;maximum&quot;: 30,
+      &quot;minimum&quot;: 1,
+      &quot;title&quot;: &quot;Max Sounds Per Query&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;minLikeCount&quot;: {
+      &quot;default&quot;: 0,
+      &quot;description&quot;: &quot;Drop videos below this like count. 0 keeps everything. Videos without a like count are kept only when this is 0.&quot;,
+      &quot;maximum&quot;: 1000000000000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Minimum Like Count&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;minPlayCount&quot;: {
+      &quot;default&quot;: 0,
+      &quot;description&quot;: &quot;Drop videos below this play count. 0 keeps everything. Videos without a play count are kept only when this is 0.&quot;,
+      &quot;maximum&quot;: 1000000000000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Minimum Play Count&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;bySound&quot;,
+      &quot;description&quot;: &quot;Choose how to find sounds: by sound URL/ID, or by keyword search.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;bySound&quot;,
+        &quot;searchSounds&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Look up sounds by URL or ID&quot;,
+        &quot;Search sounds by keyword&quot;
+      ],
+      &quot;prefill&quot;: &quot;bySound&quot;,
+      &quot;title&quot;: &quot;Mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;musicIds&quot;: {
+      &quot;description&quot;: &quot;(mode=bySound) Numeric TikTok sound IDs, 15-20 digits, as an alternative to full URLs.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [
+        &quot;7595604258835401494&quot;
+      ],
+      &quot;title&quot;: &quot;Sound IDs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;musicUrls&quot;: {
+      &quot;description&quot;: &quot;(mode=bySound) TikTok sound page URLs. Example: https://www.tiktok.com/music/original-sound-7595604258835401494&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Sound URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;publishedWithin&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;Keep only videos published inside this window. Applied after collection, to video rows.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
+        &quot;day&quot;,
+        &quot;week&quot;,
+        &quot;month&quot;,
+        &quot;year&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any time&quot;,
+        &quot;Last 24 hours&quot;,
+        &quot;Last 7 days&quot;,
+        &quot;Last 30 days&quot;,
+        &quot;Last 365 days&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Published Within&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;searchQueries&quot;: {
+      &quot;description&quot;: &quot;(mode=searchSounds) Keywords to search in TikTok&#x27;s sound catalogue, e.g. lofi, phonk, afrobeats. Each query returns up to 30 sounds; duplicates are removed across queries.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Sound Search Queries&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;uniqueCreatorsOnly&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Keep only the highest-play video per author across the run. Useful for audience and creator discovery.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;One Video Per Creator&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    }
+  },
+  &quot;required&quot;: [],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;TikTok Sound &amp; Music Scraper Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>data</code></td><td>string</td><td>optional</td><td>Dataset containing sound metadata, videos using the sounds, and opt-in error rows. Use rowType to distinguish them.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Sound metadata rows (rowType=music), videos using each sound (rowType=post), and optional error rows (rowType=error), joined by matchedMusicId and searchKeyword.&quot;,
+  &quot;properties&quot;: {
+    &quot;data&quot;: {
+      &quot;description&quot;: &quot;Dataset containing sound metadata, videos using the sounds, and opt-in error rows. Use rowType to distinguish them.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Sounds, Videos and Errors&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;TikTok Sound &amp; Music Scraper Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;fields&quot;: {
+    &quot;album&quot;: {
+      &quot;description&quot;: &quot;Album name when the track belongs to a release&quot;,
+      &quot;title&quot;: &quot;Album&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;artist&quot;: {
+      &quot;description&quot;: &quot;Artist profile snapshot for a credited/licensed track (id, secUid, username, displayName, bio, verified, avatarUrl)&quot;,
+      &quot;title&quot;: &quot;Artist&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;artists&quot;: {
+      &quot;description&quot;: &quot;All credited artists returned for a licensed track&quot;,
+      &quot;title&quot;: &quot;Artists&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;author&quot;: {
+      &quot;description&quot;: &quot;Profile snapshot for the sound&#x27;s creator/artist or the video author (id, secUid, username, displayName, bio, verified, avatarUrl, followerCount, followingCount, heartCount, videoCount)&quot;,
+      &quot;title&quot;: &quot;Author&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;authorName&quot;: {
+      &quot;description&quot;: &quot;Credited creator or artist name for the sound&quot;,
+      &quot;title&quot;: &quot;Author Name&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;caption&quot;: {
+      &quot;description&quot;: &quot;Video caption text&quot;,
+      &quot;title&quot;: &quot;Caption&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;collectCount&quot;: {
+      &quot;description&quot;: &quot;Number of times the video was saved&quot;,
+      &quot;title&quot;: &quot;Collect Count&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;commentCount&quot;: {
+      &quot;description&quot;: &quot;Number of comments&quot;,
+      &quot;title&quot;: &quot;Comment Count&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;commercialRightType&quot;: {
+      &quot;description&quot;: &quot;TikTok&#x27;s commercial-right category code&quot;,
+      &quot;title&quot;: &quot;Commercial Right Type&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;coverLarge&quot;: {
+      &quot;description&quot;: &quot;Large cover image URL&quot;,
+      &quot;title&quot;: &quot;Cover Large&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;coverMedium&quot;: {
+      &quot;description&quot;: &quot;Medium cover image URL&quot;,
+      &quot;title&quot;: &quot;Cover Medium&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;coverThumb&quot;: {
+      &quot;description&quot;: &quot;Thumbnail cover image URL&quot;,
+      &quot;title&quot;: &quot;Cover Thumb&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;createTime&quot;: {
+      &quot;description&quot;: &quot;Unix timestamp when the sound or video was created&quot;,
+      &quot;title&quot;: &quot;Create Time&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;createdAt&quot;: {
+      &quot;description&quot;: &quot;ISO 8601 UTC timestamp when the sound or video was created&quot;,
+      &quot;title&quot;: &quot;Created At&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;dspLinks&quot;: {
+      &quot;description&quot;: &quot;Streaming-platform IDs and links derived from TikTok&#x27;s DSP partner data (platform, platformName, songId, metaSongId, url)&quot;,
+      &quot;title&quot;: &quot;DSP Links&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;duetEnabled&quot;: {
+      &quot;description&quot;: &quot;Whether duets are allowed on this video&quot;,
+      &quot;title&quot;: &quot;Duet Enabled&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;duration&quot;: {
+      &quot;description&quot;: &quot;Duration of the sound in seconds&quot;,
+      &quot;title&quot;: &quot;Duration&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;durationHighPrecision&quot;: {
+      &quot;description&quot;: &quot;Higher-precision sound duration in seconds when available&quot;,
+      &quot;title&quot;: &quot;Duration High Precision&quot;,
+      &quot;type&quot;: &quot;number&quot;
+    },
+    &quot;effectStickers&quot;: {
+      &quot;description&quot;: &quot;Effect stickers used in the video&quot;,
+      &quot;title&quot;: &quot;Effect Stickers&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;errorCode&quot;: {
+      &quot;description&quot;: &quot;Machine-readable failure code on opt-in error rows&quot;,
+      &quot;title&quot;: &quot;Error Code&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;errorMessage&quot;: {
+      &quot;description&quot;: &quot;Plain-language failure description on opt-in error rows&quot;,
+      &quot;title&quot;: &quot;Error Message&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;externalSongInfo&quot;: {
+      &quot;description&quot;: &quot;Raw partner IDs TikTok returns for the track (partnerName, partnerSongId, externalSongKey, h5Url, appLink, deepLink)&quot;,
+      &quot;title&quot;: &quot;External Song Info&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;hasCommerceRight&quot;: {
+      &quot;description&quot;: &quot;Whether the sound carries commercial usage rights&quot;,
+      &quot;title&quot;: &quot;Has Commerce Right&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;hashtags&quot;: {
+      &quot;description&quot;: &quot;Hashtags used in the caption&quot;,
+      &quot;title&quot;: &quot;Hashtags&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;images&quot;: {
+      &quot;description&quot;: &quot;Slideshow images for photo posts (postType=&#x27;slideshow&#x27;)&quot;,
+      &quot;title&quot;: &quot;Images&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;inputValue&quot;: {
+      &quot;description&quot;: &quot;The URL, ID or keyword that could not be read&quot;,
+      &quot;title&quot;: &quot;Input Value&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;isAd&quot;: {
+      &quot;description&quot;: &quot;Whether the video is a paid advertisement&quot;,
+      &quot;title&quot;: &quot;Is Ad&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;isAuthorArtist&quot;: {
+      &quot;description&quot;: &quot;Whether the credited author is the artist&quot;,
+      &quot;title&quot;: &quot;Is Author Artist&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;isCommerceMusic&quot;: {
+      &quot;description&quot;: &quot;Whether the sound is a commercial music track&quot;,
+      &quot;title&quot;: &quot;Is Commerce Music&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;isCopyrighted&quot;: {
+      &quot;description&quot;: &quot;Whether the sound is under copyright&quot;,
+      &quot;title&quot;: &quot;Is Copyrighted&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;isOriginal&quot;: {
+      &quot;description&quot;: &quot;Whether this is an original sound recorded by a user&quot;,
+      &quot;title&quot;: &quot;Is Original Sound&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;isPgc&quot;: {
+      &quot;description&quot;: &quot;Whether TikTok classifies the sound as professionally generated content&quot;,
+      &quot;title&quot;: &quot;Is PGC&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;isPrivate&quot;: {
+      &quot;description&quot;: &quot;Whether the sound is private&quot;,
+      &quot;title&quot;: &quot;Is Private&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;isUnlimitedMusic&quot;: {
+      &quot;description&quot;: &quot;Whether the sound is an unlimited-use music track&quot;,
+      &quot;title&quot;: &quot;Is Unlimited Music&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;language&quot;: {
+      &quot;description&quot;: &quot;Language code of the sound when TikTok returns one&quot;,
+      &quot;title&quot;: &quot;Language&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;likeCount&quot;: {
+      &quot;description&quot;: &quot;Number of likes&quot;,
+      &quot;title&quot;: &quot;Like Count&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;locationCreated&quot;: {
+      &quot;description&quot;: &quot;Country code where the video was created, when TikTok returns it&quot;,
+      &quot;title&quot;: &quot;Location Created&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;matchedMusicId&quot;: {
+      &quot;description&quot;: &quot;Sound ID this video was collected under (video rows only)&quot;,
+      &quot;title&quot;: &quot;Matched Music ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;matchedSongId&quot;: {
+      &quot;description&quot;: &quot;Internal TikTok matched-song ID for licensed tracks&quot;,
+      &quot;title&quot;: &quot;Matched Song ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;mediaUrlExpiresAt&quot;: {
+      &quot;description&quot;: &quot;ISO 8601 UTC timestamp when signed video or cover URLs expire&quot;,
+      &quot;title&quot;: &quot;Media URL Expires At&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;mentions&quot;: {
+      &quot;description&quot;: &quot;@mentions in the caption with username, userId, secUid, userUniqueId and caption offsets&quot;,
+      &quot;title&quot;: &quot;Mentions&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;music&quot;: {
+      &quot;description&quot;: &quot;The sound used in this video (id, title, authorName, original, duration, album, playUrl, coverUrl, dspLinks)&quot;,
+      &quot;title&quot;: &quot;Music&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;musicId&quot;: {
+      &quot;description&quot;: &quot;Unique TikTok sound ID (string, 15-20 digits)&quot;,
+      &quot;title&quot;: &quot;Music ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;musicReleaseInfo&quot;: {
+      &quot;description&quot;: &quot;Release metadata TikTok returns for licensed tracks&quot;,
+      &quot;title&quot;: &quot;Music Release Info&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;musicTitle&quot;: {
+      &quot;description&quot;: &quot;Title of the sound or track&quot;,
+      &quot;title&quot;: &quot;Music Title&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;musicUrl&quot;: {
+      &quot;description&quot;: &quot;Canonical TikTok page URL for this sound&quot;,
+      &quot;title&quot;: &quot;Music URL&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;ownerHandle&quot;: {
+      &quot;description&quot;: &quot;TikTok handle of the sound owner when TikTok returns one&quot;,
+      &quot;title&quot;: &quot;Owner Handle&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;ownerNickname&quot;: {
+      &quot;description&quot;: &quot;Display name of the sound owner when TikTok returns one&quot;,
+      &quot;title&quot;: &quot;Owner Nickname&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;playCount&quot;: {
+      &quot;description&quot;: &quot;Number of video plays&quot;,
+      &quot;title&quot;: &quot;Play Count&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;playUrl&quot;: {
+      &quot;description&quot;: &quot;Signed CDN URL for the sound audio (time-limited)&quot;,
+      &quot;title&quot;: &quot;Play URL&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;poi&quot;: {
+      &quot;description&quot;: &quot;Point-of-interest object when the video is tagged with a location&quot;,
+      &quot;title&quot;: &quot;POI&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;postId&quot;: {
+      &quot;description&quot;: &quot;Unique TikTok video/post ID (string)&quot;,
+      &quot;title&quot;: &quot;Post ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;postType&quot;: {
+      &quot;description&quot;: &quot;Either &#x27;video&#x27; or &#x27;slideshow&#x27;&quot;,
+      &quot;title&quot;: &quot;Post Type&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;postUrl&quot;: {
+      &quot;description&quot;: &quot;Direct URL to the TikTok video or photo post&quot;,
+      &quot;title&quot;: &quot;Post URL&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;repostCount&quot;: {
+      &quot;description&quot;: &quot;Number of reposts (from statsV2)&quot;,
+      &quot;title&quot;: &quot;Repost Count&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;rowType&quot;: {
+      &quot;description&quot;: &quot;Discriminator: &#x27;music&#x27; for sound metadata, &#x27;post&#x27; for videos using a sound, &#x27;error&#x27; for opt-in failure rows.&quot;,
+      &quot;title&quot;: &quot;Row Type&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;searchKeyword&quot;: {
+      &quot;description&quot;: &quot;Keyword that surfaced this sound or video (searchSounds mode only)&quot;,
+      &quot;title&quot;: &quot;Search Keyword&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;searchPosition&quot;: {
+      &quot;description&quot;: &quot;1-based position of the sound in its keyword&#x27;s result list (searchSounds mode only)&quot;,
+      &quot;title&quot;: &quot;Search Position&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;shareCount&quot;: {
+      &quot;description&quot;: &quot;Number of shares&quot;,
+      &quot;title&quot;: &quot;Share Count&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;shareEnabled&quot;: {
+      &quot;description&quot;: &quot;Whether sharing is enabled on this video&quot;,
+      &quot;title&quot;: &quot;Share Enabled&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;shareMeta&quot;: {
+      &quot;description&quot;: &quot;Share title and description TikTok uses for the sound page&quot;,
+      &quot;title&quot;: &quot;Share Meta&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;shootDuration&quot;: {
+      &quot;description&quot;: &quot;Clip length TikTok allows creators to use with this sound&quot;,
+      &quot;title&quot;: &quot;Shoot Duration&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;stitchEnabled&quot;: {
+      &quot;description&quot;: &quot;Whether stitching is allowed on this video&quot;,
+      &quot;title&quot;: &quot;Stitch Enabled&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;tagList&quot;: {
+      &quot;description&quot;: &quot;Mood/genre tags TikTok returns for the sound&quot;,
+      &quot;title&quot;: &quot;Tag List&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;textLanguage&quot;: {
+      &quot;description&quot;: &quot;Language code of the caption&quot;,
+      &quot;title&quot;: &quot;Text Language&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;themeTags&quot;: {
+      &quot;description&quot;: &quot;Theme tags TikTok returns for the sound&quot;,
+      &quot;title&quot;: &quot;Theme Tags&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;video&quot;: {
+      &quot;description&quot;: &quot;Video file metadata (width, height, duration, ratio, definition, bitrate, codecType, format, size, videoQuality, playUrl, cover, originCover, dynamicCover)&quot;,
+      &quot;title&quot;: &quot;Video&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;videoCount&quot;: {
+      &quot;description&quot;: &quot;Number of TikTok videos using this sound, kept as a string to avoid integer overflow for viral sounds&quot;,
+      &quot;title&quot;: &quot;Video Count&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;TikTok Sound &amp; Music Scraper Dataset&quot;,
+  &quot;views&quot;: {
+    &quot;errors&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;errorCode&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Error Code&quot;
+          },
+          &quot;errorMessage&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Error Message&quot;
+          },
+          &quot;inputValue&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Input&quot;
+          },
+          &quot;musicId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Sound ID&quot;
+          },
+          &quot;rowType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Type&quot;
+          },
+          &quot;searchKeyword&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Search Keyword&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Errors&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;rowType&quot;,
+          &quot;errorCode&quot;,
+          &quot;errorMessage&quot;,
+          &quot;inputValue&quot;,
+          &quot;musicId&quot;,
+          &quot;searchKeyword&quot;
+        ]
+      }
+    },
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;artist&quot;: {
+            &quot;format&quot;: &quot;object&quot;,
+            &quot;label&quot;: &quot;Artist&quot;
+          },
+          &quot;authorName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Sound Author&quot;
+          },
+          &quot;caption&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Caption&quot;
+          },
+          &quot;duration&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Duration (s)&quot;
+          },
+          &quot;likeCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Likes&quot;
+          },
+          &quot;matchedMusicId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Sound ID&quot;
+          },
+          &quot;musicTitle&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Sound Title&quot;
+          },
+          &quot;playCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Plays&quot;
+          },
+          &quot;postId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Video ID&quot;
+          },
+          &quot;postUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Video URL&quot;
+          },
+          &quot;rowType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Type&quot;
+          },
+          &quot;searchKeyword&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Search Keyword&quot;
+          },
+          &quot;videoCount&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Videos Using Sound&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Sounds and Videos&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;rowType&quot;,
+          &quot;musicTitle&quot;,
+          &quot;authorName&quot;,
+          &quot;artist&quot;,
+          &quot;duration&quot;,
+          &quot;videoCount&quot;,
+          &quot;postId&quot;,
+          &quot;caption&quot;,
+          &quot;likeCount&quot;,
+          &quot;playCount&quot;,
+          &quot;matchedMusicId&quot;,
+          &quot;searchKeyword&quot;,
+          &quot;postUrl&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-tiktok-sound-lookup-metadata-videos-using-it">TikTok Sound Lookup: Metadata &amp; Videos Using It</h2>
+<p>Give this actor a TikTok sound — by page URL, numeric ID, or a keyword search — and it returns the sound's own metadata and the videos using it. Sound rows carry title, creator and artist, duration, cover art, DSP/streaming IDs, licensing flags, tags and total video count. Video rows carry the author, caption, hashtags, mentions, location, effects, slideshow images and engagement counters. No TikTok login, cookies or API key needed.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li><strong>Two modes:</strong> <code>bySound</code> resolves one or more sound URLs/IDs; <code>searchSounds</code> discovers sounds from one or more keywords.</li>
+<li><strong>Complete sound metadata:</strong> title, author name, credited <code>artist</code>/<code>artists</code>, owner handle, language, release info, tags, licensing flags, covers and video count.</li>
+<li><strong>DSP and partner IDs:</strong> <code>dspLinks</code> and <code>externalSongInfo</code> expose the IDs TikTok holds for Spotify, Apple Music and other partners, without inventing links.</li>
+<li><strong>Every video using the sound:</strong> request up to 500 per sound, collected 30 at a time and deduplicated by video ID. TikTok can cap the public feed per run, so the actor returns what it can read and reports any shortfall.</li>
+<li><strong>Slideshow-aware:</strong> photo posts are labelled <code>postType: &quot;slideshow&quot;</code> and include their <code>images</code> array.</li>
+<li><strong>Client-side filters:</strong> publish window, minimum plays, minimum likes and one-video-per-creator, applied after collection.</li>
+<li><strong>Opt-in error rows:</strong> turn on <code>includeErrorRows</code> when you want a machine-readable row for each failed input.</li>
+<li>Every empty field is omitted — no nulls or blank placeholders.</li>
+</ul>
+<h2 id="readme-output-per-sound-rowtype-music">Output per sound (<code>rowType: &quot;music&quot;</code>)</h2>
+<ul>
+<li><code>musicId</code>, <code>musicUrl</code> — sound ID and canonical TikTok page URL</li>
+<li><code>musicTitle</code>, <code>authorName</code>, <code>album</code> — track identity</li>
+<li><code>artist</code> — credited artist profile snapshot (id, secUid, username, displayName, bio, verified, avatarUrl)</li>
+<li><code>artists</code> — every credited artist TikTok returns</li>
+<li><code>ownerHandle</code>, <code>ownerNickname</code> — sound owner identity, when TikTok exposes one</li>
+<li><code>duration</code>, <code>durationHighPrecision</code>, <code>shootDuration</code> — track length and allowed clip length</li>
+<li><code>language</code>, <code>createTime</code>, <code>createdAt</code>, <code>musicReleaseInfo</code> — release and language metadata</li>
+<li><code>isCopyrighted</code>, <code>isCommerceMusic</code>, <code>isUnlimitedMusic</code>, <code>isOriginal</code>, <code>isPrivate</code> — licensing and visibility flags</li>
+<li><code>isPgc</code>, <code>isAuthorArtist</code>, <code>hasCommerceRight</code>, <code>commercialRightType</code> — commercial-use classification</li>
+<li><code>playUrl</code>, <code>coverLarge</code>, <code>coverMedium</code>, <code>coverThumb</code> — signed audio and cover URLs</li>
+<li><code>videoCount</code> — number of videos using the sound (kept as a string for very large counts)</li>
+<li><code>dspLinks</code> — streaming-platform IDs, names and links derived from TikTok's partner data</li>
+<li><code>externalSongInfo</code> — raw partner IDs (partnerName, partnerSongId, externalSongKey, links)</li>
+<li><code>tagList</code>, <code>themeTags</code> — mood, genre and theme tags</li>
+<li><code>matchedSongId</code>, <code>shareMeta</code> — matched licensed track ID and share text</li>
+<li><code>searchKeyword</code>, <code>searchPosition</code> — lineage when the sound came from <code>searchSounds</code></li>
+<li><code>author</code> — creator profile snapshot for the sound</li>
+<li><code>rowType: &quot;music&quot;</code></li>
+</ul>
+<h2 id="readme-output-per-video-rowtype-post">Output per video (<code>rowType: &quot;post&quot;</code>)</h2>
+<ul>
+<li><code>postId</code>, <code>postType</code>, <code>postUrl</code> — video identifier, <code>video</code> or <code>slideshow</code>, and link</li>
+<li><code>matchedMusicId</code> — the sound this video was collected under</li>
+<li><code>searchKeyword</code>, <code>searchPosition</code> — search lineage when applicable</li>
+<li><code>caption</code>, <code>textLanguage</code>, <code>createTime</code>, <code>createdAt</code> — caption and publish time</li>
+<li><code>locationCreated</code>, <code>poi</code> — country and point-of-interest tag, when present</li>
+<li><code>stitchEnabled</code>, <code>shareEnabled</code>, <code>duetEnabled</code>, <code>isAd</code> — interaction and ad flags</li>
+<li><code>playCount</code>, <code>likeCount</code>, <code>commentCount</code>, <code>shareCount</code>, <code>collectCount</code>, <code>repostCount</code> — engagement counters</li>
+<li><code>hashtags</code> — <code>{name, id, isCommerce}</code> entries</li>
+<li><code>mentions</code> — <code>{username, userId, secUid, userUniqueId, start, end}</code> entries from TikTok's mention metadata</li>
+<li><code>author</code> — full author snapshot with bio, avatar and follower/heart/video counts</li>
+<li><code>music</code> — the sound object embedded in the video (id, title, authorName, album, playUrl, coverUrl, dspLinks)</li>
+<li><code>video</code> — width, height, duration, ratio, definition, bitrate, codec, format, size, quality and cover URLs</li>
+<li><code>images</code> — slideshow image URLs with width/height for <code>postType: &quot;slideshow&quot;</code></li>
+<li><code>effectStickers</code> — effects used in the video</li>
+<li><code>mediaUrlExpiresAt</code> — expiry timestamp for signed media URLs</li>
+<li><code>rowType: &quot;post&quot;</code></li>
+</ul>
+<h2 id="readme-output-per-failed-input-rowtype-error-opt-in">Output per failed input (<code>rowType: &quot;error&quot;</code>, opt-in)</h2>
+<ul>
+<li><code>errorCode</code> — <code>invalid_music_input</code>, <code>sound_unavailable</code>, <code>no_search_results</code>, <code>feed_blocked</code> or <code>blocked</code></li>
+<li><code>errorMessage</code> — plain-language explanation</li>
+<li><code>inputValue</code>, <code>musicId</code>, <code>searchKeyword</code> — which input failed</li>
+</ul>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td>string</td>
+<td><code>bySound</code></td>
+<td><code>bySound</code> / <code>searchSounds</code></td>
+</tr>
+<tr>
+<td><code>musicUrls</code></td>
+<td>array</td>
+<td>–</td>
+<td>Sound page URLs (mode=bySound)</td>
+</tr>
+<tr>
+<td><code>musicIds</code></td>
+<td>array</td>
+<td>–</td>
+<td>Numeric sound IDs, 15–20 digits (mode=bySound)</td>
+</tr>
+<tr>
+<td><code>searchQueries</code></td>
+<td>array</td>
+<td>–</td>
+<td>Keywords to search (mode=searchSounds)</td>
+</tr>
+<tr>
+<td><code>maxSoundsPerQuery</code></td>
+<td>integer</td>
+<td><code>10</code></td>
+<td>Sounds kept per keyword, 1–30</td>
+</tr>
+<tr>
+<td><code>maxPostsPerSound</code></td>
+<td>integer</td>
+<td><code>30</code></td>
+<td>Videos per sound, 0–500; <code>0</code> means metadata only</td>
+</tr>
+<tr>
+<td><code>includeMusicMetadata</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Emit sound metadata rows</td>
+</tr>
+<tr>
+<td><code>includePosts</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Emit video rows</td>
+</tr>
+<tr>
+<td><code>includeErrorRows</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Emit rows for failed inputs</td>
+</tr>
+<tr>
+<td><code>publishedWithin</code></td>
+<td>string</td>
+<td><code>all</code></td>
+<td><code>all</code> / <code>day</code> / <code>week</code> / <code>month</code> / <code>year</code> (video rows)</td>
+</tr>
+<tr>
+<td><code>minPlayCount</code></td>
+<td>integer</td>
+<td><code>0</code></td>
+<td>Drop videos below this play count</td>
+</tr>
+<tr>
+<td><code>minLikeCount</code></td>
+<td>integer</td>
+<td><code>0</code></td>
+<td>Drop videos below this like count</td>
+</tr>
+<tr>
+<td><code>uniqueCreatorsOnly</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Keep the highest-play video per author</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-example-one-sound-by-url">Example: one sound by URL</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;bySound&quot;,
+  &quot;musicUrls&quot;: [&quot;https://www.tiktok.com/music/original-sound-7595604258835401494&quot;],
+  &quot;maxPostsPerSound&quot;: 100
+}
+</code></pre>
+<h3 id="readme-example-several-sounds-by-id">Example: several sounds by ID</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;bySound&quot;,
+  &quot;musicIds&quot;: [&quot;6799585653702019073&quot;, &quot;7181527934435117058&quot;],
+  &quot;maxPostsPerSound&quot;: 50,
+  &quot;includeErrorRows&quot;: true
+}
+</code></pre>
+<h3 id="readme-example-keyword-discovery-with-filters">Example: keyword discovery with filters</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;searchSounds&quot;,
+  &quot;searchQueries&quot;: [&quot;lofi&quot;, &quot;phonk&quot;, &quot;afrobeats&quot;],
+  &quot;maxSoundsPerQuery&quot;: 10,
+  &quot;maxPostsPerSound&quot;: 30,
+  &quot;publishedWithin&quot;: &quot;month&quot;,
+  &quot;minPlayCount&quot;: 10000,
+  &quot;uniqueCreatorsOnly&quot;: true
+}
+</code></pre>
+<h3 id="readme-example-metadata-only">Example: metadata only</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;bySound&quot;,
+  &quot;musicIds&quot;: [&quot;6799585653702019073&quot;],
+  &quot;includeMusicMetadata&quot;: true,
+  &quot;includePosts&quot;: false,
+  &quot;maxPostsPerSound&quot;: 0
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>A&amp;R and label teams</strong> tracking how a track spreads and which creators are driving it</li>
+<li><strong>Brand and campaign teams</strong> checking a sound's licensing flags, DSP IDs and audience before using it</li>
+<li><strong>Trend researchers</strong> discovering sounds by keyword and pulling the videos that define each trend</li>
+<li><strong>Rights-management teams</strong> auditing reuse of licensed or copyrighted tracks</li>
+<li><strong>Creator-discovery platforms</strong> finding the highest-performing video per creator for a sound</li>
+<li><strong>Music catalogues</strong> enriching tracks with TikTok's artist, release and streaming-partner identifiers</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Do I need a TikTok account or cookies?</strong> No. The actor reads public sound and video data without a login, cookie or API key.</p>
+<p><strong>Where do I find a sound's ID?</strong> Open the sound page on TikTok; the URL ends in <code>/music/&lt;name&gt;-&lt;digits&gt;</code>. The trailing digits are the ID, and you can paste either the full URL or the number.</p>
+<p><strong>What is the difference between <code>authorName</code> and <code>artist</code>?</strong> <code>authorName</code> is the label TikTok shows for the sound. <code>artist</code> and <code>artists</code> are the credited performer profiles TikTok returns for licensed tracks. For user-recorded sounds the artist fields are usually absent.</p>
+<p><strong>Why are <code>dspLinks</code> or <code>externalSongInfo</code> missing for some sounds?</strong> Streaming-partner IDs only exist for licensed commercial tracks. Original user sounds do not have them, and the field is omitted rather than filled with a guess.</p>
+<p><strong>How many sounds can one keyword return?</strong> TikTok returns up to 30 sounds per query and does not paginate this catalogue, so <code>maxSoundsPerQuery</code> is capped at 30. Use several keywords to broaden coverage; duplicates are removed across queries.</p>
+<p><strong>Why did I get fewer videos than the sound's video count?</strong> The actor collects up to <code>maxPostsPerSound</code> (maximum 500) from the public feed. TikTok may return fewer items for very old, private or region-restricted posts, and it can cap anonymous feed pages per IP. When that happens the actor returns everything it could read and reports the shortfall in the run status. Large pulls are read 30 videos at a time and can take several minutes to finish.</p>
+<p><strong>Why do some slideshow videos have no playback URL?</strong> Photo posts use <code>images</code> instead of a video file; their <code>postType</code> is <code>slideshow</code> and the <code>video</code> object may only carry covers and dimensions.</p>
+<p><strong>Are <code>playUrl</code>, covers and video URLs permanent?</strong> No. TikTok signs media URLs with a short expiry. Treat them as temporary and download promptly if you need the media itself.</p>
+<p><strong>Do the filters apply to sound rows too?</strong> No. <code>publishedWithin</code>, <code>minPlayCount</code>, <code>minLikeCount</code> and <code>uniqueCreatorsOnly</code> apply to video rows after collection. Sound rows are always returned for the inputs you asked for.</p>
+<p><strong>Is this affiliated with TikTok?</strong> No. This is an independent actor that reads TikTok's public sound and video data; it is not endorsed by or affiliated with TikTok or ByteDance.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/tiktok-sound-lookup-metadata-and-videos-using-it/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>LmWHGTW7L3zReLZ3O</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

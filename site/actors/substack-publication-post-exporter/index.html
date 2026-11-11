@@ -1,0 +1,474 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-zisiWUNEUnyWJ9Jidq5J7lS30KOMwrG2xeYMI4YjiH0=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Substack Publication Post Exporter | Vexaloom Labs</title><meta name="description" content="Export posts from any Substack newsletter: title, author, publish date, body, categories and cover image, filtered by category, date or keyword. No login or proxy needed."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/substack-publication-post-exporter/"><meta property="og:title" content="Substack Publication Post Exporter | Vexaloom Labs"><meta property="og:description" content="Export posts from any Substack newsletter: title, author, publish date, body, categories and cover image, filtered by category, date or keyword. No login or proxy needed."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/substack-publication-post-exporter/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/substack-publication-post-exporter/#webpage","name":"Substack Publication Post Exporter","description":"Export posts from any Substack newsletter: title, author, publish date, body, categories and cover image, filtered by category, date or keyword. No login or proxy needed.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/substack-publication-post-exporter/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/substack-publication-post-exporter/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/substack-publication-post-exporter/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/substack-publication-post-exporter/#article","headline":"Substack Publication Post Exporter","name":"Substack Publication Post Exporter","description":"Export posts from any Substack newsletter: title, author, publish date, body, categories and cover image, filtered by category, date or keyword. No login or proxy needed.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/substack-publication-post-exporter/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/substack-publication-post-exporter/#webpage"},"inLanguage":"en","dateModified":"2026-10-25T14:15:30.894Z"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/substack-publication-post-exporter/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Substack Publication Post Exporter","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/substack-publication-post-exporter/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Substack Publication Post Exporter</span></div><section id="overview"><h1 class="doc-title">Substack Publication Post Exporter</h1><p class="lede">Export posts from any Substack newsletter: title, author, publish date, body, categories and cover image, filtered by category, date or keyword. No login or proxy needed.</p><p class="summary">Substack Publication Post Exporter is an Apify Actor published by Vexaloom Labs. It accepts 18 input fields, none of them required at the top level. Its build declares a results dataset with 1 view. Runs happen on Apify, where the Store page lists the current price.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/substack-publication-post-exporter">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/n7xofJAWyJUILJ0N1/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>What to scrape. substack.com-hosted inputs are reported as blocked_egress.</td></tr><tr><td><code>publications</code></td><td>array</td><td>optional</td><td>(mode=publicationPosts) Custom-domain publication URLs or RSS-capable sites, e.g. `https://www.slowboring.com` or `https://platformer.news`. Bare subdomains and substack.com links are blocked from this actor&#x27;s cloud network.</td></tr><tr><td><code>postUrls</code></td><td>array</td><td>optional</td><td>(mode=postUrls) Custom-domain post URLs, e.g. `https://www.noahpinion.blog/p/the-internet-breaks`. substack.com share links are reported as blocked_egress.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>What to scrape. substack.com-hosted inputs are reported as blocked_egress.</td></tr><tr><td><code>publications</code></td><td>array</td><td>optional</td><td>(mode=publicationPosts) Custom-domain publication URLs or RSS-capable sites, e.g. `https://www.slowboring.com` or `https://platformer.news`. Bare subdomains and substack.com links are blocked from this actor&#x27;s cloud network.</td></tr><tr><td><code>postUrls</code></td><td>array</td><td>optional</td><td>(mode=postUrls) Custom-domain post URLs, e.g. `https://www.noahpinion.blog/p/the-internet-breaks`. substack.com share links are reported as blocked_egress.</td></tr><tr><td><code>sortBy</code></td><td>string</td><td>optional</td><td>(mode=publicationPosts) Newest first or all-time most popular first.</td></tr><tr><td><code>publishedAfter</code></td><td>string</td><td>optional</td><td>Keep posts published on or after this date (`YYYY-MM-DD`).</td></tr><tr><td><code>publishedBefore</code></td><td>string</td><td>optional</td><td>Keep posts published on or before this date (`YYYY-MM-DD`).</td></tr><tr><td><code>containsKeyword</code></td><td>string</td><td>optional</td><td>(mode=publicationPosts) Keep posts whose title, teaser or text contains this keyword. Uses Substack&#x27;s publication search when possible.</td></tr><tr><td><code>tagsAnyOf</code></td><td>array</td><td>optional</td><td>Keep posts carrying at least one of these tags (case-insensitive).</td></tr><tr><td><code>audienceFilter</code></td><td>string</td><td>optional</td><td>Keep all posts, only free posts, or only paid posts.</td></tr><tr><td><code>postType</code></td><td>string</td><td>optional</td><td>Keep all post types or a single type.</td></tr><tr><td><code>mediaFilter</code></td><td>string</td><td>optional</td><td>Keep all posts, audio posts, video posts, or text-only posts.</td></tr><tr><td><code>bodyFormat</code></td><td>string</td><td>optional</td><td>Body fields to include. `none` is fastest; `all` adds HTML, plain text and Markdown.</td></tr><tr><td><code>includePaidPreview</code></td><td>boolean</td><td>optional</td><td>For paid posts, include the public preview body and flag it as a preview. Turn off for faster metadata-only runs.</td></tr><tr><td><code>includeComments</code></td><td>boolean</td><td>optional</td><td>Include public comment threads for free posts. Paid-post comments are members-only.</td></tr><tr><td><code>maxCommentsPerPost</code></td><td>integer</td><td>optional</td><td>Cap on comments per post, including replies. Set to 0 for no limit.</td></tr><tr><td><code>includePublicationInfo</code></td><td>boolean</td><td>optional</td><td>Add publication details such as pricing plans, sections, language and payment status.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Hard cap on emitted records.</td></tr><tr><td><code>maxPostsPerPublication</code></td><td>integer</td><td>optional</td><td>Optional per-publication cap. Set to 0 for no per-publication limit.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Export custom-domain Substack publications and post URLs, with an RSS fallback for non-Substack sites.&quot;,
+  &quot;properties&quot;: {
+    &quot;audienceFilter&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;Keep all posts, only free posts, or only paid posts.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
+        &quot;free&quot;,
+        &quot;paid&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All posts&quot;,
+        &quot;Free posts only&quot;,
+        &quot;Paid posts only&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Free or paid&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;bodyFormat&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;Body fields to include. `none` is fastest; `all` adds HTML, plain text and Markdown.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;none&quot;,
+        &quot;html&quot;,
+        &quot;text&quot;,
+        &quot;markdown&quot;,
+        &quot;all&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;No body&quot;,
+        &quot;HTML&quot;,
+        &quot;Plain text&quot;,
+        &quot;Markdown&quot;,
+        &quot;HTML + text + Markdown&quot;
+      ],
+      &quot;prefill&quot;: &quot;none&quot;,
+      &quot;title&quot;: &quot;Post body&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;containsKeyword&quot;: {
+      &quot;description&quot;: &quot;(mode=publicationPosts) Keep posts whose title, teaser or text contains this keyword. Uses Substack&#x27;s publication search when possible.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Contains keyword&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;includeComments&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Include public comment threads for free posts. Paid-post comments are members-only.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include comments&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includePaidPreview&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;For paid posts, include the public preview body and flag it as a preview. Turn off for faster metadata-only runs.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include paid post preview&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includePublicationInfo&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Add publication details such as pricing plans, sections, language and payment status.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include publication info&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;maxCommentsPerPost&quot;: {
+      &quot;default&quot;: 20,
+      &quot;description&quot;: &quot;Cap on comments per post, including replies. Set to 0 for no limit.&quot;,
+      &quot;maximum&quot;: 5000,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 20,
+      &quot;title&quot;: &quot;Max comments per post&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 50,
+      &quot;description&quot;: &quot;Hard cap on emitted records.&quot;,
+      &quot;maximum&quot;: 10000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 3,
+      &quot;title&quot;: &quot;Max items&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxPostsPerPublication&quot;: {
+      &quot;default&quot;: 0,
+      &quot;description&quot;: &quot;Optional per-publication cap. Set to 0 for no per-publication limit.&quot;,
+      &quot;maximum&quot;: 10000,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 3,
+      &quot;title&quot;: &quot;Max posts per publication&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mediaFilter&quot;: {
+      &quot;default&quot;: &quot;any&quot;,
+      &quot;description&quot;: &quot;Keep all posts, audio posts, video posts, or text-only posts.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;any&quot;,
+        &quot;audio&quot;,
+        &quot;video&quot;,
+        &quot;text&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Any media&quot;,
+        &quot;With audio&quot;,
+        &quot;With video&quot;,
+        &quot;Text only&quot;
+      ],
+      &quot;prefill&quot;: &quot;any&quot;,
+      &quot;title&quot;: &quot;Media&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;publicationPosts&quot;,
+      &quot;description&quot;: &quot;What to scrape. substack.com-hosted inputs are reported as blocked_egress.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;publicationPosts&quot;,
+        &quot;postUrls&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Publication posts (archive)&quot;,
+        &quot;Specific post URLs&quot;
+      ],
+      &quot;prefill&quot;: &quot;publicationPosts&quot;,
+      &quot;title&quot;: &quot;Mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;postType&quot;: {
+      &quot;default&quot;: &quot;all&quot;,
+      &quot;description&quot;: &quot;Keep all post types or a single type.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;all&quot;,
+        &quot;newsletter&quot;,
+        &quot;podcast&quot;,
+        &quot;thread&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All types&quot;,
+        &quot;Newsletter&quot;,
+        &quot;Podcast&quot;,
+        &quot;Thread&quot;
+      ],
+      &quot;prefill&quot;: &quot;all&quot;,
+      &quot;title&quot;: &quot;Post type&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;postUrls&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;(mode=postUrls) Custom-domain post URLs, e.g. `https://www.noahpinion.blog/p/the-internet-breaks`. substack.com share links are reported as blocked_egress.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Post URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;publications&quot;: {
+      &quot;default&quot;: [
+        &quot;platformer.news&quot;
+      ],
+      &quot;description&quot;: &quot;(mode=publicationPosts) Custom-domain publication URLs or RSS-capable sites, e.g. `https://www.slowboring.com` or `https://platformer.news`. Bare subdomains and substack.com links are blocked from this actor&#x27;s cloud network.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [
+        &quot;platformer.news&quot;
+      ],
+      &quot;title&quot;: &quot;Publications&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;publishedAfter&quot;: {
+      &quot;description&quot;: &quot;Keep posts published on or after this date (`YYYY-MM-DD`).&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Published after&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;publishedBefore&quot;: {
+      &quot;description&quot;: &quot;Keep posts published on or before this date (`YYYY-MM-DD`).&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Published before&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;sortBy&quot;: {
+      &quot;default&quot;: &quot;newest&quot;,
+      &quot;description&quot;: &quot;(mode=publicationPosts) Newest first or all-time most popular first.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;newest&quot;,
+        &quot;top&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Newest first&quot;,
+        &quot;Most popular&quot;
+      ],
+      &quot;prefill&quot;: &quot;newest&quot;,
+      &quot;title&quot;: &quot;Sort order&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;tagsAnyOf&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Keep posts carrying at least one of these tags (case-insensitive).&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Tags&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    }
+  },
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Substack Scraper Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>posts</code></td><td>string</td><td>optional</td><td>Dataset containing scraped Substack posts and author profiles.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;One record per post (metadata, free body HTML/text/Markdown, flagged paid teaser, media, engagement, comments) or one blocked_egress status row per substack.com-hosted input.&quot;,
+  &quot;properties&quot;: {
+    &quot;posts&quot;: {
+      &quot;description&quot;: &quot;Dataset containing scraped Substack posts and author profiles.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Substack posts and author profiles&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Substack Publication Post Exporter Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {}
+      },
+      &quot;title&quot;: &quot;Substack posts&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;title&quot;,
+          &quot;recordType&quot;,
+          &quot;publication&quot;,
+          &quot;author&quot;,
+          &quot;publishedAt&quot;,
+          &quot;audience&quot;,
+          &quot;commentCount&quot;,
+          &quot;url&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-substack-publication-post-exporter">Substack Publication Post Exporter</h2>
+<p>Turn a Substack publication's public archive into a clean dataset, or fetch individual posts you already know. Custom-domain newsletters work directly; publications that still live on <code>*.substack.com</code> are reported as a clear <code>blocked_egress</code> status row instead of a misleading empty result. Free posts arrive with full HTML, readable text and Markdown; paid posts arrive with metadata and a clearly flagged public teaser. No account, login or proxy setup.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li><strong>Two modes:</strong> export a publication's archive (<code>publicationPosts</code>) or fetch specific post URLs (<code>postUrls</code>).</li>
+<li><strong>Full archive depth:</strong> walk a custom-domain publication from its newest post back through its history, 50 posts at a time.</li>
+<li><strong>Free posts in full:</strong> HTML, plain text and clean Markdown for every free post.</li>
+<li><strong>Paid posts, honestly:</strong> title, subtitle, author, date, cover, word count, reactions, comments count and the public teaser. The public preview body is optional and flagged with <code>contentIsPreview</code>.</li>
+<li><strong>Comments:</strong> nested public comment threads for free posts.</li>
+<li><strong>Publication details:</strong> name, domain, language, payment status, subscription plans and sections.</li>
+<li><strong>Filters:</strong> date range, keyword, tags, free/paid, post type and audio/video presence.</li>
+<li><strong>RSS fallback:</strong> non-Substack sites such as Platformer are read through their public feed (up to 20 recent items).</li>
+<li><strong>Blocked inputs are visible:</strong> <code>substack.com</code>, <code>*.substack.com</code> and share links produce a <code>blocked_egress</code> row that explains the limitation and the workaround.</li>
+<li><strong>Empty fields are omitted:</strong> a post without a subtitle, tag or video simply has no such key.</li>
+</ul>
+<h2 id="readme-output-per-post">Output per post</h2>
+<ul>
+<li><code>id</code>, <code>slug</code>, <code>title</code>, <code>subtitle</code>, <code>url</code>, <code>guid</code> — identity and canonical link</li>
+<li><code>publishedAt</code>, <code>publishedAtRaw</code>, <code>updatedAt</code> — ISO date plus the original source value</li>
+<li><code>author</code>, <code>authors[]</code> — primary byline and every byline with name, handle, bio, photo and Twitter</li>
+<li><code>publication</code>, <code>publicationUrl</code>, <code>publicationInfo</code> — newsletter name/link, plus plans and sections when enabled</li>
+<li><code>audience</code>, <code>isPaid</code>, <code>contentAccess</code>, <code>contentIsPreview</code>, <code>shouldSendFreePreview</code>, <code>freeUnlockRequired</code> — access state</li>
+<li><code>bodyHtml</code>, <code>bodyText</code>, <code>bodyMarkdown</code> — body in the requested formats; paid bodies are previews only</li>
+<li><code>summary</code>, <code>truncatedBodyText</code>, <code>description</code> — plain excerpt, source teaser and source description</li>
+<li><code>wordCount</code> (words in the delivered body), <code>articleWordCount</code> (full article count from the source), <code>readingTimeMinutes</code></li>
+<li><code>language</code>, <code>postType</code> — language code and <code>newsletter</code> / <code>podcast</code> / <code>thread</code></li>
+<li><code>coverImage</code>, <code>audioUrl</code>, <code>podcastUrl</code>, <code>podcastDurationSec</code> — image and audio</li>
+<li><code>videoUrl</code>, <code>videoThumbnailUrl</code>, <code>videoDurationSec</code>, <code>videoWidth</code>, <code>videoHeight</code>, <code>videoIsPreview</code> — video details</li>
+<li><code>tags</code>, <code>tagSlugs</code>, <code>categories</code>, <code>sectionId</code>, <code>sectionName</code> — taxonomy; <code>categories</code> is kept for older integrations</li>
+<li><code>reactionCount</code>, <code>reactions</code>, <code>commentCount</code>, <code>childCommentCount</code>, <code>restacks</code> — engagement</li>
+<li><code>comments[]</code> — nested public comments when enabled, with author, date, reactions and replies</li>
+<li><code>dataSource</code>, <code>recordType</code> (<code>post</code>), <code>scrapedAt</code></li>
+</ul>
+<h2 id="readme-blocked-input-row">Blocked input row</h2>
+<p>When an input is hosted on <code>substack.com</code> (a bare subdomain, a <code>substack.com/@handle</code>, or a share link), the actor emits one row with <code>recordType: &quot;blocked_egress&quot;</code>, the original <code>input</code>, <code>host</code>, a plain-language <code>message</code> and a <code>workaround</code>. This is a limitation of this actor's cloud network, not an empty publication. Use the publication's custom domain or an RSS-capable site instead.</p>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td>string</td>
+<td><code>publicationPosts</code></td>
+<td><code>publicationPosts</code> or <code>postUrls</code></td>
+</tr>
+<tr>
+<td><code>publications</code></td>
+<td>array</td>
+<td><code>[&quot;platformer.news&quot;]</code></td>
+<td>Custom-domain publication URLs or RSS-capable sites (mode=publicationPosts)</td>
+</tr>
+<tr>
+<td><code>postUrls</code></td>
+<td>array</td>
+<td>–</td>
+<td>Custom-domain post URLs (mode=postUrls)</td>
+</tr>
+<tr>
+<td><code>sortBy</code></td>
+<td>string</td>
+<td><code>newest</code></td>
+<td><code>newest</code> or <code>top</code> for publication posts</td>
+</tr>
+<tr>
+<td><code>publishedAfter</code></td>
+<td>string</td>
+<td>–</td>
+<td>Keep posts on or after <code>YYYY-MM-DD</code></td>
+</tr>
+<tr>
+<td><code>publishedBefore</code></td>
+<td>string</td>
+<td>–</td>
+<td>Keep posts on or before <code>YYYY-MM-DD</code></td>
+</tr>
+<tr>
+<td><code>containsKeyword</code></td>
+<td>string</td>
+<td>–</td>
+<td>Keep posts whose title, teaser or text contains this keyword</td>
+</tr>
+<tr>
+<td><code>tagsAnyOf</code></td>
+<td>array</td>
+<td>–</td>
+<td>Keep posts with at least one matching tag</td>
+</tr>
+<tr>
+<td><code>audienceFilter</code></td>
+<td>string</td>
+<td><code>all</code></td>
+<td><code>all</code>, <code>free</code> or <code>paid</code></td>
+</tr>
+<tr>
+<td><code>postType</code></td>
+<td>string</td>
+<td><code>all</code></td>
+<td><code>all</code>, <code>newsletter</code>, <code>podcast</code> or <code>thread</code></td>
+</tr>
+<tr>
+<td><code>mediaFilter</code></td>
+<td>string</td>
+<td><code>any</code></td>
+<td><code>any</code>, <code>audio</code>, <code>video</code> or <code>text</code></td>
+</tr>
+<tr>
+<td><code>bodyFormat</code></td>
+<td>string</td>
+<td><code>all</code></td>
+<td><code>none</code>, <code>html</code>, <code>text</code>, <code>markdown</code> or <code>all</code></td>
+</tr>
+<tr>
+<td><code>includePaidPreview</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Include the flagged public preview of paid posts</td>
+</tr>
+<tr>
+<td><code>includeComments</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Include public comment threads for free posts</td>
+</tr>
+<tr>
+<td><code>maxCommentsPerPost</code></td>
+<td>integer</td>
+<td><code>20</code></td>
+<td>Comment cap per post, replies included; <code>0</code> means no limit</td>
+</tr>
+<tr>
+<td><code>includePublicationInfo</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Add plans, sections and publication metadata</td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>integer</td>
+<td><code>50</code></td>
+<td>Hard cap on records (1–10,000)</td>
+</tr>
+<tr>
+<td><code>maxPostsPerPublication</code></td>
+<td>integer</td>
+<td><code>0</code></td>
+<td>Per-publication cap; <code>0</code> means no per-publication limit</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-example-a-custom-domain-publication-with-full-bodies">Example: a custom-domain publication with full bodies</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;publicationPosts&quot;,
+  &quot;publications&quot;: [&quot;https://www.slowboring.com&quot;],
+  &quot;maxItems&quot;: 25,
+  &quot;bodyFormat&quot;: &quot;all&quot;
+}
+</code></pre>
+<h3 id="readme-example-paid-and-free-posts-in-a-date-range">Example: paid and free posts in a date range</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;publicationPosts&quot;,
+  &quot;publications&quot;: [&quot;https://www.noahpinion.blog&quot;],
+  &quot;publishedAfter&quot;: &quot;2026-01-01&quot;,
+  &quot;audienceFilter&quot;: &quot;all&quot;,
+  &quot;includePaidPreview&quot;: true,
+  &quot;maxItems&quot;: 100
+}
+</code></pre>
+<h3 id="readme-example-specific-custom-domain-post-urls">Example: specific custom-domain post URLs</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;postUrls&quot;,
+  &quot;postUrls&quot;: [
+    &quot;https://www.noahpinion.blog/p/the-internet-breaks&quot;,
+    &quot;https://www.slowboring.com/p/destroying-womens-sports-in-order&quot;
+  ],
+  &quot;bodyFormat&quot;: &quot;markdown&quot;,
+  &quot;includeComments&quot;: true
+}
+</code></pre>
+<h3 id="readme-example-rss-fallback-for-a-site-that-left-substack">Example: RSS fallback for a site that left Substack</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;publicationPosts&quot;,
+  &quot;publications&quot;: [&quot;platformer.news&quot;],
+  &quot;maxItems&quot;: 10,
+  &quot;bodyFormat&quot;: &quot;text&quot;
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>Newsletter monitoring</strong> — follow competitor or industry publications without checking each site.</li>
+<li><strong>Research and NLP</strong> — export free-post text or Markdown for topic models, search indexes and RAG stores.</li>
+<li><strong>Content archives</strong> — keep a searchable copy of a public archive and its free comments.</li>
+<li><strong>Media analysis</strong> — track themes, posting cadence, reactions and discussion across newsletters.</li>
+<li><strong>Feed consolidation</strong> — merge several custom-domain publications, or an RSS site, into one dataset.</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Do I need a Substack account, cookies or a proxy?</strong>
+No. The actor reads public custom-domain pages and posts. There is no login step and no proxy setup.</p>
+<p><strong>Which publications work?</strong>
+Any publication served from its own custom domain, plus non-Substack sites with a public RSS feed. Bare <code>*.substack.com</code> addresses and <code>substack.com</code> share links do not work from this actor's cloud network.</p>
+<p><strong>What is a <code>blocked_egress</code> row?</strong>
+It is a status record that tells you the input is hosted on <code>substack.com</code> and cannot be read from this actor's cloud network. It includes the original input, the host, a plain-language message and a workaround. It is not an empty publication.</p>
+<p><strong>Can I download paid posts in full?</strong>
+No. Paid posts are protected. The actor returns their metadata, the public teaser and, when <code>includePaidPreview</code> is on, the public preview body with <code>contentIsPreview: true</code>. It never bypasses a paywall.</p>
+<p><strong>How far back does the archive go?</strong>
+As far as a custom-domain publication's public archive goes — not just the latest page. The RSS fallback returns up to 20 recent items.</p>
+<p><strong>Why are comments missing on some posts?</strong>
+Public comment threads are available for free posts. Comments on paid posts are members-only, so the actor returns the comment count but not the thread.</p>
+<p><strong>Can I get Markdown for AI or RAG pipelines?</strong>
+Yes. Choose <code>markdown</code> or <code>all</code> in <code>bodyFormat</code>. Free posts get clean Markdown with subscribe buttons, share widgets and image wrappers removed. Paid posts get the flagged public preview only.</p>
+<p><strong>Why is a field absent from some records?</strong>
+Empty values are omitted rather than written as <code>null</code>. A post without a subtitle, tag, video or public subscriber count simply does not include that key.</p>
+<p><strong>Do custom domains work the same as a <code>.substack.com</code> address?</strong>
+Use the custom domain itself, such as <code>https://www.slowboring.com</code> or <code>https://www.noahpinion.blog</code>. The <code>.substack.com</code> address is reported as <code>blocked_egress</code>.</p>
+<p><strong>Is this affiliated with Substack?</strong>
+No. This is an independent third-party actor that reads publicly available newsletter data. It is not affiliated with or endorsed by Substack.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/substack-publication-post-exporter/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>izi31evru0SmgKMn3</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

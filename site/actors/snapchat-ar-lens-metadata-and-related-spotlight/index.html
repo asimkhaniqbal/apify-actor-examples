@@ -1,0 +1,398 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-a6bKiLp6MkGApfyQ1YorPnArLCO0nuKY2XDqEoH1Er0=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Snapchat AR Lens Metadata &amp; Related Spotlight Finder | Vexaloom Labs</title><meta name="description" content="Get trending Snapchat AR lenses, full lens details (creator, previews, related lenses, Spotlight videos using it) by URL or UUID, or lens search results by keyword. No login needed"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/snapchat-ar-lens-metadata-and-related-spotlight/"><meta property="og:title" content="Snapchat AR Lens Metadata &amp; Related Spotlight Finder | Vexaloom Labs"><meta property="og:description" content="Get trending Snapchat AR lenses, full lens details (creator, previews, related lenses, Spotlight videos using it) by URL or UUID, or lens search results by keyword. No login needed"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/snapchat-ar-lens-metadata-and-related-spotlight/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/snapchat-ar-lens-metadata-and-related-spotlight/#webpage","name":"Snapchat AR Lens Metadata & Related Spotlight Finder","description":"Get trending Snapchat AR lenses, full lens details (creator, previews, related lenses, Spotlight videos using it) by URL or UUID, or lens search results by keyword. No login needed.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/snapchat-ar-lens-metadata-and-related-spotlight/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/snapchat-ar-lens-metadata-and-related-spotlight/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/snapchat-ar-lens-metadata-and-related-spotlight/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/snapchat-ar-lens-metadata-and-related-spotlight/#article","headline":"Snapchat AR Lens Metadata & Related Spotlight Finder","name":"Snapchat AR Lens Metadata & Related Spotlight Finder","description":"Get trending Snapchat AR lenses, full lens details (creator, previews, related lenses, Spotlight videos using it) by URL or UUID, or lens search results by keyword. No login needed.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/snapchat-ar-lens-metadata-and-related-spotlight/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/snapchat-ar-lens-metadata-and-related-spotlight/#webpage"},"inLanguage":"en","dateModified":"2026-11-07T08:55:29.884Z"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/snapchat-ar-lens-metadata-and-related-spotlight/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Snapchat AR Lens Metadata & Related Spotlight Finder","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/snapchat-ar-lens-metadata-and-related-spotlight/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Snapchat AR Lens Metadata &amp; Related Spotlight Finder</span></div><section id="overview"><h1 class="doc-title">Snapchat AR Lens Metadata &amp; Related Spotlight Finder</h1><p class="lede">Get trending Snapchat AR lenses, full lens details (creator, previews, related lenses, Spotlight videos using it) by URL or UUID, or lens search results by keyword. No login needed.</p><p class="summary">Snapchat AR Lens Metadata &amp; Related Spotlight Finder is an Apify Actor published by Vexaloom Labs. It accepts 8 input fields, and <code>mode</code> is required. Its build declares no dataset schema; the published README describes the output. Runs happen on Apify, where the Store page lists the current price.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/snapchat-ar-lens-metadata-and-related-spotlight">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/jmrqhxVYbhWWAmj0W/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>Browse the public lens charts, fetch specific lenses, or search the Explore lens tab.</td></tr><tr><td><code>category</code></td><td>string</td><td>optional</td><td>(mode=home) Which public Snapchat lens chart to page through. For You, Trending and Face are the deepest charts; World, Music and Live are shorter.</td></tr><tr><td><code>lensUrlsOrIds</code></td><td>array</td><td>optional</td><td>(mode=detail) Lens page URLs (snapchat.com/lens/{uuid}), unlock URLs with a uuid= parameter, or bare 32-character UUIDs.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>Browse the public lens charts, fetch specific lenses, or search the Explore lens tab.</td></tr><tr><td><code>category</code></td><td>string</td><td>optional</td><td>(mode=home) Which public Snapchat lens chart to page through. For You, Trending and Face are the deepest charts; World, Music and Live are shorter.</td></tr><tr><td><code>lensUrlsOrIds</code></td><td>array</td><td>optional</td><td>(mode=detail) Lens page URLs (snapchat.com/lens/{uuid}), unlock URLs with a uuid= parameter, or bare 32-character UUIDs.</td></tr><tr><td><code>keywords</code></td><td>array</td><td>optional</td><td>(mode=search) Keywords, brands or creator names to search on the public Snapchat Explore lens tab. Snapchat returns at most 24 lenses per keyword.</td></tr><tr><td><code>includeMoreLenses</code></td><td>boolean</td><td>optional</td><td>(mode=detail) Include the related lenses Snapchat shows beside the lens. Up to 12 are returned; the lens itself is excluded when Snapchat includes it.</td></tr><tr><td><code>includeSpotlightsUsingLens</code></td><td>boolean</td><td>optional</td><td>(mode=detail) Include Spotlight videos that use this lens, with thumbnails, media URLs, creator details, engagement counts and AI-generated descriptions when public.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Global cap on saved records. Home mode pages through the selected chart until this cap or the end of the chart; the other modes stop when their inputs are exhausted.</td></tr><tr><td><code>proxyConfiguration</code></td><td>object</td><td>optional</td><td>Optional proxy override. Snapchat&#x27;s public lens pages work without a proxy; leave this empty unless you hit rate limiting.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Browse Snapchat&#x27;s public lens charts by category, look up lenses by URL or UUID, or search the Explore lens tab by keyword.&quot;,
+  &quot;properties&quot;: {
+    &quot;category&quot;: {
+      &quot;default&quot;: &quot;for_you&quot;,
+      &quot;description&quot;: &quot;(mode=home) Which public Snapchat lens chart to page through. For You, Trending and Face are the deepest charts; World, Music and Live are shorter.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;for_you&quot;,
+        &quot;trending&quot;,
+        &quot;face&quot;,
+        &quot;world&quot;,
+        &quot;music&quot;,
+        &quot;web_live&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;For You&quot;,
+        &quot;Trending&quot;,
+        &quot;Face&quot;,
+        &quot;World&quot;,
+        &quot;Music&quot;,
+        &quot;Live&quot;
+      ],
+      &quot;prefill&quot;: &quot;for_you&quot;,
+      &quot;title&quot;: &quot;Lens chart category&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;includeMoreLenses&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;(mode=detail) Include the related lenses Snapchat shows beside the lens. Up to 12 are returned; the lens itself is excluded when Snapchat includes it.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Include related lenses&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeSpotlightsUsingLens&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;(mode=detail) Include Spotlight videos that use this lens, with thumbnails, media URLs, creator details, engagement counts and AI-generated descriptions when public.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Include related Spotlights&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;keywords&quot;: {
+      &quot;description&quot;: &quot;(mode=search) Keywords, brands or creator names to search on the public Snapchat Explore lens tab. Snapchat returns at most 24 lenses per keyword.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [
+        &quot;food&quot;
+      ],
+      &quot;title&quot;: &quot;Search keywords&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;lensUrlsOrIds&quot;: {
+      &quot;description&quot;: &quot;(mode=detail) Lens page URLs (snapchat.com/lens/{uuid}), unlock URLs with a uuid= parameter, or bare 32-character UUIDs.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [
+        &quot;565e7595ec4e4a0da689762b127308ef&quot;
+      ],
+      &quot;title&quot;: &quot;Lens URLs or UUIDs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 100,
+      &quot;description&quot;: &quot;Global cap on saved records. Home mode pages through the selected chart until this cap or the end of the chart; the other modes stop when their inputs are exhausted.&quot;,
+      &quot;maximum&quot;: 100000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 24,
+      &quot;title&quot;: &quot;Maximum records&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;home&quot;,
+      &quot;description&quot;: &quot;Browse the public lens charts, fetch specific lenses, or search the Explore lens tab.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;home&quot;,
+        &quot;detail&quot;,
+        &quot;search&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Browse lens charts by category&quot;,
+        &quot;Look up specific lenses by URL or UUID&quot;,
+        &quot;Search lenses by keyword&quot;
+      ],
+      &quot;prefill&quot;: &quot;home&quot;,
+      &quot;title&quot;: &quot;What to scrape&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;proxyConfiguration&quot;: {
+      &quot;description&quot;: &quot;Optional proxy override. Snapchat&#x27;s public lens pages work without a proxy; leave this empty unless you hit rate limiting.&quot;,
+      &quot;editor&quot;: &quot;proxy&quot;,
+      &quot;nullable&quot;: true,
+      &quot;title&quot;: &quot;Proxy configuration&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;mode&quot;
+  ],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Snapchat Lens Scraper Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>lenses</code></td><td>string</td><td>optional</td><td>Dataset containing every scraped Snapchat lens, related lens and Spotlight-usage row.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Dataset links for Snapchat lens rows: chart and search lenses, full detail records, related lenses, and hydrated Spotlight videos using each lens.&quot;,
+  &quot;properties&quot;: {
+    &quot;lenses&quot;: {
+      &quot;description&quot;: &quot;Dataset containing every scraped Snapchat lens, related lens and Spotlight-usage row.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Snapchat lens records&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Snapchat AR Lens Metadata &amp; Related Spotlight Finder Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;fields&quot;: {
+    &quot;category&quot;: {
+      &quot;description&quot;: &quot;Chart category (home mode)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;creatorIsOfficial&quot;: {
+      &quot;description&quot;: &quot;Whether the creator is official (search mode)&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;creatorName&quot;: {
+      &quot;description&quot;: &quot;Creator name (search mode)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;error&quot;: {
+      &quot;description&quot;: &quot;Error explanation on a failed lookup&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;iconUrl&quot;: {
+      &quot;description&quot;: &quot;Lens icon URL&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;input&quot;: {
+      &quot;description&quot;: &quot;Original input value on an error row&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;isOfficialSnapLens&quot;: {
+      &quot;description&quot;: &quot;Whether this is an official Snapchat lens&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;lastUpdatedAt&quot;: {
+      &quot;description&quot;: &quot;Last updated ISO 8601 UTC timestamp&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;lensCreatorDisplayName&quot;: {
+      &quot;description&quot;: &quot;Creator display name (home/detail)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;lensCreatorSearchTags&quot;: {
+      &quot;description&quot;: &quot;Search tags set by the lens creator&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;lensCreatorUsername&quot;: {
+      &quot;description&quot;: &quot;Creator username (home/detail)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;lensId&quot;: {
+      &quot;description&quot;: &quot;Internal numeric lens ID&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;lensName&quot;: {
+      &quot;description&quot;: &quot;Lens display name&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;lensPreviewImageUrl&quot;: {
+      &quot;description&quot;: &quot;Preview image URL (home/detail)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;lensPreviewVideoUrl&quot;: {
+      &quot;description&quot;: &quot;Preview video URL (home/detail)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;lensUrl&quot;: {
+      &quot;description&quot;: &quot;Canonical lens page URL&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;moreLenses&quot;: {
+      &quot;description&quot;: &quot;Related lenses shown on the detail page&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;scannableUuid&quot;: {
+      &quot;description&quot;: &quot;Lens UUID used in lens and unlock URLs&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;scrapedAt&quot;: {
+      &quot;description&quot;: &quot;ISO 8601 UTC scrape timestamp&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;searchKeyword&quot;: {
+      &quot;description&quot;: &quot;Search keyword used (search mode)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;snapcodeImageUrl&quot;: {
+      &quot;description&quot;: &quot;Snapcode image URL exposed by the lens detail page&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;source&quot;: {
+      &quot;description&quot;: &quot;Data source: home, detail or search&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;spotlightsUsingThisLens&quot;: {
+      &quot;description&quot;: &quot;Spotlight videos using this lens, with metadata and hydration fields&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;thumbnailSequence&quot;: {
+      &quot;description&quot;: &quot;Animated thumbnail sequence metadata (legacy search results)&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;thumbnailUrl&quot;: {
+      &quot;description&quot;: &quot;Thumbnail URL (search/related Spotlight)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;unlockUrl&quot;: {
+      &quot;description&quot;: &quot;Snapcode unlock URL (home/detail); deeplink URL (search)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;userProfileUrl&quot;: {
+      &quot;description&quot;: &quot;Creator Snapchat profile URL&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-snapchat-ar-lens-metadata-related-spotlight-finder">Snapchat AR Lens Metadata &amp; Related Spotlight Finder</h2>
+<p>Snapchat's public lens pages are a catalog of AR effects: each one carries a creator credit, preview media, a Snapcode, related lenses and the Spotlight videos that were recorded with it. This actor reads those pages directly over HTTP. It can page through the lens charts, open specific lenses by URL or UUID, and search the Explore lens tab. No Snapchat account, cookies or proxy are required.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li><strong>Chart mode:</strong> pages through the public lens charts — For You, Trending, Face, World, Music and Live — following Snapchat's own cursor until the chart ends or <code>maxItems</code> is reached.</li>
+<li><strong>Detail mode:</strong> accepts lens page URLs, unlock URLs or bare UUIDs and returns the full lens record, the related lenses shown beside it, and the Spotlight videos using it.</li>
+<li><strong>Spotlight enrichment:</strong> batches every related Spotlight ID through Snapchat's public metadata endpoint to add creator identity, caption, hashtags, media URL, view/share/boost/recommend/comment counts and AI-generated title, description and keywords.</li>
+<li><strong>Search mode:</strong> reads the public Explore lens tab for each keyword and returns up to the 24 lens cards Snapchat renders for that query.</li>
+<li>Omits fields the source does not provide, at every nesting level, instead of returning blanks or nulls.</li>
+</ul>
+<h2 id="readme-output-per-lens-record">Output per lens record</h2>
+<p>Chart and detail records share one field set; Explore search records use the lighter set Snapchat exposes on search cards.</p>
+<h3 id="readme-chart-detail-lens-source-home-or-detail">Chart / detail lens (<code>source: &quot;home&quot;</code> or <code>&quot;detail&quot;</code>)</h3>
+<ul>
+<li><code>scannableUuid</code> — the lens UUID used in its page and unlock URLs.</li>
+<li><code>lensName</code>, <code>lensId</code> — display name and internal numeric ID.</li>
+<li><code>lensCreatorDisplayName</code>, <code>lensCreatorUsername</code>, <code>userProfileUrl</code> — creator identity when Snapchat publishes it.</li>
+<li><code>lensPreviewImageUrl</code>, <code>lensPreviewVideoUrl</code> — static and animated previews.</li>
+<li><code>iconUrl</code> — the square carousel icon.</li>
+<li><code>unlockUrl</code> — the URL that opens the lens in Snapchat.</li>
+<li><code>snapcodeImageUrl</code> — the Snapcode image exposed on the lens page.</li>
+<li><code>lensCreatorSearchTags</code> — discoverability tags set by the creator.</li>
+<li><code>isOfficialSnapLens</code> — whether Snapchat marks the lens as official.</li>
+<li><code>lastUpdatedAt</code> — ISO timestamp when Snapchat exposes a non-zero update epoch.</li>
+<li><code>lensUrl</code> — the canonical <code>snapchat.com/lens/{uuid}</code> page.</li>
+<li><code>category</code> — the chart used (<code>home</code> mode only).</li>
+<li><code>source</code>, <code>scrapedAt</code> — origin and fetch timestamp.</li>
+<li><code>moreLenses</code> — up to 12 related lenses on detail records, each with the same lens fields (the lens itself is excluded when present).</li>
+<li><code>spotlightsUsingThisLens</code> — related Spotlight videos on detail records.</li>
+</ul>
+<h3 id="readme-related-spotlight-entry-spotlightsusingthislens">Related Spotlight entry (<code>spotlightsUsingThisLens[]</code>)</h3>
+<ul>
+<li><code>snapId</code>, <code>storyPageUrl</code>, <code>contentUrl</code> — Spotlight identity and links.</li>
+<li><code>thumbnailUrl</code> — video poster.</li>
+<li><code>uploadedAt</code>, <code>durationMs</code>, <code>width</code>, <code>height</code> — video facts from the lens page.</li>
+<li><code>embeddedTextCaption</code>, <code>keywords</code>, <code>description</code>, <code>name</code> — page-level text when present.</li>
+<li><code>creatorUsername</code>, <code>creatorDisplayName</code>, <code>creatorIsOfficial</code> — creator identity from hydration.</li>
+<li><code>caption</code>, <code>hashtags</code>, <code>videoUrl</code> — post text, hashtags and the direct media URL.</li>
+<li><code>viewCount</code>, <code>shareCount</code>, <code>boostCount</code>, <code>recommendCount</code>, <code>commentCount</code> — public engagement counters.</li>
+<li><code>aiTitle</code>, <code>aiDescription</code>, <code>aiKeywords</code> — Snapchat's AI-generated summary fields when available.</li>
+</ul>
+<p>Removed or private Spotlight videos keep the page-level fields and simply omit the hydration fields.</p>
+<h3 id="readme-explore-search-result-source-search">Explore search result (<code>source: &quot;search&quot;</code>)</h3>
+<ul>
+<li><code>lensId</code>, <code>lensName</code>, <code>scannableUuid</code>, <code>lensUrl</code>.</li>
+<li><code>iconUrl</code>, <code>unlockUrl</code>, <code>thumbnailUrl</code> — icon, unlock link and preview thumbnail.</li>
+<li><code>creatorName</code>, <code>creatorIsOfficial</code> — creator credit from the card.</li>
+<li><code>searchKeyword</code>, <code>source</code>, <code>scrapedAt</code>.</li>
+</ul>
+<p>If a page cannot be fetched or parsed, the actor saves a short row with <code>error</code> (plus <code>input</code> or <code>searchKeyword</code>) instead of silently dropping it.</p>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td>string</td>
+<td><code>home</code></td>
+<td><code>home</code> (browse charts), <code>detail</code> (specific lenses) or <code>search</code> (Explore lens tab).</td>
+</tr>
+<tr>
+<td><code>category</code></td>
+<td>string</td>
+<td><code>for_you</code></td>
+<td>Chart to page through in <code>home</code>: <code>for_you</code>, <code>trending</code>, <code>face</code>, <code>world</code>, <code>music</code>, <code>web_live</code>.</td>
+</tr>
+<tr>
+<td><code>lensUrlsOrIds</code></td>
+<td>array</td>
+<td>–</td>
+<td>Lens page URLs, unlock URLs or bare UUIDs for <code>detail</code>.</td>
+</tr>
+<tr>
+<td><code>keywords</code></td>
+<td>array</td>
+<td>–</td>
+<td>Keywords, brands or creator names for <code>search</code>.</td>
+</tr>
+<tr>
+<td><code>includeMoreLenses</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Include the related lenses on detail records.</td>
+</tr>
+<tr>
+<td><code>includeSpotlightsUsingLens</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Include and hydrate the related Spotlight videos on detail records.</td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>integer</td>
+<td><code>100</code></td>
+<td>Global record cap; home mode pages until this cap or the chart ends.</td>
+</tr>
+<tr>
+<td><code>proxyConfiguration</code></td>
+<td>object</td>
+<td>–</td>
+<td>Optional proxy override; public lens pages work without one.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="readme-example-page-through-the-trending-chart">Example: page through the Trending chart</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;home&quot;,
+  &quot;category&quot;: &quot;trending&quot;,
+  &quot;maxItems&quot;: 72
+}
+</code></pre>
+<h3 id="readme-example-two-lenses-with-related-lenses-and-spotlight-enrichment">Example: two lenses with related lenses and Spotlight enrichment</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;detail&quot;,
+  &quot;lensUrlsOrIds&quot;: [
+    &quot;https://www.snapchat.com/lens/565e7595ec4e4a0da689762b127308ef&quot;,
+    &quot;dc98faf460f54b7fb6e119d4d7b7c0c3&quot;
+  ],
+  &quot;includeMoreLenses&quot;: true,
+  &quot;includeSpotlightsUsingLens&quot;: true
+}
+</code></pre>
+<h3 id="readme-example-search-the-explore-lens-tab">Example: search the Explore lens tab</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;keywords&quot;: [&quot;food&quot;, &quot;plumbing&quot;, &quot;हिंदी&quot;]
+}
+</code></pre>
+<h3 id="readme-example-detail-without-enrichment">Example: detail without enrichment</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;detail&quot;,
+  &quot;lensUrlsOrIds&quot;: [&quot;565e7595ec4e4a0da689762b127308ef&quot;],
+  &quot;includeMoreLenses&quot;: false,
+  &quot;includeSpotlightsUsingLens&quot;: false
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li>Monitor which AR lenses Snapchat is promoting in each chart over time.</li>
+<li>Pull a lens's creator, preview media and Snapcode for a creative or brand-safety review.</li>
+<li>Find the Spotlight videos that used a lens, with their view and reaction counts.</li>
+<li>Discover adjacent lenses through the related-lens list.</li>
+<li>Research which lenses appear for a brand, trend or topic in Explore search.</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<h3 id="readme-how-deep-can-chart-mode-go">How deep can chart mode go?</h3>
+<p>For You, Trending and Face keep serving pages for many cursors; World, Music and Live are shorter and end after a few pages. The actor follows <code>cursor_id</code> until Snapchat reports no more pages or <code>maxItems</code> is reached, so raise <code>maxItems</code> when you need the long tail.</p>
+<h3 id="readme-why-does-search-return-at-most-24-lenses-per-keyword">Why does search return at most 24 lenses per keyword?</h3>
+<p>The Explore lens tab renders one 24-card page. Snapchat does not expose a cursor or page parameter on that tab; probing <code>cursor_id</code>, <code>page</code>, <code>offset</code> and similar parameters returns the same cards. Use narrower keywords to partition a topic.</p>
+<h3 id="readme-why-do-some-related-spotlights-have-no-view-counts">Why do some related Spotlights have no view counts?</h3>
+<p>The lens page lists up to 16 related Spotlights, but some have been removed or made private by the time the actor hydrates them. Those entries keep the page-level thumbnail, timestamp and caption, and omit the hydration fields rather than inventing numbers.</p>
+<h3 id="readme-why-are-some-creator-fields-missing">Why are some creator fields missing?</h3>
+<p>Snapchat only publishes <code>lensCreatorUsername</code> and <code>userProfileUrl</code> for some lenses, mostly non-official creator lenses. Chart entries and official lenses often leave those fields empty; the record omits them instead of returning a blank.</p>
+<h3 id="readme-what-is-snapcodeimageurl">What is <code>snapcodeImageUrl</code>?</h3>
+<p>The Snapcode image Snapchat renders on the lens page. It is separate from <code>iconUrl</code>, which is the small carousel icon, and from the <code>unlockUrl</code>, which opens the lens in the Snapchat app.</p>
+<h3 id="readme-are-view-or-share-counts-available-for-the-lens-itself">Are view or share counts available for the lens itself?</h3>
+<p>No. Snapchat's public lens page does not expose engagement numbers for the lens. Engagement counts in this actor belong to the related Spotlight videos that used the lens.</p>
+<h3 id="readme-does-the-actor-need-a-proxy-or-login">Does the actor need a proxy or login?</h3>
+<p>No. Every surface used here is public and works cookieless. The optional <code>proxyConfiguration</code> field exists only as an override for unusual rate limiting.</p>
+<h3 id="readme-what-happens-if-snapchat-changes-its-page-structure">What happens if Snapchat changes its page structure?</h3>
+<p>The actor returns an <code>error</code> row for the affected input and logs the failure. It never fabricates a partial record to hide an upstream change.</p>
+<h3 id="readme-is-this-affiliated-with-snapchat">Is this affiliated with Snapchat?</h3>
+<p>No. This is an independent tool that reads public Snapchat pages and is not operated or endorsed by Snap Inc.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/snapchat-ar-lens-metadata-and-related-spotlight/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>h0iKfwqSwh7BxMhin</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

@@ -1,0 +1,485 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-kF5smnMdgPlArz7ghDDwjG8of05z/VmZ/8Yq5D6M1Bg=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>YouTube Playlist Contents &amp; Channel Playlist Finder | Vexaloom Labs</title><meta name="description" content="List every video in a YouTube playlist, or discover every public playlist a channel owns, with titles, durations, thumbnails, and playlist metadata."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-playlist-contents-and-channel-playlist/"><meta property="og:title" content="YouTube Playlist Contents &amp; Channel Playlist Finder | Vexaloom Labs"><meta property="og:description" content="List every video in a YouTube playlist, or discover every public playlist a channel owns, with titles, durations, thumbnails, and playlist metadata."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-playlist-contents-and-channel-playlist/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-playlist-contents-and-channel-playlist/#webpage","name":"YouTube Playlist Contents & Channel Playlist Finder","description":"List every video in a YouTube playlist, or discover every public playlist a channel owns, with titles, durations, thumbnails, and playlist metadata.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-playlist-contents-and-channel-playlist/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-playlist-contents-and-channel-playlist/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-playlist-contents-and-channel-playlist/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-playlist-contents-and-channel-playlist/#article","headline":"YouTube Playlist Contents & Channel Playlist Finder","name":"YouTube Playlist Contents & Channel Playlist Finder","description":"List every video in a YouTube playlist, or discover every public playlist a channel owns, with titles, durations, thumbnails, and playlist metadata.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-playlist-contents-and-channel-playlist/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-playlist-contents-and-channel-playlist/#webpage"},"inLanguage":"en","dateModified":"2026-10-31T20:23:59.648Z"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-playlist-contents-and-channel-playlist/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"YouTube Playlist Contents & Channel Playlist Finder","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/youtube-playlist-contents-and-channel-playlist/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>YouTube Playlist Contents &amp; Channel Playlist Finder</span></div><section id="overview"><h1 class="doc-title">YouTube Playlist Contents &amp; Channel Playlist Finder</h1><p class="lede">List every video in a YouTube playlist, or discover every public playlist a channel owns, with titles, durations, thumbnails, and playlist metadata.</p><p class="summary">YouTube Playlist Contents &amp; Channel Playlist Finder is an Apify Actor published by Vexaloom Labs. It accepts 8 input fields, none of them required at the top level. Its build declares a results dataset with 2 views. Runs happen on Apify, where the Store page lists the current price.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/youtube-playlist-contents-and-channel-playlist">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/Dg3fDelv93OSfgvkB/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>playlistUrls</code></td><td>array</td><td>optional</td><td>YouTube playlist URLs, watch URLs with a list parameter, or bare playlist IDs whose videos you want. Combine with Channel URLs or Search Queries in one run.</td></tr><tr><td><code>channelUrls</code></td><td>array</td><td>optional</td><td>Channel handles, URLs, or channel IDs. The actor lists every public playlist, show, course, podcast, and album on each channel.</td></tr><tr><td><code>searchQueries</code></td><td>array</td><td>optional</td><td>Keywords to search for public playlists and courses, for example &quot;python course&quot; or &quot;lofi study&quot;. Up to 20 queries per run.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>playlistUrls</code></td><td>array</td><td>optional</td><td>YouTube playlist URLs, watch URLs with a list parameter, or bare playlist IDs whose videos you want. Combine with Channel URLs or Search Queries in one run.</td></tr><tr><td><code>channelUrls</code></td><td>array</td><td>optional</td><td>Channel handles, URLs, or channel IDs. The actor lists every public playlist, show, course, podcast, and album on each channel.</td></tr><tr><td><code>searchQueries</code></td><td>array</td><td>optional</td><td>Keywords to search for public playlists and courses, for example &quot;python course&quot; or &quot;lofi study&quot;. Up to 20 queries per run.</td></tr><tr><td><code>maxPlaylists</code></td><td>integer</td><td>optional</td><td>Maximum number of collections to list per channel.</td></tr><tr><td><code>maxSearchResults</code></td><td>integer</td><td>optional</td><td>Maximum number of playlist results to return for each search query.</td></tr><tr><td><code>maxVideos</code></td><td>integer</td><td>optional</td><td>Maximum number of rows to return per playlist. Set to 0 for every video. Unavailable placeholders count toward the limit when enabled.</td></tr><tr><td><code>includeUnavailableVideos</code></td><td>boolean</td><td>optional</td><td>Emit a placeholder row for each deleted, private, or hidden playlist entry, with its real position and thumbnail.</td></tr><tr><td><code>includeVideoDetails</code></td><td>boolean</td><td>optional</td><td>Add exact views, likes, publish date, description, category, and tags for every available video. Turn off for a faster listing-only run.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;properties&quot;: {
+    &quot;channelUrls&quot;: {
+      &quot;description&quot;: &quot;Channel handles, URLs, or channel IDs. The actor lists every public playlist, show, course, podcast, and album on each channel.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Channel URLs (list their playlists)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;includeUnavailableVideos&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Emit a placeholder row for each deleted, private, or hidden playlist entry, with its real position and thumbnail.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include Unavailable Videos&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeVideoDetails&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Add exact views, likes, publish date, description, category, and tags for every available video. Turn off for a faster listing-only run.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Include Exact Video Details&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;maxPlaylists&quot;: {
+      &quot;default&quot;: 100,
+      &quot;description&quot;: &quot;Maximum number of collections to list per channel.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 10000,
+      &quot;minimum&quot;: 1,
+      &quot;title&quot;: &quot;Max Playlists Per Channel&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxSearchResults&quot;: {
+      &quot;default&quot;: 20,
+      &quot;description&quot;: &quot;Maximum number of playlist results to return for each search query.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 100,
+      &quot;minimum&quot;: 1,
+      &quot;title&quot;: &quot;Max Results Per Search&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxVideos&quot;: {
+      &quot;default&quot;: 0,
+      &quot;description&quot;: &quot;Maximum number of rows to return per playlist. Set to 0 for every video. Unavailable placeholders count toward the limit when enabled.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 10000,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 3,
+      &quot;title&quot;: &quot;Max Videos Per Playlist&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;playlistUrls&quot;: {
+      &quot;description&quot;: &quot;YouTube playlist URLs, watch URLs with a list parameter, or bare playlist IDs whose videos you want. Combine with Channel URLs or Search Queries in one run.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [
+        &quot;https://www.youtube.com/playlist?list=PLgzTt0k8mXzEk586ze4BjvDXR7c-TUSnx&quot;
+      ],
+      &quot;title&quot;: &quot;Playlist URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;searchQueries&quot;: {
+      &quot;description&quot;: &quot;Keywords to search for public playlists and courses, for example \&quot;python course\&quot; or \&quot;lofi study\&quot;. Up to 20 queries per run.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Playlist Search Queries&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    }
+  },
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;YouTube Playlist Scraper Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>results</code></td><td>string</td><td>optional</td><td>Dataset containing playlist videos, channel collections, search results, and status rows.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Playlist video rows with exact views, likes, publish dates and unavailable placeholders, plus channel collection and playlist-search rows.&quot;,
+  &quot;properties&quot;: {
+    &quot;results&quot;: {
+      &quot;description&quot;: &quot;Dataset containing playlist videos, channel collections, search results, and status rows.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;YouTube Playlist Scraper dataset&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;YouTube Playlist Contents &amp; Channel Playlist Finder Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;views&quot;: {
+    &quot;detailed&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;channelName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Channel&quot;
+          },
+          &quot;duration&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Duration&quot;
+          },
+          &quot;isAvailable&quot;: {
+            &quot;format&quot;: &quot;boolean&quot;,
+            &quot;label&quot;: &quot;Available&quot;
+          },
+          &quot;likeCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Likes&quot;
+          },
+          &quot;playlistOwner&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Owner&quot;
+          },
+          &quot;playlistTitle&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Playlist&quot;
+          },
+          &quot;playlistType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Collection Type&quot;
+          },
+          &quot;playlistUnavailableVideoCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Unavailable&quot;
+          },
+          &quot;playlistVideoCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Playlist Videos&quot;
+          },
+          &quot;position&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;#&quot;
+          },
+          &quot;publishedAt&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Published&quot;
+          },
+          &quot;recordType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Type&quot;
+          },
+          &quot;scrapedAt&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Scraped At&quot;
+          },
+          &quot;searchQuery&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Search Query&quot;
+          },
+          &quot;searchRank&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Rank&quot;
+          },
+          &quot;title&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Title&quot;
+          },
+          &quot;url&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;URL&quot;
+          },
+          &quot;videoCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Collection Videos&quot;
+          },
+          &quot;videoId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Video ID&quot;
+          },
+          &quot;viewCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Views&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Detailed&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;recordType&quot;,
+          &quot;position&quot;,
+          &quot;videoId&quot;,
+          &quot;title&quot;,
+          &quot;url&quot;,
+          &quot;duration&quot;,
+          &quot;durationSeconds&quot;,
+          &quot;isAvailable&quot;,
+          &quot;isLiveContent&quot;,
+          &quot;viewCount&quot;,
+          &quot;viewCountText&quot;,
+          &quot;likeCount&quot;,
+          &quot;publishedAt&quot;,
+          &quot;publishedTimeText&quot;,
+          &quot;videoDescription&quot;,
+          &quot;videoCategory&quot;,
+          &quot;videoKeywords&quot;,
+          &quot;videoChannelName&quot;,
+          &quot;videoChannelId&quot;,
+          &quot;videoChannelHandle&quot;,
+          &quot;videoChannelUrl&quot;,
+          &quot;playlistId&quot;,
+          &quot;playlistTitle&quot;,
+          &quot;playlistUrl&quot;,
+          &quot;playlistType&quot;,
+          &quot;playlistVideoCount&quot;,
+          &quot;playlistAvailableVideoCount&quot;,
+          &quot;playlistUnavailableVideoCount&quot;,
+          &quot;playlistTotalDuration&quot;,
+          &quot;playlistTotalDurationSeconds&quot;,
+          &quot;playlistOwner&quot;,
+          &quot;playlistOwnerChannelId&quot;,
+          &quot;playlistOwnerHandle&quot;,
+          &quot;playlistDescription&quot;,
+          &quot;playlistViewCount&quot;,
+          &quot;playlistVisibility&quot;,
+          &quot;lastUpdated&quot;,
+          &quot;lastUpdatedDate&quot;,
+          &quot;channelName&quot;,
+          &quot;channelId&quot;,
+          &quot;channelHandle&quot;,
+          &quot;channelUrl&quot;,
+          &quot;videoCount&quot;,
+          &quot;videoCountText&quot;,
+          &quot;searchQuery&quot;,
+          &quot;searchRank&quot;,
+          &quot;scrapedAt&quot;
+        ]
+      }
+    },
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;duration&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Duration&quot;
+          },
+          &quot;playlistTitle&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Playlist&quot;
+          },
+          &quot;playlistType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Collection Type&quot;
+          },
+          &quot;position&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;#&quot;
+          },
+          &quot;recordType&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Type&quot;
+          },
+          &quot;searchQuery&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Search Query&quot;
+          },
+          &quot;title&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Title&quot;
+          },
+          &quot;url&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;URL&quot;
+          },
+          &quot;videoChannelName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Channel&quot;
+          },
+          &quot;videoCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Videos&quot;
+          },
+          &quot;videoId&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Video ID&quot;
+          },
+          &quot;viewCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Views&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Overview&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;recordType&quot;,
+          &quot;position&quot;,
+          &quot;title&quot;,
+          &quot;videoId&quot;,
+          &quot;playlistTitle&quot;,
+          &quot;playlistType&quot;,
+          &quot;viewCount&quot;,
+          &quot;duration&quot;,
+          &quot;videoChannelName&quot;,
+          &quot;videoCount&quot;,
+          &quot;searchQuery&quot;,
+          &quot;url&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-youtube-playlist-contents-channel-playlist-finder">YouTube Playlist Contents &amp; Channel Playlist Finder</h2>
+<p>Collect every video in a YouTube playlist, discover all of a channel's public collections, and search YouTube for playlists by keyword. Every available video can carry exact views, likes, publish date, description, category, and tags, while deleted or private entries can be returned as clearly marked placeholders with their real positions.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li><strong>Playlist contents</strong> — every public video in one or many playlists, including 1,000+ item playlists</li>
+<li><strong>Hidden unavailable entries</strong> — optional placeholder rows for deleted, private, or removed videos, preserving their true position</li>
+<li><strong>Exact video details</strong> — views, likes, ISO publish date, description, category, tags, live status, and all thumbnail sizes</li>
+<li><strong>Channel collections</strong> — playlists, shows, courses, podcasts, and albums with their real video/episode counts</li>
+<li><strong>Playlist search</strong> — keyword search across public playlists and courses, ranked per query</li>
+<li><strong>Mixed runs</strong> — combine playlist URLs, channel URLs, and search queries in one input</li>
+<li><strong>Empty fields are omitted</strong> from every record</li>
+</ul>
+<h2 id="readme-output-per-video-playlisturls-mode">Output: per video (<code>playlistUrls</code> mode)</h2>
+<ul>
+<li><code>recordType</code> — <code>video</code></li>
+<li><code>position</code> — the video's real position in the playlist, counting hidden entries</li>
+<li><code>videoId</code>, <code>title</code>, <code>url</code>, <code>thumbnailUrl</code>, <code>thumbnails[]</code></li>
+<li><code>duration</code>, <code>durationSeconds</code></li>
+<li><code>isAvailable</code> — <code>false</code> for placeholder rows</li>
+<li><code>viewCount</code>, <code>viewCountText</code> — exact views from the video page</li>
+<li><code>likeCount</code> — exact likes when YouTube exposes them</li>
+<li><code>publishedAt</code> — ISO 8601 date/time</li>
+<li><code>publishedTimeText</code> — the relative label shown in the playlist</li>
+<li><code>videoDescription</code>, <code>videoCategory</code>, <code>videoKeywords[]</code>, <code>isLiveContent</code></li>
+<li><code>videoChannelName</code>, <code>videoChannelId</code>, <code>videoChannelHandle</code>, <code>videoChannelUrl</code> — the video's uploader</li>
+<li><code>playlistId</code>, <code>playlistTitle</code>, <code>playlistUrl</code>, <code>playlistType</code></li>
+<li><code>playlistVideoCount</code> — the count YouTube declares for the playlist</li>
+<li><code>playlistAvailableVideoCount</code>, <code>playlistUnavailableVideoCount</code></li>
+<li><code>playlistTotalDurationSeconds</code>, <code>playlistTotalDuration</code></li>
+<li><code>playlistOwner</code>, <code>playlistOwnerChannelId</code>, <code>playlistOwnerHandle</code>, <code>playlistDescription</code>, <code>playlistViewCount</code></li>
+<li><code>playlistThumbnailUrl</code>, <code>playlistVisibility</code></li>
+<li><code>lastUpdated</code>, <code>lastUpdatedDate</code> — the latter only when the label contains an exact date</li>
+<li><code>scrapedAt</code></li>
+</ul>
+<p>Placeholder rows keep <code>recordType</code>, <code>videoId</code>, <code>position</code>, <code>thumbnailUrl</code>, playlist context, and <code>isAvailable: false</code>. YouTube does not reveal the title or channel of a hidden entry, so those fields are omitted.</p>
+<h2 id="readme-output-per-playlist-channelurls-mode">Output: per playlist (<code>channelUrls</code> mode)</h2>
+<ul>
+<li><code>recordType</code> — <code>playlist</code></li>
+<li><code>playlistId</code>, <code>playlistUrl</code>, <code>title</code>, <code>playlistType</code> — <code>playlist</code>, <code>show</code>, <code>course</code>, <code>podcast</code>, <code>album</code>, <code>radio_mix</code>, or <code>uploads</code></li>
+<li><code>videoCount</code>, <code>videoCountText</code> — for example <code>28</code> and <code>&quot;28 episodes&quot;</code></li>
+<li><code>thumbnailUrl</code></li>
+<li><code>firstVideoId</code>, <code>firstVideoUrl</code> — where the collection starts</li>
+<li><code>channelName</code>, <code>channelId</code>, <code>channelHandle</code>, <code>channelUrl</code>, <code>channelAvatarUrl</code></li>
+<li><code>lastUpdated</code> — when the card shows an update label</li>
+<li><code>scrapedAt</code></li>
+</ul>
+<h2 id="readme-output-per-search-result-searchqueries-mode">Output: per search result (<code>searchQueries</code> mode)</h2>
+<ul>
+<li><code>recordType</code> — <code>playlist</code></li>
+<li><code>searchQuery</code>, <code>searchRank</code></li>
+<li><code>playlistId</code>, <code>playlistUrl</code>, <code>title</code>, <code>playlistType</code></li>
+<li><code>channelName</code>, <code>channelId</code>, <code>channelHandle</code>, <code>channelUrl</code></li>
+<li><code>thumbnailUrl</code>, <code>firstVideoId</code>, <code>firstVideoUrl</code></li>
+<li><code>scrapedAt</code></li>
+</ul>
+<p>Search cards do not show a reliable video count, so <code>videoCount</code> is omitted. Pass a returned playlist ID to <code>playlistUrls</code> to collect its contents.</p>
+<h2 id="readme-output-status-and-error-rows">Output: status and error rows</h2>
+<p>If a playlist, channel, or query cannot be read, the dataset still receives a row with <code>recordType: &quot;status&quot;</code> or <code>&quot;error&quot;</code>, the relevant input, and a plain-language message, so an empty dataset never hides a failure.</p>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>playlistUrls</code></td>
+<td>array</td>
+<td>–</td>
+<td>Playlist URLs, watch URLs with <code>list=</code>, or bare playlist IDs</td>
+</tr>
+<tr>
+<td><code>channelUrls</code></td>
+<td>array</td>
+<td>–</td>
+<td>Channel handles, URLs, or channel IDs whose collections you want</td>
+</tr>
+<tr>
+<td><code>searchQueries</code></td>
+<td>array</td>
+<td>–</td>
+<td>Playlist search terms, up to 20 per run</td>
+</tr>
+<tr>
+<td><code>maxPlaylists</code></td>
+<td>integer</td>
+<td><code>100</code></td>
+<td>Maximum collections to list per channel</td>
+</tr>
+<tr>
+<td><code>maxSearchResults</code></td>
+<td>integer</td>
+<td><code>20</code></td>
+<td>Maximum results per search query</td>
+</tr>
+<tr>
+<td><code>maxVideos</code></td>
+<td>integer</td>
+<td><code>0</code></td>
+<td>Maximum rows per playlist; <code>0</code> returns everything</td>
+</tr>
+<tr>
+<td><code>includeUnavailableVideos</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Emit placeholder rows for hidden playlist entries</td>
+</tr>
+<tr>
+<td><code>includeVideoDetails</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Add exact per-video metrics, dates, descriptions, categories, and tags</td>
+</tr>
+</tbody>
+</table></div>
+<p>Supported playlist formats include <code>youtube.com/playlist?list=...</code>, <code>youtube.com/watch?v=...&amp;list=...</code>, <code>music.youtube.com/playlist?list=...</code>, <code>youtu.be/...?list=...</code>, and bare IDs such as <code>PL...</code>, <code>UU...</code>, <code>RD...</code>, or <code>OL...</code>.</p>
+<h3 id="readme-example-full-playlist-with-exact-video-details">Example: full playlist with exact video details</h3>
+<pre><code class="language-json">{
+    &quot;playlistUrls&quot;: [&quot;https://www.youtube.com/playlist?list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&quot;],
+    &quot;maxVideos&quot;: 50,
+    &quot;includeVideoDetails&quot;: true
+}
+</code></pre>
+<h3 id="readme-example-recover-hidden-entries-from-a-damaged-playlist">Example: recover hidden entries from a damaged playlist</h3>
+<pre><code class="language-json">{
+    &quot;playlistUrls&quot;: [&quot;PLhMDlPcDRBKQsawQMVty_dNztC8QgppML&quot;],
+    &quot;includeUnavailableVideos&quot;: true,
+    &quot;includeVideoDetails&quot;: false
+}
+</code></pre>
+<h3 id="readme-example-discover-every-collection-on-a-channel">Example: discover every collection on a channel</h3>
+<pre><code class="language-json">{
+    &quot;channelUrls&quot;: [&quot;@kurzgesagt&quot;],
+    &quot;maxPlaylists&quot;: 50
+}
+</code></pre>
+<h3 id="readme-example-search-playlists-and-collect-one-result-in-the-same-run">Example: search playlists and collect one result in the same run</h3>
+<pre><code class="language-json">{
+    &quot;searchQueries&quot;: [&quot;python course&quot;, &quot;lofi study music&quot;],
+    &quot;maxSearchResults&quot;: 10,
+    &quot;playlistUrls&quot;: [&quot;PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&quot;],
+    &quot;maxVideos&quot;: 20
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>Course catalogs</strong> — export every lesson, its position, duration, and publish date from an educational playlist</li>
+<li><strong>Playlist backups</strong> — snapshot a playlist's contents and see which entries have disappeared</li>
+<li><strong>Podcast and show indexing</strong> — discover a channel's podcast, show, and course collections with episode counts</li>
+<li><strong>Content research</strong> — search a topic, compare playlist titles and owners, then pull the winners' full contents</li>
+<li><strong>Channel audits</strong> — inventory every public collection a creator has published</li>
+<li><strong>Viewership analysis</strong> — compare exact views and likes across videos in the same playlist</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>How many videos can one playlist return?</strong>
+YouTube allows up to 5,000 entries in a public playlist. The actor reads through the entire list and reports what the source actually exposes.</p>
+<p><strong>Why is <code>playlistVideoCount</code> larger than the number of rows?</strong>
+The declared count includes entries YouTube hides from the normal list. Set <code>includeUnavailableVideos</code> to <code>true</code> to receive a placeholder for each hidden entry. <code>playlistAvailableVideoCount</code> and <code>playlistUnavailableVideoCount</code> show the split.</p>
+<p><strong>Why do some exact fields appear on one video but not another?</strong>
+YouTube hides like counts on some videos and does not publish a category or tags for every upload. Those fields are omitted rather than estimated; the rest of the record stays intact. <code>publishedAt</code> contains a full timestamp when YouTube exposes one and a calendar date when only the date is available.</p>
+<p><strong>Do I need a YouTube API key, login, or proxy?</strong>
+No. The actor reads public YouTube data with no account, key, cookie, or proxy setup.</p>
+<p><strong>Why is <code>playlistViewCount</code> missing on some playlists?</strong>
+YouTube does not display an aggregate view count for every collection type, such as auto-generated radio mixes. When the source has no count, the field is omitted.</p>
+<p><strong>Can I scrape private or personal playlists?</strong>
+No. Playlists such as Watch Later, Liked Videos, and other account-only lists are not publicly readable and are out of scope.</p>
+<p><strong>Why do search results omit <code>videoCount</code>?</strong>
+Playlist search cards do not show a video count. The actor returns the result identity and ranking; use the returned playlist ID with <code>playlistUrls</code> to get the full contents and counts.</p>
+<p><strong>What does <code>playlistOwner</code> contain?</strong>
+The owner's display name without the interface prefix, for example <code>Timeline - World History Documentaries</code> rather than <code>by Timeline - World History Documentaries</code>.</p>
+<p><strong>Is this actor affiliated with YouTube?</strong>
+No. It is an independent tool that reads publicly visible YouTube pages and is not operated or endorsed by YouTube or Google.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/youtube-playlist-contents-and-channel-playlist/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>swYZ3TQrDebcdec5a</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

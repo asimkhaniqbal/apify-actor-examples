@@ -1,0 +1,485 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-XczRu44UzYjWaskn6De6kOU6GNn2ZCsCNLcPoKB2Zj0=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Lever Job Board Postings by Company Slug | Vexaloom Labs</title><meta name="description" content="Pull open job postings from one or more Lever.co company boards, or fetch specific postings by ID, with location, team, salary range, requirements, and apply links, filterable by t"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/lever-job-board-postings-by-company-slug/"><meta property="og:title" content="Lever Job Board Postings by Company Slug | Vexaloom Labs"><meta property="og:description" content="Pull open job postings from one or more Lever.co company boards, or fetch specific postings by ID, with location, team, salary range, requirements, and apply links, filterable by t"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/lever-job-board-postings-by-company-slug/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/lever-job-board-postings-by-company-slug/#webpage","name":"Lever Job Board Postings by Company Slug","description":"Pull open job postings from one or more Lever.co company boards, or fetch specific postings by ID, with location, team, salary range, requirements, and apply links, filterable by team, location, and commitment type.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/lever-job-board-postings-by-company-slug/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/lever-job-board-postings-by-company-slug/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/lever-job-board-postings-by-company-slug/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/lever-job-board-postings-by-company-slug/#article","headline":"Lever Job Board Postings by Company Slug","name":"Lever Job Board Postings by Company Slug","description":"Pull open job postings from one or more Lever.co company boards, or fetch specific postings by ID, with location, team, salary range, requirements, and apply links, filterable by team, location, and commitment type.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/lever-job-board-postings-by-company-slug/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/lever-job-board-postings-by-company-slug/#webpage"},"inLanguage":"en","dateModified":"2026-11-02T07:11:43.229Z"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/lever-job-board-postings-by-company-slug/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Lever Job Board Postings by Company Slug","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/lever-job-board-postings-by-company-slug/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Lever Job Board Postings by Company Slug</span></div><section id="overview"><h1 class="doc-title">Lever Job Board Postings by Company Slug</h1><p class="lede">Pull open job postings from one or more Lever.co company boards, or fetch specific postings by ID, with location, team, salary range, requirements, and apply links, filterable by team, location, and commitment type.</p><p class="summary">Lever Job Board Postings by Company Slug is an Apify Actor published by Vexaloom Labs. It accepts 22 input fields, and <code>mode</code> is required. Its build declares a results dataset with 1 view. Runs happen on Apify, where the Store page lists the current price.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/lever-job-board-postings-by-company-slug">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/YMM8oKkDKWReRyR5Z/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>Fetch every open posting from one or more boards, or fetch specific postings by ID or URL.</td></tr><tr><td><code>companySlugs</code></td><td>array</td><td>optional</td><td>Company slugs, board URLs, API URLs or posting URLs. Examples: &quot;wealthfront&quot;, &quot;https://jobs.lever.co/wealthfront&quot;, &quot;https://jobs.eu.lever.co/olx&quot;, &quot;https://api.lever.co/v0/postings/wealthfront&quot;.</td></tr><tr><td><code>companySlug</code></td><td>string</td><td>optional</td><td>Company slug, board URL, API URL or posting URL used with postingIds (mode=getJob).</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>Fetch every open posting from one or more boards, or fetch specific postings by ID or URL.</td></tr><tr><td><code>companySlugs</code></td><td>array</td><td>optional</td><td>Company slugs, board URLs, API URLs or posting URLs. Examples: &quot;wealthfront&quot;, &quot;https://jobs.lever.co/wealthfront&quot;, &quot;https://jobs.eu.lever.co/olx&quot;, &quot;https://api.lever.co/v0/postings/wealthfront&quot;.</td></tr><tr><td><code>companySlug</code></td><td>string</td><td>optional</td><td>Company slug, board URL, API URL or posting URL used with postingIds (mode=getJob).</td></tr><tr><td><code>postingIds</code></td><td>array</td><td>optional</td><td>Posting UUIDs or posting/apply URLs (mode=getJob).</td></tr><tr><td><code>boardRegion</code></td><td>string</td><td>optional</td><td>Use auto to try the global board first and fall back to the EU board when global returns 404 or no postings.</td></tr><tr><td><code>team</code></td><td>string</td><td>optional</td><td>Keep postings whose team contains this text (case-insensitive).</td></tr><tr><td><code>department</code></td><td>string</td><td>optional</td><td>Keep postings whose department contains this text (case-insensitive).</td></tr><tr><td><code>location</code></td><td>string</td><td>optional</td><td>Keep postings whose primary location or any additional location contains this text (case-insensitive), e.g. &quot;London&quot; or &quot;Remote&quot;.</td></tr><tr><td><code>commitment</code></td><td>string</td><td>optional</td><td>Keep postings whose commitment or normalized employment type matches this text, e.g. &quot;Full-time&quot;, &quot;Contract&quot;, &quot;Internship&quot;.</td></tr><tr><td><code>workplaceType</code></td><td>string</td><td>optional</td><td>Keep postings with this exact workplace arrangement.</td></tr><tr><td><code>remoteOnly</code></td><td>boolean</td><td>optional</td><td>Keep only postings marked remote or with a remote location.</td></tr><tr><td><code>country</code></td><td>string</td><td>optional</td><td>Keep postings for one ISO 3166-1 alpha-2 country code, e.g. &quot;US&quot;, &quot;DE&quot; or &quot;IN&quot;.</td></tr><tr><td><code>titleKeywords</code></td><td>array</td><td>optional</td><td>Keep postings whose title contains every word in this list, in any order.</td></tr><tr><td><code>excludeTitleKeywords</code></td><td>array</td><td>optional</td><td>Drop postings whose title contains any word in this list.</td></tr><tr><td><code>postedAfter</code></td><td>string</td><td>optional</td><td>Keep postings created on or after this date (YYYY-MM-DD).</td></tr><tr><td><code>hasSalaryOnly</code></td><td>boolean</td><td>optional</td><td>Keep only postings with a structured salary range published by Lever.</td></tr><tr><td><code>salaryMin</code></td><td>integer</td><td>optional</td><td>Keep postings whose structured salary range starts at or above this value (same currency and interval as the posting).</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of posting records to emit.</td></tr><tr><td><code>maxItemsPerCompany</code></td><td>integer</td><td>optional</td><td>Maximum records per company board; 0 means no per-company limit.</td></tr><tr><td><code>includeDescription</code></td><td>boolean</td><td>optional</td><td>Include full and section descriptions plus requirement lists.</td></tr><tr><td><code>includeHtml</code></td><td>boolean</td><td>optional</td><td>Add the original HTML for descriptions, additional text and list content.</td></tr><tr><td><code>onlyNewSinceLastRun</code></td><td>boolean</td><td>optional</td><td>Emit only postings not seen by an earlier run with the same query shape. The first run returns everything.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Collect open postings from Lever job boards by company slug, board URL, API URL or posting URL. Global and EU boards are supported; all filters run on the complete board data.&quot;,
+  &quot;properties&quot;: {
+    &quot;boardRegion&quot;: {
+      &quot;default&quot;: &quot;auto&quot;,
+      &quot;description&quot;: &quot;Use auto to try the global board first and fall back to the EU board when global returns 404 or no postings.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;auto&quot;,
+        &quot;global&quot;,
+        &quot;eu&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Auto-detect&quot;,
+        &quot;Global (api.lever.co)&quot;,
+        &quot;EU (api.eu.lever.co)&quot;
+      ],
+      &quot;prefill&quot;: &quot;auto&quot;,
+      &quot;title&quot;: &quot;Lever region&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;commitment&quot;: {
+      &quot;description&quot;: &quot;Keep postings whose commitment or normalized employment type matches this text, e.g. \&quot;Full-time\&quot;, \&quot;Contract\&quot;, \&quot;Internship\&quot;.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Commitment&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;companySlug&quot;: {
+      &quot;description&quot;: &quot;Company slug, board URL, API URL or posting URL used with postingIds (mode=getJob).&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Company (mode=getJob)&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;companySlugs&quot;: {
+      &quot;description&quot;: &quot;Company slugs, board URLs, API URLs or posting URLs. Examples: \&quot;wealthfront\&quot;, \&quot;https://jobs.lever.co/wealthfront\&quot;, \&quot;https://jobs.eu.lever.co/olx\&quot;, \&quot;https://api.lever.co/v0/postings/wealthfront\&quot;.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [
+        &quot;wealthfront&quot;
+      ],
+      &quot;title&quot;: &quot;Companies (mode=getJobs)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;country&quot;: {
+      &quot;description&quot;: &quot;Keep postings for one ISO 3166-1 alpha-2 country code, e.g. \&quot;US\&quot;, \&quot;DE\&quot; or \&quot;IN\&quot;.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Country&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;department&quot;: {
+      &quot;description&quot;: &quot;Keep postings whose department contains this text (case-insensitive).&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Department&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;excludeTitleKeywords&quot;: {
+      &quot;description&quot;: &quot;Drop postings whose title contains any word in this list.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;title&quot;: &quot;Title must not include&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;hasSalaryOnly&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Keep only postings with a structured salary range published by Lever.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Has salary only&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeDescription&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Include full and section descriptions plus requirement lists.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Include descriptions&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeHtml&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Add the original HTML for descriptions, additional text and list content.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include HTML&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;location&quot;: {
+      &quot;description&quot;: &quot;Keep postings whose primary location or any additional location contains this text (case-insensitive), e.g. \&quot;London\&quot; or \&quot;Remote\&quot;.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Location&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 500,
+      &quot;description&quot;: &quot;Maximum number of posting records to emit.&quot;,
+      &quot;maximum&quot;: 10000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 3,
+      &quot;title&quot;: &quot;Max items&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxItemsPerCompany&quot;: {
+      &quot;default&quot;: 0,
+      &quot;description&quot;: &quot;Maximum records per company board; 0 means no per-company limit.&quot;,
+      &quot;maximum&quot;: 10000,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 0,
+      &quot;title&quot;: &quot;Max items per company&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;getJobs&quot;,
+      &quot;description&quot;: &quot;Fetch every open posting from one or more boards, or fetch specific postings by ID or URL.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;getJobs&quot;,
+        &quot;getJob&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Get all postings from boards or URLs&quot;,
+        &quot;Get specific postings by ID or URL&quot;
+      ],
+      &quot;prefill&quot;: &quot;getJobs&quot;,
+      &quot;title&quot;: &quot;Mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;onlyNewSinceLastRun&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Emit only postings not seen by an earlier run with the same query shape. The first run returns everything.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Only new since last run&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;postedAfter&quot;: {
+      &quot;description&quot;: &quot;Keep postings created on or after this date (YYYY-MM-DD).&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Posted after&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;postingIds&quot;: {
+      &quot;description&quot;: &quot;Posting UUIDs or posting/apply URLs (mode=getJob).&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;title&quot;: &quot;Posting IDs (mode=getJob)&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;remoteOnly&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Keep only postings marked remote or with a remote location.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Remote only&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;salaryMin&quot;: {
+      &quot;description&quot;: &quot;Keep postings whose structured salary range starts at or above this value (same currency and interval as the posting).&quot;,
+      &quot;maximum&quot;: 100000000,
+      &quot;minimum&quot;: 0,
+      &quot;title&quot;: &quot;Minimum salary&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;team&quot;: {
+      &quot;description&quot;: &quot;Keep postings whose team contains this text (case-insensitive).&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Team&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;titleKeywords&quot;: {
+      &quot;description&quot;: &quot;Keep postings whose title contains every word in this list, in any order.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;title&quot;: &quot;Title must include&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;workplaceType&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Keep postings with this exact workplace arrangement.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;&quot;,
+        &quot;remote&quot;,
+        &quot;hybrid&quot;,
+        &quot;onsite&quot;,
+        &quot;unspecified&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;All workplaces&quot;,
+        &quot;Remote&quot;,
+        &quot;Hybrid&quot;,
+        &quot;On-site&quot;,
+        &quot;Unspecified&quot;
+      ],
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Workplace type&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;mode&quot;
+  ],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Lever Jobs Scraper Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>jobs</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped Lever job postings.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Open postings from global and EU Lever boards — title, company, locations, workplace type, country, employment type, salary, full descriptions and apply links.&quot;,
+  &quot;properties&quot;: {
+    &quot;jobs&quot;: {
+      &quot;description&quot;: &quot;Dataset containing all scraped Lever job postings.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Lever job postings&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Lever Job Board Scraper Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {}
+      },
+      &quot;title&quot;: &quot;Jobs&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;title&quot;,
+          &quot;companySlug&quot;,
+          &quot;location&quot;,
+          &quot;workplaceType&quot;,
+          &quot;employmentType&quot;,
+          &quot;salaryText&quot;,
+          &quot;createdAt&quot;,
+          &quot;hostedUrl&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-lever-job-board-scraper-global-eu-boards">Lever Job Board Scraper — Global &amp; EU Boards</h2>
+<p>Lever hosts the public job boards used by thousands of companies, from early-stage startups to public technology firms. This actor reads those boards directly and returns open roles with their full description, location list, workplace type, country, employment type, salary data when the employer publishes it, and direct apply link. It accepts bare company slugs as well as board, API and posting URLs, and finds EU-only boards automatically.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li><strong>Reads global and EU Lever boards</strong> from a company slug, <code>jobs.lever.co</code> URL, <code>api.lever.co</code> URL or a single posting URL</li>
+<li><strong>Auto-detects the EU instance</strong> when the global board is missing or empty</li>
+<li><strong>Filters every posting client-side</strong> by team, department, location, commitment, workplace type, remote-only, country, title words, posting date and salary</li>
+<li><strong>Returns the complete posting</strong>, including all locations, workplace type, country, normalized employment type, salary range and readable salary text, description sections and requirement lists</li>
+<li><strong>Supports monitoring</strong> with an only-new-since-last-run option that skips postings seen by a previous run</li>
+<li><strong>Never emits empty fields</strong> — a field is present only when Lever published a real value</li>
+</ul>
+<h2 id="readme-output-per-posting">Output per posting</h2>
+<ul>
+<li><code>id</code> — Lever posting UUID</li>
+<li><code>title</code> — job title</li>
+<li><code>companySlug</code> — board slug from Lever</li>
+<li><code>companyName</code> — display name derived from the slug (a readable guess; Lever's API does not publish the official company name)</li>
+<li><code>boardRegion</code> — <code>global</code> or <code>eu</code></li>
+<li><code>boardUrl</code> — the company's Lever board URL for that region</li>
+<li><code>categories</code> — nested <code>commitment</code>, <code>location</code>, <code>team</code> and <code>department</code></li>
+<li><code>commitment</code>, <code>department</code>, <code>team</code>, <code>location</code> — the same values as top-level fields</li>
+<li><code>locations[]</code> — every location on the posting; falls back to the primary location</li>
+<li><code>workplaceType</code> — <code>remote</code>, <code>hybrid</code>, <code>onsite</code> or <code>unspecified</code></li>
+<li><code>isRemote</code> — true when the posting is remote or has a remote location</li>
+<li><code>country</code> — ISO 3166-1 alpha-2 country code</li>
+<li><code>employmentType</code> — normalized from the raw commitment: <code>full-time</code>, <code>part-time</code>, <code>contract</code>, <code>internship</code>, <code>temporary</code> or <code>other</code></li>
+<li><code>salaryRange</code> — structured <code>min</code>, <code>max</code>, <code>currency</code> and <code>interval</code> when published</li>
+<li><code>salaryMin</code>, <code>salaryMax</code>, <code>salaryCurrency</code>, <code>salaryInterval</code>, <code>salaryText</code> — flattened salary values and a readable range such as <code>USD 75,000–85,000 per year</code></li>
+<li><code>salaryDescriptionPlain</code> — salary text when the employer wrote one but did not publish a structured range</li>
+<li><code>descriptionPlain</code> — combined plain-text description</li>
+<li><code>openingPlain</code>, <code>descriptionBodyPlain</code>, <code>additionalPlain</code> — separate description sections</li>
+<li><code>additional</code> — closing or benefits text (same as <code>additionalPlain</code>)</li>
+<li><code>lists[]</code> — requirement/responsibility groups as <code>{text, content}</code></li>
+<li><code>descriptionHtml</code>, <code>additionalHtml</code>, <code>lists[].contentHtml</code> — original HTML when <code>includeHtml</code> is enabled</li>
+<li><code>applyUrl</code>, <code>hostedUrl</code>, <code>sourceUrl</code> — application link and public posting links</li>
+<li><code>createdAt</code> — ISO 8601 UTC posting timestamp</li>
+<li><code>recordType: &quot;job&quot;</code>, <code>scrapedAt</code></li>
+</ul>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td>string</td>
+<td><code>getJobs</code></td>
+<td><code>getJobs</code> for whole boards, or <code>getJob</code> for specific postings</td>
+</tr>
+<tr>
+<td><code>companySlugs</code></td>
+<td>array</td>
+<td>–</td>
+<td>Slugs, board URLs, API URLs or posting URLs (mode=<code>getJobs</code>)</td>
+</tr>
+<tr>
+<td><code>companySlug</code></td>
+<td>string</td>
+<td>–</td>
+<td>Company slug, board URL or posting URL (mode=<code>getJob</code>)</td>
+</tr>
+<tr>
+<td><code>postingIds</code></td>
+<td>array</td>
+<td>–</td>
+<td>Posting UUIDs or posting/apply URLs (mode=<code>getJob</code>)</td>
+</tr>
+<tr>
+<td><code>boardRegion</code></td>
+<td>string</td>
+<td><code>auto</code></td>
+<td><code>auto</code>, <code>global</code> or <code>eu</code>; auto falls back to EU on an empty or missing global board</td>
+</tr>
+<tr>
+<td><code>team</code></td>
+<td>string</td>
+<td>–</td>
+<td>Team contains this text</td>
+</tr>
+<tr>
+<td><code>department</code></td>
+<td>string</td>
+<td>–</td>
+<td>Department contains this text</td>
+</tr>
+<tr>
+<td><code>location</code></td>
+<td>string</td>
+<td>–</td>
+<td>Any location on the posting contains this text</td>
+</tr>
+<tr>
+<td><code>commitment</code></td>
+<td>string</td>
+<td>–</td>
+<td>Commitment text or normalized employment type matches</td>
+</tr>
+<tr>
+<td><code>workplaceType</code></td>
+<td>string</td>
+<td>–</td>
+<td><code>remote</code>, <code>hybrid</code>, <code>onsite</code> or <code>unspecified</code></td>
+</tr>
+<tr>
+<td><code>remoteOnly</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Keep remote postings only</td>
+</tr>
+<tr>
+<td><code>country</code></td>
+<td>string</td>
+<td>–</td>
+<td>ISO alpha-2 code, e.g. <code>US</code> or <code>DE</code></td>
+</tr>
+<tr>
+<td><code>titleKeywords</code></td>
+<td>array</td>
+<td>–</td>
+<td>Every word must appear in the title</td>
+</tr>
+<tr>
+<td><code>excludeTitleKeywords</code></td>
+<td>array</td>
+<td>–</td>
+<td>Drop titles containing any of these words</td>
+</tr>
+<tr>
+<td><code>postedAfter</code></td>
+<td>string</td>
+<td>–</td>
+<td>Keep postings created on or after <code>YYYY-MM-DD</code></td>
+</tr>
+<tr>
+<td><code>hasSalaryOnly</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Keep postings with a structured salary range</td>
+</tr>
+<tr>
+<td><code>salaryMin</code></td>
+<td>integer</td>
+<td>–</td>
+<td>Minimum structured salary value</td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>integer</td>
+<td><code>500</code></td>
+<td>Global record cap (1–10,000)</td>
+</tr>
+<tr>
+<td><code>maxItemsPerCompany</code></td>
+<td>integer</td>
+<td><code>0</code></td>
+<td>Per-board cap; <code>0</code> means no limit</td>
+</tr>
+<tr>
+<td><code>includeDescription</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Include description text and lists</td>
+</tr>
+<tr>
+<td><code>includeHtml</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Include original HTML fields</td>
+</tr>
+<tr>
+<td><code>onlyNewSinceLastRun</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Emit only postings unseen by a previous matching run</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="readme-examples">Examples</h2>
+<h3 id="readme-every-open-role-from-several-companies">Every open role from several companies</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;getJobs&quot;,
+  &quot;companySlugs&quot;: [&quot;wealthfront&quot;, &quot;cologix&quot;, &quot;runlaminar&quot;],
+  &quot;maxItems&quot;: 500
+}
+</code></pre>
+<h3 id="readme-board-and-posting-urls-including-an-eu-only-company">Board and posting URLs, including an EU-only company</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;getJobs&quot;,
+  &quot;companySlugs&quot;: [
+    &quot;https://jobs.lever.co/gohighlevel&quot;,
+    &quot;https://jobs.eu.lever.co/olx&quot;,
+    &quot;https://jobs.lever.co/wealthfront/78d6f6d5-2c6b-4f7f-9f0e-000000000000&quot;
+  ]
+}
+</code></pre>
+<h3 id="readme-remote-engineering-roles-posted-this-year">Remote engineering roles posted this year</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;getJobs&quot;,
+  &quot;companySlugs&quot;: [&quot;agile-defense&quot;, &quot;contentsquare&quot;],
+  &quot;team&quot;: &quot;Engineering&quot;,
+  &quot;remoteOnly&quot;: true,
+  &quot;titleKeywords&quot;: [&quot;engineer&quot;],
+  &quot;postedAfter&quot;: &quot;2026-01-01&quot;,
+  &quot;hasSalaryOnly&quot;: true
+}
+</code></pre>
+<h3 id="readme-look-up-specific-postings-by-url">Look up specific postings by URL</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;getJob&quot;,
+  &quot;companySlug&quot;: &quot;wealthfront&quot;,
+  &quot;postingIds&quot;: [
+    &quot;https://jobs.lever.co/wealthfront/78d6f6d5-2c6b-4f7f-9f0e-000000000000&quot;,
+    &quot;https://jobs.lever.co/wealthfront/78d6f6d5-2c6b-4f7f-9f0e-111111111111/apply&quot;
+  ]
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>Job aggregation</strong> — feed a niche job board with complete postings from selected Lever employers</li>
+<li><strong>Competitive hiring intelligence</strong> — see which teams and locations a competitor is growing</li>
+<li><strong>Recruiting outreach</strong> — export remote engineering roles with published salary ranges</li>
+<li><strong>Market research</strong> — compare workplace arrangements, countries and salary ranges across companies</li>
+<li><strong>Scheduled monitoring</strong> — run daily with only-new mode to capture fresh postings for alerts</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<h3 id="readme-do-i-need-a-lever-account-api-key-or-cookies">Do I need a Lever account, API key or cookies?</h3>
+<p>No. Lever's public postings API is open, and this actor reads only public board data.</p>
+<h3 id="readme-do-i-need-to-configure-a-proxy">Do I need to configure a proxy?</h3>
+<p>No. The actor connects to Lever directly and needs no proxy setup.</p>
+<h3 id="readme-how-do-i-find-a-company-s-lever-slug">How do I find a company's Lever slug?</h3>
+<p>Open the company's careers page. If it is hosted by Lever, the URL looks like <code>https://jobs.lever.co/company-slug</code>; the slug is the last path segment. The actor also accepts the whole URL.</p>
+<h3 id="readme-why-do-some-postings-have-no-salary-fields">Why do some postings have no salary fields?</h3>
+<p>Lever only returns salary data when the employer chooses to publish it, either as a structured range or as salary text. The actor never estimates or fabricates a range, so salary fields are simply absent on postings without published pay.</p>
+<h3 id="readme-what-is-the-difference-between-commitment-and-employmenttype">What is the difference between <code>commitment</code> and <code>employmentType</code>?</h3>
+<p><code>commitment</code> is the employer's raw text, which can vary (<code>Full-Time</code>, <code>Full time</code>, <code>EE Full-Time</code>, <code>Contract</code>). <code>employmentType</code> is a normalized value for filtering and analysis while the raw value is kept for traceability.</p>
+<h3 id="readme-why-is-companyname-sometimes-not-the-official-brand-name">Why is <code>companyName</code> sometimes not the official brand name?</h3>
+<p>Lever's API does not return a display name, so the actor derives one from the company slug. Treat it as a readable label rather than an authoritative company name.</p>
+<h3 id="readme-how-does-auto-region-detection-work">How does auto region detection work?</h3>
+<p>The actor queries the global Lever host first. If the board is missing there, or returns no postings but the company uses Lever's EU host, the actor retries on <code>api.eu.lever.co</code> and labels those records <code>boardRegion: &quot;eu&quot;</code>. An EU board URL goes straight to the EU host.</p>
+<h3 id="readme-can-i-search-every-lever-company-at-once">Can I search every Lever company at once?</h3>
+<p>No. Lever has no public cross-company search endpoint; boards are read per company. Add as many company slugs or URLs as you need to one run.</p>
+<h3 id="readme-does-the-actor-report-closed-jobs">Does the actor report closed jobs?</h3>
+<p>No. Lever only exposes currently published postings, so a posting disappears when it is closed and there is no closed-job or update timestamp. Only-new monitoring reports postings that were not seen on an earlier run.</p>
+<h3 id="readme-is-this-actor-affiliated-with-lever">Is this actor affiliated with Lever?</h3>
+<p>No. It is an independent third-party actor that reads Lever's public job board data and is not endorsed by or affiliated with Lever Inc.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/lever-job-board-postings-by-company-slug/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>Fyyah1xlgAHrHhYo1</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

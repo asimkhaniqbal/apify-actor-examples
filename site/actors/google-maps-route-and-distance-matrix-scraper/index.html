@@ -1,0 +1,601 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-75kEDanTgllZP+1ORHmwMJbPKs3dwO8UrBiG2yVDAT4=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Google Maps Route &amp; Distance Matrix Scraper | Vexaloom Labs</title><meta name="description" content="Get driving, walking, bicycling or transit routes between two locations - distance, duration, traffic and turn-by-turn steps - or build a travel-time matrix across many origins and"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-maps-route-and-distance-matrix-scraper/"><meta property="og:title" content="Google Maps Route &amp; Distance Matrix Scraper | Vexaloom Labs"><meta property="og:description" content="Get driving, walking, bicycling or transit routes between two locations - distance, duration, traffic and turn-by-turn steps - or build a travel-time matrix across many origins and"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-maps-route-and-distance-matrix-scraper/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-maps-route-and-distance-matrix-scraper/#webpage","name":"Google Maps Route & Distance Matrix Scraper","description":"Get driving, walking, bicycling or transit routes between two locations - distance, duration, traffic and turn-by-turn steps - or build a travel-time matrix across many origins and destinations in one run.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-maps-route-and-distance-matrix-scraper/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-maps-route-and-distance-matrix-scraper/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-maps-route-and-distance-matrix-scraper/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-maps-route-and-distance-matrix-scraper/#article","headline":"Google Maps Route & Distance Matrix Scraper","name":"Google Maps Route & Distance Matrix Scraper","description":"Get driving, walking, bicycling or transit routes between two locations - distance, duration, traffic and turn-by-turn steps - or build a travel-time matrix across many origins and destinations in one run.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-maps-route-and-distance-matrix-scraper/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-maps-route-and-distance-matrix-scraper/#webpage"},"inLanguage":"en","dateModified":"2026-11-05T11:59:40.715Z"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-maps-route-and-distance-matrix-scraper/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Google Maps Route & Distance Matrix Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/google-maps-route-and-distance-matrix-scraper/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Google Maps Route &amp; Distance Matrix Scraper</span></div><section id="overview"><h1 class="doc-title">Google Maps Route &amp; Distance Matrix Scraper</h1><p class="lede">Get driving, walking, bicycling or transit routes between two locations - distance, duration, traffic and turn-by-turn steps - or build a travel-time matrix across many origins and destinations in one run.</p><p class="summary">Google Maps Route &amp; Distance Matrix Scraper is an Apify Actor published by Vexaloom Labs. It accepts 19 input fields, none of them required at the top level. Its build declares a results dataset with 3 views. Runs happen on Apify, where the Store page lists the current price.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/google-maps-route-and-distance-matrix-scraper">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/nsNiNL5MalNOLsSyK/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>What to scrape: one route (with optional waypoints), a distance matrix, or a list of Google Maps directions URLs.</td></tr><tr><td><code>stops</code></td><td>array</td><td>optional</td><td>Ordered stops for route mode: 2–10 locations. The first is the origin, the last is the destination, and everything in between becomes a waypoint.</td></tr><tr><td><code>origins</code></td><td>array</td><td>optional</td><td>Starting locations for matrix mode. Each origin is paired with every destination below.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>What to scrape: one route (with optional waypoints), a distance matrix, or a list of Google Maps directions URLs.</td></tr><tr><td><code>stops</code></td><td>array</td><td>optional</td><td>Ordered stops for route mode: 2–10 locations. The first is the origin, the last is the destination, and everything in between becomes a waypoint.</td></tr><tr><td><code>origins</code></td><td>array</td><td>optional</td><td>Starting locations for matrix mode. Each origin is paired with every destination below.</td></tr><tr><td><code>destinations</code></td><td>array</td><td>optional</td><td>Ending locations for matrix mode. Each destination is paired with every origin above.</td></tr><tr><td><code>directionsUrls</code></td><td>array</td><td>optional</td><td>Google Maps directions links for URLs mode. Canonical /maps/dir/ links and short share links are both accepted; waypoints and travel mode are read from the link when present.</td></tr><tr><td><code>maxPairs</code></td><td>integer</td><td>optional</td><td>Maximum number of origin × destination pairs to request in matrix mode. Pairs beyond this cap are left out.</td></tr><tr><td><code>travelMode</code></td><td>string</td><td>optional</td><td>How to travel between the stops.</td></tr><tr><td><code>avoidTolls</code></td><td>boolean</td><td>optional</td><td>Driving only — ask Google Maps to avoid toll roads. If no toll-free route exists, Google may still return a toll route.</td></tr><tr><td><code>avoidHighways</code></td><td>boolean</td><td>optional</td><td>Driving only — ask Google Maps to avoid highways and motorways. If no practical alternative exists, Google may still return a highway route.</td></tr><tr><td><code>avoidFerries</code></td><td>boolean</td><td>optional</td><td>Driving only — prefer routes without ferry crossings. If every route uses a ferry, the result is still returned and marked with avoidanceUnmet.</td></tr><tr><td><code>departureTime</code></td><td>string</td><td>optional</td><td>Optional ISO 8601 departure time as local time at the origin, for example 2026-06-16T10:30:00. Used for driving traffic estimates and transit schedules. A timezone offset is accepted but ignored; walking and bicycling ignore the field.</td></tr><tr><td><code>maxAlternatives</code></td><td>integer</td><td>optional</td><td>Maximum number of route alternatives to return per trip, including Google&#x27;s recommended route. Applies to route and URLs modes. Google usually supplies up to 3 alternatives.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Global cap on the number of records pushed to the dataset.</td></tr><tr><td><code>includeSteps</code></td><td>boolean</td><td>optional</td><td>Add turn-by-turn steps with instruction, distance, duration, maneuver, coordinates and route geometry for every returned route.</td></tr><tr><td><code>includeStreetView</code></td><td>boolean</td><td>optional</td><td>Add a Street View panorama ID and thumbnail URL to each step where Google publishes one. This also enables step details.</td></tr><tr><td><code>language</code></td><td>string</td><td>optional</td><td>Language for instructions and other localized text.</td></tr><tr><td><code>units</code></td><td>string</td><td>optional</td><td>Preferred distance units for the formatted distance fields. Meter values stay unchanged.</td></tr><tr><td><code>requestDelayMs</code></td><td>integer</td><td>optional</td><td>Pause between directions requests. A small delay keeps large matrix runs polite and reduces rate limiting.</td></tr><tr><td><code>proxyConfiguration</code></td><td>object</td><td>optional</td><td>Optional fallback proxy. The actor first requests Google Maps directly and only retries through this proxy if the direct request is blocked.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Get route alternatives, multi-stop trips, turn-by-turn steps, traffic, transit detail, distance matrices and directions URLs from Google Maps.&quot;,
+  &quot;properties&quot;: {
+    &quot;avoidFerries&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Driving only — prefer routes without ferry crossings. If every route uses a ferry, the result is still returned and marked with avoidanceUnmet.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Avoid Ferries&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;avoidHighways&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Driving only — ask Google Maps to avoid highways and motorways. If no practical alternative exists, Google may still return a highway route.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Avoid Highways&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;avoidTolls&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Driving only — ask Google Maps to avoid toll roads. If no toll-free route exists, Google may still return a toll route.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Avoid Tolls&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;departureTime&quot;: {
+      &quot;description&quot;: &quot;Optional ISO 8601 departure time as local time at the origin, for example 2026-06-16T10:30:00. Used for driving traffic estimates and transit schedules. A timezone offset is accepted but ignored; walking and bicycling ignore the field.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Departure Time&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;destinations&quot;: {
+      &quot;description&quot;: &quot;Ending locations for matrix mode. Each destination is paired with every origin above.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [
+        &quot;Central Park, New York, NY&quot;,
+        &quot;Brooklyn Bridge, New York, NY&quot;,
+        &quot;JFK Airport, New York, NY&quot;
+      ],
+      &quot;title&quot;: &quot;Destinations&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;directionsUrls&quot;: {
+      &quot;description&quot;: &quot;Google Maps directions links for URLs mode. Canonical /maps/dir/ links and short share links are both accepted; waypoints and travel mode are read from the link when present.&quot;,
+      &quot;editor&quot;: &quot;requestListSources&quot;,
+      &quot;items&quot;: {
+        &quot;properties&quot;: {
+          &quot;url&quot;: {
+            &quot;description&quot;: &quot;Public Google Maps directions link.&quot;,
+            &quot;title&quot;: &quot;URL&quot;,
+            &quot;type&quot;: &quot;string&quot;
+          }
+        },
+        &quot;required&quot;: [
+          &quot;url&quot;
+        ],
+        &quot;type&quot;: &quot;object&quot;
+      },
+      &quot;title&quot;: &quot;Directions URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;includeSteps&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Add turn-by-turn steps with instruction, distance, duration, maneuver, coordinates and route geometry for every returned route.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include Steps&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeStreetView&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Add a Street View panorama ID and thumbnail URL to each step where Google publishes one. This also enables step details.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include Street View&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;language&quot;: {
+      &quot;default&quot;: &quot;en&quot;,
+      &quot;description&quot;: &quot;Language for instructions and other localized text.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;en&quot;,
+        &quot;es&quot;,
+        &quot;fr&quot;,
+        &quot;de&quot;,
+        &quot;it&quot;,
+        &quot;pt&quot;,
+        &quot;ja&quot;,
+        &quot;ko&quot;,
+        &quot;zh&quot;,
+        &quot;ar&quot;,
+        &quot;ru&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;English&quot;,
+        &quot;Spanish&quot;,
+        &quot;French&quot;,
+        &quot;German&quot;,
+        &quot;Italian&quot;,
+        &quot;Portuguese&quot;,
+        &quot;Japanese&quot;,
+        &quot;Korean&quot;,
+        &quot;Chinese&quot;,
+        &quot;Arabic&quot;,
+        &quot;Russian&quot;
+      ],
+      &quot;prefill&quot;: &quot;en&quot;,
+      &quot;title&quot;: &quot;Language&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;maxAlternatives&quot;: {
+      &quot;default&quot;: 5,
+      &quot;description&quot;: &quot;Maximum number of route alternatives to return per trip, including Google&#x27;s recommended route. Applies to route and URLs modes. Google usually supplies up to 3 alternatives.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 8,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 1,
+      &quot;title&quot;: &quot;Max Alternatives&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 50,
+      &quot;description&quot;: &quot;Global cap on the number of records pushed to the dataset.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 1000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 5,
+      &quot;title&quot;: &quot;Max Results&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxPairs&quot;: {
+      &quot;default&quot;: 100,
+      &quot;description&quot;: &quot;Maximum number of origin × destination pairs to request in matrix mode. Pairs beyond this cap are left out.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 1000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 100,
+      &quot;title&quot;: &quot;Max Pairs&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;route&quot;,
+      &quot;description&quot;: &quot;What to scrape: one route (with optional waypoints), a distance matrix, or a list of Google Maps directions URLs.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;route&quot;,
+        &quot;matrix&quot;,
+        &quot;urls&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Route — one trip, 2–10 stops&quot;,
+        &quot;Matrix — every origin × destination&quot;,
+        &quot;URLs — scrape directions links&quot;
+      ],
+      &quot;prefill&quot;: &quot;route&quot;,
+      &quot;title&quot;: &quot;Mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;origins&quot;: {
+      &quot;description&quot;: &quot;Starting locations for matrix mode. Each origin is paired with every destination below.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [
+        &quot;Times Square, New York, NY&quot;,
+        &quot;Grand Central Terminal, New York, NY&quot;
+      ],
+      &quot;title&quot;: &quot;Origins&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;proxyConfiguration&quot;: {
+      &quot;description&quot;: &quot;Optional fallback proxy. The actor first requests Google Maps directly and only retries through this proxy if the direct request is blocked.&quot;,
+      &quot;editor&quot;: &quot;proxy&quot;,
+      &quot;title&quot;: &quot;Proxy Configuration&quot;,
+      &quot;type&quot;: &quot;object&quot;
+    },
+    &quot;requestDelayMs&quot;: {
+      &quot;default&quot;: 250,
+      &quot;description&quot;: &quot;Pause between directions requests. A small delay keeps large matrix runs polite and reduces rate limiting.&quot;,
+      &quot;editor&quot;: &quot;number&quot;,
+      &quot;maximum&quot;: 5000,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 250,
+      &quot;title&quot;: &quot;Request Delay (ms)&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;stops&quot;: {
+      &quot;description&quot;: &quot;Ordered stops for route mode: 2–10 locations. The first is the origin, the last is the destination, and everything in between becomes a waypoint.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;maxItems&quot;: 10,
+      &quot;minItems&quot;: 2,
+      &quot;prefill&quot;: [
+        &quot;Times Square, New York, NY&quot;,
+        &quot;Central Park, New York, NY&quot;
+      ],
+      &quot;title&quot;: &quot;Stops&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;travelMode&quot;: {
+      &quot;default&quot;: &quot;driving&quot;,
+      &quot;description&quot;: &quot;How to travel between the stops.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;driving&quot;,
+        &quot;walking&quot;,
+        &quot;bicycling&quot;,
+        &quot;transit&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Driving&quot;,
+        &quot;Walking&quot;,
+        &quot;Bicycling&quot;,
+        &quot;Public transit&quot;
+      ],
+      &quot;prefill&quot;: &quot;driving&quot;,
+      &quot;title&quot;: &quot;Travel Mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;units&quot;: {
+      &quot;default&quot;: &quot;metric&quot;,
+      &quot;description&quot;: &quot;Preferred distance units for the formatted distance fields. Meter values stay unchanged.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;metric&quot;,
+        &quot;imperial&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Metric (km, m)&quot;,
+        &quot;Imperial (mi, ft)&quot;
+      ],
+      &quot;prefill&quot;: &quot;metric&quot;,
+      &quot;title&quot;: &quot;Units&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Google Maps Directions Scraper&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>directions</code></td><td>string</td><td>optional</td><td>Dataset containing route, matrix and URL records. Each record contains one route alternative or one matrix row.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Route, matrix and URL records from Google Maps directions — resolved stops, distance, duration, traffic, route alternatives, steps, geometry, transit lines and fares.&quot;,
+  &quot;properties&quot;: {
+    &quot;directions&quot;: {
+      &quot;description&quot;: &quot;Dataset containing route, matrix and URL records. Each record contains one route alternative or one matrix row.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Directions records&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Google Maps Route &amp; Distance Matrix Scraper Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;views&quot;: {
+    &quot;matrix&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {}
+      },
+      &quot;title&quot;: &quot;Distance Matrix&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;recordType&quot;,
+          &quot;originIndex&quot;,
+          &quot;destinationIndex&quot;,
+          &quot;pairIndex&quot;,
+          &quot;origin&quot;,
+          &quot;destination&quot;,
+          &quot;originResolved&quot;,
+          &quot;destinationResolved&quot;,
+          &quot;travelMode&quot;,
+          &quot;distance&quot;,
+          &quot;distanceMeters&quot;,
+          &quot;duration&quot;,
+          &quot;durationSeconds&quot;,
+          &quot;durationInTraffic&quot;,
+          &quot;typicalDuration&quot;,
+          &quot;noTrafficDuration&quot;,
+          &quot;trafficRange&quot;,
+          &quot;routesAvailable&quot;,
+          &quot;googleMapsUrl&quot;,
+          &quot;scrapedAt&quot;
+        ]
+      }
+    },
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {}
+      },
+      &quot;title&quot;: &quot;Directions&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;recordType&quot;,
+          &quot;origin&quot;,
+          &quot;destination&quot;,
+          &quot;originResolved&quot;,
+          &quot;destinationResolved&quot;,
+          &quot;routeName&quot;,
+          &quot;routeIndex&quot;,
+          &quot;isRecommended&quot;,
+          &quot;travelMode&quot;,
+          &quot;distance&quot;,
+          &quot;distanceMeters&quot;,
+          &quot;duration&quot;,
+          &quot;durationSeconds&quot;,
+          &quot;durationInTraffic&quot;,
+          &quot;typicalDuration&quot;,
+          &quot;noTrafficDuration&quot;,
+          &quot;trafficRange&quot;,
+          &quot;trafficCondition&quot;,
+          &quot;departureTime&quot;,
+          &quot;arrivalTime&quot;,
+          &quot;fare&quot;,
+          &quot;availableModes&quot;,
+          &quot;googleMapsUrl&quot;,
+          &quot;sourceUrl&quot;,
+          &quot;scrapedAt&quot;,
+          &quot;steps&quot;,
+          &quot;notes&quot;
+        ]
+      }
+    },
+    &quot;transit&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {}
+      },
+      &quot;title&quot;: &quot;Transit&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;origin&quot;,
+          &quot;destination&quot;,
+          &quot;routeIndex&quot;,
+          &quot;transitLine&quot;,
+          &quot;transitVehicle&quot;,
+          &quot;transitHeadsign&quot;,
+          &quot;departureTime&quot;,
+          &quot;arrivalTime&quot;,
+          &quot;duration&quot;,
+          &quot;fare&quot;,
+          &quot;transit&quot;,
+          &quot;googleMapsUrl&quot;,
+          &quot;scrapedAt&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-google-maps-route-distance-matrix-scraper">Google Maps Route &amp; Distance Matrix Scraper</h2>
+<p>Get Google Maps directions as structured data — route alternatives, multi-stop trips, turn-by-turn steps, live and typical traffic, transit lines and fares, Street View previews, and full origin × destination travel-time matrices. No Google API key, login or cookie is needed.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li><strong>Route mode</strong> — one trip with 2–10 ordered stops. Middle stops become waypoints, just like Google Maps' &quot;Add destination&quot; feature.</li>
+<li><strong>Matrix mode</strong> — every origin × destination pair, one row per pair, with distance, duration and traffic estimates.</li>
+<li><strong>URLs mode</strong> — paste public Google Maps directions links, including canonical <code>/maps/dir/...</code> links and short share links.</li>
+<li><strong>Four travel modes</strong> — driving, walking, bicycling and public transit.</li>
+<li><strong>Route alternatives</strong> — Google's recommended route plus the alternatives it returns (usually up to 3); <code>maxAlternatives</code> caps the list at 1–8.</li>
+<li><strong>Turn-by-turn steps</strong> — instruction, distance, duration, maneuver, start/end coordinates, route geometry and optional Street View pano/thumbnail for every route, not just the first one.</li>
+<li><strong>Traffic detail</strong> — current duration, typical duration, no-traffic duration and the expected traffic range for driving routes.</li>
+<li><strong>Transit detail</strong> — line, vehicle, headsign, line colour, departure/arrival times, departure and arrival stops, intermediate stops, agency and fare when Google publishes it.</li>
+<li><strong>Departure planning</strong> — request driving or transit directions for a future departure time, expressed as local time at the origin.</li>
+<li><strong>Avoid flags</strong> — tolls, highways and ferries for driving routes.</li>
+<li><strong>Localized output</strong> — 11 instruction languages and metric or imperial distance formatting.</li>
+</ul>
+<p>Fields are omitted when Google does not provide a value. The actor never fills a missing fare, ETA, instruction or coordinate with a guess.</p>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td>select</td>
+<td><code>route</code></td>
+<td><code>route</code>, <code>matrix</code> or <code>urls</code></td>
+</tr>
+<tr>
+<td><code>stops</code></td>
+<td>string list</td>
+<td>–</td>
+<td>Ordered stops for route mode (2–10); the prefill is Times Square → Central Park</td>
+</tr>
+<tr>
+<td><code>origins</code></td>
+<td>string list</td>
+<td>–</td>
+<td>Matrix origins</td>
+</tr>
+<tr>
+<td><code>destinations</code></td>
+<td>string list</td>
+<td>–</td>
+<td>Matrix destinations</td>
+</tr>
+<tr>
+<td><code>directionsUrls</code></td>
+<td>request list</td>
+<td>–</td>
+<td>Google Maps directions links for URLs mode</td>
+</tr>
+<tr>
+<td><code>maxPairs</code></td>
+<td>integer</td>
+<td><code>100</code></td>
+<td>Maximum matrix pairs (1–1000)</td>
+</tr>
+<tr>
+<td><code>travelMode</code></td>
+<td>select</td>
+<td><code>driving</code></td>
+<td><code>driving</code>, <code>walking</code>, <code>bicycling</code> or <code>transit</code></td>
+</tr>
+<tr>
+<td><code>avoidTolls</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Driving only</td>
+</tr>
+<tr>
+<td><code>avoidHighways</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Driving only</td>
+</tr>
+<tr>
+<td><code>avoidFerries</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Driving only</td>
+</tr>
+<tr>
+<td><code>departureTime</code></td>
+<td>text</td>
+<td>–</td>
+<td>ISO 8601 datetime in the origin's local time; driving and transit</td>
+</tr>
+<tr>
+<td><code>maxAlternatives</code></td>
+<td>integer</td>
+<td><code>5</code></td>
+<td>Route alternatives per trip (1–8)</td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>integer</td>
+<td><code>50</code></td>
+<td>Global record cap (1–1000)</td>
+</tr>
+<tr>
+<td><code>includeSteps</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Turn-by-turn steps and geometry</td>
+</tr>
+<tr>
+<td><code>includeStreetView</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Street View pano ID and thumbnail per step</td>
+</tr>
+<tr>
+<td><code>language</code></td>
+<td>select</td>
+<td><code>en</code></td>
+<td>Instruction language</td>
+</tr>
+<tr>
+<td><code>units</code></td>
+<td>select</td>
+<td><code>metric</code></td>
+<td><code>metric</code> or <code>imperial</code> formatting</td>
+</tr>
+<tr>
+<td><code>requestDelayMs</code></td>
+<td>integer</td>
+<td><code>250</code></td>
+<td>Pause between requests (0–5000 ms)</td>
+</tr>
+<tr>
+<td><code>proxyConfiguration</code></td>
+<td>proxy</td>
+<td>–</td>
+<td>Optional fallback; direct requests are tried first</td>
+</tr>
+</tbody>
+</table></div>
+<p>Existing saved tasks that still send <code>origin</code> and <code>destination</code> keep working: the actor maps them to the first and last stop automatically.</p>
+<h2 id="readme-output-route-records">Output: route records</h2>
+<p>Each route alternative becomes one record:</p>
+<ul>
+<li><code>origin</code>, <code>destination</code>, <code>stops[]</code>, <code>waypoints[]</code> — your inputs plus Google's resolved names, addresses, coordinates and place IDs</li>
+<li><code>originResolved</code>, <code>destinationResolved</code>, <code>originCoords</code>, <code>destinationCoords</code></li>
+<li><code>recordType</code>, <code>routeIndex</code>, <code>routeName</code>, <code>routeSummary</code>, <code>isRecommended</code></li>
+<li><code>distance</code>, <code>distanceMeters</code>, <code>distanceText</code> — formatted distance, exact meters, and Google's original text</li>
+<li><code>duration</code>, <code>durationSeconds</code>, <code>durationText</code></li>
+<li><code>durationInTraffic</code>, <code>durationInTrafficSeconds</code></li>
+<li><code>typicalDuration</code>, <code>typicalDurationSeconds</code>, <code>noTrafficDuration</code>, <code>noTrafficDurationSeconds</code>, <code>trafficRange</code>, <code>trafficRangeMinSeconds</code>, <code>trafficRangeMaxSeconds</code>, <code>trafficLevel</code>, <code>trafficCondition</code></li>
+<li><code>via</code> — the main road or highway</li>
+<li><code>departureTime</code>, <code>arrivalTime</code>, <code>transitWindow</code>, plus ISO timestamps and timezone for transit</li>
+<li><code>fare</code>, <code>fares[]</code>, <code>transit</code> and <code>transitSegments[]</code> — line, vehicle, headsign, colour, stops, times and fare</li>
+<li><code>steps[]</code> — instruction, instruction parts, maneuver, distance, duration, start/end coordinates, Street View fields and notes</li>
+<li><code>geometry[]</code> — route geometry built from step coordinates</li>
+<li><code>legs[]</code> — per-leg distance, duration and step range for multi-stop trips</li>
+<li><code>availableModes[]</code> — Google's duration comparison for driving, walking, bicycling and transit</li>
+<li><code>avoidanceUnmet[]</code> — set when an avoidance request could not be honoured</li>
+<li><code>notes[]</code>, <code>googleMapsUrl</code>, <code>sourceUrl</code>, <code>inputUrl</code>, <code>scrapedAt</code></li>
+</ul>
+<h2 id="readme-output-matrix-records">Output: matrix records</h2>
+<p>Matrix mode adds <code>originIndex</code>, <code>destinationIndex</code>, <code>pairIndex</code> and <code>routesAvailable</code> to the best route for each pair. <code>recordType</code> is <code>matrix</code>. <code>maxPairs</code> caps requested pairs and <code>maxItems</code> caps pushed rows.</p>
+<h2 id="readme-examples">Examples</h2>
+<h3 id="readme-driving-route-with-a-waypoint">Driving route with a waypoint</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;route&quot;,
+  &quot;stops&quot;: [
+    &quot;New York, NY&quot;,
+    &quot;Hartford, CT&quot;,
+    &quot;Boston, MA&quot;
+  ],
+  &quot;travelMode&quot;: &quot;driving&quot;,
+  &quot;includeSteps&quot;: true
+}
+</code></pre>
+<h3 id="readme-transit-trip-with-a-future-departure">Transit trip with a future departure</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;route&quot;,
+  &quot;stops&quot;: [&quot;Heathrow Airport, London&quot;, &quot;British Museum, London&quot;],
+  &quot;travelMode&quot;: &quot;transit&quot;,
+  &quot;departureTime&quot;: &quot;2026-11-06T13:00:00+00:00&quot;,
+  &quot;maxAlternatives&quot;: 6
+}
+</code></pre>
+<h3 id="readme-distance-matrix">Distance matrix</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;matrix&quot;,
+  &quot;origins&quot;: [
+    &quot;Warehouse A, Newark, NJ&quot;,
+    &quot;Warehouse B, Elizabeth, NJ&quot;
+  ],
+  &quot;destinations&quot;: [
+    &quot;10 Wall St, New York, NY&quot;,
+    &quot;20 Hudson Yards, New York, NY&quot;,
+    &quot;JFK Airport, Queens, NY&quot;
+  ],
+  &quot;travelMode&quot;: &quot;driving&quot;,
+  &quot;maxPairs&quot;: 20,
+  &quot;maxItems&quot;: 20
+}
+</code></pre>
+<h3 id="readme-directions-urls">Directions URLs</h3>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;urls&quot;,
+  &quot;directionsUrls&quot;: [
+    {&quot;url&quot;: &quot;https://www.google.com/maps/dir/Times+Square,+New+York,+NY/Central+Park,+New+York,+NY/?travelmode=driving&quot;},
+    {&quot;url&quot;: &quot;https://www.google.com/maps/dir/Heathrow+Airport,+London/British+Museum,+London/?travelmode=transit&quot;}
+  ],
+  &quot;maxAlternatives&quot;: 3
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li>Fleet dispatch and delivery-route planning</li>
+<li>Commute and relocation comparisons across driving, walking, cycling and transit</li>
+<li>Travel-time matrices for store, warehouse or service-area analysis</li>
+<li>Itinerary planning with multi-stop road trips</li>
+<li>Transit schedule and fare research</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>How many alternatives can I get?</strong>
+<code>maxAlternatives</code> accepts 1–8 as a cap. Google's directions data usually provides up to 3 alternatives; the actor returns exactly what Google provides and never invents a route.</p>
+<p><strong>Do steps appear on every alternative?</strong>
+Yes. Every returned route contains its own steps, coordinates and geometry when <code>includeSteps</code> is on. Earlier versions only returned steps for the first route.</p>
+<p><strong>How does departure time handle timezones?</strong>
+<code>departureTime</code> is interpreted as the local clock time at the origin, matching Google Maps' &quot;Depart at&quot; control. An ISO 8601 offset is accepted but ignored, so <code>2026-11-06T13:00:00-05:00</code> and <code>2026-11-06T13:00:00</code> both mean 1 PM at the origin. Transit output also includes <code>departureTimezone</code> and ISO timestamps with the local offset.</p>
+<p><strong>Why is a fare or transit line missing from one route?</strong>
+Google only publishes fares and detailed line information for some transit agencies and routes. Those fields are omitted when absent instead of being estimated.</p>
+<p><strong>What happens when Google cannot avoid a toll, highway or ferry?</strong>
+Google may still return the only available route. In that case the record is kept and <code>avoidanceUnmet</code> explains which preference could not be met.</p>
+<p><strong>How large can a matrix be?</strong>
+<code>maxPairs</code> limits requested pairs (up to 1000) and <code>maxItems</code> limits pushed rows. For a matrix, one row is produced per pair, using Google's recommended route.</p>
+<p><strong>Do short share links work in URLs mode?</strong>
+Yes. Both full <code>/maps/dir/...</code> links and short Google Maps share links are resolved before scraping. Travel mode, waypoints and avoid preferences are read from the link when present.</p>
+<p><strong>Is an API key, cookie or login required?</strong>
+No. The actor reads the same public directions data Google Maps serves to a browser, without an account, cookie or API key.</p>
+<p><strong>Why do distances sometimes differ from Google's displayed text?</strong>
+Google localizes displayed units by country. The actor keeps the original text in <code>distanceText</code> and also converts the exact meter value into your selected <code>units</code>.</p>
+<p><strong>Is this affiliated with Google?</strong>
+No. This is an independent, third-party actor and is not affiliated with or endorsed by Google.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/google-maps-route-and-distance-matrix-scraper/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>rqVaq22Xv16eLhVf8</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

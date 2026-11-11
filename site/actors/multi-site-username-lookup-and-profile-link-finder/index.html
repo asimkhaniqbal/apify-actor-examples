@@ -1,0 +1,479 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-PISRR7rKVVMD6HuX1re2o7YM1XHEjk8xZT/USmpcp/I=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Multi-Site Username Lookup &amp; Profile Link Finder | Vexaloom Labs</title><meta name="description" content="Search for usernames across 400+ social networks and websites and get a direct profile URL for every site where that username exists. No login or API keys required."><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/multi-site-username-lookup-and-profile-link-finder/"><meta property="og:title" content="Multi-Site Username Lookup &amp; Profile Link Finder | Vexaloom Labs"><meta property="og:description" content="Search for usernames across 400+ social networks and websites and get a direct profile URL for every site where that username exists. No login or API keys required."><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/multi-site-username-lookup-and-profile-link-finder/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/multi-site-username-lookup-and-profile-link-finder/#webpage","name":"Multi-Site Username Lookup & Profile Link Finder","description":"Search for usernames across 400+ social networks and websites and get a direct profile URL for every site where that username exists. No login or API keys required.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/multi-site-username-lookup-and-profile-link-finder/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/multi-site-username-lookup-and-profile-link-finder/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/multi-site-username-lookup-and-profile-link-finder/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/multi-site-username-lookup-and-profile-link-finder/#article","headline":"Multi-Site Username Lookup & Profile Link Finder","name":"Multi-Site Username Lookup & Profile Link Finder","description":"Search for usernames across 400+ social networks and websites and get a direct profile URL for every site where that username exists. No login or API keys required.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/multi-site-username-lookup-and-profile-link-finder/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/multi-site-username-lookup-and-profile-link-finder/#webpage"},"inLanguage":"en","dateModified":"2026-11-04T09:04:20.410Z"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/multi-site-username-lookup-and-profile-link-finder/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Multi-Site Username Lookup & Profile Link Finder","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/multi-site-username-lookup-and-profile-link-finder/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Multi-Site Username Lookup &amp; Profile Link Finder</span></div><section id="overview"><h1 class="doc-title">Multi-Site Username Lookup &amp; Profile Link Finder</h1><p class="lede">Search for usernames across 400+ social networks and websites and get a direct profile URL for every site where that username exists. No login or API keys required.</p><p class="summary">Multi-Site Username Lookup &amp; Profile Link Finder is an Apify Actor published by Vexaloom Labs. It accepts 11 input fields, and <code>usernames</code> is required. Its build declares a results dataset with 2 views. Runs happen on Apify, where the Store page lists the current price.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/multi-site-username-lookup-and-profile-link-finder">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/UVRRxRDftS1uibtwC/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>usernames</code></td><td>array</td><td>required</td><td>Handles to look up. A leading @ is ignored. Use {?} to expand to _, - and . (e.g. john{?}doe).</td></tr><tr><td><code>username</code></td><td>string</td><td>optional</td><td>Optional single handle merged into `usernames`. The `usernames` array is still required.</td></tr><tr><td><code>sites</code></td><td>array</td><td>optional</td><td>Only check these sites. Accepts names (GitHub), domains (github.com) or profile URLs. Leave empty for every supported site.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>usernames</code></td><td>array</td><td>required</td><td>Handles to look up. A leading @ is ignored. Use {?} to expand to _, - and . (e.g. john{?}doe).</td></tr><tr><td><code>username</code></td><td>string</td><td>optional</td><td>Optional single handle merged into `usernames`. The `usernames` array is still required.</td></tr><tr><td><code>sites</code></td><td>array</td><td>optional</td><td>Only check these sites. Accepts names (GitHub), domains (github.com) or profile URLs. Leave empty for every supported site.</td></tr><tr><td><code>categories</code></td><td>array</td><td>optional</td><td>Only check sites in these categories. Combined with `sites` as a union. Leave empty for all categories.</td></tr><tr><td><code>includeNsfw</code></td><td>boolean</td><td>optional</td><td>Also check adult sites. Off by default.</td></tr><tr><td><code>includeAvailable</code></td><td>boolean</td><td>optional</td><td>Also emit rows for sites where the handle is free, blocked, unknown or illegal. Useful for availability checks.</td></tr><tr><td><code>verifyClaims</code></td><td>boolean</td><td>optional</td><td>Re-check every generic claimed site with a random decoy handle. Sites that claim any handle are demoted to unverified and kept out of `links`.</td></tr><tr><td><code>enrichProfiles</code></td><td>boolean</td><td>optional</td><td>Add display name, bio, avatar, follower counts, join date, location, website and verified flag where the site exposes them.</td></tr><tr><td><code>outputMode</code></td><td>string</td><td>optional</td><td>How to shape dataset rows.</td></tr><tr><td><code>maxUsernames</code></td><td>integer</td><td>optional</td><td>Cap the number of handles after wildcard expansion (1–100).</td></tr><tr><td><code>maxSitesPerUsername</code></td><td>integer</td><td>optional</td><td>Check only the top N priority sites per handle. 0 checks every selected site (0–500).</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Look up one or more usernames across 400+ sites and return verified profiles with per-site status.&quot;,
+  &quot;properties&quot;: {
+    &quot;categories&quot;: {
+      &quot;description&quot;: &quot;Only check sites in these categories. Combined with `sites` as a union. Leave empty for all categories.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;items&quot;: {
+        &quot;enum&quot;: [
+          &quot;social&quot;,
+          &quot;dev&quot;,
+          &quot;gaming&quot;,
+          &quot;forum&quot;,
+          &quot;media&quot;,
+          &quot;business&quot;,
+          &quot;education&quot;,
+          &quot;adult&quot;,
+          &quot;other&quot;
+        ],
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Categories&quot;,
+      &quot;type&quot;: &quot;array&quot;,
+      &quot;uniqueItems&quot;: true
+    },
+    &quot;enrichProfiles&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Add display name, bio, avatar, follower counts, join date, location, website and verified flag where the site exposes them.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Extract profile fields&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeAvailable&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Also emit rows for sites where the handle is free, blocked, unknown or illegal. Useful for availability checks.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include available/blocked rows&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeNsfw&quot;: {
+      &quot;default&quot;: false,
+      &quot;description&quot;: &quot;Also check adult sites. Off by default.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;title&quot;: &quot;Include NSFW sites&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;maxSitesPerUsername&quot;: {
+      &quot;default&quot;: 0,
+      &quot;description&quot;: &quot;Check only the top N priority sites per handle. 0 checks every selected site (0–500).&quot;,
+      &quot;maximum&quot;: 500,
+      &quot;minimum&quot;: 0,
+      &quot;prefill&quot;: 0,
+      &quot;title&quot;: &quot;Max sites per username&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;maxUsernames&quot;: {
+      &quot;default&quot;: 100,
+      &quot;description&quot;: &quot;Cap the number of handles after wildcard expansion (1–100).&quot;,
+      &quot;maximum&quot;: 100,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 1,
+      &quot;title&quot;: &quot;Max usernames&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;outputMode&quot;: {
+      &quot;default&quot;: &quot;perUsername&quot;,
+      &quot;description&quot;: &quot;How to shape dataset rows.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;perUsername&quot;,
+        &quot;perSite&quot;,
+        &quot;perHit&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;One row per username (legacy links + profiles)&quot;,
+        &quot;One row per username × site&quot;,
+        &quot;One row per claimed profile&quot;
+      ],
+      &quot;prefill&quot;: &quot;perUsername&quot;,
+      &quot;title&quot;: &quot;Output mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;sites&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Only check these sites. Accepts names (GitHub), domains (github.com) or profile URLs. Leave empty for every supported site.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [
+        &quot;GitHub&quot;
+      ],
+      &quot;title&quot;: &quot;Sites&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;username&quot;: {
+      &quot;description&quot;: &quot;Optional single handle merged into `usernames`. The `usernames` array is still required.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Single username&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;usernames&quot;: {
+      &quot;default&quot;: [
+        &quot;octocat&quot;
+      ],
+      &quot;description&quot;: &quot;Handles to look up. A leading @ is ignored. Use {?} to expand to _, - and . (e.g. john{?}doe).&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;prefill&quot;: [
+        &quot;octocat&quot;
+      ],
+      &quot;title&quot;: &quot;Usernames&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;verifyClaims&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Re-check every generic claimed site with a random decoy handle. Sites that claim any handle are demoted to unverified and kept out of `links`.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Verify claimed profiles&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;usernames&quot;
+  ],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Sherlock Username Search&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>results</code></td><td>string</td><td>optional</td><td>All records from the run, in the default dataset.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Verified profiles, per-site status rows, or one row per hit, depending on the output mode.&quot;,
+  &quot;properties&quot;: {
+    &quot;results&quot;: {
+      &quot;description&quot;: &quot;All records from the run, in the default dataset.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Results&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Sherlock Username Lookup Output&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;title&quot;: &quot;Sherlock Results&quot;,
+  &quot;views&quot;: {
+    &quot;byUsername&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;links&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Verified Links&quot;
+          },
+          &quot;profilesFound&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Found&quot;
+          },
+          &quot;sitesAvailable&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Available&quot;
+          },
+          &quot;sitesBlocked&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Blocked&quot;
+          },
+          &quot;sitesChecked&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Checked&quot;
+          },
+          &quot;sitesUnknown&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Unknown&quot;
+          },
+          &quot;username&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Username&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;By Username&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;username&quot;,
+          &quot;links&quot;,
+          &quot;profilesFound&quot;,
+          &quot;sitesChecked&quot;,
+          &quot;sitesAvailable&quot;,
+          &quot;sitesBlocked&quot;,
+          &quot;sitesUnknown&quot;
+        ]
+      }
+    },
+    &quot;hits&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;category&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Category&quot;
+          },
+          &quot;httpStatus&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;HTTP&quot;
+          },
+          &quot;site&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Site&quot;
+          },
+          &quot;status&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Status&quot;
+          },
+          &quot;url&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Profile URL&quot;
+          },
+          &quot;username&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Username&quot;
+          },
+          &quot;verified&quot;: {
+            &quot;format&quot;: &quot;boolean&quot;,
+            &quot;label&quot;: &quot;Verified&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Verified Profiles&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;username&quot;,
+          &quot;site&quot;,
+          &quot;category&quot;,
+          &quot;status&quot;,
+          &quot;verified&quot;,
+          &quot;httpStatus&quot;,
+          &quot;url&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-multi-site-username-lookup-profile-finder">Multi-Site Username Lookup &amp; Profile Finder</h2>
+<p>Find where a username exists across 400+ social networks, developer platforms, forums, gaming sites and marketplaces, and get a real profile URL instead of a guess. Every result carries a per-site status, HTTP code, detection method and verification flag, so a soft-404 page can never masquerade as a profile.</p>
+<h2 id="readme-what-this-actor-does">What this actor does</h2>
+<ul>
+<li>Checks up to <strong>100 usernames per run</strong> with concurrent site checks.</li>
+<li>Uses <strong>22 native probes</strong> with exact API/XML/HTML detection for GitHub, GitLab, Steam, Chess.com, Lichess, Hacker News, Codeforces, Docker Hub, Roblox, YouTube, Mastodon, Dev.to, SoundCloud, Instagram, Pinterest, Twitch, X, LeetCode, Keybase, Stack Exchange, Dailymotion and Kick.</li>
+<li>Runs <strong>decoy verification</strong> on the generic long tail: a site that claims a random handle is marked <code>unverified</code> and kept out of <code>links</code>.</li>
+<li>Exposes site, category, status, HTTP status, detection method and response time for every check, plus an NSFW flag on adult-site rows.</li>
+<li>Extracts profile fields where the site exposes them: display name, bio, avatar, followers, following, posts, join date, location, website and verified badge.</li>
+<li>Hides <strong>NSFW sites by default</strong> and removes ten sites proved unable to distinguish real profiles from missing ones.</li>
+<li>Supports one row per username (legacy-compatible), one row per site, or one row per claimed profile.</li>
+<li>Needs <strong>no login, cookie, API key or proxy</strong>.</li>
+</ul>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>usernames</code></td>
+<td>array</td>
+<td><code>[&quot;octocat&quot;]</code></td>
+<td>Handles to look up (required). A leading <code>@</code> is ignored. <code>{?}</code> expands to <code>_</code>, <code>-</code> and <code>.</code>.</td>
+</tr>
+<tr>
+<td><code>username</code></td>
+<td>string</td>
+<td>–</td>
+<td>Optional single handle merged into <code>usernames</code>; the array is still required.</td>
+</tr>
+<tr>
+<td><code>sites</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td>Names (<code>GitHub</code>), domains (<code>github.com</code>) or profile URLs. Empty means every site.</td>
+</tr>
+<tr>
+<td><code>categories</code></td>
+<td>array</td>
+<td><code>[]</code></td>
+<td><code>social</code>, <code>dev</code>, <code>gaming</code>, <code>forum</code>, <code>media</code>, <code>business</code>, <code>education</code>, <code>adult</code>, <code>other</code>. Combined with <code>sites</code> as a union.</td>
+</tr>
+<tr>
+<td><code>includeNsfw</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Also check adult sites.</td>
+</tr>
+<tr>
+<td><code>includeAvailable</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Also emit rows for free, blocked, unknown and illegal checks.</td>
+</tr>
+<tr>
+<td><code>verifyClaims</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Run the decoy re-check on generic claimed sites.</td>
+</tr>
+<tr>
+<td><code>enrichProfiles</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Add profile fields where available.</td>
+</tr>
+<tr>
+<td><code>outputMode</code></td>
+<td>string</td>
+<td><code>perUsername</code></td>
+<td><code>perUsername</code>, <code>perSite</code> or <code>perHit</code>.</td>
+</tr>
+<tr>
+<td><code>maxUsernames</code></td>
+<td>integer</td>
+<td><code>100</code></td>
+<td>Cap after wildcard expansion (1–100).</td>
+</tr>
+<tr>
+<td><code>maxSitesPerUsername</code></td>
+<td>integer</td>
+<td><code>0</code></td>
+<td>Check only the top N priority sites; <code>0</code> means all (0–500).</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="readme-output">Output</h2>
+<h3 id="readme-perusername-default-backward-compatible"><code>perUsername</code> (default, backward compatible)</h3>
+<p>One row per username. <code>username</code> and <code>links[]</code> keep their original meaning; <code>links</code> now contains only verified claimed profiles. New summary fields and a <code>profiles[]</code> array sit beside them.</p>
+<pre><code class="language-json">{
+  &quot;username&quot;: &quot;octocat&quot;,
+  &quot;links&quot;: [&quot;https://github.com/octocat&quot;],
+  &quot;sitesChecked&quot;: 428,
+  &quot;profilesFound&quot;: 1,
+  &quot;sitesAvailable&quot;: 380,
+  &quot;sitesBlocked&quot;: 12,
+  &quot;sitesUnknown&quot;: 15,
+  &quot;sitesUnverified&quot;: 0,
+  &quot;checkedAt&quot;: &quot;2026-11-04T12:00:00Z&quot;,
+  &quot;profiles&quot;: [
+    {
+      &quot;username&quot;: &quot;octocat&quot;,
+      &quot;site&quot;: &quot;GitHub&quot;,
+      &quot;category&quot;: &quot;dev&quot;,
+      &quot;url&quot;: &quot;https://github.com/octocat&quot;,
+      &quot;status&quot;: &quot;claimed&quot;,
+      &quot;httpStatus&quot;: 200,
+      &quot;detectionMethod&quot;: &quot;api_json&quot;,
+      &quot;verified&quot;: true,
+      &quot;responseTimeMs&quot;: 210,
+      &quot;checkedAt&quot;: &quot;2026-11-04T12:00:00Z&quot;,
+      &quot;profile&quot;: {
+        &quot;userId&quot;: &quot;583231&quot;,
+        &quot;username&quot;: &quot;octocat&quot;,
+        &quot;displayName&quot;: &quot;The Octocat&quot;,
+        &quot;avatarUrl&quot;: &quot;https://avatars.githubusercontent.com/u/583231&quot;,
+        &quot;followers&quot;: 18432,
+        &quot;following&quot;: 9,
+        &quot;joinedAt&quot;: &quot;2011-01-25T18:44:36Z&quot;,
+        &quot;location&quot;: &quot;San Francisco&quot;,
+        &quot;website&quot;: &quot;https://github.blog&quot;,
+        &quot;stats&quot;: { &quot;repositories&quot;: 8, &quot;gists&quot;: 8 }
+      }
+    }
+  ]
+}
+</code></pre>
+<h3 id="readme-persite"><code>perSite</code></h3>
+<p>One row per username × site with <code>username</code>, <code>site</code>, <code>category</code>, <code>url</code>, <code>status</code>, <code>httpStatus</code>, <code>detectionMethod</code>, <code>responseTimeMs</code> and <code>checkedAt</code>, plus <code>verified</code> on hit rows, <code>isNsfw</code> on adult rows and <code>profile</code> when enrichment is on. By default only claimed and unverified rows are emitted; <code>includeAvailable</code> adds the rest.</p>
+<h3 id="readme-perhit"><code>perHit</code></h3>
+<p>One row per claimed and verified profile, with the same shape as <code>perSite</code>. With <code>verifyClaims=false</code>, claimed rows are emitted without the verification gate.</p>
+<h3 id="readme-status-vocabulary">Status vocabulary</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>claimed</code></td>
+<td>The site shows a profile for this handle. Native probes and verified generic checks are <code>verified: true</code>.</td>
+</tr>
+<tr>
+<td><code>available</code></td>
+<td>The handle is free on this site.</td>
+</tr>
+<tr>
+<td><code>unverified</code></td>
+<td>A generic site claimed the handle but could not prove it; kept out of <code>links</code>.</td>
+</tr>
+<tr>
+<td><code>waf</code></td>
+<td>The site returned a bot challenge, 403, 429 or 451.</td>
+</tr>
+<tr>
+<td><code>unknown</code></td>
+<td>Timeout, 5xx or an unparseable response.</td>
+</tr>
+<tr>
+<td><code>illegal</code></td>
+<td>The handle does not satisfy the site's own username rule.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Empty strings, arrays and objects are omitted at every depth.</p>
+<h2 id="readme-examples">Examples</h2>
+<p>Check a batch of handles across every non-NSFW site:</p>
+<pre><code class="language-json">{
+  &quot;usernames&quot;: [&quot;johndoe&quot;, &quot;janedoe&quot;, &quot;octocat&quot;],
+  &quot;maxUsernames&quot;: 3
+}
+</code></pre>
+<p>Check only developer and gaming sites, one row per hit:</p>
+<pre><code class="language-json">{
+  &quot;usernames&quot;: [&quot;octocat&quot;],
+  &quot;categories&quot;: [&quot;dev&quot;, &quot;gaming&quot;],
+  &quot;outputMode&quot;: &quot;perHit&quot;,
+  &quot;enrichProfiles&quot;: true
+}
+</code></pre>
+<p>Availability check for a new handle on selected sites:</p>
+<pre><code class="language-json">{
+  &quot;usernames&quot;: [&quot;mynewbrand2026&quot;],
+  &quot;sites&quot;: [&quot;GitHub&quot;, &quot;Instagram&quot;, &quot;X (Twitter)&quot;, &quot;Twitch&quot;, &quot;Reddit&quot;],
+  &quot;includeAvailable&quot;: true,
+  &quot;outputMode&quot;: &quot;perSite&quot;,
+  &quot;verifyClaims&quot;: true
+}
+</code></pre>
+<p>Fast top-20 scan per handle:</p>
+<pre><code class="language-json">{
+  &quot;usernames&quot;: [&quot;johndoe&quot;],
+  &quot;maxSitesPerUsername&quot;: 20,
+  &quot;enrichProfiles&quot;: false
+}
+</code></pre>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>Brand protection</strong> — find impersonating or parked accounts across networks.</li>
+<li><strong>OSINT and investigations</strong> — build a verified footprint from one handle.</li>
+<li><strong>Lead enrichment</strong> — attach public profile URLs and display names to a handle list.</li>
+<li><strong>Username availability</strong> — see where a new brand handle is free before registering.</li>
+<li><strong>Recruiting and sourcing</strong> — locate developer profiles on GitHub, GitLab, Codeforces, LeetCode and Stack Exchange.</li>
+<li><strong>Creator discovery</strong> — compare presence across YouTube, Twitch, Instagram, Pinterest and X.</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>How do I know a hit is real?</strong> Native probes use exact API/XML/HTML signals. Generic sites are re-checked with a random decoy handle: if the site claims the decoy too, the original row becomes <code>unverified</code> and is excluded from <code>links</code>. The <code>detectionMethod</code> and <code>verified</code> fields tell you exactly which path proved each hit.</p>
+<p><strong>Why are there fewer links than the old version?</strong> The old actor reported soft-404 and WAF pages as profiles. Ten such sites were removed from the catalog, and the remaining generic claims now pass the decoy check. Set <code>verifyClaims=false</code> to see the raw claimed rows.</p>
+<p><strong>What does <code>unverified</code> mean?</strong> The site returned a claimed signal, but a random handle produced the same signal, so the site cannot distinguish real profiles. The row is kept for transparency (and in <code>perSite</code> output) but never enters <code>links</code>. <code>profilesFound</code> counts claimed plus unverified candidates; <code>sitesUnverified</code> and <code>links</code> show which are proven.</p>
+<p><strong>Why are NSFW sites missing?</strong> They are excluded unless <code>includeNsfw=true</code>. The catalog marks 16 adult entries.</p>
+<p><strong>A site I need is missing. Can I add it?</strong> The catalog is pinned and covers 428 sites. Use <code>sites</code> to confirm whether a site is supported; unknown values are logged and ignored. The catalog can be refreshed with <code>scripts/refresh_catalog.py</code> when upstream adds sites.</p>
+<p><strong>How does <code>{?}</code> work?</strong> It expands to three handles using <code>_</code>, <code>-</code> and <code>.</code>. For example <code>john{?}doe</code> checks <code>john_doe</code>, <code>john-doe</code> and <code>john.doe</code>. Expansion happens before <code>maxUsernames</code> is applied.</p>
+<p><strong>Do I need cookies, an API key or a proxy?</strong> No. The actor is cookieless and anonymous. Sites that hard-block datacenter IPs or serve a bot challenge are reported honestly as <code>waf</code> or <code>unknown</code> rather than guessed.</p>
+<p><strong>Why do some sites return <code>unknown</code> or <code>waf</code>?</strong> Cloudflare, Akamai and similar edges sometimes challenge anonymous requests. Retries handle transient 429/5xx responses, but a persistent challenge stays <code>waf</code>, and a timeout or 5xx stays <code>unknown</code>.</p>
+<p><strong>Can I check 100 handles in one run?</strong> Yes, <code>maxUsernames</code> accepts 1–100. Handles are processed four at a time, with up to 50 site checks in flight across the run. Large scans take longer; narrow them with <code>sites</code>, <code>categories</code> or <code>maxSitesPerUsername</code>. GitHub's anonymous API allows 60 requests/hour, so the tail of a 100-handle GitHub-only batch can fall back to HTML or report <code>waf</code>.</p>
+<p><strong>Which fields can be enriched?</strong> Display name, bio, avatar, followers, following, posts, join date, location, website and verified badge, where the site's public response exposes them. Long-tail sites return URL and status only.</p>
+<h2 id="readme-limitations">Limitations</h2>
+<ul>
+<li><strong>No login-only data.</strong> Private profiles, follower lists, posts and activity feeds are out of scope.</li>
+<li><strong>Some sites cannot be detected anonymously.</strong> Reddit, TikTok and Spotify are not shipped as claimed paths; they are either excluded upstream or return <code>waf</code>/<code>unknown</code>. Sites behind a persistent bot challenge behave the same way.</li>
+<li><strong>Instagram and X throttle HTML.</strong> From datacenter IPs they can serve a login or generic page, so an existing profile may be reported <code>available</code> or <code>unknown</code>; no hit is fabricated.</li>
+<li><strong>Native enrichment covers 22 sites.</strong> The long tail provides URL, status, HTTP code and detection method only.</li>
+<li><strong>GitHub's anonymous API is limited to 60 requests/hour.</strong> Large GitHub-only batches fall back to HTML (fewer profile fields) or report <code>waf</code> for the tail.</li>
+<li><strong>Catalog size is 428 sites.</strong> This is a footprint tool, not a 3,000-site Maigret replacement.</li>
+<li><strong>Decoy verification trades recall for precision.</strong> A site that claims every handle is reported as <code>unverified</code>, even if a real profile exists there.</li>
+</ul>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/multi-site-username-lookup-and-profile-link-finder/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>CfAicgPeuLIJQCQhA</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

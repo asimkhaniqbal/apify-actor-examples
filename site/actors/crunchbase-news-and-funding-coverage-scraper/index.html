@@ -1,0 +1,688 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-T2jBJ3SzRNx3FWD/RXAanRfNBgdMaH7mR15EIV/vmYM=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Crunchbase News &amp; Funding Coverage Scraper | Vexaloom Labs</title><meta name="description" content="Extract Crunchbase&#x27;s editorial news articles on startup funding, M&amp;A, IPOs and tech trends: full text, author, publish date, categories, tags and featured image. Filter by keyword,"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/crunchbase-news-and-funding-coverage-scraper/"><meta property="og:title" content="Crunchbase News &amp; Funding Coverage Scraper | Vexaloom Labs"><meta property="og:description" content="Extract Crunchbase&#x27;s editorial news articles on startup funding, M&amp;A, IPOs and tech trends: full text, author, publish date, categories, tags and featured image. Filter by keyword,"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/crunchbase-news-and-funding-coverage-scraper/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/crunchbase-news-and-funding-coverage-scraper/#webpage","name":"Crunchbase News & Funding Coverage Scraper","description":"Extract Crunchbase's editorial news articles on startup funding, M&A, IPOs and tech trends: full text, author, publish date, categories, tags and featured image. Filter by keyword, category or date.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/crunchbase-news-and-funding-coverage-scraper/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/crunchbase-news-and-funding-coverage-scraper/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/crunchbase-news-and-funding-coverage-scraper/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/crunchbase-news-and-funding-coverage-scraper/#article","headline":"Crunchbase News & Funding Coverage Scraper","name":"Crunchbase News & Funding Coverage Scraper","description":"Extract Crunchbase's editorial news articles on startup funding, M&A, IPOs and tech trends: full text, author, publish date, categories, tags and featured image. Filter by keyword, category or date.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/crunchbase-news-and-funding-coverage-scraper/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/crunchbase-news-and-funding-coverage-scraper/#webpage"},"inLanguage":"en","dateModified":"2026-11-07T22:24:02.779Z"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/crunchbase-news-and-funding-coverage-scraper/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Crunchbase News & Funding Coverage Scraper","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/crunchbase-news-and-funding-coverage-scraper/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Crunchbase News &amp; Funding Coverage Scraper</span></div><section id="overview"><h1 class="doc-title">Crunchbase News &amp; Funding Coverage Scraper</h1><p class="lede">Extract Crunchbase&#x27;s editorial news articles on startup funding, M&amp;A, IPOs and tech trends: full text, author, publish date, categories, tags and featured image. Filter by keyword, category or date.</p><p class="summary">Crunchbase News &amp; Funding Coverage Scraper is an Apify Actor published by Vexaloom Labs. It accepts 12 input fields, none of them required at the top level. Its build declares a results dataset with 3 views. Runs happen on Apify, where the Store page lists the current price.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/crunchbase-news-and-funding-coverage-scraper">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/ENvuFWjzo2bkbq29t/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>Choose what to collect. Latest news, a keyword search, the Funding reports section, or a specific category, tag, author or article list.</td></tr><tr><td><code>search</code></td><td>string</td><td>optional</td><td>Free-text keyword matched against article titles and body text. Required in Keyword search mode; optional as an extra filter in the other list modes.</td></tr><tr><td><code>categories</code></td><td>array</td><td>optional</td><td>Category slugs, names or numeric IDs, combined with OR. Examples: venture, startups, ai, ma, ipo, data (Funding reports). Friendly aliases such as artificial-intelligence and fintech are accepted.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>optional</td><td>Choose what to collect. Latest news, a keyword search, the Funding reports section, or a specific category, tag, author or article list.</td></tr><tr><td><code>search</code></td><td>string</td><td>optional</td><td>Free-text keyword matched against article titles and body text. Required in Keyword search mode; optional as an extra filter in the other list modes.</td></tr><tr><td><code>categories</code></td><td>array</td><td>optional</td><td>Category slugs, names or numeric IDs, combined with OR. Examples: venture, startups, ai, ma, ipo, data (Funding reports). Friendly aliases such as artificial-intelligence and fintech are accepted.</td></tr><tr><td><code>tags</code></td><td>array</td><td>optional</td><td>Tag slugs, names or numeric IDs, combined with OR. Examples: unicorn, funding, seed-funding, venture-funding.</td></tr><tr><td><code>authors</code></td><td>array</td><td>optional</td><td>Author slugs, names or numeric IDs, combined with OR. Examples: cap-joanna, Joanna Glasner.</td></tr><tr><td><code>urls</code></td><td>array</td><td>optional</td><td>Used by the By article URLs or IDs mode. Paste full news.crunchbase.com article URLs, numeric article IDs (as text) or slugs.</td></tr><tr><td><code>publishedAfter</code></td><td>string</td><td>optional</td><td>Only articles published on or after this date. Use YYYY-MM-DD or a full ISO 8601 timestamp. Leave empty for no lower bound.</td></tr><tr><td><code>publishedBefore</code></td><td>string</td><td>optional</td><td>Only articles published on or before this date. Use YYYY-MM-DD or a full ISO 8601 timestamp. Leave empty for no upper bound.</td></tr><tr><td><code>orderBy</code></td><td>string</td><td>optional</td><td>Order of returned articles. Relevance is only available when a search keyword is set.</td></tr><tr><td><code>order</code></td><td>string</td><td>optional</td><td>Ascending or descending.</td></tr><tr><td><code>includeContent</code></td><td>boolean</td><td>optional</td><td>Include the full article body in the content field. Turn off for a smaller, faster dataset that still includes title, excerpt, authors, taxonomy, media and funding hints.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of articles to return. The Crunchbase News archive currently holds about 8,800 articles.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;properties&quot;: {
+    &quot;authors&quot;: {
+      &quot;description&quot;: &quot;Author slugs, names or numeric IDs, combined with OR. Examples: cap-joanna, Joanna Glasner.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Authors&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;categories&quot;: {
+      &quot;description&quot;: &quot;Category slugs, names or numeric IDs, combined with OR. Examples: venture, startups, ai, ma, ipo, data (Funding reports). Friendly aliases such as artificial-intelligence and fintech are accepted.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Categories&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;includeContent&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Include the full article body in the content field. Turn off for a smaller, faster dataset that still includes title, excerpt, authors, taxonomy, media and funding hints.&quot;,
+      &quot;prefill&quot;: false,
+      &quot;sectionCaption&quot;: &quot;Output&quot;,
+      &quot;title&quot;: &quot;Include full article text&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 50,
+      &quot;description&quot;: &quot;Maximum number of articles to return. The Crunchbase News archive currently holds about 8,800 articles.&quot;,
+      &quot;maximum&quot;: 10000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 3,
+      &quot;title&quot;: &quot;Maximum articles&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;latest&quot;,
+      &quot;description&quot;: &quot;Choose what to collect. Latest news, a keyword search, the Funding reports section, or a specific category, tag, author or article list.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;latest&quot;,
+        &quot;search&quot;,
+        &quot;funding&quot;,
+        &quot;byCategory&quot;,
+        &quot;byTag&quot;,
+        &quot;byAuthor&quot;,
+        &quot;byUrls&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Latest news&quot;,
+        &quot;Keyword search&quot;,
+        &quot;Funding coverage&quot;,
+        &quot;By category&quot;,
+        &quot;By tag&quot;,
+        &quot;By author&quot;,
+        &quot;By article URLs or IDs&quot;
+      ],
+      &quot;sectionCaption&quot;: &quot;What to collect&quot;,
+      &quot;title&quot;: &quot;Mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;order&quot;: {
+      &quot;default&quot;: &quot;desc&quot;,
+      &quot;description&quot;: &quot;Ascending or descending.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;desc&quot;,
+        &quot;asc&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Newest first / Z to A&quot;,
+        &quot;Oldest first / A to Z&quot;
+      ],
+      &quot;title&quot;: &quot;Order&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;orderBy&quot;: {
+      &quot;default&quot;: &quot;date&quot;,
+      &quot;description&quot;: &quot;Order of returned articles. Relevance is only available when a search keyword is set.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;date&quot;,
+        &quot;modified&quot;,
+        &quot;title&quot;,
+        &quot;relevance&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Publish date&quot;,
+        &quot;Last modified&quot;,
+        &quot;Title&quot;,
+        &quot;Search relevance&quot;
+      ],
+      &quot;title&quot;: &quot;Sort by&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;publishedAfter&quot;: {
+      &quot;description&quot;: &quot;Only articles published on or after this date. Use YYYY-MM-DD or a full ISO 8601 timestamp. Leave empty for no lower bound.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Published after&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;publishedBefore&quot;: {
+      &quot;description&quot;: &quot;Only articles published on or before this date. Use YYYY-MM-DD or a full ISO 8601 timestamp. Leave empty for no upper bound.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;title&quot;: &quot;Published before&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;search&quot;: {
+      &quot;description&quot;: &quot;Free-text keyword matched against article titles and body text. Required in Keyword search mode; optional as an extra filter in the other list modes.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;sectionCaption&quot;: &quot;Filters&quot;,
+      &quot;title&quot;: &quot;Search keyword&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;tags&quot;: {
+      &quot;description&quot;: &quot;Tag slugs, names or numeric IDs, combined with OR. Examples: unicorn, funding, seed-funding, venture-funding.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Tags&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;urls&quot;: {
+      &quot;description&quot;: &quot;Used by the By article URLs or IDs mode. Paste full news.crunchbase.com article URLs, numeric article IDs (as text) or slugs.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;items&quot;: {
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;title&quot;: &quot;Article URLs, IDs or slugs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    }
+  },
+  &quot;required&quot;: [],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Crunchbase News &amp; Funding Coverage Scraper&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>articles</code></td><td>string</td><td>optional</td><td>Dataset containing all scraped Crunchbase News articles.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Crunchbase News articles with full text, authors, publish/modified dates, categories, tags, media metadata, SEO fields and deterministic funding hints.&quot;,
+  &quot;properties&quot;: {
+    &quot;articles&quot;: {
+      &quot;description&quot;: &quot;Dataset containing all scraped Crunchbase News articles.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Crunchbase News Articles&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Crunchbase News &amp; Funding Coverage Scraper Output&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;fields&quot;: {
+    &quot;properties&quot;: {
+      &quot;authorId&quot;: {
+        &quot;description&quot;: &quot;Numeric ID of the primary author&quot;,
+        &quot;type&quot;: &quot;integer&quot;
+      },
+      &quot;authorIds&quot;: {
+        &quot;description&quot;: &quot;All author IDs&quot;,
+        &quot;type&quot;: &quot;array&quot;
+      },
+      &quot;authorName&quot;: {
+        &quot;description&quot;: &quot;Primary author name&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;authorNames&quot;: {
+        &quot;description&quot;: &quot;All author names&quot;,
+        &quot;type&quot;: &quot;array&quot;
+      },
+      &quot;authorSlug&quot;: {
+        &quot;description&quot;: &quot;Primary author slug&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;authorSlugs&quot;: {
+        &quot;description&quot;: &quot;All author slugs&quot;,
+        &quot;type&quot;: &quot;array&quot;
+      },
+      &quot;authorUrl&quot;: {
+        &quot;description&quot;: &quot;Primary author archive URL&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;canonicalUrl&quot;: {
+        &quot;description&quot;: &quot;Canonical URL declared by the site&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;categoryIds&quot;: {
+        &quot;description&quot;: &quot;Category IDs&quot;,
+        &quot;type&quot;: &quot;array&quot;
+      },
+      &quot;categoryNames&quot;: {
+        &quot;description&quot;: &quot;Category names&quot;,
+        &quot;type&quot;: &quot;array&quot;
+      },
+      &quot;categorySlugs&quot;: {
+        &quot;description&quot;: &quot;Category slugs&quot;,
+        &quot;type&quot;: &quot;array&quot;
+      },
+      &quot;content&quot;: {
+        &quot;description&quot;: &quot;Full article body, HTML stripped (omitted when includeContent is false)&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;excerpt&quot;: {
+        &quot;description&quot;: &quot;Short summary, HTML stripped&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;featuredImageAlt&quot;: {
+        &quot;description&quot;: &quot;Featured image alt text&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;featuredImageCaption&quot;: {
+        &quot;description&quot;: &quot;Featured image caption, HTML stripped&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;featuredImageHeight&quot;: {
+        &quot;description&quot;: &quot;Featured image height in pixels&quot;,
+        &quot;type&quot;: &quot;integer&quot;
+      },
+      &quot;featuredImageId&quot;: {
+        &quot;description&quot;: &quot;Featured media ID&quot;,
+        &quot;type&quot;: &quot;integer&quot;
+      },
+      &quot;featuredImageMimeType&quot;: {
+        &quot;description&quot;: &quot;Featured image MIME type&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;featuredImageThumbnailUrl&quot;: {
+        &quot;description&quot;: &quot;Featured image thumbnail URL&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;featuredImageUrl&quot;: {
+        &quot;description&quot;: &quot;Featured image URL&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;featuredImageWidth&quot;: {
+        &quot;description&quot;: &quot;Featured image width in pixels&quot;,
+        &quot;type&quot;: &quot;integer&quot;
+      },
+      &quot;fundingAmounts&quot;: {
+        &quot;description&quot;: &quot;Dollar amounts mentioned in the article, with parsed USD values&quot;,
+        &quot;type&quot;: &quot;array&quot;
+      },
+      &quot;id&quot;: {
+        &quot;description&quot;: &quot;Numeric article ID&quot;,
+        &quot;type&quot;: &quot;integer&quot;
+      },
+      &quot;inLanguage&quot;: {
+        &quot;description&quot;: &quot;Article language code&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;isFeatured&quot;: {
+        &quot;description&quot;: &quot;True when the article is in the Featured category&quot;,
+        &quot;type&quot;: &quot;boolean&quot;
+      },
+      &quot;keywords&quot;: {
+        &quot;description&quot;: &quot;Keywords declared in the article&#x27;s Article schema&quot;,
+        &quot;type&quot;: &quot;array&quot;
+      },
+      &quot;mentionedOrganizations&quot;: {
+        &quot;description&quot;: &quot;Crunchbase organization links found in the article body&quot;,
+        &quot;type&quot;: &quot;array&quot;
+      },
+      &quot;mentionedPeople&quot;: {
+        &quot;description&quot;: &quot;Crunchbase person links found in the article body&quot;,
+        &quot;type&quot;: &quot;array&quot;
+      },
+      &quot;metaDescription&quot;: {
+        &quot;description&quot;: &quot;SEO meta description&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;modifiedDate&quot;: {
+        &quot;description&quot;: &quot;Last modified date in the site timezone (ISO 8601)&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;modifiedDateGmt&quot;: {
+        &quot;description&quot;: &quot;Last modified date in UTC (ISO 8601)&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;publishedDate&quot;: {
+        &quot;description&quot;: &quot;Publish date in the site timezone (ISO 8601)&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;publishedDateGmt&quot;: {
+        &quot;description&quot;: &quot;Publish date in UTC (ISO 8601)&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;readingTimeMinutes&quot;: {
+        &quot;description&quot;: &quot;Estimated reading time in minutes&quot;,
+        &quot;type&quot;: &quot;integer&quot;
+      },
+      &quot;roundTypes&quot;: {
+        &quot;description&quot;: &quot;Funding round types mentioned in the article (deterministic text hints)&quot;,
+        &quot;type&quot;: &quot;array&quot;
+      },
+      &quot;scrapedAt&quot;: {
+        &quot;description&quot;: &quot;ISO 8601 timestamp of when the row was collected&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;slug&quot;: {
+        &quot;description&quot;: &quot;URL slug&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;tagIds&quot;: {
+        &quot;description&quot;: &quot;Tag IDs&quot;,
+        &quot;type&quot;: &quot;array&quot;
+      },
+      &quot;tagNames&quot;: {
+        &quot;description&quot;: &quot;Tag names&quot;,
+        &quot;type&quot;: &quot;array&quot;
+      },
+      &quot;tagSlugs&quot;: {
+        &quot;description&quot;: &quot;Tag slugs&quot;,
+        &quot;type&quot;: &quot;array&quot;
+      },
+      &quot;title&quot;: {
+        &quot;description&quot;: &quot;Article headline, HTML stripped&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;url&quot;: {
+        &quot;description&quot;: &quot;Canonical article URL&quot;,
+        &quot;type&quot;: &quot;string&quot;
+      },
+      &quot;wordCount&quot;: {
+        &quot;description&quot;: &quot;Article word count&quot;,
+        &quot;type&quot;: &quot;integer&quot;
+      }
+    },
+    &quot;type&quot;: &quot;object&quot;
+  },
+  &quot;title&quot;: &quot;Crunchbase News&quot;,
+  &quot;views&quot;: {
+    &quot;detailed&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;authorName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Author&quot;
+          },
+          &quot;categoryNames&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Categories&quot;
+          },
+          &quot;excerpt&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Excerpt&quot;
+          },
+          &quot;featuredImageUrl&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;Image&quot;
+          },
+          &quot;id&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;ID&quot;
+          },
+          &quot;modifiedDate&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Modified&quot;
+          },
+          &quot;publishedDate&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Published&quot;
+          },
+          &quot;readingTimeMinutes&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Read (min)&quot;
+          },
+          &quot;scrapedAt&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Scraped At&quot;
+          },
+          &quot;tagNames&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Tags&quot;
+          },
+          &quot;title&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Title&quot;
+          },
+          &quot;url&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;URL&quot;
+          },
+          &quot;wordCount&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Words&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Detailed Results&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;id&quot;,
+          &quot;title&quot;,
+          &quot;excerpt&quot;,
+          &quot;publishedDate&quot;,
+          &quot;modifiedDate&quot;,
+          &quot;authorName&quot;,
+          &quot;categoryNames&quot;,
+          &quot;tagNames&quot;,
+          &quot;wordCount&quot;,
+          &quot;readingTimeMinutes&quot;,
+          &quot;featuredImageUrl&quot;,
+          &quot;url&quot;,
+          &quot;scrapedAt&quot;
+        ]
+      }
+    },
+    &quot;funding&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;fundingAmounts&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Amounts&quot;
+          },
+          &quot;mentionedOrganizations&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Organizations&quot;
+          },
+          &quot;publishedDate&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Published&quot;
+          },
+          &quot;roundTypes&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Round types&quot;
+          },
+          &quot;title&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Title&quot;
+          },
+          &quot;url&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;URL&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Funding Hints&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;title&quot;,
+          &quot;publishedDate&quot;,
+          &quot;roundTypes&quot;,
+          &quot;fundingAmounts&quot;,
+          &quot;mentionedOrganizations&quot;,
+          &quot;url&quot;
+        ]
+      }
+    },
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {
+          &quot;authorName&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Author&quot;
+          },
+          &quot;categoryNames&quot;: {
+            &quot;format&quot;: &quot;array&quot;,
+            &quot;label&quot;: &quot;Categories&quot;
+          },
+          &quot;publishedDate&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Published&quot;
+          },
+          &quot;readingTimeMinutes&quot;: {
+            &quot;format&quot;: &quot;number&quot;,
+            &quot;label&quot;: &quot;Read (min)&quot;
+          },
+          &quot;title&quot;: {
+            &quot;format&quot;: &quot;text&quot;,
+            &quot;label&quot;: &quot;Title&quot;
+          },
+          &quot;url&quot;: {
+            &quot;format&quot;: &quot;link&quot;,
+            &quot;label&quot;: &quot;URL&quot;
+          }
+        }
+      },
+      &quot;title&quot;: &quot;Overview&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;title&quot;,
+          &quot;publishedDate&quot;,
+          &quot;authorName&quot;,
+          &quot;categoryNames&quot;,
+          &quot;readingTimeMinutes&quot;,
+          &quot;url&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-crunchbase-news-funding-coverage-scraper">Crunchbase News &amp; Funding Coverage Scraper</h2>
+<p>Crunchbase's editorial newsroom publishes thousands of articles about funding rounds, acquisitions, IPOs, layoffs and startup trends. This actor turns that public archive into structured dataset rows: full article text, authors, categories, tags, dates, media metadata, SEO fields and funding hints. It works without an API key, login, cookie or proxy.</p>
+<h2 id="readme-what-you-can-collect">What you can collect</h2>
+<ul>
+<li><strong>Latest news</strong> — the newest articles, optionally narrowed by keyword, category, tag, author or date.</li>
+<li><strong>Keyword search</strong> — full-text search across headlines and article bodies; choose Search relevance in Sort by to rank matches first.</li>
+<li><strong>Funding coverage</strong> — the Funding reports section, with optional keyword and date filters.</li>
+<li><strong>By category</strong> — one or many category slugs, names or IDs (for example <code>venture</code>, <code>ai</code>, <code>ma</code>, <code>ipo</code>).</li>
+<li><strong>By tag</strong> — one or many tags (for example <code>unicorn</code>, <code>seed-funding</code>, <code>venture-funding</code>).</li>
+<li><strong>By author</strong> — one or many Crunchbase News bylines.</li>
+<li><strong>By article URLs or IDs</strong> — paste article links, numeric IDs or slugs and fetch exactly those articles.</li>
+</ul>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td>select</td>
+<td><code>latest</code></td>
+<td>Pick one of the seven collection modes above</td>
+</tr>
+<tr>
+<td><code>search</code></td>
+<td>string</td>
+<td>–</td>
+<td>Keyword matched against titles and body text</td>
+</tr>
+<tr>
+<td><code>categories</code></td>
+<td>array</td>
+<td>–</td>
+<td>Category slugs, names or IDs; OR-combined</td>
+</tr>
+<tr>
+<td><code>tags</code></td>
+<td>array</td>
+<td>–</td>
+<td>Tag slugs, names or IDs; OR-combined</td>
+</tr>
+<tr>
+<td><code>authors</code></td>
+<td>array</td>
+<td>–</td>
+<td>Author slugs, names or IDs; OR-combined</td>
+</tr>
+<tr>
+<td><code>urls</code></td>
+<td>array</td>
+<td>–</td>
+<td>Article URLs, numeric IDs or slugs (By article URLs or IDs mode)</td>
+</tr>
+<tr>
+<td><code>publishedAfter</code></td>
+<td>string</td>
+<td>–</td>
+<td>Lower date bound (<code>YYYY-MM-DD</code> or ISO 8601)</td>
+</tr>
+<tr>
+<td><code>publishedBefore</code></td>
+<td>string</td>
+<td>–</td>
+<td>Upper date bound (<code>YYYY-MM-DD</code> or ISO 8601); a date-only value includes that whole day</td>
+</tr>
+<tr>
+<td><code>orderBy</code></td>
+<td>select</td>
+<td><code>date</code></td>
+<td><code>date</code>, <code>modified</code>, <code>title</code> or <code>relevance</code></td>
+</tr>
+<tr>
+<td><code>order</code></td>
+<td>select</td>
+<td><code>desc</code></td>
+<td><code>desc</code> or <code>asc</code></td>
+</tr>
+<tr>
+<td><code>includeContent</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Include the full article body in <code>content</code></td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>integer</td>
+<td><code>50</code></td>
+<td>Maximum rows (1–10,000)</td>
+</tr>
+</tbody>
+</table></div>
+<p>All filters except <code>urls</code> can be combined in the list modes. The By article URLs or IDs mode returns exactly the requested articles and ignores the list filters.</p>
+<h3 id="readme-examples">Examples</h3>
+<p>Latest AI funding articles from 2026:</p>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;funding&quot;,
+  &quot;search&quot;: &quot;AI&quot;,
+  &quot;publishedAfter&quot;: &quot;2026-01-01&quot;,
+  &quot;maxItems&quot;: 100
+}
+</code></pre>
+<p>Keyword search with full text:</p>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;search&quot;: &quot;Series A&quot;,
+  &quot;includeContent&quot;: true,
+  &quot;maxItems&quot;: 50
+}
+</code></pre>
+<p>Browse two categories:</p>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;byCategory&quot;,
+  &quot;categories&quot;: [&quot;venture&quot;, &quot;artificial-intelligence&quot;],
+  &quot;orderBy&quot;: &quot;date&quot;,
+  &quot;order&quot;: &quot;desc&quot;,
+  &quot;maxItems&quot;: 200
+}
+</code></pre>
+<p>Fetch specific articles:</p>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;byUrls&quot;,
+  &quot;urls&quot;: [
+    &quot;https://news.crunchbase.com/venture/biggest-startup-rounds-ai-defense-space-tech-shield-zipline/&quot;,
+    &quot;93501&quot;,
+    &quot;vertical-ai-based-customer-service-flip-raise&quot;
+  ]
+}
+</code></pre>
+<p>Old saved tasks keep working: legacy keys such as <code>query</code>, <code>category</code>, <code>after</code> and <code>maxResults</code> are mapped onto the current fields inside the actor, not shown in the form. <code>search</code> and <code>maxItems</code> are the current names.</p>
+<h2 id="readme-output">Output</h2>
+<p>Every row is omit-empty: a value the source does not publish is left out instead of being written as <code>null</code>, <code>&quot;&quot;</code> or <code>[]</code>.</p>
+<p><strong>Article identity and text</strong></p>
+<p><code>id</code>, <code>url</code>, <code>slug</code>, <code>title</code>, <code>excerpt</code>, <code>content</code> (when <code>includeContent</code> is on), <code>publishedDate</code>, <code>publishedDateGmt</code>, <code>modifiedDate</code>, <code>modifiedDateGmt</code>, <code>scrapedAt</code>.</p>
+<p><strong>Authors</strong></p>
+<p><code>authorId</code>, <code>authorName</code>, <code>authorSlug</code>, <code>authorUrl</code>, <code>authorIds</code>, <code>authorNames</code>, <code>authorSlugs</code>.</p>
+<p><strong>Taxonomy</strong></p>
+<p><code>categoryIds</code>, <code>categoryNames</code>, <code>categorySlugs</code>, <code>tagIds</code>, <code>tagNames</code>, <code>tagSlugs</code>, <code>isFeatured</code>.</p>
+<p><strong>Media</strong></p>
+<p><code>featuredImageId</code>, <code>featuredImageUrl</code>, <code>featuredImageAlt</code>, <code>featuredImageCaption</code>, <code>featuredImageWidth</code>, <code>featuredImageHeight</code>, <code>featuredImageMimeType</code>, <code>featuredImageThumbnailUrl</code>.</p>
+<p><strong>SEO and reading metadata</strong></p>
+<p><code>metaDescription</code>, <code>canonicalUrl</code>, <code>keywords</code>, <code>wordCount</code>, <code>readingTimeMinutes</code>, <code>inLanguage</code>.</p>
+<p><strong>Funding hints</strong></p>
+<p><code>roundTypes</code>, <code>fundingAmounts</code>, <code>mentionedOrganizations</code>, <code>mentionedPeople</code>.</p>
+<p><code>roundTypes</code> and <code>fundingAmounts</code> are deterministic text hints extracted from the headline and body. They help triage funding coverage; they are not audited Crunchbase funding-round records. <code>mentionedOrganizations</code> and <code>mentionedPeople</code> come from the Crunchbase profile links embedded in the article body.</p>
+<h2 id="readme-how-pagination-works">How pagination works</h2>
+<p>The actor reads the public WordPress REST API 100 articles at a time and keeps walking pages until <code>maxItems</code> is reached or the archive is exhausted. The archive currently holds about 8,800 articles, so <code>maxItems</code> above that returns the whole archive. Results are de-duplicated by article ID.</p>
+<h2 id="readme-use-cases">Use cases</h2>
+<ul>
+<li><strong>Deal-flow monitoring</strong> — watch new funding coverage by keyword, category or author and forward the rows to a CRM or alerting job.</li>
+<li><strong>Sector research</strong> — pull the venture, AI, fintech, climate or health archive for a market map.</li>
+<li><strong>Competitive intelligence</strong> — search for a company, investor or product across years of coverage.</li>
+<li><strong>PR and media monitoring</strong> — track new mentions of your company or portfolio.</li>
+<li><strong>Content and newsletter workflows</strong> — use excerpts, categories and reading time to assemble a digest.</li>
+<li><strong>Dataset building</strong> — export clean JSON, CSV or Excel for text mining, embeddings or dashboards.</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Do I need a Crunchbase account, API key or cookie?</strong>
+No. The actor reads Crunchbase News, the public editorial site, with no credentials and no proxy configuration.</p>
+<p><strong>Does this return Crunchbase company profiles or structured funding rounds?</strong>
+No. The main Crunchbase company database is login-gated, and its public organization pages hide funding amounts and dates from anonymous visitors. This actor covers the editorial news archive. The <code>roundTypes</code>, <code>fundingAmounts</code>, <code>mentionedOrganizations</code> and <code>mentionedPeople</code> fields are text and link hints from those articles, not the company database.</p>
+<p><strong>How far back does the archive go?</strong>
+About 8,800 published articles, with the earliest posts dating back to the site's early years. The exact count grows as new articles are published.</p>
+<p><strong>Why is <code>content</code> missing on some rows?</strong>
+Either <code>includeContent</code> is turned off, or the source returned an empty body for that article. The excerpt, title and metadata are still returned.</p>
+<p><strong>Why do some rows have no tags or no coauthor IDs?</strong>
+Older articles predate the current tag and coauthor setup. The byline, categories, image and SEO fields are still filled from the article itself.</p>
+<p><strong>Can I combine <code>search</code>, <code>categories</code>, <code>tags</code>, <code>authors</code> and dates?</strong>
+Yes, in every list mode. The filters are combined with AND across filter types and OR inside each array.</p>
+<p><strong>What is the difference between <code>publishedDate</code> and <code>publishedDateGmt</code>?</strong>
+<code>publishedDate</code> is the site's local time (America/Los_Angeles). <code>publishedDateGmt</code> is the same instant in UTC.</p>
+<p><strong>Is the actor affiliated with Crunchbase?</strong>
+No. It is an independent, third-party tool that reads publicly published Crunchbase News articles. It is not endorsed by or affiliated with Crunchbase.</p>
+<h2 id="readme-scope-and-limitations">Scope and limitations</h2>
+<ul>
+<li><strong>Editorial news only.</strong> Company profiles, investor profiles, structured funding rounds, valuations and contact data from the main Crunchbase database are not included.</li>
+<li><strong>Anonymous view limits.</strong> Crunchbase hides funding amounts and dates on public company pages behind an obfuscated view; this actor does not attempt to bypass that.</li>
+<li><strong>Archive ceiling.</strong> The WordPress API currently exposes about 8,800 posts; <code>maxItems</code> above that returns the whole archive.</li>
+<li><strong>Text hints are heuristic.</strong> Round types and dollar amounts are regex extractions from prose. A single article can mention several amounts (round size, valuation, investor commitments), so use the raw values and the article link for verification.</li>
+<li><strong>Partner content excluded.</strong> Sponsored <code>partner_content</code> posts are a separate, older post type and are not mixed into news results.</li>
+<li><strong>No wall-clock cap.</strong> The actor stops on <code>maxItems</code>, source exhaustion or a source error, so a large run returns the requested rows rather than a time-limited subset.</li>
+</ul>
+<h2 id="readme-data-source">Data source</h2>
+<p>Public WordPress REST API at <code>https://news.crunchbase.com/wp-json/wp/v2</code>. The actor sends a normal browser user agent, retries transient 429/5xx responses with backoff, and requires no user-supplied credentials.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/crunchbase-news-and-funding-coverage-scraper/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>jK532IWESaLuJVsSG</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>

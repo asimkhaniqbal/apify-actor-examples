@@ -1,0 +1,351 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-jXnaIarhhhi/tZpXN7lmMw+prZoardOGuxifRS9QAX0=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>Spotify Podcast Show &amp; Episode Metadata Extractor | Vexaloom Labs</title><meta name="description" content="Search Spotify podcast shows and episodes, fetch a show&#x27;s full episode list, resolve a show or episode by link, and browse categories by market - with descriptions, durations, rele"><meta name="robots" content="index,follow"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/spotify-podcast-show-and-episode-metadata/"><meta property="og:title" content="Spotify Podcast Show &amp; Episode Metadata Extractor | Vexaloom Labs"><meta property="og:description" content="Search Spotify podcast shows and episodes, fetch a show&#x27;s full episode list, resolve a show or episode by link, and browse categories by market - with descriptions, durations, rele"><meta property="og:type" content="website"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/spotify-podcast-show-and-episode-metadata/"><meta property="og:site_name" content="Vexaloom Labs"><meta name="twitter:card" content="summary"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e89d5a9d14e2"><link rel="stylesheet" href="/apify-actor-examples/assets/brand.css?v=66ac681ddf0f"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/spotify-podcast-show-and-episode-metadata/#webpage","name":"Spotify Podcast Show & Episode Metadata Extractor","description":"Search Spotify podcast shows and episodes, fetch a show's full episode list, resolve a show or episode by link, and browse categories by market - with descriptions, durations, release dates and preview URLs.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/spotify-podcast-show-and-episode-metadata/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/spotify-podcast-show-and-episode-metadata/#article"},"breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/spotify-podcast-show-and-episode-metadata/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/spotify-podcast-show-and-episode-metadata/#article","headline":"Spotify Podcast Show & Episode Metadata Extractor","name":"Spotify Podcast Show & Episode Metadata Extractor","description":"Search Spotify podcast shows and episodes, fetch a show's full episode list, resolve a show or episode by link, and browse categories by market - with descriptions, durations, release dates and preview URLs.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/spotify-podcast-show-and-episode-metadata/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/spotify-podcast-show-and-episode-metadata/#webpage"},"inLanguage":"en","dateModified":"2026-11-10T09:18:17.507Z"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/spotify-podcast-show-and-episode-metadata/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Actors","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/"},{"@type":"ListItem","position":3,"name":"Spotify Podcast Show & Episode Metadata Extractor","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/spotify-podcast-show-and-episode-metadata/"}]}]}</script><script src="/apify-actor-examples/assets/site.js?v=7cabac48dd31" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="29" height="29">Vexaloom Labs</a><nav aria-label="Main navigation"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/guides/">Guides</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></header><main id="main"><div class="doc-layout"><aside class="contents" aria-label="On this page"><strong>Contents</strong><a href="#overview">Overview</a><a href="#published-readme">Published README</a><a href="#input-schema">Input schema</a><a href="#output-schema">Output schema</a><a href="#dataset-schema">Dataset schema</a><a href="#python-quickstart">Python quickstart</a></aside><article class="prose"><div class="breadcrumb"><a href="/apify-actor-examples/actors/">Actors</a><span>/</span><span>Spotify Podcast Show &amp; Episode Metadata Extractor</span></div><section id="overview"><h1 class="doc-title">Spotify Podcast Show &amp; Episode Metadata Extractor</h1><p class="lede">Search Spotify podcast shows and episodes, fetch a show&#x27;s full episode list, resolve a show or episode by link, and browse categories by market - with descriptions, durations, release dates and preview URLs.</p><p class="summary">Spotify Podcast Show &amp; Episode Metadata Extractor is an Apify Actor published by Vexaloom Labs. It accepts 10 input fields, and <code>mode</code> is required. Its build declares a results dataset with 1 view. Runs happen on Apify, where the Store page lists the current price.</p><div class="actions"><a class="button" href="https://apify.com/vexaloom-labs/spotify-podcast-show-and-episode-metadata">Open on Apify</a><a class="text-link" href="https://github.com/asimkhaniqbal/apify-actor-examples/blob/main/docs/actors/SH8hDoxwDDjn0zVMr/README.md">GitHub source</a></div></section><section class="schema-section" id="input-schema"><h2>Input schema</h2><p>Input fields, types, required flags, descriptions, defaults, and prefills come from the published definition. Prefill examples are distinct from defaults.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to collect from Spotify.</td></tr><tr><td><code>searchQuery</code></td><td>string</td><td>optional</td><td>Keyword to search for in the selected search mode, for example &#x27;true crime&#x27;, &#x27;daily news&#x27; or a host name.</td></tr><tr><td><code>showIds</code></td><td>array</td><td>optional</td><td>Spotify show IDs, spotify:show: URIs or open.spotify.com/show/ links. Used by mode=getShow.</td></tr></tbody></table></div><details><summary>Show all input fields</summary><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>mode</code></td><td>string</td><td>required</td><td>What to collect from Spotify.</td></tr><tr><td><code>searchQuery</code></td><td>string</td><td>optional</td><td>Keyword to search for in the selected search mode, for example &#x27;true crime&#x27;, &#x27;daily news&#x27; or a host name.</td></tr><tr><td><code>showIds</code></td><td>array</td><td>optional</td><td>Spotify show IDs, spotify:show: URIs or open.spotify.com/show/ links. Used by mode=getShow.</td></tr><tr><td><code>episodeIds</code></td><td>array</td><td>optional</td><td>Spotify episode IDs, spotify:episode: URIs or open.spotify.com/episode/ links. Used by mode=getEpisode.</td></tr><tr><td><code>startUrls</code></td><td>array</td><td>optional</td><td>Mixed show and episode links. Show links are read when mode=getShow, episode links when mode=getEpisode. Regional /intl-xx/ links and embed links are accepted.</td></tr><tr><td><code>includeDetails</code></td><td>boolean</td><td>optional</td><td>Fetch complete show or episode metadata for every search result, including descriptions, ratings, topics, release times, paywall flags and preview audio. Turn off for a faster, lighter search.</td></tr><tr><td><code>includeEpisodes</code></td><td>boolean</td><td>optional</td><td>When mode=getShow, also export the show&#x27;s episode archive. Turn off to export only the show record.</td></tr><tr><td><code>releasedAfter</code></td><td>string</td><td>optional</td><td>Optional YYYY-MM-DD date. Episodes older than this are skipped. In getShow mode, paging stops once the archive passes this date.</td></tr><tr><td><code>releasedBefore</code></td><td>string</td><td>optional</td><td>Optional YYYY-MM-DD date. Episodes newer than this are skipped.</td></tr><tr><td><code>maxItems</code></td><td>integer</td><td>optional</td><td>Maximum number of show and episode records to save. Search modes have a source ceiling of about 1,000 matching results.</td></tr></tbody></table></div></details><p><a href="input-schema.json">Download the published input schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;description&quot;: &quot;Search Spotify podcasts or episodes, export a show&#x27;s full episode archive, or resolve show and episode links. No Spotify account, client ID or API key is required.&quot;,
+  &quot;properties&quot;: {
+    &quot;episodeIds&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Spotify episode IDs, spotify:episode: URIs or open.spotify.com/episode/ links. Used by mode=getEpisode.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Episode IDs or links&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;includeDetails&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;Fetch complete show or episode metadata for every search result, including descriptions, ratings, topics, release times, paywall flags and preview audio. Turn off for a faster, lighter search.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;sectionCaption&quot;: &quot;Options&quot;,
+      &quot;title&quot;: &quot;Fetch full details&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;includeEpisodes&quot;: {
+      &quot;default&quot;: true,
+      &quot;description&quot;: &quot;When mode=getShow, also export the show&#x27;s episode archive. Turn off to export only the show record.&quot;,
+      &quot;prefill&quot;: true,
+      &quot;title&quot;: &quot;Include episodes when fetching a show&quot;,
+      &quot;type&quot;: &quot;boolean&quot;
+    },
+    &quot;maxItems&quot;: {
+      &quot;default&quot;: 50,
+      &quot;description&quot;: &quot;Maximum number of show and episode records to save. Search modes have a source ceiling of about 1,000 matching results.&quot;,
+      &quot;maximum&quot;: 5000,
+      &quot;minimum&quot;: 1,
+      &quot;prefill&quot;: 3,
+      &quot;title&quot;: &quot;Max records&quot;,
+      &quot;type&quot;: &quot;integer&quot;
+    },
+    &quot;mode&quot;: {
+      &quot;default&quot;: &quot;searchShows&quot;,
+      &quot;description&quot;: &quot;What to collect from Spotify.&quot;,
+      &quot;editor&quot;: &quot;select&quot;,
+      &quot;enum&quot;: [
+        &quot;searchShows&quot;,
+        &quot;searchEpisodes&quot;,
+        &quot;getShow&quot;,
+        &quot;getEpisode&quot;
+      ],
+      &quot;enumTitles&quot;: [
+        &quot;Search podcast shows&quot;,
+        &quot;Search podcast episodes&quot;,
+        &quot;Get a show and its episodes by ID or link&quot;,
+        &quot;Get episodes by ID or link&quot;
+      ],
+      &quot;prefill&quot;: &quot;searchShows&quot;,
+      &quot;title&quot;: &quot;Mode&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;releasedAfter&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Optional YYYY-MM-DD date. Episodes older than this are skipped. In getShow mode, paging stops once the archive passes this date.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Released after&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;releasedBefore&quot;: {
+      &quot;default&quot;: &quot;&quot;,
+      &quot;description&quot;: &quot;Optional YYYY-MM-DD date. Episodes newer than this are skipped.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;&quot;,
+      &quot;title&quot;: &quot;Released before&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;searchQuery&quot;: {
+      &quot;default&quot;: &quot;true crime&quot;,
+      &quot;description&quot;: &quot;Keyword to search for in the selected search mode, for example &#x27;true crime&#x27;, &#x27;daily news&#x27; or a host name.&quot;,
+      &quot;editor&quot;: &quot;textfield&quot;,
+      &quot;prefill&quot;: &quot;true crime&quot;,
+      &quot;sectionCaption&quot;: &quot;Search&quot;,
+      &quot;title&quot;: &quot;Search query&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    },
+    &quot;showIds&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Spotify show IDs, spotify:show: URIs or open.spotify.com/show/ links. Used by mode=getShow.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Show IDs or links&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    },
+    &quot;startUrls&quot;: {
+      &quot;default&quot;: [],
+      &quot;description&quot;: &quot;Mixed show and episode links. Show links are read when mode=getShow, episode links when mode=getEpisode. Regional /intl-xx/ links and embed links are accepted.&quot;,
+      &quot;editor&quot;: &quot;stringList&quot;,
+      &quot;prefill&quot;: [],
+      &quot;title&quot;: &quot;Start URLs&quot;,
+      &quot;type&quot;: &quot;array&quot;
+    }
+  },
+  &quot;required&quot;: [
+    &quot;mode&quot;
+  ],
+  &quot;schemaVersion&quot;: 1,
+  &quot;title&quot;: &quot;Spotify Podcast Show &amp; Episode Metadata Input&quot;,
+  &quot;type&quot;: &quot;object&quot;
+}
+</code></pre></details></section><section class="schema-section" id="output-schema"><h2>Output schema</h2><p>Published result links and storage locations. This schema is not an exhaustive contract for every field in a dataset record.</p><div class="table-wrap"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead><tbody><tr><td><code>records</code></td><td>string</td><td>optional</td><td>Dataset containing show, episode or mixed records depending on the selected mode.</td></tr></tbody></table></div><p><a href="output-schema.json">Download the published output schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorOutputSchemaVersion&quot;: 1,
+  &quot;description&quot;: &quot;Spotify podcast show and episode records with titles, descriptions, publishers, episode counts, ratings, topics, release dates, durations, preview audio URLs, cover images and Spotify links.&quot;,
+  &quot;properties&quot;: {
+    &quot;records&quot;: {
+      &quot;description&quot;: &quot;Dataset containing show, episode or mixed records depending on the selected mode.&quot;,
+      &quot;template&quot;: &quot;{{links.apiDefaultDatasetUrl}}/items&quot;,
+      &quot;title&quot;: &quot;Spotify records&quot;,
+      &quot;type&quot;: &quot;string&quot;
+    }
+  },
+  &quot;title&quot;: &quot;Spotify Podcast Show &amp; Episode Metadata Output&quot;
+}
+</code></pre></details></section><section class="schema-section" id="dataset-schema"><h2>Dataset schema</h2><p>Published dataset views and any declared field definitions. A view can select only a subset of the returned record fields.</p><p><a href="dataset-schema.json">Download the published dataset schema</a></p><details><summary>View complete JSON</summary><pre><code>{
+  &quot;actorSpecification&quot;: 1,
+  &quot;views&quot;: {
+    &quot;overview&quot;: {
+      &quot;display&quot;: {
+        &quot;component&quot;: &quot;table&quot;,
+        &quot;properties&quot;: {}
+      },
+      &quot;title&quot;: &quot;Spotify Records&quot;,
+      &quot;transformation&quot;: {
+        &quot;fields&quot;: [
+          &quot;recordType&quot;,
+          &quot;name&quot;,
+          &quot;showName&quot;,
+          &quot;publisher&quot;,
+          &quot;totalEpisodes&quot;,
+          &quot;releaseDate&quot;,
+          &quot;durationMs&quot;,
+          &quot;ratingAverage&quot;,
+          &quot;externalUrl&quot;,
+          &quot;scrapedAt&quot;
+        ]
+      }
+    }
+  }
+}
+</code></pre></details></section><section class="schema-section" id="key-value-schema"><h2>Key-value schema</h2><p>Published key-value store definitions, when provided by this build.</p><p>This definition is not present in the default published build. See the published README for available documentation.</p></section><section id="published-readme"><h2>Published README</h2><details><summary>Read the full published documentation</summary><h2 id="readme-spotify-podcast-show-episode-metadata-extractor">Spotify Podcast Show &amp; Episode Metadata Extractor</h2>
+<p>Collect podcast show and episode metadata from Spotify without a Spotify account, client ID or API key. Search the podcast catalog, export a show together with its complete episode archive, resolve a show or episode link, and keep only the release window you need.</p>
+<p>The actor reads the same public web-player data that powers Spotify's podcast pages for logged-out visitors. It returns structured records, never audio downloads, and omits empty fields instead of writing <code>null</code> placeholders.</p>
+<h2 id="readme-modes">Modes</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>What it returns</th>
+<th>Inputs it uses</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>searchShows</code></td>
+<td>One record per matching podcast show</td>
+<td><code>searchQuery</code></td>
+</tr>
+<tr>
+<td><code>searchEpisodes</code></td>
+<td>One record per matching episode</td>
+<td><code>searchQuery</code></td>
+</tr>
+<tr>
+<td><code>getShow</code></td>
+<td>A show record followed by its episode archive</td>
+<td><code>showIds</code>, <code>startUrls</code></td>
+</tr>
+<tr>
+<td><code>getEpisode</code></td>
+<td>One record per episode ID or link</td>
+<td><code>episodeIds</code>, <code>startUrls</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Search modes page through Spotify's result set until <code>maxItems</code> is reached or the source runs out. <code>getShow</code> pages through the complete episode archive, not just the first screen.</p>
+<h2 id="readme-input">Input</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mode</code></td>
+<td>select</td>
+<td><code>searchShows</code></td>
+<td>One of the four modes above</td>
+</tr>
+<tr>
+<td><code>searchQuery</code></td>
+<td>text</td>
+<td><code>true crime</code></td>
+<td>Keyword for <code>searchShows</code> and <code>searchEpisodes</code></td>
+</tr>
+<tr>
+<td><code>showIds</code></td>
+<td>string list</td>
+<td>empty</td>
+<td>Show IDs, <code>spotify:show:</code> URIs or show links</td>
+</tr>
+<tr>
+<td><code>episodeIds</code></td>
+<td>string list</td>
+<td>empty</td>
+<td>Episode IDs, <code>spotify:episode:</code> URIs or episode links</td>
+</tr>
+<tr>
+<td><code>startUrls</code></td>
+<td>string list</td>
+<td>empty</td>
+<td>Mixed show/episode links; regional and embed links work</td>
+</tr>
+<tr>
+<td><code>includeDetails</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Enriches every search hit with the full show/episode object</td>
+</tr>
+<tr>
+<td><code>includeEpisodes</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>In <code>getShow</code>, export the show's episodes as well</td>
+</tr>
+<tr>
+<td><code>releasedAfter</code></td>
+<td>text</td>
+<td>empty</td>
+<td><code>YYYY-MM-DD</code>; older episodes are skipped</td>
+</tr>
+<tr>
+<td><code>releasedBefore</code></td>
+<td>text</td>
+<td>empty</td>
+<td><code>YYYY-MM-DD</code>; newer episodes are skipped</td>
+</tr>
+<tr>
+<td><code>maxItems</code></td>
+<td>integer</td>
+<td><code>50</code></td>
+<td>Maximum records to save (1-5000)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Examples:</p>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;searchShows&quot;,
+  &quot;searchQuery&quot;: &quot;daily news&quot;,
+  &quot;maxItems&quot;: 25
+}
+</code></pre>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;getShow&quot;,
+  &quot;startUrls&quot;: [&quot;https://open.spotify.com/show/3IM0lmZxpFAY7CwMuv9H4g&quot;],
+  &quot;releasedAfter&quot;: &quot;2026-01-01&quot;,
+  &quot;maxItems&quot;: 120
+}
+</code></pre>
+<pre><code class="language-json">{
+  &quot;mode&quot;: &quot;getEpisode&quot;,
+  &quot;episodeIds&quot;: [&quot;6cCnimrvXTnb5SIl1jXVtQ&quot;],
+  &quot;maxItems&quot;: 10
+}
+</code></pre>
+<h2 id="readme-show-fields">Show fields</h2>
+<ul>
+<li><code>showId</code> - Spotify show ID</li>
+<li><code>name</code> - show title</li>
+<li><code>description</code>, <code>descriptionHtml</code> - plain-text and HTML synopsis</li>
+<li><code>publisher</code> - publisher or creator name</li>
+<li><code>mediaType</code> - <code>audio</code> or <code>video</code></li>
+<li><code>contentType</code> - Spotify content type, for example <code>CONTENT_TYPE_PODCAST</code></li>
+<li><code>totalEpisodes</code> - episode count reported by Spotify</li>
+<li><code>explicit</code> - whether Spotify marks the show explicit</li>
+<li><code>ratingAverage</code>, <code>ratingCount</code> - show rating and number of ratings</li>
+<li><code>topics</code> - array of <code>{name, uri}</code> topic objects</li>
+<li><code>images</code>, <code>imageUrl</code> - cover art URLs, largest first</li>
+<li><code>externalUrl</code>, <code>shareUrl</code> - canonical Spotify and share links</li>
+<li><code>playable</code>, <code>playabilityReason</code> - public playback status</li>
+<li><code>consumptionOrder</code> - Spotify episode ordering, for example <code>RECENT</code></li>
+<li><code>showTypes</code> - Spotify show classifications when present</li>
+<li><code>trailer</code> - trailer episode summary when Spotify exposes one</li>
+<li><code>recordType</code> - always <code>show</code></li>
+<li><code>scrapedAt</code> - ISO 8601 collection timestamp</li>
+</ul>
+<h2 id="readme-episode-fields">Episode fields</h2>
+<ul>
+<li><code>episodeId</code> - Spotify episode ID</li>
+<li><code>showId</code>, <code>showName</code>, <code>showImageUrl</code> - parent show identity</li>
+<li><code>name</code> - episode title</li>
+<li><code>description</code>, <code>descriptionHtml</code> - plain-text and HTML episode notes</li>
+<li><code>releaseDate</code> - <code>YYYY-MM-DD</code></li>
+<li><code>releaseDateTime</code> - full ISO 8601 release timestamp</li>
+<li><code>releaseDatePrecision</code> - Spotify precision, for example <code>MINUTE</code></li>
+<li><code>durationMs</code> - episode length in milliseconds</li>
+<li><code>explicit</code>, <code>contentRating</code> - content rating information</li>
+<li><code>mediaTypes</code>, <code>hasVideo</code> - audio/video classification</li>
+<li><code>audioPreviewUrl</code> - public 30-second preview clip</li>
+<li><code>videoPreviewUrl</code> - video preview when Spotify provides one</li>
+<li><code>images</code>, <code>imageUrl</code> - episode artwork URLs, largest first</li>
+<li><code>externalUrl</code>, <code>shareUrl</code> - canonical Spotify and share links</li>
+<li><code>playable</code>, <code>playabilityReason</code> - public playback status</li>
+<li><code>isPaywalled</code> - whether the episode is paywalled</li>
+<li><code>accessBadge</code> - Spotify access badge when present</li>
+<li><code>creator</code> - creator name when Spotify exposes one</li>
+<li><code>isTrailer</code>, <code>isNineteenPlus</code> - episode flags when present</li>
+<li><code>transcriptUrl</code> - transcript link only when the public episode object exposes one</li>
+<li><code>recordType</code> - always <code>episode</code></li>
+<li><code>scrapedAt</code> - ISO 8601 collection timestamp</li>
+</ul>
+<h2 id="readme-pagination-dates-and-limits">Pagination, dates and limits</h2>
+<ul>
+<li>Search uses Spotify's offset pagination and stops when the result set is exhausted or <code>maxItems</code> is reached.</li>
+<li><code>getShow</code> requests 50 episodes per page and follows Spotify's next offset until the archive ends, <code>maxItems</code> records have been saved, or <code>releasedAfter</code> passes.</li>
+<li>Episodes are returned newest first by Spotify. <code>releasedAfter</code> therefore also stops <code>getShow</code> paging early, which keeps large archives inexpensive.</li>
+<li>Search has a practical source ceiling of roughly 1,000 matching items; <code>getShow</code> can page through archives several thousand episodes long.</li>
+<li>The public episode object does not expose full transcript text, private subscriber content, or downloadable audio.</li>
+</ul>
+<h2 id="readme-legacy-inputs">Legacy inputs</h2>
+<p>The previous version required <code>clientId</code> and <code>clientSecret</code>. Both are no longer needed and are ignored when an old task still sends them. The old <code>market</code> input is also ignored: Spotify decides which catalog is visible from the network location where the actor runs, and Apify cloud runs normally see the US catalog. The former <code>listCategories</code> mode has no cookieless equivalent; a saved task that still sends it runs <code>searchShows</code> instead and reports that in the status message.</p>
+<h2 id="readme-data-source-and-scope">Data source and scope</h2>
+<ul>
+<li>Public Spotify web-player data, read without cookies or login.</li>
+<li>No audio files are downloaded. Preview URLs are metadata links only.</li>
+<li>Podcast catalogs differ by region. Shows that Spotify does not offer in the actor's region can be absent or restricted.</li>
+<li>This is an independent tool and is not affiliated with or endorsed by Spotify.</li>
+</ul>
+<h2 id="readme-faq">FAQ</h2>
+<p><strong>Do I need a Spotify developer app?</strong>
+No. There is no client ID, client secret, cookie or login step.</p>
+<p><strong>Why are some fields missing from a record?</strong>
+Empty values are omitted. Not every publisher supplies a description, rating, topic list, trailer, preview clip or video flag.</p>
+<p><strong>Can I fetch a show and its episodes in one run?</strong>
+Yes. Use <code>mode=getShow</code>; the run emits one show record and then episodes until <code>maxItems</code> records have been saved in total.</p>
+<p><strong>Can I fetch only recent episodes?</strong>
+Yes. Set <code>releasedAfter</code> and, optionally, <code>releasedBefore</code>. In <code>getShow</code> the date window also stops paging when the archive is older than the window.</p>
+<p><strong>Can I pass links instead of IDs?</strong>
+Yes. <code>showIds</code>, <code>episodeIds</code> and <code>startUrls</code> accept bare IDs, <code>spotify:</code> URIs, standard <code>open.spotify.com</code> links, regional <code>/intl-xx/</code> links and embed links.</p>
+<p><strong>Why does a search return fewer records than <code>maxItems</code>?</strong>
+Spotify exhausted its public result set for that query, or the date window filtered the remaining episodes. The run status reports what was emitted.</p>
+<p><strong>Are transcripts included?</strong>
+Only a transcript link is included when Spotify's public episode object exposes one. Full transcript text is not part of the public payload.</p>
+</details></section><section id="python-quickstart"><h2>Python quickstart</h2><p>Use a schema-derived input and the Python standard library to start a run. An Apify account and token are required for execution.</p><p><a href="/apify-actor-examples/guides/spotify-podcast-show-and-episode-metadata/">Open the step-by-step Python guide →</a></p></section><p class="source-note">Source build <code>ArDvL1cbbAWACenMX</code>. Documentation is regenerated from the default published build; private drafts are not included.</p></article></div></main><footer class="footer"><strong>Vexaloom Labs</strong><div class="footer-links"><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/sources/">Documentation sources</a><a href="https://apify.com/vexaloom-labs">Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></div></footer></body></html>
