@@ -1,0 +1,445 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "properties": {
+      "address": {
+        "description": "Street address",
+        "type": "string"
+      },
+      "auctionDate": {
+        "description": "Auction date if scheduled",
+        "type": "string"
+      },
+      "bathrooms": {
+        "description": "Bathroom count",
+        "type": "number"
+      },
+      "bedrooms": {
+        "description": "Bedroom count",
+        "type": "integer"
+      },
+      "buildingAreaSf": {
+        "description": "Total building area",
+        "type": "integer"
+      },
+      "city": {
+        "description": "City",
+        "type": "string"
+      },
+      "companyOwned": {
+        "description": "Whether owned by a company/LLC",
+        "type": "boolean"
+      },
+      "daysOnMarket": {
+        "description": "Days on market",
+        "type": "integer"
+      },
+      "estimatedEquity": {
+        "description": "Estimated equity (USD)",
+        "type": "integer"
+      },
+      "estimatedEquityPercentage": {
+        "description": "Equity as % of value",
+        "type": "integer"
+      },
+      "estimatedLtv": {
+        "description": "Loan-to-value ratio",
+        "type": "number"
+      },
+      "estimatedPricePerSf": {
+        "description": "Estimated $/sqft",
+        "type": "number"
+      },
+      "estimatedValue": {
+        "description": "Estimated market value (USD)",
+        "type": "integer"
+      },
+      "id": {
+        "description": "Propwire property ID",
+        "type": "integer"
+      },
+      "individualOwned": {
+        "description": "Whether owned by individual",
+        "type": "boolean"
+      },
+      "lastSoldDate": {
+        "description": "Last sale date (YYYY-MM-DD)",
+        "type": "string"
+      },
+      "lastSoldPrice": {
+        "description": "Last sale price (USD)",
+        "type": "integer"
+      },
+      "latitude": {
+        "description": "Latitude",
+        "type": "number"
+      },
+      "leadTypes": {
+        "description": "Active lead-type flags (strings, e.g. absentee_owner, high_equity)",
+        "type": "array"
+      },
+      "livingAreaSf": {
+        "description": "Living area in square feet",
+        "type": "integer"
+      },
+      "longitude": {
+        "description": "Longitude",
+        "type": "number"
+      },
+      "lotSizeAcres": {
+        "description": "Lot size in acres",
+        "type": "number"
+      },
+      "lotSizeSf": {
+        "description": "Lot size in square feet",
+        "type": "integer"
+      },
+      "mlsListDate": {
+        "description": "MLS list date",
+        "type": "string"
+      },
+      "mlsListPrice": {
+        "description": "MLS list price if active",
+        "type": "integer"
+      },
+      "mlsPhotoUrl": {
+        "description": "First MLS photo URL",
+        "type": "string"
+      },
+      "mlsStatus": {
+        "description": "Current MLS status",
+        "type": "string"
+      },
+      "monthsOfOwnership": {
+        "description": "Months current owner has held the property",
+        "type": "integer"
+      },
+      "ownerMailingAddress": {
+        "description": "Owner mailing street address",
+        "type": "string"
+      },
+      "ownerMailingCity": {
+        "description": "Owner mailing city",
+        "type": "string"
+      },
+      "ownerMailingState": {
+        "description": "Owner mailing state",
+        "type": "string"
+      },
+      "ownerMailingZip": {
+        "description": "Owner mailing ZIP",
+        "type": "string"
+      },
+      "ownerName": {
+        "description": "Primary owner name (comma-joined if multiple)",
+        "type": "string"
+      },
+      "ownerOccupied": {
+        "description": "Whether owner lives in the property",
+        "type": "boolean"
+      },
+      "propertyType": {
+        "description": "SFR / MFR / Condo / Land / etc.",
+        "type": "string"
+      },
+      "scrapedAt": {
+        "description": "ISO 8601 scrape timestamp",
+        "type": "string"
+      },
+      "state": {
+        "description": "State code",
+        "type": "string"
+      },
+      "taxAssessedTotal": {
+        "description": "Total tax assessed value",
+        "type": "integer"
+      },
+      "taxAssessedYear": {
+        "description": "Tax assessment year",
+        "type": "integer"
+      },
+      "trustOwned": {
+        "description": "Whether owned by a trust",
+        "type": "boolean"
+      },
+      "units": {
+        "description": "Number of units (multi-family)",
+        "type": "integer"
+      },
+      "url": {
+        "description": "Propwire property page URL",
+        "type": "string"
+      },
+      "yearBuilt": {
+        "description": "Year built",
+        "type": "integer"
+      },
+      "yearsOfOwnership": {
+        "description": "Years of ownership (rounded)",
+        "type": "integer"
+      },
+      "zip": {
+        "description": "ZIP code",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "title": "Propwire Leads",
+  "views": {
+    "detailed": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "address": {
+            "format": "text",
+            "label": "Address"
+          },
+          "bathrooms": {
+            "format": "number",
+            "label": "Baths"
+          },
+          "bedrooms": {
+            "format": "number",
+            "label": "Beds"
+          },
+          "city": {
+            "format": "text",
+            "label": "City"
+          },
+          "companyOwned": {
+            "format": "boolean",
+            "label": "Company"
+          },
+          "daysOnMarket": {
+            "format": "number",
+            "label": "DOM"
+          },
+          "estimatedEquity": {
+            "format": "number",
+            "label": "Est Equity"
+          },
+          "estimatedEquityPercentage": {
+            "format": "number",
+            "label": "Equity %"
+          },
+          "estimatedLtv": {
+            "format": "number",
+            "label": "LTV"
+          },
+          "estimatedValue": {
+            "format": "number",
+            "label": "Est Value"
+          },
+          "id": {
+            "format": "number",
+            "label": "ID"
+          },
+          "lastSoldDate": {
+            "format": "text",
+            "label": "Last Sold"
+          },
+          "lastSoldPrice": {
+            "format": "number",
+            "label": "Last Price"
+          },
+          "latitude": {
+            "format": "number",
+            "label": "Lat"
+          },
+          "leadTypes": {
+            "format": "array",
+            "label": "Lead Types"
+          },
+          "livingAreaSf": {
+            "format": "number",
+            "label": "Living SF"
+          },
+          "longitude": {
+            "format": "number",
+            "label": "Lng"
+          },
+          "lotSizeSf": {
+            "format": "number",
+            "label": "Lot SF"
+          },
+          "mlsListPrice": {
+            "format": "number",
+            "label": "MLS Price"
+          },
+          "mlsStatus": {
+            "format": "text",
+            "label": "MLS Status"
+          },
+          "ownerMailingAddress": {
+            "format": "text",
+            "label": "Mailing"
+          },
+          "ownerMailingCity": {
+            "format": "text",
+            "label": "Mail City"
+          },
+          "ownerMailingState": {
+            "format": "text",
+            "label": "Mail ST"
+          },
+          "ownerName": {
+            "format": "text",
+            "label": "Owner"
+          },
+          "ownerOccupied": {
+            "format": "boolean",
+            "label": "Occupied"
+          },
+          "propertyType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "scrapedAt": {
+            "format": "text",
+            "label": "Scraped At"
+          },
+          "state": {
+            "format": "text",
+            "label": "State"
+          },
+          "taxAssessedTotal": {
+            "format": "number",
+            "label": "Tax Assessed"
+          },
+          "trustOwned": {
+            "format": "boolean",
+            "label": "Trust"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          },
+          "yearBuilt": {
+            "format": "number",
+            "label": "Year Built"
+          },
+          "yearsOfOwnership": {
+            "format": "number",
+            "label": "Yrs Owned"
+          },
+          "zip": {
+            "format": "text",
+            "label": "ZIP"
+          }
+        }
+      },
+      "title": "Detailed Results",
+      "transformation": {
+        "fields": [
+          "id",
+          "address",
+          "city",
+          "state",
+          "zip",
+          "latitude",
+          "longitude",
+          "propertyType",
+          "bedrooms",
+          "bathrooms",
+          "livingAreaSf",
+          "lotSizeSf",
+          "yearBuilt",
+          "estimatedValue",
+          "estimatedEquity",
+          "estimatedEquityPercentage",
+          "estimatedLtv",
+          "lastSoldDate",
+          "lastSoldPrice",
+          "yearsOfOwnership",
+          "ownerName",
+          "ownerOccupied",
+          "ownerMailingAddress",
+          "ownerMailingCity",
+          "ownerMailingState",
+          "companyOwned",
+          "trustOwned",
+          "mlsListPrice",
+          "mlsStatus",
+          "daysOnMarket",
+          "taxAssessedTotal",
+          "leadTypes",
+          "url",
+          "scrapedAt"
+        ]
+      }
+    },
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "address": {
+            "format": "text",
+            "label": "Address"
+          },
+          "bathrooms": {
+            "format": "number",
+            "label": "Baths"
+          },
+          "bedrooms": {
+            "format": "number",
+            "label": "Beds"
+          },
+          "city": {
+            "format": "text",
+            "label": "City"
+          },
+          "estimatedEquity": {
+            "format": "number",
+            "label": "Est Equity"
+          },
+          "estimatedValue": {
+            "format": "number",
+            "label": "Est Value"
+          },
+          "leadTypes": {
+            "format": "array",
+            "label": "Lead Types"
+          },
+          "ownerName": {
+            "format": "text",
+            "label": "Owner"
+          },
+          "propertyType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "state": {
+            "format": "text",
+            "label": "State"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          },
+          "zip": {
+            "format": "text",
+            "label": "ZIP"
+          }
+        }
+      },
+      "title": "Overview",
+      "transformation": {
+        "fields": [
+          "address",
+          "city",
+          "state",
+          "zip",
+          "propertyType",
+          "bedrooms",
+          "bathrooms",
+          "estimatedValue",
+          "estimatedEquity",
+          "ownerName",
+          "leadTypes",
+          "url"
+        ]
+      }
+    }
+  }
+}

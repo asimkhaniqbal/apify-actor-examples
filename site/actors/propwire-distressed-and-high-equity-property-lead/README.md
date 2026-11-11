@@ -1,0 +1,119 @@
+# Propwire Distressed & High-Equity Property Lead Finder
+
+Propwire indexes US residential and multi-family properties alongside owner, equity, MLS, and tax data, and tags each one with lead-type flags such as absentee owner, high equity, or pre-foreclosure. This actor searches that index by city, state, or ZIP and returns one structured record per matching property, so you can build targeted lists without manually paging through Propwire's search UI.
+
+## What this actor does
+
+- Searches one or more US locations — city + state, state code, or ZIP — in a single run.
+- Optionally narrows results to specific lead-type flags (absentee owner, high equity, vacant, pre-foreclosure, cash buyer, and dozens more).
+- Returns property specs (beds, baths, square footage, year built), valuation (estimated value, equity, LTV), ownership history (last sold price/date, time held), owner details, MLS status, and tax assessment for each result.
+- Collects every active lead-type flag on a property into a single `leadTypes` array so you can filter or group afterward.
+- Every record includes the full field set below; when Propwire doesn't report a value for a property, numeric fields come back as `0`, text fields as an empty string, and `leadTypes` as an empty array, rather than the field being left out.
+
+## Output per property
+
+| Field | Description |
+|---|---|
+| `id` | Propwire property ID. |
+| `url` | Propwire property page URL. |
+| `address` / `city` / `state` / `zip` | Property street address components. |
+| `latitude` / `longitude` | Property coordinates (`0`/`0` when Propwire doesn't report a location). |
+| `propertyType` | Property type, e.g. SFR, MFR, Condo, Land. |
+| `bedrooms` / `bathrooms` | Bed/bath counts. |
+| `livingAreaSf` / `buildingAreaSf` | Living area and total building area, in square feet. |
+| `lotSizeSf` / `lotSizeAcres` | Lot size in square feet and acres. |
+| `yearBuilt` | Year built. |
+| `units` | Number of units, for multi-family properties. |
+| `estimatedValue` | Estimated market value (USD). |
+| `estimatedEquity` / `estimatedEquityPercentage` | Estimated equity in USD and as a percentage of value. |
+| `estimatedLtv` | Estimated loan-to-value ratio. |
+| `estimatedPricePerSf` | Estimated price per square foot. |
+| `lastSoldDate` / `lastSoldPrice` | Date and price of the last recorded sale. |
+| `monthsOfOwnership` / `yearsOfOwnership` | How long the current owner has held the property. |
+| `ownerName` | Owner name(s), comma-joined when there's more than one. |
+| `ownerOccupied` | Whether the owner appears to live at the property. |
+| `ownerMailingAddress` / `ownerMailingCity` / `ownerMailingState` / `ownerMailingZip` | Owner's mailing address, when different from the property address. |
+| `companyOwned` / `individualOwned` / `trustOwned` | Owner-type flags. |
+| `mlsListPrice` / `mlsListDate` / `mlsStatus` / `mlsPhotoUrl` / `daysOnMarket` | Current MLS listing details, when the property is listed. |
+| `taxAssessedTotal` / `taxAssessedYear` | Latest tax-assessed value and the year it was assessed. |
+| `leadTypes` | Array of active lead-type flags for the property (e.g. `["absentee_owner", "high_equity"]`). |
+| `auctionDate` | Scheduled auction date, for properties heading to auction. |
+| `scrapedAt` | ISO 8601 timestamp of when this actor fetched the record. |
+
+If Propwire's upstream search can't be reached at all for the run (e.g. the proxy pool is being challenged), the dataset gets a single `type: "propwire_blocked"` record with `reason`, `message`, and `scrapedAt` instead of silently returning nothing.
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `locations` | Array of strings | – | US locations to search — city with state (`"Miami, FL"`), state code (`"FL"`), or ZIP (`"33142"`). Mix any combination in one run. |
+| `leadTypes` | Array of strings | `[]` (all) | Restrict results to these lead-type flags, e.g. `absentee_owner`, `high_equity`, `free_and_clear`, `vacant_home`, `cash_buyer`, `preforeclosure`, `bank_owned`, `out_of_state_owner`, `low_equity`, `negative_equity`, `flipped_property`, `empty_nester`, `tired_landlord`. Leave empty to return all lead types. |
+| `maxItems` | Integer | `50` | Maximum number of properties to return across all locations. |
+| `proxy` | Object | `{"useApifyProxy": true, "apifyProxyGroups": ["RESIDENTIAL"], "apifyProxyCountry": "US"}` | Required. Apify proxy configuration; Propwire's search requires a residential proxy to return real data. |
+
+### Example: high-equity absentee owners in one city
+
+```json
+{
+    "locations": ["Miami, FL"],
+    "leadTypes": ["high_equity", "absentee_owner"],
+    "maxItems": 100,
+    "proxy": { "useApifyProxy": true, "apifyProxyGroups": ["RESIDENTIAL"], "apifyProxyCountry": "US" }
+}
+```
+
+### Example: statewide vacant-home search
+
+```json
+{
+    "locations": ["FL"],
+    "leadTypes": ["vacant_home"],
+    "maxItems": 500,
+    "proxy": { "useApifyProxy": true, "apifyProxyGroups": ["RESIDENTIAL"], "apifyProxyCountry": "US" }
+}
+```
+
+### Example: mixed locations, no lead-type filter
+
+```json
+{
+    "locations": ["Austin, TX", "90210", "GA"],
+    "maxItems": 200,
+    "proxy": { "useApifyProxy": true, "apifyProxyGroups": ["RESIDENTIAL"], "apifyProxyCountry": "US" }
+}
+```
+
+## Use cases
+
+- **Wholesaling** — build lists of motivated sellers by combining `absentee_owner`, `high_equity`, and `out_of_state_owner`.
+- **Direct mail campaigns** — export `ownerMailingAddress` fields for postcard or letter campaigns.
+- **Distressed-property sourcing** — filter on `preforeclosure`, `bank_owned`, or `auction` to find deals before they're widely listed.
+- **Rental portfolio research** — target `tired_landlord` flags to find owners who may be ready to sell.
+- **Investment underwriting** — screen by `estimatedEquityPercentage`, `yearsOfOwnership`, and tax-assessed value to shortlist hold candidates.
+- **CRM pipeline feeding** — load structured property and owner records straight into a real estate CRM or spreadsheet.
+
+## FAQ
+
+**Why does `proxy` have to be set?**
+Propwire's search blocks requests that don't come through a residential IP, so the proxy input is required and defaults to a residential US proxy if you don't change it.
+
+**What lead types are available?**
+`leadTypes` accepts dozens of flags covering equity (`high_equity`, `low_equity`, `negative_equity`, `free_and_clear`), ownership (`absentee_owner`, `out_of_state_owner`, `empty_nester`, `tired_landlord`), financial distress (`preforeclosure`, `bank_owned`, `auction`, `bankruptcy`, `divorce`), property condition (`vacant_home`, `vacant_lot`, `abandoned_homes`), and deal type (`cash_buyer`, `flipped_property`). Every active flag on a property is also returned in that property's `leadTypes` array, so you can post-filter even without setting the input.
+
+**Can I search more than one location at once?**
+Yes — `locations` accepts any mix of city+state, state codes, and ZIP codes in a single run, and results from all of them are combined up to `maxItems`.
+
+**Does the output include phone numbers or emails?**
+No. This actor returns Propwire's public property, owner, equity, and MLS data; it does not perform skip tracing for contact details.
+
+**Why do some fields show `0` or an empty string?**
+`mlsListPrice`, `mlsListDate`, `mlsStatus`, `mlsPhotoUrl`, `daysOnMarket`, and similar fields only carry a real value when Propwire reports one for that property (e.g. an active MLS listing). Every record still includes the full field set, so an unreported numeric field shows as `0` and an unreported text field as `""` rather than being left out — check for the zero/empty value rather than assuming the field is always real.
+
+**How fresh is the data?**
+Records reflect Propwire's live index at the time of the run, the same data visible on propwire.com.
+
+**What's the maximum I can pull in one run?**
+`maxItems` is capped at 1,000 per run. For larger pulls, split the work across multiple runs by location or lead type.
+
+**Is this affiliated with Propwire?**
+No. This actor is an independent tool that queries Propwire's public property search and is not affiliated with or endorsed by Propwire.

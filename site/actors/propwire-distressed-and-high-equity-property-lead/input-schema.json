@@ -1,0 +1,55 @@
+{
+  "properties": {
+    "leadTypes": {
+      "default": [],
+      "description": "Filter by lead type. Common options: absentee_owner, high_equity, free_and_clear, vacant_home, cash_buyer, preforeclosure, bank_owned, out_of_state_owner, low_equity, negative_equity, flipped_property, empty_nester, tired_landlord. Leave empty for all.",
+      "editor": "stringList",
+      "title": "Lead Types",
+      "type": "array"
+    },
+    "locations": {
+      "description": "US locations to search: city name with state (e.g. 'Miami, FL'), state code (e.g. 'FL'), or ZIP code (e.g. '33142'). Mix any combination.",
+      "editor": "stringList",
+      "prefill": [
+        "Miami, FL"
+      ],
+      "title": "Locations",
+      "type": "array"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of properties to return across all locations.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "proxy": {
+      "default": {
+        "apifyProxyCountry": "US",
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "description": "REQUIRED. Propwire is fronted by DataDome which blocks every datacenter IP with a captcha challenge. Use Apify Residential proxy (US country code recommended).",
+      "editor": "proxy",
+      "prefill": {
+        "apifyProxyCountry": "US",
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "title": "Proxy Configuration",
+      "type": "object"
+    }
+  },
+  "required": [
+    "proxy"
+  ],
+  "schemaVersion": 1,
+  "title": "Propwire Leads Scraper Input",
+  "type": "object"
+}
