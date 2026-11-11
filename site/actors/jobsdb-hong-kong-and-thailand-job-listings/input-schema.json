@@ -1,0 +1,293 @@
+{
+  "description": "Search JobsDB job listings, browse by category or location, or pull the newest postings across Hong Kong and Thailand.",
+  "properties": {
+    "advertiserId": {
+      "default": "",
+      "description": "One or more numeric JobsDB advertiser IDs (comma-separated for OR match) to browse all current listings from one or more employers/agencies. Required for mode=browseByCompany; get an ID from the `advertiserId` field on any previously scraped job. Also works as an optional filter in other modes.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Company / advertiser ID(s)",
+      "type": "string"
+    },
+    "classification": {
+      "default": [],
+      "description": "Job categor(y/ies). Pick one or more (OR match) — required for mode=browseByCategory; optional filter for other modes. Leave empty for any category.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "1200",
+          "1203",
+          "1204",
+          "1206",
+          "1209",
+          "1210",
+          "1211",
+          "1212",
+          "1214",
+          "1216",
+          "1220",
+          "1223",
+          "1225",
+          "6008",
+          "6043",
+          "6058",
+          "6076",
+          "6092",
+          "6123",
+          "6163",
+          "6205",
+          "6246",
+          "6251",
+          "6263",
+          "6281",
+          "6304",
+          "6317",
+          "6362",
+          "7019"
+        ],
+        "enumTitles": [
+          "Accounting",
+          "Banking & Financial Services",
+          "Call Centre & Customer Service",
+          "Construction",
+          "Engineering",
+          "Government & Defence",
+          "Healthcare & Medical",
+          "Hospitality & Tourism",
+          "Insurance & Superannuation",
+          "Legal",
+          "Real Estate & Property",
+          "Science & Technology",
+          "Trades & Services",
+          "Marketing & Communications",
+          "Retail & Consumer Products",
+          "Mining, Resources & Energy",
+          "Consulting & Strategy",
+          "Manufacturing, Transport & Logistics",
+          "Education & Training",
+          "Community Services & Development",
+          "Farming, Animals & Conservation",
+          "Sport & Recreation",
+          "Administration & Office Support",
+          "Design & Architecture",
+          "Information & Communication Technology",
+          "Advertising, Arts & Media",
+          "Human Resources & Recruitment",
+          "Sales",
+          "CEO & General Management"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Category",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "country": {
+      "default": "HK",
+      "description": "Which JobsDB market to scrape.",
+      "editor": "select",
+      "enum": [
+        "HK",
+        "TH"
+      ],
+      "enumTitles": [
+        "Hong Kong (hk.jobsdb.com)",
+        "Thailand (th.jobsdb.com)"
+      ],
+      "prefill": "HK",
+      "title": "Country",
+      "type": "string"
+    },
+    "dateRange": {
+      "default": "",
+      "description": "Only include jobs posted within this window.",
+      "editor": "select",
+      "enum": [
+        "",
+        "1",
+        "3",
+        "7",
+        "14",
+        "31"
+      ],
+      "enumTitles": [
+        "Any time",
+        "Past 24 hours",
+        "Past 3 days",
+        "Past 7 days",
+        "Past 14 days",
+        "Past 31 days"
+      ],
+      "prefill": "",
+      "title": "Date posted",
+      "type": "string"
+    },
+    "jobId": {
+      "default": "",
+      "description": "One or more numeric JobsDB job IDs (comma-separated, or pass an array) to look up specific listings directly. Required for mode=byJobId; get an ID from the `jobId` field on any previously scraped job. Ignored in other modes.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Job ID(s)",
+      "type": "string"
+    },
+    "keywords": {
+      "default": "engineer",
+      "description": "Job title, skill, or company to search for (mode=searchJobs). Also works as an optional refinement in browseByCategory / browseByLocation.",
+      "editor": "textfield",
+      "prefill": "engineer",
+      "title": "Keywords",
+      "type": "string"
+    },
+    "location": {
+      "default": "",
+      "description": "Free-text location/area to browse or filter by, e.g. `Central`, `Kowloon`, `Bangkok`. Required for mode=browseByLocation.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Location",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Hard cap on emitted records.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "searchJobs",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "searchJobs",
+        "browseByCategory",
+        "browseByLocation",
+        "browseByCompany",
+        "latestJobs",
+        "byJobId"
+      ],
+      "enumTitles": [
+        "Search jobs by keyword",
+        "Browse jobs by category",
+        "Browse jobs by location",
+        "Browse jobs by company (advertiserId)",
+        "Latest jobs (newest first, site-wide)",
+        "Look up job(s) by jobId"
+      ],
+      "prefill": "searchJobs",
+      "title": "Mode",
+      "type": "string"
+    },
+    "salaryMax": {
+      "description": "Maximum salary (in the local currency, per `salaryType` period). Leave unset for no upper bound.",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Salary max",
+      "type": "integer"
+    },
+    "salaryMin": {
+      "description": "Minimum salary (in the local currency, per `salaryType` period). Leave unset for no lower bound.",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Salary min",
+      "type": "integer"
+    },
+    "salaryType": {
+      "default": "annual",
+      "description": "Period the salary min/max values are expressed in.",
+      "editor": "select",
+      "enum": [
+        "annual",
+        "monthly",
+        "hourly"
+      ],
+      "enumTitles": [
+        "Annual",
+        "Monthly",
+        "Hourly"
+      ],
+      "prefill": "annual",
+      "title": "Salary period",
+      "type": "string"
+    },
+    "sortMode": {
+      "default": "KeywordRelevance",
+      "description": "Result ordering.",
+      "editor": "select",
+      "enum": [
+        "KeywordRelevance",
+        "ListedDate"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Date (newest first)"
+      ],
+      "prefill": "KeywordRelevance",
+      "title": "Sort by",
+      "type": "string"
+    },
+    "subclassification": {
+      "default": "",
+      "description": "One or more numeric JobsDB sub-category IDs (comma-separated for OR match) to narrow a `classification` further (e.g. `6038` = Project Engineering under Engineering). Get valid IDs from the `subCategoryId` field on a previously scraped job. Optional filter for any mode.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Sub-category ID(s)",
+      "type": "string"
+    },
+    "workArrangement": {
+      "default": [],
+      "description": "Filter by on-site/hybrid/remote work arrangement. Pick one or more (OR match). Leave empty for any arrangement.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "1",
+          "2",
+          "3"
+        ],
+        "enumTitles": [
+          "On-site",
+          "Hybrid",
+          "Remote"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Work arrangement",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "workType": {
+      "default": [],
+      "description": "Filter by employment type. Pick one or more (OR match). Leave empty for any work type.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "242",
+          "243",
+          "244",
+          "245"
+        ],
+        "enumTitles": [
+          "Full time",
+          "Part time",
+          "Contract/Temp",
+          "Casual/Vacation"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Work type",
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "mode",
+    "country"
+  ],
+  "schemaVersion": 1,
+  "title": "JobsDB Scraper Input",
+  "type": "object"
+}
