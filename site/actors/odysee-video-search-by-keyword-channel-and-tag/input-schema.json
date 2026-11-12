@@ -1,45 +1,76 @@
 {
-  "description": "Search or browse videos on Odysee.com.",
+  "description": "Search Odysee videos by keyword, export a channel's uploads, browse a tag, or fetch details for specific video URLs.",
   "properties": {
     "channel": {
       "default": "@veritasium",
-      "description": "Odysee channel name, with or without @. Example: @veritasium or veritasium.",
+      "description": "Used by mode=byChannel. Accepts an @handle (@veritasium), an Odysee channel URL, an lbry:// channel URL, or a channel claim ID.",
       "editor": "textfield",
       "prefill": "@veritasium",
-      "title": "Channel name (mode=byChannel)",
+      "title": "Channel",
       "type": "string"
+    },
+    "includeStats": {
+      "default": true,
+      "description": "Add view count, likes, dislikes and channel follower count. These numbers come from Odysee's public counters and add a few small requests per record.",
+      "prefill": true,
+      "title": "Include engagement stats",
+      "type": "boolean"
     },
     "keyword": {
       "default": "open source",
-      "description": "Search term for mode=search.",
+      "description": "Keyword used by mode=search. Supports ordinary words and non-English text. Odysee returns at most about 550 results per keyword.",
       "editor": "textfield",
       "prefill": "open source",
-      "title": "Keyword (mode=search)",
+      "title": "Search keyword",
       "type": "string"
     },
     "maxItems": {
       "default": 20,
-      "description": "Maximum number of videos to return.",
+      "description": "Maximum number of records to collect across the whole run.",
       "editor": "number",
-      "maximum": 500,
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 20,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
+    "mediaType": {
+      "default": "video",
+      "description": "Filter channel, tag and keyword results by Odysee stream type. Details mode returns the referenced item as-is.",
+      "editor": "select",
+      "enum": [
+        "video",
+        "audio",
+        "document",
+        "image",
+        "all"
+      ],
+      "enumTitles": [
+        "Video",
+        "Audio",
+        "Documents",
+        "Images",
+        "All types"
+      ],
+      "prefill": "video",
+      "title": "Media type",
+      "type": "string"
+    },
     "mode": {
       "default": "search",
-      "description": "What to fetch.",
+      "description": "Choose what to collect: a keyword search, a channel's uploads, a tag feed, or details for specific videos.",
       "editor": "select",
       "enum": [
         "search",
         "byChannel",
-        "byTag"
+        "byTag",
+        "details"
       ],
       "enumTitles": [
         "Search videos by keyword",
-        "Videos by channel name",
-        "Videos by tag"
+        "Videos from a channel",
+        "Videos by tag",
+        "Details for specific videos"
       ],
       "prefill": "search",
       "title": "Mode",
@@ -47,29 +78,42 @@
     },
     "orderBy": {
       "default": "release_time",
-      "description": "How to sort results.",
+      "description": "Sort order for channel and tag modes. Keyword search always uses Odysee's relevance ranking.",
       "editor": "select",
       "enum": [
         "release_time",
         "effective_amount",
-        "trending_group"
+        "support_amount",
+        "trending_group",
+        "trending_mixed"
       ],
       "enumTitles": [
         "Newest first",
         "Most supported (top)",
-        "Trending"
+        "Highest support amount",
+        "Trending",
+        "Trending (mixed)"
       ],
       "prefill": "release_time",
       "title": "Sort order",
       "type": "string"
     },
     "tag": {
-      "default": "technology",
-      "description": "Tag to browse, e.g. 'science', 'technology', 'gaming'.",
+      "default": "science",
+      "description": "Used by mode=byTag. Tag text without the leading #, for example science, technology or gaming.",
       "editor": "textfield",
-      "prefill": "technology",
-      "title": "Tag (mode=byTag)",
+      "prefill": "science",
+      "title": "Tag",
       "type": "string"
+    },
+    "videoUrls": {
+      "description": "Used by mode=details. One item per line: a full Odysee video URL, an lbry:// URL, or a 40-character claim ID.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Video URLs or claim IDs",
+      "type": "array"
     }
   },
   "required": [

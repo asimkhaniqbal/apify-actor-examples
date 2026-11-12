@@ -1,43 +1,41 @@
-# Odysee Video Search by Keyword, Channel & Tag
+# Odysee Video Search by Keyword, Channel, Tag & Details
 
-Odysee is a video platform built on the LBRY content network, popular with independent creators covering tech, science, and commentary. This actor searches its catalog by keyword, lists videos from a given channel, or browses by content tag — returning structured metadata for each video found.
+Odysee hosts independent video, audio, document and image creators on the LBRY network. This actor collects the catalog records behind Odysee's own pages: keyword search results, a creator's upload history, a tag feed, or a handful of specific videos you name yourself.
 
-## What this actor does
+No account, cookie, wallet or API key is needed. Every request goes to Odysee's public web gateways.
 
-- **Three modes** — `search` (full-text keyword search), `byChannel` (videos from one creator), `byTag` (browse a content category)
-- **Sort control** — order results by newest, most-supported, or trending
-- **Rich per-video metadata** — title, description, duration, tags, languages, and view count
-- **Direct playback links** — a ready-to-open `viewUrl` for each video
-- **Clean records** — a field Odysee doesn't provide for a given video (e.g. no view count yet) is left out rather than returned as a placeholder
+## Four ways to collect
 
-## Output per video
+| Mode | What it returns | Best for |
+|---|---|---|
+| `search` | Odysee's ranked keyword matches | Topic discovery and monitoring a phrase |
+| `byChannel` | One channel's uploads, newest first by default | Archiving or auditing a creator |
+| `byTag` | The public feed for a content tag | Category and trend research |
+| `details` | Exact records for video URLs, `lbry://` URLs or claim IDs | Enriching a known list |
 
-- `claimId` — Odysee's unique content identifier
-- `title`, `description` — description is truncated to 2000 characters
-- `channelName`, `channelUrl` — publishing channel and a link to it
-- `thumbnailUrl`
-- `durationSeconds`
-- `mediaType` — file MIME type, e.g. `video/mp4`
-- `tags` — up to 30 content tags
-- `languages` — language codes set on the video
-- `publishedAt` — ISO 8601 publish date
-- `views` — view count, when Odysee has recorded one
-- `viewUrl` — direct link to the video's page on odysee.com
-- `canonicalUrl` — fallback canonical content URL, only present on the rare video where `viewUrl` can't be built
-- `scrapedAt` — ISO 8601 timestamp the record was collected
+`orderBy` controls channel and tag feeds (`release_time`, `effective_amount`, `support_amount`, `trending_group`, `trending_mixed`). Keyword search keeps Odysee's relevance order.
+
+`mediaType` narrows results to video, audio, documents or images, or leaves it on `all`.
 
 ## Input
 
-| Field | Type | Default | Description |
+| Field | Type | Default | Notes |
 |---|---|---|---|
-| `mode` | string (select) | `search` | `search`, `byChannel`, or `byTag` |
-| `keyword` | string | `open source` | Search term (mode=`search`) |
-| `channel` | string | `@veritasium` | Channel name, with or without `@` (mode=`byChannel`) |
-| `tag` | string | `technology` | Tag to browse, e.g. `science`, `gaming` (mode=`byTag`) |
-| `orderBy` | string (select) | `release_time` | `release_time` (newest first), `effective_amount` (most supported), or `trending_group` (trending) |
-| `maxItems` | integer | `20` | Maximum number of videos to return (1–500) |
+| `mode` | string (select) | `search` | `search`, `byChannel`, `byTag` or `details` |
+| `keyword` | string | `open source` | Used by `search` |
+| `channel` | string | `@veritasium` | Used by `byChannel`; accepts `@handle`, channel URL, `lbry://` URL or claim ID |
+| `tag` | string | `science` | Used by `byTag`; omit the leading `#` |
+| `videoUrls` | string array | – | Used by `details`; one URL or claim ID per line |
+| `orderBy` | string (select) | `release_time` | Sort for channel and tag feeds |
+| `mediaType` | string (select) | `video` | `video`, `audio`, `document`, `image` or `all` |
+| `maxItems` | integer | `20` | 1–10,000 records across the run |
+| `includeStats` | boolean | `true` | Adds views, likes, dislikes and channel follower count |
 
-### Example: keyword search
+### Tasks built on the original input
+
+Saved tasks from the earlier three-mode release keep working unchanged: `mode`, `keyword`, `channel`, `tag`, `orderBy` and `maxItems` mean the same things they did before, and the old default sort still produces the same channel and tag feeds. Calls that pass an older alias instead of the current field are also mapped: `searchQuery`/`query`/`searchTerm`/`q`, `channelUrl`/`channelName`/`channelHandle`, `tagName`/`tags`, `videoUrl`/`urls`/`url`/`claimIds`/`claimId`, `maxResults`, `sort`/`sortBy`, `streamType`/`contentType`, and `includeEngagement`. A real value in the current field always wins over an alias, except when the current field still holds its untouched schema default.
+
+### Keyword search
 
 ```json
 {
@@ -47,51 +45,92 @@ Odysee is a video platform built on the LBRY content network, popular with indep
 }
 ```
 
-### Example: all videos from a channel, newest first
+### A creator's uploads
 
 ```json
 {
   "mode": "byChannel",
-  "channel": "@veritasium",
+  "channel": "https://odysee.com/@veritasium:f",
   "orderBy": "release_time",
   "maxItems": 50
 }
 ```
 
-### Example: trending videos in a tag
+### Trending science feed
 
 ```json
 {
   "mode": "byTag",
-  "tag": "gaming",
+  "tag": "science",
   "orderBy": "trending_group",
   "maxItems": 30
 }
 ```
 
-## Use cases
+### Exact videos
 
-- **Content discovery** — find independent creators publishing on a topic before mainstream platforms pick it up
-- **Channel monitoring** — track a specific creator's upload history and view counts over time
-- **Trend tracking** — follow what's trending or most-supported in a tag to spot emerging topics
-- **Research and archiving** — collect structured metadata for videos in a subject area for cataloging
+```json
+{
+  "mode": "details",
+  "videoUrls": [
+    "https://odysee.com/@veritasium:f/why-do-deserts-get-cold-at-night:6",
+    "lbry://@KRR1751#8/more-open-source-windows#a",
+    "4bfb6602f540a7cc03997142a383dca6f4347991"
+  ]
+}
+```
+
+## Output per record
+
+| Field | Meaning |
+|---|---|
+| `claimId` | Stable LBRY claim identifier |
+| `title`, `description` | Video title and description (description capped at 10,000 characters) |
+| `channelName`, `channelId`, `channelUrl` | Publishing channel identity and link |
+| `channelTitle`, `channelThumbnailUrl` | Channel display name and avatar |
+| `channelVideoCount`, `channelFollowerCount` | Channel upload count and follower count |
+| `thumbnailUrl` | Video thumbnail |
+| `durationSeconds` | Length in seconds |
+| `width`, `height` | Video resolution |
+| `mediaType`, `streamType` | MIME type and Odysee stream class |
+| `tags`, `languages` | Content tags and language codes |
+| `publishedAt`, `createdAt` | Release time and blockchain claim time, ISO 8601 |
+| `license` | Publisher-declared license |
+| `fileSizeBytes` | Source file size |
+| `effectiveAmount`, `supportAmount`, `repostCount` | LBC support and repost signals |
+| `feeAmount`, `feeCurrency` | Paid-content price when the publisher set one |
+| `views`, `likes`, `dislikes` | Odysee counters (present when `includeStats` is on) |
+| `canonicalUrl`, `permanentUrl` | `lbry://` canonical and permanent URLs |
+| `viewUrl` | Ready-to-open Odysee page |
+| `scrapedAt` | Collection timestamp |
+
+Records are omit-empty: a field Odysee genuinely lacks for an item (for example a duration on a text post, or tags on a bare upload) is left out rather than filled with a placeholder.
+
+## Practical notes
+
+- **Keyword ceiling.** Odysee's search ranking exposes roughly 550 items per keyword. When a run reaches that ceiling it says so in the run status message; use a narrower keyword to go deeper.
+- **Channel and tag depth.** These feeds continue page by page until `maxItems` is reached or Odysee runs out of matching items.
+- **Counting views.** Odysee's public counters require a short-lived anonymous session that the actor creates automatically. No user credentials are involved, and no cookie is stored.
+- **Media types.** `mediaType` applies to search, channel and tag modes. `details` returns the referenced item as it exists.
+- **Duplicate removal.** Results are de-duplicated by claim ID, including overlapping URLs in `details`.
+- **Images and links.** Video pages, channel pages and thumbnails are public; the actor stores the original Odysee CDN URLs.
 
 ## FAQ
 
-**Is a login or API key required?**
-No. Odysee's video catalog is publicly browsable without an account.
+**Do I need an Odysee login?**
+No. The actor never asks for an account, cookie, wallet or API key.
 
-**What kind of content is on Odysee?**
-Odysee hosts independent creators across technology, science, education, news commentary, and entertainment.
+**Can I export a whole channel?**
+Yes. Point `mode: "byChannel"` at the channel and raise `maxItems`. The actor pages through the upload list until it reaches your limit or the channel's end.
 
-**How do I find a specific creator's videos?**
-Use `mode: "byChannel"` with their channel handle, e.g. `@veritasium` or `@LinusTechLips` — the `@` is optional.
+**Why is `views` missing on some records?**
+It is only missing if Odysee's counter endpoint fails for that item or you turned `includeStats` off. A value of `0` means Odysee reported zero tracked views.
 
-**What's the difference between the three `orderBy` options?**
-`release_time` sorts newest first, `effective_amount` sorts by how much a video has been supported/boosted, and `trending_group` reflects Odysee's own trending ranking.
+**Does search support non-English keywords?**
+Yes. Unicode and non-Latin keywords work, as do tags in their original language.
 
-**Why is `views` missing on some videos?**
-Odysee doesn't expose a view count for every video; when it's not available, the field is left out of that record.
+**Are comments, live status or subscriber-only content included?**
+No. This actor focuses on public catalog metadata and engagement counters that Odysee exposes without a login.
 
 **Is this affiliated with Odysee or LBRY?**
-No. This is an independent actor that reads Odysee's publicly available content index; it is not operated by or affiliated with Odysee or LBRY.
+No. It is an independent tool that reads publicly reachable Odysee data.
