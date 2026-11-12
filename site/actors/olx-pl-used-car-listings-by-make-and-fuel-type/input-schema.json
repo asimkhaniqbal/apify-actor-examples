@@ -1,0 +1,115 @@
+{
+  "description": "Search olx.pl for used car listings in Poland. Filter by keyword, fuel type, gearbox type, year range, and price range.",
+  "properties": {
+    "condition": {
+      "default": "",
+      "description": "Vehicle condition filter.",
+      "editor": "select",
+      "enum": [
+        "",
+        "used",
+        "new",
+        "damaged"
+      ],
+      "enumTitles": [
+        "Any condition",
+        "Used",
+        "New",
+        "Damaged"
+      ],
+      "prefill": "",
+      "title": "Condition",
+      "type": "string"
+    },
+    "fuelType": {
+      "default": "",
+      "description": "Filter by fuel type.",
+      "editor": "select",
+      "enum": [
+        "",
+        "petrol",
+        "diesel",
+        "lpg",
+        "electric",
+        "hybrid"
+      ],
+      "enumTitles": [
+        "Any fuel type",
+        "Petrol",
+        "Diesel",
+        "LPG",
+        "Electric",
+        "Hybrid"
+      ],
+      "prefill": "",
+      "title": "Fuel Type",
+      "type": "string"
+    },
+    "gearbox": {
+      "default": "",
+      "description": "Transmission type filter.",
+      "editor": "select",
+      "enum": [
+        "",
+        "manual",
+        "automatic"
+      ],
+      "enumTitles": [
+        "Any gearbox",
+        "Manual",
+        "Automatic"
+      ],
+      "prefill": "",
+      "title": "Gearbox",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Maximum number of car listings to return.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Maximum listing price in Polish Zloty.",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Max Price (PLN)",
+      "type": "integer"
+    },
+    "maxYear": {
+      "description": "Newest model year to include.",
+      "maximum": 2030,
+      "minimum": 1900,
+      "title": "Max Year",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Minimum listing price in Polish Zloty.",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Min Price (PLN)",
+      "type": "integer"
+    },
+    "minYear": {
+      "description": "Oldest model year to include.",
+      "maximum": 2030,
+      "minimum": 1900,
+      "title": "Min Year",
+      "type": "integer"
+    },
+    "query": {
+      "description": "Free-text search query (e.g. 'Toyota Corolla', 'BMW 3'). Leave blank to browse all cars.",
+      "editor": "textfield",
+      "prefill": "Toyota",
+      "title": "Search query",
+      "type": "string"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "OLX Poland Car Listings Scraper Input",
+  "type": "object"
+}

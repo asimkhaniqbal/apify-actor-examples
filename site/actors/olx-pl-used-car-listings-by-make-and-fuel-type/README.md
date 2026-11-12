@@ -1,0 +1,119 @@
+# OLX.pl Used Car Listings by Make & Fuel Type
+
+OLX.pl is Poland's largest classifieds marketplace, with a dedicated cars section covering private sellers and dealers nationwide. This actor searches that cars section by keyword and vehicle filters, returning structured data for each matching listing up to the item limit you set.
+
+## What this actor does
+
+- **Keyword search** across the olx.pl cars category, or browse all cars with no keyword
+- **Vehicle filters** — fuel type, gearbox, condition, model-year range, and price range, combinable in any mix
+- **Full listing detail** — make, model, year, mileage, engine size, door count, body type, color, and photos
+- **Empty fields are omitted** — a field OLX doesn't show for a listing (e.g. no engine size on an electric car) is left out rather than returned as null
+
+## Output per listing
+
+| Field | Type | Description |
+|---|---|---|
+| `listingId` | string | OLX internal listing ID |
+| `title` | string | Listing title |
+| `slug` | string | OLX URL slug for the listing |
+| `make` | string | Car manufacturer |
+| `model` | string | Car model |
+| `year` | integer | Model year |
+| `pricePln` | integer | Price in Polish Zloty (PLN) |
+| `currency` | string | Currency (usually PLN) |
+| `mileage` | string | Odometer reading |
+| `fuelType` | string | Fuel type (Petrol, Diesel, LPG, Electric, Hybrid) |
+| `gearbox` | string | Transmission type |
+| `engineSize` | string | Engine displacement, as listed |
+| `bodyType` | string | Body style |
+| `color` | string | Exterior color |
+| `doorCount` | string | Number of doors, as listed |
+| `condition` | string | Used, New, or Damaged |
+| `city` | string | Seller city |
+| `region` | string | Polish voivodeship |
+| `listingUrl` | string | Direct link to the listing on olx.pl |
+| `imageUrl` | string | Primary photo URL |
+| `photoUrls` | array | Up to 10 photo URLs |
+| `description` | string | Listing description (first 500 characters) |
+| `createdAt` | string | Listing creation timestamp |
+| `refreshedAt` | string | Timestamp the seller last refreshed/bumped the listing |
+| `recordType` | string | Always `"carListing"` |
+| `scrapedAt` | string | UTC ISO scrape timestamp |
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `query` | string | – | Search query (make, model, or free text); leave blank to browse all cars |
+| `fuelType` | string | – | `petrol`, `diesel`, `lpg`, `electric`, `hybrid` |
+| `gearbox` | string | – | `manual` or `automatic` |
+| `condition` | string | – | `used`, `new`, or `damaged` |
+| `minYear` | integer | – | Oldest model year |
+| `maxYear` | integer | – | Newest model year |
+| `minPrice` | integer | – | Minimum price in PLN |
+| `maxPrice` | integer | – | Maximum price in PLN |
+| `maxItems` | integer | `20` | Max listings to return (1–500) |
+
+### Example: search diesel Toyota 2015–2020
+
+```json
+{
+  "query": "Toyota",
+  "fuelType": "diesel",
+  "minYear": 2015,
+  "maxYear": 2020,
+  "maxItems": 50
+}
+```
+
+### Example: browse all cars within a budget, no keyword
+
+```json
+{
+  "query": "",
+  "maxPrice": 30000,
+  "condition": "used",
+  "maxItems": 50
+}
+```
+
+### Example: automatic-gearbox electric cars
+
+```json
+{
+  "query": "",
+  "fuelType": "electric",
+  "gearbox": "automatic",
+  "maxItems": 30
+}
+```
+
+## Use cases
+
+- **Polish used car market research** — compare prices for specific makes and models
+- **Import sourcing** — find cars available for export from Poland
+- **Price benchmarking** — track PLN prices across different fuel types and years
+- **Market monitoring** — watch listing volume and pricing trends over time
+
+## FAQ
+
+**What is OLX Poland?**
+Poland's largest online classifieds platform, with a dedicated cars section covering millions of vehicle listings from private sellers and dealers.
+
+**Do I need to log in or provide an API key?**
+No — searching and reading olx.pl car listings requires no account.
+
+**Are prices always in PLN?**
+Yes, for listings on olx.pl; `currency` on each record confirms it.
+
+**Can I combine multiple filters at once?**
+Yes — `fuelType`, `gearbox`, `condition`, the year range, and the price range can all be set together along with `query`.
+
+**Why is a field like `engineSize` or `doorCount` missing on some listings?**
+OLX sellers don't always fill in every vehicle attribute; a field is only included in a record when OLX actually has a value for it.
+
+**Does this cover listings from all of Poland?**
+Yes — results aren't restricted to any single city or region; `city` and `region` on each record show where that listing is located.
+
+**Is this affiliated with OLX?**
+No. This is an independent actor that reads publicly available olx.pl listing data; it is not operated by or affiliated with OLX Group.
