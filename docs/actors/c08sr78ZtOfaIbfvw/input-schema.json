@@ -1,0 +1,52 @@
+{
+  "properties": {
+    "maxItems": {
+      "default": 3,
+      "description": "Maximum number of activities to return.",
+      "editor": "number",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "proxyConfiguration": {
+      "default": {
+        "apifyProxyCountry": "US",
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "description": "Apify RESIDENTIAL US proxy is REQUIRED — GetYourGuide blocks datacenter IPs. Do not change these settings.",
+      "editor": "proxy",
+      "prefill": {
+        "apifyProxyCountry": "US",
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "query": {
+      "default": "rome",
+      "description": "City, destination, or activity keyword to search on GetYourGuide. Examples: 'rome', 'paris', 'tokyo', 'eiffel tower', 'colosseum'. Ignored when startUrls are supplied.",
+      "editor": "textfield",
+      "prefill": "rome",
+      "title": "Search Query (destination or activity)",
+      "type": "string"
+    },
+    "startUrls": {
+      "description": "Direct GetYourGuide URLs. Can be search pages (https://www.getyourguide.com/s/?q=...), activity pages (https://www.getyourguide.com/.../<slug>-t<id>/), or city pages (https://www.getyourguide.com/<city>-l<id>/). Overrides the search query when provided.",
+      "editor": "stringList",
+      "title": "Start URLs (optional)",
+      "type": "array"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "GetYourGuide Scraper Input",
+  "type": "object"
+}

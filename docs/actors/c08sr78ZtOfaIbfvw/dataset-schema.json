@@ -1,0 +1,154 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "properties": {
+      "cancellationPolicy": {
+        "description": "Cancellation policy summary.",
+        "nullable": true,
+        "type": "string"
+      },
+      "category": {
+        "description": "Activity category (e.g. guidedTour, ticket, dayTrip).",
+        "nullable": true,
+        "type": "string"
+      },
+      "city": {
+        "description": "City where the activity takes place.",
+        "nullable": true,
+        "type": "string"
+      },
+      "country": {
+        "description": "Country where the activity takes place.",
+        "nullable": true,
+        "type": "string"
+      },
+      "currency": {
+        "description": "Currency code (e.g. USD, EUR).",
+        "nullable": true,
+        "type": "string"
+      },
+      "duration": {
+        "description": "Activity duration (e.g. '2.5 hours', '1 day').",
+        "nullable": true,
+        "type": "string"
+      },
+      "highlights": {
+        "description": "List of highlight bullet points.",
+        "nullable": true,
+        "type": "array"
+      },
+      "id": {
+        "description": "GetYourGuide activity (tour) ID.",
+        "type": "string"
+      },
+      "images": {
+        "description": "List of image URLs.",
+        "nullable": true,
+        "type": "array"
+      },
+      "language": {
+        "description": "Page language locale (e.g. en-US).",
+        "nullable": true,
+        "type": "string"
+      },
+      "price": {
+        "description": "Starting price for the activity.",
+        "nullable": true,
+        "type": "number"
+      },
+      "rating": {
+        "description": "Average star rating (0-5).",
+        "nullable": true,
+        "type": "number"
+      },
+      "reviewCount": {
+        "description": "Number of user reviews.",
+        "nullable": true,
+        "type": "integer"
+      },
+      "scrapedAt": {
+        "description": "ISO-8601 UTC timestamp of when the record was scraped.",
+        "type": "string"
+      },
+      "shortDescription": {
+        "description": "Short marketing description of the activity.",
+        "nullable": true,
+        "type": "string"
+      },
+      "title": {
+        "description": "Activity title.",
+        "nullable": true,
+        "type": "string"
+      },
+      "type": {
+        "description": "Record type (always 'gyg_activity').",
+        "type": "string"
+      },
+      "url": {
+        "description": "Canonical URL of the activity on getyourguide.com.",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "title": "GetYourGuide Activities",
+  "views": {
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "city": {
+            "format": "text",
+            "label": "City"
+          },
+          "country": {
+            "format": "text",
+            "label": "Country"
+          },
+          "currency": {
+            "format": "text",
+            "label": "Currency"
+          },
+          "duration": {
+            "format": "text",
+            "label": "Duration"
+          },
+          "price": {
+            "format": "number",
+            "label": "Price"
+          },
+          "rating": {
+            "format": "number",
+            "label": "Rating"
+          },
+          "reviewCount": {
+            "format": "number",
+            "label": "Reviews"
+          },
+          "title": {
+            "format": "text",
+            "label": "Title"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          }
+        }
+      },
+      "title": "Activities Overview",
+      "transformation": {
+        "fields": [
+          "title",
+          "city",
+          "country",
+          "price",
+          "currency",
+          "rating",
+          "reviewCount",
+          "duration",
+          "url"
+        ]
+      }
+    }
+  }
+}
