@@ -1,132 +1,152 @@
 # Multi-Site Recipe & Nutrition Data Extractor
 
-Most recipe sites and food blogs publish a hidden, standardized recipe record on every page (the same schema search engines use to show star ratings in results). This actor reads that record directly, so it works across Epicurious, Tasty, BBC Good Food, NYT Cooking, Bon Appétit, Serious Eats, Food Network, King Arthur Baking, Smitten Kitchen, Budget Bytes, and thousands of other food blogs — without a different parser for each site.
+Recipe sites and food blogs publish a machine-readable `schema.org/Recipe` record on every recipe page — the same record search engines use for star ratings and cooking times. This actor reads that record (and the common WordPress recipe formats when a site has no JSON-LD), so one input works across major recipe sites and thousands of food blogs.
 
-## What this actor does
+## What it does
 
-- **Three ways to supply recipes** — a direct list of recipe URLs, Epicurious category/ingredient tag pages, or a site's sitemap.xml
-- **Full recipe detail** — ingredients, step-by-step instructions, nutrition facts, ratings, prep/cook/total time, yield, category, cuisine, and images
-- **Quality filters** — drop recipes below a minimum rating or rating count, above a total-time cap, or missing a keyword
-- **Transparent failures** — a URL that can't be read produces a labeled `url_failed` record explaining why, instead of silently vanishing
-- **Clean records** — fields a given recipe page doesn't publish are left out rather than returned as empty or null, at every nesting level
-
-AllRecipes is not supported — its pages reliably block this kind of access regardless of URL, so AllRecipes URLs are rejected immediately with a `url_failed` record instead of wasting a request.
+- **Search by keyword** across BBC Good Food, Epicurious, Tasty, Food Network, NYT Cooking, Bon Appétit, Delish, Budget Bytes, Pinch of Yum, Minimalist Baker, Smitten Kitchen, Love and Lemons, and Skinnytaste.
+- **Scrape direct recipe URLs** from any supported site or food blog.
+- **Crawl category, tag, or search-result pages** and follow their pagination.
+- **Walk sitemaps**, including one level of nested sitemap indexes.
+- **Parse ingredients, instructions, and nutrition** from JSON-LD, WP Recipe Maker, Tasty Recipes, Jetpack Recipe, or schema.org microdata.
+- **Filter** by rating, rating count, total time, and a required keyword.
 
 ## Output per recipe (`recordType: "recipe"`)
 
 - `url`, `id` — canonical recipe URL (`id` mirrors `url`)
-- `platform` — site slug, e.g. `epicurious`, `tasty`, `bbcgoodfood`, `nytcooking`
+- `platform` — site slug, e.g. `epicurious`, `tasty`, `bbcgoodfood`, `smittenkitchen`
 - `name`, `description` — title and short blurb, HTML stripped
 - `image` — hero image URL
 - `author` — `{name, url}`
 - `ratingValue`, `ratingCount`, `reviewCount` — average rating (0–5), number of ratings, number of written reviews
-- `prepTimeMinutes`, `cookTimeMinutes`, `totalTimeMinutes` — `totalTimeMinutes` uses the page's own total time if published, otherwise prep + cook
+- `prepTimeMinutes`, `cookTimeMinutes`, `totalTimeMinutes` — ISO-8601 durations and human durations such as `1 hr 15 min` are both supported; `totalTimeMinutes` falls back to prep + cook
 - `recipeYield` — servings or pieces, e.g. `"8 slices"`
-- `recipeCategory`, `recipeCuisine` — arrays, e.g. `["Dessert"]`, `["American"]`
-- `keywords` — free-form keyword tags
-- `recipeIngredient` — array of ingredient lines
-- `recipeInstructions` — array of step strings, with any HTML formatting stripped
-- `nutrition` — `{calories, proteinContent, carbohydrateContent, fatContent, sodiumContent, ...}`
-- `video` — `{url, name, thumbnailUrl}`, when the recipe has one
-- `datePublished`, `dateModified` — ISO dates
+- `recipeCategory`, `recipeCuisine` — arrays
+- `keywords` — keyword tags
+- `recipeIngredient` — ingredient lines
+- `recipeInstructions` — step strings, HTML stripped, including `HowToSection` groups
+- `nutrition` — calories, protein, carbs, fat, saturated fat, cholesterol, sodium, fiber, sugar, serving size when published
+- `video` — `{url, name, thumbnailUrl}` when the recipe has one
+- `datePublished`, `dateModified` — dates as published by the site
 - `scrapedAt` — ISO 8601 UTC timestamp
 
-## Output per failed URL (`recordType: "url_failed"`)
+Empty fields are omitted at every depth — never `null`, `""`, `[]`, or `{}`.
 
+## Output per failed direct URL (`recordType: "url_failed"`)
+
+Direct URLs that cannot be read produce a typed row instead of disappearing:
+
+- `reason` — `unsupported_site` (AllRecipes or another explicitly blocked host), `not_found`, `anti_bot_block`, `no_recipe_jsonld`, `filtered_out`, or `fetch_error`
 - `url`, `platform`, `scrapedAt`
-- `reason` — one of `unsupported_site` (AllRecipes or another blocked host), `not_found` (404), `anti_bot_block` (the site refused the request), `no_recipe_jsonld` (page loaded but has no recipe schema — often a category/index page, not a recipe page), or `filtered_out` (a real recipe that your rating/time/keyword filters excluded)
 
-If every URL in a run fails, the dataset also gets one `recordType: "scrape_summary"` record with the dominant failure reason and a human-readable message, so you don't have to scan every `url_failed` row individually.
+If every direct URL fails, or a search/listing yields candidates but none are recipes, the dataset also gets one `recordType: "scrape_summary"` row with the dominant reason and a plain-language message. A search that finds no candidate URLs at all reports it in the run status message.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string (select) | `byUrls` | `byUrls`, `byTag` (Epicurious tag pages), or `bySitemap` |
-| `recipeUrls` | array | `["https://www.epicurious.com/recipes/food/views/banana-bread"]` | Direct recipe URLs (mode=`byUrls`) |
-| `tagUrls` | array | – | Epicurious tag/category URLs or bare slugs, e.g. `dessert`, `/ingredient/banana` (mode=`byTag`) |
-| `sitemapUrls` | array | – | Sitemap.xml URLs from any recipe site; the actor walks one level into sitemap indexes and filters recipe-looking URLs (mode=`bySitemap`) |
-| `minRating` | integer | – | Drop recipes with `ratingValue` below this, on a 0–500 scale (400 = 4.0/5) |
-| `minRatingCount` | integer | – | Drop recipes with fewer ratings than this |
-| `maxTotalTimeMinutes` | integer | – | Drop recipes whose prep + cook time exceeds this |
-| `keywordIncludes` | string | – | Drop recipes whose name + description don't contain this keyword |
-| `proxy` | object | `{"useApifyProxy": true, "apifyProxyGroups": ["RESIDENTIAL"]}` | Optional. Most supported sites work without it; it's provided for sites that occasionally rate-limit |
-| `maxItems` | integer | `50` | Hard cap on emitted records (1–1000) |
+| `mode` | select | `search` | `search`, `byUrls`, `byListing`, `byTag` (legacy alias for `byListing`), or `bySitemap` |
+| `searchQuery` | string | `banana bread` | Keyword for `mode=search` |
+| `site` | select | `all` | One supported site, or `all` |
+| `recipeUrls` | array | `["https://www.epicurious.com/recipes/food/views/banana-bread"]` | Direct recipe URLs for `mode=byUrls` |
+| `listingUrls` | array | – | Category/tag/search pages for `mode=byListing` |
+| `sitemapUrls` | array | – | Sitemap URLs for `mode=bySitemap` |
+| `maxItems` | integer | `50` | Hard cap on recipe records (1–1000) |
+| `maxPages` | integer | `2` | Pages per site or listing URL (1–10) |
+| `minRating` | integer | – | Minimum rating on a 0–500 scale (400 = 4.0/5) |
+| `minRatingCount` | integer | – | Minimum number of ratings |
+| `maxTotalTimeMinutes` | integer | – | Maximum prep + cook time |
+| `keywordIncludes` | string | – | Required keyword in name or description |
+| `proxy` | object | `{"useApifyProxy": false}` | Optional Apify Proxy configuration |
 
-### Example: a single recipe by URL
+### Examples
+
+Search Epicurious for banana bread:
 
 ```json
 {
-  "mode": "byUrls",
-  "recipeUrls": ["https://www.epicurious.com/recipes/food/views/banana-bread"]
+  "mode": "search",
+  "searchQuery": "banana bread",
+  "site": "epicurious",
+  "maxItems": 20
 }
 ```
 
-### Example: bulk URLs across multiple sites with quality filters
+Search every supported site:
+
+```json
+{
+  "mode": "search",
+  "searchQuery": "vegan dinner",
+  "site": "all",
+  "maxItems": 50,
+  "maxPages": 2
+}
+```
+
+Scrape direct URLs:
 
 ```json
 {
   "mode": "byUrls",
   "recipeUrls": [
+    "https://www.epicurious.com/recipes/food/views/banana-bread",
     "https://tasty.co/recipe/banana-bread",
-    "https://www.bbcgoodfood.com/recipes/banana-bread",
-    "https://cooking.nytimes.com/recipes/12166-banana-bread"
-  ],
-  "minRating": 400,
-  "maxTotalTimeMinutes": 90
+    "https://www.bbcgoodfood.com/recipes/vegan-banana-bread"
+  ]
 }
 ```
 
-### Example: Epicurious tag page
+Crawl a category page and its next pages:
 
 ```json
 {
-  "mode": "byTag",
-  "tagUrls": ["main-course", "/ingredient/banana"],
-  "maxItems": 30
+  "mode": "byListing",
+  "listingUrls": ["https://www.epicurious.com/recipes/category/dessert"],
+  "maxPages": 3,
+  "maxItems": 40
 }
 ```
 
-### Example: by sitemap
+Walk a sitemap:
 
 ```json
 {
   "mode": "bySitemap",
-  "sitemapUrls": ["https://www.bbcgoodfood.com/sitemaps/2026-Q2-recipe.xml"],
-  "maxItems": 50
+  "sitemapUrls": ["https://www.bbcgoodfood.com/sitemap.xml"],
+  "maxItems": 100
 }
 ```
 
-## Use cases
+## Supported search sites
 
-- **Recipe content audits** — pull standardized recipe data across a set of competitor sites for content-gap analysis
-- **Meal-planning apps** — build a recipe library from a curated list of URLs
-- **Nutrition tracking** — standardize ingredient and nutrition data across sources that format it differently
-- **Dataset building** — construct labeled recipe datasets for downstream analysis or model training
-- **Recipe aggregators** — power a bookmarking or indexing app from user-submitted recipe URLs
+BBC Good Food, Epicurious, Tasty, Food Network, NYT Cooking, Bon Appétit, Delish, Budget Bytes, Pinch of Yum, Minimalist Baker, Smitten Kitchen, Love and Lemons, and Skinnytaste. Direct URL and sitemap modes work on any site that publishes recipe JSON-LD or one of the supported WordPress recipe formats.
 
-## FAQ
+## Compatibility with older inputs
 
-**Why isn't AllRecipes supported?**
-AllRecipes pages consistently block this kind of access, so rather than fail silently or return partial data, AllRecipes URLs are rejected upfront with a `url_failed` record (`reason: "unsupported_site"`).
+Old saved tasks keep working because legacy keys are mapped in code:
 
-**Which sites are confirmed to work?**
-Epicurious, Tasty, BBC Good Food, NYT Cooking's public (non-paywalled) recipes, Bon Appétit, Serious Eats, Food Network, King Arthur Baking, and most WordPress-based food blogs (Smitten Kitchen, Budget Bytes, Pinch of Yum, Minimalist Baker, and similar).
+- `mode=byTag` and `tagUrls` → `byListing` and `listingUrls`
+- `query`, `searchTerm`, `keyword`, `q` → `searchQuery`
+- `urls`, `recipeUrl`, `url` → `recipeUrls`
+- `sitemapUrl`, `sitemaps` → `sitemapUrls`
+- `maxResults` → `maxItems`
+- `maxPagesPerSite`, `pages` → `maxPages`
+- `siteScope`, `searchSites`, `sites` → `site`
+- `minRatingScore` (0–5) → `minRating` (0–500)
+- `mustContain`, `keywordFilter` → `keywordIncludes`
 
-**What happens if a page has no recipe data?**
-You get a `url_failed` record with `reason: "no_recipe_jsonld"`. This is common for category or index pages — point the actor at the actual recipe page instead.
+Only fields the actor actually reads are visible in the input schema. Unknown legacy keys are accepted by Apify and mapped inside the actor.
 
-**Do I get instructions as one block of text or individual steps?**
-Individual steps — the actor parses the page's structured step data into a flat array of step strings, with HTML formatting stripped.
+## Limitations
 
-**Why did a recipe I expected not show up in my results?**
-It may have been dropped by your own `minRating`, `minRatingCount`, `maxTotalTimeMinutes`, or `keywordIncludes` filter — that case produces a `url_failed` record with `reason: "filtered_out"` rather than disappearing silently.
+- **AllRecipes** is protected by Akamai Bot Manager and is rejected as `unsupported_site`.
+- **Serious Eats, Simply Recipes, Food & Wine, EatingWell, and Martha Stewart** currently return HTTP 403 to cookieless datacenter requests. They work in `byUrls` only if your proxy configuration can reach them; otherwise they appear as `anti_bot_block`.
+- Search pagination depends on the site. Tasty, NYT Cooking and Delish expose the first page only; BBC Good Food, Epicurious, Food Network, Bon Appétit and the WordPress sites support deeper pagination.
+- Search results are returned in the site's own relevance order. A result can occasionally be a round-up or article that has no recipe record; those candidates are skipped.
+- **Budget Bytes and Smitten Kitchen** return HTTP 403 from Apify cloud IPs for both search and direct recipe pages; both work from a local/residential connection. On cloud they surface as `anti_bot_block`; the other WordPress sites in the search list are unaffected.
+- Recipe data is only as complete as the source page. Missing fields are omitted instead of guessed.
 
-**How current is the data?**
-Live — every run reads the page at request time. Schedule repeated runs if you want to track rating or pricing drift over time.
+## Notes
 
-**Does this capture individual user comments or reviews?**
-No — only the aggregate `ratingCount` and `reviewCount`, not the text of individual reviews.
-
-**Is this affiliated with any of the recipe sites it supports?**
-No. This is an independent actor that reads publicly published recipe data; it is not operated by or affiliated with any of the sites listed above.
+No cookies, logins, or API keys are required. The actor fetches pages with a Chrome TLS fingerprint. Enable the optional `proxy` field only if you want to supply Apify Proxy groups; no proxy is needed for the supported sites' default paths.

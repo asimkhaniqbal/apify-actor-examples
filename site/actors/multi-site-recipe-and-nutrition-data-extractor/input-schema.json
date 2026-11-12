@@ -1,55 +1,75 @@
 {
-  "description": "Scrape any schema.org-compliant recipe site by URL list, by Epicurious tag pages, or by sitemap. The actor extracts Recipe JSON-LD from each recipe page and standardizes the output. Works on Epicurious, Tasty, BBC Good Food, NYT Cooking, Bon Appétit, Serious Eats, Food Network, King Arthur Baking, Smitten Kitchen, Budget Bytes, and thousands of WordPress recipe blogs. AllRecipes is NOT supported (Akamai-blocked).",
+  "description": "Scrape recipes from major recipe sites and food blogs. Search by keyword across supported sites, paste direct recipe URLs, point at category/search/tag pages, or walk a sitemap. The actor reads schema.org/Recipe JSON-LD first, with fallbacks for WP Recipe Maker, Tasty Recipes, Jetpack, and microdata. AllRecipes and a few other hard-blocked sites are not supported.",
   "properties": {
     "keywordIncludes": {
-      "description": "Drop recipes whose name + description don't contain this keyword.",
+      "description": "Drop recipes whose name and description do not contain this keyword.",
       "editor": "textfield",
       "title": "Must contain keyword (optional)",
       "type": "string"
     },
+    "listingUrls": {
+      "default": [],
+      "description": "Category, tag, or search-result pages. The actor extracts recipe links and follows page 2, 3, … where the site exposes a page parameter.",
+      "editor": "stringList",
+      "title": "Listing page URLs (mode=byListing)",
+      "type": "array"
+    },
     "maxItems": {
       "default": 50,
-      "description": "Hard cap on emitted records.",
+      "description": "Hard cap on emitted recipe records.",
       "maximum": 1000,
       "minimum": 1,
-      "prefill": 50,
-      "title": "Max items",
+      "prefill": 1,
+      "title": "Max recipes",
+      "type": "integer"
+    },
+    "maxPages": {
+      "default": 2,
+      "description": "For search and listing modes, how many result pages to read per site or listing URL.",
+      "maximum": 10,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Max pages per site/listing",
       "type": "integer"
     },
     "maxTotalTimeMinutes": {
-      "description": "Drop recipes whose `prep + cook` time exceeds this many minutes.",
+      "description": "Drop recipes whose prep + cook time exceeds this many minutes.",
       "maximum": 100000,
       "minimum": 1,
-      "title": "Max total time (minutes)",
+      "title": "Maximum total time in minutes (optional)",
       "type": "integer"
     },
     "minRating": {
-      "description": "Drop recipes with `ratingValue` below this. Scale 0-500 (e.g. 400 = 4.0/5).",
+      "description": "Drop recipes with a rating below this value on a 0–500 scale (400 = 4.0/5).",
       "maximum": 500,
       "minimum": 0,
-      "title": "Min rating (optional)",
+      "title": "Minimum rating (optional)",
       "type": "integer"
     },
     "minRatingCount": {
-      "description": "Drop recipes with fewer than this many ratings.",
+      "description": "Drop recipes with fewer ratings than this.",
       "maximum": 10000000,
       "minimum": 0,
-      "title": "Min rating count (optional)",
+      "title": "Minimum rating count (optional)",
       "type": "integer"
     },
     "mode": {
-      "default": "byUrls",
-      "description": "How to source recipe URLs.",
+      "default": "search",
+      "description": "How to find recipes. Search by keyword is the simplest; URL and sitemap modes are best when you already know the pages.",
       "editor": "select",
       "enum": [
+        "search",
         "byUrls",
+        "byListing",
         "byTag",
         "bySitemap"
       ],
       "enumTitles": [
-        "By URLs — supply a list of direct recipe URLs",
-        "By Tag — supply Epicurious category/ingredient tag URLs (the actor crawls them)",
-        "By Sitemap — supply sitemap.xml URLs from any recipe site (the actor extracts recipe URLs)"
+        "Search by keyword — find recipes across supported sites",
+        "By URLs — scrape a list of direct recipe URLs",
+        "By listing pages — scrape category, tag, or search-result pages",
+        "By tag pages (legacy alias for byListing)",
+        "By sitemap — extract recipe URLs from sitemap.xml files"
       ],
       "prefill": "byUrls",
       "title": "Mode",
@@ -57,12 +77,9 @@
     },
     "proxy": {
       "default": {
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
-        ],
-        "useApifyProxy": true
+        "useApifyProxy": false
       },
-      "description": "Apify Proxy is optional. For Epicurious / Tasty / BBC Good Food / NYT Cooking / most food blogs, no proxy is needed; datacenter or residential both work. Provided here for sites that occasionally rate-limit.",
+      "description": "No proxy is needed for the supported sites. Enable Apify Proxy only if you want to route requests through your own Apify proxy groups.",
       "editor": "proxy",
       "title": "Apify Proxy (optional)",
       "type": "object"
@@ -71,7 +88,7 @@
       "default": [
         "https://www.epicurious.com/recipes/food/views/banana-bread"
       ],
-      "description": "Recipe URLs from any schema.org-compliant site (Epicurious, BBC Good Food, Tasty, NYT Cooking, Bon Appétit, Serious Eats, Food Network, King Arthur Baking, food blogs, etc.). AllRecipes URLs are rejected as unsupported.",
+      "description": "Direct recipe-page URLs from any supported site or food blog. AllRecipes URLs are rejected as unsupported.",
       "editor": "stringList",
       "prefill": [
         "https://www.epicurious.com/recipes/food/views/banana-bread"
@@ -79,18 +96,59 @@
       "title": "Recipe URLs (mode=byUrls)",
       "type": "array"
     },
+    "searchQuery": {
+      "default": "banana bread",
+      "description": "What to search for, e.g. `banana bread`, `vegan dinner`, or `chicken curry`.",
+      "editor": "textfield",
+      "prefill": "banana bread",
+      "title": "Search query (mode=search)",
+      "type": "string"
+    },
+    "site": {
+      "default": "all",
+      "description": "Pick one site, or `all` to search every supported site. Search coverage varies by site; unsupported sites still work in byUrls/bySitemap modes.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "bbcgoodfood",
+        "epicurious",
+        "tasty",
+        "foodnetwork",
+        "nytcooking",
+        "bonappetit",
+        "delish",
+        "budgetbytes",
+        "pinchofyum",
+        "minimalistbaker",
+        "smittenkitchen",
+        "loveandlemons",
+        "skinnytaste"
+      ],
+      "enumTitles": [
+        "All supported sites",
+        "BBC Good Food",
+        "Epicurious",
+        "Tasty",
+        "Food Network",
+        "NYT Cooking",
+        "Bon Appétit",
+        "Delish",
+        "Budget Bytes",
+        "Pinch of Yum",
+        "Minimalist Baker",
+        "Smitten Kitchen",
+        "Love and Lemons",
+        "Skinnytaste"
+      ],
+      "prefill": "epicurious",
+      "title": "Site to search (mode=search)",
+      "type": "string"
+    },
     "sitemapUrls": {
       "default": [],
-      "description": "Sitemap.xml URLs from any recipe site (e.g. `https://www.bbcgoodfood.com/sitemap.xml`, `https://www.epicurious.com/sitemap.xml`, or a deeper recipe-only sitemap). The actor walks the sitemap (one level deep into sitemap indexes), filters recipe-looking URLs, and runs them through the JSON-LD pipeline.",
+      "description": "Sitemap.xml URLs. The actor walks sitemap indexes and keeps recipe-looking URLs.",
       "editor": "stringList",
       "title": "Sitemap URLs (mode=bySitemap)",
-      "type": "array"
-    },
-    "tagUrls": {
-      "default": [],
-      "description": "Epicurious tag/category URLs OR bare slugs. Examples: `https://www.epicurious.com/recipes/category/main-course`, `/ingredient/banana`, `dessert`. The actor scrapes the tag page → finds recipe URLs → fetches each.",
-      "editor": "stringList",
-      "title": "Tag URLs (mode=byTag)",
       "type": "array"
     }
   },
