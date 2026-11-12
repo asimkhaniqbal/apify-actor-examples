@@ -2,18 +2,48 @@
   "actorSpecification": 1,
   "fields": {
     "properties": {
+      "activityType": {
+        "description": "GetYourGuide activity type.",
+        "nullable": true,
+        "type": "string"
+      },
+      "availability": {
+        "description": "Availability message shown on the listing.",
+        "nullable": true,
+        "type": "string"
+      },
+      "badges": {
+        "description": "Labels shown on the activity, e.g. Bestseller, Skip the line.",
+        "nullable": true,
+        "type": "array"
+      },
+      "bookingOptions": {
+        "description": "Ticket or option titles when published.",
+        "nullable": true,
+        "type": "array"
+      },
+      "breadcrumbs": {
+        "description": "Breadcrumb labels from the activity page.",
+        "nullable": true,
+        "type": "array"
+      },
       "cancellationPolicy": {
         "description": "Cancellation policy summary.",
         "nullable": true,
         "type": "string"
       },
       "category": {
-        "description": "Activity category (e.g. guidedTour, ticket, dayTrip).",
+        "description": "GetYourGuide activity category (e.g. guidedTour, entryTicket).",
         "nullable": true,
         "type": "string"
       },
       "city": {
         "description": "City where the activity takes place.",
+        "nullable": true,
+        "type": "string"
+      },
+      "citySlug": {
+        "description": "City slug from the activity URL (e.g. rome, new-york).",
         "nullable": true,
         "type": "string"
       },
@@ -23,17 +53,42 @@
         "type": "string"
       },
       "currency": {
-        "description": "Currency code (e.g. USD, EUR).",
+        "description": "ISO currency code (e.g. USD, EUR).",
         "nullable": true,
         "type": "string"
+      },
+      "description": {
+        "description": "Full activity description from the detail page.",
+        "nullable": true,
+        "type": "string"
+      },
+      "discountPercent": {
+        "description": "Active discount percentage when shown.",
+        "nullable": true,
+        "type": "integer"
       },
       "duration": {
         "description": "Activity duration (e.g. '2.5 hours', '1 day').",
         "nullable": true,
         "type": "string"
       },
+      "freeCancellation": {
+        "description": "True when free cancellation is offered.",
+        "nullable": true,
+        "type": "boolean"
+      },
+      "goodToKnow": {
+        "description": "Know-before-you-go notes.",
+        "nullable": true,
+        "type": "array"
+      },
+      "guideLanguages": {
+        "description": "Languages the activity is offered in.",
+        "nullable": true,
+        "type": "array"
+      },
       "highlights": {
-        "description": "List of highlight bullet points.",
+        "description": "Highlight bullet points.",
         "nullable": true,
         "type": "array"
       },
@@ -42,38 +97,173 @@
         "type": "string"
       },
       "images": {
-        "description": "List of image URLs.",
+        "description": "Activity image URLs.",
+        "nullable": true,
+        "type": "array"
+      },
+      "instantConfirmation": {
+        "description": "True when confirmation is instant.",
+        "nullable": true,
+        "type": "boolean"
+      },
+      "itinerary": {
+        "description": "Stops from the structured itinerary, when published.",
         "nullable": true,
         "type": "array"
       },
       "language": {
-        "description": "Page language locale (e.g. en-US).",
+        "description": "Content language locale used for the record.",
         "nullable": true,
         "type": "string"
+      },
+      "latitude": {
+        "description": "Meeting-point latitude when published.",
+        "nullable": true,
+        "type": "number"
+      },
+      "liveGuide": {
+        "description": "True when a live guide is included.",
+        "nullable": true,
+        "type": "boolean"
+      },
+      "longitude": {
+        "description": "Meeting-point longitude when published.",
+        "nullable": true,
+        "type": "number"
+      },
+      "maxGroupSize": {
+        "description": "Maximum group size when published.",
+        "nullable": true,
+        "type": "integer"
+      },
+      "meetingPoint": {
+        "description": "Meeting-point instructions when published.",
+        "nullable": true,
+        "type": "string"
+      },
+      "minAge": {
+        "description": "Minimum age when published.",
+        "nullable": true,
+        "type": "integer"
+      },
+      "mobileTicket": {
+        "description": "True when a mobile ticket is accepted.",
+        "nullable": true,
+        "type": "boolean"
+      },
+      "nextAvailable": {
+        "description": "Next available date-time when the listing exposes it.",
+        "nullable": true,
+        "type": "string"
+      },
+      "notAllowed": {
+        "description": "Items or behaviors not allowed on the activity.",
+        "nullable": true,
+        "type": "array"
+      },
+      "notSuitableFor": {
+        "description": "Traveler groups the activity is not suitable for.",
+        "nullable": true,
+        "type": "array"
+      },
+      "originalPrice": {
+        "description": "Undiscounted price when a discount is active.",
+        "nullable": true,
+        "type": "number"
+      },
+      "pickupIncluded": {
+        "description": "True when pickup is included.",
+        "nullable": true,
+        "type": "boolean"
       },
       "price": {
         "description": "Starting price for the activity.",
         "nullable": true,
         "type": "number"
       },
+      "pricingType": {
+        "description": "Price unit label, e.g. per person or per group.",
+        "nullable": true,
+        "type": "string"
+      },
+      "privateTour": {
+        "description": "True when a private-tour option exists.",
+        "nullable": true,
+        "type": "boolean"
+      },
+      "rank": {
+        "description": "Position in the search or listing result order.",
+        "nullable": true,
+        "type": "integer"
+      },
       "rating": {
         "description": "Average star rating (0-5).",
         "nullable": true,
         "type": "number"
+      },
+      "recentBookings": {
+        "description": "Recent-bookings social-proof text (e.g. 'Booked 99 times yesterday').",
+        "nullable": true,
+        "type": "string"
+      },
+      "region": {
+        "description": "Region/area from the activity breadcrumb.",
+        "nullable": true,
+        "type": "string"
       },
       "reviewCount": {
         "description": "Number of user reviews.",
         "nullable": true,
         "type": "integer"
       },
+      "reviewSummary": {
+        "description": "AI-generated review summary shown on the activity page.",
+        "nullable": true,
+        "type": "string"
+      },
+      "reviews": {
+        "description": "Recent reviews with author, date, rating, and text.",
+        "nullable": true,
+        "type": "array"
+      },
       "scrapedAt": {
         "description": "ISO-8601 UTC timestamp of when the record was scraped.",
         "type": "string"
       },
-      "shortDescription": {
-        "description": "Short marketing description of the activity.",
+      "searchQuery": {
+        "description": "Search query that produced this record.",
         "nullable": true,
         "type": "string"
+      },
+      "shortDescription": {
+        "description": "Short marketing description shown on the activity card.",
+        "nullable": true,
+        "type": "string"
+      },
+      "skipTheLine": {
+        "description": "True when skip-the-line entry is offered.",
+        "nullable": true,
+        "type": "boolean"
+      },
+      "smallGroup": {
+        "description": "True when a small-group option exists.",
+        "nullable": true,
+        "type": "boolean"
+      },
+      "sourceUrl": {
+        "description": "Listing/search URL that produced this record.",
+        "nullable": true,
+        "type": "string"
+      },
+      "supplierName": {
+        "description": "Activity provider name.",
+        "nullable": true,
+        "type": "string"
+      },
+      "supplierRating": {
+        "description": "Supplier rating when published.",
+        "nullable": true,
+        "type": "number"
       },
       "title": {
         "description": "Activity title.",
@@ -81,12 +271,32 @@
         "type": "string"
       },
       "type": {
-        "description": "Record type (always 'gyg_activity').",
+        "description": "Record type: gyg_activity for an activity, or gyg_no_results / gyg_blocked for an explanatory sentinel.",
         "type": "string"
       },
       "url": {
-        "description": "Canonical URL of the activity on getyourguide.com.",
+        "description": "Canonical activity URL on getyourguide.com.",
         "type": "string"
+      },
+      "whatExcluded": {
+        "description": "Exclusions listed under Includes.",
+        "nullable": true,
+        "type": "array"
+      },
+      "whatIncluded": {
+        "description": "Inclusions listed under Includes.",
+        "nullable": true,
+        "type": "array"
+      },
+      "whatToBring": {
+        "description": "Items travelers should bring.",
+        "nullable": true,
+        "type": "array"
+      },
+      "wheelchairAccessible": {
+        "description": "True when the activity is wheelchair accessible.",
+        "nullable": true,
+        "type": "boolean"
       }
     },
     "type": "object"

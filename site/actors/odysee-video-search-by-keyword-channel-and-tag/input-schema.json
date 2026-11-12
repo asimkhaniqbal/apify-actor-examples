@@ -1,0 +1,81 @@
+{
+  "description": "Search or browse videos on Odysee.com.",
+  "properties": {
+    "channel": {
+      "default": "@veritasium",
+      "description": "Odysee channel name, with or without @. Example: @veritasium or veritasium.",
+      "editor": "textfield",
+      "prefill": "@veritasium",
+      "title": "Channel name (mode=byChannel)",
+      "type": "string"
+    },
+    "keyword": {
+      "default": "open source",
+      "description": "Search term for mode=search.",
+      "editor": "textfield",
+      "prefill": "open source",
+      "title": "Keyword (mode=search)",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Maximum number of videos to return.",
+      "editor": "number",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byChannel",
+        "byTag"
+      ],
+      "enumTitles": [
+        "Search videos by keyword",
+        "Videos by channel name",
+        "Videos by tag"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "orderBy": {
+      "default": "release_time",
+      "description": "How to sort results.",
+      "editor": "select",
+      "enum": [
+        "release_time",
+        "effective_amount",
+        "trending_group"
+      ],
+      "enumTitles": [
+        "Newest first",
+        "Most supported (top)",
+        "Trending"
+      ],
+      "prefill": "release_time",
+      "title": "Sort order",
+      "type": "string"
+    },
+    "tag": {
+      "default": "technology",
+      "description": "Tag to browse, e.g. 'science', 'technology', 'gaming'.",
+      "editor": "textfield",
+      "prefill": "technology",
+      "title": "Tag (mode=byTag)",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Odysee Scraper Input",
+  "type": "object"
+}

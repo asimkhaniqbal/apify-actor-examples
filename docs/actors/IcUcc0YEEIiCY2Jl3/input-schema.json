@@ -1,14 +1,211 @@
 {
+  "description": "Find US property leads or owner leads from Propwire: one record per property or person, with owner, equity, MLS, tax and distress data. No cookies or proxy setup needed.",
   "properties": {
+    "assessedValueMax": {
+      "description": "Optional (mode=properties).",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Maximum assessed value (USD)",
+      "type": "integer"
+    },
+    "assessedValueMin": {
+      "description": "Optional (mode=properties).",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Minimum assessed value (USD)",
+      "type": "integer"
+    },
+    "auctionDateFrom": {
+      "description": "Optional (mode=properties). YYYY-MM-DD.",
+      "editor": "textfield",
+      "title": "Auction date from",
+      "type": "string"
+    },
+    "auctionDateTo": {
+      "description": "Optional (mode=properties). YYYY-MM-DD.",
+      "editor": "textfield",
+      "title": "Auction date to",
+      "type": "string"
+    },
+    "avgSalePriceMax": {
+      "description": "Optional (mode=owners).",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Maximum average sale price (USD)",
+      "type": "integer"
+    },
+    "avgSalePriceMin": {
+      "description": "Optional (mode=owners).",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Minimum average sale price (USD)",
+      "type": "integer"
+    },
+    "bathsMax": {
+      "description": "Optional (mode=properties).",
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Maximum bathrooms",
+      "type": "number"
+    },
+    "bathsMin": {
+      "description": "Optional (mode=properties).",
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Minimum bathrooms",
+      "type": "number"
+    },
+    "bedsMax": {
+      "description": "Optional (mode=properties).",
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Maximum bedrooms",
+      "type": "integer"
+    },
+    "bedsMin": {
+      "description": "Optional (mode=properties).",
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Minimum bedrooms",
+      "type": "integer"
+    },
+    "cashBuyer": {
+      "default": "any",
+      "description": "Optional (mode=properties).",
+      "editor": "select",
+      "enum": [
+        "any",
+        "true",
+        "false"
+      ],
+      "enumTitles": [
+        "Any",
+        "Yes",
+        "No"
+      ],
+      "prefill": "any",
+      "title": "Cash buyer",
+      "type": "string"
+    },
+    "daysOnMarketMax": {
+      "description": "Optional (mode=properties).",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Maximum days on market",
+      "type": "integer"
+    },
+    "daysOnMarketMin": {
+      "description": "Optional (mode=properties).",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Minimum days on market",
+      "type": "integer"
+    },
+    "equityMax": {
+      "description": "Optional (mode=properties).",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Maximum estimated equity (USD)",
+      "type": "integer"
+    },
+    "equityMin": {
+      "description": "Optional (mode=properties).",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Minimum estimated equity (USD)",
+      "type": "integer"
+    },
+    "equityPercentMax": {
+      "description": "Optional (mode=properties). 0-100.",
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Maximum equity percent",
+      "type": "integer"
+    },
+    "equityPercentMin": {
+      "description": "Optional (mode=properties). 0-100.",
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Minimum equity percent",
+      "type": "integer"
+    },
+    "includeDetails": {
+      "default": false,
+      "description": "Optional (mode=properties). Adds one detail request per property: parcel/APN, mortgages, transfer history, foreclosure, tax bill and photos. Slower and uses more requests; leave off for large lists.",
+      "prefill": false,
+      "sectionCaption": "Output",
+      "title": "Fetch full property details",
+      "type": "boolean"
+    },
+    "includeProfile": {
+      "default": false,
+      "description": "Optional (mode=owners). Adds one profile request per owner: email, license, recent listings or cash-buyer portfolio.",
+      "prefill": false,
+      "title": "Fetch full owner profiles",
+      "type": "boolean"
+    },
+    "lastSoldDateFrom": {
+      "description": "Optional (mode=properties). YYYY-MM-DD.",
+      "editor": "textfield",
+      "title": "Last sale date from",
+      "type": "string"
+    },
+    "lastSoldDateTo": {
+      "description": "Optional (mode=properties). YYYY-MM-DD.",
+      "editor": "textfield",
+      "title": "Last sale date to",
+      "type": "string"
+    },
+    "lastSoldPriceMax": {
+      "description": "Optional (mode=properties).",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Maximum last sale price (USD)",
+      "type": "integer"
+    },
+    "lastSoldPriceMin": {
+      "description": "Optional (mode=properties).",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Minimum last sale price (USD)",
+      "type": "integer"
+    },
+    "lastTransactionFrom": {
+      "description": "Optional (mode=owners). Date in YYYY-MM-DD format.",
+      "editor": "textfield",
+      "title": "Last transaction from",
+      "type": "string"
+    },
+    "lastTransactionTo": {
+      "description": "Optional (mode=owners). Date in YYYY-MM-DD format.",
+      "editor": "textfield",
+      "title": "Last transaction to",
+      "type": "string"
+    },
     "leadTypes": {
-      "default": [],
-      "description": "Filter by lead type. Common options: absentee_owner, high_equity, free_and_clear, vacant_home, cash_buyer, preforeclosure, bank_owned, out_of_state_owner, low_equity, negative_equity, flipped_property, empty_nester, tired_landlord. Leave empty for all.",
+      "description": "Optional (mode=properties). Only properties carrying every selected flag are returned. Supported free flags: absentee_owner, adjustable_loan, assumable_loan, auction, bank_owned, cash_buyer, empty_nester, flipped_property, free_and_clear, high_equity, intrafamily_transfer, low_equity, mls_active, mls_failed, mls_pending, mls_sold, negative_equity, out_of_state_owner, preforeclosure, preprobate, private_lender, tired_landlord, vacant_home, vacant_lot, zombie_property. Paid-membership flags are ignored and named in the run status.",
       "editor": "stringList",
-      "title": "Lead Types",
+      "prefill": [],
+      "sectionCaption": "Property filters",
+      "title": "Lead types",
       "type": "array"
     },
+    "listPriceMax": {
+      "description": "Optional (mode=properties).",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Maximum MLS list price (USD)",
+      "type": "integer"
+    },
+    "listPriceMin": {
+      "description": "Optional (mode=properties).",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Minimum MLS list price (USD)",
+      "type": "integer"
+    },
     "locations": {
-      "description": "US locations to search: city name with state (e.g. 'Miami, FL'), state code (e.g. 'FL'), or ZIP code (e.g. '33142'). Mix any combination.",
+      "description": "US places to search (mode=properties, owners): 'Miami, FL', 'Miami-Dade County, FL', or a 5-digit ZIP. Add one entry per place. A bare state code is accepted but Propwire's search API is unreliable for state-wide queries; use a city, county or ZIP for stable results. St./Ft./Mt. abbreviations are expanded automatically.",
       "editor": "stringList",
       "prefill": [
         "Miami, FL"
@@ -16,40 +213,548 @@
       "title": "Locations",
       "type": "array"
     },
-    "maxItems": {
-      "default": 50,
-      "description": "Maximum number of properties to return across all locations.",
-      "maximum": 1000,
-      "minimum": 1,
-      "prefill": 3,
-      "title": "Max Items",
+    "lotSqftMax": {
+      "description": "Optional (mode=properties).",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Maximum lot size (sqft)",
       "type": "integer"
     },
-    "proxy": {
-      "default": {
-        "apifyProxyCountry": "US",
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
+    "lotSqftMin": {
+      "description": "Optional (mode=properties).",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Minimum lot size (sqft)",
+      "type": "integer"
+    },
+    "ltvMax": {
+      "description": "Optional (mode=properties).",
+      "maximum": 200,
+      "minimum": 0,
+      "title": "Maximum loan-to-value",
+      "type": "integer"
+    },
+    "ltvMin": {
+      "description": "Optional (mode=properties).",
+      "maximum": 200,
+      "minimum": 0,
+      "title": "Minimum loan-to-value",
+      "type": "integer"
+    },
+    "maxItems": {
+      "description": "Maximum records to push across all locations (default 50 when omitted). Propwire serves at most 10,000 rows per search.",
+      "maximum": 10000,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Maximum records",
+      "type": "integer"
+    },
+    "mlsStatus": {
+      "description": "Optional (mode=properties).",
+      "editor": "select",
+      "enum": [
+        "active",
+        "pending",
+        "sold",
+        "failed"
+      ],
+      "enumTitles": [
+        "Active",
+        "Pending",
+        "Sold",
+        "Failed"
+      ],
+      "title": "MLS listing status",
+      "type": "string"
+    },
+    "mode": {
+      "default": "properties",
+      "description": "What to fetch. Property search is the default and cheapest mode.",
+      "editor": "select",
+      "enum": [
+        "properties",
+        "propertyDetails",
+        "owners",
+        "ownerDetails"
+      ],
+      "enumTitles": [
+        "Find property leads",
+        "Get property details by ID or URL",
+        "Find owner leads (agents / cash buyers)",
+        "Get owner profile by ID or URL"
+      ],
+      "prefill": "properties",
+      "title": "Mode",
+      "type": "string"
+    },
+    "noticeDateFrom": {
+      "description": "Optional (mode=properties). YYYY-MM-DD.",
+      "editor": "textfield",
+      "title": "Notice date from",
+      "type": "string"
+    },
+    "noticeDateTo": {
+      "description": "Optional (mode=properties). YYYY-MM-DD.",
+      "editor": "textfield",
+      "title": "Notice date to",
+      "type": "string"
+    },
+    "noticeType": {
+      "description": "Optional (mode=properties).",
+      "editor": "select",
+      "enum": [
+        "lis_pendens",
+        "notice_of_default",
+        "notice_of_trustee_sale",
+        "notice_of_sale",
+        "reo"
+      ],
+      "enumTitles": [
+        "Lis pendens",
+        "Notice of default",
+        "Notice of trustee sale",
+        "Notice of sale",
+        "REO"
+      ],
+      "title": "Foreclosure notice type",
+      "type": "string"
+    },
+    "openingBidMax": {
+      "description": "Optional (mode=properties).",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Maximum auction opening bid (USD)",
+      "type": "integer"
+    },
+    "openingBidMin": {
+      "description": "Optional (mode=properties).",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Minimum auction opening bid (USD)",
+      "type": "integer"
+    },
+    "outOfStateOwner": {
+      "default": "any",
+      "description": "Optional (mode=properties).",
+      "editor": "select",
+      "enum": [
+        "any",
+        "true",
+        "false"
+      ],
+      "enumTitles": [
+        "Any",
+        "Yes",
+        "No"
+      ],
+      "prefill": "any",
+      "title": "Out-of-state owner",
+      "type": "string"
+    },
+    "ownerKinds": {
+      "default": [],
+      "description": "Optional (mode=properties). Restrict to individual, company, or bank-owned properties.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "individual",
+          "company",
+          "bank"
         ],
-        "useApifyProxy": true
-      },
-      "description": "REQUIRED. Propwire is fronted by DataDome which blocks every datacenter IP with a captcha challenge. Use Apify Residential proxy (US country code recommended).",
-      "editor": "proxy",
-      "prefill": {
-        "apifyProxyCountry": "US",
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
+        "enumTitles": [
+          "Individual",
+          "Company / LLC",
+          "Bank or trust"
         ],
-        "useApifyProxy": true
+        "type": "string"
       },
-      "title": "Proxy Configuration",
-      "type": "object"
+      "prefill": [],
+      "title": "Owner kinds",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "ownerName": {
+      "description": "Optional (mode=owners). Case-insensitive name fragment, e.g. 'Smith'.",
+      "editor": "textfield",
+      "title": "Owner name contains",
+      "type": "string"
+    },
+    "ownerOccupied": {
+      "default": "any",
+      "description": "Optional (mode=properties).",
+      "editor": "select",
+      "enum": [
+        "any",
+        "true",
+        "false"
+      ],
+      "enumTitles": [
+        "Any",
+        "Owner occupied",
+        "Not owner occupied"
+      ],
+      "prefill": "any",
+      "title": "Owner occupied",
+      "type": "string"
+    },
+    "ownerProfileIds": {
+      "description": "32-character agent / cash-buyer profile IDs, or propwire.com/agents/<id> and /cash-buyers/<id> URLs (mode=ownerDetails).",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Owner profile IDs or URLs",
+      "type": "array"
+    },
+    "ownerPropertiesMax": {
+      "description": "Optional (mode=owners). Maximum properties in the owner's portfolio.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Maximum properties owned",
+      "type": "integer"
+    },
+    "ownerPropertiesMin": {
+      "description": "Optional (mode=owners). Minimum properties in the owner's portfolio.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Minimum properties owned",
+      "type": "integer"
+    },
+    "ownerSortBy": {
+      "description": "Optional (mode=owners).",
+      "editor": "select",
+      "enum": [
+        "transactions",
+        "avg_sale_price",
+        "properties_owned",
+        "last_transaction_date"
+      ],
+      "enumTitles": [
+        "Transactions",
+        "Average sale price",
+        "Properties owned",
+        "Last transaction date"
+      ],
+      "title": "Owner sort field",
+      "type": "string"
+    },
+    "peopleType": {
+      "default": "cash_buyer",
+      "description": "Which owner directory to search (mode=owners).",
+      "editor": "select",
+      "enum": [
+        "cash_buyer",
+        "agent"
+      ],
+      "enumTitles": [
+        "Cash buyers",
+        "Real estate agents"
+      ],
+      "prefill": "cash_buyer",
+      "sectionCaption": "Owner search filters",
+      "title": "Owner lead type",
+      "type": "string"
+    },
+    "pool": {
+      "default": "any",
+      "description": "Optional (mode=properties).",
+      "editor": "select",
+      "enum": [
+        "any",
+        "true",
+        "false"
+      ],
+      "enumTitles": [
+        "Any",
+        "Has pool",
+        "No pool"
+      ],
+      "prefill": "any",
+      "title": "Pool",
+      "type": "string"
+    },
+    "portfolioValueMax": {
+      "description": "Optional (mode=properties).",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Maximum owner portfolio value (USD)",
+      "type": "integer"
+    },
+    "portfolioValueMin": {
+      "description": "Optional (mode=properties).",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Minimum owner portfolio value (USD)",
+      "type": "integer"
+    },
+    "preforeclosure": {
+      "default": "any",
+      "description": "Optional (mode=properties).",
+      "editor": "select",
+      "enum": [
+        "any",
+        "true",
+        "false"
+      ],
+      "enumTitles": [
+        "Any",
+        "Yes",
+        "No"
+      ],
+      "prefill": "any",
+      "title": "Pre-foreclosure",
+      "type": "string"
+    },
+    "privateLender": {
+      "default": "any",
+      "description": "Optional (mode=properties).",
+      "editor": "select",
+      "enum": [
+        "any",
+        "true",
+        "false"
+      ],
+      "enumTitles": [
+        "Any",
+        "Yes",
+        "No"
+      ],
+      "prefill": "any",
+      "title": "Private lender",
+      "type": "string"
+    },
+    "propertiesOwnedMax": {
+      "description": "Optional (mode=properties).",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Maximum properties owned by owner",
+      "type": "integer"
+    },
+    "propertiesOwnedMin": {
+      "description": "Optional (mode=properties).",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Minimum properties owned by owner",
+      "type": "integer"
+    },
+    "propertyIds": {
+      "description": "Property IDs (e.g. 88441) or propwire.com/realestate/... URLs (mode=properties, propertyDetails). Results are deduplicated.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Property IDs or URLs",
+      "type": "array"
+    },
+    "propertyTypes": {
+      "default": [],
+      "description": "Optional (mode=properties). Leave empty for every type.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "single_family",
+          "condo",
+          "multi_family_2_to_4",
+          "multi_family_5_plus",
+          "mobile",
+          "land",
+          "commercial",
+          "other"
+        ],
+        "enumTitles": [
+          "Single-family home",
+          "Condo or townhouse",
+          "Multi-family (2-4 units)",
+          "Multi-family (5+ units)",
+          "Mobile or manufactured",
+          "Land",
+          "Commercial",
+          "Other"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Property types",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "searchUrls": {
+      "description": "Optional (mode=properties). Paste one or more propwire.com/search?filters=... links copied from your browser; the actor replays the same area and filters. When present, these URLs take precedence over Locations and the filter fields below. Property URLs are also accepted as an ID shortcut.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Saved Propwire search URLs",
+      "type": "array"
+    },
+    "sortBy": {
+      "description": "Optional (mode=properties).",
+      "editor": "select",
+      "enum": [
+        "estimated_value",
+        "estimated_equity",
+        "equity_percent",
+        "last_sold_price",
+        "last_sold_date",
+        "list_price",
+        "list_price_per_sqft",
+        "days_on_market",
+        "living_area",
+        "year_built"
+      ],
+      "enumTitles": [
+        "Estimated value",
+        "Estimated equity",
+        "Equity percent",
+        "Last sale price",
+        "Last sale date",
+        "MLS list price",
+        "MLS list price per sqft",
+        "Days on market",
+        "Living area",
+        "Year built"
+      ],
+      "title": "Property sort field",
+      "type": "string"
+    },
+    "sortOrder": {
+      "default": "desc",
+      "description": "Used by sortBy and ownerSortBy.",
+      "editor": "select",
+      "enum": [
+        "desc",
+        "asc"
+      ],
+      "enumTitles": [
+        "Descending",
+        "Ascending"
+      ],
+      "prefill": "desc",
+      "title": "Sort order",
+      "type": "string"
+    },
+    "sqftMax": {
+      "description": "Optional (mode=properties).",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Maximum building area (sqft)",
+      "type": "integer"
+    },
+    "sqftMin": {
+      "description": "Optional (mode=properties).",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Minimum building area (sqft)",
+      "type": "integer"
+    },
+    "storiesMax": {
+      "description": "Optional (mode=properties).",
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Maximum stories",
+      "type": "integer"
+    },
+    "storiesMin": {
+      "description": "Optional (mode=properties).",
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Minimum stories",
+      "type": "integer"
+    },
+    "taxDelinquentSince": {
+      "description": "Optional (mode=properties). Minimum tax-delinquent year.",
+      "maximum": 2100,
+      "minimum": 1900,
+      "title": "Tax delinquent since (year)",
+      "type": "integer"
+    },
+    "transactionsMax": {
+      "description": "Optional (mode=owners). Maximum recorded transactions / deals.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Maximum transactions",
+      "type": "integer"
+    },
+    "transactionsMin": {
+      "description": "Optional (mode=owners). Minimum recorded transactions / deals.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Minimum transactions",
+      "type": "integer"
+    },
+    "unitsMax": {
+      "description": "Optional (mode=properties).",
+      "maximum": 10000,
+      "minimum": 0,
+      "title": "Maximum units",
+      "type": "integer"
+    },
+    "unitsMin": {
+      "description": "Optional (mode=properties).",
+      "maximum": 10000,
+      "minimum": 0,
+      "title": "Minimum units",
+      "type": "integer"
+    },
+    "vacant": {
+      "default": "any",
+      "description": "Optional (mode=properties).",
+      "editor": "select",
+      "enum": [
+        "any",
+        "true",
+        "false"
+      ],
+      "enumTitles": [
+        "Any",
+        "Vacant",
+        "Occupied"
+      ],
+      "prefill": "any",
+      "title": "Vacancy",
+      "type": "string"
+    },
+    "valueMax": {
+      "description": "Optional (mode=properties).",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Maximum estimated value (USD)",
+      "type": "integer"
+    },
+    "valueMin": {
+      "description": "Optional (mode=properties).",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Minimum estimated value (USD)",
+      "type": "integer"
+    },
+    "yearBuiltMax": {
+      "description": "Optional (mode=properties).",
+      "maximum": 2100,
+      "minimum": 1800,
+      "title": "Year built to",
+      "type": "integer"
+    },
+    "yearBuiltMin": {
+      "description": "Optional (mode=properties).",
+      "maximum": 2100,
+      "minimum": 1800,
+      "title": "Year built from",
+      "type": "integer"
+    },
+    "yearsOwnedMax": {
+      "description": "Optional (mode=properties).",
+      "maximum": 200,
+      "minimum": 0,
+      "title": "Maximum years owned",
+      "type": "integer"
+    },
+    "yearsOwnedMin": {
+      "description": "Optional (mode=properties).",
+      "maximum": 200,
+      "minimum": 0,
+      "title": "Minimum years owned",
+      "type": "integer"
     }
   },
   "required": [
-    "proxy"
+    "mode"
   ],
   "schemaVersion": 1,
-  "title": "Propwire Leads Scraper Input",
+  "title": "Propwire Property & Owner Lead Finder Input",
   "type": "object"
 }

@@ -1,30 +1,206 @@
 {
-  "description": "Search Subito.it — Italy's largest classifieds marketplace — for items, cars, electronics, and more.",
+  "description": "Search Subito.it — Italy's largest classifieds marketplace — for items, cars, electronics, property, jobs, or scrape specific listing URLs.",
   "properties": {
+    "adType": {
+      "default": "",
+      "description": "Filter by listing kind: for sale, for rent, give away, holiday rental or wanted.",
+      "editor": "select",
+      "enum": [
+        "",
+        "s",
+        "u",
+        "g",
+        "h",
+        "k"
+      ],
+      "enumTitles": [
+        "All ad types",
+        "For sale",
+        "For rent",
+        "Give away",
+        "Holiday rental",
+        "Wanted"
+      ],
+      "prefill": "",
+      "title": "Ad type",
+      "type": "string"
+    },
+    "advertiserType": {
+      "default": "",
+      "description": "Filter by private sellers or companies.",
+      "editor": "select",
+      "enum": [
+        "",
+        "0",
+        "1"
+      ],
+      "enumTitles": [
+        "All sellers",
+        "Private",
+        "Company"
+      ],
+      "prefill": "",
+      "title": "Seller type",
+      "type": "string"
+    },
+    "category": {
+      "default": "",
+      "description": "Optional category filter. Overrides the category implied by the mode.",
+      "editor": "select",
+      "enum": [
+        "",
+        "1",
+        "2",
+        "5",
+        "3",
+        "36",
+        "22",
+        "34",
+        "4",
+        "6",
+        "7",
+        "43",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "8",
+        "24",
+        "26",
+        "50",
+        "42",
+        "25",
+        "9",
+        "10",
+        "44",
+        "11",
+        "40",
+        "12",
+        "13",
+        "14",
+        "37",
+        "15",
+        "16",
+        "17",
+        "18",
+        "23",
+        "100",
+        "19",
+        "38",
+        "39",
+        "20",
+        "41",
+        "21",
+        "27",
+        "28"
+      ],
+      "enumTitles": [
+        "All categories",
+        "MOTORI",
+        "Auto",
+        "Accessori Auto",
+        "Moto e Scooter",
+        "Accessori Moto",
+        "Nautica",
+        "Caravan e Camper",
+        "Veicoli commerciali",
+        "IMMOBILI",
+        "Appartamenti",
+        "Camere/Posti letto",
+        "Ville singole e a schiera",
+        "Terreni e rustici",
+        "Garage e box",
+        "Loft, mansarde e altro",
+        "Case vacanza",
+        "Uffici e Locali commerciali",
+        "LAVORO E SERVIZI",
+        "Offerte di lavoro",
+        "Servizi",
+        "Candidati in cerca di lavoro",
+        "Attrezzature di lavoro",
+        "ELETTRONICA",
+        "Informatica",
+        "Console e Videogiochi",
+        "Audio/Video",
+        "Fotografia",
+        "Telefonia",
+        "PER LA CASA e LA PERSONA",
+        "Arredamento e Casalinghi",
+        "Elettrodomestici",
+        "Giardino e Fai da te",
+        "Abbigliamento e Accessori",
+        "Tutto per i bambini",
+        "SPORTS E HOBBY",
+        "Animali",
+        "Accessori per animali",
+        "Musica e Film",
+        "Libri e Riviste",
+        "Strumenti Musicali",
+        "Sports",
+        "Biciclette",
+        "Collezionismo",
+        "ALTRI ANNUNCI",
+        "Altri"
+      ],
+      "prefill": "",
+      "title": "Category",
+      "type": "string"
+    },
+    "condition": {
+      "default": "",
+      "description": "Item condition filter (most useful for goods and electronics).",
+      "editor": "select",
+      "enum": [
+        "",
+        "10",
+        "20",
+        "30",
+        "40",
+        "50"
+      ],
+      "enumTitles": [
+        "All conditions",
+        "New",
+        "Like new",
+        "Excellent",
+        "Good",
+        "Damaged"
+      ],
+      "prefill": "",
+      "title": "Condition",
+      "type": "string"
+    },
     "maxItems": {
       "default": 20,
-      "description": "Maximum number of listings to return.",
-      "maximum": 1000,
+      "description": "Maximum number of listings to return (1–10,000).",
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 20,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
     "mode": {
       "default": "searchItems",
-      "description": "What to search for on Subito.it.",
+      "description": "What to fetch from Subito.it. searchByUrls takes listing or search-result URLs in startUrls.",
       "editor": "select",
       "enum": [
         "searchAll",
+        "searchItems",
         "searchCars",
         "searchElectronics",
-        "searchItems"
+        "searchRealEstate",
+        "searchJobs",
+        "searchByUrls"
       ],
       "enumTitles": [
         "Search all categories",
+        "Search general items for sale",
         "Search cars & vehicles",
         "Search electronics",
-        "Search items for sale"
+        "Search real estate",
+        "Search jobs",
+        "Scrape listing or search URLs"
       ],
       "prefill": "searchItems",
       "title": "Mode",
@@ -32,21 +208,20 @@
     },
     "priceMax": {
       "description": "Maximum listing price in Euro.",
-      "maximum": 10000000,
+      "maximum": 100000000,
       "minimum": 0,
       "title": "Max price (EUR)",
       "type": "integer"
     },
     "priceMin": {
       "description": "Minimum listing price in Euro.",
-      "maximum": 10000000,
+      "maximum": 100000000,
       "minimum": 0,
       "title": "Min price (EUR)",
       "type": "integer"
     },
     "query": {
-      "default": "iPhone",
-      "description": "Keyword to search for (e.g. 'iPhone', 'divano', 'BMW').",
+      "description": "Keyword to search for, e.g. iPhone, divano, BMW. Leave empty to browse a category without a keyword. Ignored in searchByUrls mode.",
       "editor": "textfield",
       "prefill": "iPhone",
       "title": "Search query",
@@ -54,39 +229,117 @@
     },
     "region": {
       "default": "",
-      "description": "Italian region to filter by (e.g. 'lombardia', 'lazio', 'campania').",
+      "description": "Italian region to filter by (friendly name). Leave empty to search all of Italy.",
       "editor": "select",
       "enum": [
         "",
-        "lombardia",
-        "lazio",
-        "campania",
-        "veneto",
-        "emilia-romagna",
-        "sicilia",
-        "piemonte",
-        "toscana",
-        "puglia",
+        "abruzzo",
+        "basilicata",
         "calabria",
-        "sardegna"
+        "campania",
+        "emilia-romagna",
+        "friuli-venezia-giulia",
+        "lazio",
+        "liguria",
+        "lombardia",
+        "marche",
+        "molise",
+        "piemonte",
+        "puglia",
+        "sardegna",
+        "sicilia",
+        "toscana",
+        "trentino-alto-adige",
+        "umbria",
+        "valle-d-aosta",
+        "veneto"
       ],
       "enumTitles": [
         "All Italy",
-        "Lombardia",
-        "Lazio",
-        "Campania",
-        "Veneto",
-        "Emilia-Romagna",
-        "Sicilia",
-        "Piemonte",
-        "Toscana",
-        "Puglia",
+        "Abruzzo",
+        "Basilicata",
         "Calabria",
-        "Sardegna"
+        "Campania",
+        "Emilia-Romagna",
+        "Friuli-Venezia Giulia",
+        "Lazio",
+        "Liguria",
+        "Lombardia",
+        "Marche",
+        "Molise",
+        "Piemonte",
+        "Puglia",
+        "Sardegna",
+        "Sicilia",
+        "Toscana",
+        "Trentino-Alto Adige",
+        "Umbria",
+        "Valle d'Aosta",
+        "Veneto"
       ],
       "prefill": "",
-      "title": "Region (optional)",
+      "title": "Region",
       "type": "string"
+    },
+    "shippableOnly": {
+      "default": false,
+      "description": "Only listings that offer shipping.",
+      "prefill": false,
+      "title": "Shippable only",
+      "type": "boolean"
+    },
+    "sort": {
+      "default": "relevance",
+      "description": "Result ordering.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "datedesc",
+        "priceasc",
+        "pricedesc"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Newest first",
+        "Price: low to high",
+        "Price: high to low"
+      ],
+      "prefill": "relevance",
+      "title": "Sort by",
+      "type": "string"
+    },
+    "startUrls": {
+      "description": "(mode=searchByUrls) Subito.it ad URLs (...-123456789.htm) and/or search-result URLs (/annunci-lazio/vendita/auto/?q=bmw).",
+      "editor": "requestListSources",
+      "items": {
+        "properties": {
+          "url": {
+            "description": "Subito.it listing or search-result URL.",
+            "title": "URL",
+            "type": "string"
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "type": "object"
+      },
+      "title": "Listing or search URLs",
+      "type": "array"
+    },
+    "titleOnly": {
+      "default": false,
+      "description": "Match the keyword against listing titles instead of title and description.",
+      "prefill": false,
+      "title": "Search titles only",
+      "type": "boolean"
+    },
+    "urgentOnly": {
+      "default": false,
+      "description": "Only listings marked urgent (mainly job ads).",
+      "prefill": false,
+      "title": "Urgent only",
+      "type": "boolean"
     }
   },
   "required": [

@@ -123,6 +123,31 @@
       "title": "Date posted",
       "type": "string"
     },
+    "descriptionFormat": {
+      "default": "text",
+      "description": "How the full job description is returned when details are included.",
+      "editor": "select",
+      "enum": [
+        "text",
+        "html",
+        "both"
+      ],
+      "enumTitles": [
+        "Plain text",
+        "HTML",
+        "Both"
+      ],
+      "prefill": "text",
+      "title": "Description format",
+      "type": "string"
+    },
+    "includeDetails": {
+      "default": true,
+      "description": "Fetch each listing's full description, expiry status, applicant-demand signals, screening questions, badges and company profile. Adds one request per job; turn off for the fastest, cheapest run.",
+      "prefill": true,
+      "title": "Include full job details",
+      "type": "boolean"
+    },
     "jobId": {
       "default": "",
       "description": "One or more numeric JobsDB job IDs (comma-separated, or pass an array) to look up specific listings directly. Required for mode=byJobId; get an ID from the `jobId` field on any previously scraped job. Ignored in other modes.",
@@ -132,8 +157,8 @@
       "type": "string"
     },
     "keywords": {
-      "default": "engineer",
-      "description": "Job title, skill, or company to search for (mode=searchJobs). Also works as an optional refinement in browseByCategory / browseByLocation.",
+      "default": "",
+      "description": "Job title, skill, or company to search for. Leave empty to browse every job in the selected mode; an explicit value narrows the results.",
       "editor": "textfield",
       "prefill": "engineer",
       "title": "Keywords",
@@ -152,7 +177,7 @@
       "description": "Hard cap on emitted records.",
       "maximum": 1000,
       "minimum": 1,
-      "prefill": 50,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
@@ -166,7 +191,8 @@
         "browseByLocation",
         "browseByCompany",
         "latestJobs",
-        "byJobId"
+        "byJobId",
+        "byUrls"
       ],
       "enumTitles": [
         "Search jobs by keyword",
@@ -174,7 +200,8 @@
         "Browse jobs by location",
         "Browse jobs by company (advertiserId)",
         "Latest jobs (newest first, site-wide)",
-        "Look up job(s) by jobId"
+        "Look up job(s) by jobId",
+        "Look up job URLs"
       ],
       "prefill": "searchJobs",
       "title": "Mode",
@@ -235,6 +262,17 @@
       "prefill": "",
       "title": "Sub-category ID(s)",
       "type": "string"
+    },
+    "urls": {
+      "default": [],
+      "description": "One or more JobsDB job links (hk.jobsdb.com/job/… or th.jobsdb.com/job/…) or numeric job IDs to look up directly. Required for mode=byUrls; the market is taken from each link.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Job URLs or IDs",
+      "type": "array"
     },
     "workArrangement": {
       "default": [],

@@ -4,94 +4,118 @@
 
 # GetYourGuide Activity Pricing & Highlights Extractor
 
-Search GetYourGuide for tours and activities in any destination, or point this actor at specific activity/city/search URLs, and get back structured data for each one — pricing, rating, duration, highlights, cancellation policy, and supplier details.
+Turn GetYourGuide into a structured activity feed. Search a city, landmark, or activity phrase, or point the actor at GetYourGuide search, destination, category, or activity URLs, and receive pricing, ratings, highlights, inclusions, meeting points, cancellation terms, and supplier details for every tour you collect.
 
-## What this actor does
+## What it does
 
-- **Destination or keyword search** — enter a city, landmark, or activity keyword (e.g. `rome`, `eiffel tower`, `food tour paris`) and it fetches matching activities
-- **Direct URL input** — supply activity pages, city pages, or search-result URLs instead of a keyword
-- **Pricing and discounts** — starting price, currency, original price, and discount percentage when a deal is running
-- **Logistics and booking flags** — duration, meeting point, group size/age limits, free cancellation, skip-the-line, mobile ticket, pickup, and wheelchair-accessibility flags, where GetYourGuide shows them
-- **Honest records** — a field GetYourGuide doesn't show for a given activity (for example, no supplier rating) is left out rather than returned empty
+- **Keyword search** — one query per item (`rome`, `eiffel tower`, `food tour paris`) with the site's own filters and sort orders.
+- **URL and ID mode** — accepts search pages, destination/attraction pages, category pages, activity pages, and bare activity IDs (`631866` / `t631866`).
+- **Pagination** — follows the listing's "show more" data until the source stops returning activities (up to 50 pages, 24 per page, per query).
+- **Optional detail enrichment** — opens each activity for full descriptions, highlights, includes/excludes, meeting point + coordinates, cancellation policy, supplier, guides, itinerary, and reviews.
+- **Cookieless** — no login, cookies, or API key required. Requests use GetYourGuide's public SDUI JSON and page data directly.
 
 ## Output per activity
 
-- `type` — record type, always `gyg_activity` for a successfully scraped activity
-- `id`, `url`, `title` — activity identity and link
-- `shortDescription` — marketing description
-- `city`, `country`, `latitude`, `longitude`, `meetingPoint` — where the activity takes place
-- `price`, `originalPrice`, `currency`, `discountPercent`, `pricingType` — pricing and any active discount
-- `rating`, `reviewCount`
-- `duration`, `category`, `activityType`, `language`
-- `images` — image URLs
-- `highlights`, `whatIncluded`, `whatExcluded`, `bookingOptions` — bullet-point highlights, inclusions/exclusions, and ticket/option titles, when published
-- `cancellationPolicy`
-- `maxGroupSize`, `minAge` — group-size and age limits, when published
-- `supplierName`, `supplierRating`
-- `badges` — labels GetYourGuide displays on the card (e.g. "Skip the line", "Free cancellation")
-- `availability` — availability message shown on the listing, when present
-- `recentBookings` — recent-bookings social-proof text (e.g. "24 booked yesterday"), when the listing shows it
-- `freeCancellation`, `skipTheLine`, `mobileTicket`, `instantConfirmation`, `pickupIncluded`, `wheelchairAccessible` — boolean flags for the matching booking feature
-- `scrapedAt` — ISO-8601 timestamp the record was collected
+Identity and place: `type`, `id`, `url`, `title`, `shortDescription`, `description`, `city`, `citySlug`, `region`, `country`, `latitude`, `longitude`, `meetingPoint`.
 
-If a run can't retrieve any activities, the dataset instead gets a single explanatory record (`type: "gyg_blocked"`) with the URL or query that was attempted and a reason, rather than returning nothing with no explanation.
+Commercial: `price`, `originalPrice`, `currency`, `discountPercent`, `pricingType`, `rating`, `reviewCount`, `cancellationPolicy`, `freeCancellation`, `supplierName`.
+
+Practical detail: `duration`, `category`, `activityType`, `guideLanguages`, `images`, `highlights`, `whatIncluded`, `whatExcluded`, `goodToKnow`, `whatToBring`, `notAllowed`, `notSuitableFor`, `itinerary`, `bookingOptions`, `maxGroupSize`, `minAge`, `badges`, `availability`, `nextAvailable`, `recentBookings`, `reviewSummary`, `reviews`, `breadcrumbs`.
+
+Booking flags: `skipTheLine`, `mobileTicket`, `instantConfirmation`, `pickupIncluded`, `wheelchairAccessible`, `smallGroup`, `privateTour`, `liveGuide`.
+
+Run metadata: `searchQuery`, `sourceUrl`, `rank`, `scrapedAt`.
+
+A field GetYourGuide does not publish for an activity is omitted, never returned as `null` or an empty string.
 
 ## Input
 
-| Field | Type | Default | Description |
+| Field | Type | Default | Purpose |
 |---|---|---|---|
-| `query` | string | `rome` | City, destination, or activity keyword to search. Ignored when `startUrls` is set |
-| `startUrls` | array | – | Direct GetYourGuide search, activity, or city URLs. Overrides `query` when provided |
-| `maxItems` | integer | `3` | Maximum number of activities to return (1–500) |
-| `proxyConfiguration` | object | Apify `RESIDENTIAL` proxy, country `US` | Required. GetYourGuide blocks non-residential traffic, so this must stay set to a US residential proxy |
+| `searchQueries` | array | `["rome"]` | Cities, landmarks, or activity keywords. |
+| `startUrls` | array | – | GetYourGuide search, destination, category, or activity URLs, or bare IDs. |
+| `activityIds` | array | – | Direct activity IDs. |
+| `maxItems` | integer | 30 | Global cap across all inputs (1–2000). |
+| `includeDetails` | boolean | true | Open detail pages for the full field set. |
+| `maxReviews` | integer | 0 | Recent reviews per activity (0–50). |
+| `currency` | select | USD | Currency for prices. |
+| `language` | select | English | Language of titles and descriptions. |
+| `sortBy` | select | popularity | Popularity, rating, price ascending, or price descending. |
+| `minRating` | select | any | 3.0+, 3.5+, 4.0+, or 4.5+. |
+| `priceMin` / `priceMax` | integer | 0 | Price range; 0 means unbounded. |
+| `dateFrom` / `dateTo` | date | – | Only activities available in the date range. |
+| `startTime` | array | – | Morning, afternoon, or evening. |
+| `durations` | array | – | Up to 3h, 3–5h, 5–7h, full day, or 2–5+ days. |
+| `features` | array | – | Private, skip the line, small group, wheelchair, pickup, or GetYourGuide Originals. |
+| `guideLanguages` | array | – | Two-letter guide-language codes. |
+| `interests` / `places` / `departsFrom` | array | – | Advanced GetYourGuide filter IDs copied from a search URL. |
 
-### Example: search a destination
+### Example: search with filters
 
 ```json
 {
-    "query": "rome",
-    "maxItems": 5
+    "searchQueries": ["rome"],
+    "maxItems": 20,
+    "includeDetails": true,
+    "sortBy": "rating",
+    "minRating": "4.5",
+    "features": ["skip_the_line"],
+    "currency": "EUR",
+    "language": "en"
 }
 ```
 
-### Example: scrape a specific activity and a search page together
+### Example: URLs and an ID
 
 ```json
 {
     "startUrls": [
-        "https://www.getyourguide.com/rome-l33/rome-colosseum-arena-floor-palatine-forum-guided-tour-t217332/",
-        "https://www.getyourguide.com/s/?q=paris"
+        "https://www.getyourguide.com/rome-l33/",
+        "https://www.getyourguide.com/s/?q=eiffel+tower&services=stl"
     ],
-    "maxItems": 10
+    "activityIds": ["631866"],
+    "maxItems": 15,
+    "includeDetails": true
 }
 ```
 
-## Use cases
+## Modes and pagination
 
-- **Price monitoring** — track how an activity's price and discount change over time
-- **Competitive research** — compare duration, inclusions, and cancellation terms across similar tours in a city
-- **Itinerary planning** — pull highlights, meeting points, and booking flags for a shortlist of activities
-- **Supplier mapping** — see which operators run the top-rated activities in a destination
+1. **Direct IDs / activity URLs** — one detail-page fetch per activity.
+2. **Search queries** — the actor calls GetYourGuide's search-result blocks endpoint, reads `activity_card` objects, and follows the returned `loadMore` payload page after page.
+3. **Destination / attraction URLs** — same pagination against the destination's main activities section.
+4. **Category URLs** — same pagination scoped to the category ID in the URL.
+
+Each result page contains 24 activities. The actor stops at `maxItems`, after 50 pages, or when the source returns no new activities — whichever comes first. The source's own reported result count is logged, so a page cap is visible rather than silent.
+
+## Legacy inputs
+
+Saved tasks that send the old `query` key still work: the actor maps `query` onto `searchQueries` in code. `startUrls`, `maxItems`, and bare activity IDs keep their original meaning. The old `proxyConfiguration` field is accepted but ignored — no proxy setup is needed.
+
+## Limits and honest notes
+
+- GetYourGuide caps listing pagination at 50 pages (24 rows each) per query/listing. For deeper coverage, partition by category, date range, price bucket, or sub-destination.
+- Some activities do not publish a discount, supplier rating, group size, age limit, or meeting point. Those fields are omitted for that row.
+- Detail enrichment costs one page fetch per activity; turn `includeDetails` off for the cheapest, fastest listing-only runs.
+- Filters are applied by GetYourGuide's own search backend. Filter values that the site does not recognize are ignored rather than guessed.
+
+## Sentinels
+
+If a run returns no real activities, the dataset gets one explanatory record instead of an empty dataset:
+
+- `gyg_no_results` — the inputs produced no matching activities.
+- `gyg_blocked` — GetYourGuide rejected every request path (direct, browser-cookied, and last-resort proxy).
+
+Sentinels include the attempted queries/URLs, a reason, and `scrapedAt`.
 
 ## FAQ
 
-**Does this need cookies or a login?**
-No — GetYourGuide's search and activity pages are publicly accessible without an account.
+**Do I need cookies, a login, or an API key?** No. The actor reads publicly visible GetYourGuide data.
 
-**Why is a residential proxy required?**
-GetYourGuide blocks traffic from standard datacenter IP ranges, so this actor needs a residential proxy to load pages at all. The `proxyConfiguration` input is pre-filled correctly — leave it as-is.
+**Do I need to configure a proxy?** No. Direct requests are tried first. If a container IP is challenged, the actor handles the fallback internally.
 
-**What kind of search terms work?**
-Any city, landmark, or activity keyword — e.g. `rome`, `paris`, `tokyo`, `eiffel tower`, `colosseum`, `food tour paris`.
+**Why is a field missing on one activity but present on another?** GetYourGuide only publishes some fields for some activities. Omit-empty output keeps the dataset honest.
 
-**Can I scrape a single activity page directly?**
-Yes — put its URL in `startUrls` instead of using `query`.
+**Can I mix searches, URLs, and IDs?** Yes. All inputs are processed in order and deduplicated by activity ID.
 
-**Why are fields like `supplierRating` or `discountPercent` missing on some activities?**
-Those fields only appear when GetYourGuide publishes that data for the activity — an activity with no active discount, for example, simply won't have a `discountPercent`.
-
-**How fresh is the data?**
-Every run fetches the page live at request time; nothing is cached.
-
-**Is this affiliated with GetYourGuide?**
-No. This is an independent actor that reads GetYourGuide's publicly visible pages; it is not operated by or affiliated with GetYourGuide.
+**Is this affiliated with GetYourGuide?** No. This is an independent actor that reads publicly available pages; it is not operated by or affiliated with GetYourGuide.

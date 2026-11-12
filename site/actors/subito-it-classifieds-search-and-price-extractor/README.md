@@ -1,105 +1,160 @@
 # Subito.it Classifieds Search & Price Extractor
 
-Subito.it is Italy's largest classifieds marketplace, covering everything from cars and electronics to furniture and general second-hand goods. This actor searches it by keyword and returns one structured record per listing, so you can pull pricing and listing data for a category without browsing the site page by page.
+Subito.it is Italy's largest classifieds marketplace, with millions of ads spanning cars, electronics, property, jobs and everyday second-hand goods. This actor searches Subito.it and returns one structured record per listing — price, full description, condition, location, seller, every photo, and the category-specific details buyers actually compare (km, year and fuel for cars; surface, rooms and energy class for property; sector and contract for jobs).
 
 ## What this actor does
 
-- Searches Subito.it across all categories, or narrows to cars & vehicles, electronics, or general items for sale.
-- Filters results by keyword, Italian region, and minimum/maximum price in EUR.
-- Returns listing title, price, location, category, seller, and a direct link for every matching ad.
-- Collects results up to the number of listings you request.
-- Fields a listing doesn't publish (e.g. no price, or no seller type) are left out of that record.
+- Searches all of Subito.it or narrows to cars, electronics, real estate, jobs, or general items for sale.
+- Filters by any of the 45 Subito.it categories, all 20 Italian regions, price range, ad type, private/company seller, condition, shipping availability, title-only matching, and urgent-only ads.
+- Sorts by relevance, newest, or price ascending/descending.
+- Paginates up to 10,000 listings per query slice.
+- Scrapes specific ad URLs and search-result URLs directly.
+- Returns full descriptions and all image URLs without extra detail-page requests.
+- Exposes every upstream listing feature through typed fields plus a generic `attributes` map, so niche categories are covered too.
+
+## Modes
+
+| Mode | What it searches |
+|---|---|
+| `searchAll` | Every category. Combine with `category` to target any of the 45 categories. |
+| `searchItems` | General items for sale across all categories. |
+| `searchCars` | Cars and vehicles (category `Auto`). |
+| `searchElectronics` | The whole electronics tree (phones, computers, audio/video, gaming, cameras). |
+| `searchRealEstate` | The whole property tree (apartments, villas, rooms, land, garages, holiday homes, offices). |
+| `searchJobs` | Job offers. |
+| `searchByUrls` | Specific Subito.it ad URLs and/or search-result URLs from `startUrls`. |
 
 ## Output per listing
 
 | Field | Description |
 |---|---|
-| `adId` | Unique Subito.it ad ID. |
+| `adId` | Numeric Subito.it ad ID. |
 | `title` | Listing title. |
-| `price` | Listing price. |
-| `currency` | Always `EUR`. |
-| `location` | City and region shown on the listing. |
-| `region` | Italian region the listing is in. |
-| `category` | Product category on Subito.it. |
-| `publishedDate` | Date the ad was posted. |
-| `imageUrl` | First listing image URL. |
-| `adUrl` | Direct link to the listing. |
-| `seller` | Seller name. |
-| `sellerType` | `private` or `professional`. |
-| `mode` | Which search mode produced this record. |
-| `scrapedAt` | ISO 8601 timestamp of when this actor fetched the record. |
+| `description` | Full ad text. |
+| `adType` / `adTypeKey` | Listing kind, e.g. `In vendita` / `s`, `In affitto` / `u`. |
+| `price` | Numeric price in EUR, when the ad publishes one. |
+| `priceText` | Price exactly as displayed, e.g. `600 €`. |
+| `currency` | `EUR` when a price exists. |
+| `condition` | Item/vehicle/building condition as labelled by Subito.it. |
+| `category`, `categoryId`, `categorySlug`, `macroCategoryId` | Category hierarchy. |
+| `publishedDate`, `publishedAt`, `expiresAt` | Display date, ISO publish timestamp, ISO expiry. |
+| `city`, `province`, `region`, `regionId`, `regionSlug`, `location` | Location hierarchy. |
+| `seller`, `sellerType`, `sellerId`, `shopId`, `shopName`, `isCompany` | Seller/shop metadata (`private` or `professional`). |
+| `imageUrl`, `imageUrls`, `imageCount` | First photo, all photos, count. |
+| `adUrl` | Canonical listing URL. |
+| `attributes` | Every upstream feature label/value for the listing. |
+| `shippable`, `shippingCost`, `shippingMethod`, `shippingCarriers` | Shipping details when offered. |
+| `brand`, `model`, `year`, `mileageKm`, `fuel`, `gearbox`, `powerKw`, `powerHp`, `color`, `doors`, `seats`, `bodyType`, `pollutionClass`, `vehicleType`, `motoType`, `shipType`, `caravanType`, `bicycleType` | Vehicle fields when present. |
+| `surfaceSqm`, `rooms`, `bathrooms`, `floor`, `totalFloors`, `furnished`, `elevator`, `balcony`, `garden`, `parking`, `heating`, `airConditioning`, `energyClass`, `buildingCondition`, `availableNow`, `holidayRental`, `lastFloor`, `reception`, `multiLevel`, `noAgency`, `roomType`, `officeType` | Property fields when present. |
+| `jobSector`, `contractType`, `workHours`, `workLevel`, `educationLevel` | Job fields when present. |
+| `urgent`, `availability`, `warrantyMonths`, `referenceCode`, `cin`, `size`, `registrationDate` | Other upstream flags and codes, when present. |
+| `mode`, `scrapedAt` | Which mode produced the record and when it was fetched. |
+
+Fields the source does not publish for a listing (for example a give-away with no price, or a private seller who hides their name) are omitted from that record — never filled with placeholders.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | String (select) | `"searchItems"` | What to search: `searchAll` (every category), `searchCars` (vehicles), `searchElectronics`, or `searchItems` (general items for sale). |
-| `query` | String | `"iPhone"` | Keyword to search for, e.g. `"divano"`, `"BMW"`. |
-| `region` | String (select) | `""` (all Italy) | Italian region to filter by, e.g. `lombardia`, `lazio`, `campania`, `veneto`, `emilia-romagna`, `sicilia`, `piemonte`, `toscana`, `puglia`, `calabria`, `sardegna`. |
-| `priceMin` | Integer | – | Minimum listing price in EUR. |
-| `priceMax` | Integer | – | Maximum listing price in EUR. |
-| `maxItems` | Integer | `20` | Maximum number of listings to return (1–1000). |
+| `mode` | Select | `searchItems` | Search scope; see the modes table. |
+| `query` | String | – | Keyword. The prefill uses `iPhone`; leave empty to browse a category without a keyword. Ignored in `searchByUrls`. |
+| `category` | Select | all | Any of the 45 Subito.it categories; overrides the mode's category. |
+| `region` | Select | all Italy | One of the 20 Italian regions. |
+| `priceMin`, `priceMax` | Integer | – | Price range in EUR. |
+| `sort` | Select | `relevance` | Relevance, newest first, price low→high, price high→low. |
+| `adType` | Select | all | For sale, for rent, give away, holiday rental, wanted. |
+| `advertiserType` | Select | all | Private sellers or companies. |
+| `condition` | Select | all | New, like new, excellent, good, damaged. |
+| `shippableOnly` | Boolean | `false` | Only ads offering shipping. |
+| `titleOnly` | Boolean | `false` | Match the keyword in titles only. |
+| `urgentOnly` | Boolean | `false` | Only urgent ads (mainly jobs). |
+| `startUrls` | Array | – | `(mode=searchByUrls)` Ad URLs (`...-123456789.htm`) and/or search URLs (`/annunci-lazio/vendita/auto/?q=bmw`). |
+| `maxItems` | Integer | `20` | Maximum records to return (1–10,000). |
 
-### Example: general item search in one region
-
-```json
-{
-    "mode": "searchItems",
-    "query": "iPhone",
-    "region": "lombardia",
-    "maxItems": 20
-}
-```
-
-### Example: car search with a price range
+### Example: cars in Lombardy under €20,000
 
 ```json
 {
     "mode": "searchCars",
     "query": "BMW",
+    "region": "lombardia",
     "priceMin": 5000,
     "priceMax": 20000,
+    "sort": "priceasc",
     "maxItems": 50
 }
 ```
 
-### Example: electronics search nationwide
+### Example: shippable like-new electronics
 
 ```json
 {
     "mode": "searchElectronics",
     "query": "laptop",
+    "condition": "20",
+    "shippableOnly": true,
     "maxItems": 100
+}
+```
+
+### Example: apartments for rent in Lazio
+
+```json
+{
+    "mode": "searchRealEstate",
+    "query": "trilocale",
+    "region": "lazio",
+    "adType": "u",
+    "maxItems": 50
+}
+```
+
+### Example: specific ads and a saved search
+
+```json
+{
+    "mode": "searchByUrls",
+    "startUrls": [
+        { "url": "https://www.subito.it/telefonia/iphone-16-256-gb-udine-667511057.htm" },
+        { "url": "https://www.subito.it/annunci-lazio/vendita/auto/?q=bmw&ps=5000&pe=20000" }
+    ],
+    "maxItems": 30
 }
 ```
 
 ## Use cases
 
-- **Price monitoring** — track listing prices for a model or keyword over time (e.g. a specific car model or phone).
-- **Market research** — compare how many listings and what price range a product has across Italian regions.
-- **Dealer/reseller sourcing** — scan `searchCars` or `searchElectronics` for private-seller listings below a price threshold.
-- **Competitive benchmarking** — monitor how similar items are priced and described by other sellers in your category.
-- **Regional demand analysis** — compare listing volume and pricing between regions using the `region` filter.
+- **Price monitoring** — track a model or keyword and compare asking prices over time.
+- **Reseller sourcing** — find private-seller cars or electronics below a threshold.
+- **Market research** — measure listing volume and price bands by category and region.
+- **Property and job boards** — pull structured listings into a sheet, CRM, or dashboard.
+- **Deal alerts** — run frequently on `datedesc` and watch new ads for your saved searches.
 
 ## FAQ
 
 **Do I need a Subito.it account?**
-No. This actor reads Subito.it's public listing pages; no login or registration is required.
+No. The actor reads public listings and needs no login, cookies, or API key.
 
-**Can I search all of Italy at once?**
-Yes — leave `region` empty (the default) to search nationwide, or set it to one of the supported regions to narrow results.
+**Do I need to configure a proxy?**
+No. The actor picks its network route automatically.
 
-**What's the difference between the four `mode` options?**
-`searchAll` searches every category on Subito.it; `searchCars`, `searchElectronics`, and `searchItems` restrict the same keyword search to vehicles, electronics, or general items respectively.
+**How many listings can I get in one run?**
+Up to 10,000 per query slice. Subito.it stops serving results beyond 10,000 per search, so split broad searches by category, region, price band, or sort order to reach more.
 
-**Why do some listings have no `price`?**
-Some sellers post ads without a listed price (e.g. "price on request"); those listings simply omit the `price` field.
+**Why is `price` missing on some records?**
+Some ads are give-aways, swaps, or "price on request". Subito.it publishes no price for them, so the field is omitted.
 
-**What does `sellerType` tell me?**
-Whether the ad was posted by a private individual or a professional/business seller, when Subito.it labels it.
+**Why are there no latitude/longitude fields?**
+Subito.it does not publish coordinates in its public listing data. Use `city`, `province`, and `region` for location analysis.
 
-**How many listings can I pull in one run?**
-Up to 1,000 per run via `maxItems`.
+**Why is `seller` empty for some ads?**
+Private users can hide their name. Company sellers usually expose a shop name, which the actor returns.
+
+**Does URL mode work with expired ads?**
+Expired or removed ads are skipped; the run continues with the remaining URLs and reports how many were unavailable.
+
+**Are all Subito.it categories covered?**
+Yes — the `category` dropdown contains the full 45-entry taxonomy, from `Auto` to `Collezionismo`, plus property, job, and service categories.
 
 **Is this affiliated with Subito.it?**
-No. This actor is an independent tool that reads Subito.it's public search results and is not affiliated with or endorsed by Subito.it.
+No. This is an independent tool that reads publicly available listings and is not affiliated with or endorsed by Subito.it.

@@ -1,42 +1,46 @@
 # JobsDB Hong Kong & Thailand Job Listings Extractor
 
-JobsDB is the leading job board in Hong Kong and Thailand, part of the SEEK employment network. This actor queries its live search across six modes — keyword search, category browse, location browse, company browse, latest postings, or direct job-ID lookup — and returns one structured record per listing. No login, cookies, or API key required.
+JobsDB is the leading job board in Hong Kong and Thailand, part of the SEEK employment network. This actor queries its live search across seven modes — keyword search, category browse, location browse, company browse, latest postings, direct job-ID lookup, or pasted job URLs — and returns one structured record per listing, optionally enriched with the full ad body, applicant-demand signals and the employer's company profile. No login, cookies, or API key required.
 
 ## What this actor does
 
-- **Six modes:** `searchJobs`, `browseByCategory`, `browseByLocation`, `browseByCompany`, `latestJobs`, `byJobId`
-- **Two markets:** Hong Kong (`hk.jobsdb.com`) and Thailand (`th.jobsdb.com`)
-- **Filters:** category (29 industries, multi-select), work type (multi-select), work arrangement (on-site/hybrid/remote, multi-select), company/advertiser ID (multiple, comma-separated), salary range + period, date posted, sort order
-- **Rich fields:** title, teaser, highlights, company, category, location, salary, work type, work arrangement, posting date, company logo, direct apply link
+- **Seven modes:** `searchJobs`, `browseByCategory`, `browseByLocation`, `browseByCompany`, `latestJobs`, `byJobId`, `byUrls`
+- **Two markets:** Hong Kong (`hk.jobsdb.com`) and Thailand (`th.jobsdb.com`); `byUrls` reads the market from each link, so HK and TH links can be mixed in one run
+- **Search filters:** category (29 industries, multi-select), sub-category IDs, work type (multi-select), work arrangement (on-site/hybrid/remote, multi-select), company/advertiser ID (multiple), salary range + period, date posted, sort order
+- **Detail enrichment:** full description as plain text, HTML, or both; abstract; expiry/status; applicant count, volume and resume/cover-letter percentages; screening questions; badges; company industry, size, website, description, rating/review count and perks
 - **Empty fields are omitted** — every record only contains data that was actually found
 
 ## Output per job
 
 - `jobId` — unique JobsDB listing ID
-- `title`, `teaser`, `bulletPoints[]` — job highlights
-- `companyName`, `companyUrl`, `logoUrl`
-- `employerId`, `companyId`, `advertiserId` — internal JobsDB identifiers for the employer/advertiser account (feed `advertiserId` back into `mode=browseByCompany` to pull every current listing from that employer; `companyId` is the ID embedded in `companyUrl`)
+- `title`, `teaser`, `abstract`, `bulletPoints[]` — headline and job highlights
+- `descriptionText`, `descriptionHtml` — full ad body in the chosen `descriptionFormat`
+- `companyName`, `companyUrl`, `logoUrl`, `coverImageUrl`
+- `advertiserId`, `advertiserName`, `advertiserVerified`, `employerId`, `companyId` — internal JobsDB identifiers for the employer/advertiser account (feed `advertiserId` back into `mode=browseByCompany` to pull every current listing from that employer; `companyId` is the ID embedded in `companyUrl`)
 - `category`, `categoryId`, `subCategory`, `subCategoryId`
-- `location`, `locations[]`, `countryCode`
+- `location`, `locations[]`, `countryCode`; `locationCountry`, `locationCountryCode`, `locationRegion`, `locationState`, `locationSuburb`, `locationPostcode` when the ad carries a structured address
 - `workTypes[]` — e.g. `Full time`, `Part time`, `Contract/Temp`, `Casual/Vacation`
 - `workArrangements[]` — e.g. `On-site`, `Hybrid`, `Remote`
 - `salaryLabel` — as displayed on the listing (when the advertiser disclosed one)
 - `salaryMinValue`, `salaryMaxValue`, `salaryPeriod` (`hourly`/`monthly`/`annual`), `salaryCurrency` (`HKD`/`THB`) — structured numbers parsed from `salaryLabel` when it's a clear numeric range (omitted for non-numeric labels like `Negotiable` or `Competitive`)
-- `listingDate`, `listingDateDisplay`
-- `isFeatured`
+- `listingDate`, `listingDateDisplay`, `postedAt`, `postedDate`, `updatedAt`, `expiresAt`, `expiredAt`
+- `isFeatured`, `isExpired`, `isLinkOut`, `isProfileApply`, `isVerified`, `jobStatus`
 - `tags[]` — urgency/status badges shown on the listing, e.g. `Urgently hiring`, `Expiring soon`, `Be an early applicant`
-- `roleId`
-- `country` — market the job was scraped from
-- `jobUrl` — link to the live listing
+- `badges[]`, `displayTags[]` — work-arrangement and campaign badges from the ad
+- `screeningQuestions[]` — questions the employer asks in the application form
+- `applicantCount`, `applicantCountLabel`, `applicantVolumeLabel`, `applicantMessage`, `resumePercentage`, `coverLetterPercentage` — applicant-demand signals when JobsDB exposes them
+- `companyIndustry`, `companySize`, `companyWebsite`, `companyDescription`, `companyRating`, `companyReviewCount`, `companyPerks[]`, `companyProfileId` — structured employer profile when one exists
+- `normalizedRoleTitle`, `normalizedLocation`, `broaderLocationName`, `normalizedCompanyName` — SEEK's normalized taxonomy values
+- `roleId`, `country`, `applyUrl`, `jobUrl`
 - `recordType: "job"`, `scrapedAt`
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `searchJobs` | `searchJobs` / `browseByCategory` / `browseByLocation` / `browseByCompany` / `latestJobs` / `byJobId` |
-| `country` | string | `HK` | `HK` (Hong Kong) or `TH` (Thailand) |
-| `keywords` | string | `engineer` | Job title / skill / company keyword |
+| `mode` | string | `searchJobs` | `searchJobs` / `browseByCategory` / `browseByLocation` / `browseByCompany` / `latestJobs` / `byJobId` / `byUrls` |
+| `country` | string | `HK` | `HK` (Hong Kong) or `TH` (Thailand); `byUrls` uses each link's host instead |
+| `keywords` | string | – | Job title / skill / company keyword; leave empty to browse every job in the selected mode |
 | `location` | string | – | Area/city, e.g. `Central`, `Kowloon`, `Bangkok` (required for `browseByLocation`) |
 | `classification` | array | – | One or more job category IDs (required for `browseByCategory`) — 29 categories available in the UI multi-select; picking several matches ANY of them |
 | `subclassification` | string | – | One or more numeric sub-category IDs, comma-separated, to narrow `classification` further, e.g. `6038` = Project Engineering under Engineering — find one via the `subCategoryId` output field on any scraped job |
@@ -44,6 +48,9 @@ JobsDB is the leading job board in Hong Kong and Thailand, part of the SEEK empl
 | `workArrangement` | array | – | Multi-select: `1` On-site / `2` Hybrid / `3` Remote |
 | `advertiserId` | string | – | One or more numeric JobsDB company/advertiser IDs, comma-separated (required for `browseByCompany`) — find one via the `advertiserId` output field on any scraped job |
 | `jobId` | string | – | One or more numeric JobsDB job IDs, comma-separated or as an array (required for `byJobId`) — find one via the `jobId` output field on any previously scraped job |
+| `urls` | array | – | JobsDB job links or numeric IDs (required for `byUrls`); HK and TH links can be mixed |
+| `includeDetails` | boolean | `true` | Fetch full description, expiry, applicant signals, screening questions, badges and company profile (one extra request per job) |
+| `descriptionFormat` | string | `text` | `text` / `html` / `both` |
 | `salaryMin` | int | – | Minimum salary |
 | `salaryMax` | int | – | Maximum salary |
 | `salaryType` | string | `annual` | `annual` / `monthly` / `hourly` — period `salaryMin`/`salaryMax` are expressed in |
@@ -51,7 +58,7 @@ JobsDB is the leading job board in Hong Kong and Thailand, part of the SEEK empl
 | `sortMode` | string | `KeywordRelevance` | `KeywordRelevance` or `ListedDate` (newest first) |
 | `maxItems` | int | `50` | Hard cap on emitted records (1–1000) |
 
-### Example: search with filters
+### Example: search with filters and full details
 
 ```json
 {
@@ -64,6 +71,8 @@ JobsDB is the leading job board in Hong Kong and Thailand, part of the SEEK empl
   "salaryType": "monthly",
   "dateRange": "7",
   "sortMode": "ListedDate",
+  "includeDetails": true,
+  "descriptionFormat": "both",
   "maxItems": 50
 }
 ```
@@ -113,20 +122,6 @@ JobsDB is the leading job board in Hong Kong and Thailand, part of the SEEK empl
 }
 ```
 
-### Example: multiple categories and work types at once
-
-```json
-{
-  "mode": "searchJobs",
-  "country": "HK",
-  "keywords": "manager",
-  "classification": ["1209", "1200"],
-  "workType": ["242", "243"],
-  "workArrangement": ["1", "3"],
-  "maxItems": 100
-}
-```
-
 ### Example: look up specific jobs by ID
 
 ```json
@@ -137,32 +132,53 @@ JobsDB is the leading job board in Hong Kong and Thailand, part of the SEEK empl
 }
 ```
 
+### Example: paste job links from both markets
+
+```json
+{
+  "mode": "byUrls",
+  "urls": [
+    "https://hk.jobsdb.com/job/95849989",
+    "https://th.jobsdb.com/job/95856128"
+  ],
+  "includeDetails": true,
+  "descriptionFormat": "text"
+}
+```
+
 ## Use cases
 
-- **Job seekers & career sites** — aggregate fresh listings by role, category, location, or remote/hybrid arrangement
-- **Recruiters & staffing agencies** — monitor competitor job postings and market salary ranges
-- **Labor market research** — track hiring demand across categories and regions in HK/TH
-- **HR tech / salary benchmarking tools** — collect posted salary ranges by role and market
+- **Job seekers & career sites** — aggregate fresh listings by role, category, location, or remote/hybrid arrangement, with the full ad body
+- **Recruiters & staffing agencies** — monitor competitor job postings, screening questions, and applicant demand
+- **Labor market research** — track hiring demand and posted salary ranges across categories and regions in HK/TH
+- **HR tech / salary benchmarking tools** — collect structured salary ranges plus company industry, size and perks
 - **Lead generation** — find companies actively hiring in a given industry
 - **Competitor/company tracking** — pull every current listing from a specific employer with `mode=browseByCompany`
+- **Shortlist refresh** — re-check saved job URLs for expiry, updated content and current applicant volume
 
 ## FAQ
 
 **What's JobsDB?** A leading job board across Hong Kong and Thailand, part of the SEEK employment network. See [jobsdb.com](https://hk.jobsdb.com).
 
-**Do I need to log in or provide cookies?** No. This actor uses JobsDB's public job-search endpoint — no account, API key, or proxy required.
+**Do I need to log in or provide cookies?** No. This actor uses JobsDB's public job-search and job-detail endpoints — no account, API key, or proxy required.
+
+**What does `includeDetails` add?** One extra request per job fills the full description, abstract, expiry/status, applicant-demand signals, screening questions, badges, structured location and company profile. Turn it off to scrape more listings faster at a lower cost.
+
+**Why is `descriptionText` missing on some jobs?** A small number of advertisers publish only an external apply link. When the ad has no body, the field is omitted rather than filled with a placeholder.
 
 **Why is `salaryLabel` missing on some jobs?** Not every advertiser discloses a salary. The field is only included when JobsDB displays one.
 
 **Why is `salaryMinValue`/`salaryMaxValue` missing even though `salaryLabel` is present?** A handful of advertisers enter free text instead of a number (e.g. `Negotiable`, `Competitive`, `Attractive Salary Package`). The structured fields are only added when `salaryLabel` is confidently a numeric amount or range — never a guessed value.
 
+**Why are applicant signals missing on some jobs?** JobsDB only exposes them for jobs with enough application activity, and external-apply jobs omit them entirely. The field is absent rather than zeroed when the source has no signal.
+
 **What's the difference between `category` and `subCategory`?** JobsDB classifies each job into a broad category (e.g. `Information & Communication Technology`) and a more specific sub-category (e.g. `Developers/Programmers`).
 
-**How fresh is the data?** Real-time — every run queries JobsDB's live search API directly.
+**How fresh is the data?** Real-time — every run queries JobsDB's live APIs directly.
 
-**Why does `jobUrl` sometimes fail a `curl`/HEAD check?** JobsDB's listing pages sit behind bot-detection that blocks non-browser HTTP clients (no cookies, no JS) while allowing real browsers through normally. The URLs themselves are valid, live links — opening them in a browser works fine. `companyUrl` and `logoUrl` are not behind this protection and are directly fetchable.
+**Why does `jobUrl` sometimes fail a `curl`/HEAD check?** JobsDB's listing pages sit behind bot-detection that blocks non-browser HTTP clients (no cookies, no JS) while allowing real browsers through normally. The URLs themselves are valid, live links — opening them in a browser works fine. `logoUrl` and `coverImageUrl` point at JobsDB's image CDN and are directly fetchable without a browser.
 
-**Can I use Thai-script place names for `location` in Thailand?** Yes. `location: "กรุงเทพ"` and `location: "Bangkok"` both work for `country: "TH"` — the actor automatically detects Thai-script input and queries JobsDB's Thai-language endpoint so the place name resolves correctly. `category`, `workTypes`, and `workArrangements` are always normalized back to English in the output either way, so filtering/grouping by those fields stays consistent regardless of which locale a record was fetched under. `teaser`, `bulletPoints`, and `subCategory` remain in whatever language the advertiser/JobsDB used (Thai for Thai-script location lookups), since those are free text with no fixed English translation to fall back to.
+**Can I use Thai-script place names for `location` in Thailand?** Yes. `location: "กรุงเทพ"` and `location: "Bangkok"` both work for `country: "TH"` — the actor automatically detects Thai-script input and queries JobsDB's Thai-language endpoint so the place name resolves correctly. `category`, `workTypes`, and `workArrangements` are always normalized back to English in the output either way, so filtering/grouping by those fields stays consistent regardless of which locale a record was fetched under. `teaser`, `descriptionText`, `bulletPoints`, `screeningQuestions`, and `subCategory` remain in whatever language the advertiser/JobsDB used (Thai for Thai-script location lookups), since those are free text with no fixed English translation to fall back on.
 
 **Which markets are supported?** Hong Kong and Thailand, JobsDB's two active markets. Other former JobsDB markets (Singapore, Indonesia, Philippines) have migrated to the sister JobStreet/Jora brands and are out of scope for this actor.
 
@@ -172,4 +188,4 @@ JobsDB is the leading job board in Hong Kong and Thailand, part of the SEEK empl
 
 **Can I filter by more than one category, work type, or work arrangement at once?** Yes. `classification` and `workType` and `workArrangement` are multi-select — pick as many as you want and a job matching ANY of your selections is returned. `subclassification` and `advertiserId` accept multiple comma-separated IDs the same way, e.g. `advertiserId: "61282529,61359613"` pulls current listings from both companies in one run.
 
-**How do I re-fetch a specific job I already scraped?** Use `mode: "byJobId"` with the `jobId` value(s) from a previous run's output — comma-separated for multiple, e.g. `jobId: "93889825,93902058"`. Useful for refreshing a saved shortlist or checking whether a listing is still live.
+**How do I re-fetch a specific job I already scraped?** Use `mode: "byJobId"` with the `jobId` values, or `mode: "byUrls"` with the saved `jobUrl` links — comma-separated arrays are fine. Useful for refreshing a shortlist or checking whether a listing is still live.

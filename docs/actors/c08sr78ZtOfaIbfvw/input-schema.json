@@ -1,45 +1,335 @@
 {
   "properties": {
-    "maxItems": {
-      "default": 3,
-      "description": "Maximum number of activities to return.",
-      "editor": "number",
-      "maximum": 500,
-      "minimum": 1,
-      "prefill": 3,
-      "title": "Max Items",
-      "type": "integer"
+    "activityIds": {
+      "description": "Direct GetYourGuide activity IDs. Each ID opens its activity page and returns full detail fields.",
+      "editor": "stringList",
+      "title": "Activity IDs (optional)",
+      "type": "array"
     },
-    "proxyConfiguration": {
-      "default": {
-        "apifyProxyCountry": "US",
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
-        ],
-        "useApifyProxy": true
-      },
-      "description": "Apify RESIDENTIAL US proxy is REQUIRED — GetYourGuide blocks datacenter IPs. Do not change these settings.",
-      "editor": "proxy",
-      "prefill": {
-        "apifyProxyCountry": "US",
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
-        ],
-        "useApifyProxy": true
-      },
-      "title": "Proxy Configuration",
-      "type": "object"
-    },
-    "query": {
-      "default": "rome",
-      "description": "City, destination, or activity keyword to search on GetYourGuide. Examples: 'rome', 'paris', 'tokyo', 'eiffel tower', 'colosseum'. Ignored when startUrls are supplied.",
-      "editor": "textfield",
-      "prefill": "rome",
-      "title": "Search Query (destination or activity)",
+    "currency": {
+      "default": "USD",
+      "description": "Currency for all prices.",
+      "editor": "select",
+      "enum": [
+        "USD",
+        "EUR",
+        "GBP",
+        "AUD",
+        "CAD",
+        "CHF",
+        "JPY",
+        "INR",
+        "BRL",
+        "MXN",
+        "NZD",
+        "SEK",
+        "NOK",
+        "DKK",
+        "PLN",
+        "CZK",
+        "HUF",
+        "RON",
+        "TRY",
+        "ZAR",
+        "AED",
+        "SAR",
+        "ILS",
+        "SGD",
+        "HKD",
+        "TWD",
+        "KRW",
+        "THB",
+        "MYR",
+        "IDR",
+        "PHP",
+        "VND",
+        "CNY",
+        "ARS",
+        "CLP",
+        "COP",
+        "PEN",
+        "RUB",
+        "UAH",
+        "EGP"
+      ],
+      "enumTitles": [
+        "US Dollar",
+        "Euro",
+        "British Pound",
+        "Australian Dollar",
+        "Canadian Dollar",
+        "Swiss Franc",
+        "Japanese Yen",
+        "Indian Rupee",
+        "Brazilian Real",
+        "Mexican Peso",
+        "New Zealand Dollar",
+        "Swedish Krona",
+        "Norwegian Krone",
+        "Danish Krone",
+        "Polish Zloty",
+        "Czech Koruna",
+        "Hungarian Forint",
+        "Romanian Leu",
+        "Turkish Lira",
+        "South African Rand",
+        "UAE Dirham",
+        "Saudi Riyal",
+        "Israeli Shekel",
+        "Singapore Dollar",
+        "Hong Kong Dollar",
+        "Taiwan Dollar",
+        "South Korean Won",
+        "Thai Baht",
+        "Malaysian Ringgit",
+        "Indonesian Rupiah",
+        "Philippine Peso",
+        "Vietnamese Dong",
+        "Chinese Yuan",
+        "Argentine Peso",
+        "Chilean Peso",
+        "Colombian Peso",
+        "Peruvian Sol",
+        "Russian Ruble",
+        "Ukrainian Hryvnia",
+        "Egyptian Pound"
+      ],
+      "prefill": "USD",
+      "sectionCaption": "Display",
+      "title": "Currency",
       "type": "string"
     },
+    "dateFrom": {
+      "description": "Only activities available on or after this date (YYYY-MM-DD). Leave empty for any date.",
+      "editor": "datepicker",
+      "title": "Available from",
+      "type": "string"
+    },
+    "dateTo": {
+      "description": "Only activities available on or before this date (YYYY-MM-DD). Leave empty for any date.",
+      "editor": "datepicker",
+      "title": "Available to",
+      "type": "string"
+    },
+    "departsFrom": {
+      "description": "Numeric departure-city IDs. Copy them from a search page URL.",
+      "editor": "stringList",
+      "title": "Departure city IDs",
+      "type": "array"
+    },
+    "durations": {
+      "description": "Filter by duration. Any of: up_to_3_hours, 3_to_5_hours, 5_to_7_hours, full_day, 2_days, 3_days, 4_days, 5_days_plus.",
+      "editor": "stringList",
+      "title": "Duration buckets",
+      "type": "array"
+    },
+    "features": {
+      "description": "Filter by features. Any of: private_tour, skip_the_line, small_group, wheelchair_accessible, hotel_pickup, gyg_originals.",
+      "editor": "stringList",
+      "title": "Activity features",
+      "type": "array"
+    },
+    "guideLanguages": {
+      "description": "Only activities offered in these guide languages, using two-letter codes (en, de, fr, es, it, pt, …).",
+      "editor": "stringList",
+      "sectionCaption": "Advanced filters",
+      "title": "Guide languages",
+      "type": "array"
+    },
+    "includeDetails": {
+      "default": true,
+      "description": "Open each activity page to add full descriptions, highlights, inclusions, exclusions, meeting point, cancellation policy, supplier, and review fields. Turn off for the fastest search-card-only runs.",
+      "prefill": false,
+      "title": "Fetch activity detail pages",
+      "type": "boolean"
+    },
+    "interests": {
+      "description": "GetYourGuide interest IDs such as tc-27 (culture & history) or tc-103 (food & drink). Copy them from a search page URL or the available filters.",
+      "editor": "stringList",
+      "title": "Interest IDs",
+      "type": "array"
+    },
+    "language": {
+      "default": "en",
+      "description": "Language for titles, descriptions, highlights, and policies.",
+      "editor": "select",
+      "enum": [
+        "en",
+        "de",
+        "fr",
+        "es",
+        "it",
+        "pt",
+        "nl",
+        "pl",
+        "ru",
+        "tr",
+        "ja",
+        "ko",
+        "zh",
+        "ar",
+        "da",
+        "sv",
+        "no",
+        "fi",
+        "cs",
+        "el",
+        "he",
+        "hu",
+        "id",
+        "ms",
+        "ro",
+        "sk",
+        "sl",
+        "sr",
+        "th",
+        "uk",
+        "vi"
+      ],
+      "enumTitles": [
+        "English",
+        "German",
+        "French",
+        "Spanish",
+        "Italian",
+        "Portuguese",
+        "Dutch",
+        "Polish",
+        "Russian",
+        "Turkish",
+        "Japanese",
+        "Korean",
+        "Chinese",
+        "Arabic",
+        "Danish",
+        "Swedish",
+        "Norwegian",
+        "Finnish",
+        "Czech",
+        "Greek",
+        "Hebrew",
+        "Hungarian",
+        "Indonesian",
+        "Malay",
+        "Romanian",
+        "Slovak",
+        "Slovenian",
+        "Serbian",
+        "Thai",
+        "Ukrainian",
+        "Vietnamese"
+      ],
+      "prefill": "en",
+      "title": "Content language",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 30,
+      "description": "Maximum activities to return across all queries, URLs, and IDs.",
+      "editor": "number",
+      "maximum": 2000,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxReviews": {
+      "default": 0,
+      "description": "How many recent reviews to attach to each activity (0 disables reviews). Only used when detail pages are fetched.",
+      "editor": "number",
+      "maximum": 50,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Reviews per activity",
+      "type": "integer"
+    },
+    "minRating": {
+      "default": "any",
+      "description": "Only return activities with at least this star rating.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "3.0",
+        "3.5",
+        "4.0",
+        "4.5"
+      ],
+      "enumTitles": [
+        "Any rating",
+        "3.0+",
+        "3.5+",
+        "4.0+",
+        "4.5+"
+      ],
+      "prefill": "any",
+      "sectionCaption": "Filters",
+      "title": "Minimum rating",
+      "type": "string"
+    },
+    "places": {
+      "description": "Numeric GetYourGuide place/attraction IDs (e.g. 2619 for the Colosseum). Copy them from a search page URL.",
+      "editor": "stringList",
+      "title": "Place IDs",
+      "type": "array"
+    },
+    "priceMax": {
+      "default": 0,
+      "description": "Maximum starting price in the selected currency. 0 means no maximum.",
+      "editor": "number",
+      "maximum": 100000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Maximum price",
+      "type": "integer"
+    },
+    "priceMin": {
+      "default": 0,
+      "description": "Minimum starting price in the selected currency. 0 means no minimum.",
+      "editor": "number",
+      "maximum": 100000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum price",
+      "type": "integer"
+    },
+    "searchQueries": {
+      "description": "Cities, landmarks, or activity keywords to search on GetYourGuide. One search per item, e.g. 'rome', 'eiffel tower', 'food tour paris'. Used for the keyword-search mode.",
+      "editor": "stringList",
+      "prefill": [
+        "rome"
+      ],
+      "sectionCaption": "Search",
+      "title": "Search queries",
+      "type": "array"
+    },
+    "sortBy": {
+      "default": "popularity",
+      "description": "Order of search and listing results.",
+      "editor": "select",
+      "enum": [
+        "popularity",
+        "rating",
+        "price_asc",
+        "price_desc"
+      ],
+      "enumTitles": [
+        "Most popular (GetYourGuide ranking)",
+        "Highest rated",
+        "Price: low to high",
+        "Price: high to low"
+      ],
+      "prefill": "popularity",
+      "title": "Sort results",
+      "type": "string"
+    },
+    "startTime": {
+      "description": "Filter by start time. Any of: morning, afternoon, evening.",
+      "editor": "stringList",
+      "title": "Start time of day",
+      "type": "array"
+    },
     "startUrls": {
-      "description": "Direct GetYourGuide URLs. Can be search pages (https://www.getyourguide.com/s/?q=...), activity pages (https://www.getyourguide.com/.../<slug>-t<id>/), or city pages (https://www.getyourguide.com/<city>-l<id>/). Overrides the search query when provided.",
+      "description": "GetYourGuide URLs or activity IDs. Accepts search pages (/s/?q=...), destination/attraction pages (…-l<id>/), category pages (…-tc<id>/), activity pages (…-t<id>/), and bare IDs such as 631866 or t631866. URL query filters are preserved.",
       "editor": "stringList",
       "title": "Start URLs (optional)",
       "type": "array"
@@ -47,6 +337,6 @@
   },
   "required": [],
   "schemaVersion": 1,
-  "title": "GetYourGuide Scraper Input",
+  "title": "GetYourGuide Activity Pricing & Highlights Extractor Input",
   "type": "object"
 }
