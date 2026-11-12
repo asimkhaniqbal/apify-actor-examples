@@ -1,169 +1,243 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-n32f957X5Vko31QKmfsGHRFEj3AznGMLTIhToQwV13o=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; connect-src &#x27;self&#x27;; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>OLX.pl Used Car Listings by Make &amp; Fuel Type – docs, price and API | Vexaloom Labs</title><meta name="description" content="Search olx.pl for used cars in Poland by keyword, fuel type, gearbox, condition, year, and price range. Get make, model, year, price in PLN, mileage, location, and photos per listing."><meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/"><meta property="og:title" content="OLX.pl Used Car Listings by Make &amp; Fuel Type – docs, price and API | Vexaloom Labs"><meta property="og:description" content="Search olx.pl for used cars in Poland by keyword, fuel type, gearbox, condition, year, and price range. Get make, model, year, price in PLN, mileage, location, and photos per listing."><meta property="og:type" content="article"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/"><meta property="og:site_name" content="Vexaloom Labs"><meta property="og:image" content="https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-PPeaNeinzhQGBNDFu-hqUN8iJJds-logo.png"><meta name="twitter:card" content="summary"><meta name="theme-color" content="#7c3aed"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e75e5ce69563"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs","https://github.com/asimkhaniqbal/apify-actor-examples"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs Actor documentation","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/#webpage","name":"OLX.pl Used Car Listings by Make & Fuel Type – docs, price and API","description":"Search olx.pl for used cars in Poland by keyword, fuel type, gearbox, condition, year, and price range. Get make, model, year, price in PLN, mileage, location, and photos per listing.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/#article"},"dateModified":"2026-11-12T15:14:48.517Z","breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/#article","headline":"OLX.pl Used Car Listings by Make & Fuel Type – docs, price and API","name":"OLX.pl Used Car Listings by Make & Fuel Type – docs, price and API","description":"Search olx.pl for used cars in Poland by keyword, fuel type, gearbox, condition, year, and price range. Get make, model, year, price in PLN, mileage, location, and photos per listing.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/#webpage"},"inLanguage":"en","dateModified":"2026-11-12T15:14:48.517Z","image":"https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-PPeaNeinzhQGBNDFu-hqUN8iJJds-logo.png"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Topics","item":"https://asimkhaniqbal.github.io/apify-actor-examples/topics/"},{"@type":"ListItem","position":3,"name":"Ecommerce","item":"https://asimkhaniqbal.github.io/apify-actor-examples/topics/ecommerce/"},{"@type":"ListItem","position":4,"name":"OLX.pl Used Car Listings by Make & Fuel Type","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/"}]},{"@type":"SoftwareApplication","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/#software","name":"OLX.pl Used Car Listings by Make & Fuel Type","description":"Search olx.pl for used cars in Poland by keyword, fuel type, gearbox, condition, year, and price range. Get make, model, year, price in PLN, mileage, location, and photos per listing.","url":"https://apify.com/vexaloom-labs/olx-pl-used-car-listings-by-make-and-fuel-type","applicationCategory":"DeveloperApplication","operatingSystem":"Apify platform (web)","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"image":"https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-PPeaNeinzhQGBNDFu-hqUN8iJJds-logo.png","offers":{"@type":"Offer","url":"https://apify.com/vexaloom-labs/olx-pl-used-car-listings-by-make-and-fuel-type","priceCurrency":"USD","price":"0","priceSpecification":{"@type":"UnitPriceSpecification","price":0.00099,"priceCurrency":"USD","unitText":"result","referenceQuantity":{"@type":"QuantitativeValue","value":1,"unitText":"result"}},"description":"Pay per event: the price per result on Apify's Free plan; a start fee and platform usage are billed separately."}},{"@type":"FAQPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/#faq","mainEntity":[{"@type":"Question","name":"What is OLX Poland?","acceptedAnswer":{"@type":"Answer","text":"Poland's largest online classifieds platform, with a dedicated cars section covering millions of vehicle listings from private sellers and dealers."}},{"@type":"Question","name":"Do I need to log in or provide an API key?","acceptedAnswer":{"@type":"Answer","text":"No — searching and reading olx.pl car listings requires no account."}},{"@type":"Question","name":"Are prices always in PLN?","acceptedAnswer":{"@type":"Answer","text":"Yes, for listings on olx.pl; currency on each record confirms it."}},{"@type":"Question","name":"Can I combine multiple filters at once?","acceptedAnswer":{"@type":"Answer","text":"Yes — fuelType, gearbox, condition, the year range, and the price range can all be set together along with query."}},{"@type":"Question","name":"Why is a field like `engineSize` or `doorCount` missing on some listings?","acceptedAnswer":{"@type":"Answer","text":"OLX sellers don't always fill in every vehicle attribute; a field is only included in a record when OLX actually has a value for it."}},{"@type":"Question","name":"Does this cover listings from all of Poland?","acceptedAnswer":{"@type":"Answer","text":"Yes — results aren't restricted to any single city or region; city and region on each record show where that listing is located."}},{"@type":"Question","name":"Is this affiliated with OLX?","acceptedAnswer":{"@type":"Answer","text":"No. This is an independent actor that reads publicly available olx.pl listing data; it is not operated by or affiliated with OLX Group."}}],"isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/#webpage"}}]}</script><script src="/apify-actor-examples/assets/site.js?v=7e51661f28fa" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header class="masthead"><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="32" height="32"><span>Vexaloom Labs</span></a><form class="site-search" action="/apify-actor-examples/actors/" role="search" data-search-index="/apify-actor-examples/search.json"><label class="sr-only" for="site-search">Search this site</label><input type="search" role="combobox" id="site-search" name="q" placeholder="Search by site or data" autocomplete="off" aria-autocomplete="list" aria-controls="site-search-results" aria-expanded="false"><ul id="site-search-results" class="search-results" role="listbox" hidden></ul></form><nav class="primary" aria-label="Main"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/sites/">Sites</a><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/guides/">Guides</a></nav></div></header><main id="main"><nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="/apify-actor-examples/">Home</a></li><li><a href="/apify-actor-examples/topics/">Topics</a></li><li><a href="/apify-actor-examples/topics/ecommerce/">Ecommerce</a></li><li aria-current="page">OLX.pl Used Car Listings by Make &amp; Fuel Type</li></ol></nav><div class="doc"><div class="doc-head"><h1>OLX.pl Used Car Listings by Make &amp; Fuel Type</h1><p class="lead">Search olx.pl for used cars in Poland by keyword, fuel type, gearbox, condition, year, and price range. Get make, model, year, price in PLN, mileage, location, and photos per listing.</p><dl class="facts"><div><dt>Updated</dt><dd><time datetime="2026-11-12">12 November 2026</time></dd></div><div><dt>Free plan</dt><dd>$0.99 per 1,000 results</dd></div><div><dt>Business plan</dt><dd>$0.49 per 1,000 results</dd></div><div><dt>Input</dt><dd>9 fields, none required</dd></div><div><dt>Output</dt><dd>9 declared fields</dd></div><div><dt>Site</dt><dd><a href="/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/">OLX.pl</a></dd></div></dl><div class="cta"><a class="button" href="https://apify.com/vexaloom-labs/olx-pl-used-car-listings-by-make-and-fuel-type">Open in Apify Store</a><a class="button secondary" href="#run">Copy the API call</a></div></div><div class="doc-body"><nav class="toc" aria-label="On this page"><h2 class="toc-title">On this page</h2><ol><li><a href="#summary">In short</a></li><li><a href="#about">What it does</a></li><li><a href="#output">What you get</a></li><li><a href="#run">Run it</a></li><li><a href="#cost">What it costs</a></li><li><a href="#input">Input reference</a></li><li><a href="#faq">Questions</a></li><li><a href="#related">Related Actors</a></li></ol></nav><article class="prose"><p class="summary" id="summary">OLX.pl Used Car Listings by Make &amp; Fuel Type is an Apify Actor published by Vexaloom Labs. It accepts 9 input fields, none of them required at the top level. Each result can carry up to 9 declared fields, including <code>title</code>, <code>make</code>, <code>model</code>, <code>year</code>, <code>pricePln</code> and <code>mileage</code>. It costs $0.99 per 1,000 results on Apify's Free plan and $0.49 on the Business plan.</p><section id="about"><h2>What it does</h2><!--readme--><p>OLX.pl is Poland's largest classifieds marketplace, with a dedicated cars section covering private sellers and dealers nationwide. This actor searches that cars section by keyword and vehicle filters, returning structured data for each matching listing up to the item limit you set.</p>
-<!--/readme--><h3 id="readme-what-this-actor-does">What this actor does</h3><!--readme--><ul>
-<li><strong>Keyword search</strong> across the olx.pl cars category, or browse all cars with no keyword</li>
-<li><strong>Vehicle filters</strong> — fuel type, gearbox, condition, model-year range, and price range, combinable in any mix</li>
-<li><strong>Full listing detail</strong> — make, model, year, mileage, engine size, door count, body type, color, and photos</li>
-<li><strong>Empty fields are omitted</strong> — a field OLX doesn't show for a listing (e.g. no engine size on an electric car) is left out rather than returned as null</li>
-</ul>
-<!--/readme--><h3 id="readme-use-cases">Use cases</h3><!--readme--><ul>
-<li><strong>Polish used car market research</strong> — compare prices for specific makes and models</li>
-<li><strong>Import sourcing</strong> — find cars available for export from Poland</li>
-<li><strong>Price benchmarking</strong> — track PLN prices across different fuel types and years</li>
-<li><strong>Market monitoring</strong> — watch listing volume and pricing trends over time</li>
-</ul>
-<!--/readme--></section><section id="output"><h2>What you get</h2><p>The Actor saves one record per result to an Apify dataset. Its build declares 9 fields in 1 dataset view, and the README documents 17 more. Fields without a value can be left out of a record.</p><div class="table-wrap"><table class="output-table stack"><caption>Output fields</caption><thead><tr><th scope="col">Field</th><th scope="col">Label</th><th scope="col">What it holds</th></tr></thead><tbody><tr><th scope="row"><code>title</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Listing title<!--/readme--></td></tr><tr><th scope="row"><code>make</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Car manufacturer<!--/readme--></td></tr><tr><th scope="row"><code>model</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Car model<!--/readme--></td></tr><tr><th scope="row"><code>year</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Model year<!--/readme--></td></tr><tr><th scope="row"><code>pricePln</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Price in Polish Zloty (PLN)<!--/readme--></td></tr><tr><th scope="row"><code>mileage</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Odometer reading<!--/readme--></td></tr><tr><th scope="row"><code>fuelType</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Fuel type (Petrol, Diesel, LPG, Electric, Hybrid)<!--/readme--></td></tr><tr><th scope="row"><code>city</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Seller city<!--/readme--></td></tr><tr><th scope="row"><code>listingUrl</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Direct link to the listing on olx.pl<!--/readme--></td></tr><tr><th scope="row"><code>listingId</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->OLX internal listing ID<!--/readme--></td></tr><tr><th scope="row"><code>slug</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->OLX URL slug for the listing<!--/readme--></td></tr><tr><th scope="row"><code>currency</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Currency (usually PLN)<!--/readme--></td></tr><tr><th scope="row"><code>gearbox</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Transmission type<!--/readme--></td></tr><tr><th scope="row"><code>engineSize</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Engine displacement, as listed<!--/readme--></td></tr><tr><th scope="row"><code>bodyType</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Body style<!--/readme--></td></tr><tr><th scope="row"><code>color</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Exterior color<!--/readme--></td></tr><tr><th scope="row"><code>doorCount</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Number of doors, as listed<!--/readme--></td></tr><tr><th scope="row"><code>condition</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Used, New, or Damaged<!--/readme--></td></tr><tr><th scope="row"><code>region</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Polish voivodeship<!--/readme--></td></tr><tr><th scope="row"><code>imageUrl</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Primary photo URL<!--/readme--></td></tr></tbody></table></div><details class="more-rows"><summary>Show the other 6 output fields</summary><div class="table-wrap"><table class="output-table stack"><caption>Output fields, continued</caption><thead><tr><th scope="col">Field</th><th scope="col">Label</th><th scope="col">What it holds</th></tr></thead><tbody><tr><th scope="row"><code>photoUrls</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Up to 10 photo URLs<!--/readme--></td></tr><tr><th scope="row"><code>description</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Listing description (first 500 characters)<!--/readme--></td></tr><tr><th scope="row"><code>createdAt</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Listing creation timestamp<!--/readme--></td></tr><tr><th scope="row"><code>refreshedAt</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Timestamp the seller last refreshed/bumped the listing<!--/readme--></td></tr><tr><th scope="row"><code>recordType</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Always <code>&quot;carListing&quot;</code><!--/readme--></td></tr><tr><th scope="row"><code>scrapedAt</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->UTC ISO scrape timestamp<!--/readme--></td></tr></tbody></table></div></details><details class="publisher-notes"><summary>The publisher's output notes</summary><h3 id="readme-output-per-listing">Output per listing</h3><!--readme--><div class="table-wrap"><table>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27; &#x27;sha256-blFpsgRm6fi5/qw/AYV2nVaAgQW9wdQ639ryNK0T5K8=&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; https: data:; connect-src &#x27;self&#x27;; base-uri &#x27;self&#x27;; form-action &#x27;self&#x27;; object-src &#x27;none&#x27;"><title>OLX.pl Used Car Listings by Make &amp; Fuel Type – docs, price and API | Vexaloom Labs</title><meta name="description" content="Search olx.pl for used cars in Poland by keyword, fuel type, gearbox, condition, year, and price range. Get make, model, year, price in PLN, mileage, location, and photos per listing."><meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1"><link rel="canonical" href="https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/"><meta property="og:title" content="OLX.pl Used Car Listings by Make &amp; Fuel Type – docs, price and API | Vexaloom Labs"><meta property="og:description" content="Search olx.pl for used cars in Poland by keyword, fuel type, gearbox, condition, year, and price range. Get make, model, year, price in PLN, mileage, location, and photos per listing."><meta property="og:type" content="article"><meta property="og:url" content="https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/"><meta property="og:site_name" content="Vexaloom Labs"><meta property="og:image" content="https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-PPeaNeinzhQGBNDFu-hqUN8iJJds-logo.png"><meta name="twitter:card" content="summary"><meta name="theme-color" content="#7c3aed"><link rel="icon" href="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" type="image/svg+xml"><link rel="stylesheet" href="/apify-actor-examples/assets/site.css?v=e75e5ce69563"><link rel="alternate" type="application/rss+xml" title="Vexaloom Labs guides" href="/apify-actor-examples/feed.xml"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization","name":"Vexaloom Labs","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","sameAs":["https://apify.com/vexaloom-labs","https://github.com/asimkhaniqbal/apify-actor-examples"]},{"@type":"WebSite","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website","name":"Vexaloom Labs Actor documentation","url":"https://asimkhaniqbal.github.io/apify-actor-examples/","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/#webpage","name":"OLX.pl Used Car Listings by Make & Fuel Type – docs, price and API","description":"Search olx.pl for used cars in Poland by keyword, fuel type, gearbox, condition, year, and price range. Get make, model, year, price in PLN, mileage, location, and photos per listing.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/","isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#website"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"inLanguage":"en","mainEntity":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/#article"},"dateModified":"2026-11-12T19:20:21.570Z","breadcrumb":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/#breadcrumb"}},{"@type":"TechArticle","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/#article","headline":"OLX.pl Used Car Listings by Make & Fuel Type – docs, price and API","name":"OLX.pl Used Car Listings by Make & Fuel Type – docs, price and API","description":"Search olx.pl for used cars in Poland by keyword, fuel type, gearbox, condition, year, and price range. Get make, model, year, price in PLN, mileage, location, and photos per listing.","url":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/","author":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"mainEntityOfPage":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/#webpage"},"inLanguage":"en","dateModified":"2026-11-12T19:20:21.570Z","image":"https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-PPeaNeinzhQGBNDFu-hqUN8iJJds-logo.png"},{"@type":"BreadcrumbList","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Vexaloom Labs","item":"https://asimkhaniqbal.github.io/apify-actor-examples/"},{"@type":"ListItem","position":2,"name":"Topics","item":"https://asimkhaniqbal.github.io/apify-actor-examples/topics/"},{"@type":"ListItem","position":3,"name":"Ecommerce","item":"https://asimkhaniqbal.github.io/apify-actor-examples/topics/ecommerce/"},{"@type":"ListItem","position":4,"name":"OLX.pl Used Car Listings by Make & Fuel Type","item":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/"}]},{"@type":"SoftwareApplication","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/#software","name":"OLX.pl Used Car Listings by Make & Fuel Type","description":"Search olx.pl for used cars in Poland by keyword, fuel type, gearbox, condition, year, and price range. Get make, model, year, price in PLN, mileage, location, and photos per listing.","url":"https://apify.com/vexaloom-labs/olx-pl-used-car-listings-by-make-and-fuel-type","applicationCategory":"DeveloperApplication","operatingSystem":"Apify platform (web)","publisher":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/#organization"},"image":"https://apify-image-uploads-prod.s3.us-east-1.amazonaws.com/NL4ThgItAwaoBlffQ-actor-PPeaNeinzhQGBNDFu-hqUN8iJJds-logo.png","offers":{"@type":"Offer","url":"https://apify.com/vexaloom-labs/olx-pl-used-car-listings-by-make-and-fuel-type","priceCurrency":"USD","price":"0","priceSpecification":{"@type":"UnitPriceSpecification","price":0.00099,"priceCurrency":"USD","unitText":"result","referenceQuantity":{"@type":"QuantitativeValue","value":1,"unitText":"result"}},"description":"Pay per event: the price per result on Apify's Free plan; a start fee and platform usage are billed separately."}},{"@type":"FAQPage","@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/#faq","mainEntity":[{"@type":"Question","name":"Do I need cookies, an account or an API key?","acceptedAnswer":{"@type":"Answer","text":"No. Every field comes from public OLX pages and requires no login."}},{"@type":"Question","name":"Why is a field missing on some rows?","acceptedAnswer":{"@type":"Answer","text":"Sellers do not fill every attribute. OLX also hides the VIN on many offers. Missing values are omitted."}},{"@type":"Question","name":"What does \"condition\" mean?","acceptedAnswer":{"@type":"Answer","text":"OLX reports whether a car is damaged or not damaged. The legacy values used and new are still accepted and map to notdamaged."}},{"@type":"Question","name":"Will my old task inputs still work?","acceptedAnswer":{"@type":"Answer","text":"Yes. gearbox maps to transmission, fuelType: hybrid maps to OLX's CNG/hybrid key, condition: usednew maps to not damaged, urls/startUrls open details mode, and sort maps to sortBy."}},{"@type":"Question","name":"Are promoted ads included?","acceptedAnswer":{"@type":"Answer","text":"Yes by default, and they are flagged with isPromoted. OLX inserts promoted ads into result slots, so they count toward maxItems and can appear in any sort order. Set includePromoted to false for organic-only, strictly sorted results."}},{"@type":"Question","name":"How is \"newest first\" ordered?","acceptedAnswer":{"@type":"Answer","text":"OLX ranks bumped/refreshed offers, so createdat:desc returns the most recently refreshed listings first. refreshedAt is that refresh time; createdAt is the original creation date."}},{"@type":"Question","name":"Can I combine filters?","acceptedAnswer":{"@type":"Answer","text":"Yes — every vehicle filter, range, region and sort order can be combined in one run."}},{"@type":"Question","name":"Are prices always PLN?","acceptedAnswer":{"@type":"Answer","text":"Listings on olx.pl are priced in PLN; currency confirms the value on each row."}},{"@type":"Question","name":"Why did a run return fewer rows than I asked for?","acceptedAnswer":{"@type":"Answer","text":"Either OLX had no more matches, or a single year-and-price slice hit OLX's 1,000-result ceiling. The status message says which case applied."}}],"isPartOf":{"@id":"https://asimkhaniqbal.github.io/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/#webpage"}}]}</script><script src="/apify-actor-examples/assets/site.js?v=7e51661f28fa" defer></script></head><body class="theme-lab"><a href="#main" class="skip-link">Skip to content</a><header class="masthead"><div class="inner"><a href="/apify-actor-examples/" class="brand"><img src="/apify-actor-examples/assets/mark.svg?v=067055bd48e3" alt="" width="32" height="32"><span>Vexaloom Labs</span></a><form class="site-search" action="/apify-actor-examples/actors/" role="search" data-search-index="/apify-actor-examples/search.json"><label class="sr-only" for="site-search">Search this site</label><input type="search" role="combobox" id="site-search" name="q" placeholder="Search by site or data" autocomplete="off" aria-autocomplete="list" aria-controls="site-search-results" aria-expanded="false"><ul id="site-search-results" class="search-results" role="listbox" hidden></ul></form><nav class="primary" aria-label="Main"><a href="/apify-actor-examples/actors/" aria-current="page">Actors</a><a href="/apify-actor-examples/sites/">Sites</a><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/guides/">Guides</a></nav></div></header><main id="main"><nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="/apify-actor-examples/">Home</a></li><li><a href="/apify-actor-examples/topics/">Topics</a></li><li><a href="/apify-actor-examples/topics/ecommerce/">Ecommerce</a></li><li aria-current="page">OLX.pl Used Car Listings by Make &amp; Fuel Type</li></ol></nav><div class="doc"><div class="doc-head"><h1>OLX.pl Used Car Listings by Make &amp; Fuel Type</h1><p class="lead">Search olx.pl for used cars in Poland by keyword, fuel type, gearbox, condition, year, and price range. Get make, model, year, price in PLN, mileage, location, and photos per listing.</p><dl class="facts"><div><dt>Updated</dt><dd><time datetime="2026-11-12">12 November 2026</time></dd></div><div><dt>Free plan</dt><dd>$0.99 per 1,000 results</dd></div><div><dt>Business plan</dt><dd>$0.49 per 1,000 results</dd></div><div><dt>Input</dt><dd>28 fields, none required</dd></div><div><dt>Output</dt><dd>13 declared fields</dd></div><div><dt>Site</dt><dd><a href="/apify-actor-examples/actors/olx-pl-used-car-listings-by-make-and-fuel-type/">OLX.pl</a></dd></div></dl><div class="cta"><a class="button" href="https://apify.com/vexaloom-labs/olx-pl-used-car-listings-by-make-and-fuel-type">Open in Apify Store</a><a class="button secondary" href="#run">Copy the API call</a></div></div><div class="doc-body"><nav class="toc" aria-label="On this page"><h2 class="toc-title">On this page</h2><ol><li><a href="#summary">In short</a></li><li><a href="#about">What it does</a></li><li><a href="#output">What you get</a></li><li><a href="#run">Run it</a></li><li><a href="#cost">What it costs</a></li><li><a href="#input">Input reference</a></li><li><a href="#faq">Questions</a></li><li><a href="#notes">Limits and notes</a></li><li><a href="#related">Related Actors</a></li></ol></nav><article class="prose"><p class="summary" id="summary">OLX.pl Used Car Listings by Make &amp; Fuel Type is an Apify Actor published by Vexaloom Labs. It accepts 28 input fields, none of them required at the top level. Each result can carry up to 13 declared fields, including <code>title</code>, <code>make</code>, <code>model</code>, <code>year</code>, <code>pricePln</code> and <code>mileageKm</code>. It costs $0.99 per 1,000 results on Apify's Free plan and $0.49 on the Business plan.</p><section id="about"><h2>What it does</h2><!--readme--><p>OLX.pl is Poland's biggest classifieds marketplace. This actor pulls used-car listings from its passenger-car section and returns one structured row per offer, either by searching with vehicle filters or by reading listing pages you paste in.</p>
+<!--/readme--><h3 id="readme-data-source-and-scope">Data source and scope</h3><!--readme--><p>The actor reads OLX's public search JSON (<code>/api/v1/offers/</code>) and the server-rendered listing pages. It is limited to the olx.pl passenger-car category; other OLX countries and non-car categories are out of scope. It is an independent tool, not affiliated with OLX Group.</p>
+<!--/readme--></section><section id="output"><h2>What you get</h2><p>The Actor saves one record per result to an Apify dataset. Its build declares 13 fields in 1 dataset view, and the README documents 18 more. Fields without a value can be left out of a record.</p><div class="table-wrap"><table class="output-table stack"><caption>Output fields</caption><thead><tr><th scope="col">Field</th><th scope="col">Label</th><th scope="col">What it holds</th></tr></thead><tbody><tr><th scope="row"><code>title</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Listing headline<!--/readme--></td></tr><tr><th scope="row"><code>make</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Manufacturer, mapped from OLX's car category<!--/readme--></td></tr><tr><th scope="row"><code>model</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Model as listed (e.g. Corolla, Octavia, C Klasa)<!--/readme--></td></tr><tr><th scope="row"><code>year</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Model/production year<!--/readme--></td></tr><tr><th scope="row"><code>pricePln</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Asking price in Polish zloty<!--/readme--></td></tr><tr><th scope="row"><code>mileageKm</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Odometer in kilometres<!--/readme--></td></tr><tr><th scope="row"><code>fuelType</code></th><td data-label="Label"></td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>gearbox</code></th><td data-label="Label"></td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>bodyType</code></th><td data-label="Label"></td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>city</code></th><td data-label="Label"></td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>region</code></th><td data-label="Label"></td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>sellerName</code></th><td data-label="Label"></td><td data-label="What it holds"></td></tr><tr><th scope="row"><code>listingUrl</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Absolute olx.pl link<!--/readme--></td></tr><tr><th scope="row"><code>listingId</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->OLX offer ID<!--/readme--></td></tr><tr><th scope="row"><code>slug</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->URL slug of the offer<!--/readme--></td></tr><tr><th scope="row"><code>currency</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Price currency (PLN on olx.pl)<!--/readme--></td></tr><tr><th scope="row"><code>priceNegotiable</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Present when the seller accepts negotiation<!--/readme--></td></tr><tr><th scope="row"><code>mileage</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Odometer as OLX displays it (e.g. &quot;245 000 km&quot;)<!--/readme--></td></tr><tr><th scope="row"><code>doorCount</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Door count, when OLX exposes it<!--/readme--></td></tr><tr><th scope="row"><code>vin</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->VIN, when the seller publishes it<!--/readme--></td></tr></tbody></table></div><details class="more-rows"><summary>Show the other 11 output fields</summary><div class="table-wrap"><table class="output-table stack"><caption>Output fields, continued</caption><thead><tr><th scope="col">Field</th><th scope="col">Label</th><th scope="col">What it holds</th></tr></thead><tbody><tr><th scope="row"><code>sellerType</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->OLX seller type when present<!--/readme--></td></tr><tr><th scope="row"><code>sellerIsOnline</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Present when the seller is online<!--/readme--></td></tr><tr><th scope="row"><code>isBusiness</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Business/dealer listing<!--/readme--></td></tr><tr><th scope="row"><code>shopSubdomain</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Dealer shop subdomain<!--/readme--></td></tr><tr><th scope="row"><code>listingStatus</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->OLX offer status (usually <code>active</code>)<!--/readme--></td></tr><tr><th scope="row"><code>description</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Full description with HTML removed<!--/readme--></td></tr><tr><th scope="row"><code>imageUrl</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Primary photo URL; search/ID rows are sized 1000x700, listing-page rows keep OLX's size<!--/readme--></td></tr><tr><th scope="row"><code>photoUrls</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Up to 20 photo URLs<!--/readme--></td></tr><tr><th scope="row"><code>recordType</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->Always <code>carListing</code><!--/readme--></td></tr><tr><th scope="row"><code>dataSource</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme--><code>search</code> or <code>details</code><!--/readme--></td></tr><tr><th scope="row"><code>scrapedAt</code></th><td data-label="Label"></td><td data-label="What it holds"><!--readme-->UTC scrape timestamp<!--/readme--></td></tr></tbody></table></div></details><details class="publisher-notes"><summary>The publisher's output notes</summary><h3 id="readme-what-you-get-per-listing">What you get per listing</h3><!--readme--><div class="table-wrap"><table>
 <thead>
 <tr>
 <th>Field</th>
 <th>Type</th>
-<th>Description</th>
+<th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>listingId</code></td>
 <td>string</td>
-<td>OLX internal listing ID</td>
+<td>OLX offer ID</td>
 </tr>
 <tr>
 <td><code>title</code></td>
 <td>string</td>
-<td>Listing title</td>
+<td>Listing headline</td>
 </tr>
 <tr>
 <td><code>slug</code></td>
 <td>string</td>
-<td>OLX URL slug for the listing</td>
-</tr>
-<tr>
-<td><code>make</code></td>
-<td>string</td>
-<td>Car manufacturer</td>
-</tr>
-<tr>
-<td><code>model</code></td>
-<td>string</td>
-<td>Car model</td>
-</tr>
-<tr>
-<td><code>year</code></td>
-<td>integer</td>
-<td>Model year</td>
-</tr>
-<tr>
-<td><code>pricePln</code></td>
-<td>integer</td>
-<td>Price in Polish Zloty (PLN)</td>
-</tr>
-<tr>
-<td><code>currency</code></td>
-<td>string</td>
-<td>Currency (usually PLN)</td>
-</tr>
-<tr>
-<td><code>mileage</code></td>
-<td>string</td>
-<td>Odometer reading</td>
-</tr>
-<tr>
-<td><code>fuelType</code></td>
-<td>string</td>
-<td>Fuel type (Petrol, Diesel, LPG, Electric, Hybrid)</td>
-</tr>
-<tr>
-<td><code>gearbox</code></td>
-<td>string</td>
-<td>Transmission type</td>
-</tr>
-<tr>
-<td><code>engineSize</code></td>
-<td>string</td>
-<td>Engine displacement, as listed</td>
-</tr>
-<tr>
-<td><code>bodyType</code></td>
-<td>string</td>
-<td>Body style</td>
-</tr>
-<tr>
-<td><code>color</code></td>
-<td>string</td>
-<td>Exterior color</td>
-</tr>
-<tr>
-<td><code>doorCount</code></td>
-<td>string</td>
-<td>Number of doors, as listed</td>
-</tr>
-<tr>
-<td><code>condition</code></td>
-<td>string</td>
-<td>Used, New, or Damaged</td>
-</tr>
-<tr>
-<td><code>city</code></td>
-<td>string</td>
-<td>Seller city</td>
-</tr>
-<tr>
-<td><code>region</code></td>
-<td>string</td>
-<td>Polish voivodeship</td>
+<td>URL slug of the offer</td>
 </tr>
 <tr>
 <td><code>listingUrl</code></td>
 <td>string</td>
-<td>Direct link to the listing on olx.pl</td>
+<td>Absolute olx.pl link</td>
 </tr>
 <tr>
-<td><code>imageUrl</code></td>
+<td><code>make</code></td>
 <td>string</td>
-<td>Primary photo URL</td>
+<td>Manufacturer, mapped from OLX's car category</td>
 </tr>
 <tr>
-<td><code>photoUrls</code></td>
-<td>array</td>
-<td>Up to 10 photo URLs</td>
+<td><code>model</code></td>
+<td>string</td>
+<td>Model as listed (e.g. Corolla, Octavia, C Klasa)</td>
+</tr>
+<tr>
+<td><code>year</code></td>
+<td>integer</td>
+<td>Model/production year</td>
+</tr>
+<tr>
+<td><code>pricePln</code></td>
+<td>integer</td>
+<td>Asking price in Polish zloty</td>
+</tr>
+<tr>
+<td><code>currency</code></td>
+<td>string</td>
+<td>Price currency (PLN on olx.pl)</td>
+</tr>
+<tr>
+<td><code>priceNegotiable</code></td>
+<td>boolean</td>
+<td>Present when the seller accepts negotiation</td>
+</tr>
+<tr>
+<td><code>mileage</code></td>
+<td>string</td>
+<td>Odometer as OLX displays it (e.g. &quot;245 000 km&quot;)</td>
+</tr>
+<tr>
+<td><code>mileageKm</code></td>
+<td>integer</td>
+<td>Odometer in kilometres</td>
+</tr>
+<tr>
+<td><code>fuelType</code> / <code>fuelTypeCode</code></td>
+<td>string</td>
+<td>Display name and OLX key (petrol, diesel, lpg, cng, electric, plugin-hybrid)</td>
+</tr>
+<tr>
+<td><code>gearbox</code> / <code>gearboxCode</code></td>
+<td>string</td>
+<td>Display name and OLX key (manual, automatic)</td>
+</tr>
+<tr>
+<td><code>engineSize</code> / <code>engineSizeCc</code></td>
+<td>string / integer</td>
+<td>Displacement, display value and cm³</td>
+</tr>
+<tr>
+<td><code>enginePower</code> / <code>enginePowerHp</code></td>
+<td>string / integer</td>
+<td>Power, display value and horsepower</td>
+</tr>
+<tr>
+<td><code>bodyType</code> / <code>bodyTypeCode</code></td>
+<td>string</td>
+<td>Body style</td>
+</tr>
+<tr>
+<td><code>color</code> / <code>colorCode</code></td>
+<td>string</td>
+<td>Exterior colour</td>
+</tr>
+<tr>
+<td><code>doorCount</code></td>
+<td>string</td>
+<td>Door count, when OLX exposes it</td>
+</tr>
+<tr>
+<td><code>condition</code> / <code>conditionCode</code></td>
+<td>string</td>
+<td>Damage condition (notdamaged / damaged)</td>
+</tr>
+<tr>
+<td><code>drive</code> / <code>driveCode</code></td>
+<td>string</td>
+<td>Driven wheels / 4x4 type</td>
+</tr>
+<tr>
+<td><code>steeringSide</code> / <code>steeringSideCode</code></td>
+<td>string</td>
+<td>Left- or right-hand drive</td>
+</tr>
+<tr>
+<td><code>countryOrigin</code> / <code>countryOriginCode</code></td>
+<td>string</td>
+<td>Declared import country</td>
+</tr>
+<tr>
+<td><code>vin</code></td>
+<td>string</td>
+<td>VIN, when the seller publishes it</td>
+</tr>
+<tr>
+<td><code>city</code>, <code>region</code>, <code>district</code></td>
+<td>string</td>
+<td>Seller location</td>
+</tr>
+<tr>
+<td><code>latitude</code>, <code>longitude</code></td>
+<td>number</td>
+<td>Offer map coordinates</td>
+</tr>
+<tr>
+<td><code>sellerId</code>, <code>sellerName</code></td>
+<td>string</td>
+<td>Seller identity</td>
+</tr>
+<tr>
+<td><code>sellerType</code></td>
+<td>string</td>
+<td>OLX seller type when present</td>
+</tr>
+<tr>
+<td><code>sellerCreatedAt</code>, <code>sellerLastSeenAt</code></td>
+<td>string</td>
+<td>Account timestamps</td>
+</tr>
+<tr>
+<td><code>sellerIsOnline</code></td>
+<td>boolean</td>
+<td>Present when the seller is online</td>
+</tr>
+<tr>
+<td><code>isBusiness</code></td>
+<td>boolean</td>
+<td>Business/dealer listing</td>
+</tr>
+<tr>
+<td><code>isPromoted</code>, <code>isHighlighted</code>, <code>isUrgent</code></td>
+<td>boolean</td>
+<td>OLX promotion flags</td>
+</tr>
+<tr>
+<td><code>phoneAvailable</code>, <code>chatAvailable</code></td>
+<td>boolean</td>
+<td>Contact options offered by OLX</td>
+</tr>
+<tr>
+<td><code>shopSubdomain</code></td>
+<td>string</td>
+<td>Dealer shop subdomain</td>
+</tr>
+<tr>
+<td><code>listingStatus</code></td>
+<td>string</td>
+<td>OLX offer status (usually <code>active</code>)</td>
 </tr>
 <tr>
 <td><code>description</code></td>
 <td>string</td>
-<td>Listing description (first 500 characters)</td>
+<td>Full description with HTML removed</td>
 </tr>
 <tr>
-<td><code>createdAt</code></td>
+<td><code>imageUrl</code></td>
 <td>string</td>
-<td>Listing creation timestamp</td>
+<td>Primary photo URL; search/ID rows are sized 1000x700, listing-page rows keep OLX's size</td>
 </tr>
 <tr>
-<td><code>refreshedAt</code></td>
+<td><code>photoUrls</code></td>
+<td>array</td>
+<td>Up to 20 photo URLs</td>
+</tr>
+<tr>
+<td><code>createdAt</code>, <code>refreshedAt</code>, <code>validToAt</code></td>
 <td>string</td>
-<td>Timestamp the seller last refreshed/bumped the listing</td>
+<td>Offer timestamps</td>
 </tr>
 <tr>
 <td><code>recordType</code></td>
 <td>string</td>
-<td>Always <code>&quot;carListing&quot;</code></td>
+<td>Always <code>carListing</code></td>
+</tr>
+<tr>
+<td><code>dataSource</code></td>
+<td>string</td>
+<td><code>search</code> or <code>details</code></td>
 </tr>
 <tr>
 <td><code>scrapedAt</code></td>
 <td>string</td>
-<td>UTC ISO scrape timestamp</td>
+<td>UTC scrape timestamp</td>
 </tr>
 </tbody>
 </table></div>
-<!--/readme--></details></section><section id="run"><h2>Run it</h2><p>Set <code>APIFY_TOKEN</code> to your <a href="https://console.apify.com/settings/integrations">Apify API token</a>, then run the Actor with the input below (search diesel toyota 2015–2020). Each run is billed to your Apify account. The <a href="/apify-actor-examples/guides/olx-pl-used-car-listings-by-make-and-fuel-type/">export tutorial</a> turns the results into a CSV file or an Excel workbook.</p><div class="tabs" data-tabs><div class="tab-list" role="tablist" aria-label="Language"><a role="tab" href="#run-panel-python" id="run-tab-python" aria-controls="run-panel-python" aria-selected="true">Python</a><a role="tab" href="#run-panel-javascript" id="run-tab-javascript" aria-controls="run-panel-javascript" aria-selected="false" tabindex="-1">JavaScript</a><a role="tab" href="#run-panel-curl" id="run-tab-curl" aria-controls="run-panel-curl" aria-selected="false" tabindex="-1">cURL</a><a role="tab" href="#run-panel-mcp" id="run-tab-mcp" aria-controls="run-panel-mcp" aria-selected="false" tabindex="-1">MCP</a></div><div role="tabpanel" id="run-panel-python" aria-labelledby="run-tab-python" class="tab-panel active"><figure class="code"><pre><code id="run-python" class="language-python"># pip install apify-client
+<p>Fields OLX does not publish for a particular car are omitted, never returned as null or an empty string.</p>
+<!--/readme--></details></section><section id="run"><h2>Run it</h2><p>Set <code>APIFY_TOKEN</code> to your <a href="https://console.apify.com/settings/integrations">Apify API token</a>, then run the Actor with the input below (s). Each run is billed to your Apify account. The <a href="/apify-actor-examples/guides/olx-pl-used-car-listings-by-make-and-fuel-type/">export tutorial</a> turns the results into a CSV file or an Excel workbook.</p><div class="tabs" data-tabs><div class="tab-list" role="tablist" aria-label="Language"><a role="tab" href="#run-panel-python" id="run-tab-python" aria-controls="run-panel-python" aria-selected="true">Python</a><a role="tab" href="#run-panel-javascript" id="run-tab-javascript" aria-controls="run-panel-javascript" aria-selected="false" tabindex="-1">JavaScript</a><a role="tab" href="#run-panel-curl" id="run-tab-curl" aria-controls="run-panel-curl" aria-selected="false" tabindex="-1">cURL</a><a role="tab" href="#run-panel-mcp" id="run-tab-mcp" aria-controls="run-panel-mcp" aria-selected="false" tabindex="-1">MCP</a></div><div role="tabpanel" id="run-panel-python" aria-labelledby="run-tab-python" class="tab-panel active"><figure class="code"><pre><code id="run-python" class="language-python"># pip install apify-client
 import os
 from apify_client import ApifyClient
 
 ACTOR = &quot;vexaloom-labs/olx-pl-used-car-listings-by-make-and-fuel-type&quot;
 client = ApifyClient(os.environ[&quot;APIFY_TOKEN&quot;])
 run_input = {
-    &quot;query&quot;: &quot;Toyota&quot;,
+    &quot;mode&quot;: &quot;search&quot;,
+    &quot;make&quot;: &quot;toyota&quot;,
     &quot;fuelType&quot;: &quot;diesel&quot;,
+    &quot;transmission&quot;: &quot;automatic&quot;,
     &quot;minYear&quot;: 2015,
     &quot;maxYear&quot;: 2020,
-    &quot;maxItems&quot;: 50,
+    &quot;region&quot;: &quot;mazowieckie&quot;,
+    &quot;sortBy&quot;: &quot;filter_float_price:asc&quot;,
+    &quot;maxItems&quot;: 100,
 }
 
 run = client.actor(ACTOR).call(run_input=run_input)
@@ -175,11 +249,15 @@ import { ApifyClient } from &#x27;apify-client&#x27;;
 const ACTOR = &#x27;vexaloom-labs/olx-pl-used-car-listings-by-make-and-fuel-type&#x27;;
 const client = new ApifyClient({ token: process.env.APIFY_TOKEN });
 const input = {
-  &quot;query&quot;: &quot;Toyota&quot;,
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;make&quot;: &quot;toyota&quot;,
   &quot;fuelType&quot;: &quot;diesel&quot;,
+  &quot;transmission&quot;: &quot;automatic&quot;,
   &quot;minYear&quot;: 2015,
   &quot;maxYear&quot;: 2020,
-  &quot;maxItems&quot;: 50
+  &quot;region&quot;: &quot;mazowieckie&quot;,
+  &quot;sortBy&quot;: &quot;filter_float_price:asc&quot;,
+  &quot;maxItems&quot;: 100
 };
 
 const run = await client.actor(ACTOR).call(input);
@@ -188,109 +266,207 @@ console.log(items);
 </code></pre><button type="button" class="copy" data-copy="run-javascript">Copy</button></figure></div><div role="tabpanel" id="run-panel-curl" aria-labelledby="run-tab-curl" class="tab-panel"><figure class="code"><pre><code id="run-curl" class="language-bash">curl -X POST &quot;https://api.apify.com/v2/acts/vexaloom-labs~olx-pl-used-car-listings-by-make-and-fuel-type/run-sync-get-dataset-items?format=json&quot; \
   -H &quot;Authorization: Bearer $APIFY_TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;query&quot;: &quot;Toyota&quot;, &quot;fuelType&quot;: &quot;diesel&quot;, &quot;minYear&quot;: 2015, &quot;maxYear&quot;: 2020, &quot;maxItems&quot;: 50}&#x27;
+  -d &#x27;{&quot;mode&quot;: &quot;search&quot;, &quot;make&quot;: &quot;toyota&quot;, &quot;fuelType&quot;: &quot;diesel&quot;, &quot;transmission&quot;: &quot;automatic&quot;, &quot;minYear&quot;: 2015, &quot;maxYear&quot;: 2020, &quot;region&quot;: &quot;mazowieckie&quot;, &quot;sortBy&quot;: &quot;filter_float_price:asc&quot;, &quot;maxItems&quot;: 100}&#x27;
 </code></pre><button type="button" class="copy" data-copy="run-curl">Copy</button></figure></div><div role="tabpanel" id="run-panel-mcp" aria-labelledby="run-tab-mcp" class="tab-panel"><figure class="code"><pre><code id="run-mcp" class="language-json">{
   &quot;mcpServers&quot;: {
     &quot;apify&quot;: {
       &quot;url&quot;: &quot;https://mcp.apify.com?tools=vexaloom-labs/olx-pl-used-car-listings-by-make-and-fuel-type&quot;
     }
   }
-}</code></pre><button type="button" class="copy" data-copy="run-mcp">Copy</button></figure></div></div></section><section id="cost"><h2>What it costs</h2><p>OLX.pl Used Car Listings by Make &amp; Fuel Type uses pay-per-event pricing: a fee for each result saved to the dataset, plus a start fee per run. Paid Apify plans pay less per result. The start fee is charged once per GB of run memory (at least once); the default run uses 4 GB, so a run starts with 4 start events, as the run totals include. You also pay Apify platform usage (compute and proxy) for the run, which these totals do not include.</p><div class="table-wrap"><table class="price-table stack"><caption>Published prices and run totals by Apify plan</caption><thead><tr><th scope="col">Plan</th><th scope="col">Per result</th><th scope="col">Per 1,000</th><th scope="col">Start fee</th><th scope="col">100 results</th><th scope="col">1,000 results</th><th scope="col">10,000 results</th></tr></thead><tbody><tr><th scope="row">Free plan</th><td data-label="Per result">$0.00099</td><td data-label="Per 1,000">$0.99</td><td data-label="Start fee">$0.10</td><td data-label="100 results">$0.50</td><td data-label="1,000 results">$1.39</td><td data-label="10,000 results">$10.30</td></tr><tr><th scope="row">Starter plan</th><td data-label="Per result">$0.00082</td><td data-label="Per 1,000">$0.82</td><td data-label="Start fee">$0.077</td><td data-label="100 results">$0.39</td><td data-label="1,000 results">$1.13</td><td data-label="10,000 results">$8.51</td></tr><tr><th scope="row">Scale plan</th><td data-label="Per result">$0.00066</td><td data-label="Per 1,000">$0.66</td><td data-label="Start fee">$0.053</td><td data-label="100 results">$0.28</td><td data-label="1,000 results">$0.87</td><td data-label="10,000 results">$6.81</td></tr><tr><th scope="row">Business plan</th><td data-label="Per result">$0.00049</td><td data-label="Per 1,000">$0.49</td><td data-label="Start fee">$0.03</td><td data-label="100 results">$0.17</td><td data-label="1,000 results">$0.61</td><td data-label="10,000 results">$5.02</td></tr></tbody></table></div><p class="fine">Run totals are the Actor's charges at the default memory: start fees plus the per-result price. Check the <a href="https://apify.com/vexaloom-labs/olx-pl-used-car-listings-by-make-and-fuel-type">Store page</a> before a large run; prices can change with notice.</p></section><section id="input"><h2>Input reference</h2><p>All 9 fields of the published input schema, in the publisher's order. No field is required at the top level, but the README can describe conditions. Download the <a href="input-schema.json">input schema</a> as JSON.</p><div class="table-wrap"><table class="input-table stack"><caption>Input fields in the published schema</caption><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead><tbody><tr><th scope="row"><code>query</code><span class="field-title">Search query</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Free-text search query (e.g. 'Toyota Corolla', 'BMW 3'). Leave blank to browse all cars.<!--/readme--><span class="field-meta">Example <code>&quot;Toyota&quot;</code></span></td></tr><tr><th scope="row"><code>fuelType</code><span class="field-title">Fuel Type</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Filter by fuel type.<!--/readme--><span class="field-meta">Default <code>&quot;&quot;</code>; Allowed , petrol, diesel, lpg, electric, hybrid</span></td></tr><tr><th scope="row"><code>gearbox</code><span class="field-title">Gearbox</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Transmission type filter.<!--/readme--><span class="field-meta">Default <code>&quot;&quot;</code>; Allowed , manual, automatic</span></td></tr><tr><th scope="row"><code>condition</code><span class="field-title">Condition</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Vehicle condition filter.<!--/readme--><span class="field-meta">Default <code>&quot;&quot;</code>; Allowed , used, new, damaged</span></td></tr><tr><th scope="row"><code>minYear</code><span class="field-title">Min Year</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Oldest model year to include.<!--/readme--><span class="field-meta">Allowed 1900 to 2030</span></td></tr><tr><th scope="row"><code>maxYear</code><span class="field-title">Max Year</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Newest model year to include.<!--/readme--><span class="field-meta">Allowed 1900 to 2030</span></td></tr><tr><th scope="row"><code>minPrice</code><span class="field-title">Min Price (PLN)</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Minimum listing price in Polish Zloty.<!--/readme--><span class="field-meta">Allowed 0 to 100000000</span></td></tr><tr><th scope="row"><code>maxPrice</code><span class="field-title">Max Price (PLN)</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Maximum listing price in Polish Zloty.<!--/readme--><span class="field-meta">Allowed 0 to 100000000</span></td></tr><tr><th scope="row"><code>maxItems</code><span class="field-title">Max Items</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Maximum number of car listings to return.<!--/readme--><span class="field-meta">Default <code>20</code>; Allowed 1 to 500</span></td></tr></tbody></table></div><details class="publisher-notes"><summary>The publisher's input notes</summary><h3 id="readme-input">Input</h3><!--readme--><div class="table-wrap"><table>
+}</code></pre><button type="button" class="copy" data-copy="run-mcp">Copy</button></figure></div></div><div class="examples" id="example-inputs"><p class="examples-intro">More inputs from the publisher's README:</p><h3 id="readme-examples">Examples</h3><!--readme--><p>Diesel automatic Toyotas, 2015–2020, in Mazowieckie, cheapest first:</p>
+<div class="code"><pre><code id="readme-code-1" class="language-json">{
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;make&quot;: &quot;toyota&quot;,
+  &quot;fuelType&quot;: &quot;diesel&quot;,
+  &quot;transmission&quot;: &quot;automatic&quot;,
+  &quot;minYear&quot;: 2015,
+  &quot;maxYear&quot;: 2020,
+  &quot;region&quot;: &quot;mazowieckie&quot;,
+  &quot;sortBy&quot;: &quot;filter_float_price:asc&quot;,
+  &quot;maxItems&quot;: 100
+}
+</code></pre><button type="button" class="copy" data-copy="readme-code-1">Copy</button></div>
+<p>Electric cars under 80,000 PLN:</p>
+<div class="code"><pre><code id="readme-code-2" class="language-json">{
+  &quot;mode&quot;: &quot;search&quot;,
+  &quot;fuelType&quot;: &quot;electric&quot;,
+  &quot;maxPrice&quot;: 80000,
+  &quot;maxItems&quot;: 50
+}
+</code></pre><button type="button" class="copy" data-copy="readme-code-2">Copy</button></div>
+<p>Read two specific offers (one URL, one numeric ID):</p>
+<div class="code"><pre><code id="readme-code-3" class="language-json">{
+  &quot;mode&quot;: &quot;details&quot;,
+  &quot;listingUrls&quot;: [
+    &quot;https://www.olx.pl/d/oferta/suzuki-swift-1-3-benzyna-CID5-ID1absuK.html&quot;,
+    &quot;1104626015&quot;
+  ]
+}
+</code></pre><button type="button" class="copy" data-copy="readme-code-3">Copy</button></div>
+<!--/readme--></div></section><section id="cost"><h2>What it costs</h2><p>OLX.pl Used Car Listings by Make &amp; Fuel Type uses pay-per-event pricing: a fee for each result saved to the dataset, plus a start fee per run. Paid Apify plans pay less per result. The start fee is charged once per GB of run memory (at least once); the default run uses 4 GB, so a run starts with 4 start events, as the run totals include. You also pay Apify platform usage (compute and proxy) for the run, which these totals do not include.</p><div class="table-wrap"><table class="price-table stack"><caption>Published prices and run totals by Apify plan</caption><thead><tr><th scope="col">Plan</th><th scope="col">Per result</th><th scope="col">Per 1,000</th><th scope="col">Start fee</th><th scope="col">100 results</th><th scope="col">1,000 results</th><th scope="col">10,000 results</th></tr></thead><tbody><tr><th scope="row">Free plan</th><td data-label="Per result">$0.00099</td><td data-label="Per 1,000">$0.99</td><td data-label="Start fee">$0.10</td><td data-label="100 results">$0.50</td><td data-label="1,000 results">$1.39</td><td data-label="10,000 results">$10.30</td></tr><tr><th scope="row">Starter plan</th><td data-label="Per result">$0.00082</td><td data-label="Per 1,000">$0.82</td><td data-label="Start fee">$0.077</td><td data-label="100 results">$0.39</td><td data-label="1,000 results">$1.13</td><td data-label="10,000 results">$8.51</td></tr><tr><th scope="row">Scale plan</th><td data-label="Per result">$0.00066</td><td data-label="Per 1,000">$0.66</td><td data-label="Start fee">$0.053</td><td data-label="100 results">$0.28</td><td data-label="1,000 results">$0.87</td><td data-label="10,000 results">$6.81</td></tr><tr><th scope="row">Business plan</th><td data-label="Per result">$0.00049</td><td data-label="Per 1,000">$0.49</td><td data-label="Start fee">$0.03</td><td data-label="100 results">$0.17</td><td data-label="1,000 results">$0.61</td><td data-label="10,000 results">$5.02</td></tr></tbody></table></div><p class="fine">Run totals are the Actor's charges at the default memory: start fees plus the per-result price. Check the <a href="https://apify.com/vexaloom-labs/olx-pl-used-car-listings-by-make-and-fuel-type">Store page</a> before a large run; prices can change with notice.</p></section><section id="input"><h2>Input reference</h2><p>All 28 fields of the published input schema, in the publisher's order. No field is required at the top level, but the README can describe conditions. Download the <a href="input-schema.json">input schema</a> as JSON.</p><div class="table-wrap"><table class="input-table stack"><caption>Input fields in the published schema</caption><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead><tbody><tr><th scope="row"><code>mode</code><span class="field-title">Mode</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Search listings by filters, or read individual listing pages from URLs / IDs.<!--/readme--><span class="field-meta">Default <code>&quot;search&quot;</code>; Allowed search, details</span></td></tr><tr><th scope="row"><code>listingUrls</code><span class="field-title">Listing URLs or IDs</span></th><td data-label="Type">array</td><td data-label="Description"><!--readme-->Detail/URL mode only. Paste olx.pl car listing links, or numeric OLX listing IDs. One per line.<!--/readme--><span class="field-meta">Example <code>[]</code></span></td></tr><tr><th scope="row"><code>query</code><span class="field-title">Search query</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Free-text keywords (e.g. 'Toyota Corolla', 'BMW 3'). Leave empty to browse all cars.<!--/readme--><span class="field-meta">Example <code>&quot;Toyota&quot;</code></span></td></tr><tr><th scope="row"><code>make</code><span class="field-title">Make</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Car manufacturer. Leave empty for all makes.<!--/readme--><span class="field-meta">Default <code>&quot;&quot;</code>; Allowed , alfa-romeo, audi, bmw, chevrolet, chrysler, citroen, daewoo and 106 more</span></td></tr><tr><th scope="row"><code>model</code><span class="field-title">Model</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Model name inside the selected make (e.g. Corolla, Octavia, C Klasa). Leave empty for all models.<!--/readme--></td></tr><tr><th scope="row"><code>fuelType</code><span class="field-title">Fuel type</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Fuel or powertrain type.<!--/readme--><span class="field-meta">Default <code>&quot;&quot;</code>; Allowed , petrol, diesel, lpg, cng, electric, plugin-hybrid, hybrid</span></td></tr><tr><th scope="row"><code>transmission</code><span class="field-title">Gearbox</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Transmission type.<!--/readme--><span class="field-meta">Default <code>&quot;&quot;</code>; Allowed , manual, automatic</span></td></tr><tr><th scope="row"><code>condition</code><span class="field-title">Condition</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->OLX technical condition: not damaged or damaged.<!--/readme--><span class="field-meta">Default <code>&quot;&quot;</code>; Allowed , notdamaged, damaged, used, new</span></td></tr><tr><th scope="row"><code>bodyType</code><span class="field-title">Body type</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Car body style.<!--/readme--><span class="field-meta">Default <code>&quot;&quot;</code>; Allowed , cabriolet, sedan, coupe, pickup, hatchback, estate-car, off-road-vehicle and 3 more</span></td></tr><tr><th scope="row"><code>color</code><span class="field-title">Colour</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Exterior colour.<!--/readme--><span class="field-meta">Default <code>&quot;&quot;</code>; Allowed , bialy, czarny, szary, srebrny, niebieski, brazowy_bezowy, czerwony and 3 more</span></td></tr><tr><th scope="row"><code>drive</code><span class="field-title">Drive</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Driven wheels / 4x4 type.<!--/readme--><span class="field-meta">Default <code>&quot;&quot;</code>; Allowed , all-wheel-auto, all-wheel-lock, all-wheel-permanent, front-wheel, rear-wheel</span></td></tr><tr><th scope="row"><code>countryOrigin</code><span class="field-title">Country of origin</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Country the car was imported from, as declared by the seller.<!--/readme--><span class="field-meta">Default <code>&quot;&quot;</code>; Allowed , a, b, by, bg, hr, cz, dk and 31 more</span></td></tr></tbody></table></div><details class="more-rows"><summary>Show the other 16 input fields</summary><div class="table-wrap"><table class="input-table stack"><caption>Input fields in the published schema, continued</caption><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead><tbody><tr><th scope="row"><code>steeringSide</code><span class="field-title">Steering side</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Left- or right-hand drive.<!--/readme--><span class="field-meta">Default <code>&quot;&quot;</code>; Allowed , 1, 2</span></td></tr><tr><th scope="row"><code>ownerType</code><span class="field-title">Seller type</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Private seller or business/dealer.<!--/readme--><span class="field-meta">Default <code>&quot;&quot;</code>; Allowed , private, business</span></td></tr><tr><th scope="row"><code>region</code><span class="field-title">Region</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Polish voivodeship to search in. Leave empty for all of Poland.<!--/readme--><span class="field-meta">Default <code>&quot;&quot;</code>; Allowed , wielkopolskie, mazowieckie, dolnoslaskie, malopolskie, pomorskie, slaskie, lodzkie and 9 more</span></td></tr><tr><th scope="row"><code>minYear</code><span class="field-title">Min model year</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Oldest model year to include.<!--/readme--><span class="field-meta">Allowed 1900 to 2030</span></td></tr><tr><th scope="row"><code>maxYear</code><span class="field-title">Max model year</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Newest model year to include.<!--/readme--><span class="field-meta">Allowed 1900 to 2030</span></td></tr><tr><th scope="row"><code>minPrice</code><span class="field-title">Min price (PLN)</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Minimum listing price in Polish zloty.<!--/readme--><span class="field-meta">Allowed 0 to 100000000</span></td></tr><tr><th scope="row"><code>maxPrice</code><span class="field-title">Max price (PLN)</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Maximum listing price in Polish zloty.<!--/readme--><span class="field-meta">Allowed 0 to 100000000</span></td></tr><tr><th scope="row"><code>minMileage</code><span class="field-title">Min mileage (km)</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Minimum odometer reading in kilometres.<!--/readme--><span class="field-meta">Allowed 0 to 2000000</span></td></tr><tr><th scope="row"><code>maxMileage</code><span class="field-title">Max mileage (km)</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Maximum odometer reading in kilometres.<!--/readme--><span class="field-meta">Allowed 0 to 2000000</span></td></tr><tr><th scope="row"><code>minEngineSize</code><span class="field-title">Min engine size (cc)</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Minimum engine displacement in cubic centimetres.<!--/readme--><span class="field-meta">Allowed 0 to 10000</span></td></tr><tr><th scope="row"><code>maxEngineSize</code><span class="field-title">Max engine size (cc)</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Maximum engine displacement in cubic centimetres.<!--/readme--><span class="field-meta">Allowed 0 to 10000</span></td></tr><tr><th scope="row"><code>minEnginePower</code><span class="field-title">Min engine power (hp)</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Minimum engine power in horsepower.<!--/readme--><span class="field-meta">Allowed 0 to 2000</span></td></tr><tr><th scope="row"><code>maxEnginePower</code><span class="field-title">Max engine power (hp)</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Maximum engine power in horsepower.<!--/readme--><span class="field-meta">Allowed 0 to 2000</span></td></tr><tr><th scope="row"><code>sortBy</code><span class="field-title">Sort order</span></th><td data-label="Type">string</td><td data-label="Description"><!--readme-->Order of the returned listings.<!--/readme--><span class="field-meta">Default <code>&quot;created_at:desc&quot;</code>; Allowed relevance:desc, created_at:desc, filter_float_price:asc, filter_float_price:desc</span></td></tr><tr><th scope="row"><code>includePromoted</code><span class="field-title">Include promoted listings</span></th><td data-label="Type">boolean</td><td data-label="Description"><!--readme-->Include paid/promoted OLX listings alongside organic results.<!--/readme--><span class="field-meta">Default <code>true</code></span></td></tr><tr><th scope="row"><code>maxItems</code><span class="field-title">Max items</span></th><td data-label="Type">integer</td><td data-label="Description"><!--readme-->Maximum number of unique listings to return. OLX exposes up to 1,000 per query; larger limits are split across year/price slices automatically.<!--/readme--><span class="field-meta">Default <code>20</code>; Example <code>3</code>; Allowed 1 to 5000</span></td></tr></tbody></table></div></details><details class="publisher-notes"><summary>The publisher's input notes</summary><h3 id="readme-inputs">Inputs</h3><!--readme--><div class="table-wrap"><table>
 <thead>
 <tr>
 <th>Field</th>
 <th>Type</th>
 <th>Default</th>
-<th>Description</th>
+<th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td><code>mode</code></td>
+<td>select</td>
+<td><code>search</code></td>
+<td><code>search</code> or <code>details</code></td>
+</tr>
+<tr>
+<td><code>listingUrls</code></td>
+<td>array</td>
+<td>–</td>
+<td>Details mode: olx.pl links or numeric IDs</td>
+</tr>
+<tr>
 <td><code>query</code></td>
 <td>string</td>
 <td>–</td>
-<td>Search query (make, model, or free text); leave blank to browse all cars</td>
+<td>Free-text keywords</td>
+</tr>
+<tr>
+<td><code>make</code></td>
+<td>select</td>
+<td>any</td>
+<td>113 OLX car makes</td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td>string</td>
+<td>–</td>
+<td>Model name; matched to OLX's model list for the chosen make</td>
 </tr>
 <tr>
 <td><code>fuelType</code></td>
-<td>string</td>
-<td>–</td>
-<td><code>petrol</code>, <code>diesel</code>, <code>lpg</code>, <code>electric</code>, <code>hybrid</code></td>
+<td>select</td>
+<td>any</td>
+<td>petrol, diesel, lpg, cng, electric, plugin-hybrid</td>
 </tr>
 <tr>
-<td><code>gearbox</code></td>
-<td>string</td>
-<td>–</td>
-<td><code>manual</code> or <code>automatic</code></td>
+<td><code>transmission</code></td>
+<td>select</td>
+<td>any</td>
+<td>manual, automatic</td>
 </tr>
 <tr>
 <td><code>condition</code></td>
-<td>string</td>
-<td>–</td>
-<td><code>used</code>, <code>new</code>, or <code>damaged</code></td>
+<td>select</td>
+<td>any</td>
+<td>not damaged, damaged</td>
 </tr>
 <tr>
-<td><code>minYear</code></td>
-<td>integer</td>
-<td>–</td>
-<td>Oldest model year</td>
+<td><code>bodyType</code></td>
+<td>select</td>
+<td>any</td>
+<td>10 OLX body styles</td>
 </tr>
 <tr>
-<td><code>maxYear</code></td>
-<td>integer</td>
-<td>–</td>
-<td>Newest model year</td>
+<td><code>color</code></td>
+<td>select</td>
+<td>any</td>
+<td>10 OLX colours</td>
 </tr>
 <tr>
-<td><code>minPrice</code></td>
-<td>integer</td>
-<td>–</td>
-<td>Minimum price in PLN</td>
+<td><code>drive</code></td>
+<td>select</td>
+<td>any</td>
+<td>front, rear or three 4x4 types</td>
 </tr>
 <tr>
-<td><code>maxPrice</code></td>
+<td><code>countryOrigin</code></td>
+<td>select</td>
+<td>any</td>
+<td>38 import countries</td>
+</tr>
+<tr>
+<td><code>steeringSide</code></td>
+<td>select</td>
+<td>any</td>
+<td>left or right</td>
+</tr>
+<tr>
+<td><code>ownerType</code></td>
+<td>select</td>
+<td>any</td>
+<td>private or business</td>
+</tr>
+<tr>
+<td><code>region</code></td>
+<td>select</td>
+<td>all Poland</td>
+<td>16 voivodeships</td>
+</tr>
+<tr>
+<td><code>minYear</code>, <code>maxYear</code></td>
 <td>integer</td>
 <td>–</td>
-<td>Maximum price in PLN</td>
+<td>1900–2030</td>
+</tr>
+<tr>
+<td><code>minPrice</code>, <code>maxPrice</code></td>
+<td>integer</td>
+<td>–</td>
+<td>PLN</td>
+</tr>
+<tr>
+<td><code>minMileage</code>, <code>maxMileage</code></td>
+<td>integer</td>
+<td>–</td>
+<td>kilometres</td>
+</tr>
+<tr>
+<td><code>minEngineSize</code>, <code>maxEngineSize</code></td>
+<td>integer</td>
+<td>–</td>
+<td>cm³</td>
+</tr>
+<tr>
+<td><code>minEnginePower</code>, <code>maxEnginePower</code></td>
+<td>integer</td>
+<td>–</td>
+<td>hp</td>
+</tr>
+<tr>
+<td><code>sortBy</code></td>
+<td>select</td>
+<td><code>created_at:desc</code></td>
+<td>relevance, newest (last refresh), cheapest, most expensive</td>
+</tr>
+<tr>
+<td><code>includePromoted</code></td>
+<td>boolean</td>
+<td>true</td>
+<td>Set false to drop top/promoted ads</td>
 </tr>
 <tr>
 <td><code>maxItems</code></td>
 <td>integer</td>
-<td><code>20</code></td>
-<td>Max listings to return (1–500)</td>
+<td>20</td>
+<td>1–5,000 unique listings</td>
 </tr>
 </tbody>
 </table></div>
-<h4 id="readme-example-search-diesel-toyota-2015-2020">Example: search diesel Toyota 2015–2020</h4>
-<div class="code"><pre><code id="readme-code-1" class="language-json">{
-  &quot;query&quot;: &quot;Toyota&quot;,
-  &quot;fuelType&quot;: &quot;diesel&quot;,
-  &quot;minYear&quot;: 2015,
-  &quot;maxYear&quot;: 2020,
-  &quot;maxItems&quot;: 50
-}
-</code></pre><button type="button" class="copy" data-copy="readme-code-1">Copy</button></div>
-<h4 id="readme-example-browse-all-cars-within-a-budget-no-keyword">Example: browse all cars within a budget, no keyword</h4>
-<div class="code"><pre><code id="readme-code-2" class="language-json">{
-  &quot;query&quot;: &quot;&quot;,
-  &quot;maxPrice&quot;: 30000,
-  &quot;condition&quot;: &quot;used&quot;,
-  &quot;maxItems&quot;: 50
-}
-</code></pre><button type="button" class="copy" data-copy="readme-code-2">Copy</button></div>
-<h4 id="readme-example-automatic-gearbox-electric-cars">Example: automatic-gearbox electric cars</h4>
-<div class="code"><pre><code id="readme-code-3" class="language-json">{
-  &quot;query&quot;: &quot;&quot;,
-  &quot;fuelType&quot;: &quot;electric&quot;,
-  &quot;gearbox&quot;: &quot;automatic&quot;,
-  &quot;maxItems&quot;: 30
-}
-</code></pre><button type="button" class="copy" data-copy="readme-code-3">Copy</button></div>
-<!--/readme--></details></section><section id="faq"><h2>Questions</h2><div class="qa"><h3 id="faq-what-is-olx-poland"><!--readme-->What is OLX Poland?<!--/readme--></h3><!--readme--><p>Poland's largest online classifieds platform, with a dedicated cars section covering millions of vehicle listings from private sellers and dealers.</p>
-<!--/readme--></div><div class="qa"><h3 id="faq-do-i-need-to-log-in-or-provide-an-api-key"><!--readme-->Do I need to log in or provide an API key?<!--/readme--></h3><!--readme--><p>No — searching and reading olx.pl car listings requires no account.</p>
-<!--/readme--></div><div class="qa"><h3 id="faq-are-prices-always-in-pln"><!--readme-->Are prices always in PLN?<!--/readme--></h3><!--readme--><p>Yes, for listings on olx.pl; <code>currency</code> on each record confirms it.</p>
-<!--/readme--></div><div class="qa"><h3 id="faq-can-i-combine-multiple-filters-at-once"><!--readme-->Can I combine multiple filters at once?<!--/readme--></h3><!--readme--><p>Yes — <code>fuelType</code>, <code>gearbox</code>, <code>condition</code>, the year range, and the price range can all be set together along with <code>query</code>.</p>
-<!--/readme--></div><div class="qa"><h3 id="faq-why-is-a-field-like-enginesize-or-doorcount-missing-on-some"><!--readme-->Why is a field like <code>engineSize</code> or <code>doorCount</code> missing on some listings?<!--/readme--></h3><!--readme--><p>OLX sellers don't always fill in every vehicle attribute; a field is only included in a record when OLX actually has a value for it.</p>
-<!--/readme--></div><div class="qa"><h3 id="faq-does-this-cover-listings-from-all-of-poland"><!--readme-->Does this cover listings from all of Poland?<!--/readme--></h3><!--readme--><p>Yes — results aren't restricted to any single city or region; <code>city</code> and <code>region</code> on each record show where that listing is located.</p>
-<!--/readme--></div><div class="qa"><h3 id="faq-is-this-affiliated-with-olx"><!--readme-->Is this affiliated with OLX?<!--/readme--></h3><!--readme--><p>No. This is an independent actor that reads publicly available olx.pl listing data; it is not operated by or affiliated with OLX Group.</p>
-<!--/readme--></div></section><section id="related"><h2>Related Actors</h2><ul class="related" role="list"><li><a href="/apify-actor-examples/actors/alibaba-com-wholesale-sourcing-and-supplier/">Alibaba.com Wholesale Sourcing &amp; Supplier Vetting Finder</a><p>Search Alibaba.com&#x27;s B2B marketplace (not AliExpress) for products or suppliers. Get price, MOQ, Trade Assurance status, supplier verification, years on platform, and response time for each listing.</p></li><li><a href="/apify-actor-examples/actors/aliexpress-multi-region-search-store-and-review/">AliExpress Multi-Region Search, Store &amp; Review Scraper</a><p>Search AliExpress or fetch product, store, and review records by ID or URL across 18 regional storefronts and 42 currencies, with price, rating, and ship-from/ship-to filters.</p></li><li><a href="/apify-actor-examples/actors/allegro-pl-listings-by-search-category-or-url/">Allegro.pl Listings by Search, Category or URL</a><p>Find Allegro.pl products by keyword search, category page, or direct offer URL, with price, seller rating, condition, shipping, and rating details, filterable by price range and free shipping.</p></li><li><a href="/apify-actor-examples/actors/amazon-autocomplete-keyword-expander/">Amazon Autocomplete Keyword Expander</a><p>Turn seed keywords into Amazon&#x27;s own search-box autocomplete suggestions across 23 marketplaces. Expand past the usual per-query cap with A-Z/0-9/custom suffixes and recursive re-querying of newly found suggestions.</p></li><li><a href="/apify-actor-examples/actors/amazon-customer-review-and-rating-summary-scraper/">Amazon Customer Review &amp; Rating Summary Scraper</a><p>Get Amazon customer reviews and a product-level rating summary by product URL, keyword, or category, with star-rating and sort filters, across 23 Amazon domains.</p></li><li><a href="/apify-actor-examples/actors/autoscout24-vehicle-listings-with-dealer-contact/">AutoScout24 Vehicle Listings with Dealer Contact Details</a><p>Search AutoScout24 across eight European countries by make, price, mileage and location, and get full vehicle specs, equipment, photos and dealer contact details.</p></li></ul><p class="more"><a href="/apify-actor-examples/topics/ecommerce/">All ecommerce Actors</a></p></section><section id="files"><h2>Source files</h2><p>This page is rebuilt from the default published build <code>9ESAG0sI0en3mN7kd</code>. Download what it was built from: <a href="README.md">README</a>, <a href="input-schema.json">input schema</a>, <a href="output-schema.json">output schema</a>, <a href="dataset-schema.json">dataset schema</a>, <a href="key-value-schema.json">key-value store schema</a>.</p></section></article></div></div></main><footer class="footer"><div class="inner"><p><strong>Vexaloom Labs</strong> builds and publishes these Actors on Apify. This site is generated from their published READMEs, schemas and prices.</p><nav aria-label="Footer"><a href="/apify-actor-examples/actors/">All Actors</a><a href="/apify-actor-examples/sites/">Sites</a><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/guides/">Guides</a><a href="/apify-actor-examples/sources/">How these pages are made</a><a href="https://apify.com/vexaloom-labs">Vexaloom Labs on Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></footer></body></html>
+<p>Inverted ranges (a minimum above the maximum) are swapped automatically.</p>
+<!--/readme--></details></section><section id="faq"><h2>Questions</h2><div class="qa"><h3 id="faq-do-i-need-cookies-an-account-or-an-api-key"><!--readme-->Do I need cookies, an account or an API key?<!--/readme--></h3><!--readme--><p>No. Every field comes from public OLX pages and requires no login.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-why-is-a-field-missing-on-some-rows"><!--readme-->Why is a field missing on some rows?<!--/readme--></h3><!--readme--><p>Sellers do not fill every attribute. OLX also hides the VIN on many offers. Missing values are omitted.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-what-does-condition-mean"><!--readme-->What does &quot;condition&quot; mean?<!--/readme--></h3><!--readme--><p>OLX reports whether a car is damaged or not damaged. The legacy values <code>used</code> and <code>new</code> are still accepted and map to <code>notdamaged</code>.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-will-my-old-task-inputs-still-work"><!--readme-->Will my old task inputs still work?<!--/readme--></h3><!--readme--><p>Yes. <code>gearbox</code> maps to <code>transmission</code>, <code>fuelType: hybrid</code> maps to OLX's CNG/hybrid key, <code>condition: used|new</code> maps to not damaged, <code>urls</code>/<code>startUrls</code> open details mode, and <code>sort</code> maps to <code>sortBy</code>.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-are-promoted-ads-included"><!--readme-->Are promoted ads included?<!--/readme--></h3><!--readme--><p>Yes by default, and they are flagged with <code>isPromoted</code>. OLX inserts promoted ads into result slots, so they count toward <code>maxItems</code> and can appear in any sort order. Set <code>includePromoted</code> to false for organic-only, strictly sorted results.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-how-is-newest-first-ordered"><!--readme-->How is &quot;newest first&quot; ordered?<!--/readme--></h3><!--readme--><p>OLX ranks bumped/refreshed offers, so <code>created_at:desc</code> returns the most recently refreshed listings first. <code>refreshedAt</code> is that refresh time; <code>createdAt</code> is the original creation date.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-can-i-combine-filters"><!--readme-->Can I combine filters?<!--/readme--></h3><!--readme--><p>Yes — every vehicle filter, range, region and sort order can be combined in one run.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-are-prices-always-pln"><!--readme-->Are prices always PLN?<!--/readme--></h3><!--readme--><p>Listings on olx.pl are priced in PLN; <code>currency</code> confirms the value on each row.</p>
+<!--/readme--></div><div class="qa"><h3 id="faq-why-did-a-run-return-fewer-rows-than-i-asked-for"><!--readme-->Why did a run return fewer rows than I asked for?<!--/readme--></h3><!--readme--><p>Either OLX had no more matches, or a single year-and-price slice hit OLX's 1,000-result ceiling. The status message says which case applied.</p>
+<!--/readme--></div></section><section id="notes"><h2>Limits and notes</h2><h3 id="readme-two-ways-to-run-it">Two ways to run it</h3><!--readme--><ul>
+<li><strong>Search listings</strong> — combine a keyword with make, model, fuel, gearbox, condition, body, colour, drive, country of origin, seller type, region, year, price, mileage and engine-size/power ranges. Sort by newest, price or relevance.</li>
+<li><strong>Read listing URLs</strong> — paste olx.pl listing links or numeric OLX listing IDs. The actor reads each listing page (or resolves the ID through OLX's search API) and returns the same row shape.</li>
+</ul>
+<p>No account, cookie, login, API key or proxy setup is needed.</p>
+<!--/readme--><h3 id="readme-how-pagination-works">How pagination works</h3><!--readme--><p>OLX returns at most 1,000 listings for a single search query. When <code>maxItems</code> is above that, the actor does not give up: it splits the search into narrower year ranges, then price ranges, until each slice fits inside OLX's window, and de-duplicates the rows by listing ID. This reaches up to 5,000 unique listings. If a single year-and-price slice still exceeds 1,000, the run says so in its status message; add another filter to narrow that slice.</p>
+<!--/readme--></section><section id="related"><h2>Related Actors</h2><ul class="related" role="list"><li><a href="/apify-actor-examples/actors/alibaba-com-wholesale-sourcing-and-supplier/">Alibaba.com Wholesale Sourcing &amp; Supplier Vetting Finder</a><p>Search Alibaba.com&#x27;s B2B marketplace (not AliExpress) for products or suppliers. Get price, MOQ, Trade Assurance status, supplier verification, years on platform, and response time for each listing.</p></li><li><a href="/apify-actor-examples/actors/aliexpress-multi-region-search-store-and-review/">AliExpress Multi-Region Search, Store &amp; Review Scraper</a><p>Search AliExpress or fetch product, store, and review records by ID or URL across 18 regional storefronts and 42 currencies, with price, rating, and ship-from/ship-to filters.</p></li><li><a href="/apify-actor-examples/actors/allegro-pl-listings-by-search-category-or-url/">Allegro.pl Listings by Search, Category or URL</a><p>Find Allegro.pl products by keyword search, category page, or direct offer URL, with price, seller rating, condition, shipping, and rating details, filterable by price range and free shipping.</p></li><li><a href="/apify-actor-examples/actors/amazon-autocomplete-keyword-expander/">Amazon Autocomplete Keyword Expander</a><p>Turn seed keywords into Amazon&#x27;s own search-box autocomplete suggestions across 23 marketplaces. Expand past the usual per-query cap with A-Z/0-9/custom suffixes and recursive re-querying of newly found suggestions.</p></li><li><a href="/apify-actor-examples/actors/amazon-customer-review-and-rating-summary-scraper/">Amazon Customer Review &amp; Rating Summary Scraper</a><p>Get Amazon customer reviews and a product-level rating summary by product URL, keyword, or category, with star-rating and sort filters, across 23 Amazon domains.</p></li><li><a href="/apify-actor-examples/actors/autoscout24-vehicle-listings-with-dealer-contact/">AutoScout24 Vehicle Listings with Dealer Contact Details</a><p>Search AutoScout24 across eight European countries by make, price, mileage and location, and get full vehicle specs, equipment, photos and dealer contact details.</p></li></ul><p class="more"><a href="/apify-actor-examples/topics/ecommerce/">All ecommerce Actors</a></p></section><section id="files"><h2>Source files</h2><p>This page is rebuilt from the default published build <code>B1EwcpcWEih0uOWU0</code>. Download what it was built from: <a href="README.md">README</a>, <a href="input-schema.json">input schema</a>, <a href="output-schema.json">output schema</a>, <a href="dataset-schema.json">dataset schema</a>, <a href="key-value-schema.json">key-value store schema</a>.</p></section></article></div></div></main><footer class="footer"><div class="inner"><p><strong>Vexaloom Labs</strong> builds and publishes these Actors on Apify. This site is generated from their published READMEs, schemas and prices.</p><nav aria-label="Footer"><a href="/apify-actor-examples/actors/">All Actors</a><a href="/apify-actor-examples/sites/">Sites</a><a href="/apify-actor-examples/topics/">Topics</a><a href="/apify-actor-examples/guides/">Guides</a><a href="/apify-actor-examples/sources/">How these pages are made</a><a href="https://apify.com/vexaloom-labs">Vexaloom Labs on Apify</a><a href="https://github.com/asimkhaniqbal/apify-actor-examples">GitHub</a></nav></div></footer></body></html>

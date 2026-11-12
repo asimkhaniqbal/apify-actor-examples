@@ -1,119 +1,167 @@
 # OLX.pl Used Car Listings by Make & Fuel Type
 
-OLX.pl is Poland's largest classifieds marketplace, with a dedicated cars section covering private sellers and dealers nationwide. This actor searches that cars section by keyword and vehicle filters, returning structured data for each matching listing up to the item limit you set.
+OLX.pl is Poland's biggest classifieds marketplace. This actor pulls used-car listings from its passenger-car section and returns one structured row per offer, either by searching with vehicle filters or by reading listing pages you paste in.
 
-## What this actor does
+## Two ways to run it
 
-- **Keyword search** across the olx.pl cars category, or browse all cars with no keyword
-- **Vehicle filters** — fuel type, gearbox, condition, model-year range, and price range, combinable in any mix
-- **Full listing detail** — make, model, year, mileage, engine size, door count, body type, color, and photos
-- **Empty fields are omitted** — a field OLX doesn't show for a listing (e.g. no engine size on an electric car) is left out rather than returned as null
+- **Search listings** — combine a keyword with make, model, fuel, gearbox, condition, body, colour, drive, country of origin, seller type, region, year, price, mileage and engine-size/power ranges. Sort by newest, price or relevance.
+- **Read listing URLs** — paste olx.pl listing links or numeric OLX listing IDs. The actor reads each listing page (or resolves the ID through OLX's search API) and returns the same row shape.
 
-## Output per listing
+No account, cookie, login, API key or proxy setup is needed.
 
-| Field | Type | Description |
+## What you get per listing
+
+| Field | Type | Meaning |
 |---|---|---|
-| `listingId` | string | OLX internal listing ID |
-| `title` | string | Listing title |
-| `slug` | string | OLX URL slug for the listing |
-| `make` | string | Car manufacturer |
-| `model` | string | Car model |
-| `year` | integer | Model year |
-| `pricePln` | integer | Price in Polish Zloty (PLN) |
-| `currency` | string | Currency (usually PLN) |
-| `mileage` | string | Odometer reading |
-| `fuelType` | string | Fuel type (Petrol, Diesel, LPG, Electric, Hybrid) |
-| `gearbox` | string | Transmission type |
-| `engineSize` | string | Engine displacement, as listed |
-| `bodyType` | string | Body style |
-| `color` | string | Exterior color |
-| `doorCount` | string | Number of doors, as listed |
-| `condition` | string | Used, New, or Damaged |
-| `city` | string | Seller city |
-| `region` | string | Polish voivodeship |
-| `listingUrl` | string | Direct link to the listing on olx.pl |
-| `imageUrl` | string | Primary photo URL |
-| `photoUrls` | array | Up to 10 photo URLs |
-| `description` | string | Listing description (first 500 characters) |
-| `createdAt` | string | Listing creation timestamp |
-| `refreshedAt` | string | Timestamp the seller last refreshed/bumped the listing |
-| `recordType` | string | Always `"carListing"` |
-| `scrapedAt` | string | UTC ISO scrape timestamp |
+| `listingId` | string | OLX offer ID |
+| `title` | string | Listing headline |
+| `slug` | string | URL slug of the offer |
+| `listingUrl` | string | Absolute olx.pl link |
+| `make` | string | Manufacturer, mapped from OLX's car category |
+| `model` | string | Model as listed (e.g. Corolla, Octavia, C Klasa) |
+| `year` | integer | Model/production year |
+| `pricePln` | integer | Asking price in Polish zloty |
+| `currency` | string | Price currency (PLN on olx.pl) |
+| `priceNegotiable` | boolean | Present when the seller accepts negotiation |
+| `mileage` | string | Odometer as OLX displays it (e.g. "245 000 km") |
+| `mileageKm` | integer | Odometer in kilometres |
+| `fuelType` / `fuelTypeCode` | string | Display name and OLX key (petrol, diesel, lpg, cng, electric, plugin-hybrid) |
+| `gearbox` / `gearboxCode` | string | Display name and OLX key (manual, automatic) |
+| `engineSize` / `engineSizeCc` | string / integer | Displacement, display value and cm³ |
+| `enginePower` / `enginePowerHp` | string / integer | Power, display value and horsepower |
+| `bodyType` / `bodyTypeCode` | string | Body style |
+| `color` / `colorCode` | string | Exterior colour |
+| `doorCount` | string | Door count, when OLX exposes it |
+| `condition` / `conditionCode` | string | Damage condition (notdamaged / damaged) |
+| `drive` / `driveCode` | string | Driven wheels / 4x4 type |
+| `steeringSide` / `steeringSideCode` | string | Left- or right-hand drive |
+| `countryOrigin` / `countryOriginCode` | string | Declared import country |
+| `vin` | string | VIN, when the seller publishes it |
+| `city`, `region`, `district` | string | Seller location |
+| `latitude`, `longitude` | number | Offer map coordinates |
+| `sellerId`, `sellerName` | string | Seller identity |
+| `sellerType` | string | OLX seller type when present |
+| `sellerCreatedAt`, `sellerLastSeenAt` | string | Account timestamps |
+| `sellerIsOnline` | boolean | Present when the seller is online |
+| `isBusiness` | boolean | Business/dealer listing |
+| `isPromoted`, `isHighlighted`, `isUrgent` | boolean | OLX promotion flags |
+| `phoneAvailable`, `chatAvailable` | boolean | Contact options offered by OLX |
+| `shopSubdomain` | string | Dealer shop subdomain |
+| `listingStatus` | string | OLX offer status (usually `active`) |
+| `description` | string | Full description with HTML removed |
+| `imageUrl` | string | Primary photo URL; search/ID rows are sized 1000x700, listing-page rows keep OLX's size |
+| `photoUrls` | array | Up to 20 photo URLs |
+| `createdAt`, `refreshedAt`, `validToAt` | string | Offer timestamps |
+| `recordType` | string | Always `carListing` |
+| `dataSource` | string | `search` or `details` |
+| `scrapedAt` | string | UTC scrape timestamp |
 
-## Input
+Fields OLX does not publish for a particular car are omitted, never returned as null or an empty string.
 
-| Field | Type | Default | Description |
+## Inputs
+
+| Field | Type | Default | Notes |
 |---|---|---|---|
-| `query` | string | – | Search query (make, model, or free text); leave blank to browse all cars |
-| `fuelType` | string | – | `petrol`, `diesel`, `lpg`, `electric`, `hybrid` |
-| `gearbox` | string | – | `manual` or `automatic` |
-| `condition` | string | – | `used`, `new`, or `damaged` |
-| `minYear` | integer | – | Oldest model year |
-| `maxYear` | integer | – | Newest model year |
-| `minPrice` | integer | – | Minimum price in PLN |
-| `maxPrice` | integer | – | Maximum price in PLN |
-| `maxItems` | integer | `20` | Max listings to return (1–500) |
+| `mode` | select | `search` | `search` or `details` |
+| `listingUrls` | array | – | Details mode: olx.pl links or numeric IDs |
+| `query` | string | – | Free-text keywords |
+| `make` | select | any | 113 OLX car makes |
+| `model` | string | – | Model name; matched to OLX's model list for the chosen make |
+| `fuelType` | select | any | petrol, diesel, lpg, cng, electric, plugin-hybrid |
+| `transmission` | select | any | manual, automatic |
+| `condition` | select | any | not damaged, damaged |
+| `bodyType` | select | any | 10 OLX body styles |
+| `color` | select | any | 10 OLX colours |
+| `drive` | select | any | front, rear or three 4x4 types |
+| `countryOrigin` | select | any | 38 import countries |
+| `steeringSide` | select | any | left or right |
+| `ownerType` | select | any | private or business |
+| `region` | select | all Poland | 16 voivodeships |
+| `minYear`, `maxYear` | integer | – | 1900–2030 |
+| `minPrice`, `maxPrice` | integer | – | PLN |
+| `minMileage`, `maxMileage` | integer | – | kilometres |
+| `minEngineSize`, `maxEngineSize` | integer | – | cm³ |
+| `minEnginePower`, `maxEnginePower` | integer | – | hp |
+| `sortBy` | select | `created_at:desc` | relevance, newest (last refresh), cheapest, most expensive |
+| `includePromoted` | boolean | true | Set false to drop top/promoted ads |
+| `maxItems` | integer | 20 | 1–5,000 unique listings |
 
-### Example: search diesel Toyota 2015–2020
+Inverted ranges (a minimum above the maximum) are swapped automatically.
+
+## Examples
+
+Diesel automatic Toyotas, 2015–2020, in Mazowieckie, cheapest first:
 
 ```json
 {
-  "query": "Toyota",
+  "mode": "search",
+  "make": "toyota",
   "fuelType": "diesel",
+  "transmission": "automatic",
   "minYear": 2015,
   "maxYear": 2020,
-  "maxItems": 50
+  "region": "mazowieckie",
+  "sortBy": "filter_float_price:asc",
+  "maxItems": 100
 }
 ```
 
-### Example: browse all cars within a budget, no keyword
+Electric cars under 80,000 PLN:
 
 ```json
 {
-  "query": "",
-  "maxPrice": 30000,
-  "condition": "used",
-  "maxItems": 50
-}
-```
-
-### Example: automatic-gearbox electric cars
-
-```json
-{
-  "query": "",
+  "mode": "search",
   "fuelType": "electric",
-  "gearbox": "automatic",
-  "maxItems": 30
+  "maxPrice": 80000,
+  "maxItems": 50
 }
 ```
 
-## Use cases
+Read two specific offers (one URL, one numeric ID):
 
-- **Polish used car market research** — compare prices for specific makes and models
-- **Import sourcing** — find cars available for export from Poland
-- **Price benchmarking** — track PLN prices across different fuel types and years
-- **Market monitoring** — watch listing volume and pricing trends over time
+```json
+{
+  "mode": "details",
+  "listingUrls": [
+    "https://www.olx.pl/d/oferta/suzuki-swift-1-3-benzyna-CID5-ID1absuK.html",
+    "1104626015"
+  ]
+}
+```
+
+## How pagination works
+
+OLX returns at most 1,000 listings for a single search query. When `maxItems` is above that, the actor does not give up: it splits the search into narrower year ranges, then price ranges, until each slice fits inside OLX's window, and de-duplicates the rows by listing ID. This reaches up to 5,000 unique listings. If a single year-and-price slice still exceeds 1,000, the run says so in its status message; add another filter to narrow that slice.
+
+## Data source and scope
+
+The actor reads OLX's public search JSON (`/api/v1/offers/`) and the server-rendered listing pages. It is limited to the olx.pl passenger-car category; other OLX countries and non-car categories are out of scope. It is an independent tool, not affiliated with OLX Group.
 
 ## FAQ
 
-**What is OLX Poland?**
-Poland's largest online classifieds platform, with a dedicated cars section covering millions of vehicle listings from private sellers and dealers.
+**Do I need cookies, an account or an API key?**
+No. Every field comes from public OLX pages and requires no login.
 
-**Do I need to log in or provide an API key?**
-No — searching and reading olx.pl car listings requires no account.
+**Why is a field missing on some rows?**
+Sellers do not fill every attribute. OLX also hides the VIN on many offers. Missing values are omitted.
 
-**Are prices always in PLN?**
-Yes, for listings on olx.pl; `currency` on each record confirms it.
+**What does "condition" mean?**
+OLX reports whether a car is damaged or not damaged. The legacy values `used` and `new` are still accepted and map to `notdamaged`.
 
-**Can I combine multiple filters at once?**
-Yes — `fuelType`, `gearbox`, `condition`, the year range, and the price range can all be set together along with `query`.
+**Will my old task inputs still work?**
+Yes. `gearbox` maps to `transmission`, `fuelType: hybrid` maps to OLX's CNG/hybrid key, `condition: used|new` maps to not damaged, `urls`/`startUrls` open details mode, and `sort` maps to `sortBy`.
 
-**Why is a field like `engineSize` or `doorCount` missing on some listings?**
-OLX sellers don't always fill in every vehicle attribute; a field is only included in a record when OLX actually has a value for it.
+**Are promoted ads included?**
+Yes by default, and they are flagged with `isPromoted`. OLX inserts promoted ads into result slots, so they count toward `maxItems` and can appear in any sort order. Set `includePromoted` to false for organic-only, strictly sorted results.
 
-**Does this cover listings from all of Poland?**
-Yes — results aren't restricted to any single city or region; `city` and `region` on each record show where that listing is located.
+**How is "newest first" ordered?**
+OLX ranks bumped/refreshed offers, so `created_at:desc` returns the most recently refreshed listings first. `refreshedAt` is that refresh time; `createdAt` is the original creation date.
 
-**Is this affiliated with OLX?**
-No. This is an independent actor that reads publicly available olx.pl listing data; it is not operated by or affiliated with OLX Group.
+**Can I combine filters?**
+Yes — every vehicle filter, range, region and sort order can be combined in one run.
+
+**Are prices always PLN?**
+Listings on olx.pl are priced in PLN; `currency` confirms the value on each row.
+
+**Why did a run return fewer rows than I asked for?**
+Either OLX had no more matches, or a single year-and-price slice hit OLX's 1,000-result ceiling. The status message says which case applied.

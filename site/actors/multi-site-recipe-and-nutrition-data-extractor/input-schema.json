@@ -1,0 +1,103 @@
+{
+  "description": "Scrape any schema.org-compliant recipe site by URL list, by Epicurious tag pages, or by sitemap. The actor extracts Recipe JSON-LD from each recipe page and standardizes the output. Works on Epicurious, Tasty, BBC Good Food, NYT Cooking, Bon Appétit, Serious Eats, Food Network, King Arthur Baking, Smitten Kitchen, Budget Bytes, and thousands of WordPress recipe blogs. AllRecipes is NOT supported (Akamai-blocked).",
+  "properties": {
+    "keywordIncludes": {
+      "description": "Drop recipes whose name + description don't contain this keyword.",
+      "editor": "textfield",
+      "title": "Must contain keyword (optional)",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Hard cap on emitted records.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxTotalTimeMinutes": {
+      "description": "Drop recipes whose `prep + cook` time exceeds this many minutes.",
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Max total time (minutes)",
+      "type": "integer"
+    },
+    "minRating": {
+      "description": "Drop recipes with `ratingValue` below this. Scale 0-500 (e.g. 400 = 4.0/5).",
+      "maximum": 500,
+      "minimum": 0,
+      "title": "Min rating (optional)",
+      "type": "integer"
+    },
+    "minRatingCount": {
+      "description": "Drop recipes with fewer than this many ratings.",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Min rating count (optional)",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "byUrls",
+      "description": "How to source recipe URLs.",
+      "editor": "select",
+      "enum": [
+        "byUrls",
+        "byTag",
+        "bySitemap"
+      ],
+      "enumTitles": [
+        "By URLs — supply a list of direct recipe URLs",
+        "By Tag — supply Epicurious category/ingredient tag URLs (the actor crawls them)",
+        "By Sitemap — supply sitemap.xml URLs from any recipe site (the actor extracts recipe URLs)"
+      ],
+      "prefill": "byUrls",
+      "title": "Mode",
+      "type": "string"
+    },
+    "proxy": {
+      "default": {
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "description": "Apify Proxy is optional. For Epicurious / Tasty / BBC Good Food / NYT Cooking / most food blogs, no proxy is needed; datacenter or residential both work. Provided here for sites that occasionally rate-limit.",
+      "editor": "proxy",
+      "title": "Apify Proxy (optional)",
+      "type": "object"
+    },
+    "recipeUrls": {
+      "default": [
+        "https://www.epicurious.com/recipes/food/views/banana-bread"
+      ],
+      "description": "Recipe URLs from any schema.org-compliant site (Epicurious, BBC Good Food, Tasty, NYT Cooking, Bon Appétit, Serious Eats, Food Network, King Arthur Baking, food blogs, etc.). AllRecipes URLs are rejected as unsupported.",
+      "editor": "stringList",
+      "prefill": [
+        "https://www.epicurious.com/recipes/food/views/banana-bread"
+      ],
+      "title": "Recipe URLs (mode=byUrls)",
+      "type": "array"
+    },
+    "sitemapUrls": {
+      "default": [],
+      "description": "Sitemap.xml URLs from any recipe site (e.g. `https://www.bbcgoodfood.com/sitemap.xml`, `https://www.epicurious.com/sitemap.xml`, or a deeper recipe-only sitemap). The actor walks the sitemap (one level deep into sitemap indexes), filters recipe-looking URLs, and runs them through the JSON-LD pipeline.",
+      "editor": "stringList",
+      "title": "Sitemap URLs (mode=bySitemap)",
+      "type": "array"
+    },
+    "tagUrls": {
+      "default": [],
+      "description": "Epicurious tag/category URLs OR bare slugs. Examples: `https://www.epicurious.com/recipes/category/main-course`, `/ingredient/banana`, `dessert`. The actor scrapes the tag page → finds recipe URLs → fetches each.",
+      "editor": "stringList",
+      "title": "Tag URLs (mode=byTag)",
+      "type": "array"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Recipe Scraper Input",
+  "type": "object"
+}
