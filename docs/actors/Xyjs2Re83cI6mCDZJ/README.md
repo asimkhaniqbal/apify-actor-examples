@@ -4,54 +4,77 @@
 
 # Reddit Research Scraper — Posts, Comments, Search, Users & Communities
 
-One run, five ways to read Reddit: subreddit feeds, complete comment trees, keyword search, user profiles, and community details. Apply the filters you need before anything reaches your dataset, so you can go from a broad topic to a clean, analysis-ready table without stitching several tools together.
+Collect Reddit research data in one run: community posts, full comment trees, keyword search, user activity, and community profiles. Filter before anything reaches your dataset, then combine modes in a single job. No Reddit account, API key, cookie, or login is required.
 
 ## What this actor does
 
-- **Subreddit posts** — collect a community's hot, new, top, rising, controversial, or best posts, with native Reddit pagination and optional post body/media details.
-- **Comment trees** — pull a post's comments with nesting depth, parent-comment linkage, scores, awards, edited/deleted flags, and optional expansion of collapsed branches.
-- **Keyword search** — search Reddit posts, comments, or both, globally or inside one community, and sort by relevance, hot, top, new, or comment count.
-- **User profiles** — read a user's profile summary (karma breakdown, cake day, account age, avatar, moderated communities, trophies) plus their posts and/or comments.
-- **Community details** — get a subreddit's description, subscriber and activity counts, creation date, type, icon/banner, and optionally its public rules.
-- **One shared filter layer** — score, age, comment count, upvote ratio, content type, flair, author, domain, keyword, NSFW, and comment depth filters run before records are saved.
-- **Mixed-mode runs** — combine any modes in one execution; every row carries a `recordType` so you can split the output at a glance.
+- **Community posts** — read a subreddit's newest, highest-scoring, hottest, rising, controversial, or best posts, with a time window and optional community metadata.
+- **Comment trees** — pull a post's comments with nesting depth, parent-comment linkage, scores, awards, edited flags, and optional expansion of collapsed branches.
+- **Keyword search** — search posts, comments, or both across one community or across Reddit, then sort by relevance, hot, top, new, or comment count.
+- **User activity** — read a user's karma and activity summary plus their recent posts and/or comments.
+- **Community profiles** — collect a subreddit's description, subscriber count, creation date, type, icon, banner, archive coverage, and optional public rules.
+- **One filter layer** — score, age, comment count, upvote ratio, content type, flair, domain, keyword, author, NSFW, stickied, and comment-depth filters run before records are saved.
+- **Mixed-mode runs** — combine any modes in one execution; every row carries a `recordType` so the output can be split at a glance.
 
 ## Modes
 
 | Mode | What it reads | Best for |
 |---|---|---|
-| `posts` | A subreddit's post listing | Community monitoring, trend discovery |
+| `posts` | A community's post listing | Community monitoring, trend discovery |
 | `comments` | Comment trees from post URLs or IDs | Sentiment, moderation, discussion analysis |
-| `search` | Reddit keyword search results | Topic research across Reddit |
-| `users` | A user's profile and activity | Author research, influencer vetting |
-| `subreddits` | Community about pages | Community discovery and comparison |
+| `search` | Keyword matches in posts and comments | Topic research across Reddit |
+| `users` | A user's activity summary and recent activity | Author research, contributor vetting |
+| `subreddits` | Community metadata and rules | Community discovery and comparison |
+
+## Data source and freshness
+
+The actor reads the **Arctic Shift public Reddit archive** (`arctic-shift.photon-reddit.com`), an independent public dataset with no API key. Reddit's anonymous `.json` endpoints and cloud-rendered HTML are not used, so the actor does not depend on login cookies or a browser challenge.
+
+What that means for your data:
+
+- Post and comment content, scores, and comment counts are **archive snapshots**. A score may differ from the live Reddit page by the time you read it.
+- New posts and comments normally appear in the archive within minutes to hours. Very recent activity can lag.
+- Subreddit subscriber counts, activity totals, and user aggregate statistics are updated less often than posts and comments. Each community record includes `archive_num_posts`, `archive_num_comments`, and their update timestamps so you can judge coverage.
+- The archive also contains removed or deleted content that is no longer visible on Reddit. Treat deletion flags as archive-time metadata, not a live moderation state.
+- If the archive cannot answer a request, the actor tries Reddit's public Atom/RSS feeds as a best-effort fallback. Those feeds are sparse (usually no scores or comment counts) and can be rate-limited independently by Reddit.
+
+### How global search works
+
+The archive requires a community or author scope for keyword matching. When `withinCommunity` is empty, the actor:
+
+1. tries Reddit's live Atom search feed;
+2. checks communities whose name matches the query (for example `flask` → r/flask);
+3. samples the newest posts/comments in the largest communities selected by `globalSearchCommunities` and filters them locally.
+
+This is broad, recent coverage rather than an exhaustive index of every historical post. For complete, repeatable keyword research inside a topic, set `withinCommunity` and use `postedAfter`/`postedBefore` to target the period you need.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `posts` | One mode: `posts`, `comments`, `search`, `users`, or `subreddits`. |
+| `mode` | string | `posts` | One mode: `posts`, `comments`, `search`, `users`, `subreddits`. Legacy `subreddit` and `profile` are accepted. |
 | `modes` | array | `["posts"]` | Run several modes in one execution; overrides `mode`. |
-| `subreddits` | array | `["python"]` | Communities for posts, comments, or subreddit details. Accepts names, `r/` prefixes, or URLs. |
+| `subreddits` | array | `["python"]` | Communities for posts, comments, or community details. Accepts names, `r/` prefixes, or URLs. |
 | `searchQueries` | array | `["python"]` | Keywords for search mode. |
 | `searchType` | string | `posts` | `posts`, `comments`, or `both`. |
 | `searchSort` | string | `relevance` | `relevance`, `hot`, `top`, `new`, or `comments`. |
-| `withinCommunity` | string | — | Restrict search to one subreddit. |
+| `withinCommunity` | string | — | Restrict search to one subreddit. Recommended for exhaustive keyword results. |
 | `maxSearchResults` | integer | `50` | Maximum search results per query. |
-| `enrichSearchResults` | boolean | `true` | Open the first few result posts to fill score, comment count, body, and media. |
+| `enrichSearchResults` | boolean | `true` | Add community stats to the first posts and parent-post stats to comment results. |
+| `globalSearchCommunities` | integer | `10` | Number of large communities sampled when `withinCommunity` is empty. |
 | `postUrls` | array | — | Post URLs or IDs for comments mode. |
 | `usernames` | array | — | Users for users mode. Accepts names, `u/` prefixes, or URLs. |
-| `section` | string | `submitted` | Profile section: `overview`, `submitted`, or `comments`. |
+| `section` | string | `submitted` | Profile section: `overview`, `submitted`, or `comments`. Legacy `posts` and `gilded` are accepted. |
 | `sort` | string | `hot` | `hot`, `new`, `top`, `rising`, `controversial`, or `best`. |
 | `timeFilter` | string | `day` | `hour`, `day`, `week`, `month`, `year`, or `all`. |
 | `commentSort` | string | `confidence` | `confidence`, `top`, `new`, `controversial`, `old`, or `qa`. |
-| `maxPosts` | integer | `25` | Posts per community or user. |
+| `maxPosts` | integer | `25` | Posts per community or user activity section. |
 | `maxComments` | integer | `100` | Comments per post. |
 | `maxItems` | integer | `1000` | Global cap across the whole run. |
-| `expandThreads` | boolean | `true` | Load collapsed comment branches and additional profile pages. |
+| `expandThreads` | boolean | `true` | Load collapsed comment branches and additional archive pages. |
 | `includePost` | boolean | `false` | Include the parent post record in comments mode. |
 | `includeSubredditInfo` | boolean | `false` | Emit a community record alongside posts. |
-| `includeRules` | boolean | `false` | Add public rules to subreddit records. |
+| `includeRules` | boolean | `false` | Add public rules to community records. |
 | `minScore` | integer | — | Minimum post/comment score. |
 | `maxScore` | integer | — | Maximum post/comment score. |
 | `minComments` | integer | — | Minimum comment count on a post. |
@@ -62,8 +85,8 @@ One run, five ways to read Reddit: subreddit feeds, complete comment trees, keyw
 | `postedBefore` | date | — | Keep posts created on or before this date. |
 | `postType` | string | `all` | `all`, `self`, `link`, `image`, `video`, `gallery`, `poll`, `crosspost`, `gif`, or `multi_media`. |
 | `excludeStickied` | boolean | `false` | Drop pinned/stickied posts. |
-| `excludeNsfw` | boolean | `false` | Drop posts flagged NSFW. |
-| `keywordFilter` | string | — | Keep records containing this text (title, body, or comment text). |
+| `excludeNsfw` | boolean | `false` | Drop records flagged NSFW. |
+| `keywordFilter` | string | — | Keep records containing this text (title, body, or comment). |
 | `authorFilter` | string | — | Keep records whose author name contains this text. |
 | `authorAllowlist` | array | — | Keep only these exact authors. |
 | `authorBlocklist` | array | — | Exclude these exact authors. |
@@ -97,13 +120,14 @@ One run, five ways to read Reddit: subreddit feeds, complete comment trees, keyw
 }
 ```
 
-### Example: search posts and comments, then profile a user
+### Example: search posts and comments inside one community
 
 ```json
 {
   "modes": ["search", "users"],
   "searchQueries": ["vector database"],
   "searchType": "both",
+  "withinCommunity": "MachineLearning",
   "maxSearchResults": 30,
   "usernames": ["spez"],
   "section": "overview",
@@ -127,64 +151,68 @@ Every row includes `recordType` (`subreddit_post`, `comment`, `profile`, `user_p
 
 ### Post records
 
-`post_id`, `post_name`, `title`, `author`, `author_id`, `author_fullname`, `author_flair`, `subreddit`, `subreddit_prefixed`, `subreddit_id`, `subreddit_subscribers`, `subreddit_type`, `content`, `content_html`, `content_url`, `url`, `permalink`, `external_url`, `url_overridden_by_dest`, `domain`, `post_hint`, `post_type`, `media_type`, `score`, `ups`, `upvote_ratio`, `num_comments`, `link_flair`, `thumbnail_url`, `created_utc`, `created_at`, `edited`, `edited_at`, `is_self`, `is_stickied`, `is_locked`, `is_archived`, `is_pinned`, `is_nsfw`, `is_spoiler`, `is_original_content`, `is_crosspost`, `is_gallery`, `total_awards_received`, `awards`, `gilded_count`, `num_crossposts`, `crosspost_parent`, `language`, `has_media`, `images`, `gallery_images`, `gallery_count`, `video_url`, `poll_data`, `title_word_count`, `post_age_seconds`, `search_term`, `crawled_at`, `source`.
+`post_id`, `post_name`, `title`, `author`, `author_id`, `author_fullname`, `author_flair`, `subreddit`, `subreddit_prefixed`, `subreddit_id`, `subreddit_subscribers`, `subreddit_type`, `content`, `content_html`, `content_url`, `url`, `permalink`, `external_url`, `url_overridden_by_dest`, `domain`, `post_hint`, `post_type`, `media_type`, `score`, `ups`, `downs`, `upvote_ratio`, `num_comments`, `link_flair`, `thumbnail_url`, `created_utc`, `created_at`, `edited`, `edited_at`, `is_self`, `is_stickied`, `is_locked`, `is_archived`, `is_pinned`, `is_nsfw`, `is_spoiler`, `is_original_content`, `is_crosspost`, `is_gallery`, `total_awards_received`, `awards`, `gilded_count`, `num_crossposts`, `crosspost_parent`, `has_media`, `images`, `gallery_images`, `gallery_count`, `video_url`, `poll_data`, `title_word_count`, `post_age_seconds`, `retrieved_utc`, `retrieved_at`, `search_term`, `crawled_at`, `source`.
 
 ### Comment records
 
-`comment_id`, `comment_name`, `post_id`, `post_title`, `post_url`, `author`, `author_id`, `author_fullname`, `text`, `body_html`, `score`, `permalink`, `parent_id`, `parent_comment_id`, `parent_kind`, `parent_positions`, `depth`, `position`, `replies_count`, `subreddit`, `subreddit_prefixed`, `subreddit_id`, `is_op`, `is_edited`, `edited_at`, `is_stickied`, `is_collapsed`, `is_deleted`, `is_automod`, `is_likely_bot`, `comment_age_seconds`, `distinguished`, `controversiality`, `user_flair`, `word_count`, `body_quote_count`, `body_code_count`, `body_link_count`, `awards_count`, `total_awards_received`, `gilded_count`, `content_type`, `avatar`, `created_utc`, `created_at`, `search_term`, `crawled_at`, `source`.
+`comment_id`, `comment_name`, `post_id`, `post_title`, `post_url`, `author`, `author_id`, `author_fullname`, `text`, `body_html`, `score`, `permalink`, `parent_id`, `parent_comment_id`, `parent_kind`, `depth`, `replies_count`, `subreddit`, `subreddit_prefixed`, `subreddit_id`, `is_op`, `is_edited`, `edited_at`, `is_stickied`, `is_collapsed`, `is_deleted`, `is_automod`, `is_likely_bot`, `comment_age_seconds`, `distinguished`, `controversiality`, `word_count`, `body_quote_count`, `body_code_count`, `body_link_count`, `awards_count`, `total_awards_received`, `gilded_count`, `created_utc`, `created_at`, `retrieved_utc`, `retrieved_at`, `search_term`, `crawled_at`, `source`.
 
 ### Profile post records
 
-Post fields above, plus `author_metadata` with the profile summary.
+Post fields above, plus `author_metadata` with the user summary.
 
 ### User profile records
 
-`username`, `user_id`, `profile_url`, `icon_img`, `snoovatar_img`, `description`, `total_karma`, `post_karma`, `comment_karma`, `awardee_karma`, `awarder_karma`, `created_utc`, `created_at`, `account_created`, `account_age_years`, `is_mod`, `is_gold`, `has_verified_email`, `verified`, `moderated_subreddits`, `trophies`.
+`username`, `user_id`, `user_fullname`, `profile_url`, `post_karma`, `comment_karma`, `total_karma`, `num_posts`, `num_comments`, `first_post_at`, `last_post_at`, `first_comment_at`, `last_comment_at`, `first_activity_at`, `last_activity_at`, `activity_span_days`, `post_stats_updated_at`, `comment_stats_updated_at`, `crawled_at`, `source`.
 
-### Subreddit records
+### Community records
 
-`subreddit`, `subreddit_prefixed`, `subreddit_id`, `url`, `title`, `description`, `public_description`, `subscribers`, `active_user_count`, `weekly_active_users`, `weekly_contributions`, `created_utc`, `created_at`, `subreddit_type`, `over18`, `quarantine`, `community_icon`, `icon_img`, `banner_img`, `primary_color`, `key_color`, `lang`, `rules`.
+`subreddit`, `subreddit_prefixed`, `subreddit_id`, `url`, `title`, `description`, `public_description`, `subscribers`, `active_user_count`, `created_utc`, `created_at`, `subreddit_type`, `over18`, `quarantine`, `community_icon`, `icon_img`, `banner_img`, `primary_color`, `key_color`, `lang`, `archive_num_posts`, `archive_num_comments`, `archive_num_posts_updated_at`, `archive_num_comments_updated_at`, `archive_earliest_post_at`, `archive_earliest_comment_at`, `rules`.
 
 ### Summary record
 
-One row at the end of every run with `modes`, `modeStats` (pushed/dropped/errors per mode), `totalPushed`, `totalErrors`, `totalDropped`, and `scrapedAt`. If nothing is emitted, a second summary row explains why.
+One row at the end of every run with `modes`, `modeStats` (pushed/dropped/errors/rss per mode), `totalPushed`, `totalErrors`, `totalDropped`, `totalRssFallback`, `dataSource`, and `scrapedAt`. If nothing is emitted, a second summary row explains why.
 
 ## Use cases
 
-- Track a topic across several subreddits and keep only high-scoring, recent posts.
+- Track a topic across several communities and keep only high-scoring, recent posts.
 - Pull shallow comment trees for a quick sentiment pass without walking every reply.
-- Search Reddit for a product or phrase, then compare how different communities discuss it.
-- Vetting an author: see their profile summary, recent posts, and comment history together.
-- Compare community size, activity, and rules before launching a campaign or research project.
+- Search a community for a product or phrase and compare how discussions change over time.
+- Vet a contributor with their karma, activity window, recent posts, and recent comments together.
+- Compare community size, archive coverage, and rules before launching a campaign or research project.
 
 ## Limitations
 
-- Reddit may challenge individual post/comment pages on some cloud networks even when feed, search, profile, and community pages load. When that happens, comments mode emits no rows and records a mode error (visible in the summary and run status) rather than partial or fabricated data; retry from another network or use a saved copy of the thread.
-- Reddit caps listings and search at a source-side maximum; very large `maxItems` requests may stop before that number when Reddit stops paginating. Comment search returns Reddit's first server-rendered result page per query (typically 8-10 rows); post search paginates further.
-- Private, quarantined, banned, and login-only communities cannot be read anonymously.
-- Search results from older archive data may not include the newest posts; live Reddit search is used first when available.
+- **Archive snapshots, not live pages.** Scores and comment counts reflect the archive's retrieval time; newer activity can lag by minutes to hours.
+- **Global keyword search is scoped by design.** The archive needs a community or author scope. Without `withinCommunity`, search samples the newest content in the largest communities plus communities named after the query. Use `withinCommunity` and a date window for exhaustive results.
+- **All-time keyword search can be slow.** Server-side keyword matching across a busy community's full history may take longer than a recent-window search. Setting `postedAfter` or a shorter `timeFilter` is faster and more repeatable.
+- **Ranked sorts are approximations.** The archive sorts by creation time. `top`/`best` rank by score, `hot` uses Reddit's public hot formula, and `rising` favours recent high-scoring posts. Results are sampled from a recent window (up to 2,000 posts), not Reddit's live ranking.
+- **Deleted and removed content can still appear.** The archive retains content Reddit no longer renders; deletion flags are archive-time metadata.
+- **Private, quarantined, banned, and login-only communities cannot be read.**
+- **User records contain activity aggregates, not profile-page extras.** Avatar, bio, trophies, and moderated-community lists are not part of the archive's user aggregate and are omitted rather than invented.
+- **RSS fallback is sparse.** If it is used, expect titles, links, and timestamps without scores, comment counts, or media fields.
 
 ## FAQ
 
 ### Do I need a Reddit account, API key, or login?
 
-No. The actor reads public Reddit pages and public search feeds. No credentials are required.
+No. The actor reads a public archive and public Atom feeds. No credentials are required.
 
 ### How many records can I get?
 
-Set `maxItems` for a global cap, `maxPosts` per community/user, `maxComments` per post, and `maxSearchResults` per query. Reddit itself limits how far a listing or search can paginate; very large requests may stop at the source's own ceiling.
+Set `maxItems` for a global cap, `maxPosts` per community/user section, `maxComments` per post, and `maxSearchResults` per query. The archive itself limits how far a single listing or search can paginate.
 
 ### Why is a field missing from some records?
 
-Fields that Reddit does not expose for a particular record are omitted rather than filled with empty values. For example, a text post has no external link domain, and a search-result comment has no post score.
+The archive does not expose every field for every record, so the actor omits fields it cannot fill instead of writing null. For example, a text post has no external link domain, and a search-feed fallback comment has no score.
 
 ### Do the filters apply to every mode?
 
-`minScore`, `maxScore`, `maxAgeDays`, `keywordFilter`, `authorFilter`, `authorAllowlist`, `authorBlocklist`, `excludeNsfw`, and the post-level filters apply wherever the corresponding field exists. `maxDepth` applies to comments. `postedAfter` and `postedBefore` apply to posts.
+`minScore`, `maxScore`, `maxAgeDays`, `keywordFilter`, `authorFilter`, `authorAllowlist`, `authorBlocklist`, and `excludeNsfw` apply wherever the corresponding field exists. `maxDepth` applies to comments. `postedAfter` and `postedBefore` apply to posts.
 
 ### Can I search inside one subreddit?
 
-Yes. Set `searchQueries` and put the community name in `withinCommunity`.
+Yes. Set `searchQueries` and put the community name in `withinCommunity`. This is the most complete search mode because the archive can scope the keyword match to that community.
 
 ### What is the difference between `mode` and `modes`?
 
@@ -192,8 +220,8 @@ Yes. Set `searchQueries` and put the community name in `withinCommunity`.
 
 ### Why did a mode produce nothing?
 
-Its required input was empty (for example, comments mode without `postUrls`), the community/post is private or unavailable, or your filters removed every row. Check the `summary` record's `modeStats` for counts.
+Its required input was empty (for example, comments mode without `postUrls`), the community/post is private or unavailable, the archive had no matching records in the selected window, or your filters removed every row. Check the `summary` row's `modeStats` for counts.
 
 ### Is this affiliated with Reddit?
 
-No. This is an independent tool that reads Reddit's public pages; it is not operated or endorsed by Reddit.
+No. This is an independent research tool that reads a public Reddit archive and public feeds. It is not operated or endorsed by Reddit.

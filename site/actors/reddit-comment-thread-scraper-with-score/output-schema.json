@@ -1,13 +1,13 @@
 {
   "actorOutputSchemaVersion": 1,
-  "description": "Reddit comment threads, nested replies included, with author, score, depth, tree path, edited/deleted flags, and parent relationships, plus an optional parent post record.",
+  "description": "Comment records from Arctic Shift's Reddit archive (or Reddit's Atom fallback), with author, score, depth, parent relationships, reply counts, edited/deleted flags, and an optional parent post record.",
   "properties": {
     "commentAndPostRecords": {
-      "description": "Dataset containing one record per comment, plus the parent post record when 'Include post' is on. Records are distinguished by the `dataType` field (`comment` or `post`).",
+      "description": "Dataset with one record per comment, plus the parent post record when 'Include post' is on. Records are distinguished by `dataType` (`comment` or `post`). The `source` field says whether a record came from `arctic_shift` or `reddit_rss`.",
       "template": "{{links.apiDefaultDatasetUrl}}/items",
       "title": "Comment & post records",
       "type": "string"
     }
   },
-  "title": "Reddit Comment Thread Scraper with Score & Keyword Filters Output"
+  "title": "Reddit Comment Thread Scraper with Score, Depth & Keyword Filters Output"
 }

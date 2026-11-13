@@ -1,115 +1,136 @@
 # Reddit Comment Thread Scraper with Score & Keyword Filters
 
-Export Reddit comment threads — top-level comments and nested replies, including branches hidden behind "load more replies" and "continue this thread" — as flat, structured rows. Paste post links (or comment links), choose a sort, and get author, text, score, timestamps, reply depth, parent relationships, and moderation/deletion flags. No Reddit account, API key, or login required.
+Export a Reddit discussion as structured comment rows: top-level comments and every nested reply, with author, score, depth, parent relationships, reply counts and timestamps. Paste one or many post links, pick a sort, then filter by date, score, depth, author, keyword, length or awards. No Reddit login, API key, cookie or proxy setup is required.
 
-## What this actor does
+## How it gets the data
 
-- **Full thread reconstruction** — follows Reddit's own nested reply loaders and continue-thread pages until `maxComments` is reached or Reddit stops serving comments to logged-out readers
-- **6 comment sorts** — Best, Top, New, Controversial, Old, and Q&A, matching Reddit's UI
-- **Comment permalink focus** — paste a comment permalink with `focusOnTargetComment` enabled to get that comment plus its ancestor chain, including deeply nested targets
-- **Rich client-side filtering** — date window, reply-depth range, score range, author allow/deny, keyword include/exclude, length bounds, award count, OP-only, deleted/removed, collapsed
-- **Optional parent post record** — title, author, score, ratio, timestamp, subreddit, and text/link metadata when `includePost` is on
-- **Flexible URL input** — post URLs, comment permalinks, share links, `redd.it` short links, bare post IDs
-- **Omit-empty output** — a field appears only when Reddit actually exposes a value for it
+Reddit blocks anonymous `.json` endpoints and `old.reddit.com`, and its cloud-facing HTML is behind a JS challenge. This actor uses two public, cookieless sources instead:
+
+1. **Arctic Shift archive (primary).** Post metadata comes from `/api/posts/ids`; the nested thread comes from `/api/comments/tree`; when a tree response is truncated, the actor fills the remaining comments from paginated `/api/comments/search`. No key, account or proxy.
+2. **Reddit Atom feed (fallback).** If the archive returns no comments for a post, the actor reads `https://www.reddit.com/comments/<id>.rss`, then `https://www.reddit.com/r/<subreddit>/comments/<id>/.rss`. The feed is parsed for the post and its comment entries. It never calls a `.json` endpoint.
+
+Each record carries a `source` field: `arctic_shift` or `reddit_rss`.
+
+## Modes
+
+| Mode | What it does |
+|---|---|
+| **Thread scrape** (default) | One record per comment across every nested branch, for every URL in `postUrls`. |
+| **Comment focus** | Put a comment permalink in `postUrls` and enable `focusOnTargetComment` to return that comment plus its ancestor chain. |
+| **Multi-thread batch** | Add as many post URLs or IDs as needed; each thread is fetched independently and pushed as it finishes. |
+| **Post record** | `includePost` emits the parent post as the first record of each thread. |
+| **Data-source selector** | `dataSource` can force `archive_tree`, `archive_search`, or `rss` for diagnostics. `auto` (default) is tree → search fill → RSS fallback. |
 
 ## Output per comment
 
-- `dataType` — `"comment"`
-- `comment_id`, `comment_name` — bare id and Reddit fullname (`t1_...`)
-- `post_id`, `post_url`, `post_title`, `link_id` — parent thread context
-- `permalink` — direct comment link
-- `author` — username (`[deleted]` when the account is gone)
-- `avatarUrl` — author avatar image, when available
-- `body` — comment text as readable plain text (block breaks preserved)
-- `body_html` — comment HTML from Reddit's renderer
-- `score` — net score (upvotes minus downvotes) at crawl time
-- `created_utc`, `created_at` — posted time (epoch and ISO-8601 UTC)
-- `edited`, `edited_at` — whether and when the comment was edited
-- `depth` — nesting level, `0` = top-level reply to the post
-- `position` — the comment's position among its siblings
-- `parentPositions` — the position path from the thread root. The prefix can be incomplete for branches reached through a "continue this thread" page; use `parent_id` for exact parentage
-- `parent_id`, `parent_kind` — direct parent fullname (`t3_...` for top-level or `t1_...` for a reply) and kind
-- `is_op` — author is the post's original poster
-- `collapsed` — Reddit collapses the comment by default
-- `isCommentDeleted`, `isAuthorDeleted` — comment content / author account was deleted
-- `contentType` — `text`, `image`, or `giphy`
-- `isHighlighted`, `hasPaidAward` — Reddit highlight/paid-award markers when present
-- `total_awards_received` — total award count (0 when none)
-- `subreddit`, `subreddit_prefixed`, `subreddit_id` — community context
-- `crawled_at` — when this record was fetched (ISO-8601)
-- `source` — `"html"`
+- `dataType` (`comment`), `comment_id`, `comment_name`
+- `post_id`, `post_url`, `post_title`, `link_id`
+- `permalink`, `author`, `author_id`, `avatarUrl`
+- `body` (plain text, trimmed), `body_html` (archive-generated HTML when available)
+- `score`, `ups`, `downs`, `score_hidden`
+- `created_utc`, `created_at`, `edited`, `edited_at`, `archived`
+- `depth` (0 = top-level), `position`, `parentPositions`, `parent_id`, `parent_kind`
+- `repliesCount` (direct replies found in this thread)
+- `is_op`, `is_stickied`, `is_locked`, `distinguished`, `controversiality`
+- `collapsed`, `collapsed_reason`, `collapsed_reason_code`, `collapsed_because_crowd_control`
+- `author_flair`, author flair colours/type/richtext, `author_premium`, `author_is_blocked`
+- `total_awards_received`, `awards[]`, `gilded`
+- `comment_type`, `unrepliable_reason`, `no_follow`, `send_replies`, `can_gild`, `removed_by_category`
+- `isCommentDeleted`, `isAuthorDeleted` (when the source marks the comment deleted/removed)
+- `scoreIsPlaceholder` (fresh archive score, see below), `archiveRetrievedAt`
+- `subreddit`, `subreddit_prefixed`, `subreddit_id`
+- `crawled_at`, `source`
 
-A rare deleted-comment placeholder that Reddit no longer gives an id for has no `comment_id`; its `isCommentDeleted`/`isAuthorDeleted` flags and position path still identify it. Its `parent_id` falls back to the post, so use the position path for its place in the tree.
-
-Fields Reddit does not expose to logged-out readers are omitted: comment `author_id`, author flair fields, `ups`/`downs`, `score_hidden`, `controversiality`, `distinguished`, comment-level `stickied`/`locked`/`archived`, `collapsed_reason*`, legacy `gilded`, the award breakdown, and `removed_by_category`. See **Limitations** below.
+Fields a source does not expose are omitted, never emitted as `null` or an empty string. For example, Atom-fallback comments have no `score`, `ups`, `downs`, `awards` or `edited` timestamp.
 
 ## Output per post
 
-Emitted once per post as the first record when `includePost` is on. Comment filters do not apply to it.
+Emitted as the first record of a thread when `includePost` is on. Comment filters do not apply to it.
 
-- `dataType` — `"post"`
-- `post_id`, `post_name`, `title`, `author`, `author_id`
-- `subreddit`, `subreddit_prefixed`, `subreddit_id`
-- `url`, `permalink` — canonical reddit.com link
-- `content_url` — external destination for link posts
-- `domain`, `post_type`, `is_self`
-- `content`, `content_html` — self-post body
-- `score`, `upvote_ratio`, `num_comments`
-- `created_utc`, `created_at`
-- `language`
-- `is_nsfw`, `is_stickied`, `is_locked`
-- `total_awards_received`
+- `dataType` (`post`), `post_id`, `post_name`, `title`
+- `author`, `author_id`, author flair fields, `author_premium`
+- `subreddit`, `subreddit_prefixed`, `subreddit_id`, `subreddit_subscribers`, `subreddit_type`
+- `url`, `permalink`, `content_url`, `url_overridden_by_dest`, `domain`, `post_type`, `is_self`
+- `content`, `content_html`, `media_type`, `has_media`
+- `images[]`, `gallery_images[]`, `gallery_count`, `video_url`
+- `poll_data`, `embed_*`, `crosspost_parent_id`, `num_crossposts`
+- `score`, `ups`, `downs`, `upvote_ratio`, `num_comments`
+- `link_flair*`, `thumbnail_url`, `created_utc`, `created_at`, `edited`, `edited_at`
+- `is_stickied`, `is_locked`, `is_archived`, `is_nsfw`, `is_spoiler`, `is_original_content`
+- `total_awards_received`, `awards[]`, `gilded`, `distinguished`
+- `statsArePlaceholder` (fresh archive post, see below)
 - `crawled_at`, `source`
-
-Post fields that require Reddit's legacy API data (flair, media/gallery URLs, poll data, crosspost counts, removal category, ups/downs, edited timestamp) are not available to logged-out readers and are omitted.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `postUrls` | array | – (required) | Post URLs, comment URLs, share links, `redd.it` short links, or bare post IDs |
-| `maxComments` | integer | `100` | Maximum comments to keep per post, after filters (1–100,000) |
-| `commentSort` | select | `confidence` | `confidence` (Best), `top`, `new`, `controversial`, `old`, `qa` |
+| `postUrls` | array | – (required) | Post URLs, comment URLs, share links, `redd.it` links or bare post IDs |
+| `maxComments` | integer | `100` | Maximum comment records per post, after filters (1–100,000) |
+| `commentSort` | select | `confidence` | `confidence`, `top`, `new`, `controversial`, `old`, `qa` |
+| `dataSource` | select | `auto` | `auto`, `archive_tree`, `archive_search`, `rss` |
 | `includePost` | boolean | `false` | Emit the parent post as the first record of each thread |
 | `postedAfter` | date | – | Keep comments created on/after this date (UTC) |
 | `postedBefore` | date | – | Keep comments created on/before this date (UTC; a bare date means end of day) |
-| `minDepth` | integer | – | Keep comments at or deeper than this nesting level (0–100) |
-| `maxDepth` | integer | – | Keep comments at or above this nesting level (0–100) |
+| `minDepth` | integer | – | Keep comments at or deeper than this nesting level |
+| `maxDepth` | integer | – | Keep comments at or above this nesting level |
 | `minCommentScore` | integer | – | Keep comments with score ≥ this value |
 | `maxCommentScore` | integer | – | Keep comments with score ≤ this value |
 | `onlyOP` | boolean | `false` | Keep only the original poster's comments |
-| `excludeDeletedRemoved` | boolean | `false` | Drop comments Reddit marks deleted or author-deleted |
-| `excludeCollapsed` | boolean | `false` | Drop comments Reddit collapses by default |
+| `excludeDeletedRemoved` | boolean | `false` | Drop comments whose body/author is deleted or removed |
+| `excludeCollapsed` | boolean | `false` | Drop comments collapsed by default |
+| `excludeStickied` | boolean | `false` | Drop moderator-pinned comments |
+| `distinguishedFilter` | select | `any` | `any`, `moderator`, `admin`, `none` (no badge) |
+| `controversialOnly` | boolean | `false` | Keep only comments flagged controversial |
 | `authors` | array | – | Keep only these usernames (case-insensitive) |
-| `excludeAuthors` | array | – | Drop these usernames (case-insensitive), e.g. bots |
+| `excludeAuthors` | array | – | Drop these usernames, e.g. bots |
 | `keywords` | array | – | Keep comments containing at least one keyword/phrase |
 | `excludeKeywords` | array | – | Drop comments containing any keyword/phrase |
-| `minAwards` | integer | – | Keep comments with at least this many total awards |
-| `minCommentLength` | integer | – | Minimum body length in characters (0–10,000) |
-| `maxCommentLength` | integer | – | Maximum body length in characters (0–10,000) |
-| `focusOnTargetComment` | boolean | `false` | For a comment permalink, return the target plus its ancestor chain. Works for deeply nested targets; the target must still be publicly visible |
-| `commentContext` | integer | `3` | Ancestor levels above the target comment when Reddit returns the focus view (0–8) |
+| `minAwards` | integer | – | Keep comments with at least this many awards |
+| `minReplies` | integer | – | Keep comments with at least this many direct replies |
+| `minCommentLength` | integer | – | Minimum body length in characters |
+| `maxCommentLength` | integer | – | Maximum body length in characters |
+| `focusOnTargetComment` | boolean | `false` | For a comment permalink, return the target plus its ancestor chain |
+| `commentContext` | integer | `3` | Ancestor levels above the target (0–8) |
 
-**Accepted `postUrls` forms:**
+All filters are applied client-side after the thread is fetched, so they work for both archive and Atom records. A comment with a missing field passes the corresponding bound (for example, Atom comments have no score, so they are not removed by a score filter).
+
+### Accepted `postUrls` forms
+
 - Full post URL: `https://www.reddit.com/r/programming/comments/1abc123/some_title/`
 - Short URL: `https://www.reddit.com/comments/1abc123` (also with `?sort=top`)
 - Comment URL: `https://www.reddit.com/r/x/comments/1abc123/title/comment/xyz987/`
 - Share link: `https://www.reddit.com/r/x/s/<token>`
 - Short link: `https://redd.it/1abc123`
 - Bare post ID: `1abc123` or `t3_1abc123`
-- `old.reddit.com` URLs also work
+- `old.reddit.com` URLs are accepted as input; they are converted to `www.reddit.com` links and never fetched.
 
-Malformed items (empty strings, garbage URLs, non-strings) are skipped without failing the run.
+Malformed items (empty strings, non-Reddit URLs, non-strings) are skipped without failing the run.
 
-**Removed inputs:** `distinguishedFilter`, `controversialOnly`, and `excludeStickied` were removed because Reddit no longer exposes those markers to logged-out readers. Old saved tasks that still send them keep running; the actor logs one warning and ignores them.
+### Legacy inputs
 
-### Example: scrape a whole thread sorted by Top
+Older saved tasks keep working. These keys are accepted in code and mapped onto the current field; they do not appear in the input form:
+
+| Old key | Maps to |
+|---|---|
+| `postUrl`, `postURL`, `post_url`, `post_urls`, `url`, `urls`, `startUrls`, `start_urls` | `postUrls` |
+| `sort`, `comment_sort`, `sortBy` | `commentSort` |
+| `maxItems`, `limit`, `max_comments` | `maxComments` |
+| `include_post`, `includePostRecord` | `includePost` |
+| `minScore` | `minCommentScore` |
+| `maxScore` | `maxCommentScore` |
+| `focus_on_target_comment` | `focusOnTargetComment` |
+| `context` | `commentContext` |
+
+`distinguishedFilter`, `controversialOnly` and `excludeStickied` are supported again because the archive exposes the fields the old HTML path could not.
+
+### Example: full thread, newest first
 
 ```json
 {
   "postUrls": ["https://www.reddit.com/r/technology/comments/1abc123/some_title/"],
   "maxComments": 500,
-  "commentSort": "top",
+  "commentSort": "new",
   "includePost": true
 }
 ```
@@ -126,7 +147,7 @@ Malformed items (empty strings, garbage URLs, non-strings) are skipped without f
 }
 ```
 
-### Example: NLP dataset — clean comment bodies
+### Example: clean NLP corpus
 
 ```json
 {
@@ -142,7 +163,7 @@ Malformed items (empty strings, garbage URLs, non-strings) are skipped without f
 }
 ```
 
-### Example: jump straight to one comment
+### Example: one comment and its parents
 
 ```json
 {
@@ -152,54 +173,104 @@ Malformed items (empty strings, garbage URLs, non-strings) are skipped without f
 }
 ```
 
+### Example: force the Atom fallback
+
+```json
+{
+  "postUrls": ["https://www.reddit.com/r/x/comments/1abc123/"],
+  "dataSource": "rss"
+}
+```
+
+## Pagination and limits
+
+- **Archive tree:** `/api/comments/tree` returns a nested tree. The actor requests up to 25,000 comments with expanded breadth/depth so Reddit's tree is not collapsed early. If the response still contains `more` batches, `auto` mode fills them from the paginated search endpoint.
+- **Archive search:** `/api/comments/search` returns 100 comments per page; the actor follows `before` cursors (oldest `created_utc`) until the source is exhausted or the internal 50,000-comment ceiling is reached. The boundary second is re-read and records are deduplicated by comment ID, so comments that share a timestamp with the last row of a page are not dropped.
+- **`maxComments`** is applied after filters, so a heavily filtered request can read more raw comments than it outputs. There is no wall-clock cutoff and no silent early stop; the run ends when the requested count is reached or the source is exhausted.
+- **Atom fallback:** Reddit's feed is request-bounded and may contain fewer entries than the thread. The actor reports what the feed serves.
+
+## Arctic Shift freshness
+
+Arctic Shift archives a post or comment seconds after it is created, before Reddit has settled its vote counts. Arctic's own API documentation says scores and comment counts can be `0` or `1` for roughly the first 36 hours. The actor does not hide this:
+
+- A comment whose `score` is `0` or `1` and is less than 36 hours old gets `scoreIsPlaceholder: true`.
+- A post in the same window gets `statsArePlaceholder: true`.
+- `archiveRetrievedAt` is the archive's retrieval timestamp when present.
+
+Scores and `num_comments` for older records are the settled archive values, but they are still a snapshot: they will not match a live refresh and may lag by hours or days. Deleted or removed comments may disappear from the archive or appear as `[deleted]` / `[removed]`; `num_comments` can count comments the archive no longer serves.
+
+## Atom RSS fallback limits
+
+The Atom feed is a last resort, not a full replacement for the archive:
+
+- **No score, upvotes/downvotes, awards, flair, badges or moderation flags.** Those fields are omitted.
+- **No nesting metadata.** Reddit's live comment feed (verified 2026-11-13) contains no `thr:in-reply-to` references, so Atom-fallback records are flat (`depth: 0`) and omit `parent_id` / `parentPositions`. If a feed ever provides a parent reference, the parser uses it.
+- **Timestamps are the feed's `<updated>` value.** It can reflect an edit rather than the original creation time; there is no separate edited timestamp.
+- **Bodies are the feed's current HTML.** They can include edits that the Arctic archive snapshot does not, so the same comment can read differently on the two sources.
+- **Deletion is only visible as `[deleted]` / `[removed]` body text or `[deleted]` author.**
+- **Feed availability is not guaranteed.** Reddit can rate-limit, challenge or return an error for the feed too. If both sources fail, the run ends with a status message explaining why.
+- Feed entries can be fewer than the displayed comment count.
+
+## Sorting
+
+The archive endpoints do not accept Reddit's comment-sort parameter, so sorting is applied to sibling comments after fetching:
+
+- `confidence` preserves the archive tree's default (Best) order (or the search endpoint's order in `archive_search` mode).
+- `top` = highest score first.
+- `new` / `old` = newest / oldest first.
+- `controversial` = comments flagged controversial first, then lower score.
+- `qa` = original-poster answers first, then highest score.
+
+This is an approximation of Reddit's UI ordering; it is deterministic and documented rather than pretending to reproduce Reddit's internal ranking.
+
 ## Use cases
 
-- **Sentiment & NLP datasets** — build large, structured corpora from real discussions
-- **Market & product research** — read what customers say in the replies, not just the top comment
-- **Community & moderation analysis** — study conversation depth, controversy, and OP engagement
-- **Launch monitoring** — track reaction to announcements across subreddits on a schedule
-- **Academic & social research** — export discussion trees for network and discourse analysis
-- **Support mining** — surface recurring complaints buried deep in a thread
+- Sentiment and NLP corpora with nested conversation structure
+- Product and market research on replies, not just top comments
+- Moderation and community analysis by depth, score or author
+- Launch monitoring across multiple threads on a schedule
+- Academic network/discourse analysis with parent and reply-count data
+- Support mining for recurring complaints buried in deep branches
 
 ## FAQ
 
-**Do I need a Reddit account, API key, or login?**
-No. The actor reads Reddit's public pages anonymously and stores no credentials.
+**Do I need a Reddit account, API key or proxy?**
+No. Both data sources are public and keyless, and the actor never asks for credentials or proxy configuration.
 
-**Why are some fields missing compared with older versions?**
-Reddit stopped serving its anonymous JSON endpoints in 2026 and does not render author IDs, vote splits, flair, moderator badges, or award details to logged-out readers. The actor emits every field the public pages still expose and omits the rest instead of inventing values.
+**Does it call Reddit's `.json` endpoints or `old.reddit.com`?**
+No. It calls Arctic Shift's archive API and, only as a fallback, Reddit's public Atom feed. `old.reddit.com` input URLs are normalized but not fetched.
 
-**Does it really capture the whole thread?**
-Up to `maxComments`, yes. The actor follows Reddit's nested reply loaders and continue-thread pages until the thread is exhausted or your limit is reached. Reddit's displayed comment count includes deleted and removed comments, so a complete export can be smaller than that number.
+**Why is a fresh comment's score 1?**
+Arctic Shift archives new comments before Reddit settles the score. `scoreIsPlaceholder: true` marks that case; re-run after roughly 36 hours for settled values.
+
+**Why does the comment count differ from Reddit's displayed count?**
+Reddit counts deleted, removed and filtered comments that the archive may not serve. The actor reports the records it can actually read, and `repliesCount` counts direct children in the fetched thread.
 
 **What is the difference between `parent_id` and `link_id`?**
-`link_id` always points to the parent post (`t3_...`). `parent_id` points to the comment's direct parent — the post for a top-level comment or another comment for a reply. `parent_kind` tells you which, and `parentPositions` gives the position path (with the continue-page caveat above).
+`link_id` always points to the post (`t3_...`). `parent_id` points to the direct parent: the post for a top-level comment, or another comment (`t1_...`) for a reply. `parent_kind` tells you which; `parentPositions` gives the sibling-index path.
 
-**How do I scrape just one comment instead of the whole thread?**
-Paste its permalink into `postUrls` and enable `focusOnTargetComment`. You get that comment plus up to `commentContext` levels of parent comments. The target must still be publicly visible; deleted/removed targets return no records.
+**Why is `parentPositions` missing on top-level comments?**
+Top-level comments have an empty path, and empty values are omitted. Use `depth: 0` and `parent_id: t3_...` instead.
 
-**Why does a deleted comment still appear?**
-Deleted comments are part of the thread structure. They carry `isCommentDeleted` / `isAuthorDeleted` and usually no body; enable `excludeDeletedRemoved` to drop them.
+**What happens for a private, banned or deleted post?**
+The archive may return no post or no comments. The actor continues with the other URLs and sets a status message when nothing could be read.
 
-**What happens for a private subreddit, banned post, or deleted post?**
-The actor returns 0 records for that URL and continues with the other URLs. A status message explains when nothing could be read.
-
-**Do I need to configure a proxy?**
-No. The actor selects the network route it needs automatically.
+**Can I get more than 25,000 comments?**
+The tree path stops at 25,000. Use `dataSource: "archive_search"` to paginate the flat search path up to 50,000 comments; nesting is reconstructed from parent IDs.
 
 **Is this affiliated with Reddit?**
-No. This is an independent third-party actor that reads public web pages; it is not endorsed by or affiliated with Reddit, Inc.
+No. This is an independent third-party tool. It is not endorsed by or affiliated with Reddit, Inc. Arctic Shift is a separate public archive service.
 
 ## Cost
 
-Measured all-in run cost is roughly **$0.72–1.58 per 1,000 comments**, depending on thread depth, how many continue-thread branches are loaded, and how many deleted comments Reddit still counts. Small or heavily filtered runs have a higher fixed cost per 1,000. Store pricing is set separately.
+The data sources are free and keyless. A run costs only Apify compute and storage: small and medium threads finish in a few requests, and the actor uses lightweight HTTP rather than a browser. Store pricing is set separately in the Apify Console.
 
 ## Limitations
 
-- Reddit's own displayed comment count includes deleted, removed, and filtered comments that are not served to logged-out readers. The actor reports what is actually served.
-- Comment author IDs, vote up/down splits, flair, moderator/admin badges, controversy flags, award names/icons, and removal categories are not exposed anonymously. They are omitted rather than guessed. (The post record still carries the post author's ID when Reddit renders it.)
-- Some comments arrive from Reddit's lazy-loading fragments with `body_html` but without a plain-text `body` (and occasionally without either) even though they are not deleted. Use `body_html` as a fallback; the omission rate measured in cloud runs was ~15–18%.
-- `parentPositions` can lose the continue-target's position for branches loaded through "continue this thread" pages, so paths for those descendants may not match the tree exactly. `parent_id` remains correct.
-- Deleted-comment placeholders that Reddit renders without an id may carry the post as `parent_id` even when nested; their position path is the only tree hint for those rows.
-- Very large threads take longer because every hidden branch is loaded through Reddit's own pagination; there is no branch pruning, so cost scales with the served tree as well as `maxComments`.
-- The parent post record is intentionally thin: media, gallery, poll, crosspost, and flair details are not available on the public post page.
+- Archive data is a snapshot: scores, comment counts and availability lag live Reddit, and fresh scores may be placeholders.
+- Removed, deleted or moderator-filtered comments may be absent or reduced to `[deleted]` / `[removed]`.
+- The archive tree endpoint collapses very large threads; `auto` fills collapsed batches from search, but the tree path itself has a 25,000-comment ceiling.
+- Atom fallback cannot provide scores, awards, votes, flair, badges, edited timestamps, reliable deletion flags or nesting; its records are flat (`depth: 0`).
+- `commentSort` is a deterministic client-side approximation, not Reddit's internal ranking.
+- Direct replies (`repliesCount`) reflects the comments fetched for this run, not necessarily every reply Reddit counts.
+- A comment whose parent is missing from the fetched batch is emitted at depth 0 with its original `parent_id`; the parent path cannot be reconstructed from absent data.

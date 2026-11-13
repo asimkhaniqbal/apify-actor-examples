@@ -1,5 +1,5 @@
 {
-  "description": "Choose one or more modes: subreddit posts, comment trees, keyword search, user profiles, or subreddit metadata. All modes work without an account, API key, or login.",
+  "description": "Choose one or more modes: subreddit posts, comment trees, keyword search, user profiles, or community metadata. Data comes from a public Reddit archive; no account, API key, or login is required.",
   "properties": {
     "authorAllowlist": {
       "description": "Keep only records by these exact usernames (case-insensitive).",
@@ -21,7 +21,7 @@
     },
     "commentSort": {
       "default": "confidence",
-      "description": "How to order comments inside a thread.",
+      "description": "How to order comments inside a thread. Parents always appear before their replies; confidence and Q&A keep the archive tree order.",
       "editor": "select",
       "enum": [
         "confidence",
@@ -50,9 +50,9 @@
     },
     "enrichSearchResults": {
       "default": true,
-      "description": "Open the first few search-result posts to fill score, comment count, body and media. Disable for the fastest search runs.",
+      "description": "Add community subscriber counts to the first posts, and parent-post score/comment counts to comment results. Disable for the fastest search runs.",
       "editor": "checkbox",
-      "title": "Load full post details for search results",
+      "title": "Enrich the first search results",
       "type": "boolean"
     },
     "excludeNsfw": {
@@ -71,7 +71,7 @@
     },
     "expandThreads": {
       "default": true,
-      "description": "Load collapsed 'more comments' branches and additional profile pages when available.",
+      "description": "Fetch collapsed branches and additional archive pages. Disable to keep only the shallow tree view.",
       "editor": "checkbox",
       "title": "Expand comment trees",
       "type": "boolean"
@@ -81,6 +81,15 @@
       "editor": "textfield",
       "title": "Flair contains",
       "type": "string"
+    },
+    "globalSearchCommunities": {
+      "default": 10,
+      "description": "The archive needs a community or author scope for keyword search. When `withinCommunity` is empty, the actor scans up to this many of the largest communities and merges the matches. Lower it for faster runs; raise it for broader coverage.",
+      "editor": "number",
+      "maximum": 100,
+      "minimum": 1,
+      "title": "Communities scanned by global search",
+      "type": "integer"
     },
     "includePost": {
       "default": false,
@@ -198,21 +207,25 @@
     },
     "mode": {
       "default": "posts",
-      "description": "Run one mode. Prefer `modes` to combine modes in a single run.",
+      "description": "Run one mode. Legacy values `subreddit` and `profile` are accepted and mapped automatically. Prefer `modes` to combine modes in a single run.",
       "editor": "select",
       "enum": [
         "posts",
         "comments",
         "search",
         "users",
-        "subreddits"
+        "subreddits",
+        "subreddit",
+        "profile"
       ],
       "enumTitles": [
         "Subreddit posts",
         "Comment trees",
         "Keyword search",
         "User profiles",
-        "Subreddit details"
+        "Subreddit details",
+        "Subreddit posts (legacy)",
+        "User profiles (legacy)"
       ],
       "title": "Mode (single)",
       "type": "string"
@@ -283,7 +296,7 @@
       "default": [
         "python"
       ],
-      "description": "Keywords for search mode. Supports Reddit search syntax such as author:, flair:, site:, quotes, AND/OR/NOT and -exclusions.",
+      "description": "Keywords for search mode. Set `withinCommunity` for an exhaustive single-community search; without it the actor checks live Atom results first, then scans the largest communities.",
       "editor": "stringList",
       "prefill": [
         "python"
@@ -293,7 +306,7 @@
     },
     "searchSort": {
       "default": "relevance",
-      "description": "How to order search results.",
+      "description": "How to order search results. Archive ranking is approximate: relevance favours title matches, hot uses Reddit's public hot formula, top/best use score, new uses creation time, and comments uses the thread comment count.",
       "editor": "select",
       "enum": [
         "relevance",
@@ -331,24 +344,28 @@
     },
     "section": {
       "default": "submitted",
-      "description": "Which part of a user's profile to read.",
+      "description": "Which part of a user's activity to read. Overview returns both posts and comments.",
       "editor": "select",
       "enum": [
         "overview",
         "submitted",
-        "comments"
+        "comments",
+        "posts",
+        "gilded"
       ],
       "enumTitles": [
         "Overview",
         "Posts",
-        "Comments"
+        "Comments",
+        "Posts (legacy)",
+        "Gilded (legacy: uses overview)"
       ],
       "title": "Profile section",
       "type": "string"
     },
     "sort": {
       "default": "hot",
-      "description": "How to sort subreddit listings and profile posts.",
+      "description": "How to sort subreddit listings and profile activity. Ranked sorts sample a recent archive window (up to 2,000 posts) and order it by score or Reddit's public hot formula.",
       "editor": "select",
       "enum": [
         "hot",
@@ -383,7 +400,7 @@
     },
     "timeFilter": {
       "default": "day",
-      "description": "Time range for top/controversial sorts and search.",
+      "description": "Time range for top/controversial sorts, search, and posting-date bounds.",
       "editor": "select",
       "enum": [
         "hour",

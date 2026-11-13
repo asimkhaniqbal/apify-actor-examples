@@ -4,46 +4,64 @@
 
 # Reddit Subreddit Post & Comment Harvester
 
-Harvest posts from any public subreddit — hot, new, top, rising, controversial or best — with score, author, flair, selftext, images, galleries, video, polls and crossposts. Add full nested comment threads when you need the discussion too. Rich date, score, comment-count, upvote-ratio, keyword and author filters; no API key, no login, no proxy setup.
+Harvest public Reddit posts, nested comment threads, subreddit rules and subreddit discovery data without an API key, login, cookies or proxy setup. The actor reads the free **Arctic Shift** archive API first and falls back to Reddit's public **Atom RSS** listings when Arctic Shift is rate-limited or unreachable.
 
 ## What this actor does
 
-- **Any public subreddit:** bare name (`python`), `r/`-prefixed name (`r/python`) or a full Reddit URL; multiple subreddits in one run
-- **Six listing modes:** `hot`, `new`, `top`, `rising`, `controversial`, `best`; `top` and `controversial` support Reddit's six time windows
-- **Deep history:** follows Reddit's listing pages to the practical ceiling (roughly 1,000 posts for hot/new, about 500 for top/controversial)
-- **Posts with media:** score, upvote ratio, comment count, author, flair, selftext, images, gallery images (full resolution), video (HLS + MP4), poll options and votes, crosspost parent
-- **Optional comment threads:** full nested trees with 6 comment sorts, depth, parent links, OP flag, edited/deleted flags and awards
-- **Rich filtering:** date range, score, comment count, upvote ratio, post type, flair, title/body keywords, authors, domain, awards, content length and moderation flags
-- **Empty fields are omitted** from the output — no need to defend against `null`/empty values downstream
+- **Six collection modes** — posts from subreddits, comments from subreddits, comment trees for specific posts, specific posts by ID, subreddit search and subreddit rules
+- **Any public subreddit** — bare name (`python`), `r/`-prefixed name (`r/python`) or full Reddit URL; multiple subreddits in one run
+- **Posts with media and context** — score, upvote ratio, comment count, author, flair, self-text, images, galleries, video (MP4 + HLS), polls and crosspost parents
+- **Nested comment trees** — depth, parent links, reply paths, OP flags, edited/deleted flags, awards and six sibling orders
+- **Rich filters** — dates, scores, comment counts, upvote ratio, post type, flair, keyword, author, domain, awards, content length, archived/locked/removed/original-content flags and moderator badges
+- **ID lookup** — paste post IDs or full Reddit URLs to refresh specific posts and their discussions
+- **Subreddit discovery** — prefix search with subscriber ranges, plus each community's moderation rules
+- **Clean output** — empty values are omitted at every depth; records never contain `null`, `""`, `[]` or `{}`
+
+## Data source and fallback
+
+**Primary: Arctic Shift** (`https://arctic-shift.photon-reddit.com`). It is a free, cookieless archive of public Reddit data with no API key. The actor uses:
+
+- `/api/posts/search` for subreddit listings
+- `/api/comments/search` for subreddit-wide comment collection
+- `/api/comments/tree` for full nested comment trees
+- `/api/posts/ids` for specific posts
+- `/api/subreddits/search` for subreddit discovery
+- `/api/subreddits/rules` for moderation rules
+
+Arctic Shift applies dynamic rate limits and may time out heavy queries. The actor backs off on HTTP 429 using the reset header, retries 5xx responses, and on a query timeout it reduces the page size and splits the requested time range into shorter windows before giving up.
+
+**Fallback: Reddit Atom RSS** (`/r/<subreddit>/new/.rss`, `hot`, `top`, `rising`, `controversial`). If Arctic Shift still fails for a listing, the actor parses the public Atom feed for titles, links, authors, publication dates and rendered content. RSS has no scores, comment counts, media metadata or comment threads, so those fields are omitted rather than guessed. RSS usually returns only the latest ~25 entries and is not available for comment modes.
+
+Reddit's anonymous `.json` endpoints and `old.reddit` pages are not used: they return HTTP 403 or an anti-bot challenge from datacenter IPs. The actor is fully cookieless.
+
+### Freshness caveat (important)
+
+Arctic Shift archives a post the moment it is created, then refreshes its score, upvote ratio and comment count roughly **36 hours later**. A post younger than ~36 hours can therefore show `score: 1` and `num_comments: 0` even when it is popular on Reddit. The actor never invents final values. RSS fallback rows have no score fields at all. Filters that need a missing value (for example `minScore` on an RSS row) exclude the record instead of guessing.
 
 ## Output per post
 
 - `dataType` — always `post`
 - `subreddit`, `subreddit_prefixed`, `subreddit_id`
 - `post_id`, `post_name`, `title`
-- `author`, `author_id`
+- `author`, `author_id`, `author_flair`
 - `url`, `permalink`, `content_url`, `domain`
 - `is_self`, `post_type` (`self`/`link`/`image`/`video`/`gallery`/`poll`), `post_type_raw`
-- `score`, `upvote_ratio`, `num_comments`
+- `score`, `upvote_ratio`, `num_comments`, `num_crossposts`
 - `link_flair`, `link_flair_background_color`, `flair_url`
-- `content` (self-post text), `content_html`
-- `thumbnail_url`
+- `content`, `content_html`
+- `thumbnail_url`, `images[]`, `gallery_images[]`, `gallery_count`
+- `video_url` (MP4), `video_hls_url` (HLS)
+- `poll_data` — options, option ids, vote counts, total votes, closing time
 - `created_utc`, `created_at` (ISO-8601 UTC)
 - `is_stickied`, `is_nsfw`, `is_spoiler`, `is_crosspost`
-- `is_archived` — when the comment mode loads the post page
+- `is_archived`, `is_locked`, `is_original_content`
+- `distinguished`, `removed_by_category`, `gilded`
 - `total_awards_received`, `top_award_id`, `top_award_icon_url`
 - `media_type`, `has_media`
-- `images[]`, `gallery_images[]`, `gallery_count`
-- `video_url` (direct MP4), `video_hls_url` (HLS)
-- `poll_data` — options, option ids, total votes, closing time
 - `crosspost_parent_id`, `crosspost_parent_subreddit`, `crosspost_parent_url`
-- `language`, `crawled_at`, `source`
-
-For crossposts, `content` is the parent text Reddit renders in the listing, while `post_type_raw` is `crosspost` and the `crosspost_parent_*` fields identify the source post.
+- `language`, `crawled_at`, `source` (`arctic-shift` or `reddit-rss`)
 
 ## Output per comment
-
-Returned when `includeComments` is on and `maxCommentsPerPost` is above 0. The parent post is emitted first, then its comments.
 
 - `dataType` — always `comment`
 - `subreddit`, `subreddit_prefixed`, `subreddit_id`
@@ -58,49 +76,79 @@ Returned when `includeComments` is on and `maxCommentsPerPost` is above 0. The p
 - `created_utc`, `created_at`, `edited`, `edited_at`
 - `permalink`, `crawled_at`, `source`
 
-## Fields not available anonymously
+## Output per subreddit and rule
 
-Reddit no longer exposes these to logged-out readers of the public pages, so they are omitted rather than guessed: author flair, raw upvotes/downvotes, post `distinguished` (mod/admin badge), `removed_by_category`, post `locked`, original-content marker, `gilded`, the award-type breakdown, video duration/bitrate/dimensions, and oEmbed title/author/HTML for external links. Link posts still carry their target URL and preview image.
+Subreddit search records use `dataType: "subreddit"` and include `subreddit`, `subreddit_prefixed`, `subreddit_id`, `title`, `description`, `description_html`, `subscribers`, `is_nsfw`, `created_utc`, `created_at`, `url`, `earliest_post_utc`, `earliest_comment_utc`, `num_posts`, `num_comments`, `crawled_at` and `source`.
+
+Rule records use `dataType: "subredditRule"` and include `subreddit`, `subreddit_prefixed`, `rule_index`, `rule_priority`, `rule_kind`, `short_name`, `description`, `violation_reason`, `created_utc`, `created_at`, `url`, `crawled_at` and `source`.
+
+## Modes
+
+| `mode` | What it returns | Required input |
+|---|---|---|
+| `subredditPosts` | Posts from one or more subreddits, optionally with comment trees | `subreddits` |
+| `subredditComments` | Comments across one or more subreddits | `subreddits` |
+| `postComments` | The parent posts plus their nested comment trees | `postIds` |
+| `postsByIds` | Specific posts only | `postIds` |
+| `subredditSearch` | Subreddit profiles, optionally with rules | `subredditQuery` or `subreddits` |
+| `subredditRules` | Moderation rules for the listed subreddits | `subreddits` |
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `subreddits` | array | – | **Required.** Subreddit names, `r/`-prefixed names or full URLs |
-| `maxPosts` | int | `25` | Max posts per subreddit after filters (1–5,000) |
-| `maxItems` | int | `10,000` | Global safety cap on total records (posts + comments) |
-| `sort` | enum | `new` | `hot`, `new`, `top`, `rising`, `controversial`, `best` |
-| `timeFilter` | enum | `day` | `hour`, `day`, `week`, `month`, `year`, `all` (top/controversial) |
-| `includeComments` | bool | `false` | Collect comments for every harvested post |
-| `maxCommentsPerPost` | int | `0` | Max comments per post (0–100,000); needs `includeComments` |
+| `mode` | enum | `subredditPosts` | Collection mode (table above) |
+| `subreddits` | array | – | Names, `r/` names or full URLs. Required for subreddit post/comment/rules modes. |
+| `postIds` | array | – | Post IDs or full Reddit post URLs |
+| `subredditQuery` | string | – | Prefix for subreddit discovery |
+| `includeRules` | bool | `false` | Add rules when searching subreddits |
+| `sort` | enum | `new` | `new`, `old`, `hot`, `top`, `rising`, `controversial`, `best` |
+| `timeFilter` | enum | `day` | Ranking window: `hour`, `day`, `week`, `month`, `year`, `all` |
+| `maxPosts` | int | `25` | Maximum matching posts per subreddit (1–5,000) |
+| `maxItems` | int | `10,000` | Global cap on posts + comments |
+| `fullSubreddit` | bool | `false` | Page through the reachable history instead of stopping early |
+| `includeComments` | bool | `false` | Fetch comment trees for posts |
+| `maxCommentsPerPost` | int | `0` | Comments kept per post (defaults to 100 in `postComments` mode) |
 | `commentSort` | enum | `confidence` | `confidence`, `top`, `new`, `controversial`, `old`, `qa` |
-| `postedAfter` | date | – | Only posts created on/after this date (UTC); switches the listing to `new` |
-| `postedBefore` | date | – | Only posts created on/before this date (UTC) |
-| `includeNSFW` | bool | `false` | Include posts explicitly flagged NSFW |
+| `postedAfter` | date | – | Created on/after this UTC date |
+| `postedBefore` | date | – | Created on/before this UTC date |
+| `includeNSFW` | bool | `false` | Include NSFW/18+ records |
 | `onlyWithFlair` | bool | `false` | Drop posts without a link flair |
 | `postType` | enum | – | `text`, `link`, `image`, `video`, `gallery`, `poll`, `crosspost`, `multi_media` |
-| `minScore` | int | – | Minimum post score |
-| `maxScore` | int | – | Maximum post score |
+| `minScore` | int | – | Minimum score |
+| `maxScore` | int | – | Maximum score |
 | `minComments` | int | – | Minimum comment count |
 | `maxComments` | int | – | Maximum comment count |
 | `minUpvoteRatio` | number | – | Minimum upvote ratio (0–1) |
-| `excludeStickied` | bool | `false` | Drop pinned/stickied posts |
+| `excludeStickied` | bool | `false` | Drop pinned posts |
 | `excludeCrossposts` | bool | `false` | Drop crossposts |
-| `excludeSpoilers` | bool | `false` | Drop spoiler-tagged posts |
-| `titleContains` | string | – | Keep posts whose title contains this text |
-| `contentContains` | string | – | Keep self posts whose body contains this text |
-| `flairContains` | string | – | Keep posts whose flair contains this text |
-| `authors` | array | – | Keep posts by these usernames |
-| `excludeAuthors` | array | – | Drop posts by these usernames |
-| `excludeKeywords` | array | – | Drop posts whose title/body/flair contains any keyword |
-| `domain` | string | – | Keep posts whose link domain contains this text |
+| `excludeSpoilers` | bool | `false` | Drop spoilers |
+| `excludeArchived` | bool | `false` | Drop archived posts |
+| `excludeLocked` | bool | `false` | Drop locked posts |
+| `excludeRemoved` | bool | `false` | Drop removed posts |
+| `onlyOriginalContent` | bool | `false` | Keep original-content posts only |
+| `distinguished` | enum | `any` | `any`, `moderator`, `admin`, `special` |
+| `titleContains` | string | – | Title substring |
+| `contentContains` | string | – | Self-text substring |
+| `searchQuery` | string | – | Title/body substring for posts, body substring for comments |
+| `flairContains` | string | – | Link flair substring |
+| `authorFlairContains` | string | – | Author flair substring |
+| `urlContains` | string | – | Link target/permalink substring |
+| `authors` | array | – | Keep only these authors |
+| `excludeAuthors` | array | – | Drop these authors |
+| `excludeKeywords` | array | – | Drop matching title/body/flair |
+| `domain` | string | – | Link domain substring |
 | `minAwards` | int | – | Minimum total awards |
-| `excludeDeletedAuthor` | bool | `false` | Drop posts with a deleted/removed author |
-| `minContentLength` | int | – | Minimum self-post body length |
-| `maxContentLength` | int | – | Maximum self-post body length |
-| `fullSubreddit` | bool | `false` | Walk the `new` listing as deep as Reddit allows |
+| `excludeDeletedAuthor` | bool | `false` | Drop deleted/removed authors |
+| `minContentLength` | int | – | Minimum self-text length |
+| `maxContentLength` | int | – | Maximum self-text length |
+| `subredditSort` | enum | `subscribers` | `subscribers`, `name`, `created` |
+| `minSubscribers` | int | – | Minimum subscriber count |
+| `maxSubscribers` | int | – | Maximum subscriber count |
 
-### Example: 25 new posts from r/Python
+## Examples
+
+### 25 new posts from r/Python
 
 ```json
 {
@@ -110,7 +158,18 @@ Reddit no longer exposes these to logged-out readers of the public pages, so the
 }
 ```
 
-### Example: top image posts with media
+### 60 posts with pagination
+
+```json
+{
+  "subreddits": ["programming"],
+  "maxPosts": 60,
+  "maxItems": 100,
+  "sort": "new"
+}
+```
+
+### Top gallery posts from the past week
 
 ```json
 {
@@ -122,20 +181,53 @@ Reddit no longer exposes these to logged-out readers of the public pages, so the
 }
 ```
 
-### Example: posts plus full comment threads
+### Posts plus comment trees
 
 ```json
 {
   "subreddits": ["technology"],
   "maxPosts": 20,
-  "sort": "hot",
   "includeComments": true,
   "maxCommentsPerPost": 100,
   "commentSort": "top"
 }
 ```
 
-### Example: brand monitoring with filters
+### Comment trees for specific posts
+
+```json
+{
+  "mode": "postComments",
+  "postIds": ["1xv3n8h", "https://www.reddit.com/r/Python/comments/1xv34e5/"],
+  "maxCommentsPerPost": 200
+}
+```
+
+### Comments across a subreddit
+
+```json
+{
+  "mode": "subredditComments",
+  "subreddits": ["Python"],
+  "maxItems": 500,
+  "sort": "new",
+  "postedAfter": "2026-10-01"
+}
+```
+
+### Discover subreddits and their rules
+
+```json
+{
+  "mode": "subredditSearch",
+  "subredditQuery": "ask",
+  "minSubscribers": 10000,
+  "subredditSort": "subscribers",
+  "includeRules": true
+}
+```
+
+### Brand monitoring with filters
 
 ```json
 {
@@ -149,43 +241,40 @@ Reddit no longer exposes these to logged-out readers of the public pages, so the
 }
 ```
 
-## Use cases
+## Limitations
 
-- **Market research** — collect authentic community opinions and pain points
-- **Brand monitoring** — track product mentions across subreddits on a schedule
-- **Content ideation** — find trending questions and high-engagement topics
-- **Training data** — build clean Reddit corpora with full comment context for NLP/LLM work
-- **Competitive intelligence** — monitor launches, sentiment and competitor discussions
-- **Academic and social research** — export a subreddit's reachable history for discourse analysis
+- **Provisional scores for ~36 hours.** Arctic Shift refreshes score/comment counts about 36 hours after a post is archived. Very recent rows can show `score: 1` and `num_comments: 0`; the actor does not alter them.
+- **RSS fallback is intentionally partial.** Atom feeds provide titles, links, authors, dates and content only — no score, upvote ratio, comment count, media list, gallery or comments. Those fields are omitted. RSS usually returns ~25 entries per listing and has no pagination.
+- **Comment data has no RSS fallback.** If Arctic Shift is unavailable, comment modes return fewer records and say so in the status message.
+- **Ranked sorts are computed after download.** Arctic Shift sorts by `created_utc`; `hot`, `top`, `rising`, `controversial` and `best` are ranked by the actor over the selected `timeFilter` window, not by Reddit's own ranking service. Use `fullSubreddit` plus a larger `maxPosts` for deeper ranked scans.
+- **Keyword filters are applied after download.** This keeps them reliable on very active subreddits where Arctic Shift's keyword search can time out. A keyword filter scans at most the normal safety window unless `fullSubreddit` is enabled.
+- **Subreddit index freshness.** Arctic Shift's subreddit index is refreshed less often than post data; subscriber counts can lag Reddit.
+- **Source ceilings.** Arctic Shift pages at 100 records per request and limits comment trees to 25,000 comments per request. Extremely popular threads and very deep histories can take longer; the actor stops at `maxItems`.
+- **Private, banned or misspelled subreddits** return no records. The run continues with the remaining subreddits.
+- **No credentials or proxy configuration.** The actor is cookieless and uses no proxy. If Arctic Shift and RSS are both unreachable from the run's network, it reports the failure instead of returning fabricated data.
 
 ## FAQ
 
 **Do I need a Reddit API key or login?**
-No. The actor reads Reddit's public web data — no API key, no OAuth, no cookies, no account.
+No. The actor uses the free Arctic Shift archive API and Reddit's public Atom RSS feed. No API key, OAuth, login, cookies or account is required.
 
 **Do I need to configure a proxy?**
-No. The actor chooses a working connection to Reddit automatically. Just fill in the input and run it.
+No. There is no proxy input and no proxy setup. The actor makes direct public requests.
 
-**What happens with private, banned or misspelled subreddits?**
-They return no records and the run continues with the remaining subreddits. If nothing is found, the run finishes with a status message suggesting you check the names or loosen filters.
+**Why do some fields disappear from RSS rows?**
+RSS does not carry scores, comment counts, media metadata or comment threads. The actor omits those fields rather than inventing values. Run the same query again when Arctic Shift is available for the full record.
 
-**How many posts can I get from one subreddit?**
-Up to `maxPosts` (5,000), but Reddit serves roughly 1,000 posts per hot/new listing and about 500 for top/controversial. `fullSubreddit` walks the `new` listing to that ceiling. Filters are applied after posts are loaded, so strict filters can return fewer rows than `maxPosts`.
+**Why is a brand-new post's score only 1?**
+Arctic Shift archives the post immediately and refreshes engagement metrics roughly 36 hours later. Re-run after that window for final scores.
 
-**Why did I get no comments?**
-`maxCommentsPerPost` defaults to `0`, which collects none. Set it (for example `100`) and enable `includeComments`. If `maxItems` is tight, the actor keeps every requested post and trims comments first.
+**How many records can I get?**
+Up to `maxPosts` per subreddit and `maxItems` in total. `fullSubreddit` keeps paging through the reachable archive. Arctic Shift returns at most 100 posts or comments per request, and the actor follows the API's time cursor automatically.
 
-**Why are some fields missing from a record?**
-The actor omits values Reddit does not expose publicly (author flair, raw upvotes/downvotes, post distinguished/removed flags, award breakdown, video duration). Empty values are omitted rather than emitted as `null`, so records stay clean.
-
-**Why is the video URL a low-resolution MP4?**
-Reddit serves a direct low-resolution MP4 plus an HLS playlist. The actor provides both: `video_url` for durable downloads and `video_hls_url` for the adaptive stream when Reddit's signed playlist is available. HLS links can expire; `video_url` is the stable choice.
-
-**Why are some NSFW or spoiler posts still included?**
-`includeNSFW` filters posts Reddit explicitly flags. Posts in 18+ communities are served to the actor's adult-content session and cannot be distinguished at community level; use `excludeSpoilers` or keyword filters for tighter control.
+**Why did my keyword or score filter return fewer rows?**
+Filters are applied after download. Filters that require a value the source does not provide (for example `minScore` on an RSS row) exclude the record instead of guessing. Loosen the filter or use `fullSubreddit` for a deeper scan.
 
 **Can I schedule recurring runs?**
-Yes — create a schedule in Apify Console for daily or weekly monitoring. Use `postedAfter` or `sort: "new"` to collect only recent posts.
+Yes — create an Apify schedule for daily or weekly monitoring. Use `sort: "new"` or `postedAfter` to collect only recent items.
 
 **How do I export or integrate the data?**
 Download JSON, CSV, Excel or HTML from the run, call the dataset API, or connect to n8n, Make, Zapier or the Apify MCP server.
