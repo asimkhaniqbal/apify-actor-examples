@@ -1,5 +1,5 @@
 {
-  "description": "Search sedo.com's domain marketplace by keyword, or browse one of its 14 top-level categories. Filter by TLD, price, traffic, domain length, and sale/listing type (Buy Now, Make Offer, Marketplace Auction, Expiring Domain Auction).",
+  "description": "Search sedo.com's domain marketplace by keyword, browse one of its 14 top-level categories, monitor expiring domain auctions, or look up specific domains. Filter by TLD, price, traffic, domain length, listing type, bids, watchlist count, and auction deadline. Seller country, description, offer views, and exact auction values are available through the details enrichment.",
   "properties": {
     "categoryId": {
       "default": "",
@@ -43,12 +43,63 @@
       "title": "Category (mode=byCategory)",
       "type": "string"
     },
+    "domains": {
+      "default": [],
+      "description": "Domain names or Sedo listing/buy-now URLs to look up directly, e.g. `outlet.ai` or `https://sedo.com/search/details/?domain=outlet.ai`. Required for mode=byDomain.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Domains or URLs (mode=byDomain)",
+      "type": "array"
+    },
+    "endingWithinDays": {
+      "description": "Only include expiring auctions ending within this many days (mode=auctions).",
+      "maximum": 3650,
+      "minimum": 1,
+      "title": "Auction ends within (days)",
+      "type": "integer"
+    },
+    "includeDetails": {
+      "default": false,
+      "description": "Fetch each domain's Sedo detail page for seller country, member-since date, portfolio URL, description, offer views, watchlist count, parking traffic, and exact minimum-offer/auction values. Costs one extra request per record; disable for very large runs.",
+      "prefill": true,
+      "title": "Include seller and detail fields",
+      "type": "boolean"
+    },
+    "includeHyphenated": {
+      "default": true,
+      "description": "Include domains whose name contains a hyphen. Turn off to keep only single-token names.",
+      "prefill": true,
+      "title": "Include hyphenated domains",
+      "type": "boolean"
+    },
+    "includeIdn": {
+      "default": true,
+      "description": "Include internationalized domain names (punycode). Turn off to keep only ASCII domains.",
+      "prefill": true,
+      "title": "Include IDN domains",
+      "type": "boolean"
+    },
+    "includeNumeric": {
+      "default": true,
+      "description": "Include domains whose name contains digits. Turn off to keep only alphabetic names.",
+      "prefill": true,
+      "title": "Include domains with numbers",
+      "type": "boolean"
+    },
+    "keywords": {
+      "default": [],
+      "description": "Optional list of keyword searches (mode=search). When non-empty, these override Search query and each keyword is searched in turn until Max items is reached. Useful for monitoring several niches in one run.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Keywords (multiple searches)",
+      "type": "array"
+    },
     "maxItems": {
       "default": 50,
       "description": "Hard cap on emitted records.",
-      "maximum": 2000,
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 50,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
@@ -66,6 +117,27 @@
       "title": "Max price (USD)",
       "type": "integer"
     },
+    "maxReservePrice": {
+      "description": "Only include expiring auctions whose published reserve range ends at or below this value.",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Max auction reserve (mode=auctions)",
+      "type": "integer"
+    },
+    "maxTraffic": {
+      "description": "Drop domains with more estimated monthly visits than this.",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Max estimated monthly traffic",
+      "type": "integer"
+    },
+    "minBids": {
+      "description": "Only include listings with at least this many bids.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Min bid count",
+      "type": "integer"
+    },
     "minLength": {
       "description": "Drop domains whose name (excluding TLD) has fewer characters than this.",
       "maximum": 63,
@@ -80,24 +152,42 @@
       "title": "Min price (USD)",
       "type": "integer"
     },
+    "minReservePrice": {
+      "description": "Only include expiring auctions whose published reserve range reaches at least this value.",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Min auction reserve (mode=auctions)",
+      "type": "integer"
+    },
     "minTraffic": {
       "description": "Drop domains with fewer estimated monthly visits than this.",
-      "maximum": 10000000,
+      "maximum": 1000000000,
       "minimum": 0,
       "title": "Min estimated monthly traffic",
       "type": "integer"
     },
+    "minWatchlist": {
+      "description": "Only include listings watched by at least this many Sedo users.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Min watchlist count",
+      "type": "integer"
+    },
     "mode": {
       "default": "search",
-      "description": "What to fetch.",
+      "description": "What to scrape: search the marketplace by keyword, browse a category, monitor expiring auctions, or look up specific domains/URLs.",
       "editor": "select",
       "enum": [
         "search",
-        "byCategory"
+        "byCategory",
+        "auctions",
+        "byDomain"
       ],
       "enumTitles": [
         "Search domains by keyword",
-        "Browse domains by category"
+        "Browse domains by category",
+        "Expiring domain auctions",
+        "Specific domains or Sedo URLs"
       ],
       "prefill": "search",
       "title": "Mode",
@@ -105,7 +195,7 @@
     },
     "saleType": {
       "default": "any",
-      "description": "Filter by how the domain is sold, matching Sedo's own \"Listing Type\" filter.",
+      "description": "Filter by how the domain is sold, matching Sedo's own Listing Type filter. mode=auctions always uses Expiring Domain Auction.",
       "editor": "select",
       "enum": [
         "any",
@@ -135,7 +225,7 @@
     },
     "sortBy": {
       "default": "relevance",
-      "description": "Sort order, matching Sedo's own search results sort control.",
+      "description": "Sort order. auctionEndTime and auctionReserve are intended for mode=auctions.",
       "editor": "select",
       "enum": [
         "relevance",
@@ -143,7 +233,9 @@
         "traffic",
         "name",
         "bids",
-        "dateCreated"
+        "dateCreated",
+        "auctionEndTime",
+        "auctionReserve"
       ],
       "enumTitles": [
         "Relevance",
@@ -151,7 +243,9 @@
         "Traffic",
         "Name",
         "Bids",
-        "Date created (newest listings)"
+        "Date created (newest listings)",
+        "Auction end time",
+        "Auction reserve range"
       ],
       "prefill": "relevance",
       "title": "Sort by",
@@ -159,7 +253,7 @@
     },
     "sortDescending": {
       "default": true,
-      "description": "Sort highest-to-lowest (or newest-first for Date created). Uncheck for ascending order.",
+      "description": "Sort highest-to-lowest (or newest-first for Date created). Uncheck for ascending order; auctions default to ending soonest.",
       "prefill": true,
       "title": "Sort descending",
       "type": "boolean"

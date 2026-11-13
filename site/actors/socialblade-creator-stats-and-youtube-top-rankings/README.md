@@ -1,0 +1,169 @@
+# SocialBlade Creator Stats, Search & YouTube Top Rankings
+
+SocialBlade publishes public audience statistics and letter grades for creators on YouTube, TikTok, Instagram, Twitch, and Facebook. This actor reads those public pages and APIs without a login, cookie, or API key. It can look up specific creators, search for creators by keyword, or pull a YouTube top, worst, fastest-growing, or fastest-declining leaderboard.
+
+## Three modes
+
+| Mode | What it returns |
+|---|---|
+| `profiles` | Full public stats for creators you name by SocialBlade URL, platform URL, `{platform, username}` object, or bare username |
+| `search` | Creator search results for one or more keywords on one platform |
+| `youtube_rankings` | A YouTube leaderboard: top, worst, fastest growing, or fastest declining |
+
+### Profile lookups
+
+Supported platforms and URL forms:
+
+- YouTube: `/youtube/handle/<name>`, `/youtube/user/<name>`, `/youtube/channel/<UC...>`
+- TikTok: `/tiktok/user/<name>`
+- Instagram: `/instagram/user/<name>`
+- Twitch: `/twitch/user/<name>`
+- Facebook: `/facebook/user/<name>` (legacy `/facebook/page/<name>` also works)
+
+Direct platform links (`youtube.com/@name`, `tiktok.com/@name`, `instagram.com/name`, `twitch.tv/name`, `facebook.com/name`) are accepted too.
+
+Each profile record contains:
+
+- `type`, `platform`, `input`, `url` — record type, platform, what you supplied, and the SocialBlade URL that was read
+- `id`, `username`, `displayName`, `avatar`, `banner`
+- `avatarOriginal` / `bannerOriginal` — the source CDN URL when it was signed or expiring; `avatar`/`banner` point to an Apify-hosted copy in that case
+- `country`, `description`, `website`, `verified`, `disabled`, `madeForKids`, `statsHidden`
+- `channelType`, `category`, `createdAt`
+- `subscribers` (YouTube) or `followers` (TikTok, Instagram, Twitch, Facebook)
+- `views`, `videos`, plus `likes`, `following`, `talkingAbout`, `mediaCount`, `engagementRate`, `averageLikes`, `averageComments` where the platform publishes them. Facebook profiles expose page `likes` and keep the legacy `followers` alias.
+- `grade` — SocialBlade's letter grade
+- `ranks` — every published rank (overall, subscriber/follower, views, country, category, engagement, and so on)
+- `socials` — linked social accounts with `url`, `title`, `platform`, `username`, and `favicon`
+- `identifiers` — SocialBlade's known handles/usernames for the creator
+- `history` — up to 31 daily snapshots, with the metrics each platform reports
+- `estimatedEarnings` — YouTube only: up to 14 daily `{date, low, high, currency}` ranges from SocialBlade's public earnings table
+- `firstTracked` and `milestones` — when `includeMilestones` is on for YouTube
+- `scrapedAt`
+
+A field the source does not have for a given creator is omitted, never returned as `null` or an empty string.
+
+### Creator search
+
+`searchQueries` is a list of keywords and `searchPlatform` picks the platform. Each record contains the fields SocialBlade publishes for that platform, including `id`, `displayName`, `username`, `avatar`, `verified`, the platform's main metric (`subscribers`, `followers`, or `likes`), plus `following`, `videos`, `mediaCount`, `engagementRate`, `talkingAbout` where available, a SocialBlade `url`, and `scrapedAt`. Search is useful for finding the exact username before running profile lookups. YouTube search results usually carry the channel ID rather than a handle.
+
+### YouTube rankings
+
+Pick `rankType` (`top`, `worst`, `growth`, `decline`), the metric with `rankBy` (`subscribers`, `views`, `videos`), and the public list size with `rankCount` (10, 50, or 100). Top/worst lists also accept `rankCountryCode`, `rankCategorySlug`, and `rankMadeForKids`. Growth/decline lists use `rankPeriod` (yesterday through year-to-date).
+
+Each ranking record contains `position`, `rankType`, `rankBy`, `rankCountry`, `rankCategory`, `rankPeriod` (growth/decline only), the creator's identity fields, `subscribers`, `views`, `videos`, growth deltas (`subscribersGained`, `viewsGained`, `videosGained`) where published, `madeForKids`, `url`, `youtubeUrl`, `identifiers`, and `scrapedAt`.
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `mode` | select | `profiles` | `profiles`, `search`, or `youtube_rankings` |
+| `startUrls` | array | – | [profiles] SocialBlade or direct platform profile URLs |
+| `profiles` | array | – | [profiles] Alternative to URLs: `{platform, username}` objects or bare usernames |
+| `platform` | select | `youtube` | [profiles] Platform for bare usernames |
+| `includeHistory` | boolean | `true` | [profiles] Include daily snapshots |
+| `historyDays` | integer | `15` | [profiles] History length, 1–31 days |
+| `includeMilestones` | boolean | `false` | [profiles] Fetch YouTube milestones (one extra request per YouTube profile) |
+| `searchQueries` | array | – | [search] Keywords to search |
+| `searchPlatform` | select | `youtube` | [search] Platform to search |
+| `rankType` | select | `top` | [rankings] `top`, `worst`, `growth`, or `decline` |
+| `rankBy` | select | `subscribers` | [rankings] `subscribers`, `views`, or `videos` |
+| `rankCountryCode` | select | `global` | [rankings] Country code for top/worst lists |
+| `rankCategorySlug` | select | `all` | [rankings] Category for top/worst lists |
+| `rankMadeForKids` | select | `all` | [rankings] `all`, `only`, or `hide` |
+| `rankPeriod` | select | `3` | [rankings] Growth/decline window: `1`, `3`, `7`, `14`, `30`, `60`, `90`, `180`, `365`, or `ytd` |
+| `rankCount` | select | `100` | [rankings] Public list size: 10, 50, or 100 |
+| `maxItems` | integer | `50` | Maximum records returned across all modes |
+
+### Examples
+
+Look up two creators and include 30 days of history:
+
+```json
+{
+  "mode": "profiles",
+  "startUrls": [
+    "https://socialblade.com/youtube/handle/mrbeast",
+    "https://socialblade.com/tiktok/user/khaby.lame"
+  ],
+  "includeHistory": true,
+  "historyDays": 30,
+  "includeMilestones": true,
+  "maxItems": 2
+}
+```
+
+Search TikTok for a keyword:
+
+```json
+{
+  "mode": "search",
+  "searchPlatform": "tiktok",
+  "searchQueries": ["khaby", "cooking"],
+  "maxItems": 10
+}
+```
+
+Top 100 gaming channels in the United States:
+
+```json
+{
+  "mode": "youtube_rankings",
+  "rankType": "top",
+  "rankBy": "subscribers",
+  "rankCountryCode": "US",
+  "rankCategorySlug": "games",
+  "rankCount": "100",
+  "maxItems": 100
+}
+```
+
+Fastest-growing channels over 7 days, hiding made-for-kids channels:
+
+```json
+{
+  "mode": "youtube_rankings",
+  "rankType": "growth",
+  "rankBy": "subscribers",
+  "rankPeriod": "7",
+  "rankMadeForKids": "hide",
+  "maxItems": 50
+}
+```
+
+## Limits and behaviour
+
+- **Public ranking lists are capped at 100 rows.** SocialBlade exposes 250/500/1,000/5,000-row lists only to paid plans. To collect more than 100 rows, run several country or category filters and combine the datasets.
+- **History is capped at 31 days** without a login. Instagram daily history is login-only, so Instagram profile records omit `history`.
+- **Estimated earnings are a public range, not a payout.** SocialBlade shows a daily low-high USD estimate for YouTube; the actor returns those ranges as published (up to 14 days) and does not invent a single monthly figure.
+- **Growth/decline lists are global.** SocialBlade's growth/decline endpoint does not accept country or category filters, so the actor filters the returned global list locally. A narrow filter can therefore return fewer than 100 rows.
+- **Made-for-kids "hide" is filtered locally** because the public endpoint only supports "only made-for-kids".
+- **Paid-only filters are not exposed.** SocialBlade's AI classification and language filters require a paid plan, so they are not part of this actor.
+- **Expiring CDN images are mirrored.** TikTok, Instagram, and Facebook serve avatars/banners as signed links that expire. The actor copies those bytes into its Apify Key-Value Store and keeps the original URL in `avatarOriginal`/`bannerOriginal`; YouTube CDN images are emitted as-is. If an already-expired link can no longer be fetched, the image field is omitted instead of shipping a dead URL.
+- **The actor chooses its network path automatically.** It tries a direct request first and only falls back to Apify Proxy if SocialBlade blocks the request. You do not need to configure a proxy.
+- **No login, cookie, or API key is required.**
+
+## Backward compatibility
+
+Saved tasks that use the previous input names still work. The actor maps these legacy keys in code:
+
+- `rankSort` (`desc`/`asc`) → `rankType` (`top`/`worst`)
+- `rankLimit` (5–5,000) → `rankCount` (10/50/100); values above 100 are capped at the public 100-row limit
+- `rankCountry` (lowercase codes such as `us`) → `rankCountryCode`
+- `rankCategory` (`nonprofits`, `pets`, `science`) → `nonprofit`, `animals`, `tech`
+- Facebook profile records keep the old `followers` field as an alias of page `likes`
+
+Existing output fields keep their names; new fields are added beside them.
+
+## FAQ
+
+**Why is a field missing for one creator?**
+SocialBlade does not publish every metric for every creator or platform. Missing values are omitted instead of being filled with nulls or guesses.
+
+**Can I mix platforms in one profile run?**
+Yes. Put SocialBlade URLs in `startUrls`, or use `profiles` objects with an explicit `platform`. Bare usernames use the `platform` input.
+
+**Does this include SocialBlade's paid Pro/Gold data?**
+No. It reads only the publicly visible profile, search, and ranking data.
+
+**Is this affiliated with SocialBlade?**
+No. This is an independent actor that reads SocialBlade's publicly visible pages; it is not operated by or affiliated with SocialBlade.
