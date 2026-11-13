@@ -4,70 +4,75 @@
 
 # SeatGeek Event Price Range & Listing Count Finder
 
-[SeatGeek](https://seatgeek.com) is a ticket resale marketplace covering sports, concerts, theater/Broadway, and comedy across the US. This actor searches it by artist, team, or venue name, or browses any of 156 real SeatGeek categories, returning each event's date, venue, price range, and ticket/listing counts — no login, API key, or cookies required.
+SeatGeek is a US ticket marketplace for sports, concerts, theater and comedy. This actor finds upcoming events by keyword, performer, team, venue or category, then returns each event's date, venue, performers, price range and live listing/ticket counts. It reads SeatGeek's public event catalog directly — no account, cookies, API key or proxy required.
 
 ## What this actor does
 
-- **Three modes:** `search` (artist/team/venue name), `byCategory` (156 real SeatGeek
-  categories), `byUrl` (fetch specific `seatgeek.com` URLs directly)
-- **Rich pricing data:** lowest / highest / average / median ticket price and live
-  listing & ticket counts, straight from SeatGeek's own event data
-- **Filters:** date range, price range, venue city/state, sort order
-- **Empty fields are omitted** — every record only contains fields SeatGeek actually
-  provided
+- **Search by intent:** `search` accepts an artist, team, venue or keyword and resolves it to SeatGeek's best-matching performer, venue or category before paging through that entity's events.
+- **Browse all 156 categories:** every sports league, concert genre, Broadway/theater type and entertainment category SeatGeek organizes events into.
+- **Fetch pasted URLs:** category, performer, venue, event and search URLs all work.
+- **Real pagination:** pages through SeatGeek's event catalog up to 10,000 events per query instead of stopping at the first page.
+- **Server-side filters and sorting:** date range, lowest-price range, city, state and sort order are pushed to SeatGeek, so `maxItems` keeps the cheapest/soonest/most popular events rather than an arbitrary slice.
+- **Listing-count filter:** keep only events with at least N live listings.
+- **Clean records:** empty fields are omitted, never emitted as `null` or placeholder text.
 
 ## Output per event
 
-- `eventId`, `eventTitle`
-- `eventDate` (`YYYY-MM-DD`), `eventDateTimeLocal`, `eventDateTimeUtc`, `dateTbd`
-- `venueName`, `venueAddress`, `venueCity`, `venueState`, `venueCountry`, `venuePostalCode`, `venueCapacity`
+- `eventId`, `eventTitle`, `eventType`
+- `eventDate` (`YYYY-MM-DD`), `eventDateTimeLocal`, `eventDateTimeUtc`, `eventEndDateTimeUtc`
+- `dateTbd`, `timeTbd`, `datetimeTbd`, `salesEndDateTimeUtc`, `seasonStage`
+- `venueId`, `venueName`, `venueSlug`, `venueAddress`, `venueExtendedAddress`, `venueDisplayLocation`
+- `venueCity`, `venueState`, `venueCountry`, `venuePostalCode`, `venueCapacity`, `venueUpcomingEventCount`
 - `venueLatitude`, `venueLongitude`, `venueTimezone`, `venueUrl`
-- `performers[]`, `primaryPerformer`
-- `category`, `categorySlug`
+- `performers[]`, `primaryPerformer`, `performerIds[]`, `primaryPerformerId`
+- `category`, `categorySlug`, `taxonomyPath[]`, `taxonomyIds[]`
 - `priceMin`, `priceMax`, `priceAverage`, `priceMedian`, `currency`
-- `listingCount`, `ticketCount`
+- `listingCount`, `visibleListingCount`, `ticketCount`
 - `thumbnailUrl`
 - `isOpen`, `isRescheduled`, `eventStatus`, `announceDate`
-- `popularityScore` (SeatGeek's own 0–1 popularity ranking for the event)
-- `listingUrl`, `sourceUrl`
+- `popularityScore` (SeatGeek's own 0–1 event popularity)
+- `listingUrl`, `sourceUrl`, `searchQuery`, `searchMatch` (`performer`, `venue`, `category`, `keyword`, `event` or `page`)
 - `recordType: "event"`, `scrapedAt`
+
+Price and listing fields are omitted for events that currently have no ticket inventory — that is a real source condition, not a scrape failure.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
 | `mode` | string | `search` | `search` / `byCategory` / `byUrl` |
-| `searchQuery` | string | `New York Yankees` | Artist, team, or venue name (mode=search) |
+| `searchQuery` | string | `New York Yankees` | Artist, team, venue or keyword (mode=search) |
 | `category` | string | `nba` | One of 156 SeatGeek categories (mode=byCategory) |
-| `startUrls` | array | – | Direct `seatgeek.com` URLs (mode=byUrl) |
+| `startUrls` | array | – | Category, performer, venue, event or search URLs (mode=byUrl) |
 | `dateFrom` | string | – | Only events on/after this date (`YYYY-MM-DD`) |
 | `dateTo` | string | – | Only events on/before this date (`YYYY-MM-DD`) |
-| `minPrice` | int | – | Only events with a lowest ticket price ≥ this |
-| `maxPrice` | int | – | Only events with a lowest ticket price ≤ this |
-| `city` | string | – | Only events at a venue in this city |
-| `state` | string | – | Only events at a venue in this US state code |
+| `minPrice` | int | – | Lowest listed price ≥ this amount |
+| `maxPrice` | int | – | Lowest listed price ≤ this amount |
+| `minListingCount` | int | – | Only events with at least N live listings |
+| `city` | string | – | Venue city (case-insensitive) |
+| `state` | string | – | Venue state/province code, e.g. `NY` |
 | `sortBy` | string | `relevance` | `relevance` / `date` / `priceLow` / `priceHigh` / `popularity` |
-| `maxItems` | int | `20` | Hard cap on emitted records (1–500) |
-| `proxyConfiguration` | object | AUTO | Optional; used automatically only if a request is blocked |
+| `maxItems` | int | `20` | Hard cap on emitted records (1–10,000) |
 
 ### Example: search by team name
 
 ```json
 {
   "mode": "search",
-  "searchQuery": "New York Yankees",
-  "maxItems": 20
+  "searchQuery": "New York Knicks",
+  "maxItems": 50
 }
 ```
 
-### Example: browse NFL tickets, sorted by price
+### Example: cheapest NFL tickets with listings
 
 ```json
 {
   "mode": "byCategory",
   "category": "nfl",
   "sortBy": "priceLow",
-  "maxItems": 50
+  "minListingCount": 10,
+  "maxItems": 100
 }
 ```
 
@@ -77,87 +82,58 @@
 {
   "mode": "byCategory",
   "category": "concerts",
-  "dateFrom": "2026-08-01",
+  "dateFrom": "2026-12-01",
   "dateTo": "2026-12-31",
   "minPrice": 50,
-  "maxPrice": 300
+  "maxPrice": 300,
+  "maxItems": 200
+}
+```
+
+### Example: paste mixed SeatGeek URLs
+
+```json
+{
+  "mode": "byUrl",
+  "startUrls": [
+    {"url": "https://seatgeek.com/venues/madison-square-garden/tickets"},
+    {"url": "https://seatgeek.com/coldplay-tickets"},
+    {"url": "https://seatgeek.com/nba-tickets"}
+  ]
 }
 ```
 
 ## Use cases
 
-- **Ticket price tracking** — monitor lowest-price trends for a team, artist, or venue
-- **Event discovery** — build a feed of upcoming events in a category, city, or state
-- **Market research** — compare listing counts and price spreads across categories
-- **Fan tools** — power a "get notified" price-drop alert for a favorite performer
-- **Venue analytics** — pull every upcoming event at a specific venue
+- **Price monitoring:** track the lowest listed price for a team, artist, venue or category over time.
+- **Inventory research:** compare listing and ticket counts across an upcoming season or tour.
+- **Event discovery:** build a feed of upcoming events filtered by date, city, state and budget.
+- **Fan alerts:** power a "price drop" or "new date announced" notification for a favorite performer.
+- **Venue analytics:** pull every upcoming event at a specific arena or theater.
 
 ## FAQ
 
-**Do I need a SeatGeek account or API key?** No. This actor scrapes SeatGeek's
-public event pages directly — no login, cookies, or API key required.
+**Do I need a SeatGeek account or API key?** No. The actor uses the public client id that SeatGeek's own website ships to every visitor. No login, cookie, API key or proxy is required. If SeatGeek ever blocks a request, the actor automatically retries through Apify's built-in datacenter proxy.
 
-**How does `search` work?** SeatGeek doesn't expose a public full-text search API
-outside its own JavaScript-driven site search. This actor uses SeatGeek's own SEO
-URL convention instead — every artist, team, and venue has a canonical
-`seatgeek.com/{name}-tickets` page — so a query like `"New York Yankees"` resolves
-directly to `seatgeek.com/new-york-yankees-tickets`. This covers the vast majority
-of real searches (exact and near-exact artist/team/venue names). Very ambiguous or
-misspelled queries may not resolve; use `byCategory` or a `startUrls` link instead
-in that case.
+**How does `search` resolve a name?** It asks SeatGeek's autosuggest endpoint for matching performers and venues, prefers an exact name match, and otherwise picks the closest performer/venue match. If the query is a known category (for example `nba`, `comedy` or `concerts`), it browses that category. When the exact performer or venue has no upcoming events, it falls back to SeatGeek's keyword results so the run still returns listings; `searchMatch` on each record says whether it came from an exact `performer`, `venue`, `category`, or a `keyword` fallback.
 
-**What categories are available?** All 156 categories SeatGeek itself organizes
-events into — every major sports league (NBA, NFL, MLB, NHL, MLS, NCAA divisions,
-minor leagues, etc.), concerts, Broadway/theater, comedy, festivals, and more. See
-the `category` dropdown for the full list.
+**Is `dateTo` inclusive?** Yes. A date range includes every event on both the `dateFrom` and `dateTo` days in the venue's local time.
 
-**Is "Deal Score" included?** SeatGeek's per-listing Deal Score is only computed on
-individual ticket-listing rows inside an event's live inventory view, which is
-loaded by a heavier, more aggressively bot-protected endpoint than the category/
-performer/venue listing pages this actor reads. It is not part of the event-level
-data returned here. `priceMin` / `priceMax` / `priceAverage` / `priceMedian` and
-`listingCount` / `ticketCount` — SeatGeek's own aggregate pricing signals — are
-included instead.
+**Why do some events have no price?** SeatGeek returns price and listing statistics only while at least one ticket is listed. For sold-out, postponed or not-yet-on-sale events those fields are omitted.
 
-**How many events come back per query?** SeatGeek server-renders a bounded set of
-upcoming events per page (typically 10–75 depending on how many a team/artist/
-category currently has scheduled); further results load client-side via a "Show
-more" button that isn't part of the public page payload. For large categories
-(e.g. `concerts`) this is still commonly 100+ events per run.
+**How many events can I get?** Up to 10,000 per query — SeatGeek's API returns at most 100 events per page and stops paginating at page 100. Split a larger request by date range or category to cover more.
 
-**Why do some categories or searches return 0 results?** SeatGeek only lists
-currently scheduled *upcoming* events. An out-of-season sports league (e.g. NBA in
-the summer) or an artist between tours will legitimately have zero listed events.
+**Does it include per-listing Deal Score?** No. Deal Score is computed per individual ticket listing, not at the event level. This actor returns event-level price and listing aggregates instead.
 
-**Does it include venue map coordinates?** Yes — `venueLatitude` / `venueLongitude`
-(exact geocoordinates) and `venueTimezone` are included for every event with a
-resolved venue, along with `venueUrl`, a direct link to that venue's own SeatGeek
-listing page (every upcoming event there).
+**Is this US-only?** Yes. It reads the US `seatgeek.com` marketplace; SeatGeek's separate country sites are not covered.
 
-**How do I know if an event was rescheduled?** The `isRescheduled` field is `true`
-for events SeatGeek has flagged as moved from their original date; it is omitted
-(not `false`) for events running as originally scheduled, consistent with this
-actor's omit-empty-fields convention.
+## Compatibility with saved tasks
 
-**Is a proxy required?** No. The actor works reliably without any proxy by
-default. An optional Apify AUTO (free datacenter) proxy is wired in and used
-automatically only if a request is ever blocked.
+Existing tasks keep working. Legacy input keys such as `query`, `searchQueries`, `categoryId`, `startDate`/`endDate`, `priceMin`/`priceMax`, `venueCity`/`venueState`, `maxResults`/`limit` and `sort` are mapped in code. The old `proxyConfiguration` key is accepted and ignored because the public API needs no proxy. Existing output fields were kept and new fields were added beside them.
 
 ## Limitations
 
-- **Individual event page links (`listingUrl` / `sourceUrl`) are real, correct
-  SeatGeek URLs and open normally for a person in a real browser**, but SeatGeek
-  applies a stricter access check to individual event-detail pages than to the
-  category/performer/venue listing pages this actor reads — so these specific
-  links aren't reliably re-fetchable by an automated script. The URL itself is
-  correct; it just can't be scraped a second time without a browser.
-- **Per-event ticket counts, not a page-limited count.** SeatGeek server-renders a
-  bounded set of currently-scheduled upcoming events per category/performer/venue
-  (typically 10–75, more for broad categories like `concerts`); additional results
-  load client-side via a "Show more" button that isn't part of the public page
-  payload, so very large categories are capped at what the initial page includes.
-- **No public full-text search API.** `search` mode resolves via SeatGeek's own
-  SEO slug convention rather than a fuzzy search index — see the FAQ above.
-- **Per-listing "Deal Score"** is not included — see the FAQ above for why.
-- **US marketplace only.** This actor reads `seatgeek.com`. SeatGeek's separate
-  country sites (e.g. `seatgeek.ca`) are not covered.
+- **10,000 events per query.** The upstream events API caps pagination at page 100 with 100 events per page.
+- **No event-level guarantee of inventory.** Price and listing fields appear only when SeatGeek has live listings for that event.
+- **Category snapshots.** Categories and their ids follow SeatGeek's public taxonomy; an entirely new league may need an actor update. Like SeatGeek's own category pages, parent leagues hide add-on taxonomies (Stadium Tours under NFL, Arizona Fall League under MLB); both remain browsable as their own categories.
+- **No per-listing seat/section/row data.** This actor returns event-level pricing and inventory, not individual ticket rows.

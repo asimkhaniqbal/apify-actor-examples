@@ -1,0 +1,182 @@
+{
+  "description": "Search sedo.com's domain marketplace by keyword, or browse one of its 14 top-level categories. Filter by TLD, price, traffic, domain length, and sale/listing type (Buy Now, Make Offer, Marketplace Auction, Expiring Domain Auction).",
+  "properties": {
+    "categoryId": {
+      "default": "",
+      "description": "One of Sedo's 14 top-level domain categories. Required for mode=byCategory.",
+      "editor": "select",
+      "enum": [
+        "",
+        "1001",
+        "1002",
+        "1003",
+        "1004",
+        "1005",
+        "1006",
+        "1007",
+        "1008",
+        "1009",
+        "1010",
+        "1011",
+        "1012",
+        "1013",
+        "1014"
+      ],
+      "enumTitles": [
+        "(none)",
+        "Arts",
+        "Business",
+        "Computers",
+        "Education",
+        "Games",
+        "Health",
+        "Home",
+        "Miscellaneous",
+        "Recreation",
+        "Science",
+        "Shopping",
+        "Society",
+        "Sports",
+        "Adult"
+      ],
+      "prefill": "1002",
+      "title": "Category (mode=byCategory)",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Hard cap on emitted records.",
+      "maximum": 2000,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxLength": {
+      "description": "Drop domains whose name (excluding TLD) has more characters than this.",
+      "maximum": 63,
+      "minimum": 1,
+      "title": "Max domain name length",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Drop listings priced above this amount (approximate USD equivalent). Only applies to listings with a visible asking price.",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Max price (USD)",
+      "type": "integer"
+    },
+    "minLength": {
+      "description": "Drop domains whose name (excluding TLD) has fewer characters than this.",
+      "maximum": 63,
+      "minimum": 1,
+      "title": "Min domain name length",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Drop listings priced below this amount (approximate USD equivalent, as used by Sedo's own price filter). Only applies to listings with a visible asking price.",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Min price (USD)",
+      "type": "integer"
+    },
+    "minTraffic": {
+      "description": "Drop domains with fewer estimated monthly visits than this.",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Min estimated monthly traffic",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byCategory"
+      ],
+      "enumTitles": [
+        "Search domains by keyword",
+        "Browse domains by category"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "saleType": {
+      "default": "any",
+      "description": "Filter by how the domain is sold, matching Sedo's own \"Listing Type\" filter.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "buyNow",
+        "makeOffer",
+        "auction",
+        "expiringAuction"
+      ],
+      "enumTitles": [
+        "Any (all listing types)",
+        "Buy Now (fixed price) only",
+        "Make Offer only",
+        "Marketplace Auction only",
+        "Expiring Domain Auction only"
+      ],
+      "prefill": "any",
+      "title": "Sale type",
+      "type": "string"
+    },
+    "searchQuery": {
+      "default": "shop",
+      "description": "Free-text keyword to search Sedo's domain marketplace for (mode=search). Matches domains containing this keyword, e.g. `shop`, `crypto`, `app`.",
+      "editor": "textfield",
+      "prefill": "shop",
+      "title": "Search query",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Sort order, matching Sedo's own search results sort control.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "price",
+        "traffic",
+        "name",
+        "bids",
+        "dateCreated"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Price",
+        "Traffic",
+        "Name",
+        "Bids",
+        "Date created (newest listings)"
+      ],
+      "prefill": "relevance",
+      "title": "Sort by",
+      "type": "string"
+    },
+    "sortDescending": {
+      "default": true,
+      "description": "Sort highest-to-lowest (or newest-first for Date created). Uncheck for ascending order.",
+      "prefill": true,
+      "title": "Sort descending",
+      "type": "boolean"
+    },
+    "tlds": {
+      "default": [],
+      "description": "Only include domains with one of these extensions (no leading dot), e.g. `com`, `net`, `ai`, `io`, `de`. Leave empty for all extensions.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "TLD filter",
+      "type": "array"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Sedo Domain Marketplace Scraper Input",
+  "type": "object"
+}

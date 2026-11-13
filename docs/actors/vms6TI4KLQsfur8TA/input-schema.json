@@ -1,5 +1,5 @@
 {
-  "description": "Search SeatGeek for live event tickets by artist, team, or venue name, or browse any of SeatGeek's 156 sports/concert/theater categories. Get event date, venue, price range, listing count, and more.",
+  "description": "Search SeatGeek by artist, team, venue or keyword; browse 156 sports/concert/theater categories; or paste SeatGeek URLs. Results include event dates, venues, performers, price ranges and live listing/ticket counts.",
   "properties": {
     "category": {
       "default": "nba",
@@ -326,7 +326,7 @@
       "type": "string"
     },
     "city": {
-      "description": "Only include events at a venue in this city, e.g. `Chicago`. Exact match, case-insensitive.",
+      "description": "Only include events at a venue in this city, e.g. `Chicago`. Case-insensitive match.",
       "editor": "textfield",
       "title": "Venue city",
       "type": "string"
@@ -345,10 +345,10 @@
     },
     "maxItems": {
       "default": 20,
-      "description": "Hard cap on emitted event records.",
-      "maximum": 500,
+      "description": "Hard cap on emitted event records. SeatGeek exposes up to 10,000 events per query.",
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 20,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
@@ -357,6 +357,13 @@
       "maximum": 100000,
       "minimum": 0,
       "title": "Maximum price (USD)",
+      "type": "integer"
+    },
+    "minListingCount": {
+      "description": "Only include events with at least this many live ticket listings. Leave empty to include events with no current listings.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Minimum listing count",
       "type": "integer"
     },
     "minPrice": {
@@ -376,29 +383,17 @@
         "byUrl"
       ],
       "enumTitles": [
-        "Search by artist, team, or venue name",
-        "Browse by category (sport / genre / league)",
+        "Search by artist, team, venue or keyword",
+        "Browse a category (league / genre / show type)",
         "Fetch specific SeatGeek URLs"
       ],
       "prefill": "search",
       "title": "Mode",
       "type": "string"
     },
-    "proxyConfiguration": {
-      "default": {
-        "useApifyProxy": true
-      },
-      "description": "Optional. SeatGeek is protected by a bot-detection layer that blocks plain datacenter requests without a browser-matching TLS fingerprint; the actor already handles this in code with no proxy required. The free Apify AUTO proxy group is used automatically as a fallback only if a request is ever blocked.",
-      "editor": "proxy",
-      "prefill": {
-        "useApifyProxy": true
-      },
-      "title": "Proxy configuration",
-      "type": "object"
-    },
     "searchQuery": {
       "default": "New York Yankees",
-      "description": "Name of an artist, sports team, or venue, e.g. `New York Yankees`, `Coldplay`, `Madison Square Garden`.",
+      "description": "Artist, team, venue or keyword, e.g. `Taylor Swift`, `New York Knicks`, `Madison Square Garden`, `comedy`. Uses SeatGeek's full search index, then resolves the best matching performer, venue or category.",
       "editor": "textfield",
       "prefill": "New York Yankees",
       "title": "Search query (mode=search)",
@@ -406,7 +401,7 @@
     },
     "sortBy": {
       "default": "relevance",
-      "description": "How to order the emitted results.",
+      "description": "How to order the emitted results. Sorting happens on SeatGeek's side, so it is applied before the `maxItems` cut.",
       "editor": "select",
       "enum": [
         "relevance",
@@ -418,8 +413,8 @@
       "enumTitles": [
         "Relevance (SeatGeek's own order)",
         "Event date (soonest first)",
-        "Price (lowest first)",
-        "Price (highest first)",
+        "Lowest price (cheapest first)",
+        "Highest price (most expensive first)",
         "Popularity (most popular first)"
       ],
       "prefill": "relevance",
@@ -427,7 +422,7 @@
       "type": "string"
     },
     "startUrls": {
-      "description": "Direct `seatgeek.com` URLs to fetch — category pages (`/nba-tickets`), performer pages (`/coldplay-tickets`), or venue pages (`/venues/madison-square-garden-tickets`).",
+      "description": "Direct `seatgeek.com` URLs: category pages (`/nba-tickets`), performer pages (`/coldplay-tickets`), venue pages (`/venues/madison-square-garden/tickets`), event pages (any URL ending in the numeric event id), or search URLs (`/search?search=...`).",
       "editor": "requestListSources",
       "prefill": [
         {
@@ -448,6 +443,6 @@
     "mode"
   ],
   "schemaVersion": 1,
-  "title": "SeatGeek Scraper Input",
+  "title": "SeatGeek Event Search & Price Finder Input",
   "type": "object"
 }
