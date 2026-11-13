@@ -1,0 +1,89 @@
+{
+  "description": "Search UFC fighters, browse rankings by weight class, or get completed event results.",
+  "properties": {
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of records to return.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "topRanked",
+      "description": "What to fetch from the ESPN UFC API.",
+      "editor": "select",
+      "enum": [
+        "topRanked",
+        "byEvent",
+        "searchFighters"
+      ],
+      "enumTitles": [
+        "Top Ranked Fighters by Weight Class",
+        "Completed Events with Fight Results",
+        "Search Fighters by Name"
+      ],
+      "prefill": "topRanked",
+      "title": "Mode",
+      "type": "string"
+    },
+    "searchQuery": {
+      "description": "Fighter name to search for (e.g. 'Jon Jones', 'Conor McGregor').",
+      "editor": "textfield",
+      "title": "Search Query (mode=searchFighters)",
+      "type": "string"
+    },
+    "season": {
+      "description": "Year to fetch completed UFC events for (e.g. 2024, 2025). Defaults to current year.",
+      "maximum": 2030,
+      "minimum": 2000,
+      "title": "Season Year (mode=byEvent)",
+      "type": "integer"
+    },
+    "weightClass": {
+      "default": "Lightweight",
+      "description": "Filter rankings by weight class.",
+      "editor": "select",
+      "enum": [
+        "Heavyweight",
+        "Light Heavyweight",
+        "Middleweight",
+        "Welterweight",
+        "Lightweight",
+        "Featherweight",
+        "Bantamweight",
+        "Flyweight",
+        "Women's Bantamweight",
+        "Women's Strawweight",
+        "Women's Flyweight",
+        "Pound for Pound (Men)",
+        "Pound for Pound (Women)"
+      ],
+      "enumTitles": [
+        "Heavyweight (up to 265 lbs)",
+        "Light Heavyweight (up to 205 lbs)",
+        "Middleweight (up to 185 lbs)",
+        "Welterweight (up to 170 lbs)",
+        "Lightweight (up to 155 lbs)",
+        "Featherweight (up to 145 lbs)",
+        "Bantamweight (up to 135 lbs)",
+        "Flyweight (up to 125 lbs)",
+        "Women's Bantamweight (up to 135 lbs)",
+        "Women's Strawweight (up to 115 lbs)",
+        "Women's Flyweight (up to 125 lbs)",
+        "Men's Pound for Pound Rankings",
+        "Women's Pound for Pound Rankings"
+      ],
+      "prefill": "Lightweight",
+      "title": "Weight Class (mode=topRanked)",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "UFC Stats Scraper Input",
+  "type": "object"
+}

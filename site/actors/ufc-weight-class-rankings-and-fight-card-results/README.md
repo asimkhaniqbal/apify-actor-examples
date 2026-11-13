@@ -1,0 +1,115 @@
+# UFC Weight-Class Rankings & Fight Card Results
+
+Pull UFC data three ways: current weight-class rankings, a fighter looked up by name, or a season's worth of events with each fight's result. No login or API key needed.
+
+## What this actor does
+
+- **Weight-class rankings** — champion plus top-15 ranked fighters for any of the 13 official UFC rankings (11 weight classes plus men's/women's pound-for-pound)
+- **Fighter search** — look up a fighter by name and get their bio: height, weight, reach, stance, age, and record
+- **Events by season** — every UFC event scheduled or completed in a given year, each with its fight card; completed bouts include the round, time, and method of finish
+- **Empty fields are omitted** — a field not available for a given fighter or fight (e.g. no nickname) is left out rather than returned as null
+
+## Output per fighter (`mode: "topRanked"`)
+
+- `recordType` — always `fighter`
+- `athleteId`, `name`, `nickname`
+- `weightClass`, `rank` — the division and current rank position
+- `record`, `wins`, `losses`, `draws`
+- `height`, `weight`, `reach`, `stance`, `fightingStyle`, `age`, `dateOfBirth` — included whenever the fighter's own profile data loads successfully (the normal case)
+- `rankTrend` — change since the last ranking update; only appears on the rare fighter whose profile data couldn't be loaded, since the rank list itself (rather than the profile) is the source for this field
+- `isChampion`, `titleDefenses` — set for the division's current champion
+- `country`
+- `headshotUrl`, `espnProfileUrl`
+- `active`
+- `sourceUrl`, `scrapedAt`
+
+## Output per fighter (`mode: "searchFighters"`)
+
+- `recordType` — always `fighter`
+- `athleteId`, `name`, `nickname`
+- `weightClass`, `height`, `weight`, `reach`, `stance`, `fightingStyle`, `age`, `dateOfBirth`
+- `country`, `record`, `wins`, `losses`, `draws`
+- `headshotUrl`, `espnProfileUrl`
+- `active`
+- `sourceUrl`, `scrapedAt`
+- `rank`, `rankTrend`, `isChampion`, `titleDefenses` — only when a name doesn't match ESPN's search index and the actor falls back to scanning the current rankings for a substring match instead
+
+## Output per event (`mode: "byEvent"`)
+
+- `recordType` — always `event`
+- `eventId`, `eventName`, `shortName`
+- `date`, `venue`, `location`
+- `fightCount`, `fights` — array of fight objects for the card:
+  - `weightClass` — division abbreviation for that bout
+  - `fighter1`, `fighter1Record`, `fighter2`, `fighter2Record`
+  - `winner`, `round`, `time`, `method` — only present once the bout has actually concluded; a not-yet-fought bout on a future or in-progress event only has `fighter1`/`fighter2`
+- `espnEventUrl`
+- `sourceUrl`, `scrapedAt`
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `mode` | string (select) | `topRanked` | `topRanked`, `byEvent`, or `searchFighters` |
+| `weightClass` | string (select) | `Lightweight` | Division to rank (mode=`topRanked`) |
+| `searchQuery` | string | – | Fighter name to search for, e.g. `Jon Jones` (mode=`searchFighters`) |
+| `season` | integer | – | Year to fetch events for, e.g. `2024`; uses the current year if left blank (mode=`byEvent`) |
+| `maxItems` | integer | `50` | Maximum number of records to return (1–500) |
+
+### Example: top-15 lightweight rankings
+
+```json
+{
+  "mode": "topRanked",
+  "weightClass": "Lightweight"
+}
+```
+
+### Example: look up a fighter by name
+
+```json
+{
+  "mode": "searchFighters",
+  "searchQuery": "Conor McGregor"
+}
+```
+
+### Example: completed events for a season
+
+```json
+{
+  "mode": "byEvent",
+  "season": 2024,
+  "maxItems": 50
+}
+```
+
+## Use cases
+
+- **Fantasy MMA and betting models** — pull current rankings and recent fight outcomes as model inputs
+- **Fighter research** — look up a specific fighter's bio stats and record before a matchup
+- **Historical analysis** — fetch a full season's events to study methods of finish and title defenses over time
+- **Content and media** — build rankings widgets or fight-result recaps from live data
+
+## FAQ
+
+**Does this need an API key or login?**
+No — rankings, fighter search, and event results are all read without authentication.
+
+**How many fighters are in each weight-class ranking?**
+Typically 16 — the current champion plus the top 15 contenders, matching the official UFC rankings.
+
+**Can I get historical event results?**
+Yes — set `mode` to `byEvent` and `season` to the year you want, e.g. `2019` through the current year. The current (or a future) season year may also include events that haven't happened yet; those come back with fighter names but no winner, round, or method until the bout concludes.
+
+**Does this include per-fight strike or takedown statistics?**
+No — fight records cover the result (winner, round, time, method), not round-by-round strike or grappling statistics.
+
+**Why do fighter records differ between `topRanked` and `searchFighters`?**
+Both normally pull the fighter's own profile, so most fields (height, weight, reach, stance, age, record) match. `topRanked` additionally adds `rank`, `isChampion`, and `titleDefenses` from the rankings list, and falls back to rank-list-only data (losing the physical stats but gaining `rankTrend`) on the rare fighter whose profile fails to load.
+
+**How current is the data?**
+Rankings and event results reflect whatever is currently published; results for an event typically update shortly after each fight concludes.
+
+**Is this affiliated with the UFC or ESPN?**
+No. This is an independent actor that reads publicly available MMA data; it is not operated by or affiliated with UFC or ESPN.
