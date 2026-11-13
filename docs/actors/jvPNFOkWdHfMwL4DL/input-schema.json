@@ -1,0 +1,305 @@
+{
+  "description": "Search adoptable pets by ZIP, radius, species, breed, age, sex and size, look up animals by ID, or fetch rescue organizations. Works without an API key; an optional free RescueGroups key adds API-only fields and organization name search.",
+  "properties": {
+    "ageGroup": {
+      "default": "",
+      "description": "General age filter (mode=search).",
+      "editor": "select",
+      "enum": [
+        "",
+        "Baby",
+        "Young",
+        "Adult",
+        "Senior"
+      ],
+      "enumTitles": [
+        "(any)",
+        "Baby",
+        "Young",
+        "Adult",
+        "Senior"
+      ],
+      "prefill": "",
+      "title": "Age group",
+      "type": "string"
+    },
+    "animalIds": {
+      "default": [],
+      "description": "RescueGroups animal IDs or animal page URLs, e.g. `22514067`.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Animal IDs (mode=byAnimalIds)",
+      "type": "array"
+    },
+    "apiKey": {
+      "description": "Optional free public RescueGroups.org API key. Leave empty to use the cookieless public pet-search pages. A key adds API-only fields (adoption fee, energy level, exact birth date, and more) and organization name search.",
+      "editor": "textfield",
+      "isSecret": true,
+      "title": "API key (optional)",
+      "type": "string"
+    },
+    "breed": {
+      "description": "Breed name filter (mode=search), e.g. `Labrador Retriever`. The cookieless source matches any breed in the animal's breed string (primary or secondary); with an optional API key the primary breed is matched exactly.",
+      "editor": "textfield",
+      "title": "Breed",
+      "type": "string"
+    },
+    "declawedOnly": {
+      "default": false,
+      "description": "Only animals flagged as declawed.",
+      "prefill": false,
+      "title": "Declawed only",
+      "type": "boolean"
+    },
+    "goodWithCatsOnly": {
+      "default": false,
+      "description": "Only animals flagged as good with cats.",
+      "prefill": false,
+      "title": "Good with cats only",
+      "type": "boolean"
+    },
+    "goodWithDogsOnly": {
+      "default": false,
+      "description": "Only animals flagged as good with dogs.",
+      "prefill": false,
+      "title": "Good with dogs only",
+      "type": "boolean"
+    },
+    "goodWithKidsOnly": {
+      "default": false,
+      "description": "Only animals flagged as good with kids.",
+      "prefill": false,
+      "title": "Good with kids only",
+      "type": "boolean"
+    },
+    "housetrainedOnly": {
+      "default": false,
+      "description": "Only animals flagged as house-trained.",
+      "prefill": false,
+      "title": "House-trained only",
+      "type": "boolean"
+    },
+    "includeDetails": {
+      "default": true,
+      "description": "Open each animal's public detail page for shelter contact, description, photos and temperament flags. Turn off for a faster, lighter listing-only run. The optional API path always returns full details.",
+      "prefill": true,
+      "title": "Fetch full animal details",
+      "type": "boolean"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Hard cap on emitted records.",
+      "maximum": 2000,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to fetch: a pet search, specific animals by ID, or rescue organizations.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byAnimalIds",
+        "orgSearch"
+      ],
+      "enumTitles": [
+        "Search adoptable pets",
+        "Look up animals by ID",
+        "Look up rescue organizations"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "needsFosterOnly": {
+      "default": false,
+      "description": "Only animals currently looking for a foster home.",
+      "prefill": false,
+      "title": "Needs foster only",
+      "type": "boolean"
+    },
+    "orgQuery": {
+      "default": "",
+      "description": "Optional organization name filter. Name search needs the optional `apiKey`; a numeric ID or organization-page URL works without one (legacy `orgQuery` inputs are supported).",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Organization name or ID (mode=orgSearch)",
+      "type": "string"
+    },
+    "organizationIds": {
+      "default": [],
+      "description": "RescueGroups organization IDs, e.g. `6260` (the number in a pet photo URL).",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Organization IDs (mode=orgSearch)",
+      "type": "array"
+    },
+    "postalCode": {
+      "description": "Center point for a radius search (mode=search). Leave empty to search everywhere.",
+      "editor": "textfield",
+      "prefill": "02108",
+      "title": "ZIP / postal code",
+      "type": "string"
+    },
+    "radiusMiles": {
+      "default": 50,
+      "description": "Search radius around the postal code (mode=search). The source supports 25, 50, 100 and 200 miles; requests under 25 use 25, values between buckets round down, and requests above 200 use 200.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 25,
+      "title": "Radius (miles)",
+      "type": "integer"
+    },
+    "sex": {
+      "default": "",
+      "description": "Sex filter (mode=search).",
+      "editor": "select",
+      "enum": [
+        "",
+        "Male",
+        "Female"
+      ],
+      "enumTitles": [
+        "(any)",
+        "Male",
+        "Female"
+      ],
+      "prefill": "",
+      "title": "Sex",
+      "type": "string"
+    },
+    "sizeGroup": {
+      "default": "",
+      "description": "Size filter (mode=search).",
+      "editor": "select",
+      "enum": [
+        "",
+        "Small",
+        "Medium",
+        "Large",
+        "X-Large"
+      ],
+      "enumTitles": [
+        "(any)",
+        "Small",
+        "Medium",
+        "Large",
+        "X-Large"
+      ],
+      "prefill": "",
+      "title": "Size",
+      "type": "string"
+    },
+    "specialNeedsOnly": {
+      "default": false,
+      "description": "Only animals flagged as having special needs.",
+      "prefill": false,
+      "title": "Special needs only",
+      "type": "boolean"
+    },
+    "species": {
+      "default": "Dog",
+      "description": "Species filter (mode=search). Pick (any species) to search every species.",
+      "editor": "select",
+      "enum": [
+        "",
+        "Alpaca",
+        "Bird",
+        "Cat",
+        "Chicken",
+        "Chinchilla",
+        "Cow",
+        "Degu",
+        "Dog",
+        "Donkey",
+        "Duck",
+        "Ferret",
+        "Fish",
+        "Frog",
+        "Gecko",
+        "Gerbil",
+        "Goat",
+        "Goose",
+        "Groundhog",
+        "Guinea Pig",
+        "Hamster",
+        "Hedgehog",
+        "Hermit Crab",
+        "Horse",
+        "Iguana",
+        "Lizard",
+        "Llama",
+        "Mouse",
+        "Otter",
+        "Pig",
+        "Pony",
+        "Prairie Dog",
+        "Rabbit",
+        "Rat",
+        "Sheep",
+        "Skunk",
+        "Snake",
+        "Sugar Glider",
+        "Tarantula",
+        "Tortoise",
+        "Turkey",
+        "Turtle"
+      ],
+      "enumTitles": [
+        "(any species)",
+        "Alpaca",
+        "Bird",
+        "Cat",
+        "Chicken",
+        "Chinchilla",
+        "Cow",
+        "Degu",
+        "Dog",
+        "Donkey",
+        "Duck",
+        "Ferret",
+        "Fish",
+        "Frog",
+        "Gecko",
+        "Gerbil",
+        "Goat",
+        "Goose",
+        "Groundhog",
+        "Guinea Pig",
+        "Hamster",
+        "Hedgehog",
+        "Hermit Crab",
+        "Horse",
+        "Iguana",
+        "Lizard",
+        "Llama",
+        "Mouse",
+        "Otter",
+        "Pig",
+        "Pony",
+        "Prairie Dog",
+        "Rabbit",
+        "Rat",
+        "Sheep",
+        "Skunk",
+        "Snake",
+        "Sugar Glider",
+        "Tarantula",
+        "Tortoise",
+        "Turkey",
+        "Turtle"
+      ],
+      "prefill": "Dog",
+      "title": "Species",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "RescueGroups Scraper Input",
+  "type": "object"
+}
