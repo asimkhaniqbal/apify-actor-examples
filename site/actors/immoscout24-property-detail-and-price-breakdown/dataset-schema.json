@@ -1,0 +1,154 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "properties": {
+      "floor": {
+        "description": "Floor / storey (e.g. '3. OG')",
+        "type": "string"
+      },
+      "id": {
+        "description": "ImmobilienScout24 expose ID",
+        "type": "string"
+      },
+      "images": {
+        "description": "Listing photo URLs",
+        "type": "array"
+      },
+      "livingSpace": {
+        "description": "Living area in square metres",
+        "type": "number"
+      },
+      "price": {
+        "description": "Advertised price",
+        "type": "number"
+      },
+      "priceCurrency": {
+        "description": "Currency (EUR)",
+        "type": "string"
+      },
+      "rooms": {
+        "description": "Number of rooms",
+        "type": "number"
+      },
+      "scrapedAt": {
+        "description": "ISO 8601 scrape timestamp",
+        "type": "string"
+      },
+      "title": {
+        "description": "Listing headline",
+        "type": "string"
+      },
+      "url": {
+        "description": "Full expose URL",
+        "type": "string"
+      },
+      "yearBuilt": {
+        "description": "Construction year",
+        "type": "integer"
+      }
+    },
+    "type": "object"
+  },
+  "title": "ImmobilienScout24 Listings",
+  "views": {
+    "detailed": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "floor": {
+            "format": "text",
+            "label": "Floor"
+          },
+          "id": {
+            "format": "text",
+            "label": "ID"
+          },
+          "livingSpace": {
+            "format": "number",
+            "label": "Living Space"
+          },
+          "price": {
+            "format": "number",
+            "label": "Price"
+          },
+          "priceCurrency": {
+            "format": "text",
+            "label": "Currency"
+          },
+          "rooms": {
+            "format": "number",
+            "label": "Rooms"
+          },
+          "scrapedAt": {
+            "format": "text",
+            "label": "Scraped At"
+          },
+          "title": {
+            "format": "text",
+            "label": "Title"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          },
+          "yearBuilt": {
+            "format": "number",
+            "label": "Year Built"
+          }
+        }
+      },
+      "title": "Detailed Results",
+      "transformation": {
+        "fields": [
+          "id",
+          "title",
+          "price",
+          "priceCurrency",
+          "livingSpace",
+          "rooms",
+          "floor",
+          "yearBuilt",
+          "url",
+          "scrapedAt"
+        ]
+      }
+    },
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "livingSpace": {
+            "format": "number",
+            "label": "Living Space (m2)"
+          },
+          "price": {
+            "format": "number",
+            "label": "Price (EUR)"
+          },
+          "rooms": {
+            "format": "number",
+            "label": "Rooms"
+          },
+          "title": {
+            "format": "text",
+            "label": "Title"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          }
+        }
+      },
+      "title": "Overview",
+      "transformation": {
+        "fields": [
+          "title",
+          "price",
+          "livingSpace",
+          "rooms",
+          "url"
+        ]
+      }
+    }
+  }
+}

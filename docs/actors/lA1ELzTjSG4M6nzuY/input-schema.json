@@ -1,0 +1,52 @@
+{
+  "properties": {
+    "maxItems": {
+      "default": 3,
+      "description": "Maximum number of property listings to return.",
+      "editor": "number",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "proxyConfiguration": {
+      "default": {
+        "apifyProxyCountry": "DE",
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "description": "Apify RESIDENTIAL DE proxy is REQUIRED — ImmobilienScout24 blocks datacenter IPs at the Cloudflare layer. Do not change these settings.",
+      "editor": "proxy",
+      "prefill": {
+        "apifyProxyCountry": "DE",
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "searchUrls": {
+      "default": [
+        "https://www.immobilienscout24.de/Suche/de/wohnung-kaufen"
+      ],
+      "description": "ImmobilienScout24 search-result URLs (https://www.immobilienscout24.de/Suche/...) or direct exposé URLs. Each URL is enumerated and every listing on the page is scraped up to maxItems.",
+      "editor": "stringList",
+      "prefill": [
+        "https://www.immobilienscout24.de/Suche/de/wohnung-kaufen"
+      ],
+      "title": "Search / Listing URLs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "searchUrls"
+  ],
+  "schemaVersion": 1,
+  "title": "ImmobilienScout24 Real Estate Scraper Input",
+  "type": "object"
+}

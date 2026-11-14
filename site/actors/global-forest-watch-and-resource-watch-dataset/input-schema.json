@@ -1,8 +1,45 @@
 {
-  "description": "Browse GFW environmental datasets.",
+  "description": "Browse GFW and Resource Watch datasets, inspect dataset metadata and fields, and pull GLAD alerts or alert statistics for an area.",
   "properties": {
+    "aggregateBy": {
+      "default": "month",
+      "description": "Time bucket used by statistics mode.",
+      "editor": "select",
+      "enum": [
+        "day",
+        "week",
+        "month",
+        "year"
+      ],
+      "enumTitles": [
+        "Day",
+        "Week",
+        "Month",
+        "Year"
+      ],
+      "prefill": "month",
+      "title": "Group statistics by",
+      "type": "string"
+    },
+    "alertSystem": {
+      "default": "glad",
+      "description": "Alert layer used by alerts and statistics. Integrated alerts are newer; GLAD coverage on the public tables extends through 2021 for most countries.",
+      "editor": "select",
+      "enum": [
+        "glad",
+        "integrated"
+      ],
+      "enumTitles": [
+        "GLAD alerts",
+        "Integrated deforestation alerts"
+      ],
+      "prefill": "glad",
+      "title": "Alert system",
+      "type": "string"
+    },
     "application": {
-      "description": "Application.",
+      "default": "",
+      "description": "Filter the Resource Watch catalog by source application. In GFW catalog mode it matches dataset tags, names and IDs.",
       "editor": "select",
       "enum": [
         "",
@@ -14,7 +51,7 @@
         "open-data"
       ],
       "enumTitles": [
-        "Any",
+        "Any application",
         "Global Forest Watch",
         "Resource Watch",
         "PREP",
@@ -25,33 +62,191 @@
       "title": "Application",
       "type": "string"
     },
+    "area": {
+      "description": "Alerts and statistics area: ISO3 country code (BRA), ISO3:ADM1 (BRA:15), ISO3:ADM1:ADM2 (BRA:15:139), a Resource Watch geostore ID, or a latitude,longitude pair (for example -7.1,-54.9).",
+      "editor": "textfield",
+      "sectionCaption": "Alerts and statistics by area",
+      "title": "Area (ISO3, admin code, geostore or lat,lng)",
+      "type": "string"
+    },
+    "connectorType": {
+      "default": "",
+      "description": "Filter Resource Watch catalog datasets by connector type.",
+      "editor": "select",
+      "enum": [
+        "",
+        "rest",
+        "document",
+        "wms",
+        "vector",
+        "bigquery",
+        "rasdaman",
+        "nexgddp",
+        "loca"
+      ],
+      "enumTitles": [
+        "Any connector",
+        "REST",
+        "Document",
+        "WMS",
+        "Vector",
+        "BigQuery",
+        "Rasdaman",
+        "NEX-GDDP",
+        "LOCA"
+      ],
+      "title": "Connector type",
+      "type": "string"
+    },
+    "dataset": {
+      "default": "umd_tree_cover_loss",
+      "description": "GFW Data API dataset slug used by datasetFields (for example umd_tree_cover_loss, gfw_integrated_alerts).",
+      "editor": "textfield",
+      "prefill": "umd_tree_cover_loss",
+      "title": "GFW dataset slug",
+      "type": "string"
+    },
+    "datasetIds": {
+      "default": [],
+      "description": "Dataset references for datasetDetails. Accepts Resource Watch UUIDs, GFW Data API slugs and dataset API URLs.",
+      "editor": "stringList",
+      "prefill": [
+        "umd_tree_cover_loss"
+      ],
+      "sectionCaption": "Datasets",
+      "title": "Dataset IDs, slugs or API URLs",
+      "type": "array"
+    },
+    "endDate": {
+      "default": "2021-12-31",
+      "description": "Alert period end in YYYY-MM-DD format.",
+      "editor": "textfield",
+      "prefill": "2021-12-31",
+      "title": "End date",
+      "type": "string"
+    },
+    "gladConfirmOnly": {
+      "default": false,
+      "description": "Keep only alerts with confidence 3 or higher.",
+      "prefill": false,
+      "title": "Confirmed alerts only",
+      "type": "boolean"
+    },
     "maxItems": {
       "default": 20,
-      "description": "Maximum number of records to return.",
-      "maximum": 500,
+      "description": "Maximum records to return (1-1000). For statistics this caps the number of time buckets.",
+      "editor": "number",
+      "maximum": 1000,
       "minimum": 1,
-      "prefill": 20,
-      "title": "Max items",
+      "prefill": 3,
+      "sectionCaption": "Output",
+      "title": "Maximum records",
       "type": "integer"
     },
     "mode": {
       "default": "datasets",
-      "description": "Select what data to fetch.",
+      "description": "Choose what to fetch. Catalog modes need no keys; alert modes use the public GFW Data API alert summary tables.",
       "editor": "select",
       "enum": [
-        "datasets"
+        "datasets",
+        "gfwDatasets",
+        "datasetDetails",
+        "datasetFields",
+        "alerts",
+        "statistics"
       ],
       "enumTitles": [
-        "Browse environmental datasets"
+        "Browse Resource Watch + GFW catalog",
+        "Browse GFW Data API catalog",
+        "Dataset details",
+        "Dataset fields",
+        "Alert counts by area",
+        "Alert statistics by area"
       ],
       "prefill": "datasets",
+      "sectionCaption": "What to fetch",
       "title": "Mode",
       "type": "string"
     },
+    "polygon": {
+      "description": "Optional GeoJSON Geometry, Feature or FeatureCollection. Overrides Area and is converted to a geostore automatically.",
+      "editor": "textarea",
+      "title": "Custom GeoJSON polygon",
+      "type": "string"
+    },
+    "provider": {
+      "default": "",
+      "description": "Filter Resource Watch catalog datasets by data provider.",
+      "editor": "select",
+      "enum": [
+        "",
+        "cartodb",
+        "gfw",
+        "gee",
+        "featureservice",
+        "csv",
+        "json",
+        "tsv",
+        "wms",
+        "vector",
+        "rest",
+        "bigquery",
+        "rasdaman",
+        "nexgddp",
+        "loca",
+        "arcgis"
+      ],
+      "enumTitles": [
+        "Any provider",
+        "CARTO",
+        "Global Forest Watch",
+        "Google Earth Engine",
+        "ArcGIS feature service",
+        "CSV",
+        "JSON",
+        "TSV",
+        "WMS",
+        "Vector",
+        "REST",
+        "BigQuery",
+        "Rasdaman",
+        "NEX-GDDP",
+        "LOCA",
+        "ArcGIS"
+      ],
+      "title": "Provider",
+      "type": "string"
+    },
+    "radiusKm": {
+      "default": 5,
+      "description": "Radius used to build an area when Area is a latitude,longitude pair.",
+      "editor": "number",
+      "maximum": 100,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Point radius (km)",
+      "type": "integer"
+    },
     "searchQuery": {
-      "description": "Search keywords to filter results.",
+      "description": "Free-text filter for catalog modes. Every word must appear in the name, description, tags, version or ID.",
       "editor": "textfield",
       "title": "Search query",
+      "type": "string"
+    },
+    "startDate": {
+      "default": "2020-01-01",
+      "description": "Alert period start in YYYY-MM-DD format.",
+      "editor": "textfield",
+      "prefill": "2020-01-01",
+      "title": "Start date",
+      "type": "string"
+    },
+    "version": {
+      "default": "latest",
+      "description": "GFW dataset version for datasetFields. Use latest or a version such as v1.9.1.",
+      "editor": "textfield",
+      "prefill": "latest",
+      "title": "Dataset version",
       "type": "string"
     }
   },
@@ -59,6 +254,6 @@
     "mode"
   ],
   "schemaVersion": 1,
-  "title": "Global Forest Watch Scraper Input",
+  "title": "Global Forest Watch & Resource Watch Explorer Input",
   "type": "object"
 }
