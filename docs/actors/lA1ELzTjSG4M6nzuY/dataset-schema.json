@@ -2,29 +2,333 @@
   "actorSpecification": 1,
   "fields": {
     "properties": {
-      "floor": {
-        "description": "Floor / storey (e.g. '3. OG')",
+      "address": {
+        "description": "Compact address",
         "type": "string"
       },
+      "amenities": {
+        "description": "Raw checked amenity labels",
+        "type": "array"
+      },
+      "apartmentType": {
+        "description": "Apartment type (Loft, Penthouse, Etagenwohnung, ...)",
+        "type": "string"
+      },
+      "availableFrom": {
+        "description": "Availability date as published",
+        "type": "string"
+      },
+      "barrierFree": {
+        "description": "Step-free or barrier-free access",
+        "type": "boolean"
+      },
+      "bathrooms": {
+        "description": "Number of bathrooms",
+        "type": "number"
+      },
+      "bedrooms": {
+        "description": "Number of bedrooms",
+        "type": "number"
+      },
+      "buildingType": {
+        "description": "House / building type",
+        "type": "string"
+      },
+      "city": {
+        "description": "City",
+        "type": "string"
+      },
+      "commission": {
+        "description": "Buyer or tenant commission as published",
+        "type": "string"
+      },
+      "condition": {
+        "description": "Property condition",
+        "type": "string"
+      },
+      "contractType": {
+        "description": "kauf (sale) or miete (rent)",
+        "type": "string"
+      },
+      "descriptionText": {
+        "description": "Property description",
+        "type": "string"
+      },
+      "district": {
+        "description": "District or quarter",
+        "type": "string"
+      },
+      "energyCarriers": {
+        "description": "Main energy carriers",
+        "type": "string"
+      },
+      "energyCertificate": {
+        "description": "Energy efficiency class (A+ to H)",
+        "type": "string"
+      },
+      "energyCertificateAvailable": {
+        "description": "Whether an energy certificate is available",
+        "type": "string"
+      },
+      "energyCertificateType": {
+        "description": "Energy certificate type (Bedarfsausweis, Verbrauchsausweis, ...)",
+        "type": "string"
+      },
+      "energyDemand": {
+        "description": "Energy demand or consumption value as published",
+        "type": "string"
+      },
+      "errors": {
+        "description": "Fetch errors for a sentinel record",
+        "type": "array"
+      },
+      "features": {
+        "description": "Furnishing / equipment items",
+        "type": "array"
+      },
+      "floor": {
+        "description": "Unit floor, e.g. '4 von 5'",
+        "type": "string"
+      },
+      "floorCount": {
+        "description": "Total number of floors in the building",
+        "type": "integer"
+      },
+      "furnishingQuality": {
+        "description": "Furnishing quality (Einfach, Gehoben, Luxus, ...)",
+        "type": "string"
+      },
+      "furnishingText": {
+        "description": "Furnishing description",
+        "type": "string"
+      },
+      "guestToilet": {
+        "description": "Guest toilet present",
+        "type": "boolean"
+      },
+      "hasBalcony": {
+        "description": "Balcony or terrace present",
+        "type": "boolean"
+      },
+      "hasCellar": {
+        "description": "Cellar present",
+        "type": "boolean"
+      },
+      "hasElevator": {
+        "description": "Passenger lift present",
+        "type": "boolean"
+      },
+      "hasGarden": {
+        "description": "Garden present",
+        "type": "boolean"
+      },
+      "heatingIncludedInUtilities": {
+        "description": "Whether heating is included in the utilities figure",
+        "type": "boolean"
+      },
+      "heatingType": {
+        "description": "Heating system",
+        "type": "string"
+      },
+      "heizkosten": {
+        "description": "Monthly heating cost when stated separately",
+        "type": "number"
+      },
       "id": {
-        "description": "ImmobilienScout24 expose ID",
+        "description": "ImmoScout24 expose ID",
         "type": "string"
       },
       "images": {
         "description": "Listing photo URLs",
         "type": "array"
       },
+      "isNewObject": {
+        "description": "New object flag",
+        "type": "boolean"
+      },
+      "isPrivate": {
+        "description": "Private seller / landlord",
+        "type": "boolean"
+      },
+      "isProject": {
+        "description": "New-build project listing",
+        "type": "boolean"
+      },
+      "kaltmiete": {
+        "description": "Cold rent before utilities",
+        "type": "number"
+      },
+      "kaution": {
+        "description": "Deposit or cooperative shares",
+        "type": "number"
+      },
+      "kitchenIncluded": {
+        "description": "Built-in kitchen present",
+        "type": "boolean"
+      },
+      "latitude": {
+        "description": "Latitude",
+        "type": "number"
+      },
+      "listedBuilding": {
+        "description": "Whether the property is a listed building",
+        "type": "boolean"
+      },
+      "listingType": {
+        "description": "Source listing type",
+        "type": "string"
+      },
       "livingSpace": {
         "description": "Living area in square metres",
         "type": "number"
       },
+      "locationText": {
+        "description": "Location description",
+        "type": "string"
+      },
+      "longitude": {
+        "description": "Longitude",
+        "type": "number"
+      },
+      "marketValue": {
+        "description": "Assessed market value for compulsory auctions",
+        "type": "number"
+      },
+      "message": {
+        "description": "Sentinel explanation",
+        "type": "string"
+      },
+      "nebenkosten": {
+        "description": "Monthly utilities / service charge",
+        "type": "number"
+      },
+      "objectNumber": {
+        "description": "Provider object number",
+        "type": "string"
+      },
+      "objectType": {
+        "description": "Object type as published",
+        "type": "string"
+      },
+      "operation": {
+        "description": "buy or rent",
+        "type": "string"
+      },
+      "originalPrice": {
+        "description": "Previous price before a price reduction",
+        "type": "number"
+      },
+      "otherText": {
+        "description": "Other description text",
+        "type": "string"
+      },
+      "parkingSpaces": {
+        "description": "Number of parking spaces / garages",
+        "type": "integer"
+      },
+      "parkingType": {
+        "description": "Parking space type",
+        "type": "string"
+      },
+      "petsAllowed": {
+        "description": "Whether pets are allowed",
+        "type": "boolean"
+      },
+      "plotArea": {
+        "description": "Plot / ground area in square metres",
+        "type": "number"
+      },
+      "postcode": {
+        "description": "Five-digit postcode",
+        "type": "string"
+      },
       "price": {
-        "description": "Advertised price",
+        "description": "Headline price: purchase price, warm rent, cold rent, monthly rent or minimum bid depending on the listing",
+        "type": "number"
+      },
+      "priceChangePercent": {
+        "description": "Price change in percent when the source shows one",
         "type": "number"
       },
       "priceCurrency": {
-        "description": "Currency (EUR)",
+        "description": "Currency code, normally EUR",
         "type": "string"
+      },
+      "pricePerSqm": {
+        "description": "Price per square metre, in EUR",
+        "type": "number"
+      },
+      "priceReduced": {
+        "description": "Whether the listing is tagged as price-reduced",
+        "type": "boolean"
+      },
+      "priceType": {
+        "description": "Which price the headline figure represents (Kaufpreis, Warmmiete, Kaltmiete, Mindestgebot, ...)",
+        "type": "string"
+      },
+      "propertyType": {
+        "description": "Normalised property type (apartment, house, plot, garage, room, ...)",
+        "type": "string"
+      },
+      "publicationState": {
+        "description": "Source publication state",
+        "type": "string"
+      },
+      "publishedAt": {
+        "description": "Approximate publication date derived from the relative text",
+        "type": "string"
+      },
+      "publishedText": {
+        "description": "Relative publication text as shown by the source",
+        "type": "string"
+      },
+      "realEstateType": {
+        "description": "Source real-estate type (apartmentrent, housebuy, ...)",
+        "type": "string"
+      },
+      "realtor": {
+        "description": "Agency or agent name",
+        "type": "string"
+      },
+      "realtorCompany": {
+        "description": "Agency company",
+        "type": "string"
+      },
+      "realtorName": {
+        "description": "Contact person",
+        "type": "string"
+      },
+      "realtorPhone": {
+        "description": "Primary agent phone number",
+        "type": "string"
+      },
+      "realtorPhones": {
+        "description": "All published agent phone numbers",
+        "type": "array"
+      },
+      "realtorRating": {
+        "description": "Agent rating",
+        "type": "number"
+      },
+      "realtorRatingCount": {
+        "description": "Number of agent ratings",
+        "type": "integer"
+      },
+      "realtorUrl": {
+        "description": "Agent profile URL",
+        "type": "string"
+      },
+      "reason": {
+        "description": "Reason for a blocked / empty sentinel record",
+        "type": "string"
+      },
+      "renovationYear": {
+        "description": "Year of the last modernisation or renovation",
+        "type": "integer"
+      },
+      "requestedUrls": {
+        "description": "Input URLs for a sentinel record",
+        "type": "array"
       },
       "rooms": {
         "description": "Number of rooms",
@@ -34,13 +338,45 @@
         "description": "ISO 8601 scrape timestamp",
         "type": "string"
       },
+      "street": {
+        "description": "Street and house number when published",
+        "type": "string"
+      },
+      "tags": {
+        "description": "Source tags such as Neubau or Preissenkung",
+        "type": "array"
+      },
       "title": {
         "description": "Listing headline",
         "type": "string"
       },
-      "url": {
-        "description": "Full expose URL",
+      "totalFloorArea": {
+        "description": "Total floor area in square metres",
+        "type": "number"
+      },
+      "totalRent": {
+        "description": "Total monthly rent: warm rent, package rent or monthly rent",
+        "type": "number"
+      },
+      "type": {
+        "description": "Record type: immoscout24_listing or immoscout24_blocked",
         "type": "string"
+      },
+      "url": {
+        "description": "Canonical expose URL",
+        "type": "string"
+      },
+      "usableArea": {
+        "description": "Usable or lettable area in square metres",
+        "type": "number"
+      },
+      "videos": {
+        "description": "Listing video URLs",
+        "type": "array"
+      },
+      "warmmiete": {
+        "description": "Warm rent including utilities, when the listing states it",
+        "type": "number"
       },
       "yearBuilt": {
         "description": "Construction year",
@@ -49,15 +385,19 @@
     },
     "type": "object"
   },
-  "title": "ImmobilienScout24 Listings",
+  "title": "ImmoScout24 Property Listings",
   "views": {
     "detailed": {
       "display": {
         "component": "table",
         "properties": {
-          "floor": {
+          "address": {
             "format": "text",
-            "label": "Floor"
+            "label": "Address"
+          },
+          "energyCertificate": {
+            "format": "text",
+            "label": "Energy class"
           },
           "id": {
             "format": "text",
@@ -65,27 +405,23 @@
           },
           "livingSpace": {
             "format": "number",
-            "label": "Living Space"
+            "label": "Living space (m²)"
           },
-          "price": {
-            "format": "number",
-            "label": "Price"
-          },
-          "priceCurrency": {
+          "publishedAt": {
             "format": "text",
-            "label": "Currency"
+            "label": "Published"
+          },
+          "realEstateType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "realtor": {
+            "format": "text",
+            "label": "Agent"
           },
           "rooms": {
             "format": "number",
             "label": "Rooms"
-          },
-          "scrapedAt": {
-            "format": "text",
-            "label": "Scraped At"
-          },
-          "title": {
-            "format": "text",
-            "label": "Title"
           },
           "url": {
             "format": "link",
@@ -93,23 +429,23 @@
           },
           "yearBuilt": {
             "format": "number",
-            "label": "Year Built"
+            "label": "Year built"
           }
         }
       },
-      "title": "Detailed Results",
+      "title": "Detailed results",
       "transformation": {
         "fields": [
           "id",
-          "title",
-          "price",
-          "priceCurrency",
+          "realEstateType",
+          "address",
           "livingSpace",
           "rooms",
-          "floor",
           "yearBuilt",
-          "url",
-          "scrapedAt"
+          "energyCertificate",
+          "realtor",
+          "publishedAt",
+          "url"
         ]
       }
     },
@@ -117,13 +453,21 @@
       "display": {
         "component": "table",
         "properties": {
+          "city": {
+            "format": "text",
+            "label": "City"
+          },
           "livingSpace": {
             "format": "number",
-            "label": "Living Space (m2)"
+            "label": "Living space (m²)"
           },
           "price": {
             "format": "number",
             "label": "Price (EUR)"
+          },
+          "priceType": {
+            "format": "text",
+            "label": "Price type"
           },
           "rooms": {
             "format": "number",
@@ -144,8 +488,77 @@
         "fields": [
           "title",
           "price",
+          "priceType",
           "livingSpace",
           "rooms",
+          "city",
+          "url"
+        ]
+      }
+    },
+    "priceBreakdown": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "city": {
+            "format": "text",
+            "label": "City"
+          },
+          "heizkosten": {
+            "format": "number",
+            "label": "Heating"
+          },
+          "id": {
+            "format": "text",
+            "label": "ID"
+          },
+          "kaltmiete": {
+            "format": "number",
+            "label": "Cold rent"
+          },
+          "kaution": {
+            "format": "number",
+            "label": "Deposit"
+          },
+          "nebenkosten": {
+            "format": "number",
+            "label": "Utilities"
+          },
+          "price": {
+            "format": "number",
+            "label": "Price"
+          },
+          "pricePerSqm": {
+            "format": "number",
+            "label": "EUR / m²"
+          },
+          "title": {
+            "format": "text",
+            "label": "Title"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          },
+          "warmmiete": {
+            "format": "number",
+            "label": "Warm rent"
+          }
+        }
+      },
+      "title": "Price breakdown",
+      "transformation": {
+        "fields": [
+          "id",
+          "title",
+          "price",
+          "kaltmiete",
+          "warmmiete",
+          "nebenkosten",
+          "heizkosten",
+          "kaution",
+          "pricePerSqm",
+          "city",
           "url"
         ]
       }

@@ -1,0 +1,171 @@
+{
+  "properties": {
+    "articleUrls": {
+      "description": "Paste one or more article URLs to extract directly. Any news site works, and no discovery is needed. When both this and News website URL are set, these URLs are processed first.",
+      "editor": "stringList",
+      "example": [
+        "https://www.bbc.com/news/articles/example-article"
+      ],
+      "items": {
+        "type": "string"
+      },
+      "title": "Article URLs",
+      "type": "array"
+    },
+    "autoProxyFallback": {
+      "default": true,
+      "description": "When a direct datacenter-IP fetch is blocked (0 candidates or 0 extracted articles), retry the same requests once through Apify residential proxy. Sites that work directly never trigger it. Turn off to guarantee zero proxy spend.",
+      "prefill": true,
+      "title": "Auto-retry via proxy when the direct fetch fails",
+      "type": "boolean"
+    },
+    "concurrency": {
+      "default": 5,
+      "description": "Number of articles fetched in parallel. Higher is faster but more likely to trigger rate limits on small sites.",
+      "maximum": 20,
+      "minimum": 1,
+      "title": "Concurrency",
+      "type": "integer"
+    },
+    "extractKeywords": {
+      "default": true,
+      "description": "Compute the top 10 most frequent content words per article (stopwords removed).",
+      "prefill": true,
+      "title": "Extract keywords",
+      "type": "boolean"
+    },
+    "extractSummary": {
+      "default": true,
+      "description": "Emit the first three sentences of each article as a summary, with a meta-description fallback.",
+      "prefill": true,
+      "title": "Extract summary",
+      "type": "boolean"
+    },
+    "keywordFilter": {
+      "description": "Boolean expression applied to each article's title and body. Supports AND, OR, NOT and parentheses, case-insensitive. Examples: `AI AND NOT crypto`, `(startup OR funding) AND SaaS`. Leave blank to keep every article.",
+      "editor": "textfield",
+      "example": "AI AND startup",
+      "title": "Keyword filter",
+      "type": "string"
+    },
+    "language": {
+      "default": "auto",
+      "description": "Language hint for the articles. Use `auto` to detect from site metadata. An explicit language also filters out articles that declare a different one.",
+      "editor": "select",
+      "enum": [
+        "auto",
+        "en",
+        "de",
+        "fr",
+        "es",
+        "it",
+        "pt",
+        "nl",
+        "sv",
+        "da",
+        "no",
+        "fi",
+        "pl",
+        "ru",
+        "uk",
+        "cs",
+        "sk",
+        "hu",
+        "ro",
+        "bg",
+        "hr",
+        "sr",
+        "sl",
+        "et",
+        "lt",
+        "lv",
+        "el",
+        "tr",
+        "he",
+        "ar",
+        "fa",
+        "hi",
+        "bn",
+        "th",
+        "vi",
+        "id",
+        "ms",
+        "ja",
+        "ko",
+        "zh"
+      ],
+      "enumTitles": [
+        "Auto-detect",
+        "English",
+        "German",
+        "French",
+        "Spanish",
+        "Italian",
+        "Portuguese",
+        "Dutch",
+        "Swedish",
+        "Danish",
+        "Norwegian",
+        "Finnish",
+        "Polish",
+        "Russian",
+        "Ukrainian",
+        "Czech",
+        "Slovak",
+        "Hungarian",
+        "Romanian",
+        "Bulgarian",
+        "Croatian",
+        "Serbian",
+        "Slovenian",
+        "Estonian",
+        "Lithuanian",
+        "Latvian",
+        "Greek",
+        "Turkish",
+        "Hebrew",
+        "Arabic",
+        "Persian",
+        "Hindi",
+        "Bengali",
+        "Thai",
+        "Vietnamese",
+        "Indonesian",
+        "Malay",
+        "Japanese",
+        "Korean",
+        "Chinese"
+      ],
+      "title": "Article language",
+      "type": "string"
+    },
+    "maxArticles": {
+      "default": 20,
+      "description": "Hard cap on the number of articles returned across all input URLs.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Maximum articles",
+      "type": "integer"
+    },
+    "minWordCount": {
+      "default": 100,
+      "description": "Drop articles whose extracted body text is shorter than this.",
+      "maximum": 10000,
+      "minimum": 0,
+      "title": "Minimum article word count",
+      "type": "integer"
+    },
+    "websiteUrl": {
+      "description": "Homepage, section page, or newsroom URL to discover articles from. The actor reads the site's sitemaps first (including robots.txt entries and gzipped sitemaps) and falls back to article-shaped links on the page itself. Leave blank when using Article URLs.",
+      "editor": "textfield",
+      "example": "https://techcrunch.com",
+      "prefill": "https://techcrunch.com",
+      "title": "News website URL",
+      "type": "string"
+    }
+  },
+  "schemaVersion": 1,
+  "title": "Any News Site Article Extractor input",
+  "type": "object"
+}

@@ -4,116 +4,148 @@
 
 # ImmoScout24 Property Detail & Price Breakdown Scraper
 
-ImmoScout24 is Germany's largest property portal for buying and renting apartments and houses. Feed this actor a search-results URL or a direct listing (Exposé) URL and it extracts each listing's price — split into cold rent, warm rent and utilities where ImmoScout24 shows that breakdown — along with living space, room count, address, coordinates, amenities, and the listing agent's contact details.
+ImmoScout24 is Germany's largest property marketplace. This actor reads its public mobile listing feed without cookies, logins or a proxy setup and returns structured property records: the headline price, the rent breakdown where the advert publishes one, living space, rooms, energy data, amenities, address, photos and the advertiser's published contact details.
 
-## What this actor does
+Give it a search URL, a direct listing URL, or just a city and a property type. It translates the filters in the URL — price, rooms, living space, equipment, energy class, construction year, published date, sort order and the filter slugs ImmoScout24 puts in the path — into the source query, follows the result pages and enriches each listing from its expose.
 
-- Enumerates listings on one or more ImmoScout24 search-result pages, or scrapes a direct listing URL you paste
-- Accepts sale (`kaufen`) and rental (`mieten`) search paths, nationwide or city-scoped
-- To reliably fill a run up to `maxItems`, the actor also pulls other currently live ImmoScout24 listings to round out the batch; when that happens, some returned listings may not match the city/type filter in your `searchUrls` (see FAQ)
-- Splits rental pricing into `kaltmiete` (cold rent), `warmmiete` (warm rent) and `nebenkosten` (utilities) when the listing discloses them separately
-- Derives simple amenity flags (balcony, garden, cellar, elevator, fitted kitchen, pets allowed) from the listing's feature list and description
-- Only fields the listing actually discloses are included — no field is ever a placeholder null
+## Modes
 
-## Output per listing
-
-- `type` — always `immoscout24_listing`
-- `id` — ImmoScout24's Exposé ID
-- `url` — the listing's canonical URL
-- `title` — listing headline
-- `descriptionText` — the listing's free-text description, trimmed to 4,000 characters
-- `price`, `priceCurrency` — the listing's primary advertised price (sale price or rent) and currency (`EUR`)
-- `kaltmiete` — cold rent (base rent before utilities), for rentals that disclose it separately
-- `warmmiete` — warm rent (total rent including utilities), for rentals that disclose it separately
-- `nebenkosten` — monthly utilities/service charge, for rentals that disclose it separately
-- `livingSpace` — living area in m²
-- `rooms` — number of rooms
-- `floor` — the unit's floor within the building
-- `floorCount` — total number of floors in the building
-- `yearBuilt` — year the building was constructed
-- `renovationYear` — year of the most recent renovation, when disclosed
-- `condition` — the property's stated condition (e.g. newly renovated, first occupancy)
-- `heatingType` — heating system type
-- `energyCertificate` — energy efficiency class
-- `contractType` — the listing type (sale or rental), as derived from the page
-- `parkingSpaces`, `parkingType` — number and type of parking spaces, when listed
-- `hasBalcony`, `hasGarden`, `hasCellar`, `hasElevator`, `kitchenIncluded`, `petsAllowed` — amenity flags, present (`true`) only when that amenity is detected
-- `address` — compact street + postcode + city string
-- `postcode`, `city`, `district` — address components (`district` reflects ImmoScout24's own region/district label for the listing)
-- `latitude`, `longitude` — listing coordinates
-- `images[]` — listing photo URLs
-- `features[]` — the raw feature list as published on the listing
-- `realtor`, `realtorPhone` — the listing agent/agency name and phone number, when published
-- `publishedAt` — the date ImmoScout24 shows for when the listing was published
-- `scrapedAt` — ISO 8601 timestamp of the scrape
-
-If every attempt for a run is blocked, the actor instead emits a single record with `type: "immoscout24_blocked"` so the run still finishes successfully rather than erroring out — see the FAQ below.
+| Mode | What it does |
+|---|---|
+| `auto` | Processes the URLs you supply, then also runs the location builder when a location is set |
+| `urls` | Only pasted ImmoScout24 URLs: search pages, radius or map searches, and direct expose links |
+| `search` | Only the location and filter fields below; no URL needed |
 
 ## Input
 
-| Field | Type | Default | Description |
-|---|---|---|---|
-| `searchUrls` | array | `["https://www.immobilienscout24.de/Suche/de/wohnung-kaufen"]` | ImmoScout24 search-result URLs or direct listing (Exposé) URLs. Every listing found is scraped up to `maxItems` |
-| `maxItems` | integer | `3` | Maximum number of listings to return (1–500) |
-| `proxyConfiguration` | object | `{"useApifyProxy": true, "apifyProxyGroups": ["RESIDENTIAL"], "apifyProxyCountry": "DE"}` | Required German residential proxy — ImmoScout24 blocks non-residential and non-German IPs |
+| Field | Default | Description |
+|---|---|---|
+| `mode` | `auto` | `auto`, `urls` or `search` |
+| `startUrls` | `[]` | ImmoScout24 search URLs, radius/shape URLs or expose URLs. Every filter in the URL is carried over |
+| `location` | `""` | City (`Berlin`, `München`, `Köln`), state/city path (`bayern/muenchen`) or geocode path (`/de/berlin/berlin`, `/at/wien/wien`) |
+| `realEstateType` | `apartmentbuy` | Apartment, house, flat-share room, garage, investment, plot, temporary living, assisted living, compulsory auction, office, retail, gastronomy, trade site or special-purpose property |
+| `priceMin` / `priceMax` | unset | Price range in EUR. For rentals it follows `priceType` |
+| `priceType` | `calculatedtotalrent` | Warm rent (`calculatedtotalrent`) or cold rent (`rentpermonth`) for rent searches |
+| `roomsMin` / `roomsMax` | unset | Room range, including half rooms |
+| `livingSpaceMin` / `livingSpaceMax` | unset | Living area range in m² |
+| `equipment` | `[]` | Balcony, built-in kitchen, cellar, garden, guest toilet, wheelchair access, lift, parking |
+| `energyEfficiencyClasses` | `[]` | A+ through H |
+| `newBuildingOnly` | `false` | New-build listings only |
+| `keyword` | `""` | Free-text keyword such as `Altbau` or `möbliert` |
+| `publishedAfter` | `""` | ISO date; newer listings only |
+| `sorting` | `newest` | Newest, oldest, price or living space, ascending or descending |
+| `includeDetails` | `true` | Fetch the full expose for each result (default on) |
+| `maxItems` | `20` | Maximum listing records (1–10,000) |
+| `maxPages` | `20` | Maximum result pages per search (1–200; 100 listings per page) |
 
-### Example: nationwide apartments for sale
+Every filter is optional. The smallest useful run is one search URL with `maxItems` 2.
+
+## Output
+
+Each record is a `immoscout24_listing` with the fields the source actually publishes. Empty values are omitted rather than written as nulls.
+
+**Identity and classification:** `id`, `url`, `title`, `realEstateType`, `propertyType`, `contractType`, `operation`, `publicationState`, `isPrivate`, `isProject`, `isNewObject`, `listingType`, `tags`, `publishedText`, `publishedAt`, `scrapedAt`.
+
+**Price breakdown:** `price`, `priceCurrency`, `priceType`, `kaltmiete` (cold rent), `warmmiete` (warm rent), `totalRent`, `nebenkosten` (utilities), `heizkosten` (heating), `heatingIncludedInUtilities`, `kaution` (deposit), `pricePerSqm`, `marketValue` (auction), `originalPrice`, `priceChangePercent`, `priceReduced`.
+
+**Property data:** `livingSpace`, `rooms`, `bedrooms`, `bathrooms`, `plotArea`, `usableArea`, `totalFloorArea` (also commercial floor area), `floor`, `floorCount`, `yearBuilt`, `renovationYear`, `condition`, `heatingType`, `parkingSpaces`, `parkingType`, `availableFrom`, `commission`, `objectNumber`, `listedBuilding`.
+
+**Energy certificate:** `energyCertificate` (class), `energyCertificateType`, `energyCertificateAvailable`, `energyCarriers`, `energyDemand`.
+
+**Amenities and text:** `hasBalcony`, `hasGarden`, `hasCellar`, `hasElevator`, `kitchenIncluded`, `guestToilet`, `barrierFree`, `petsAllowed`, `amenities[]`, `features[]`, `descriptionText`, `furnishingText`, `locationText`, `otherText`.
+
+**Location and media:** `address`, `street`, `postcode`, `city`, `district`, `latitude`, `longitude`, `images[]`, `videos[]`.
+
+**Advertiser:** `realtor`, `realtorName`, `realtorCompany`, `realtorPhone`, `realtorPhones[]`, `realtorUrl`, `realtorRating`, `realtorRatingCount`.
+
+When a run finds nothing, it emits one `immoscout24_blocked` record with a `reason` and a message so the run still finishes successfully.
+
+### Price fields explained
+
+- `kaltmiete` is the cold rent before utilities.
+- `nebenkosten` is the monthly service charge; `heizkosten` is separated only when the advert does.
+- `warmmiete` is the warm rent when stated. `totalRent` also covers package rent and monthly rent for temporary living or garages.
+- `price` is the headline figure: purchase price for sales, warm rent (or the available rent figure) for rentals, minimum bid for compulsory auctions.
+- `pricePerSqm` is the published or source-calculated price per square metre.
+
+## Examples
+
+Berlin apartments for sale, first two results:
 
 ```json
 {
-  "searchUrls": ["https://www.immobilienscout24.de/Suche/de/wohnung-kaufen"],
-  "maxItems": 20
+  "mode": "auto",
+  "startUrls": ["https://www.immobilienscout24.de/Suche/de/berlin/berlin/wohnung-kaufen"],
+  "maxItems": 2
 }
 ```
 
-### Example: rentals in a specific city
+Munich rental search with filters:
 
 ```json
 {
-  "searchUrls": ["https://www.immobilienscout24.de/Suche/de/berlin/berlin/wohnung-mieten"],
+  "mode": "search",
+  "location": "bayern/muenchen",
+  "realEstateType": "apartmentrent",
+  "priceMin": 800,
+  "priceMax": 1800,
+  "roomsMin": 2,
+  "livingSpaceMin": 55,
+  "equipment": ["balcony"],
+  "sorting": "newest",
   "maxItems": 50
 }
 ```
 
-### Example: a single listing by Exposé URL
+A single expose:
 
 ```json
 {
-  "searchUrls": ["https://www.immobilienscout24.de/expose/123456789"],
+  "mode": "urls",
+  "startUrls": ["https://www.immobilienscout24.de/expose/172626075"],
   "maxItems": 1
 }
 ```
 
-## Use cases
+Austrian rentals:
 
-- **Price monitoring** — track asking prices, cold/warm rent splits and utilities across a city or region over time
-- **Market research** — build a dataset of living space, room counts and prices for a neighborhood
-- **Lead generation for agents and movers** — collect new listings with agent contact details
-- **Investment screening** — compare price-per-square-meter and amenities across multiple listings
-- **Rental cost analysis** — isolate `kaltmiete` vs `warmmiete` vs `nebenkosten` to understand true monthly housing cost
+```json
+{
+  "mode": "search",
+  "location": "/at/wien/wien",
+  "realEstateType": "apartmentrent",
+  "maxItems": 20
+}
+```
+
+## Data source and reliability
+
+The actor calls the public JSON endpoints used by ImmoScout24's own mobile apps. The website itself (including its Next.js payload and sitemaps) is protected by an AWS WAF challenge, but the mobile listing feed answers directly. No cookie, API key or account is needed. The actor tries a direct connection first and only falls back to Apify Proxy automatically if ImmoScout24 rejects the request, so you never have to configure a proxy.
+
+Search pages are read in order, duplicates are removed by expose ID, and the run stops at `maxItems`, `maxPages`, the end of the result list, or two pages without new listings.
 
 ## FAQ
 
-**Why is a German residential proxy required?**
-ImmoScout24 sits behind Cloudflare and challenges visitors without a German residential IP. The proxy configuration is pre-filled and should not be changed, or the run will consistently fail to reach listing pages.
+**Do I need cookies or an API key?**
+No. The listing feed is public and the actor never asks for credentials.
 
-**Can I scrape rental listings, not just sales?**
-Yes. Pass any ImmoScout24 search URL, including rental searches (`/Suche/de/wohnung-mieten`), house searches (`/Suche/de/haus-kaufen` or `/Suche/de/haus-mieten`), city-scoped paths (`/Suche/de/berlin/berlin/wohnung-kaufen`), or a direct Exposé URL (`/expose/<id>`).
+**Why does the actor sometimes skip the street?**
+ImmoScout24 hides the exact street for many adverts until you contact the advertiser. The record then contains the postcode, city and district, and omits `street` instead of inventing it.
 
-**Will every listing in my results match the city/sale-or-rent filter in my `searchUrls`?**
-Not always. The actor is built to reliably return a full batch of `maxItems` listings even when a specific search page is temporarily unreachable, so it supplements your search with other currently live ImmoScout24 listings when needed to fill the batch. If you need every record to strictly match a filter, check the listing's own `address`/`contractType` fields and discard any that don't match, or set `maxItems` to a value your search page alone can satisfy.
+**Why do some records lack `kaltmiete` or `warmmiete`?**
+Only the figures the advertiser publishes are returned. Some adverts show a single headline rent, some show cold rent plus utilities, and some show the full warm rent. Sale listings normally have none of the rent fields.
 
-**My run returned a single `immoscout24_blocked` record with no listings — what happened?**
-The residential IP assigned to that run was temporarily flagged by Cloudflare before any listing could be fetched. This sentinel record lets the run finish cleanly instead of erroring; simply re-run the actor to get a fresh IP and try again.
+**Why is `realtorPhone` missing on some listings?**
+Phone numbers are included only when the expose publishes them. Private advertisers often hide the number behind ImmoScout24's contact form; the actor does not automate that form.
 
-**Why do some listings have `kaltmiete`/`warmmiete`/`nebenkosten` and others only have `price`?**
-Not every listing publishes the full rent breakdown. When ImmoScout24 only shows a single headline figure, that value is returned as `price` with the breakdown fields omitted.
+**Can I search Austria?**
+Yes. Use an Austrian geocode such as `/at/wien/wien` or paste an immobilienscout24.at regional search URL. Switzerland uses a different platform and is not part of this feed.
 
-**Why are amenity flags like `hasBalcony` sometimes missing instead of `false`?**
-These flags are only added to a record when that amenity is positively detected in the listing's features or description. Their absence means it wasn't mentioned — not that the property definitely lacks it.
+**Can I scrape offices, shops and gastronomy?**
+Yes. Choose the matching `realEstateType` (`office`, `store`, `gastronomy`, `tradesite`, `specialpurpose`) or paste a commercial search URL such as `/Suche/de/berlin/berlin/buero-mieten`. The commercial area is returned as `totalFloorArea`; the living-space fields stay empty because those listings do not have a Wohnfläche. ImmoScout24's feed does not accept the price range or tradesite energy filter for commercial types, so those two filters apply to residential searches only.
 
-**Does `district` always contain a real district name?**
-It reflects whatever region/district label ImmoScout24 attaches to the address, which for some listings is a broader region rather than a city district.
+**How many results can I get?**
+The feed paginates well beyond the website's visible result window (100 listings per page). For a very large query, raise `maxPages`; if the source still stops, split the search by city or price range.
 
-**Is this affiliated with ImmoScout24 or Immobilien Scout GmbH?**
-No. This is an independent, third-party actor that reads ImmoScout24's publicly accessible listing pages; it is not affiliated with or endorsed by ImmoScout24.
+**Is this affiliated with ImmoScout24?**
+No. This is an independent third-party actor that reads publicly accessible listing data. It is not affiliated with or endorsed by Immobilien Scout GmbH.
