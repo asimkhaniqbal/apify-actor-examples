@@ -1,0 +1,518 @@
+{
+  "description": "Search live job vacancies on EURES (the EU's job mobility portal), or fetch full details for specific job vacancy IDs.",
+  "properties": {
+    "benefitCodes": {
+      "default": [],
+      "description": "Restrict results to jobs that explicitly advertise these extra (non-salary) benefits. Note: most EURES listings do not disclose extra-benefit information at all, so this filter narrows results significantly -- leave empty to include all jobs regardless of disclosed benefits.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15"
+        ],
+        "enumTitles": [
+          "Accommodation included",
+          "Meals included",
+          "Relocation assisted",
+          "Travel expenses",
+          "Medical insurance",
+          "Dental insurance",
+          "Vision insurance",
+          "Life insurance",
+          "Short-term disability insurance",
+          "Long-term disability insurance",
+          "Retirement plan",
+          "Company car possible",
+          "Relocation assistance",
+          "Expatriate benefits",
+          "Other benefits"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Extra benefits offered",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "countries": {
+      "default": [],
+      "description": "Restrict results to job locations in these countries. Leave empty for all EEA countries.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "at",
+          "be",
+          "bg",
+          "ch",
+          "cy",
+          "cz",
+          "de",
+          "dk",
+          "ee",
+          "el",
+          "es",
+          "fi",
+          "fr",
+          "hr",
+          "hu",
+          "ie",
+          "is",
+          "it",
+          "li",
+          "lt",
+          "lu",
+          "lv",
+          "mt",
+          "nl",
+          "no",
+          "pl",
+          "pt",
+          "ro",
+          "se",
+          "si",
+          "sk"
+        ],
+        "enumTitles": [
+          "Austria",
+          "Belgium",
+          "Bulgaria",
+          "Switzerland",
+          "Cyprus",
+          "Czechia",
+          "Germany",
+          "Denmark",
+          "Estonia",
+          "Greece",
+          "Spain",
+          "Finland",
+          "France",
+          "Croatia",
+          "Hungary",
+          "Ireland",
+          "Iceland",
+          "Italy",
+          "Liechtenstein",
+          "Lithuania",
+          "Luxembourg",
+          "Latvia",
+          "Malta",
+          "Netherlands",
+          "Norway",
+          "Poland",
+          "Portugal",
+          "Romania",
+          "Sweden",
+          "Slovenia",
+          "Slovakia"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Countries",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "educationLevels": {
+      "default": [],
+      "description": "Restrict results to these required education levels.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "basic",
+          "medium",
+          "tertiary",
+          "bachelor",
+          "master",
+          "doctoral",
+          "not_classified"
+        ],
+        "enumTitles": [
+          "Basic",
+          "Medium (secondary)",
+          "Tertiary",
+          "Bachelor",
+          "Master",
+          "Doctoral",
+          "Not classified"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Education level",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "euresFlagOnly": {
+      "default": false,
+      "description": "Only return jobs explicitly flagged as cross-border EURES vacancies (employer welcomes candidates from other EEA countries).",
+      "prefill": false,
+      "title": "EURES-flagged jobs only",
+      "type": "boolean"
+    },
+    "experienceLevels": {
+      "default": [],
+      "description": "Restrict results to these required-experience bands.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "none_required",
+          "up_to_1_year",
+          "between_1_and_2_years",
+          "between_2_and_5_years",
+          "more_than_5_years"
+        ],
+        "enumTitles": [
+          "None required",
+          "Up to 1 year",
+          "1 to 2 years",
+          "2 to 5 years",
+          "More than 5 years"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Required experience",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "jobIds": {
+      "default": [],
+      "description": "EURES job vacancy IDs, as found in the `id` field of search results or in a job's detail URL, e.g. `MzQwNDYwIDU`.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Job vacancy IDs (mode=byIds)",
+      "type": "array"
+    },
+    "languageSkills": {
+      "default": [],
+      "description": "Restrict results to jobs requiring at least basic proficiency in these languages.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "bg",
+          "cs",
+          "da",
+          "de",
+          "et",
+          "el",
+          "en",
+          "es",
+          "fr",
+          "ga",
+          "hr",
+          "is",
+          "it",
+          "lv",
+          "lt",
+          "hu",
+          "mt",
+          "nl",
+          "no",
+          "pl",
+          "pt",
+          "ro",
+          "sk",
+          "sl",
+          "fi",
+          "sv"
+        ],
+        "enumTitles": [
+          "Bulgarian",
+          "Czech",
+          "Danish",
+          "German",
+          "Estonian",
+          "Greek",
+          "English",
+          "Spanish",
+          "French",
+          "Irish",
+          "Croatian",
+          "Icelandic",
+          "Italian",
+          "Latvian",
+          "Lithuanian",
+          "Hungarian",
+          "Maltese",
+          "Dutch",
+          "Norwegian",
+          "Polish",
+          "Portuguese",
+          "Romanian",
+          "Slovak",
+          "Slovenian",
+          "Finnish",
+          "Swedish"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Required language skills",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Hard cap on emitted records.",
+      "maximum": 2000,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "minNumberOfPosts": {
+      "description": "Only return job vacancies offering at least this many open posts/positions (useful for finding bulk-hiring vacancies).",
+      "maximum": 999,
+      "minimum": 1,
+      "title": "Minimum number of open posts",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byIds"
+      ],
+      "enumTitles": [
+        "Search job vacancies",
+        "Lookup by job vacancy ID"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "occupationUris": {
+      "default": [],
+      "description": "Restrict results to jobs classified under these ESCO occupation URIs. Copy values from the `occupationUris` field of a previous search result, e.g. `http://data.europa.eu/esco/occupation/f2b15a0e-e65a-438a-affb-29b9d50b77d1`.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "ESCO occupation URIs",
+      "type": "array"
+    },
+    "positionOfferingCodes": {
+      "default": [],
+      "description": "Restrict results to these contract/position offering types.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "directhire",
+          "temporary",
+          "temporarytohire",
+          "contracttohire",
+          "contract",
+          "apprenticeship",
+          "selfemployed",
+          "oncall",
+          "seasonal",
+          "internship",
+          "recruitmentreserve",
+          "volunteer"
+        ],
+        "enumTitles": [
+          "Direct hire",
+          "Temporary",
+          "Temporary to hire",
+          "Contract to hire",
+          "Contract",
+          "Apprenticeship",
+          "Self-employed",
+          "On-call",
+          "Seasonal",
+          "Internship",
+          "Recruitment reserve",
+          "Volunteer"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Contract type",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "positionScheduleCodes": {
+      "default": [],
+      "description": "Restrict results to these work schedules.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "fulltime",
+          "parttime",
+          "flextime"
+        ],
+        "enumTitles": [
+          "Full-time",
+          "Part-time",
+          "Flexible"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Work schedule",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "publicationPeriod": {
+      "default": "",
+      "description": "Only return jobs published within this time window.",
+      "editor": "select",
+      "enum": [
+        "",
+        "LAST_DAY",
+        "LAST_THREE_DAYS",
+        "LAST_WEEK",
+        "LAST_MONTH"
+      ],
+      "enumTitles": [
+        "Any time",
+        "Last day",
+        "Last three days",
+        "Last week",
+        "Last month"
+      ],
+      "prefill": "",
+      "title": "Published within",
+      "type": "string"
+    },
+    "regionCodes": {
+      "default": [],
+      "description": "Restrict results to job locations in these EU NUTS region codes (finer-grained than `countries`), e.g. `deb` for Berlin (Germany) or `no0b` for Trondelag (Norway). Find a region's code in the `nutsRegionCodes` output field of a previous run, or on the EURES advanced-search location picker. Combines with `countries` as an OR (union of matches).",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Region codes (NUTS)",
+      "type": "array"
+    },
+    "searchIn": {
+      "default": "EVERYWHERE",
+      "description": "Where the search query is matched.",
+      "editor": "select",
+      "enum": [
+        "EVERYWHERE",
+        "TITLE",
+        "DESCRIPTION",
+        "EMPLOYER"
+      ],
+      "enumTitles": [
+        "Everywhere (title + description + employer)",
+        "Job title only",
+        "Job description only",
+        "Employer name only"
+      ],
+      "prefill": "EVERYWHERE",
+      "title": "Search scope",
+      "type": "string"
+    },
+    "searchQuery": {
+      "default": "developer",
+      "description": "Free-text keyword to search for (mode=search). Matches job title, description and employer name depending on `searchIn`.",
+      "editor": "textfield",
+      "prefill": "developer",
+      "title": "Search query",
+      "type": "string"
+    },
+    "sectors": {
+      "default": [],
+      "description": "Restrict results to these NACE Rev.2 business sectors.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "a",
+          "b",
+          "c",
+          "d",
+          "e",
+          "f",
+          "g",
+          "h",
+          "i",
+          "j",
+          "k",
+          "l",
+          "m",
+          "n",
+          "o",
+          "p",
+          "q",
+          "r",
+          "s",
+          "t",
+          "u",
+          "v"
+        ],
+        "enumTitles": [
+          "Agriculture, forestry and fishing",
+          "Mining and quarrying",
+          "Manufacturing",
+          "Electricity, gas, steam and air conditioning supply",
+          "Water supply, sewerage, waste management",
+          "Construction",
+          "Wholesale and retail trade; repair of motor vehicles",
+          "Transportation and storage",
+          "Accommodation and food service activities",
+          "Information and communication",
+          "Financial and insurance activities",
+          "Real estate activities",
+          "Professional, scientific and technical activities",
+          "Administrative and support service activities",
+          "Public administration and defence; social security",
+          "Education",
+          "Human health and social work activities",
+          "Arts, entertainment and recreation",
+          "Other service activities",
+          "Activities of households as employers",
+          "Activities of extraterritorial organisations and bodies",
+          "Other / not classified"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Business sector (NACE)",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "skillUris": {
+      "default": [],
+      "description": "Restrict results to jobs requiring these ESCO skill URIs. Copy values from the `requiredSkills` field of a previous `mode=byIds` result, e.g. `http://data.europa.eu/esco/skill/ccd0a1d9-afda-43d9-b901-96344886e14d`.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "ESCO skill URIs",
+      "type": "array"
+    },
+    "sortBy": {
+      "default": "BEST_MATCH",
+      "description": "Order of returned results. `MOST_RECENT` orders by each listing's last-synced/last-modified timestamp in EURES's own index (output field `lastModifiedDate`), which usually but not always matches `publicationDate` -- national employment services periodically re-sync unchanged listings, which refreshes this timestamp without a new posting. Note: when `searchQuery` is set, results are always ordered by relevance (best match) regardless of this setting, since EURES cannot reliably combine keyword search with most-recent ordering.",
+      "editor": "select",
+      "enum": [
+        "BEST_MATCH",
+        "MOST_RECENT"
+      ],
+      "enumTitles": [
+        "Relevance (best match)",
+        "Most recent"
+      ],
+      "prefill": "BEST_MATCH",
+      "title": "Sort by",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "EURES Job Vacancy Scraper Input",
+  "type": "object"
+}
