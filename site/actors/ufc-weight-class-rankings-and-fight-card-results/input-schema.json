@@ -1,56 +1,265 @@
 {
-  "description": "Search UFC fighters, browse rankings by weight class, or get completed event results.",
+  "description": "Pull UFC rankings, fighter profiles, event fight cards, and detailed fight results.",
   "properties": {
+    "dataType": {
+      "default": "rankings",
+      "description": "What to collect: current rankings, a fighter directory, fighter profiles, event fight cards, or individual fight statistics.",
+      "editor": "select",
+      "enum": [
+        "rankings",
+        "fighters",
+        "fighterDetails",
+        "events",
+        "fights"
+      ],
+      "enumTitles": [
+        "Weight-class rankings",
+        "Fighter directory",
+        "Fighter profiles by ID or name",
+        "Events and fight cards",
+        "Fight details by ID"
+      ],
+      "prefill": "rankings",
+      "title": "Data type",
+      "type": "string"
+    },
+    "eventIds": {
+      "default": [],
+      "description": "Fetch specific ufcstats.com events instead of scanning the event lists.",
+      "editor": "stringList",
+      "title": "Event IDs or URLs (mode=events)",
+      "type": "array"
+    },
+    "eventSearch": {
+      "description": "Case-insensitive text match on the event name, e.g. UFC 300 or Fight Night.",
+      "editor": "textfield",
+      "title": "Event name filter (mode=events)",
+      "type": "string"
+    },
+    "eventSort": {
+      "default": "newest",
+      "description": "Newest first or oldest first.",
+      "editor": "select",
+      "enum": [
+        "newest",
+        "oldest"
+      ],
+      "enumTitles": [
+        "Newest first",
+        "Oldest first"
+      ],
+      "title": "Event order (mode=events)",
+      "type": "string"
+    },
+    "eventType": {
+      "default": "completed",
+      "description": "Completed events, upcoming events, or both.",
+      "editor": "select",
+      "enum": [
+        "completed",
+        "upcoming",
+        "all"
+      ],
+      "enumTitles": [
+        "Completed",
+        "Upcoming",
+        "Both"
+      ],
+      "title": "Event status (mode=events)",
+      "type": "string"
+    },
+    "fightIds": {
+      "default": [],
+      "description": "ufcstats.com fight-details IDs or URLs for full per-round statistics.",
+      "editor": "stringList",
+      "title": "Fight IDs or URLs (mode=fights)",
+      "type": "array"
+    },
+    "fighterIds": {
+      "default": [],
+      "description": "ufcstats.com fighter IDs or fighter-details URLs, e.g. 032cc3922d871c7f.",
+      "editor": "stringList",
+      "title": "Fighter IDs or URLs (mode=fighterDetails)",
+      "type": "array"
+    },
+    "fighterLetter": {
+      "default": "All letters",
+      "description": "Limit the fighter directory to one last-name initial.",
+      "editor": "select",
+      "enum": [
+        "All letters",
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z"
+      ],
+      "enumTitles": [
+        "All letters",
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z"
+      ],
+      "title": "Last-name initial (mode=fighters)",
+      "type": "string"
+    },
+    "includeFightCards": {
+      "default": true,
+      "description": "Fetch each event page for its full fight card and results.",
+      "prefill": true,
+      "title": "Include fight cards (mode=events)",
+      "type": "boolean"
+    },
+    "includeFightHistory": {
+      "default": true,
+      "description": "Add the fighter's UFC fight history to the profile.",
+      "title": "Include fight history (mode=fighterDetails)",
+      "type": "boolean"
+    },
+    "includeFightStats": {
+      "default": false,
+      "description": "Add round-by-round striking and grappling totals to every fight. Costs one extra request per fight.",
+      "title": "Include fight statistics (mode=events)",
+      "type": "boolean"
+    },
+    "includeFighterBios": {
+      "default": true,
+      "description": "Add height, weight, reach, stance, age, and record details from the fighter's ESPN profile.",
+      "prefill": true,
+      "title": "Include physical stats (mode=rankings)",
+      "type": "boolean"
+    },
     "maxItems": {
       "default": 50,
-      "description": "Maximum number of records to return.",
-      "maximum": 500,
+      "description": "Hard cap on emitted records.",
+      "maximum": 5000,
       "minimum": 1,
-      "prefill": 50,
-      "title": "Max Items",
+      "prefill": 5,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "minWins": {
+      "description": "Drop fighters with fewer recorded wins.",
+      "maximum": 1000,
+      "minimum": 0,
+      "title": "Minimum wins (mode=fighters)",
       "type": "integer"
     },
     "mode": {
-      "default": "topRanked",
-      "description": "What to fetch from the ESPN UFC API.",
-      "editor": "select",
-      "enum": [
-        "topRanked",
-        "byEvent",
-        "searchFighters"
-      ],
-      "enumTitles": [
-        "Top Ranked Fighters by Weight Class",
-        "Completed Events with Fight Results",
-        "Search Fighters by Name"
-      ],
-      "prefill": "topRanked",
-      "title": "Mode",
+      "description": "Legacy mode values are still accepted and mapped automatically.",
+      "editor": "hidden",
+      "title": "Legacy mode",
       "type": "string"
     },
     "searchQuery": {
-      "description": "Fighter name to search for (e.g. 'Jon Jones', 'Conor McGregor').",
+      "description": "First name, last name, or nickname. In fighterDetails mode it resolves to fighter profiles; in fighters mode it filters the directory.",
       "editor": "textfield",
-      "title": "Search Query (mode=searchFighters)",
+      "title": "Fighter name (mode=fighters, fighterDetails)",
       "type": "string"
     },
     "season": {
-      "description": "Year to fetch completed UFC events for (e.g. 2024, 2025). Defaults to current year.",
-      "maximum": 2030,
-      "minimum": 2000,
-      "title": "Season Year (mode=byEvent)",
+      "description": "Only events from this calendar year (1994–2035).",
+      "maximum": 2035,
+      "minimum": 1994,
+      "title": "Season year (mode=events)",
       "type": "integer"
+    },
+    "sortFighters": {
+      "default": "name",
+      "description": "Order the directory output. Wins, losses, and bouts sort highest first; name sorts A–Z.",
+      "editor": "select",
+      "enum": [
+        "name",
+        "wins",
+        "losses",
+        "bouts"
+      ],
+      "enumTitles": [
+        "Name (A–Z)",
+        "Wins (high to low)",
+        "Losses (high to low)",
+        "Total bouts (high to low)"
+      ],
+      "title": "Sort fighters by (mode=fighters)",
+      "type": "string"
+    },
+    "stance": {
+      "default": "Any stance",
+      "description": "Only include fighters with this stance.",
+      "editor": "select",
+      "enum": [
+        "Any stance",
+        "Orthodox",
+        "Southpaw",
+        "Switch",
+        "Open Stance",
+        "Sideways"
+      ],
+      "enumTitles": [
+        "Any stance",
+        "Orthodox",
+        "Southpaw",
+        "Switch",
+        "Open stance",
+        "Sideways"
+      ],
+      "title": "Stance filter (mode=fighters)",
+      "type": "string"
     },
     "weightClass": {
       "default": "Lightweight",
-      "description": "Filter rankings by weight class.",
+      "description": "Division to rank, or every division plus both pound-for-pound lists.",
       "editor": "select",
       "enum": [
+        "Lightweight",
         "Heavyweight",
         "Light Heavyweight",
         "Middleweight",
         "Welterweight",
-        "Lightweight",
         "Featherweight",
         "Bantamweight",
         "Flyweight",
@@ -58,31 +267,30 @@
         "Women's Strawweight",
         "Women's Flyweight",
         "Pound for Pound (Men)",
-        "Pound for Pound (Women)"
+        "Pound for Pound (Women)",
+        "All Weight Classes"
       ],
       "enumTitles": [
-        "Heavyweight (up to 265 lbs)",
-        "Light Heavyweight (up to 205 lbs)",
-        "Middleweight (up to 185 lbs)",
-        "Welterweight (up to 170 lbs)",
-        "Lightweight (up to 155 lbs)",
-        "Featherweight (up to 145 lbs)",
-        "Bantamweight (up to 135 lbs)",
-        "Flyweight (up to 125 lbs)",
-        "Women's Bantamweight (up to 135 lbs)",
-        "Women's Strawweight (up to 115 lbs)",
-        "Women's Flyweight (up to 125 lbs)",
-        "Men's Pound for Pound Rankings",
-        "Women's Pound for Pound Rankings"
+        "Lightweight (155 lb)",
+        "Heavyweight (265 lb)",
+        "Light Heavyweight (205 lb)",
+        "Middleweight (185 lb)",
+        "Welterweight (170 lb)",
+        "Featherweight (145 lb)",
+        "Bantamweight (135 lb)",
+        "Flyweight (125 lb)",
+        "Women's Bantamweight (135 lb)",
+        "Women's Strawweight (115 lb)",
+        "Women's Flyweight (125 lb)",
+        "Men's pound-for-pound",
+        "Women's pound-for-pound",
+        "All divisions + P4P"
       ],
       "prefill": "Lightweight",
-      "title": "Weight Class (mode=topRanked)",
+      "title": "Weight class (mode=rankings)",
       "type": "string"
     }
   },
-  "required": [
-    "mode"
-  ],
   "schemaVersion": 1,
   "title": "UFC Stats Scraper Input",
   "type": "object"

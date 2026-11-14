@@ -1,29 +1,41 @@
 {
-  "description": "Search products on eMAG, browse a category page, or fetch details for a specific product URL. Supports Romania (ro), Bulgaria (bg), Hungary (hu) and Poland (pl) markets.",
+  "description": "Search eMAG products, browse a category, fetch one product, or list every seller offer. Romania, Bulgaria and Hungary storefronts; no account or cookies needed.",
   "properties": {
     "categoryUrl": {
       "default": "/laptopuri/c",
-      "description": "eMAG category URL path, e.g. /laptopuri/c or https://www.emag.ro/laptopuri/c (mode=browseCategory).",
+      "description": "eMAG category URL or path, e.g. /laptopuri/c or https://www.emag.ro/laptopuri/c (mode=browseCategory). Use a path from the selected market.",
       "editor": "textfield",
       "prefill": "/laptopuri/c",
       "title": "Category URL",
       "type": "string"
     },
+    "inStockOnly": {
+      "default": false,
+      "description": "Keep only products that can be ordered right now.",
+      "prefill": false,
+      "title": "In stock only",
+      "type": "boolean"
+    },
+    "includeOffers": {
+      "default": true,
+      "description": "For mode=getProductDetails, add the buybox and competing seller offers to each product record. Ignored by the other modes.",
+      "prefill": true,
+      "title": "Include seller offers",
+      "type": "boolean"
+    },
     "market": {
       "default": "ro",
-      "description": "Which eMAG market to scrape.",
+      "description": "Which eMAG storefront to use. A full product or category URL overrides this value.",
       "editor": "select",
       "enum": [
         "ro",
         "bg",
-        "hu",
-        "pl"
+        "hu"
       ],
       "enumTitles": [
-        "Romania (emag.ro) — RON",
-        "Bulgaria (emag.bg) — BGN",
-        "Hungary (emag.hu) — HUF",
-        "Poland (emag.pl) — PLN"
+        "Romania (emag.ro) - RON",
+        "Bulgaria (emag.bg) - EUR",
+        "Hungary (emag.hu) - HUF"
       ],
       "prefill": "ro",
       "title": "Market",
@@ -31,52 +43,86 @@
     },
     "maxItems": {
       "default": 30,
-      "description": "Maximum number of products to return.",
-      "maximum": 300,
+      "description": "Maximum products to return for searchProducts and browseCategory (1-1000). Detail and offers modes return one product or all of its offers.",
+      "editor": "number",
+      "maximum": 1000,
       "minimum": 1,
       "prefill": 20,
+      "sectionCaption": "Output limit",
       "title": "Max items",
       "type": "integer"
     },
     "maxPrice": {
-      "description": "Filter products with price at or below this value (in local currency).",
+      "description": "Keep products at or below this price in the market's currency.",
+      "editor": "number",
+      "maximum": 10000000,
       "minimum": 0,
       "title": "Maximum price",
       "type": "number"
     },
     "minPrice": {
-      "description": "Filter products with price at or above this value (in local currency).",
+      "description": "Keep products at or above this price in the market's currency (RON, EUR or HUF).",
+      "editor": "number",
+      "maximum": 10000000,
       "minimum": 0,
+      "sectionCaption": "Filters",
       "title": "Minimum price",
       "type": "number"
     },
+    "minRating": {
+      "default": "0",
+      "description": "Keep products rated at least this many stars. Products with no rating are excluded when a minimum is set.",
+      "editor": "select",
+      "enum": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "enumTitles": [
+        "Any rating",
+        "1+ stars",
+        "2+ stars",
+        "3+ stars",
+        "4+ stars",
+        "5 stars"
+      ],
+      "prefill": "0",
+      "title": "Minimum rating",
+      "type": "string"
+    },
     "mode": {
       "default": "searchProducts",
-      "description": "What to scrape.",
+      "description": "What to scrape: a keyword search, a category page, one product, or the seller offers for one product.",
       "editor": "select",
       "enum": [
         "searchProducts",
         "browseCategory",
-        "getProductDetails"
+        "getProductDetails",
+        "getProductOffers"
       ],
       "enumTitles": [
         "Search products by keyword",
         "Browse a category URL",
-        "Get details for a specific product URL"
+        "Get details for one product",
+        "Get every seller offer for one product"
       ],
       "prefill": "searchProducts",
+      "sectionCaption": "What to scrape",
       "title": "Mode",
       "type": "string"
     },
     "productUrl": {
-      "description": "Full eMAG product URL ending in /pd/XXXXXX/ (mode=getProductDetails).",
+      "description": "Full eMAG product URL, a path containing /pd/, or a product code such as DR3HHTYBM (mode=getProductDetails or getProductOffers).",
       "editor": "textfield",
-      "title": "Product URL",
+      "title": "Product URL or code",
       "type": "string"
     },
     "query": {
       "default": "laptop",
-      "description": "Keyword(s) to search for (mode=searchProducts).",
+      "description": "Keyword or phrase to search for (mode=searchProducts). Use the market's language for the best results.",
       "editor": "textfield",
       "prefill": "laptop",
       "title": "Search query",
@@ -84,19 +130,21 @@
     },
     "sortBy": {
       "default": "relevance",
-      "description": "Sort search/category results. Only applies to searchProducts and browseCategory modes.",
+      "description": "Result order for searchProducts and browseCategory. Reviews and discount are eMAG's own server-side sorts.",
       "editor": "select",
       "enum": [
         "relevance",
         "price_asc",
         "price_desc",
-        "rating"
+        "reviews",
+        "discount"
       ],
       "enumTitles": [
         "Relevance (default)",
         "Price: low to high",
         "Price: high to low",
-        "Rating"
+        "Number of reviews",
+        "Discount percentage"
       ],
       "prefill": "relevance",
       "title": "Sort by",

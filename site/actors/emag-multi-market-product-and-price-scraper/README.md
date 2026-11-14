@@ -1,124 +1,112 @@
 # eMAG Multi-Market Product & Price Scraper
 
-Scrape **eMAG** — Central and Eastern Europe's largest online marketplace, covering Romania, Bulgaria, Hungary and Poland. Search products by keyword, browse any category page, or fetch full detail for a specific product, and get names, brands, current and original prices in the local currency, discount percentage, ratings and review counts, stock status, seller, images, specifications, and the product URL. Prices, currency and catalog all follow the market you select. HTTP-only against eMAG's storefronts. No auth, no proxy.
+Monitor eMAG across Romania, Bulgaria and Hungary without a login, cookie or API key. Search a keyword, walk a category, open one product, or compare every seller on a product page. The output is one clean dataset with local prices in RON, EUR or HUF, the 30-day lowest price, discount depth, rating, review count, stock wording, seller, offer counts, category, image and product URL.
 
-## What this actor does
+## Modes
 
-- **Three modes:** `searchProducts`, `browseCategory`, `getProductDetails`
-- **Four markets:** Romania (RON), Bulgaria (BGN), Hungary (HUF), Poland (PLN)
-- **Filters and sorting:** min / max price in local currency, plus sort by relevance, price ascending or descending, or rating
-- **Discount maths done for you:** where an original price is shown, `discountPercent` is computed from it
-- **Empty fields are omitted**
+| Mode | What it returns | Required field |
+|---|---|---|
+| `searchProducts` | Paginated keyword results | `query` |
+| `browseCategory` | Paginated category or filtered listing | `categoryUrl` |
+| `getProductDetails` | One product with description, brand, specs and optional seller offers | `productUrl` |
+| `getProductOffers` | One row per seller offer: buybox and every competing marketplace seller | `productUrl` |
 
-## Output per product
+`productUrl` accepts a full URL or a path containing `/pd/` for product details. Offers mode also accepts a bare product code such as `DR3HHTYBM`. A full eMAG URL also selects its own market, so a `emag.bg` link is read from Bulgaria even when `market` says `ro`.
 
-- `productId` — eMAG product identifier
-- `name` — product title
-- `brand` — manufacturer (mode=getProductDetails)
-- `description` — product description, trimmed to 3,000 characters (mode=getProductDetails)
-- `price` — current price in the market's currency
-- `originalPrice` — pre-discount price, when one is shown (mode=`searchProducts`/`browseCategory` only)
-- `discountPercent` — computed discount off the original price (mode=`searchProducts`/`browseCategory` only)
-- `currency` — `RON`, `BGN`, `HUF`, or `PLN`
-- `rating` — average star rating
-- `reviewCount` — number of customer reviews
-- `inStock` — availability
-- `seller` — marketplace seller name (mode=getProductDetails)
-- `category` — eMAG category
-- `specifications` — technical spec name/value pairs (mode=getProductDetails)
-- `imageUrl` — main product image
-- `url` — product page on eMAG
-- `market` — the storefront the record came from
-- `scrapedAt`
+## Markets
 
-## Input
+| Code | Storefront | Currency |
+|---|---|---|
+| `ro` | emag.ro | RON |
+| `bg` | emag.bg | EUR |
+| `hu` | emag.hu | HUF |
 
-| Field | Type | Default | Description |
-|---|---|---|---|
-| `mode` | string | `searchProducts` | `searchProducts` / `browseCategory` / `getProductDetails` |
-| `query` | string | `laptop` | Keyword to search for (mode=searchProducts) |
-| `categoryUrl` | string | `/laptopuri/c` | Category path or full URL (mode=browseCategory) |
-| `productUrl` | string | – | Full product URL ending in `/pd/XXXXXX/` (mode=getProductDetails) |
-| `market` | string | `ro` | `ro` / `bg` / `hu` / `pl` |
-| `sortBy` | string | `relevance` | `relevance` / `price_asc` / `price_desc` / `rating` |
-| `minPrice` | number | – | Keep products at or above this price (local currency) |
-| `maxPrice` | number | – | Keep products at or below this price (local currency) |
-| `maxItems` | int | `30` | Hard cap (1–300) |
+Prices and price filters always use the storefront's live currency. Bulgaria switched to EUR in 2026, so the actor reads the currency from each response instead of assuming BGN.
 
-### Example: keyword search on the Romanian market
+## Filters and sorting
+
+- `minPrice` / `maxPrice` in the local currency. An inverted range returns zero records with a clear status message instead of crashing.
+- `minRating` keeps products rated at least 1-5 stars; products without a rating are excluded when this is set.
+- `inStockOnly` keeps only records that can be ordered now. Filtering is applied on top of the source response, so the actor keeps paginating until it reaches `maxItems` or the source runs out.
+- `sortBy` supports relevance, price ascending, price descending, review count and discount percentage. eMAG has no server-side "highest rating" sort; the old `rating` value is accepted for saved tasks and mapped to review count in code.
+
+## Output fields
+
+- `productId`, `partNumberKey`, `mpn` - eMAG numeric ID and product codes
+- `name`, `brand`, `description`, `specifications`, `category`, `categoryPath`
+- `price`, `originalPrice`, `lowestPrice30Days`, `discountPercent`, `currency` - eMAG's published discount when no original price is visible
+- `rating`, `reviewCount`
+- `availability`, `availabilityCode`, `inStock`
+- `seller`, `sellerId`, `offerId`, `isBuybox`, `returnPeriodDays`
+- `offersCount`, `otherOffersCount`, `otherOffersMinPrice`, `offers`
+- `campaigns`, `imageUrl`, `url`, `market`, `scrapedAt`
+
+Empty values are omitted. A field the source does not publish for a given product is absent, never `null` or a placeholder.
+
+## Examples
+
+Search laptops and keep only 4-star products under 3,000 RON:
 
 ```json
 {
   "mode": "searchProducts",
   "query": "laptop",
   "market": "ro",
+  "maxPrice": 3000,
+  "minRating": 4,
   "sortBy": "price_asc",
   "maxItems": 100
 }
 ```
 
-### Example: browse a category with a price band
+Browse a Bulgarian category with a price band:
 
 ```json
 {
   "mode": "browseCategory",
-  "categoryUrl": "/laptopuri/c",
-  "market": "ro",
-  "minPrice": 2000,
-  "maxPrice": 5000,
+  "categoryUrl": "/laptopi/c",
+  "market": "bg",
+  "minPrice": 500,
+  "maxPrice": 1500,
+  "sortBy": "reviews",
   "maxItems": 200
 }
 ```
 
-### Example: best-rated products on another market
+Compare every seller on one product:
 
 ```json
 {
-  "mode": "searchProducts",
-  "query": "telefon",
-  "market": "bg",
-  "sortBy": "rating",
-  "maxItems": 50
-}
-```
-
-### Example: full detail for one product
-
-```json
-{
-  "mode": "getProductDetails",
-  "productUrl": "https://www.emag.ro/laptop-example/pd/D1ABCDEFG/",
+  "mode": "getProductOffers",
+  "productUrl": "https://www.emag.ro/laptop-lenovo-v15/pd/DR3HHTYBM/",
   "market": "ro"
 }
 ```
 
-## Use cases
+## Pagination and limits
 
-- **Price monitoring** — track competitor pricing and discount depth across eMAG markets
-- **Cross-border pricing** — compare the same product in RON, BGN, HUF and PLN
-- **Marketplace sellers** — benchmark your listings against rival offers in your category
-- **Assortment analysis** — measure how many SKUs and which brands compete in a category
-- **Promotion tracking** — capture original vs current price to quantify real discounts
-- **Product data enrichment** — pull specifications, images, and ratings for a catalog
+eMAG serves 60 products per listing page and caps a listing at 100 pages. The actor follows those pages, deduplicates by product code and stops at `maxItems` (1-1000) or when the source is exhausted. The default prefill is one small search with 20 products.
+
+## Data source
+
+The actor reads eMAG's own public storefront endpoints: the JSON listing endpoint behind the search and category pages, the product page's structured data, and the multi-offer block shown on product pages. No account, cookie, credential or user proxy is required. A translation mirror is used only when a storefront blocks the direct request; the actor never needs a proxy configuration from the user.
+
+## Compatibility with saved tasks
+
+Existing tasks keep working. The old `searchQuery`, `categoryPath`, `productCode`, `maxResults`, `priceMin` / `priceMax`, `ratingMin`, `inStock` and `sort: "rating"` keys are read from the raw input and mapped in code even though they no longer appear in the input form. No output field was removed or renamed.
 
 ## FAQ
 
-**What is eMAG?**  The largest e-commerce marketplace in Central and Eastern Europe, operating storefronts in Romania, Bulgaria, Hungary and Poland. See [emag.ro](https://www.emag.ro).
+**Do I need an eMAG account?** No. Only public product, price and seller data is read.
 
-**Is this affiliated with eMAG?**  No. This is a third-party actor reading their public storefront pages.
+**Which currency will I get?** The currency eMAG shows for that storefront at run time: RON, EUR or HUF.
 
-**Do I need an account?**  No. Only publicly visible product data is collected.
+**Why are some fields missing on a search row?** Listing pages expose card-level data. Brand, description, specifications and the full offer table live on the product page, so use `getProductDetails` or `getProductOffers` for those.
 
-**Which currency are prices in?**  The market's own — RON for `ro`, BGN for `bg`, HUF for `hu`, PLN for `pl`. Price filters are applied in that same currency, so a `maxPrice` of 5000 means something very different on the Hungarian market than the Romanian one.
+**What does the 30-day low mean?** It is eMAG's own lowest-price-in-the-last-30-days figure, published under EU pricing rules. It is omitted when eMAG does not show it.
 
-**Where do I get a category URL?**  Copy it from the address bar on eMAG — either the full URL or just the path, e.g. `/laptopuri/c`. Category paths are localised, so use paths from the market you're scraping.
+**How fresh is the data?** Every run reads the live storefront; prices, stock and seller offers reflect the moment of the run.
 
-**Why do search results have less data than product details?**  Listing pages carry the card-level fields: name, price, original/crossed-out price and the discount computed from it, rating, stock, and image. Brand, description, seller, and specifications only appear on the product page, which `getProductDetails` fetches — but that page doesn't surface a crossed-out original price, so `originalPrice`/`discountPercent` are listing-only fields.
+**Are reviews included?** The actor returns rating and review count, not review text.
 
-**How is `discountPercent` calculated?**  From `originalPrice` and `price` on the listing card itself (`searchProducts`/`browseCategory` modes). Products with no crossed-out original price have no discount field rather than a zero, and `getProductDetails` records never include it.
-
-**Does this cover marketplace sellers as well as eMAG itself?**  Yes. Results include both eMAG's own stock and third-party marketplace offers; `seller` on the detail record tells you which.
-
-**Are search keywords language-specific?**  Yes. Each storefront indexes in its own language, so `laptop` works broadly but `telefon` will out-perform `phone` on `ro` and `bg`.
-
-**How fresh is the data?**  Live at run time — prices and stock reflect the moment of the run, which matters during eMAG's frequent campaign periods.
+**What happened to eMAG Poland?** eMAG closed its Polish storefront: `emag.pl` now redirects to `emag.ro` and has no product catalogue. A saved task that still sends `market: "pl"` gets a clear status message instead of wrong-currency data; choose `ro`, `bg` or `hu`.

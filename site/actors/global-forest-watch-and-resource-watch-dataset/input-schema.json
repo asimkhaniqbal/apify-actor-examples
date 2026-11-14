@@ -1,0 +1,64 @@
+{
+  "description": "Browse GFW environmental datasets.",
+  "properties": {
+    "application": {
+      "description": "Application.",
+      "editor": "select",
+      "enum": [
+        "",
+        "gfw",
+        "rw",
+        "prep",
+        "aqueduct",
+        "forest-atlas",
+        "open-data"
+      ],
+      "enumTitles": [
+        "Any",
+        "Global Forest Watch",
+        "Resource Watch",
+        "PREP",
+        "Aqueduct",
+        "Forest Atlas",
+        "Open Data"
+      ],
+      "title": "Application",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Maximum number of records to return.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "datasets",
+      "description": "Select what data to fetch.",
+      "editor": "select",
+      "enum": [
+        "datasets"
+      ],
+      "enumTitles": [
+        "Browse environmental datasets"
+      ],
+      "prefill": "datasets",
+      "title": "Mode",
+      "type": "string"
+    },
+    "searchQuery": {
+      "description": "Search keywords to filter results.",
+      "editor": "textfield",
+      "title": "Search query",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Global Forest Watch Scraper Input",
+  "type": "object"
+}

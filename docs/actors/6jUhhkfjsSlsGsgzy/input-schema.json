@@ -188,12 +188,19 @@
       "type": "array",
       "uniqueItems": true
     },
+    "includeDetails": {
+      "default": false,
+      "description": "Also fetch each search result's detail record — salary, benefits, contacts, application link and full location. One extra request per emitted record; off by default for fast, low-cost searches.",
+      "prefill": false,
+      "title": "Include full vacancy details",
+      "type": "boolean"
+    },
     "jobIds": {
       "default": [],
-      "description": "EURES job vacancy IDs, as found in the `id` field of search results or in a job's detail URL, e.g. `MzQwNDYwIDU`.",
+      "description": "EURES job vacancy IDs or full detail-page URLs, as found in the `jobId` or `sourceUrl` output field, e.g. `MzQwNDYwIDU` or `https://europa.eu/eures/portal/jv-se/jv-details/MzQwNDYwIDU`.",
       "editor": "stringList",
       "prefill": [],
-      "title": "Job vacancy IDs (mode=byIds)",
+      "title": "Job vacancy IDs or URLs (mode=byIds)",
       "type": "array"
     },
     "languageSkills": {
@@ -269,7 +276,7 @@
       "description": "Hard cap on emitted records.",
       "maximum": 2000,
       "minimum": 1,
-      "prefill": 50,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
@@ -290,7 +297,7 @@
       ],
       "enumTitles": [
         "Search job vacancies",
-        "Lookup by job vacancy ID"
+        "Lookup by vacancy ID or URL"
       ],
       "prefill": "search",
       "title": "Mode",
@@ -298,10 +305,10 @@
     },
     "occupationUris": {
       "default": [],
-      "description": "Restrict results to jobs classified under these ESCO occupation URIs. Copy values from the `occupationUris` field of a previous search result, e.g. `http://data.europa.eu/esco/occupation/f2b15a0e-e65a-438a-affb-29b9d50b77d1`.",
+      "description": "Restrict results to jobs classified under these ESCO occupation URIs or broader ISCO group URIs. Copy occupation values from the `occupationUris` field of a previous search result, e.g. `http://data.europa.eu/esco/occupation/f2b15a0e-e65a-438a-affb-29b9d50b77d1`; an ISCO URI such as `http://data.europa.eu/esco/isco/C2221` matches every occupation in that ISCO group.",
       "editor": "stringList",
       "prefill": [],
-      "title": "ESCO occupation URIs",
+      "title": "ESCO occupation or ISCO URIs",
       "type": "array"
     },
     "positionOfferingCodes": {
@@ -368,7 +375,7 @@
     },
     "publicationPeriod": {
       "default": "",
-      "description": "Only return jobs published within this time window.",
+      "description": "EURES's own recency filter: only return vacancies received or last re-synced within this window (output field `lastModifiedDate`). This is not the original employer posting date (`publicationDate`) -- national employment services periodically re-sync unchanged listings, so an older vacancy can appear in a recent window.",
       "editor": "select",
       "enum": [
         "",
@@ -385,12 +392,12 @@
         "Last month"
       ],
       "prefill": "",
-      "title": "Published within",
+      "title": "EURES recency window",
       "type": "string"
     },
     "regionCodes": {
       "default": [],
-      "description": "Restrict results to job locations in these EU NUTS region codes (finer-grained than `countries`), e.g. `deb` for Berlin (Germany) or `no0b` for Trondelag (Norway). Find a region's code in the `nutsRegionCodes` output field of a previous run, or on the EURES advanced-search location picker. Combines with `countries` as an OR (union of matches).",
+      "description": "Restrict results to job locations in these region codes (finer-grained than `countries`), e.g. `deb` for Berlin (Germany) or `no0b` for Trondelag (Norway). Find a region's code in the `nutsRegionCodes` output field of a previous run, or on the EURES advanced-search location picker. Finer NUTS codes are automatically matched to the nearest supported parent region. Combines with `countries` as an OR (union of matches).",
       "editor": "stringList",
       "prefill": [],
       "title": "Region codes (NUTS)",

@@ -4,7 +4,7 @@ EURES is the European Union's official portal for cross-border employment, aggre
 
 ## What this actor does
 
-- **Two modes**: `search` (keyword + filters over the whole index) and `byIds` (full detail for vacancy IDs you supply)
+- **Two modes**: `search` (keyword + filters over the whole index) and `byIds` (full detail for vacancy IDs or detail-page URLs you supply)
 - **Geographic filtering** at two levels: 31 EEA country codes, and finer-grained EU NUTS region codes that can be combined with country filters
 - **More than a dozen filters**: business sector (NACE), contract type, work schedule, education level, required experience, required languages, ESCO occupation/skill codes, advertised benefits, and minimum open-post count
 - **Detail-mode enrichment**: application links and deadlines, salary figures, named benefits, remote-work and travel flags, and recruiter contact details when the employer discloses them
@@ -20,9 +20,9 @@ EURES is the European Union's official portal for cross-border employment, aggre
 - `euresFlag` — whether the employer explicitly welcomes cross-border EEA candidates
 - `countries[]`, `countryNames[]` — job location country code(s) and name(s)
 - `nutsRegionCodes[]` — EU NUTS statistical region code(s) covering the job location, feedable back into the `regionCodes` input
-- `locations[]`, `postalCodes[]` — location names and postal codes (`mode=byIds`)
-- `positionOfferingCode` — contract type (e.g. `directhire`, `temporary`, `internship`)
-- `positionScheduleCodes[]` — `fulltime` / `parttime` / `flextime`
+- `locations[]`, `postalCodes[]`, `addressLines[]` — location names, postal codes and free-text street addresses when the source publishes them (`mode=byIds`)
+- `positionOfferingCode`, `positionOfferingLabel` — contract type code and plain-English label (e.g. `directhire` / Direct hire)
+- `positionScheduleCodes[]`, `positionScheduleLabels[]` — `fulltime` / `parttime` / `flextime` with plain-English labels; a few national feeds publish the source alias `any` when every schedule applies
 - `employerName`, `employerWebsite`, `employerDescription`, `employerSectorCodes[]` — employer identity and NACE sector(s)
 - `employerLegalId`, `employerSizeCode` — employer registration ID and organisation-size band, when disclosed (`mode=byIds`)
 - `occupationUris[]` — ESCO occupation classification URIs
@@ -43,27 +43,38 @@ EURES is the European Union's official portal for cross-border employment, aggre
 - `source`, `sourceUrl` — originating employment service and the canonical EURES vacancy page URL
 - `scrapedAt` — ISO 8601 timestamp of the run
 
+## What's new in 2.0
+
+- Exact-match safety nets for ESCO occupation filters, transformable education buckets, region codes and country+region union semantics
+- `byIds` now accepts full EURES detail-page URLs as well as bare vacancy IDs
+- `includeDetails` enriches search results in place with salary, benefits, contacts and the application link
+- Plain-English contract-type and work-schedule labels alongside the source codes
+- Legacy task keys from earlier versions (`query`, `keyword`, `ids`, `country`, `sector`, `contractTypes`, `limit`, `sort`, …) are mapped in code, so saved tasks keep working even though those keys are no longer shown in the input form
+- Daily-test prefill reduced to 3 records
+
 ## Input
+
 
 | Field | Type | Default | Description |
 |---|---|---|---|
 | `mode` | string | `search` | `search` or `byIds` |
 | `searchQuery` | string | `developer` | Free-text keyword (mode=search) |
 | `searchIn` | string | `EVERYWHERE` | `EVERYWHERE` / `TITLE` / `DESCRIPTION` / `EMPLOYER` — where the keyword is matched |
-| `jobIds` | array | – | Vacancy IDs to fetch (mode=byIds) |
+| `jobIds` | array | – | Vacancy IDs or full detail-page URLs to fetch (mode=byIds) |
 | `countries` | array | – | One or more of the 31 EEA country codes |
-| `regionCodes` | array | – | EU NUTS region codes; combines with `countries` as a union |
+| `regionCodes` | array | – | Region codes from `nutsRegionCodes`; finer codes are matched to the nearest supported parent region. Combines with `countries` as a union |
 | `sectors` | array | – | NACE Rev.2 business sector codes |
 | `positionOfferingCodes` | array | – | Contract types (direct hire, temporary, internship, etc.) |
 | `positionScheduleCodes` | array | – | `fulltime` / `parttime` / `flextime` |
 | `educationLevels` | array | – | Required education level (basic to doctoral) |
 | `experienceLevels` | array | – | Required-experience band |
 | `languageSkills` | array | – | Required working language(s) |
-| `occupationUris` | array | – | ESCO occupation URIs (from a prior result's `occupationUris`) |
+| `occupationUris` | array | – | ESCO occupation URIs (from a prior result's `occupationUris`) or broader ISCO group URIs |
 | `skillUris` | array | – | ESCO skill URIs (from a prior `byIds` result's `requiredSkills`) |
 | `benefitCodes` | array | – | Advertised extra-benefit codes |
 | `euresFlagOnly` | boolean | `false` | Only cross-border-flagged vacancies |
-| `publicationPeriod` | string | `` (any time) | `LAST_DAY` / `LAST_THREE_DAYS` / `LAST_WEEK` / `LAST_MONTH` |
+| `includeDetails` | boolean | `false` | Also fetch each search result's detail record (salary, benefits, contacts, application link). One extra request per record |
+| `publicationPeriod` | string | `` (any time) | `LAST_DAY` / `LAST_THREE_DAYS` / `LAST_WEEK` / `LAST_MONTH` — EURES's own recency window, applied to `lastModifiedDate` (see FAQ) |
 | `minNumberOfPosts` | integer | – | Only vacancies with at least this many open posts |
 | `sortBy` | string | `BEST_MATCH` | `BEST_MATCH` or `MOST_RECENT` (keyword searches always sort by relevance) |
 | `maxItems` | integer | `50` | Hard cap on returned records (1–2000) |
@@ -79,7 +90,7 @@ EURES is the European Union's official portal for cross-border employment, aggre
 }
 ```
 
-### Example: bulk-hiring full-time roles in a region, posted recently
+### Example: bulk-hiring full-time roles in a region, recently active
 
 ```json
 {
@@ -132,19 +143,25 @@ No. EURES's job search is public; this actor queries the same public search inde
 It typically holds well over a million active postings aggregated from national employment services across 31 EEA countries at any given time. Use filters and `maxItems` to target a workable slice.
 
 **What's the difference between `search` and `byIds`?**
-`search` runs a keyword/filter query and returns a page of matching vacancies with the fields EURES's listing index exposes. `byIds` fetches the full detail page for specific vacancy IDs — collect `jobId` values from a `search` run first, then feed them into a `byIds` run to get salary, benefits, contacts and the application link.
+`search` runs a keyword/filter query and returns a page of matching vacancies with the fields EURES's listing index exposes. `byIds` fetches the full detail page for specific vacancy IDs or detail-page URLs — collect `jobId` or `sourceUrl` values from a `search` run first, then feed them into a `byIds` run to get salary, benefits, contacts and the application link.
 
 **Why do some records have far fewer fields than others?**
 EURES aggregates postings from dozens of national employment services, each publishing a different level of detail. A field like `salaryMin` or `contactEmail` only appears when the originating service actually disclosed it — there's no fallback value.
 
 **Can I filter below the country level?**
-Yes — `regionCodes` accepts EU NUTS region codes (e.g. `deb` for Berlin), which you can find in the `nutsRegionCodes` field of any prior result. It combines with `countries` as a union, not an intersection.
+Yes — `regionCodes` accepts region codes (e.g. `deb` for Berlin), which you can find in the `nutsRegionCodes` field of any prior result. EURES's filter endpoint supports a coarser set than its results expose, so a fine code such as `BE232` is automatically matched to its nearest supported parent (e.g. `be2`). It combines with `countries` as a union, not an intersection.
 
 **What does `sortBy=MOST_RECENT` actually sort on?**
 It sorts by `lastModifiedDate`, the timestamp of the vacancy's last sync into EURES's index — not always the same as `publicationDate`, since a national service occasionally re-syncs an unchanged listing. This sort order is ignored whenever `searchQuery` is set, because keyword matches are always ranked by relevance.
 
+**What does `publicationPeriod` actually filter on?**
+It is EURES's own recency filter and applies to `lastModifiedDate` (when EURES received or last re-synced the vacancy), not to the original employer posting date in `publicationDate`. National services re-sync unchanged listings, so a vacancy first posted months ago can still appear inside a recent window. Filter on `publicationDate` in your downstream workflow if you need strict first-publication recency.
+
 **Will every vacancy include salary or benefits?**
-No. Most EURES postings don't disclose pay or extra benefits at all. Setting `benefitCodes` narrows results to only vacancies that explicitly advertise one of the benefits you choose.
+No. Most EURES postings don't disclose pay or extra benefits at all. Setting `benefitCodes` narrows results to only vacancies that explicitly advertise one of the benefits you choose; note that the detail feed does not always echo the benefit codes used by the search index, so a filtered row may still omit `benefits[]`.
+
+**Why do a few records show `positionScheduleCodes: ["any"]`?**
+Some national feeds mark a vacancy as open to any working schedule instead of listing each option. The code is passed through as published (`any` means full-time, part-time and flexible all apply).
 
 **Is this affiliated with EURES or the European Union?**
 No. This is an independent, third-party actor built against EURES's own public job-search index; it is not operated by or affiliated with EURES or the European Commission.
