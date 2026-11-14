@@ -1,0 +1,112 @@
+{
+  "description": "Search products on eMAG, browse a category page, or fetch details for a specific product URL. Supports Romania (ro), Bulgaria (bg), Hungary (hu) and Poland (pl) markets.",
+  "properties": {
+    "categoryUrl": {
+      "default": "/laptopuri/c",
+      "description": "eMAG category URL path, e.g. /laptopuri/c or https://www.emag.ro/laptopuri/c (mode=browseCategory).",
+      "editor": "textfield",
+      "prefill": "/laptopuri/c",
+      "title": "Category URL",
+      "type": "string"
+    },
+    "market": {
+      "default": "ro",
+      "description": "Which eMAG market to scrape.",
+      "editor": "select",
+      "enum": [
+        "ro",
+        "bg",
+        "hu",
+        "pl"
+      ],
+      "enumTitles": [
+        "Romania (emag.ro) — RON",
+        "Bulgaria (emag.bg) — BGN",
+        "Hungary (emag.hu) — HUF",
+        "Poland (emag.pl) — PLN"
+      ],
+      "prefill": "ro",
+      "title": "Market",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 30,
+      "description": "Maximum number of products to return.",
+      "maximum": 300,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Filter products with price at or below this value (in local currency).",
+      "minimum": 0,
+      "title": "Maximum price",
+      "type": "number"
+    },
+    "minPrice": {
+      "description": "Filter products with price at or above this value (in local currency).",
+      "minimum": 0,
+      "title": "Minimum price",
+      "type": "number"
+    },
+    "mode": {
+      "default": "searchProducts",
+      "description": "What to scrape.",
+      "editor": "select",
+      "enum": [
+        "searchProducts",
+        "browseCategory",
+        "getProductDetails"
+      ],
+      "enumTitles": [
+        "Search products by keyword",
+        "Browse a category URL",
+        "Get details for a specific product URL"
+      ],
+      "prefill": "searchProducts",
+      "title": "Mode",
+      "type": "string"
+    },
+    "productUrl": {
+      "description": "Full eMAG product URL ending in /pd/XXXXXX/ (mode=getProductDetails).",
+      "editor": "textfield",
+      "title": "Product URL",
+      "type": "string"
+    },
+    "query": {
+      "default": "laptop",
+      "description": "Keyword(s) to search for (mode=searchProducts).",
+      "editor": "textfield",
+      "prefill": "laptop",
+      "title": "Search query",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Sort search/category results. Only applies to searchProducts and browseCategory modes.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "price_asc",
+        "price_desc",
+        "rating"
+      ],
+      "enumTitles": [
+        "Relevance (default)",
+        "Price: low to high",
+        "Price: high to low",
+        "Rating"
+      ],
+      "prefill": "relevance",
+      "title": "Sort by",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "eMAG Scraper Input",
+  "type": "object"
+}
