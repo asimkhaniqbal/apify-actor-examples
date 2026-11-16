@@ -1,0 +1,62 @@
+{
+  "description": "Search Blocket.se — Sweden's largest classifieds — for ads across all categories or specific verticals.",
+  "properties": {
+    "maxItems": {
+      "default": 20,
+      "description": "Maximum number of listings to return.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "searchAll",
+      "description": "What to search for on Blocket.",
+      "editor": "select",
+      "enum": [
+        "searchAll",
+        "searchCars",
+        "searchElectronics",
+        "searchFurniture"
+      ],
+      "enumTitles": [
+        "Search all categories",
+        "Search cars",
+        "Search electronics",
+        "Search furniture"
+      ],
+      "prefill": "searchAll",
+      "title": "Mode",
+      "type": "string"
+    },
+    "priceMax": {
+      "description": "Filter ads with price at or below this value.",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Max price (SEK)",
+      "type": "integer"
+    },
+    "priceMin": {
+      "description": "Filter ads with price at or above this value.",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Min price (SEK)",
+      "type": "integer"
+    },
+    "query": {
+      "default": "laptop",
+      "description": "Keyword to search for (e.g. 'laptop', 'iPhone', 'IKEA sofa').",
+      "editor": "textfield",
+      "prefill": "laptop",
+      "title": "Search query",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Blocket Scraper Input",
+  "type": "object"
+}

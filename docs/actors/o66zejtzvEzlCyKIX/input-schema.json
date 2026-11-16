@@ -1,0 +1,74 @@
+{
+  "description": "Scrape newly launched Solana meme tokens, trending pools, and token details.",
+  "properties": {
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of token records to return.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "latestTokens",
+      "description": "Which data to fetch.",
+      "editor": "select",
+      "enum": [
+        "latestTokens",
+        "trendingTokens",
+        "newPools",
+        "searchTokens",
+        "tokenDetails"
+      ],
+      "enumTitles": [
+        "Latest Tokens (newest Solana token launches)",
+        "Trending Tokens (by volume/activity)",
+        "New Pools (newly created Solana pools)",
+        "Search Tokens (by name or symbol)",
+        "Token Details (by pool/token address)"
+      ],
+      "prefill": "latestTokens",
+      "title": "Mode",
+      "type": "string"
+    },
+    "query": {
+      "description": "Token name or symbol to search for. Required for mode=searchTokens.",
+      "editor": "textfield",
+      "title": "Search Query",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "pool_created_at",
+      "description": "Field to sort results by.",
+      "editor": "select",
+      "enum": [
+        "pool_created_at",
+        "volume_usd_h24",
+        "reserve_in_usd",
+        "price_change_percentage"
+      ],
+      "enumTitles": [
+        "Creation Date (newest first)",
+        "24h Volume",
+        "Liquidity",
+        "Price Change"
+      ],
+      "prefill": "pool_created_at",
+      "title": "Sort By",
+      "type": "string"
+    },
+    "tokenAddress": {
+      "description": "Token or pool contract address on Solana. Required for mode=tokenDetails.",
+      "editor": "textfield",
+      "title": "Token/Pool Address",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Pump.fun Solana Token Launch Scraper Input",
+  "type": "object"
+}

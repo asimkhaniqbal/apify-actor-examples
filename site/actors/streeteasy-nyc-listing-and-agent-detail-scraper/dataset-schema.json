@@ -1,0 +1,298 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "properties": {
+      "address": {
+        "description": "Full street address",
+        "type": "string"
+      },
+      "agentBrokerage": {
+        "description": "Agent brokerage (detailedMode)",
+        "type": "string"
+      },
+      "agentName": {
+        "description": "Listing agent name (detailedMode)",
+        "type": "string"
+      },
+      "amenities": {
+        "description": "List of amenity strings (detailedMode)",
+        "type": "array"
+      },
+      "bathrooms": {
+        "description": "Number of bathrooms",
+        "type": "number"
+      },
+      "bedrooms": {
+        "description": "Number of bedrooms (0 for studios)",
+        "type": "integer"
+      },
+      "buildingName": {
+        "description": "Building name (detailedMode)",
+        "type": "string"
+      },
+      "daysOnStreetEasy": {
+        "description": "Days listed (detailedMode)",
+        "type": "integer"
+      },
+      "description": {
+        "description": "Full listing description (detailedMode)",
+        "type": "string"
+      },
+      "latitude": {
+        "description": "GPS latitude (detailedMode)",
+        "type": "number"
+      },
+      "listingType": {
+        "description": "sale or rental",
+        "type": "string"
+      },
+      "longitude": {
+        "description": "GPS longitude (detailedMode)",
+        "type": "number"
+      },
+      "maintenanceFee": {
+        "description": "Monthly maintenance (detailedMode)",
+        "type": "number"
+      },
+      "nearbyTransit": {
+        "description": "Nearby subway lines/stations (detailedMode)",
+        "type": "array"
+      },
+      "neighborhood": {
+        "description": "StreetEasy neighborhood name",
+        "type": "string"
+      },
+      "photoUrl": {
+        "description": "Main listing photo URL",
+        "type": "string"
+      },
+      "photos": {
+        "description": "All photo URLs (detailedMode)",
+        "type": "array"
+      },
+      "price": {
+        "description": "Listed price (sale price or monthly rent)",
+        "type": "number"
+      },
+      "pricePerSqFt": {
+        "description": "Price per sqft (detailedMode)",
+        "type": "number"
+      },
+      "propertyType": {
+        "description": "e.g. Condo, Co-op, Rental Unit, Townhouse",
+        "type": "string"
+      },
+      "scrapedAt": {
+        "description": "ISO 8601 timestamp",
+        "type": "string"
+      },
+      "searchUrl": {
+        "description": "Original search URL",
+        "type": "string"
+      },
+      "squareFeet": {
+        "description": "Square footage (0 if not listed)",
+        "type": "integer"
+      },
+      "status": {
+        "description": "Listing status (detailedMode)",
+        "type": "string"
+      },
+      "taxes": {
+        "description": "Annual taxes (detailedMode)",
+        "type": "number"
+      },
+      "url": {
+        "description": "Direct listing URL on StreetEasy",
+        "type": "string"
+      },
+      "yearBuilt": {
+        "description": "Year built (detailedMode)",
+        "type": "integer"
+      }
+    },
+    "type": "object"
+  },
+  "title": "StreetEasy Listings",
+  "views": {
+    "detailed": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "address": {
+            "format": "text",
+            "label": "Address"
+          },
+          "agentBrokerage": {
+            "format": "text",
+            "label": "Brokerage"
+          },
+          "agentName": {
+            "format": "text",
+            "label": "Agent"
+          },
+          "amenities": {
+            "format": "text",
+            "label": "Amenities"
+          },
+          "bathrooms": {
+            "format": "number",
+            "label": "Baths"
+          },
+          "bedrooms": {
+            "format": "number",
+            "label": "Beds"
+          },
+          "buildingName": {
+            "format": "text",
+            "label": "Building"
+          },
+          "daysOnStreetEasy": {
+            "format": "number",
+            "label": "Days Listed"
+          },
+          "description": {
+            "format": "text",
+            "label": "Description"
+          },
+          "latitude": {
+            "format": "number",
+            "label": "Lat"
+          },
+          "listingType": {
+            "format": "text",
+            "label": "Sale/Rental"
+          },
+          "longitude": {
+            "format": "number",
+            "label": "Lng"
+          },
+          "maintenanceFee": {
+            "format": "number",
+            "label": "Maintenance"
+          },
+          "neighborhood": {
+            "format": "text",
+            "label": "Neighborhood"
+          },
+          "price": {
+            "format": "number",
+            "label": "Price"
+          },
+          "pricePerSqFt": {
+            "format": "number",
+            "label": "$/SqFt"
+          },
+          "propertyType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "squareFeet": {
+            "format": "number",
+            "label": "Sq Ft"
+          },
+          "status": {
+            "format": "text",
+            "label": "Status"
+          },
+          "taxes": {
+            "format": "number",
+            "label": "Taxes"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          },
+          "yearBuilt": {
+            "format": "number",
+            "label": "Year Built"
+          }
+        }
+      },
+      "title": "Full Details",
+      "transformation": {
+        "fields": [
+          "address",
+          "price",
+          "bedrooms",
+          "bathrooms",
+          "squareFeet",
+          "propertyType",
+          "neighborhood",
+          "listingType",
+          "description",
+          "amenities",
+          "buildingName",
+          "agentName",
+          "agentBrokerage",
+          "latitude",
+          "longitude",
+          "daysOnStreetEasy",
+          "maintenanceFee",
+          "taxes",
+          "pricePerSqFt",
+          "status",
+          "yearBuilt",
+          "url"
+        ]
+      }
+    },
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "address": {
+            "format": "text",
+            "label": "Address"
+          },
+          "bathrooms": {
+            "format": "number",
+            "label": "Baths"
+          },
+          "bedrooms": {
+            "format": "number",
+            "label": "Beds"
+          },
+          "listingType": {
+            "format": "text",
+            "label": "Sale/Rental"
+          },
+          "neighborhood": {
+            "format": "text",
+            "label": "Neighborhood"
+          },
+          "price": {
+            "format": "number",
+            "label": "Price"
+          },
+          "propertyType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "squareFeet": {
+            "format": "number",
+            "label": "Sq Ft"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          }
+        }
+      },
+      "title": "Listings",
+      "transformation": {
+        "fields": [
+          "address",
+          "price",
+          "bedrooms",
+          "bathrooms",
+          "squareFeet",
+          "propertyType",
+          "neighborhood",
+          "listingType",
+          "url"
+        ]
+      }
+    }
+  }
+}

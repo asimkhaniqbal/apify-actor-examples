@@ -1,0 +1,50 @@
+{
+  "description": "Scrape NYC real estate listings from StreetEasy — sales and rentals with optional detailed mode.",
+  "properties": {
+    "detailedMode": {
+      "default": false,
+      "description": "Visit each listing page to extract rich details (description, all photos, amenities, agent info, coordinates, etc.). Slower but more comprehensive.",
+      "prefill": true,
+      "title": "Detailed Mode",
+      "type": "boolean"
+    },
+    "maxResults": {
+      "default": 50,
+      "description": "Maximum number of listings to scrape per search URL.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Maximum Results",
+      "type": "integer"
+    },
+    "proxyConfiguration": {
+      "description": "Ignored. A US RESIDENTIAL proxy is hardcoded and applied automatically because StreetEasy's PerimeterX bot protection blocks Apify datacenter IPs. Left in the schema only for legacy compatibility.",
+      "editor": "proxy",
+      "prefill": {
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "startUrls": {
+      "description": "StreetEasy search URLs for sales or rentals. Build your search on streeteasy.com with any filters, then paste the URL here.",
+      "editor": "requestListSources",
+      "prefill": [
+        {
+          "url": "https://streeteasy.com/for-sale/manhattan"
+        }
+      ],
+      "title": "Search URLs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "startUrls"
+  ],
+  "schemaVersion": 1,
+  "title": "StreetEasy Scraper Input",
+  "type": "object"
+}

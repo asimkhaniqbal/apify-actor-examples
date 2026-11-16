@@ -1,0 +1,106 @@
+# Blocket.se Classifieds Search & Price Filter Tool
+
+Blocket.se is where Swedes buy and sell second-hand cars, electronics, furniture, and everything in between. This actor searches Blocket by keyword, across all categories or narrowed to cars, electronics, or furniture, and applies a price range in Swedish kronor.
+
+## What this actor does
+
+- Searches Blocket listings by keyword, across every category or narrowed to one of three common verticals: cars, electronics, or furniture.
+- Filters results to a minimum and/or maximum price in SEK.
+- Returns price, location, category, condition, and seller details for each matching ad.
+- Records which search mode produced each listing, so results from different runs can be told apart.
+- Leaves a field out of a record whenever Blocket doesn't publish that value for the ad, rather than sending it empty.
+
+## Output per listing
+
+| Field | Description |
+|---|---|
+| `adId` | Blocket's ad ID |
+| `title` | Listing headline |
+| `price` | Price in SEK |
+| `currency` | Always `SEK` |
+| `location` | City and/or region |
+| `category` | Product category label |
+| `condition` | Item condition, when the ad states one |
+| `publishedDate` | When the ad was posted |
+| `imageUrl` | First listing image URL |
+| `adUrl` | Direct link to the ad |
+| `seller` | Seller name, when published |
+| `sellerType` | Seller account type, as published by Blocket |
+| `mode` | Which search mode produced this record |
+| `scrapedAt` | UTC timestamp of the scrape |
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `mode` | string | `searchAll` | `searchAll`, `searchCars`, `searchElectronics`, or `searchFurniture`. |
+| `query` | string | `laptop` | Keyword to search for. |
+| `priceMin` | integer | – | Keep only ads priced at or above this value, in SEK. |
+| `priceMax` | integer | – | Keep only ads priced at or below this value, in SEK. |
+| `maxItems` | integer | `20` | Maximum number of listings to return. |
+
+### Example: search across all categories
+
+```json
+{
+  "mode": "searchAll",
+  "query": "iPhone",
+  "maxItems": 50
+}
+```
+
+### Example: cars within a price range
+
+```json
+{
+  "mode": "searchCars",
+  "query": "Volvo",
+  "priceMin": 50000,
+  "priceMax": 150000,
+  "maxItems": 100
+}
+```
+
+### Example: furniture search
+
+```json
+{
+  "mode": "searchFurniture",
+  "query": "IKEA soffa",
+  "maxItems": 40
+}
+```
+
+## Use cases
+
+- **Price monitoring** — track asking prices for a product or car model over time.
+- **Resale sourcing** — find underpriced items in a category worth reselling.
+- **Market research** — see what a category's listings typically sell for in Sweden.
+- **Lead generation** — collect contact-ready seller listings for a specific product type.
+- **Regional targeting** — add a city name to the keyword query to focus results on one area.
+
+## FAQ
+
+**Do I need a Blocket account to use this?**
+No. This actor reads Blocket's public listing search, which doesn't require an account.
+
+**What's the difference between `searchAll` and the category-specific modes?**
+The category modes (`searchCars`, `searchElectronics`, `searchFurniture`) run the same keyword search as `searchAll` but restrict results to that category, so they return a narrower, more relevant set of ads for a given keyword.
+
+**Can I target a specific Swedish city or region?**
+Yes — include a place name in your `query`, e.g. `"laptop Stockholm"`, to bias results toward that area. There's no separate location input.
+
+**How current are the listings?**
+Each run reads Blocket's live search at request time, so results reflect whatever is currently active on the site.
+
+**Why do some listings have no `condition` or `seller` field?**
+Those fields are only included when the ad itself states a condition or the seller's profile publishes a name — not every ad includes both.
+
+**Can I combine a keyword with a price range?**
+Yes — `priceMin` and `priceMax` apply on top of whatever `query` and `mode` you set.
+
+**How many listings can one run return?**
+Up to `maxItems`, capped at 1000 per run.
+
+**Is this affiliated with Blocket?**
+No. This actor reads Blocket's public listings and is not affiliated with, endorsed by, or connected to Blocket or Schibsted in any way.
