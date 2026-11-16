@@ -1,36 +1,186 @@
 {
-  "description": "Scrape NYC real estate listings from StreetEasy — sales and rentals with optional detailed mode.",
+  "description": "Collect NYC sale and rental listings from StreetEasy by pasting search URLs or building a search from filters. No login or cookie needed.",
   "properties": {
+    "amenities": {
+      "default": [],
+      "description": "Only listings that advertise every selected amenity are returned. Leave empty for no amenity filter. Supported values: doorman, elevator, gym, laundry, washer_dryer, dishwasher, parking, pool, fireplace, central_ac, smoke_free, storage.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Must-have amenities",
+      "type": "array"
+    },
     "detailedMode": {
       "default": false,
-      "description": "Visit each listing page to extract rich details (description, all photos, amenities, agent info, coordinates, etc.). Slower but more comprehensive.",
-      "prefill": true,
-      "title": "Detailed Mode",
+      "description": "Visit each listing page to add description, amenities, building facts, agent phone/email, price history, open houses and floor plans. Adds one request per listing.",
+      "prefill": false,
+      "sectionCaption": "Detail enrichment",
+      "title": "Fetch listing details",
       "type": "boolean"
+    },
+    "listingType": {
+      "default": "sale",
+      "description": "Sales or rentals. StreetEasy keeps the two markets separate, so one run covers one of them.",
+      "editor": "select",
+      "enum": [
+        "sale",
+        "rental"
+      ],
+      "enumTitles": [
+        "For sale",
+        "For rent"
+      ],
+      "prefill": "sale",
+      "title": "Listing type",
+      "type": "string"
+    },
+    "locations": {
+      "default": [
+        "manhattan"
+      ],
+      "description": "Borough or neighborhood slugs as they appear in StreetEasy URLs: manhattan, brooklyn, queens, bronx, staten-island, nyc, williamsburg, park-slope, upper-east-side, jersey-city. Used when 'Start from' is 'Build a search'.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "manhattan"
+      ],
+      "title": "Locations",
+      "type": "array"
+    },
+    "maxBeds": {
+      "description": "Leave empty for no maximum.",
+      "maximum": 10,
+      "minimum": 0,
+      "title": "Maximum bedrooms",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Highest sale price or monthly rent to include. Leave empty for no maximum.",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Maximum price (USD)",
+      "type": "integer"
     },
     "maxResults": {
       "default": 50,
-      "description": "Maximum number of listings to scrape per search URL.",
+      "description": "Listings to collect from each search URL or location before moving on.",
       "maximum": 500,
       "minimum": 1,
       "prefill": 3,
-      "title": "Maximum Results",
+      "sectionCaption": "Output",
+      "title": "Maximum results per search",
       "type": "integer"
     },
-    "proxyConfiguration": {
-      "description": "Ignored. A US RESIDENTIAL proxy is hardcoded and applied automatically because StreetEasy's PerimeterX bot protection blocks Apify datacenter IPs. Left in the schema only for legacy compatibility.",
-      "editor": "proxy",
-      "prefill": {
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
-        ],
-        "useApifyProxy": true
-      },
-      "title": "Proxy Configuration",
-      "type": "object"
+    "maxSqft": {
+      "description": "Largest interior size to include. Leave empty for no maximum.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Maximum square feet",
+      "type": "integer"
+    },
+    "minBaths": {
+      "description": "Half-bath values such as 1.5 are accepted.",
+      "maximum": 10,
+      "minimum": 0,
+      "title": "Minimum bathrooms",
+      "type": "number"
+    },
+    "minBeds": {
+      "description": "0 means studio. Leave empty for no minimum.",
+      "maximum": 10,
+      "minimum": 0,
+      "title": "Minimum bedrooms",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Lowest sale price or monthly rent to include. Leave empty for no minimum.",
+      "maximum": 100000000,
+      "minimum": 0,
+      "sectionCaption": "Filters (used by 'Build a search')",
+      "title": "Minimum price (USD)",
+      "type": "integer"
+    },
+    "minSqft": {
+      "description": "Smallest interior size to include. Leave empty for no minimum.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Minimum square feet",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "urls",
+      "description": "Choose how to define the search. 'Search URLs' works with links you built on streeteasy.com. 'Build a search' creates the link from the filters below.",
+      "editor": "select",
+      "enum": [
+        "urls",
+        "search"
+      ],
+      "enumTitles": [
+        "Search URLs",
+        "Build a search"
+      ],
+      "prefill": "urls",
+      "sectionCaption": "What to scrape",
+      "title": "Start from",
+      "type": "string"
+    },
+    "noFee": {
+      "default": false,
+      "description": "Rentals only: keep listings with no broker fee. Ignored for sales.",
+      "prefill": false,
+      "title": "No-fee rentals only",
+      "type": "boolean"
+    },
+    "propertyType": {
+      "default": "any",
+      "description": "StreetEasy property-type filter. Condo and co-op are the two types the site exposes in search URLs; leave on Any for all types.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "condo",
+        "co-op"
+      ],
+      "enumTitles": [
+        "Any type",
+        "Condo",
+        "Co-op"
+      ],
+      "prefill": "any",
+      "title": "Property type",
+      "type": "string"
+    },
+    "sort": {
+      "default": "recommended",
+      "description": "Order of results within each search.",
+      "editor": "select",
+      "enum": [
+        "recommended",
+        "price_asc",
+        "price_desc",
+        "listed_desc",
+        "listed_asc",
+        "sqft_desc",
+        "beds_desc"
+      ],
+      "enumTitles": [
+        "Recommended",
+        "Price: low to high",
+        "Price: high to low",
+        "Newest listed",
+        "Oldest listed",
+        "Largest first",
+        "Most bedrooms first"
+      ],
+      "prefill": "recommended",
+      "title": "Sort order",
+      "type": "string"
     },
     "startUrls": {
-      "description": "StreetEasy search URLs for sales or rentals. Build your search on streeteasy.com with any filters, then paste the URL here.",
+      "description": "StreetEasy search-result URLs for sales or rentals. Apply any filters on streeteasy.com first, then paste the URL here. Used when 'Start from' is 'Search URLs'.",
       "editor": "requestListSources",
       "prefill": [
         {
@@ -41,9 +191,6 @@
       "type": "array"
     }
   },
-  "required": [
-    "startUrls"
-  ],
   "schemaVersion": 1,
   "title": "StreetEasy Scraper Input",
   "type": "object"

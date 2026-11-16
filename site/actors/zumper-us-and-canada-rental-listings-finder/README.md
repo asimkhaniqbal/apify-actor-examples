@@ -1,84 +1,77 @@
 # Zumper US & Canada Rental Listings Finder
 
-Zumper lists apartments, houses, condos, and rental buildings across the US and Canada, with rent ranges that often span several available units per building. This actor searches Zumper by city and state or province, or fetches specific listing pages directly, returning rent, bed/bath ranges, address, amenities, and contact details.
+Zumper is a North American rental marketplace covering apartments, houses, condos, rooms and managed buildings in the United States and Canada. This actor reads Zumper's public listing API without a login, cookie or proxy, and turns city searches, ZIP searches and individual listing pages into clean rental records you can map, compare or feed into a CRM.
 
-## What this actor does
+## Ways to search
 
-- Searches rentals by city and a US state or Canadian province code, or by city name alone when you don't know the exact state.
-- Filters search results to a specific bedroom count, from studio up to five bedrooms.
-- Fetches full detail — including square footage — for specific Zumper listing URLs.
-- Returns geographic coordinates for listings that publish them, so results can be placed directly on a map.
-- Falls back to that city's market-stats summary (average rent, rent trend) when the search modes find no individual listings for it.
-- Leaves a field out of a record whenever Zumper doesn't publish that value for the listing, rather than sending it empty.
-
-## Output per rental listing
-
-| Field | Description |
+| Mode | What it does |
 |---|---|
-| `listingId` | Zumper's listing ID |
-| `name` | Building or listing name |
-| `address` | Street address |
-| `city`, `state`, `zipCode` | Location fields |
-| `neighborhood`, `neighborhoodUrl` | Neighborhood name and its Zumper page |
-| `minPrice`, `maxPrice` | Monthly rent range; equal values mean one fixed rent |
-| `minBedrooms`, `maxBedrooms` | Bedroom range across available units |
-| `minBathrooms`, `maxBathrooms` | Bathroom range |
-| `squareFeet` | Unit size, from listing-detail lookups |
-| `propertyType` | e.g. apartment, condo, house |
-| `leaseType` | Long-term, short-term, or similar |
-| `petsAllowed` | Pet policy as advertised |
-| `amenities` | In-unit amenities |
-| `buildingAmenities` | Shared building amenities |
-| `rating` | Zumper rating, where one exists |
-| `floorplanCount` | Number of available unit floorplans |
-| `dateAvailable` | Move-in availability date |
-| `description` | Listing description text |
-| `phone`, `agentName`, `brokerageName` | Listing contact details, when published |
-| `latitude`, `longitude` | Coordinates, when published |
-| `imageUrl` | Primary listing photo |
-| `listingUrl` | Link to the listing on Zumper |
-| `searchCity`, `searchState` | The city and state used for this search (search modes only) |
-| `scrapedAt` | UTC timestamp of the scrape |
+| Search a city by name & state/province | Rents a city such as `Austin, TX` or `Toronto, ON` and paginates through every matching result up to `maxItems`. |
+| Search using a city name, slug or Zumper URL | Accepts `Chicago`, `chicago-il` or `https://www.zumper.com/apartments-for-rent/chicago-il`. |
+| Search a ZIP or postal code | Resolves a US ZIP or Canadian postal code to its Zumper market and returns only that area's rentals. |
+| Fetch details for specific URLs | Accepts Zumper listing URLs, apartment-building URLs and numeric listing IDs. |
 
-## Output when no individual listings are found
+## Filters
 
-If `searchRentals` or `searchByCity` can't find any individual listings for a city, the actor instead returns that city's rent-research market summary, when Zumper publishes one:
+- Monthly rent range (`minPrice` / `maxPrice`).
+- Bedroom count, either one exact value (`bedrooms`) or a range (`minBedrooms` / `maxBedrooms`; `5` means five or more).
+- Minimum bathrooms.
+- Property type: apartment, house, condo, room or other.
+- Pet policy: cats, dogs, or both.
+- Sort order: relevance, newest, lowest/highest rent, lowest/highest rating.
+- Pagination continues automatically (50 records per request) until `maxItems` is reached or Zumper stops returning matches.
 
-| Field | Description |
-|---|---|
-| `recordType` | Always `market_stats` for this fallback record |
-| `city`, `state` | The searched city and state |
-| `marketUrl` | Zumper's rent-research page for the city |
-| `averageRent`, `averageRentText` | Average rent amount and the sentence it was parsed from |
-| `rentTrend`, `rentTrendText` | Recent rent trend and the sentence it was parsed from |
-| `vsNationalAverageText` | How the city compares to the national average |
-| `affordableNeighborhoodsText` | Mention of cheaper neighborhoods in the city |
-| `recommendedSalary`, `salaryText` | Suggested income to afford the average rent |
-| `scrapedAt` | UTC timestamp of the scrape |
-
-## Input
+## Inputs
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `searchRentals` | `searchRentals` (city + state), `searchByCity` (city name, state optional), or `listingDetails` (specific URLs). |
-| `city` | string | `San Francisco` | City name, used in `searchRentals` and `searchByCity` modes. |
-| `state` | string | `CA` | US state or Canadian province code, used in `searchRentals` mode. |
-| `bedrooms` | integer | – | Bedroom count filter, `0` for studio, up to `5`. |
-| `listingUrls` | array | `[]` | Zumper listing URLs to fetch, used in `listingDetails` mode. |
-| `maxItems` | integer | `20` | Maximum number of listings to return. |
+| `mode` | select | `searchRentals` | City search, city name/slug/URL, ZIP search or listing details. |
+| `city` | text | `San Francisco` | City name, slug or Zumper city URL; also narrows a ZIP search. |
+| `state` | select | `CA` | US state or Canadian province code. |
+| `zipCode` | text | – | US ZIP or Canadian postal code. |
+| `minPrice`, `maxPrice` | integer | – | Monthly rent range in local currency. |
+| `bedrooms` | integer | – | Exact bedroom count (legacy single-value filter). |
+| `minBedrooms`, `maxBedrooms` | integer | – | Bedroom range; `5` means five or more. |
+| `bathrooms` | integer | – | Minimum bathroom count (1-5). |
+| `propertyType` | select | `any` | Any, apartment, house, condo, room or other. |
+| `pets` | select | `any` | Any, cats, dogs or cats and dogs. |
+| `sort` | select | `relevance` | Relevance, newest, rent low/high or rating low/high. |
+| `listingUrls` | string list | `[]` | Listing/building URLs or numeric IDs for the details mode. |
+| `includeDetails` | boolean | `false` | Enrich search results with detail-page fields. |
+| `includeMarketStats` | boolean | `true` | Return city market statistics when no listings exist. |
+| `maxItems` | integer | `20` | Maximum records to return (1-1000). |
 
-### Example: rentals in a specific city
+## Output
 
-```json
-{
-  "mode": "searchRentals",
-  "city": "San Francisco",
-  "state": "CA",
-  "maxItems": 200
-}
-```
+Each listing record contains, where Zumper publishes it:
 
-### Example: two-bedroom units
+| Field | Meaning |
+|---|---|
+| `listingId`, `listingUrl` | Zumper's listing ID and canonical public page. |
+| `inputUrl` | The URL you supplied, when it differs from Zumper's canonical page. |
+| `recordType` | `listing` for detail lookups, `building` for building pages, `market_stats` for the optional city fallback. |
+| `name`, `buildingId`, `buildingName` | Listing or building identity. |
+| `address`, `city`, `state`, `zipCode` | Postal address. |
+| `neighborhood`, `neighborhoodUrl` | Neighborhood name and its Zumper page. |
+| `minPrice`, `maxPrice`, `currency` | Monthly rent range and `USD`/`CAD`. |
+| `previousPrice`, `priceChange`, `priceHistory` | Price movement when the detail endpoint exposes it. |
+| `minBedrooms`, `maxBedrooms`, `minBathrooms`, `maxBathrooms`, `halfBathrooms` | Unit configuration ranges. |
+| `squareFeet`, `propertyType`, `leaseType` | Size and classification. |
+| `petsAllowed`, `catsAllowed`, `dogsAllowed`, `smallDogsAllowed` | Pet policy. |
+| `amenities`, `buildingAmenities` | In-unit and shared amenity names. |
+| `rating`, `floorplanCount`, `unitCount`, `activeUnits`, `yearBuilt`, `yearRemodeled` | Building facts. |
+| `dateAvailable`, `listedOn`, `lastUpdated` | ISO-8601 dates. |
+| `description` | Listing or building description. |
+| `phone`, `agentName`, `brokerageName`, `providerUrl`, `source` | Contact and source details. |
+| `latitude`, `longitude`, `imageUrl` | Map position and primary photo. |
+| `searchCity`, `searchState`, `searchCitySlug` | The search that produced the record. |
+| `scrapedAt` | UTC timestamp of the scrape. |
+
+When a city has no individual listings, `includeMarketStats` (default on) returns that city's rent-research summary instead: `averageRent`, `rentTrend`, `vsNationalAverageText`, `affordableNeighborhoodsText` and `recommendedSalary`, with `recordType: market_stats`.
+
+## Examples
+
+### Two-bedroom apartments in Austin under $2,500
 
 ```json
 {
@@ -86,67 +79,55 @@ If `searchRentals` or `searchByCity` can't find any individual listings for a ci
   "city": "Austin",
   "state": "TX",
   "bedrooms": 2,
+  "maxPrice": 2500,
   "maxItems": 300
 }
 ```
 
-### Example: Canadian city, state resolved automatically
+### Pet-friendly rentals in Toronto, newest first
 
 ```json
 {
   "mode": "searchByCity",
   "city": "Toronto",
-  "maxItems": 150
+  "state": "ON",
+  "pets": "catsAndDogs",
+  "sort": "newest",
+  "maxItems": 200
 }
 ```
 
-### Example: specific listing details
+### One ZIP code, with detail-page enrichment
+
+```json
+{
+  "mode": "searchByZip",
+  "zipCode": "94105",
+  "includeDetails": true,
+  "maxItems": 100
+}
+```
+
+### Specific listings and a building page
 
 ```json
 {
   "mode": "listingDetails",
   "listingUrls": [
-    "https://www.zumper.com/apartments-for-rent/listing/12345678"
+    "https://www.zumper.com/listings/5710732p/1-bedroom-south-beach-san-francisco-ca",
+    "https://www.zumper.com/apartment-buildings/p208324/one-henry-adams-potrero-hill-san-francisco-ca"
   ]
 }
 ```
 
-## Use cases
+## Notes and limits
 
-- **Rental market analysis** — track asking rents by city, neighborhood, and bedroom count.
-- **Relocation tools** — surface available units within a budget near a given area.
-- **Property investment research** — benchmark comparable rents before acquiring a building.
-- **Map-based proptech products** — feed listings with coordinates into a map search interface.
-- **Brokerage intelligence** — see which agencies and brokerages list most heavily in a market.
+- Zumper returns at most 50 records per API page; the actor pages through offsets until the source's own match count is reached.
+- `includeDetails` adds one request per search result. It fills square footage, full descriptions, price history and building facts, but costs more and runs slower.
+- A city can have fewer listings than the headline count on Zumper's website because the site mixes in nearby areas; the actor reports the API's own match count in its status message.
+- Fields Zumper does not publish for a listing are omitted, never returned as empty strings or placeholders.
+- The actor never needs cookies, API keys or a proxy configuration.
 
-## FAQ
+## Data source
 
-**Is this affiliated with Zumper?**
-No. This actor reads Zumper's public listing data and is not affiliated with, endorsed by, or connected to Zumper.
-
-**Do I need an account to use this?**
-No. Only publicly visible listing data is collected.
-
-**Why are prices and bedroom/bathroom counts given as ranges?**
-Many Zumper entries represent an entire building with several available units. `minPrice`/`maxPrice` and the bedroom/bathroom ranges bracket the units currently listed; for a single unit, both ends of the range are the same.
-
-**What's the difference between `searchRentals` and `searchByCity`?**
-Both resolve a city to Zumper's internal location, but `searchRentals` expects an exact city plus its state/province code, while `searchByCity` is more forgiving about the city name alone — useful when you're not sure of the exact spelling or state.
-
-**Does this cover Canadian cities?**
-Yes — the state input also accepts Canadian province codes like `ON`, `BC`, and `QC`.
-
-**Why is `squareFeet` missing from search results?**
-Search results are often building-level summaries covering units of different sizes. Run `listingDetails` on a specific listing URL to get that unit's square footage.
-
-**What's the difference between `amenities` and `buildingAmenities`?**
-`amenities` are in-unit features like in-unit laundry or a dishwasher. `buildingAmenities` are shared facilities like a gym, roof deck, or parking garage.
-
-**Why are `phone`, `agentName`, or `brokerageName` sometimes missing?**
-Those fields only appear when the advertiser published them — private landlords often route inquiries through Zumper itself instead of listing direct contact details.
-
-**How fresh is the data?**
-Each run reads Zumper's live pages at request time, so results reflect current availability and pricing rather than a cached snapshot.
-
-**What happens if there are no active listings in a city?**
-The actor returns that city's rent-research market summary instead — average rent, recent trend, and how it compares nationally — identified by `recordType: "market_stats"`.
+Public Zumper listing, building and autocomplete endpoints (`www.zumper.com/api/...`) accessed cookielessly with browser TLS impersonation. No account is required.

@@ -4,107 +4,134 @@
 
 # Pump.fun & Solana New Pool Launch Tracker
 
-Pump.fun tokens start on a bonding curve and only get a real trading pool once they "graduate" to a DEX like Raydium. This actor tracks those graduated pools alongside every other newly created or trending Solana token pool, pulling live price, volume, liquidity, and buy/sell transaction counts so you can spot new launches and momentum shifts as they happen.
+Follow the first minutes of a Solana token launch. This actor returns pump.fun bonding-curve tokens and graduated PumpSwap/Raydium/Orca/Meteora pools with market data, creator and holder context, and a clear launch stage, so you can screen new mints without opening a wallet or configuring an API key.
 
-## What this actor does
+## What you can collect
 
-- Lists the newest Solana token pools as they're created, across DEXes such as Raydium and Orca
-- Surfaces currently trending tokens ranked by volume/activity
-- Looks up a specific token or pool by contract address for full market data
-- Searches for a token by name or symbol
+| Mode | What it returns |
+|---|---|
+| **New Solana pool launches** | The newest pools across Solana DEXes, including pump.fun and PumpSwap launches. |
+| **Pump.fun token launches** | New pump.fun mints from the public pump.fun feed, with bonding-curve progress, creator, socials and graduation status. |
+| **Trending Solana pools** | Pools ranked by current Solana DEX trading activity. |
+| **Search Solana pools** | Pools matching a token name, symbol or keyword. |
+| **Token or pool details** | One token mint or pool address, enriched with holders, developer stats, socials and market data. |
 
-## Output per token pool
+List modes paginate through the source automatically until `maxItems` is reached or the source runs out. Every run is deduplicated by pool address (or token mint for bonding-curve tokens).
 
-- `pool_address` — the Solana liquidity pool's contract address
-- `token_name`, `token_symbol`, `token_address` — the base token's name, ticker, and contract address
-- `quote_token_symbol` — the token it's paired against (usually `SOL`)
-- `network` — always `solana`
-- `dex_name` — the DEX hosting the pool (e.g. `Raydium AMM`)
-- `price_usd` — current token price in USD
-- `price_change_5m`, `price_change_1h`, `price_change_24h` — percentage price change over each window
-- `volume_usd_24h` — trading volume in USD over the last 24 hours
-- `liquidity_usd` — the pool's reserve value in USD
-- `fdv_usd` — fully diluted valuation in USD
-- `transactions_24h_buys`, `transactions_24h_sells` — buy and sell transaction counts over 24 hours
-- `pool_created_at` — when the pool was created
-- `image_url` — token logo image, when available
-- `url` — link to the pool's market page
-- `recordType: "solana_token"`, `scrapedAt`
-
-## Input
+## Inputs
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `latestTokens` | `latestTokens` / `trendingTokens` / `newPools` / `searchTokens` / `tokenDetails` |
-| `query` | string | – | Token name or symbol to search for (mode=searchTokens) |
-| `tokenAddress` | string | – | Token or pool contract address (mode=tokenDetails) |
-| `sortBy` | string | `pool_created_at` | Accepted for forward compatibility; currently has no effect on result order (see FAQ) |
-| `maxItems` | integer | `50` | Maximum number of token records to return (1–1000) |
+| `mode` | select | `newLaunches` | Feed to run: new launches, pump.fun launches, trending, search, or token details. |
+| `query` | string | – | Name, symbol or keyword for `search`. |
+| `tokenAddress` | string | – | Mint or pool address for `tokenDetails`. |
+| `pumpfunStatus` | select | `all` | `all`, `bonding` or `graduated`. |
+| `pumpFunOnly` | boolean | `false` | Keep only pump.fun/PumpSwap tokens in pool feeds. |
+| `dex` | select | `all` | Restrict pool feeds to one Solana DEX. |
+| `sortBy` | select | `source` | Source ranking, newest, oldest, volume, liquidity, price change, market cap or last trade. |
+| `minLiquidityUsd` | number | – | Drop pools below this liquidity. |
+| `minVolume24hUsd` | number | – | Drop pools below this 24h volume. |
+| `minMarketCapUsd` | number | – | Drop tokens below this market cap/FDV. |
+| `maxMarketCapUsd` | number | – | Drop tokens above this market cap/FDV. |
+| `maxAgeMinutes` | integer | `0` | Keep pools created in the last N minutes; `0` disables. |
+| `maxItems` | integer | `50` | Maximum records (1–1000). |
 
-### Example: newest Solana launches
+Legacy values `latestTokens`, `newPools`, `trendingTokens`, `searchTokens` still work for `mode`, and `pool_created_at`, `volume_usd_h24`, `reserve_in_usd`, `price_change_percentage` still work for `sortBy`.
+
+## Filters and sorting
+
+- **Pump.fun launch stage** — all, bonding curve only, or graduated only.
+- **Pump.fun ecosystem only** — keep pump.fun/PumpSwap tokens in any pool feed.
+- **DEX** — restrict pool feeds to one of the supported Solana DEXes.
+- **Minimum liquidity, 24h volume and market cap** — drop illiquid or tiny/huge tokens.
+- **Maximum pool age** — keep only pools created in the last N minutes.
+- **Sort** — source ranking, newest, oldest, 24h volume, liquidity, 24h price change, market cap or last trade time.
+
+`maxItems` supports 1–1000 records.
+
+## Output fields
+
+Each row includes the fields that apply to that token and source:
+
+- Identity: `token_name`, `token_symbol`, `token_address`, `pool_address`, `network`, `dex_id`, `dex_name`, `source`
+- Launch: `is_pumpfun`, `graduated`, `graduation_percentage`, `token_created_at`, `pool_created_at`, `last_trade_at`, `bonding_curve_address`, `pumpswap_pool_address`, `migrated_pool_address`
+- Market: `price_usd`, `price_change_5m`, `price_change_1h`, `price_change_24h`, `market_cap_usd`, `fdv_usd`, `liquidity_usd`, `volume_usd_1h`, `volume_usd_24h`, `ath_market_cap_usd`
+- Activity: `transactions_24h_buys`, `transactions_24h_sells`, `transactions_24h_buyers`, `transactions_24h_sellers`, `holders_count`, `top10_holders_percentage`
+- Token metadata: `creator_address`, `developer_address`, `developer_holding_percentage`, `token_decimals`, `total_supply`, `token_description`, `categories`, `verified`, `gt_score`
+- Links: `image_url`, `url`, `geckoterminal_url`, `pumpfun_url`, `dexscreener_url`, `twitter_url`, `website_url`, `telegram_url`, `discord_url`
+
+Fields the source does not have for a row are omitted; the dataset never contains `null`, blank strings or empty objects.
+
+## Quick examples
+
+Newest launches, only liquid pools:
 
 ```json
 {
-  "mode": "latestTokens",
+  "mode": "newLaunches",
+  "minLiquidityUsd": 5000,
   "maxItems": 50
 }
 ```
 
-### Example: trending tokens by activity
+Fresh pump.fun tokens still on the bonding curve:
 
 ```json
 {
-  "mode": "trendingTokens",
-  "maxItems": 30
+  "mode": "pumpfunTokens",
+  "pumpfunStatus": "bonding",
+  "maxAgeMinutes": 30,
+  "maxItems": 100
 }
 ```
 
-### Example: search by symbol
+Graduated pump.fun tokens with at least $25k market cap:
 
 ```json
 {
-  "mode": "searchTokens",
-  "query": "RETARD",
-  "maxItems": 10
+  "mode": "pumpfunTokens",
+  "pumpfunStatus": "graduated",
+  "minMarketCapUsd": 25000,
+  "sortBy": "volume24h",
+  "maxItems": 50
 }
 ```
 
-### Example: full detail for one token address
+One token by mint address:
 
 ```json
 {
   "mode": "tokenDetails",
-  "tokenAddress": "ACuZX4asxyqcRd6BTgGBKXJjViUP3kZQuDUQawBapump"
+  "tokenAddress": "3L7v7sBnoDk2ZPUsYjsxsHjTyJqSJfd55wwhKgcvpump"
 }
 ```
 
-## Use cases
+Search by ticker:
 
-- **Meme-coin discovery** — catch freshly launched tokens before they trend
-- **Rug-pull and risk screening** — monitor liquidity depth and the buy/sell ratio for suspicious patterns
-- **DeFi market research** — track overall Solana DEX launch activity over time
-- **Trading signal generation** — surface high-volume new pools early for further analysis
-- **Portfolio tracking** — look up price and liquidity for specific tokens you hold
+```json
+{
+  "mode": "search",
+  "query": "BONK",
+  "maxItems": 20
+}
+```
+
+## Data sources
+
+The actor uses public, keyless endpoints: the GeckoTerminal API for Solana pools, search, token market data and token information; the pump.fun public frontend API for pump.fun launches and bonding/graduation metadata; and DexScreener for token-detail market and social fallback. No cookies, wallet, login or API key are required. If pump.fun's edge refuses a request, pump.fun modes fall back to GeckoTerminal's pump.fun/PumpSwap pool feed and the run still returns real rows.
 
 ## FAQ
 
-**Does this track pump.fun tokens specifically?**
-Yes, but only tokens that have "graduated" — created a real trading pool on a DEX such as Raydium. Tokens still on pump.fun's bonding curve, before that pool exists, aren't tracked, because there's no pool-level market data to report yet.
+**Do I need a wallet or API key?** No. The actor only reads public data.
 
-**Why does the actor describe itself as covering "Solana new pool launches" rather than only pump.fun?**
-Every graduated pump.fun token shows up as a regular Solana token pool once it has a DEX pool, alongside pools that never originated on pump.fun at all. The actor tracks that whole pool-level feed rather than a pump.fun-only subset.
+**Does it show tokens before they graduate?** Yes. `mode=pumpfunTokens` includes bonding-curve tokens; set `pumpfunStatus` to `bonding` or `graduated` to narrow the feed. Pool modes show tokens once a Solana DEX pool exists.
 
-**How fresh is the data?**
-Pool and token data reflects near-real-time on-chain activity; `mode=latestTokens` or `mode=newPools` surface pools created within the last few hours.
+**Why is a holder count or social link missing for some rows?** Those fields are filled only when the public token profile has them. Newly created mints often have no profile data yet. Detail lookups include holder and developer fields whenever the source publishes them.
 
-**Can I filter or sort by minimum liquidity or volume?**
-Not currently — `sortBy` doesn't change the result order in this version; every mode returns results in that endpoint's own natural order (`newPools`/`latestTokens` by creation time, `trendingTokens` by its own trending ranking, `searchTokens` by relevance). Use `maxItems` to control how many results come back, then sort or filter further downstream.
+**Can I search pump.fun's bonding-curve tokens by name?** Pump.fun's public search endpoint is no longer available. Search covers tokens with Solana DEX pools. Use `mode=tokenDetails` with a mint address to inspect a specific bonding-curve token.
 
-**What's the difference between `trendingTokens` and `newPools`?**
-`trendingTokens` ranks by current trading activity/volume regardless of age; `newPools` returns the most recently created pools regardless of how active they are.
+**Why are there fewer rows than `maxItems`?** The source ran out of matching pools, the age/DEX/market filters removed the rest, or the automatic fetch cap for a filtered feed was reached. Loosen the filters or raise `maxItems`.
 
-**Why are some fields, like `image_url`, sometimes missing?**
-A field is only included when the token's listing actually has that data — not every token has a logo image or a fully diluted valuation figure available.
+**How fresh is the data?** New-pool and pump.fun feeds update continuously; a run sees the state at request time. Market values are snapshots, not a live stream.
 
-**Is this affiliated with Pump.fun?**
-No. This is an independent, third-party actor; it is not affiliated with or endorsed by Pump.fun or any DEX it tracks.
+**Is this affiliated with pump.fun or any DEX?** No. This is an independent, third-party tool.

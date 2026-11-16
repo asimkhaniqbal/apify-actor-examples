@@ -3,112 +3,284 @@
   "fields": {
     "properties": {
       "address": {
-        "description": "Full street address",
+        "description": "Full street address including unit",
         "type": "string"
       },
       "agentBrokerage": {
-        "description": "Agent brokerage (detailedMode)",
+        "description": "Primary agent's brokerage (detailedMode)",
+        "type": "string"
+      },
+      "agentEmail": {
+        "description": "Primary agent email (detailedMode)",
+        "type": "string"
+      },
+      "agentLicenseType": {
+        "description": "Primary agent license type (detailedMode)",
         "type": "string"
       },
       "agentName": {
-        "description": "Listing agent name (detailedMode)",
+        "description": "Primary listing agent name (detailedMode)",
         "type": "string"
       },
-      "amenities": {
-        "description": "List of amenity strings (detailedMode)",
+      "agentPhone": {
+        "description": "Primary agent phone (detailedMode)",
+        "type": "string"
+      },
+      "agentPhotoUrl": {
+        "description": "Primary agent headshot URL (detailedMode)",
+        "type": "string"
+      },
+      "agentProfileUrl": {
+        "description": "Primary agent StreetEasy profile URL (detailedMode)",
+        "type": "string"
+      },
+      "agents": {
+        "description": "Every listing contact with name, phone, email, license, brokerage and profile (detailedMode)",
         "type": "array"
       },
+      "amenities": {
+        "description": "Building and unit amenities (detailedMode)",
+        "type": "array"
+      },
+      "availableAt": {
+        "description": "Rental move-in date (ISO 8601)",
+        "type": "string"
+      },
       "bathrooms": {
-        "description": "Number of bathrooms",
+        "description": "Total bathrooms, counting a half bath as 0.5",
         "type": "number"
       },
       "bedrooms": {
         "description": "Number of bedrooms (0 for studios)",
         "type": "integer"
       },
+      "buildingFloors": {
+        "description": "Number of floors in the building (detailedMode)",
+        "type": "integer"
+      },
       "buildingName": {
         "description": "Building name (detailedMode)",
         "type": "string"
       },
+      "buildingType": {
+        "description": "Underlying building type reported by StreetEasy, e.g. Condo or Co-op",
+        "type": "string"
+      },
+      "buildingYear": {
+        "description": "Year the building was built (detailedMode)",
+        "type": "integer"
+      },
+      "city": {
+        "description": "City",
+        "type": "string"
+      },
+      "commonCharges": {
+        "description": "Monthly common charges for condos (detailedMode)",
+        "type": "number"
+      },
       "daysOnStreetEasy": {
-        "description": "Days listed (detailedMode)",
+        "description": "Days the listing has been on market (detailedMode)",
         "type": "integer"
       },
       "description": {
         "description": "Full listing description (detailedMode)",
         "type": "string"
       },
-      "latitude": {
-        "description": "GPS latitude (detailedMode)",
+      "estimatedMonthlyPayment": {
+        "description": "StreetEasy estimated monthly payment (detailedMode)",
         "type": "number"
+      },
+      "floorPlans": {
+        "description": "Floor-plan image URLs (detailedMode)",
+        "type": "array"
+      },
+      "fullBathrooms": {
+        "description": "Number of full bathrooms",
+        "type": "integer"
+      },
+      "furnished": {
+        "description": "Whether the unit is furnished",
+        "type": "boolean"
+      },
+      "halfBathrooms": {
+        "description": "Number of half bathrooms",
+        "type": "integer"
+      },
+      "has3dTour": {
+        "description": "Whether the listing publishes a 3D tour",
+        "type": "boolean"
+      },
+      "hasVideos": {
+        "description": "Whether the listing publishes videos",
+        "type": "boolean"
+      },
+      "isNewDevelopment": {
+        "description": "Whether the listing is a new development",
+        "type": "boolean"
+      },
+      "latitude": {
+        "description": "GPS latitude",
+        "type": "number"
+      },
+      "leaseTermMonths": {
+        "description": "Rental lease length in months",
+        "type": "integer"
+      },
+      "listedAt": {
+        "description": "Date the listing went on market (detailedMode)",
+        "type": "string"
+      },
+      "listingId": {
+        "description": "StreetEasy listing ID (stable natural key)",
+        "type": "string"
       },
       "listingType": {
         "description": "sale or rental",
         "type": "string"
       },
       "longitude": {
-        "description": "GPS longitude (detailedMode)",
+        "description": "GPS longitude",
         "type": "number"
       },
       "maintenanceFee": {
-        "description": "Monthly maintenance (detailedMode)",
+        "description": "Monthly maintenance or HOA fee (detailedMode)",
+        "type": "number"
+      },
+      "maxFinancing": {
+        "description": "Maximum financing percentage (detailedMode)",
+        "type": "number"
+      },
+      "mlsNumber": {
+        "description": "MLS number when published (detailedMode)",
+        "type": "string"
+      },
+      "monthsFree": {
+        "description": "Free rent months on a rental concession",
         "type": "number"
       },
       "nearbyTransit": {
-        "description": "Nearby subway lines/stations (detailedMode)",
+        "description": "Nearby subway and train stations (detailedMode)",
         "type": "array"
       },
       "neighborhood": {
         "description": "StreetEasy neighborhood name",
         "type": "string"
       },
+      "netEffectivePrice": {
+        "description": "Net effective monthly rent after concessions",
+        "type": "number"
+      },
+      "offMarketAt": {
+        "description": "Date the listing left the market, if any (detailedMode)",
+        "type": "string"
+      },
+      "openHouses": {
+        "description": "Upcoming open-house dates/times (detailedMode)",
+        "type": "array"
+      },
       "photoUrl": {
         "description": "Main listing photo URL",
         "type": "string"
       },
       "photos": {
-        "description": "All photo URLs (detailedMode)",
+        "description": "Every photo URL StreetEasy exposes for the listing",
         "type": "array"
       },
       "price": {
         "description": "Listed price (sale price or monthly rent)",
         "type": "number"
       },
+      "priceCurrency": {
+        "description": "Currency code, always USD",
+        "type": "string"
+      },
+      "priceHistory": {
+        "description": "Dated price and status events (detailedMode)",
+        "type": "array"
+      },
       "pricePerSqFt": {
-        "description": "Price per sqft (detailedMode)",
+        "description": "Price per square foot (detailedMode)",
         "type": "number"
       },
       "propertyType": {
-        "description": "e.g. Condo, Co-op, Rental Unit, Townhouse",
+        "description": "Condo, Co-op, Townhouse, Rental Unit, etc.",
+        "type": "string"
+      },
+      "roomCount": {
+        "description": "Room count (detailedMode)",
+        "type": "integer"
+      },
+      "saleType": {
+        "description": "StreetEasy sale type, e.g. Sponsor unit or Resale",
         "type": "string"
       },
       "scrapedAt": {
-        "description": "ISO 8601 timestamp",
+        "description": "ISO 8601 extraction timestamp",
         "type": "string"
       },
       "searchUrl": {
         "description": "Original search URL",
         "type": "string"
       },
+      "sourceGroupLabel": {
+        "description": "Listing brokerage or source label",
+        "type": "string"
+      },
+      "sourceType": {
+        "description": "StreetEasy source type, e.g. PARTNER or FEED (detailedMode)",
+        "type": "string"
+      },
       "squareFeet": {
-        "description": "Square footage (0 if not listed)",
+        "description": "Interior living area in square feet",
         "type": "integer"
       },
+      "state": {
+        "description": "State code",
+        "type": "string"
+      },
       "status": {
-        "description": "Listing status (detailedMode)",
+        "description": "Listing status, e.g. Active, In Contract, Sold, Rented",
+        "type": "string"
+      },
+      "street": {
+        "description": "Street address without unit",
         "type": "string"
       },
       "taxes": {
-        "description": "Annual taxes (detailedMode)",
+        "description": "Annual property taxes (detailedMode)",
         "type": "number"
+      },
+      "totalMonthlyPrice": {
+        "description": "Rental total monthly price including required fees",
+        "type": "number"
+      },
+      "unit": {
+        "description": "Unit number",
+        "type": "string"
+      },
+      "upcomingOpenHouse": {
+        "description": "Next open-house date/time shown on the search card",
+        "type": "string"
       },
       "url": {
         "description": "Direct listing URL on StreetEasy",
         "type": "string"
       },
+      "videos": {
+        "description": "Listing video URLs (detailedMode)",
+        "type": "array"
+      },
+      "virtualTourUrl": {
+        "description": "3D virtual tour URL (detailedMode)",
+        "type": "string"
+      },
       "yearBuilt": {
-        "description": "Year built (detailedMode)",
+        "description": "Year the building was built (detailedMode)",
         "type": "integer"
+      },
+      "zipCode": {
+        "description": "ZIP code",
+        "type": "string"
       }
     },
     "type": "object"
@@ -127,9 +299,17 @@
             "format": "text",
             "label": "Brokerage"
           },
+          "agentEmail": {
+            "format": "text",
+            "label": "Email"
+          },
           "agentName": {
             "format": "text",
             "label": "Agent"
+          },
+          "agentPhone": {
+            "format": "text",
+            "label": "Phone"
           },
           "amenities": {
             "format": "text",
@@ -146,6 +326,10 @@
           "buildingName": {
             "format": "text",
             "label": "Building"
+          },
+          "buildingYear": {
+            "format": "number",
+            "label": "Built"
           },
           "daysOnStreetEasy": {
             "format": "number",
@@ -197,15 +381,11 @@
           },
           "taxes": {
             "format": "number",
-            "label": "Taxes"
+            "label": "Annual Taxes"
           },
           "url": {
             "format": "link",
             "label": "URL"
-          },
-          "yearBuilt": {
-            "format": "number",
-            "label": "Year Built"
           }
         }
       },
@@ -220,19 +400,21 @@
           "propertyType",
           "neighborhood",
           "listingType",
+          "status",
           "description",
           "amenities",
           "buildingName",
+          "buildingYear",
           "agentName",
           "agentBrokerage",
+          "agentPhone",
+          "agentEmail",
           "latitude",
           "longitude",
           "daysOnStreetEasy",
           "maintenanceFee",
           "taxes",
           "pricePerSqFt",
-          "status",
-          "yearBuilt",
           "url"
         ]
       }
@@ -273,6 +455,10 @@
             "format": "number",
             "label": "Sq Ft"
           },
+          "status": {
+            "format": "text",
+            "label": "Status"
+          },
           "url": {
             "format": "link",
             "label": "URL"
@@ -289,6 +475,7 @@
           "squareFeet",
           "propertyType",
           "neighborhood",
+          "status",
           "listingType",
           "url"
         ]

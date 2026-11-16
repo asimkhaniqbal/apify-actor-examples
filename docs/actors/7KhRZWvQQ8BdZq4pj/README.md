@@ -4,122 +4,140 @@
 
 # StreetEasy NYC Listing & Agent Detail Scraper
 
-StreetEasy is the primary listing site for apartments and homes across New York City. This actor takes any StreetEasy search URL — sales or rentals, with whatever filters you've already applied on the site — and turns the matching listings into structured rows, with an optional detail pass that adds amenities, agent contact info, transit access, and building facts.
+StreetEasy is where most New York City apartments and homes are listed. This actor turns its public search pages into a clean, structured dataset: paste the search links you already use, or describe the search with simple filters, and get back every listing StreetEasy shows — with an optional second pass that adds the full description, building facts, agent phone and email, price history, open houses and floor plans.
 
-## What this actor does
+No StreetEasy account, cookie or login is needed.
 
-- Scrapes sale and rental listings from any StreetEasy search URL across all five boroughs
-- Respects whatever filters are already baked into the URL (price range, bedrooms, neighborhood, no-fee, property type, etc.)
-- Paginates automatically to collect all matching results up to your limit
-- In detailed mode, visits each listing page to add description, amenities, agent info, coordinates, transit access, and more
-- No field is ever `null` — a value StreetEasy doesn't publish for a listing comes back as an empty string, `0`, or an empty array instead
+## Two ways to start
 
-## Output per listing
+**Search URLs** — build a search on streeteasy.com (borough, neighborhood, price, beds, no-fee, anything the site offers), copy the link, and paste it in. Filters embedded in the link are honored, and the actor walks the site's own pagination.
 
-Always present:
+**Build a search** — choose a location and optional filters here instead: sale or rental, price range, bedrooms, bathrooms, square feet, condo/co-op, must-have amenities, no-fee rentals and sort order. One search is created per location.
 
-- `url` — direct link to the listing page
-- `price` — listed sale price or monthly rent
-- `address` — full street address including unit
-- `neighborhood` — StreetEasy's neighborhood label
-- `bedrooms`, `bathrooms` — bed and bath counts
-- `squareFeet` — interior square footage
-- `propertyType` — e.g. Co-op, Condo, Townhouse
-- `photoUrl` — main listing photo
+Both modes can run several searches in one run; duplicate listings across searches are removed.
+
+## What each row contains
+
+Core fields come from the search result itself, so they are present without detail enrichment:
+
+- `listingId` — StreetEasy's stable listing ID (use it as the natural key)
+- `url` — direct listing link
+- `price`, `priceCurrency`
+- `address`, `street`, `unit`, `city`, `state`, `zipCode`, `neighborhood`
+- `bedrooms`, `bathrooms`, `fullBathrooms`, `halfBathrooms`
+- `squareFeet`, `propertyType`, `buildingType`, `status`, `saleType`
+- `photoUrl`, `photos`, `latitude`, `longitude`
+- `sourceGroupLabel`, `furnished`, `isNewDevelopment`, `hasVideos`, `has3dTour`
 - `listingType` — `sale` or `rental`
-- `searchUrl` — the search URL that produced this result
-- `scrapedAt` — ISO 8601 extraction timestamp
+- `searchUrl`, `scrapedAt`
 
-Added only when `detailedMode` is on:
+Rental concessions, when StreetEasy publishes them:
 
-- `description` — full listing description text
-- `amenities[]` — building/unit amenities (doorman, gym, laundry, etc.)
-- `buildingName` — the building's name, when it has one
-- `agentName`, `agentBrokerage` — listing agent and their brokerage
-- `latitude`, `longitude` — GPS coordinates
-- `daysOnStreetEasy` — days the listing has been active
-- `photos[]` — every listing photo
-- `nearbyTransit[]` — nearby subway lines and stops
-- `maintenanceFee` — monthly maintenance/HOA fee
-- `taxes` — annual property taxes
-- `pricePerSqFt` — computed price per square foot
-- `status` — e.g. Active, In Contract, Sold, Rented, Delisted
-- `yearBuilt` — year the building was constructed
+- `availableAt`, `leaseTermMonths`, `monthsFree`, `netEffectivePrice`, `totalMonthlyPrice`
 
-## Input
+With **Fetch listing details** on, each row also gets:
 
-| Field | Type | Default | Description |
+- `description`, `amenities`
+- `buildingName`, `buildingYear`, `buildingFloors`, `yearBuilt`
+- `agentName`, `agentBrokerage`, `agentPhone`, `agentEmail`, `agentProfileUrl`, `agentPhotoUrl`, `agentLicenseType`
+- `agents` — every contact on the listing (name, phone, email, license, brokerage, profile, photo, office address)
+- `daysOnStreetEasy`, `listedAt`, `offMarketAt`, `mlsNumber`, `sourceType`, `roomCount`
+- `priceHistory` — dated price and status events
+- `openHouses`, `floorPlans`, `virtualTourUrl`, `videos`
+- `maintenanceFee`, `commonCharges`, `taxes`, `estimatedMonthlyPayment`, `maxFinancing`, `pricePerSqFt`
+- `nearbyTransit`
+
+A value StreetEasy does not publish for a listing is left out of that row instead of being written as `null` or an empty placeholder.
+
+## Input reference
+
+| Field | Type | Default | What it does |
 |---|---|---|---|
-| `startUrls` | array | – | StreetEasy search URLs, built with any filters on the site |
-| `maxResults` | integer | `50` | Maximum listings to scrape per search URL (1–500) |
-| `detailedMode` | boolean | `false` | Visit each listing page for amenities, agent info, coordinates, etc. |
-| `proxyConfiguration` | object | – | Not used — a residential proxy is applied automatically because StreetEasy blocks non-residential traffic; this field exists only for schema compatibility |
+| `mode` | select | `urls` | `urls` = use pasted links; `search` = build from filters |
+| `startUrls` | array | – | Search-result links for URL mode |
+| `locations` | array | `["manhattan"]` | Borough or neighborhood slugs for search mode |
+| `listingType` | select | `sale` | `sale` or `rental` |
+| `minPrice`, `maxPrice` | integer | – | Sale price or monthly rent in USD |
+| `minBeds`, `maxBeds` | integer | – | `0` = studio |
+| `minBaths` | number | – | Accepts halves such as `1.5` |
+| `minSqft`, `maxSqft` | integer | – | Interior size range |
+| `propertyType` | select | `any` | `any`, `condo` or `co-op` |
+| `amenities` | array | `[]` | Must-have amenities (AND logic) |
+| `noFee` | boolean | `false` | Rentals with no broker fee |
+| `sort` | select | `recommended` | Price, listing date, size or bedrooms |
+| `maxResults` | integer | `50` | Listings collected per search (1–500) |
+| `detailedMode` | boolean | `false` | Fetch each listing page for the extra fields |
 
-### Example: Manhattan sales in a price/bedroom band
+## Examples
+
+Manhattan sales between $500k and $1.5M with at least two bedrooms:
 
 ```json
 {
-  "startUrls": [
-    { "url": "https://streeteasy.com/for-sale/manhattan/price:500000-1500000|beds>=2" }
-  ],
-  "maxResults": 50,
-  "detailedMode": true
-}
-```
-
-### Example: Brooklyn rentals under $3,000/mo
-
-```json
-{
-  "startUrls": [
-    { "url": "https://streeteasy.com/for-rent/brooklyn/price:-3000" }
-  ],
+  "mode": "search",
+  "locations": ["manhattan"],
+  "listingType": "sale",
+  "minPrice": 500000,
+  "maxPrice": 1500000,
+  "minBeds": 2,
   "maxResults": 100
 }
 ```
 
-### Example: no-fee one-bedroom rentals in a neighborhood
+No-fee Brooklyn one-bedrooms under $3,000, newest first:
 
 ```json
 {
+  "mode": "search",
+  "locations": ["brooklyn"],
+  "listingType": "rental",
+  "maxPrice": 3000,
+  "minBeds": 1,
+  "noFee": true,
+  "sort": "listed_desc",
+  "maxResults": 50
+}
+```
+
+Pasting links you built on the site:
+
+```json
+{
+  "mode": "urls",
   "startUrls": [
-    { "url": "https://streeteasy.com/for-rent/east-village|beds>=1|no_fee:1" }
+    { "url": "https://streeteasy.com/for-sale/manhattan/price:500000-1500000|beds>=2" },
+    { "url": "https://streeteasy.com/for-rent/brooklyn/price:-3000|no_fee:1" }
   ],
-  "maxResults": 50,
+  "maxResults": 100,
   "detailedMode": true
 }
 ```
 
-## Use cases
+## How pagination and limits work
 
-- **Market analysis** — track price trends and inventory by neighborhood over time
-- **Investment research** — compare price-per-square-foot across listings to spot undervalued properties
-- **Lead generation** — build a list of listings and agent contacts matching specific criteria
-- **Competitive monitoring** — watch how long comparable listings sit on the market via `daysOnStreetEasy`
-- **Academic and policy research** — study NYC housing affordability and inventory patterns
+The actor follows StreetEasy's own next-page signal and stops when your `maxResults` is met or the site has no more pages. StreetEasy itself stops paginating a single search after its last page; when the search matches more listings than that, the actor says so in the run log and status message. To collect a larger slice, run several narrower searches (by neighborhood, price band or bedroom count) in the same run — results are de-duplicated.
+
+Property-type filtering is limited to what StreetEasy exposes as a search URL filter: condo and co-op. Other types still appear in the dataset; they just cannot be selected as a filter.
 
 ## FAQ
 
-**Do I need a StreetEasy account to use this?**
-No. Everything comes from publicly visible listing pages; no login is required.
+**Do I need a StreetEasy login or cookies?**
+No. Every field comes from publicly visible pages.
 
-**How do I build a search URL?**
-Go to streeteasy.com, apply whatever filters you want (borough, price, beds, no-fee, etc.), then copy the resulting URL into `startUrls`. Any filter combination the site supports will carry through.
+**Why does the actor use a residential proxy?**
+StreetEasy blocks datacenter traffic with PerimeterX. A US residential connection is applied automatically and cannot be configured; the actor never asks you for proxy settings.
 
-**What's the difference between normal and detailed mode?**
-Normal mode reads what's shown on the search-results cards: price, address, beds/baths, and a photo. Detailed mode additionally visits each listing's own page to extract the full description, amenities, agent contact, coordinates, transit access, and building facts — at the cost of one extra page load per listing.
+**Are agent phone and email always available?**
+They are filled whenever the listing page publishes them. StreetEasy shows a phone for most listings and an email for many sale listings; rental listings sometimes publish only a phone. Those keys are simply absent when the site does not expose them.
 
-**Why is a proxy needed, and why can't I configure it?**
-StreetEasy blocks traffic that doesn't look like it's coming from a normal residential connection, so a residential proxy is applied automatically on every run. The `proxyConfiguration` input field is kept only for schema compatibility and has no effect.
+**Can I get in-contract or sold listings?**
+StreetEasy no longer serves a working in-contract or sold browse page (the old paths return 404 or return the full active search), so the actor covers active sale and rental listings only. Price history on detailed rows shows past status events for units that were previously in contract or sold.
 
-**Can I cover all five boroughs?**
-Yes — Manhattan, Brooklyn, Queens, The Bronx, and Staten Island are all covered; just point `startUrls` at the appropriate borough or neighborhood search.
+**What is the difference between price and netEffectivePrice?**
+`price` is the advertised rent. `netEffectivePrice` is the rent after free months are spread over the lease, and `monthsFree` + `leaseTermMonths` show the concession that produced it. Sales have neither.
 
-**How many listings can one run return?**
-Up to 500 per search URL via `maxResults`. For larger datasets, add several narrower search URLs (by neighborhood or price band) to `startUrls` in the same run.
-
-**How fresh is the data?**
-Every run reads StreetEasy live, so results reflect what's currently posted at run time.
+**Can I monitor only new listings?**
+Run the same search on a schedule and diff on `listingId`; the field is stable across runs.
 
 **Is this affiliated with StreetEasy?**
-No. This is an independent, third-party actor that reads StreetEasy's publicly visible listing pages; it is not affiliated with or endorsed by StreetEasy or Zillow Group.
+No. This is an independent third-party actor that reads publicly visible listing pages. It is not affiliated with or endorsed by StreetEasy or Zillow Group.

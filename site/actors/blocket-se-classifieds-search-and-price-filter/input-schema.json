@@ -1,56 +1,328 @@
 {
-  "description": "Search Blocket.se — Sweden's largest classifieds — for ads across all categories or specific verticals.",
+  "description": "Search Blocket.se classifieds across Sweden or look up specific ads by URL or ID.",
   "properties": {
+    "bodyType": {
+      "default": "any",
+      "description": "Cars only: filter by body style.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "convertible",
+        "coupe",
+        "familyVan",
+        "hatchback3",
+        "hatchback5",
+        "estate",
+        "pickup",
+        "sedan",
+        "van",
+        "suv",
+        "other"
+      ],
+      "enumTitles": [
+        "Any body type",
+        "Convertible",
+        "Coupé",
+        "Family van",
+        "3-door hatchback",
+        "5-door hatchback",
+        "Estate",
+        "Pickup",
+        "Sedan",
+        "Van",
+        "SUV",
+        "Other"
+      ],
+      "title": "Body type",
+      "type": "string"
+    },
+    "condition": {
+      "default": "any",
+      "description": "Filter by stated item condition. Applies to all categories except cars.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "new",
+        "likeNew",
+        "good",
+        "ok",
+        "broken"
+      ],
+      "enumTitles": [
+        "Any condition",
+        "New",
+        "Like new",
+        "Good",
+        "OK / visibly used",
+        "For parts or repair"
+      ],
+      "title": "Condition",
+      "type": "string"
+    },
+    "fuel": {
+      "default": "any",
+      "description": "Cars only: filter by fuel or powertrain type.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "petrol",
+        "diesel",
+        "electric",
+        "ethanol",
+        "gas",
+        "hybridPetrol",
+        "hybridDiesel",
+        "hybridGas",
+        "plugInPetrol",
+        "plugInDiesel"
+      ],
+      "enumTitles": [
+        "Any fuel",
+        "Petrol",
+        "Diesel",
+        "Electric",
+        "Ethanol (E85)",
+        "Vehicle gas (CNG)",
+        "Petrol hybrid",
+        "Diesel hybrid",
+        "Gas hybrid",
+        "Plug-in petrol",
+        "Plug-in diesel"
+      ],
+      "title": "Fuel",
+      "type": "string"
+    },
+    "includeDetails": {
+      "default": false,
+      "description": "Also open each listing to add description, condition, category and seller contact details. Slower and uses more requests.",
+      "prefill": false,
+      "sectionCaption": "Output",
+      "title": "Load full ad details",
+      "type": "boolean"
+    },
     "maxItems": {
       "default": 20,
-      "description": "Maximum number of listings to return.",
+      "description": "Maximum number of listings or details records to return.",
       "maximum": 1000,
       "minimum": 1,
-      "prefill": 20,
+      "prefill": 3,
       "title": "Max items",
+      "type": "integer"
+    },
+    "mileageMax": {
+      "description": "Cars only: maximum mileage in Swedish mil (1 mil = 10 km).",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Max mileage (mil)",
       "type": "integer"
     },
     "mode": {
       "default": "searchAll",
-      "description": "What to search for on Blocket.",
+      "description": "Search Blocket listings, or fetch full details for specific ads.",
       "editor": "select",
       "enum": [
         "searchAll",
         "searchCars",
         "searchElectronics",
-        "searchFurniture"
+        "searchFurniture",
+        "details"
       ],
       "enumTitles": [
         "Search all categories",
         "Search cars",
         "Search electronics",
-        "Search furniture"
+        "Search furniture",
+        "Fetch details for specific ads"
       ],
       "prefill": "searchAll",
+      "sectionCaption": "Search or look up",
       "title": "Mode",
       "type": "string"
     },
     "priceMax": {
-      "description": "Filter ads with price at or below this value.",
+      "description": "Only keep ads priced at or below this amount in Swedish kronor.",
       "maximum": 10000000,
       "minimum": 0,
       "title": "Max price (SEK)",
       "type": "integer"
     },
     "priceMin": {
-      "description": "Filter ads with price at or above this value.",
+      "description": "Only keep ads priced at or above this amount in Swedish kronor.",
       "maximum": 10000000,
       "minimum": 0,
+      "sectionCaption": "Filters",
       "title": "Min price (SEK)",
       "type": "integer"
     },
+    "publishedToday": {
+      "default": false,
+      "description": "Only return ads that were published today.",
+      "prefill": false,
+      "title": "Published today only",
+      "type": "boolean"
+    },
     "query": {
       "default": "laptop",
-      "description": "Keyword to search for (e.g. 'laptop', 'iPhone', 'IKEA sofa').",
+      "description": "Keyword to search for, e.g. 'laptop', 'iPhone', 'IKEA soffa' or 'Volvo V60'. Ignored in details mode.",
       "editor": "textfield",
       "prefill": "laptop",
       "title": "Search query",
       "type": "string"
+    },
+    "region": {
+      "default": "any",
+      "description": "Limit results to one Swedish county.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "blekinge",
+        "dalarna",
+        "gotland",
+        "gavleborg",
+        "halland",
+        "jamtland",
+        "jonkoping",
+        "kalmar",
+        "kronoberg",
+        "norrbotten",
+        "skane",
+        "stockholm",
+        "sodermanland",
+        "uppsala",
+        "varmland",
+        "vasterbotten",
+        "vasternorrland",
+        "vastmanland",
+        "vastraGotaland",
+        "orebro",
+        "ostergotland"
+      ],
+      "enumTitles": [
+        "All of Sweden",
+        "Blekinge",
+        "Dalarna",
+        "Gotland",
+        "Gävleborg",
+        "Halland",
+        "Jämtland",
+        "Jönköping",
+        "Kalmar",
+        "Kronoberg",
+        "Norrbotten",
+        "Skåne",
+        "Stockholm",
+        "Södermanland",
+        "Uppsala",
+        "Värmland",
+        "Västerbotten",
+        "Västernorrland",
+        "Västmanland",
+        "Västra Götaland",
+        "Örebro",
+        "Östergötland"
+      ],
+      "title": "Region",
+      "type": "string"
+    },
+    "sellerType": {
+      "default": "any",
+      "description": "Keep only private sellers or only companies.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "private",
+        "company"
+      ],
+      "enumTitles": [
+        "Any seller",
+        "Private",
+        "Company"
+      ],
+      "title": "Seller type",
+      "type": "string"
+    },
+    "sort": {
+      "default": "relevance",
+      "description": "How Blocket should order the search results.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "priceAsc",
+        "priceDesc",
+        "newest",
+        "oldest"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Price: low to high",
+        "Price: high to low",
+        "Newest first",
+        "Oldest first"
+      ],
+      "prefill": "relevance",
+      "title": "Sort order",
+      "type": "string"
+    },
+    "tradeType": {
+      "default": "any",
+      "description": "For sale, give away, or wanted ads. Applies to all categories except cars.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "sell",
+        "giveAway",
+        "wanted"
+      ],
+      "enumTitles": [
+        "Any ad type",
+        "For sale",
+        "Give away",
+        "Wanted"
+      ],
+      "title": "Ad type",
+      "type": "string"
+    },
+    "transmission": {
+      "default": "any",
+      "description": "Cars only: filter by gearbox type.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "automatic",
+        "manual",
+        "sequential"
+      ],
+      "enumTitles": [
+        "Any transmission",
+        "Automatic",
+        "Manual",
+        "Sequential"
+      ],
+      "title": "Transmission",
+      "type": "string"
+    },
+    "urls": {
+      "default": [],
+      "description": "Blocket ad links such as https://www.blocket.se/recommerce/forsale/item/28292092, or bare ad IDs. Used only in details mode.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Ad URLs or IDs (details mode)",
+      "type": "array"
+    },
+    "yearMax": {
+      "description": "Cars only: exclude vehicles newer than this model year.",
+      "maximum": 2100,
+      "minimum": 1900,
+      "title": "Car model year (max)",
+      "type": "integer"
+    },
+    "yearMin": {
+      "description": "Cars only: exclude vehicles older than this model year.",
+      "maximum": 2100,
+      "minimum": 1900,
+      "sectionCaption": "Car filters (searchCars mode)",
+      "title": "Car model year (min)",
+      "type": "integer"
     }
   },
   "required": [

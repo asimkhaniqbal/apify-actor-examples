@@ -1,60 +1,185 @@
 {
-  "description": "Search rental listings on Zumper by city and state, or fetch listing details.",
+  "description": "Choose how to find rentals, then narrow the search with rent, bed, bath, property-type, pet and sort filters. No login, cookies or proxy setup required.",
   "properties": {
+    "bathrooms": {
+      "description": "Minimum bathroom count (1-5).",
+      "editor": "number",
+      "maximum": 5,
+      "minimum": 1,
+      "title": "Bathrooms",
+      "type": "integer"
+    },
     "bedrooms": {
-      "description": "Number of bedrooms filter. 0 = studio.",
+      "description": "Exact bedroom count filter, 0 for studio. Kept for existing tasks; use the range fields below for a range.",
       "editor": "number",
       "maximum": 5,
       "minimum": 0,
-      "title": "Bedrooms",
+      "title": "Bedrooms (single count)",
       "type": "integer"
     },
     "city": {
       "default": "San Francisco",
-      "description": "City name (e.g. San Francisco, New York, Chicago). Used in searchRentals and searchByCity modes.",
+      "description": "City name (San Francisco), slug (san-francisco-ca) or a Zumper city URL. Used by the city search modes and to narrow ZIP searches.",
       "editor": "textfield",
       "prefill": "San Francisco",
       "title": "City",
       "type": "string"
     },
+    "includeDetails": {
+      "default": false,
+      "description": "Makes one extra request per result to add full descriptions, square footage, price history, active-unit counts and building facts. Slower and more expensive.",
+      "prefill": false,
+      "title": "Add detail-page data to search results",
+      "type": "boolean"
+    },
+    "includeMarketStats": {
+      "default": true,
+      "description": "When a search finds no individual listings, return the city's average rent and rent-trend summary instead of an empty dataset.",
+      "prefill": true,
+      "title": "Fall back to city market statistics",
+      "type": "boolean"
+    },
     "listingUrls": {
       "default": [],
-      "description": "List of Zumper listing URLs for detail scraping.",
+      "description": "Zumper listing URLs, apartment-building URLs or numeric listing IDs. Used only by the details mode.",
       "editor": "stringList",
       "prefill": [],
-      "title": "Listing URLs (mode=listingDetails)",
+      "title": "Listing or building URLs",
       "type": "array"
+    },
+    "maxBedrooms": {
+      "description": "Highest bedroom count to include; 5 means five or more.",
+      "editor": "number",
+      "maximum": 5,
+      "minimum": 0,
+      "title": "Maximum bedrooms",
+      "type": "integer"
     },
     "maxItems": {
       "default": 20,
-      "description": "Maximum number of listings to return.",
+      "description": "Upper limit on records returned. The actor stops early when Zumper has fewer matches.",
+      "editor": "number",
       "maximum": 1000,
       "minimum": 1,
       "prefill": 20,
-      "title": "Max items",
+      "title": "Maximum results",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Highest monthly rent to include, in the listing's local currency.",
+      "editor": "number",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Maximum monthly rent",
+      "type": "integer"
+    },
+    "minBedrooms": {
+      "description": "Lowest bedroom count to include. Overrides the single bedroom count when set.",
+      "editor": "number",
+      "maximum": 5,
+      "minimum": 0,
+      "title": "Minimum bedrooms",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Lowest monthly rent to include, in the listing's local currency.",
+      "editor": "number",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Minimum monthly rent",
       "type": "integer"
     },
     "mode": {
       "default": "searchRentals",
-      "description": "What to scrape.",
+      "description": "Search a city by name or Zumper URL, search a ZIP code, or fetch details for specific Zumper listing/building URLs.",
       "editor": "select",
       "enum": [
         "searchRentals",
-        "listingDetails",
-        "searchByCity"
+        "searchByCity",
+        "searchByZip",
+        "listingDetails"
       ],
       "enumTitles": [
-        "Search rentals by city & state",
-        "Listing details by URL",
-        "Search by city name (auto-format URL)"
+        "Search a city by name & state/province",
+        "Search using a city name, slug or Zumper URL",
+        "Search a US ZIP or Canadian postal code",
+        "Fetch details for specific listing or building URLs"
       ],
       "prefill": "searchRentals",
-      "title": "Mode",
+      "title": "How should rentals be found?",
+      "type": "string"
+    },
+    "pets": {
+      "default": "any",
+      "description": "Only return rentals that accept the selected pets.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "cats",
+        "dogs",
+        "catsAndDogs"
+      ],
+      "enumTitles": [
+        "Any pet policy",
+        "Cats allowed",
+        "Dogs allowed",
+        "Cats and dogs allowed"
+      ],
+      "prefill": "any",
+      "title": "Pet policy",
+      "type": "string"
+    },
+    "propertyType": {
+      "default": "any",
+      "description": "Narrow results to one property category.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "apartment",
+        "house",
+        "condo",
+        "room",
+        "other"
+      ],
+      "enumTitles": [
+        "Any property type",
+        "Apartment",
+        "House",
+        "Condo",
+        "Room",
+        "Other"
+      ],
+      "prefill": "any",
+      "title": "Property type",
+      "type": "string"
+    },
+    "sort": {
+      "default": "relevance",
+      "description": "Order of the results.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "newest",
+        "priceLow",
+        "priceHigh",
+        "ratingLow",
+        "ratingHigh"
+      ],
+      "enumTitles": [
+        "Most relevant",
+        "Newest listings",
+        "Lowest rent first",
+        "Highest rent first",
+        "Lowest rating first",
+        "Highest rating first"
+      ],
+      "prefill": "relevance",
+      "title": "Sort order",
       "type": "string"
     },
     "state": {
       "default": "CA",
-      "description": "US/Canada state or province code (e.g. CA, NY, TX, ON). Used in searchRentals mode.",
+      "description": "US state or Canadian province code. Used to disambiguate cities with the same name.",
       "editor": "select",
       "enum": [
         "AL",
@@ -65,6 +190,7 @@
         "CO",
         "CT",
         "DE",
+        "DC",
         "FL",
         "GA",
         "HI",
@@ -113,10 +239,13 @@
         "NB",
         "NL",
         "NS",
+        "NT",
+        "NU",
         "ON",
         "PE",
         "QC",
-        "SK"
+        "SK",
+        "YT"
       ],
       "enumTitles": [
         "Alabama",
@@ -127,6 +256,7 @@
         "Colorado",
         "Connecticut",
         "Delaware",
+        "District of Columbia",
         "Florida",
         "Georgia",
         "Hawaii",
@@ -173,15 +303,24 @@
         "British Columbia",
         "Manitoba",
         "New Brunswick",
-        "Newfoundland",
+        "Newfoundland and Labrador",
         "Nova Scotia",
+        "Northwest Territories",
+        "Nunavut",
         "Ontario",
         "Prince Edward Island",
         "Quebec",
-        "Saskatchewan"
+        "Saskatchewan",
+        "Yukon"
       ],
       "prefill": "CA",
-      "title": "State code",
+      "title": "State or province",
+      "type": "string"
+    },
+    "zipCode": {
+      "description": "US ZIP (94105) or Canadian postal code (M5V 2T6). Required for the ZIP search mode; also narrows a city search when provided.",
+      "editor": "textfield",
+      "title": "ZIP or postal code",
       "type": "string"
     }
   },
@@ -189,6 +328,6 @@
     "mode"
   ],
   "schemaVersion": 1,
-  "title": "Zumper Scraper Input",
+  "title": "Zumper Rental Listings Finder input",
   "type": "object"
 }
