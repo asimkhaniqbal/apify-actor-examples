@@ -4,14 +4,16 @@
 
 # TDLR Occupational License Records for Texas Trades
 
-The Texas Department of Licensing and Regulation licenses more than 80 trades — cosmetology, electricians, HVAC technicians, tow truck operators, elevator inspectors, auctioneers, property tax professionals, and more. This actor searches those license records by holder or business name, or looks up a specific license number directly, returning status, expiration, trade category, and contact details.
+The Texas Department of Licensing and Regulation licenses more than 80 trades — cosmetology, electricians, HVAC technicians, tow truck operators, elevator inspectors, auctioneers, property tax professionals, and more. This actor searches those license records by owner name, business name, or license number, returning status, expiration, trade category, county, city, ZIP, and contact details.
 
 ## What this actor does
 
-- Searches by license holder or business name, matching either field with a case-insensitive partial match.
+- Searches owner names only, business/DBA names only, or both at once.
 - Looks up a specific license number directly when you already know it.
-- Filters results to one of 84 TDLR trade categories, a Texas county, and/or active-vs-expired status.
+- Filters by any of the 86 current TDLR trade categories, any Texas county (plus out-of-state licensees), city, ZIP code, and active-vs-expired status.
 - Works out each license's active/expired status itself by comparing its expiration date against today, since TDLR's own data doesn't carry a separate status field.
+- Sorts by license number, owner, business, or expiration date, ascending or descending. Expiration sorting is chronological, not month-first text order.
+- Splits TDLR's combined `CITY ST ZIP` text (including full state names like `AUSTIN, Texas 78701`) into separate city, state, and ZIP fields alongside the original value.
 - Leaves a field out of a record whenever TDLR never published that value for the license, rather than sending it empty.
 
 ## Output per license
@@ -23,13 +25,21 @@ The Texas Department of Licensing and Regulation licenses more than 80 trades �
 | `licenseSubtype` | TDLR's internal subtype/tier code, when published |
 | `ownerName` | Individual or business owner name |
 | `businessName` | Business or DBA name |
-| `businessAddressLine1`, `businessAddressLine2`, `businessCityStateZip`, `businessCounty`, `businessPhone` | Business location and phone |
-| `mailingAddressLine1`, `mailingAddressLine2`, `mailingCityStateZip`, `mailingCounty`, `ownerPhone` | Mailing address and owner phone |
+| `businessAddressLine1`, `businessAddressLine2` | Business street address, when published |
+| `businessCity`, `businessState`, `businessZip` | Business location split out of TDLR's combined city/state/ZIP text |
+| `businessCityStateZip` | TDLR's original combined business city/state/ZIP text |
+| `businessCounty` | Texas county of the business (or `OUT OF STATE`) |
+| `businessPhone` | Business phone, when published |
+| `mailingAddressLine1`, `mailingAddressLine2` | Mailing street address, when published |
+| `mailingCity`, `mailingState`, `mailingZip` | Mailing location split out of the combined text |
+| `mailingCityStateZip` | TDLR's original combined mailing city/state/ZIP text |
+| `mailingCounty` | Texas county of the mailing address |
+| `ownerPhone` | Owner phone, when published |
 | `latitude`, `longitude` | Geocoded business location, when published |
-| `expirationDate` | License expiration date |
+| `expirationDate` | License expiration date (`YYYY-MM-DD`) |
 | `licenseStatus` | `active` or `expired`, computed from `expirationDate` against today |
 | `continuingEducationRequired` | Whether TDLR flags this license as requiring continuing education |
-| `sourceUrl` | Link to the record on the Texas Open Data Portal |
+| `sourceUrl` | Link to the matching record(s) on the Texas Open Data Portal |
 | `datasetLastUpdated` | When TDLR's published dataset was last refreshed |
 | `recordType` | Always `license` |
 | `scrapedAt` | UTC timestamp of the scrape |
@@ -38,34 +48,40 @@ The Texas Department of Licensing and Regulation licenses more than 80 trades �
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `byName` | `byName` (holder/business name search) or `byLicenseNumber` (direct lookup). |
-| `nameQuery` | string | `Smith` | License holder or business name to match, used in `byName` mode. Optional if `licenseType` and/or `countyFilter` is set. |
+| `mode` | string | `byName` | `byName` (owner or business), `byOwnerName`, `byBusinessName`, or `byLicenseNumber`. |
+| `nameQuery` | string | `Smith` | Name to match, used by the three name modes. Optional if a trade category, county, city, or ZIP narrows the query. |
 | `licenseNumber` | string | – | TDLR license number to look up, used in `byLicenseNumber` mode. |
-| `licenseType` | string | – (all types) | One of 84 TDLR trade categories to restrict results to. |
-| `countyFilter` | string | – | Texas county name, matching business or mailing county. |
+| `licenseType` | string | – (all types) | One of the 86 current TDLR trade categories. |
+| `countyFilter` | string | – (all counties) | A Texas county from TDLR's own list, or `OUT OF STATE`. |
+| `cityFilter` | string | – | Business or mailing city, e.g. `Austin`. A trailing state or ZIP is accepted and ignored. |
+| `zipFilter` | string | – | 5-digit ZIP prefix, e.g. `78701`. ZIP+4 is accepted and truncated. |
 | `statusFilter` | string | – (both) | `active` or `expired`. |
 | `sortBy` | string | `licenseNumber` | `licenseNumber`, `ownerName`, `businessName`, or `expirationDate`. |
-| `maxItems` | integer | `20` | Maximum number of license records to return. |
+| `sortDirection` | string | `asc` | `asc` or `desc` for the selected sort field. |
+| `maxItems` | integer | `20` | Maximum number of license records to return (1–5,000). |
 
-### Example: search by name
+### Example: search by owner name
 
 ```json
 {
-  "mode": "byName",
+  "mode": "byOwnerName",
   "nameQuery": "Smith",
   "maxItems": 20
 }
 ```
 
-### Example: active cosmetology operators in one county
+### Example: active electrical contractors in Houston
 
 ```json
 {
-  "mode": "byName",
-  "nameQuery": "Garcia",
-  "licenseType": "Cosmetology Operator",
-  "countyFilter": "Harris",
+  "mode": "byBusinessName",
+  "nameQuery": "Electric",
+  "licenseType": "Electrical Contractor",
+  "countyFilter": "HARRIS",
+  "cityFilter": "Houston",
   "statusFilter": "active",
+  "sortBy": "expirationDate",
+  "sortDirection": "desc",
   "maxItems": 50
 }
 ```
@@ -80,13 +96,13 @@ The Texas Department of Licensing and Regulation licenses more than 80 trades �
 }
 ```
 
-### Example: browse a trade category
+### Example: browse a trade category in one ZIP
 
 ```json
 {
   "mode": "byName",
-  "nameQuery": "a",
   "licenseType": "Tow Truck Operator (Consent Tow)",
+  "zipFilter": "78701",
   "maxItems": 100
 }
 ```
@@ -97,7 +113,7 @@ The Texas Department of Licensing and Regulation licenses more than 80 trades �
 - **Compliance checks** — verify cosmetology or barbering staff licenses across multiple locations.
 - **Vendor and lead validation** — confirm a business's license number resolves to a real, current license.
 - **Industry-specific checks** — look up tow truck operators, elevator inspectors, or property tax professionals by trade category.
-- **Market mapping** — enumerate licensed businesses by trade category and county.
+- **Market mapping** — enumerate licensed businesses by trade category, county, city, or ZIP.
 
 ## FAQ
 
@@ -107,11 +123,17 @@ It's TDLR's own official license dataset, published on the Texas Open Data Porta
 **How fresh is the data?**
 The Open Data Portal dataset is refreshed by TDLR on a regular cadence — the `datasetLastUpdated` field on each record tells you exactly when. It isn't a live, real-time feed, but it reflects the same license records TDLR itself publishes.
 
+**Why do some records have no street address, phone, or ZIP?**
+TDLR publishes contact details for roughly one in ten licensees (about 100,000 businesses out of the full file). When a license only has a name, county, and expiration date, the missing fields are left off rather than shown blank.
+
 **Why do some records have no `licenseType`?**
-A small number of rows in TDLR's own dataset don't have a trade category filled in; that field is left off rather than shown blank.
+A small number of rows in TDLR's own dataset don't have a trade category filled in; that field is left off rather than shown blank. Report header/footer rows with no license number at all are skipped.
 
 **Why can the same license number return more than one record?**
 TDLR assigns license numbers per trade category rather than globally, so one number can belong to several unrelated license types at once (for example, an A/C Technician and a Property Tax Consultant sharing the same number). Set `licenseType` to narrow to the one you mean.
+
+**Why do I see fewer rows than TDLR's raw file count?**
+TDLR's export repeats some license numbers within the same trade category; the actor emits each number + trade category once. A handful of rows also use `01/01/1900` as a "no date on file" placeholder, so no expiration/status is shown for them.
 
 **Do I need a login or proxy?**
 No. The Texas Open Data Portal is fully public and doesn't require authentication.
@@ -120,4 +142,14 @@ No. The Texas Open Data Portal is fully public and doesn't require authenticatio
 By comparing each license's expiration date to the current date: `active` if it expires today or later, `expired` otherwise. TDLR's dataset itself doesn't publish a separate status field.
 
 **Can I search without a name at all?**
-Yes — leave `nameQuery` blank and set `licenseType` and/or `countyFilter` instead to browse licenses matching just those filters.
+Yes — leave `nameQuery` blank and set `licenseType`, `countyFilter`, `cityFilter`, and/or `zipFilter` to browse licenses matching just those filters.
+
+**Did the old Behavior Analyst categories change?**
+Yes. TDLR now calls them `Licensed Behavior Analyst` and `Licensed Assistant Behavior Analyst`. Saved tasks and API calls that still send the old labels are mapped automatically.
+
+## Limitations
+
+- The dataset is a periodic export, not the live licensing system. Newly issued or just-renewed licenses may lag by days to weeks.
+- It does not contain issue dates, disciplinary actions, bonds, insurance, or exam results. The actor cannot return fields the source does not publish.
+- Street address, phone, and coordinates exist for only a subset of licensees (mainly business licenses), so those fields are omitted for individual-only licenses.
+- `maxItems` is capped at 5,000 per run. Split a very broad browse by trade category, county, city, or ZIP to collect more.

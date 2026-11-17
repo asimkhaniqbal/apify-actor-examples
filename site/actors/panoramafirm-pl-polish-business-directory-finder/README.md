@@ -1,124 +1,135 @@
 # PanoramaFirm.pl Polish Business Directory Finder
 
-PanoramaFirm.pl lists Polish businesses across dozens of trades, from plumbers and lawyers to dentists and restaurants, organized by industry category and city. This actor searches it by category and city — or nationwide — and can pull each business's full profile for opening hours, tax ID, coordinates, and reviews.
+PanoramaFirm.pl is one of Poland's largest business directories: trades and professions organized by city, county, and voivodeship, with phone numbers, websites, tax IDs, ratings, reviews, and profile galleries. This actor turns that directory into structured business rows for lead generation, local SEO, CRM enrichment, and market research.
+
+It searches by category or free-text keyword, combines many terms with many Polish locations in one run, paginates automatically, and can either read the results pages only (fast) or open every business profile for the full record (rich).
 
 ## What this actor does
 
-- Searches by one of 50 curated business categories (branże) and 46 major Polish cities, or across the whole country.
-- Fetches specific business profiles directly when you already have their PanoramaFirm.pl URLs.
-- Optionally visits each result's own profile page to add opening hours, tax ID (NIP), coordinates, service descriptions, photo galleries, and recent reviews.
-- Sorts results by popularity, highest rating, or alphabetically, and can filter to businesses currently open or at or above a minimum rating.
-- Correctly handles Polish diacritics (ą, ć, ę, ł, ń, ó, ś, ź, ż) in both search input and output, and leaves a field out of a record whenever PanoramaFirm never published that value.
-
-## Output per business
-
-| Field | Description |
-|---|---|
-| `name` | Business name |
-| `category` | Industry category (branża), e.g. `Hydraulicy` |
-| `address` | Street address as listed |
-| `city`, `postalCode`, `voivodeship` | Parsed location details, when available |
-| `phone`, `website`, `email` | Contact details |
-| `facebookUrl`, `instagramUrl`, `linkedinUrl`, `youtubeUrl`, `tiktokUrl`, `twitterUrl` | Social profile links, when published |
-| `rating`, `reviewCount` | Average star rating and number of reviews |
-| `reviews` | Recent customer reviews, with author, rating, date, and text (profile lookups) |
-| `openingHours` | Weekly opening hours as `{day, opens, closes}` entries (profile lookups) |
-| `description`, `servicesDescription` | Business description and detailed services offered (profile lookups) |
-| `serviceArea` | Geographic area the business serves (profile lookups) |
-| `nip` | Polish tax identification number (profile lookups) |
-| `latitude`, `longitude`, `googleMapsUrl` | Coordinates and a Google Maps link (profile lookups) |
-| `logoUrl` | Business logo or photo URL |
-| `galleryImages` | Gallery photo and video-thumbnail URLs (profile lookups) |
-| `certificateImages` | Certificate or qualification image URLs (profile lookups) |
-| `profileUrl` | Canonical PanoramaFirm.pl profile page |
-| `companyId` | PanoramaFirm's internal listing identifier |
-| `recordType` | Always `business` |
-| `scrapedAt` | UTC timestamp of the scrape |
+- Searches a curated category or any Polish keyword, in one location or across the whole country.
+- Cross-joins `searchTerms` with `locations`, so one run can collect, for example, `hydraulik` × `Warszawa`, `Kraków`, and `pomorskie`.
+- Accepts PanoramaFirm search URLs and business profile URLs directly, including result-page URLs.
+- Sorts by popularity, highest rating, or alphabetically, and filters to currently open businesses or a minimum rating.
+- Optionally visits every business profile to add NIP, opening hours, coordinates, full descriptions, review text, social links, and photo/video galleries.
+- Handles Polish diacritics (ą, ć, ę, ł, ń, ó, ś, ź, ż) in both search input and output.
+- Leaves a field out of a record whenever the business never published that value — no empty strings, nulls, or placeholder values.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `search` | `search` (category + city) or `byUrl` (specific profile URLs). |
-| `category` | string | `hydraulicy` | One of 50 business categories, e.g. lawyers, dentists, mechanics, restaurants, hairdressers. |
-| `city` | string | `warszawa` | One of 46 major Polish cities, or blank for nationwide. |
-| `profileUrls` | array | `[]` | PanoramaFirm.pl business profile URLs to fetch directly, in `byUrl` mode. |
-| `fetchDetails` | boolean | `true` | Visit each business's profile page for hours, tax ID, coordinates, galleries, and reviews. |
-| `sort` | string | `popularity` | `popularity`, `rating` (highest first), `az`, or `za`. |
-| `openNowOnly` | boolean | `false` | Keep only businesses currently marked as open. |
-| `minRating` | integer | – | Keep only businesses rated at or above this value (1-5). |
-| `maxItems` | integer | `50` | Maximum number of business records to return. |
-| `proxyConfiguration` | object | Apify proxy off | Optional proxy fallback; the site is reachable without one. |
+| `mode` | string | `search` | `search` for the directory, `byUrl` for explicit PanoramaFirm URLs. |
+| `category` | string | `hydraulicy` | Curated trade to browse when `searchTerms` is empty. |
+| `searchTerms` | array | `[]` | Keywords or trades in Polish, e.g. `hydraulik`, `restauracja`, `montaż klimatyzacji`. |
+| `locations` | array | `[]` | Cities, counties, or voivodeships, e.g. `Warszawa`, `Kraków`, `pomorskie`. |
+| `city` | string | `warszawa` | Curated city used when `locations` is empty; choose "Whole Poland" for nationwide. |
+| `startUrls` | array | `[]` | PanoramaFirm search-results URLs or business profile URLs. |
+| `fetchDetails` | boolean | `true` | Open each profile for NIP, hours, coordinates, reviews, galleries, and descriptions. |
+| `sort` | string | `popularity` | `popularity`, `rating`, `az`, or `za`. |
+| `openNowOnly` | boolean | `false` | Keep only businesses currently marked open. |
+| `minRating` | integer | – | Keep only businesses rated at or above this value (1–5). |
+| `minReviewCount` | integer | `0` | Keep only businesses with at least this many reviews. |
+| `requireWebsite` | boolean | `false` | Drop businesses without a website. |
+| `requirePhone` | boolean | `false` | Drop businesses without a phone number. |
+| `requireEmail` | boolean | `false` | Drop businesses without an email address. |
+| `maxItems` | integer | `50` | Hard cap on emitted business records (1–1000). |
+| `maxPages` | integer | `40` | Safety cap on 25-result pages read per term/location. |
+| `maxConcurrency` | integer | `5` | Number of business profiles fetched in parallel. |
 
-### Example: plumbers in Warsaw with full details
+### Example: one trade across several cities
 
 ```json
 {
   "mode": "search",
-  "category": "hydraulicy",
-  "city": "warszawa",
+  "searchTerms": ["hydraulik"],
+  "locations": ["Warszawa", "Kraków", "pomorskie"],
   "fetchDetails": true,
-  "maxItems": 100
+  "maxItems": 150
 }
 ```
 
-### Example: highly rated restaurants, listing-only
+### Example: highly rated restaurants with a website
 
 ```json
 {
   "mode": "search",
   "category": "restauracje",
   "city": "krakow",
-  "fetchDetails": false,
+  "sort": "rating",
   "minRating": 4,
-  "maxItems": 200
+  "minReviewCount": 5,
+  "requireWebsite": true,
+  "maxItems": 100
 }
 ```
 
-### Example: specific business profiles
+### Example: fetch specific profiles or a saved search URL
 
 ```json
 {
   "mode": "byUrl",
-  "profileUrls": [
-    "https://panoramafirm.pl/mazowieckie,plonski,popielzyn_dolny,14/hyd_bud_pawel_brzeszkiewicz-sbjbzz_fhm.html"
-  ]
+  "startUrls": [
+    "https://panoramafirm.pl/hydraulicy/,,warszawa/firmy,2.html",
+    "https://panoramafirm.pl/mazowieckie,płoński,popielżyn_dolny,14/hyd_bud_pawel_brzeszkiewicz-sbjbzz_fhm.html"
+  ],
+  "fetchDetails": true,
+  "maxItems": 50
 }
 ```
 
+## Output per business
+
+| Field | Description |
+|---|---|
+| `name` | Business name |
+| `category`, `categorySlug`, `categories` | Industry label and PanoramaFirm category slug |
+| `address`, `street`, `city`, `postalCode`, `county`, `voivodeship`, `country` | Split postal address |
+| `phone`, `website`, `email` | Contact details when published |
+| `nip` | Polish tax identification number (profile lookups) |
+| `rating`, `reviewCount` | Average rating and number of reviews |
+| `reviews` | Up to ten recent reviews with author, rating, date, and text (profile lookups) |
+| `openingHours` | Weekly hours as `{day, opens, closes}` entries, when PanoramaFirm publishes structured hours |
+| `description`, `servicesDescription`, `serviceArea` | Business description, services, and service area (profile lookups) |
+| `latitude`, `longitude` | GPS coordinates (profile lookups) |
+| `facebookUrl`, `instagramUrl`, `linkedinUrl`, `youtubeUrl`, `tiktokUrl`, `twitterUrl`, `googleMapsUrl` | Social and map links when published |
+| `logoUrl`, `galleryImages`, `videoUrls`, `certificateImages` | Logo, gallery photos, YouTube videos, and certificate images |
+| `profileUrl`, `slug`, `companyId` | Canonical profile URL, PanoramaFirm slug, and internal company ID |
+| `searchTerm`, `searchLocation` | Which input term and location produced the row |
+| `recordType`, `scrapedAt` | Record marker and UTC scrape timestamp |
+
 ## Use cases
 
-- **B2B lead generation** — build prospect lists by trade and city for sales outreach.
-- **Local SEO auditing** — check how a client's listing compares to competitors in the same category and city.
-- **CRM enrichment** — attach verified phone, email, address, and tax ID to existing records.
-- **Market density research** — count how many competitors operate in a category across Polish cities.
-- **Directory aggregation** — cross-reference Polish business data into a broader listings platform.
+- **B2B lead generation** — build prospect lists by trade across many Polish cities in one run.
+- **Local SEO auditing** — compare a client's listing with competitors in the same category and location.
+- **CRM enrichment** — attach verified phone, email, address, NIP, and coordinates to existing records.
+- **Market density research** — count competitors by trade, city, county, or voivodeship.
+- **Directory aggregation** — normalize Polish business data into a wider listings product.
 
 ## FAQ
 
-**Do I need an account or API key?**
-No. PanoramaFirm.pl is a public directory, and no login or key is required.
+**Do I need an account, cookies, or an API key?**
+No. PanoramaFirm.pl is a public directory; this actor needs no login, key, or browser.
 
-**Which cities and categories are available?**
-46 major Polish cities are available as curated options, plus a nationwide search. 50 business categories span legal and financial services, home and construction trades, automotive, medical and health, food and hospitality, and professional services.
+**Do I need to configure a proxy?**
+No. The actor connects directly and only switches to Apify Proxy automatically if PanoramaFirm temporarily rejects a request.
 
-**Can `openNowOnly` return zero results even with businesses in that category and city?**
-Yes — PanoramaFirm's "open now" listing isn't scoped as tightly to your category and city as a normal search, so combining it with a narrow category and city can genuinely return nothing. Try widening one of the filters or dropping `openNowOnly`.
-
-**What does `fetchDetails` add?**
-With it on, the actor visits each business's own profile page to add opening hours, tax ID, coordinates, and reviews on top of what's visible on the search results page. Turning it off is faster but limits output to name, address, phone, website, email, and rating.
+**Which categories and locations are supported?**
+The dropdowns are shortcuts for common trades and cities, but `searchTerms` and `locations` accept any Polish keyword, city, county, or voivodeship that PanoramaFirm recognizes — including small towns and all 16 voivodeships.
 
 **Why do some businesses have fewer fields than others?**
-Not every business fills in every field on PanoramaFirm.pl — a field with nothing published for that business is left off the record rather than shown as a placeholder.
+PanoramaFirm only publishes what each business filled in. A missing phone, email, website, NIP, or hours entry is left out of the record rather than emitted as a placeholder.
+
+**Can `openNowOnly` return zero results even when the category has businesses in that city?**
+Yes. PanoramaFirm's "open now" listing is not scoped as tightly to the selected category and location as a normal search, so combining it with narrow filters can genuinely return nothing. Try widening the filters or turning `openNowOnly` off.
+
+**Are opening hours always available?**
+Only when PanoramaFirm publishes structured hours for that profile. Many profiles show hours only in free-text descriptions, in which case the actor does not guess them.
 
 **Can I re-fetch a business I already have a URL for?**
-Yes — use `mode: "byUrl"` with a list of PanoramaFirm.pl profile URLs.
-
-**Do I need to enable the proxy?**
-No. PanoramaFirm.pl is reachable without one; `proxyConfiguration` exists only as an optional fallback if a request from your run location is ever blocked.
+Yes — use `mode: "byUrl"` with profile URLs, or paste a results-page URL to resume a search from any page.
 
 **How fresh is the data?**
-Each run reads PanoramaFirm.pl's live pages, so results reflect whatever is currently published on the site.
+Each run reads PanoramaFirm's live pages, so results reflect what is currently published.
 
 **Is this affiliated with PanoramaFirm.pl?**
 No. This actor reads PanoramaFirm.pl's public pages and is not affiliated with, endorsed by, or connected to PanoramaFirm.pl.

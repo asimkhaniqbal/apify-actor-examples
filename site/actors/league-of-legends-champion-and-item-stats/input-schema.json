@@ -1,34 +1,281 @@
 {
-  "description": "Scrape LoL champion stats and items using Riot DDragon public API.",
+  "description": "Export champions, items, runes, summoner spells, profile icons, maps and patch versions from Riot's public Data Dragon CDN. No API key or login needed.",
   "properties": {
+    "championIds": {
+      "description": "Only for championDetails mode. Data Dragon IDs, champion names or champion.json URLs; accepts a comma-separated string. Leave empty for all champions.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Champion IDs or names",
+      "type": "array"
+    },
+    "itemTag": {
+      "default": "",
+      "description": "Only items with this tag (mode=items).",
+      "editor": "select",
+      "enum": [
+        "",
+        "AbilityHaste",
+        "Active",
+        "Armor",
+        "ArmorPenetration",
+        "AttackSpeed",
+        "Aura",
+        "Bilgewater",
+        "Boots",
+        "Consumable",
+        "CooldownReduction",
+        "CriticalStrike",
+        "Damage",
+        "GoldPer",
+        "Health",
+        "HealthRegen",
+        "Jungle",
+        "Lane",
+        "LifeSteal",
+        "MagicPenetration",
+        "MagicResist",
+        "Mana",
+        "ManaRegen",
+        "NonbootsMovement",
+        "OnHit",
+        "Slow",
+        "SpellBlock",
+        "SpellDamage",
+        "SpellVamp",
+        "Stealth",
+        "Tenacity",
+        "Trinket",
+        "Vision"
+      ],
+      "enumTitles": [
+        "All item tags",
+        "Ability haste",
+        "Active",
+        "Armor",
+        "Armor penetration",
+        "Attack speed",
+        "Aura",
+        "Bilgewater",
+        "Boots",
+        "Consumable",
+        "Cooldown reduction",
+        "Critical strike",
+        "Damage",
+        "Gold per",
+        "Health",
+        "Health regen",
+        "Jungle",
+        "Lane",
+        "Life steal",
+        "Magic penetration",
+        "Magic resist",
+        "Mana",
+        "Mana regen",
+        "Non-boots movement",
+        "On-hit",
+        "Slow",
+        "Spell block",
+        "Spell damage",
+        "Spell vamp",
+        "Stealth",
+        "Tenacity",
+        "Trinket",
+        "Vision"
+      ],
+      "sectionCaption": "Item filters",
+      "title": "Item tag filter",
+      "type": "string"
+    },
+    "locale": {
+      "default": "en_US",
+      "description": "Language of names and descriptions. Every supported Data Dragon locale except Vietnamese is available.",
+      "editor": "select",
+      "enum": [
+        "en_US",
+        "cs_CZ",
+        "de_DE",
+        "el_GR",
+        "en_AU",
+        "en_GB",
+        "en_PH",
+        "en_SG",
+        "es_AR",
+        "es_ES",
+        "es_MX",
+        "fr_FR",
+        "hu_HU",
+        "it_IT",
+        "ja_JP",
+        "ko_KR",
+        "pl_PL",
+        "pt_BR",
+        "ro_RO",
+        "ru_RU",
+        "th_TH",
+        "tr_TR",
+        "zh_CN",
+        "zh_MY",
+        "zh_TW"
+      ],
+      "enumTitles": [
+        "English (United States)",
+        "Čeština",
+        "Deutsch",
+        "Ελληνικά",
+        "English (Australia)",
+        "English (United Kingdom)",
+        "English (Philippines)",
+        "English (Singapore)",
+        "Español (Argentina)",
+        "Español (Spain)",
+        "Español (Mexico)",
+        "Français",
+        "Magyar",
+        "Italiano",
+        "日本語",
+        "한국어",
+        "Polski",
+        "Português (Brasil)",
+        "Română",
+        "Русский",
+        "ไทย",
+        "Türkçe",
+        "中文 (China)",
+        "中文 (Malaysia)",
+        "中文 (Taiwan)"
+      ],
+      "prefill": "en_US",
+      "sectionCaption": "Data version",
+      "title": "Language",
+      "type": "string"
+    },
+    "mapId": {
+      "default": "",
+      "description": "Only items available on this map (mode=items).",
+      "editor": "select",
+      "enum": [
+        "",
+        "11",
+        "12",
+        "22",
+        "30",
+        "453"
+      ],
+      "enumTitles": [
+        "Any map",
+        "Summoner's Rift",
+        "Howling Abyss",
+        "Teamfight Tactics",
+        "Arena",
+        "Map 453"
+      ],
+      "title": "Map availability",
+      "type": "string"
+    },
+    "maxGold": {
+      "description": "Only items costing at most this much (mode=items). An inverted range returns no records.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Maximum total gold",
+      "type": "integer"
+    },
     "maxItems": {
       "default": 50,
-      "description": "Maximum records to return.",
-      "maximum": 500,
+      "description": "Maximum records to return after filters and offset.",
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 50,
-      "title": "Max items",
+      "prefill": 3,
+      "sectionCaption": "Output",
+      "title": "Max records",
+      "type": "integer"
+    },
+    "minGold": {
+      "description": "Only items costing at least this much (mode=items).",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Minimum total gold",
       "type": "integer"
     },
     "mode": {
       "default": "champions",
-      "description": "Champions or items.",
+      "description": "Which Data Dragon dataset to export.",
       "editor": "select",
       "enum": [
         "champions",
-        "items"
+        "championDetails",
+        "items",
+        "summonerSpells",
+        "runes",
+        "profileIcons",
+        "maps",
+        "versions"
       ],
       "enumTitles": [
-        "Champions",
-        "Items"
+        "Champions (stats + role tags)",
+        "Champion details (lore, abilities, skins)",
+        "Items (gold, stats, build paths)",
+        "Summoner spells",
+        "Runes",
+        "Profile icons",
+        "Maps",
+        "Patch versions"
       ],
       "prefill": "champions",
+      "sectionCaption": "Mode",
       "title": "Mode",
+      "type": "string"
+    },
+    "offset": {
+      "default": 0,
+      "description": "Skip this many matching records, for paging through large datasets.",
+      "maximum": 100000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Offset",
+      "type": "integer"
+    },
+    "purchasableOnly": {
+      "default": false,
+      "description": "Skip items that cannot be bought in a shop (mode=items).",
+      "prefill": false,
+      "title": "Purchasable only",
+      "type": "boolean"
+    },
+    "runeTree": {
+      "default": "",
+      "description": "Only runes from this tree (mode=runes).",
+      "editor": "select",
+      "enum": [
+        "",
+        "Domination",
+        "Inspiration",
+        "Precision",
+        "Resolve",
+        "Sorcery"
+      ],
+      "enumTitles": [
+        "All trees",
+        "Domination",
+        "Inspiration",
+        "Precision",
+        "Resolve",
+        "Sorcery"
+      ],
+      "sectionCaption": "Rune filter",
+      "title": "Rune tree filter",
+      "type": "string"
+    },
+    "search": {
+      "description": "Case-insensitive match on the record name or id. Works in every mode.",
+      "editor": "textfield",
+      "title": "Text search",
       "type": "string"
     },
     "tag": {
       "default": "",
-      "description": "Filter champions by role tag.",
+      "description": "Only champions with this role (mode=champions or championDetails).",
       "editor": "select",
       "enum": [
         "",
@@ -40,7 +287,7 @@
         "Tank"
       ],
       "enumTitles": [
-        "All",
+        "All roles",
         "Assassin",
         "Fighter",
         "Mage",
@@ -48,11 +295,12 @@
         "Support",
         "Tank"
       ],
-      "title": "Champion tag filter",
+      "sectionCaption": "Champion filters",
+      "title": "Champion role filter",
       "type": "string"
     },
     "version": {
-      "description": "DDragon version (blank = latest).",
+      "description": "Data Dragon patch such as 16.22.1. Leave blank for the latest patch; an unpublished version falls back to the latest with a warning.",
       "editor": "textfield",
       "title": "Game version",
       "type": "string"
@@ -62,6 +310,6 @@
     "mode"
   ],
   "schemaVersion": 1,
-  "title": "League of Legends Champion Data Scraper Input",
+  "title": "League of Legends Data Dragon Input",
   "type": "object"
 }

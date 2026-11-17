@@ -1,9 +1,9 @@
 {
-  "description": "Search PanoramaFirm.pl by business category and city, or fetch full business profiles directly by URL.",
+  "description": "Search PanoramaFirm.pl by category or keyword and Polish location, or fetch search-results and business profile URLs directly.",
   "properties": {
     "category": {
       "default": "hydraulicy",
-      "description": "Type of business to search for (mode=search).",
+      "description": "Category to browse when `searchTerms` is empty. Pick one of the curated Polish trades.",
       "editor": "select",
       "enum": [
         "adwokaci",
@@ -115,7 +115,7 @@
     },
     "city": {
       "default": "warszawa",
-      "description": "Restrict results to a city (mode=search). Leave as \"Whole Poland\" to search the entire country.",
+      "description": "Restrict results to a curated city when `locations` is empty. Choose \"Whole Poland\" for a nationwide search.",
       "editor": "select",
       "enum": [
         "",
@@ -221,38 +221,73 @@
     },
     "fetchDetails": {
       "default": true,
-      "description": "For mode=search: visit each business's profile page to also collect opening hours, description, NIP, GPS coordinates and full review data. Slower but richer. Turn off for a fast, listing-only scrape.",
+      "description": "Visit each business's profile page to also collect opening hours, description, NIP, GPS coordinates, videos, galleries, and full review data. Slower but richer. Turn off for a fast, listing-only scrape.",
       "prefill": true,
       "title": "Fetch full profile details",
       "type": "boolean"
+    },
+    "locations": {
+      "default": [],
+      "description": "Polish cities, counties or voivodeships, e.g. `Warszawa`, `Kraków`, `pomorskie`. Each term is combined with every location. Leave empty to use `city`, or to search all of Poland.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Locations",
+      "type": "array"
+    },
+    "maxConcurrency": {
+      "default": 5,
+      "description": "How many business profiles to fetch at the same time. Lower it if you see rate limiting.",
+      "maximum": 20,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Parallel profile requests",
+      "type": "integer"
     },
     "maxItems": {
       "default": 50,
       "description": "Hard cap on the number of business records emitted.",
       "maximum": 1000,
       "minimum": 1,
-      "prefill": 50,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
+    "maxPages": {
+      "default": 40,
+      "description": "Safety cap on how many 25-result pages are read for each search term and location.",
+      "maximum": 200,
+      "minimum": 1,
+      "prefill": 40,
+      "title": "Max results pages per search",
+      "type": "integer"
+    },
     "minRating": {
-      "description": "Only keep businesses with a rating at or above this value (1-5). Businesses with no rating yet are always kept unless this is set.",
+      "description": "Only keep businesses with a rating at or above this value (1-5). Businesses with no rating yet are excluded when this is set.",
       "maximum": 5,
       "minimum": 1,
       "title": "Minimum rating",
       "type": "integer"
     },
+    "minReviewCount": {
+      "default": 0,
+      "description": "Only keep businesses with at least this many customer reviews. 0 disables the filter.",
+      "maximum": 100000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum review count",
+      "type": "integer"
+    },
     "mode": {
       "default": "search",
-      "description": "What to fetch.",
+      "description": "Search the directory, or fetch specific PanoramaFirm URLs.",
       "editor": "select",
       "enum": [
         "search",
         "byUrl"
       ],
       "enumTitles": [
-        "Search by category + city",
-        "Fetch specific business profile URLs"
+        "Search by category or keyword",
+        "Fetch specific PanoramaFirm URLs"
       ],
       "prefill": "search",
       "title": "Mode",
@@ -265,25 +300,34 @@
       "title": "Open now only (mode=search)",
       "type": "boolean"
     },
-    "profileUrls": {
+    "requireEmail": {
+      "default": false,
+      "description": "Drop businesses that don't publish an email address.",
+      "prefill": false,
+      "title": "Only businesses with an email",
+      "type": "boolean"
+    },
+    "requirePhone": {
+      "default": false,
+      "description": "Drop businesses that don't publish a phone number.",
+      "prefill": false,
+      "title": "Only businesses with a phone number",
+      "type": "boolean"
+    },
+    "requireWebsite": {
+      "default": false,
+      "description": "Drop businesses that don't publish a website.",
+      "prefill": false,
+      "title": "Only businesses with a website",
+      "type": "boolean"
+    },
+    "searchTerms": {
       "default": [],
-      "description": "Full PanoramaFirm.pl business profile page URLs to fetch directly.",
+      "description": "What to look for, in Polish: a trade or any keyword, e.g. `hydraulik`, `restauracja`, `montaż klimatyzacji`. Every term is searched in every location. When set, `category` is ignored.",
       "editor": "stringList",
       "prefill": [],
-      "title": "Business profile URLs (mode=byUrl)",
+      "title": "Search terms / keywords",
       "type": "array"
-    },
-    "proxyConfiguration": {
-      "default": {
-        "useApifyProxy": false
-      },
-      "description": "PanoramaFirm.pl is publicly accessible without a proxy, so this is off by default. It exists only as an optional fallback if a request is ever blocked from your run location.",
-      "editor": "proxy",
-      "prefill": {
-        "useApifyProxy": false
-      },
-      "title": "Proxy configuration",
-      "type": "object"
     },
     "sort": {
       "default": "popularity",
@@ -304,6 +348,14 @@
       "prefill": "popularity",
       "title": "Sort order (mode=search)",
       "type": "string"
+    },
+    "startUrls": {
+      "default": [],
+      "description": "PanoramaFirm search-results URLs (including page URLs) or business profile URLs. Search URLs paginate automatically.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "PanoramaFirm URLs (mode=byUrl)",
+      "type": "array"
     }
   },
   "required": [

@@ -25,7 +25,9 @@ Loaded.com (formerly CDKeys.com) sells digital game keys, gift cards, and member
 | `publisher` | Publisher or platform-holder name |
 | `genre` | Primary genre, when the product has one |
 | `franchise` | Franchise name, when the product belongs to one |
+| `category` | Store category, e.g. PlayStation Games, PC Games |
 | `productType` | e.g. PC Games, Xbox DLC & Add-ons, Roblox Top-ups |
+| `edition` | Standard, Deluxe, Premium, Complete, DLC, and similar variants |
 | `region` | e.g. Worldwide, EU, US |
 | `inStock` | Whether the product is currently in stock |
 | `isPreorder` | Whether the product is a pre-order |
@@ -118,3 +120,11 @@ From the live current price against the store's own regular price on the same li
 
 **Is this affiliated with Loaded.com or CDKeys?**
 No. This actor reads Loaded.com's public catalog and is not affiliated with, endorsed by, or connected to Loaded.com in any way.
+
+## Limitations
+
+- Every record comes from the store's public listing pages: title, price, discount, platform, publisher, genre, franchise, category, product type, edition, region, stock, pre-order status, image, and URL. Fields that exist only on individual product pages (long description, system requirements, screenshots) are not fetched, which keeps runs fast and cheap.
+- Prices are in the currency the store returns to an anonymous visitor (GBP at the time of writing); the `currency` field states it per record.
+- `genre`, `publisher`, and price filters are applied to the products the actor reads, so a very narrow filter may need a deeper scan of the listing than a broad one. The actor stops when the catalog stops returning new products, or after 200 listing pages, and says so in the run status when that cap is reached.
+- `maxItems` is capped at 1,000 by the input schema; request several platform/category slices when you need more.
+- The store does not publish historical low prices or coupon codes on these listing pages, so those fields are not included.

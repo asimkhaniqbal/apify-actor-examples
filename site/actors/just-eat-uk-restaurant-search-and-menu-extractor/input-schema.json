@@ -1,5 +1,5 @@
 {
-  "description": "Search Just Eat UK restaurants by postcode or city, filter by cuisine, or fetch a restaurant's full menu.",
+  "description": "Search Just Eat UK restaurants by postcode or city, filter by cuisine, rating and open status, or fetch full menus from restaurant URLs or slugs.",
   "properties": {
     "cuisine": {
       "default": "Any",
@@ -45,7 +45,13 @@
         "Bubble Tea",
         "Ice Cream",
         "Wings",
-        "Sharing"
+        "Sharing",
+        "Salads",
+        "Groceries",
+        "Coffee",
+        "Wraps",
+        "Bagels",
+        "Poke"
       ],
       "enumTitles": [
         "Any cuisine",
@@ -87,25 +93,31 @@
         "Bubble Tea",
         "Ice Cream",
         "Wings",
-        "Sharing"
+        "Sharing",
+        "Salads",
+        "Groceries",
+        "Coffee",
+        "Wraps",
+        "Bagels",
+        "Poke"
       ],
       "prefill": "Any",
       "title": "Cuisine filter",
       "type": "string"
     },
     "location": {
-      "description": "A UK postcode/outcode (e.g. `EC4M`, `SW1A 1AA`) or a major UK city name (e.g. `London`, `Manchester`).",
+      "description": "A UK postcode/outcode (e.g. `EC4M`, `SW1A 1AA`) or a major UK city name (e.g. `London`, `Manchester`). In menu mode, an optional location used to resolve numeric restaurant IDs.",
       "editor": "textfield",
       "prefill": "London",
-      "title": "Postcode or city (mode=search)",
+      "title": "Postcode or city (search mode)",
       "type": "string"
     },
     "maxItems": {
       "default": 20,
-      "description": "Hard cap on emitted records.",
+      "description": "Maximum number of records to emit.",
       "maximum": 500,
       "minimum": 1,
-      "prefill": 20,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
@@ -118,7 +130,7 @@
     },
     "mode": {
       "default": "search",
-      "description": "What to fetch.",
+      "description": "Search restaurants near a location, or fetch full menus for specific restaurants.",
       "editor": "select",
       "enum": [
         "search",
@@ -126,11 +138,20 @@
       ],
       "enumTitles": [
         "Search restaurants by postcode/city",
-        "Get full menu by restaurant ID"
+        "Get full menus"
       ],
       "prefill": "search",
       "title": "Mode",
       "type": "string"
+    },
+    "offset": {
+      "default": 0,
+      "description": "Skip this many matching restaurants before emitting records. Combine with `maxItems` to page through the whole search result set.",
+      "maximum": 100000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Start offset",
+      "type": "integer"
     },
     "openNowOnly": {
       "default": false,
@@ -140,23 +161,17 @@
       "type": "boolean"
     },
     "proxyConfiguration": {
-      "default": {
-        "useApifyProxy": true
-      },
-      "description": "Recommended. Just Eat's API sits behind Cloudflare bot protection; the free AUTO proxy group materially improves reliability.",
+      "description": "Just Eat's search API uses Cloudflare bot management. The actor automatically falls back to the included Apify AUTO proxy, so you don't need to configure anything. Supply a proxy only if you want to override that automatic choice.",
       "editor": "proxy",
-      "prefill": {
-        "useApifyProxy": true
-      },
-      "title": "Proxy configuration",
+      "title": "Proxy configuration (optional)",
       "type": "object"
     },
     "restaurantIds": {
       "default": [],
-      "description": "Just Eat numeric restaurant IDs to fetch full menus for.",
+      "description": "Restaurant menu URLs (https://www.just-eat.co.uk/restaurants-<slug>/menu), slugs, or numeric IDs. Numeric IDs also need `location` so they can be resolved to a slug.",
       "editor": "stringList",
       "prefill": [],
-      "title": "Restaurant IDs (mode=menu)",
+      "title": "Restaurants (menu mode)",
       "type": "array"
     },
     "sortBy": {

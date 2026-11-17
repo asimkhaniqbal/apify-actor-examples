@@ -4,112 +4,192 @@
 
 # League of Legends Champion & Item Stats Extractor
 
-Riot Games publishes League of Legends' champion and item data openly through Data Dragon, its static-data CDN, but pulling it into a usable dataset still means parsing per-patch JSON files yourself. This actor does that for you: every champion with its stats and role tags, or every in-game item with its cost and effects, for the current patch or any version you specify.
+Riot Games publishes League of Legends' static game data through Data Dragon, its public CDN. This actor turns those patch files into clean datasets: champion base stats and role tags, full champion lore with abilities and skins, item prices and build paths, runes, summoner spells, profile icons, maps, and the patch history itself — in 25 languages and for any patch you pin. No Riot API key, login, cookie, or proxy is needed.
 
 ## What this actor does
 
-- Fetches every League of Legends champion, with base stats, difficulty rating, role tags, and a short lore blurb.
-- Fetches every in-game item, with gold cost (base, total, and sell value) and its tags.
-- Filters champions to a single role tag, e.g. Mage or Support.
-- Reads a specific Data Dragon game version on request, or the latest published version by default.
-- Leaves a field out of a record whenever Data Dragon has nothing published for it, rather than sending it empty.
+- **Champions** — every champion with level-1 base stats, per-level growth, role tags, resource type, Riot's difficulty ratings, and a portrait URL.
+- **Champion details** — lore, play/against tips, the passive plus Q/W/E/R ability data, and every skin with splash and loading-screen art URLs.
+- **Items** — shop price (total/base/sell), tags, stat modifiers, build-from/build-into paths, stack counts, champion restrictions, and which maps stock the item.
+- **Summoner spells** — cooldowns, costs, ranges, available game modes, and the level unlock.
+- **Runes** — every reforged rune with its tree, slot, keystone flag, and plain-language effect text.
+- **Profile icons and maps** — IDs and direct image URLs.
+- **Patch versions** — the published release list, newest first, with major/minor/patch parts.
+- **Filters and paging** — role, item tag, gold range, purchasable-only, map, rune tree, text search, `offset`, and `maxItems`.
+- **Any supported language** — a `locale` dropdown covering every Data Dragon locale that publishes data.
+- **Omit-empty output** — a field the CDN does not publish for a record is left out, never sent as `null` or a placeholder.
 
-## Output per record
+## Output fields
 
-### Champions (`mode: "champions"`)
+### `mode: "champions"`
 
-| Field | Description |
+| Field | Meaning |
 |---|---|
-| `championId` | Champion's internal ID, e.g. `Ahri` |
-| `championName` | Display name |
-| `title` | Champion's title, e.g. "the Nine-Tailed Fox" |
+| `championId`, `championKey` | Data Dragon id (e.g. `Ahri`) and numeric Riot key (e.g. `103`) |
+| `championName`, `title` | Display name and epithet |
 | `blurb` | Short lore summary |
-| `tags` | Role tags, e.g. `["Mage", "Assassin"]` |
-| `partype` | Resource type, e.g. Mana, Energy |
-| `attackDamage`, `attackSpeed`, `armor`, `spellBlock`, `hp`, `moveSpeed` | Base stats at level 1 |
-| `difficulty`, `attack`, `defense`, `magic` | Riot's 1-10 rating for how hard the champion is to play, and its attack/defense/magic emphasis |
-| `imageUrl` | Champion portrait image URL |
-| `version` | Data Dragon game version this record came from |
+| `tags` | Role tags: Assassin, Fighter, Mage, Marksman, Support, Tank |
+| `partype` | Resource type (Mana, Energy, Blood Well, …) |
+| `hp`, `hpPerLevel` | Base health and growth per level |
+| `mana`, `manaPerLevel` | Base resource and growth per level |
+| `moveSpeed`, `attackRange` | Base movement speed and attack range |
+| `armor`, `armorPerLevel` | Base armor and growth |
+| `spellBlock`, `spellBlockPerLevel` | Base magic resist and growth |
+| `hpRegen`, `hpRegenPerLevel` | Health regen and growth |
+| `manaRegen`, `manaRegenPerLevel` | Resource regen and growth |
+| `crit`, `critPerLevel` | Base crit chance and growth |
+| `attackDamage`, `attackDamagePerLevel` | Base attack damage and growth |
+| `attackSpeed`, `attackSpeedPerLevel` | Base attack speed and growth |
+| `attackSpeedOffset` | Legacy attack-speed offset, only on patches that publish it |
+| `difficulty`, `attack`, `defense`, `magic` | Riot's 1–10 ratings |
+| `imageUrl` | Square champion portrait |
+| `version`, `locale` | Patch and language this record came from |
 
-### Items (`mode: "items"`)
+### `mode: "championDetails"`
 
-| Field | Description |
+Includes every champion field above, plus:
+
+| Field | Meaning |
 |---|---|
-| `itemId` | Item's internal ID |
-| `itemName` | Item name |
-| `description` | Plain-text item description |
-| `totalGold`, `baseGold`, `sellGold` | Total purchase cost, base cost, and sell-back value |
-| `tags` | Item tags, e.g. `["Damage", "CriticalStrike"]` |
-| `imageUrl` | Item icon image URL |
-| `version` | Data Dragon game version this record came from |
+| `lore` | Full champion biography |
+| `allyTips`, `enemyTips` | Play tips and counter tips |
+| `passive` | `{passiveName, description, imageUrl}` |
+| `spells` | Q/W/E/R objects with `spellId`, `spellName`, `slot`, `description`, `tooltip`, `maxRank`, `cooldown`, `cooldownBurn`, `cost`, `costBurn`, `costType`, `range`, `rangeBurn`, `imageUrl` |
+| `skins` | Every skin with `skinId`, `skinNum`, `skinName`, `chromas`, `parentSkin`, `splashUrl`, `loadingUrl` |
 
-Every record also includes `recordType` (`lol_champion` or `lol_item`) and `scrapedAt`, a UTC timestamp of the run.
+### `mode: "items"`
+
+| Field | Meaning |
+|---|---|
+| `itemId`, `itemName` | Item id and name |
+| `description` | Plain-text effect summary |
+| `totalGold`, `baseGold`, `sellGold` | Purchase and sell values |
+| `purchasable` | Whether a shop sells it |
+| `tags` | Item tags (Damage, SpellDamage, Boots, …) |
+| `depth`, `stacks`, `consumable` | Recipe depth, stack count, consumable flag when published |
+| `requiredChampion`, `requiredAlly` | Champion or ally required to buy it |
+| `buildsFrom`, `buildsInto` | Component ids and upgrade ids |
+| `statMods` | Raw stat modifiers, e.g. `{"FlatHPPoolMod": 150}` |
+| `availableMaps` | `[{mapId, mapName}]` for every map that stocks it |
+| `imageUrl` | Item icon |
+
+### `mode: "summonerSpells"`
+
+`spellId`, `spellKey`, `spellName`, `description`, `tooltip`, `maxRank`, `cooldown`, `cooldownBurn`, `cost`, `costBurn`, `costType`, `range`, `rangeBurn`, `modes`, `summonerLevel`, `imageUrl`.
+
+### `mode: "runes"`
+
+`runeId`, `runeKey`, `runeName`, `treeId`, `treeKey`, `treeName`, `slotIndex`, `isKeystone`, `shortDescription`, `longDescription`, `iconUrl`.
+
+### `mode: "profileIcons"`
+
+`iconId`, `imageUrl`.
+
+### `mode: "maps"`
+
+`mapId`, `mapName` (when published), `imageUrl`.
+
+### `mode: "versions"`
+
+`version`, `major`, `minor`, `patch`, `isLatest`.
+
+Every record also carries `recordType` and `scrapedAt` (UTC ISO timestamp).
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `champions` | `champions` or `items`. Required. |
-| `tag` | string | – (all) | Restrict champions to one role: Assassin, Fighter, Mage, Marksman, Support, or Tank. Only applies to `champions` mode. |
-| `version` | string | – (latest) | Specific Data Dragon game version to read, e.g. `14.9.1`. Leave blank for the current latest version. |
-| `maxItems` | integer | `50` | Maximum number of records to return. |
+| `mode` | string | `champions` | Dataset to export: `champions`, `championDetails`, `items`, `summonerSpells`, `runes`, `profileIcons`, `maps`, `versions`. |
+| `tag` | string | – (all roles) | Champion role filter; applies to `champions` and `championDetails`. |
+| `search` | string | – (no filter) | Case-insensitive match on names and ids in every mode. |
+| `championIds` | array | – (all) | `championDetails` only: ids, names, or champion.json URLs; comma-separated strings also accepted. |
+| `itemTag` | string | – (all tags) | Item tag filter for `items`. |
+| `minGold` | integer | – (no minimum) | Minimum total gold for `items`. |
+| `maxGold` | integer | – (no maximum) | Maximum total gold for `items`; an inverted range returns nothing. |
+| `purchasableOnly` | boolean | `false` | Skip items a shop will not sell. |
+| `mapId` | string | – (any map) | `11`, `12`, `22`, `30`, or `453`; limits `items` to that map. |
+| `runeTree` | string | – (all trees) | Domination, Inspiration, Precision, Resolve, or Sorcery. |
+| `locale` | string | `en_US` | Language for names and text. |
+| `version` | string | – (latest) | Data Dragon patch such as `16.22.1`; unpublished versions fall back to the latest. |
+| `maxItems` | integer | `50` | Records to return after filters and offset (1–10,000). |
+| `offset` | integer | `0` | Records to skip; combine with `maxItems` to page. |
 
-### Example: all champions
+Only `mode` is required. The current production presets (`mode`, `tag`, `version`, `maxItems`) and the older singular modes `champion` and `item` are still accepted unchanged.
+
+## Examples
+
+All champions with their stats:
 
 ```json
-{
-  "mode": "champions",
-  "maxItems": 200
-}
+{ "mode": "champions", "maxItems": 200 }
 ```
 
-### Example: Support champions only
+Support champions in Korean:
 
 ```json
-{
-  "mode": "champions",
-  "tag": "Support",
-  "maxItems": 50
-}
+{ "mode": "champions", "tag": "Support", "locale": "ko_KR" }
 ```
 
-### Example: items from a specific game version
+Full details and skins for two champions:
+
+```json
+{ "mode": "championDetails", "championIds": ["Ahri", "Jinx"] }
+```
+
+Boots between 300 and 1,200 gold on Summoner's Rift:
 
 ```json
 {
   "mode": "items",
-  "version": "14.9.1",
-  "maxItems": 200
+  "itemTag": "Boots",
+  "minGold": 300,
+  "maxGold": 1200,
+  "mapId": "11",
+  "purchasableOnly": true
 }
+```
+
+Second page of 100 runes, newest patch:
+
+```json
+{ "mode": "runes", "maxItems": 100, "offset": 100 }
 ```
 
 ## Use cases
 
-- **Build and strategy tools** — pull current champion stats and item costs to power a build calculator.
-- **Content and wiki sites** — keep champion and item reference pages in sync with the live game data.
-- **Esports and coaching content** — compare base stats and difficulty ratings across champions by role.
-- **Historical comparisons** — fetch the same champion or item at two different game versions to see what changed.
-- **Data analysis** — feed champion stat distributions into broader League of Legends analytics.
+- **Build calculators and companion apps** — seed a database with current champion stats, item prices, and upgrade paths.
+- **Wiki and content sites** — keep champion lore, abilities, skins, and localized names in sync with each patch.
+- **Balance research** — pin two patches and diff the same champion or item records to see what changed.
+- **Draft and coaching tools** — filter champions by role and feed base stats or ability ranges into matchup models.
+- **Game-data pipelines** — join Riot's numeric ids from match data to names and icons using `championKey`, `itemId`, `runeId`, and `spellKey`.
 
 ## FAQ
 
 **Do I need a Riot API key?**
-No. Data Dragon is Riot's public static-data CDN and doesn't require an API key or login.
+No. Data Dragon is a public static-data CDN; no key, login, cookie, or proxy is required.
 
-**How current is the data?**
-Data Dragon is updated with each League of Legends patch, roughly every two weeks. This actor reads whichever version you specify, or the latest one published if you leave `version` blank.
+**Which patch is used?**
+The latest published Data Dragon release unless you set `version`. Each record stores the version it came from, so datasets stay reproducible.
 
 **Can I compare two patches?**
-Yes — run the actor once per `version` you want and compare the resulting datasets; each record includes its own `version` field.
+Run the actor once per version and diff the datasets on `championId` or `itemId`.
 
-**Why would a champion be missing `blurb` or an item missing `description`?**
-Those fields are truncated and included only when Data Dragon publishes text for that champion or item; a record never gets a placeholder when the text is empty.
+**How many languages are supported?**
+25. Vietnamese appears in Riot's documentation but Data Dragon does not publish its data files, so it is not offered.
 
-**Does `tag` affect item results?**
-No — `tag` only filters champions in `champions` mode. Items don't have a role tag to filter on.
+**Why are some items missing a name or description?**
+Data Dragon includes placeholder item ids with no name, which are skipped; when an item has no plain-text summary the actor derives one from its rich-text description.
 
-**What does `difficulty` mean?**
-It's Riot's own 1-10 rating of how hard a champion is to play well, published alongside its attack/defense/magic ratings in the same game data.
+**Why does `attackSpeed` differ from an old export?**
+Older builds copied Riot's attack-speed *offset*, which is a small negative number. This version maps `attackSpeed` to the real base attack speed and keeps the offset in `attackSpeedOffset` when the patch publishes it.
 
 **Is this affiliated with Riot Games?**
-No. This actor reads Riot's public Data Dragon CDN and isn't affiliated with, endorsed by, or sponsored by Riot Games.
+No. It reads Riot's public Data Dragon CDN and is not endorsed by or affiliated with Riot Games.
+
+## Limitations
+
+- Static game data only: no live matches, player ranks, or win rates (those require the Riot API and an API key).
+- Data Dragon is updated manually after a patch, so the newest champion or item can lag the live game by a short time.
+- Some items and one map have no published name; those records carry only the fields the CDN provides.
+- Only release versions are listed in `versions` mode; internal patch-tool builds are excluded.
+- Historical patches are available only as far back as Data Dragon's published version list.

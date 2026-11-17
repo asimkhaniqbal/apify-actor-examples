@@ -4,31 +4,32 @@
 
 # Just Eat UK Restaurant Search & Menu Extractor
 
-Just Eat UK lists thousands of delivery restaurants by postcode, each with its own menu, pricing, and delivery details. This actor searches restaurants near a UK postcode or city, with cuisine, rating, and open-now filters, and can pull a restaurant's full menu — categories, items, variations, and add-ons — by its ID.
+Just Eat UK returns more than 1,700 delivery restaurants for a busy postcode, each with its own menu, pricing, and delivery terms. This actor pulls the complete restaurant result set for any UK postcode or city, filters and pages through it, and can also fetch full menus — categories, items, sizes, and add-ons — for specific restaurants.
 
 ## What this actor does
 
-- Searches restaurants near a UK postcode or a major city name, with cuisine, minimum rating, and open-now-for-delivery filters applied.
-- Sorts search results by relevance, rating, or delivery time (a `distance` option exists but falls back to relevance order since Just Eat's search response doesn't carry a usable distance value).
-- Fetches a restaurant's complete menu by ID: categories, items, size variations, modifier/add-on groups, and prices.
-- Reports delivery ETA ranges, delivery cost, minimum order value, and UK food hygiene rating where Just Eat publishes them.
-- Leaves a field out of a record whenever Just Eat doesn't have that data for the restaurant or item, rather than sending it empty.
+- Pulls the **whole** restaurant result set for a UK postcode/outcode or a major city name (not just the first page of ten).
+- Filters by cuisine, minimum star rating, and open-now-for-delivery, then sorts by relevance, rating, delivery time, or real distance from the searched area.
+- Pages through results with `offset` + `maxItems`, so a large area can be collected in chunks across runs.
+- Fetches a restaurant's complete menu from its menu URL, slug, or numeric ID: categories, item descriptions, prices, size variations, add-on groups, dietary labels, energy information, and item images.
+- Reports delivery ETA ranges, delivery fee, minimum order value, coordinates, distance, and current open status.
+- Leaves out any field that Just Eat doesn't publish for a given restaurant or item; no nulls or placeholders.
 
 ## Output per restaurant (search mode)
 
 | Field | Description |
 |---|---|
-| `restaurantId`, `uniqueName` | Identifiers used to build the restaurant's URL |
-| `name`, `brandName`, `description` | Restaurant name, brand, and description |
+| `restaurantId`, `uniqueName` | Identifiers used to build the restaurant's menu URL |
+| `name` | Restaurant name |
 | `address` | `{firstLine, city, postcode, latitude, longitude}` |
-| `cuisines` | List of cuisine tags |
-| `rating` | `{average, count, starRating}` |
+| `cuisines` | List of cuisine names |
+| `rating` | `{count, starRating, userRating}` where published |
 | `deliveryEtaMinutes` | `{rangeLowerMinutes, rangeUpperMinutes, approximateMinutes}` |
 | `deliveryCost`, `minimumOrderValue` | In GBP |
-| `isOpenNow`, `isOpenNowForDelivery`, `isOpenNowForCollection` | Current open status |
+| `distanceMeters` | Straight-line-ish drive distance returned by Just Eat |
+| `isOpenNow`, `isOpenNowForDelivery`, `isOpenNowForCollection`, `isOpenNowForPreorder` | Current availability |
 | `offersDelivery`, `offersCollection`, `isFreeDelivery`, `isHalal`, `isNew`, `isPremier`, `isTemporarilyOffline` | Service and status flags |
-| `hygieneRating` | UK Food Hygiene Rating (1-5), where published |
-| `logoUrl`, `tags`, `menuId` | Logo image, listing tags, and the ID used to fetch the menu |
+| `logoUrl`, `tags` | Logo image and public listing tags |
 | `restaurantUrl` | Canonical Just Eat menu page |
 | `recordType` | Always `restaurant` for search-mode records |
 | `scrapedAt` | UTC timestamp of the scrape |
@@ -40,15 +41,18 @@ One record per restaurant, with nested categories and items:
 | Field | Description |
 |---|---|
 | `restaurantId`, `name`, `description` | Restaurant identity |
-| `currency` | Currency code for all prices in the menu |
-| `categories` | List of `{categoryId, name, description, items}`, where each item has: |
+| `currency` | Currency code for all prices (`GBP`) |
+| `menuVersion` | Just Eat's menu revision identifier |
+| `categories` | List of `{categoryId, name, description, preview, items}`, where each item has: |
 | &nbsp;&nbsp;`itemId`, `name`, `description`, `type` | Item identity and description |
-| &nbsp;&nbsp;`price` | Lowest listed price for the item |
-| &nbsp;&nbsp;`priceRange` | `{min, max}`, when the item has multiple sizes |
-| &nbsp;&nbsp;`variationNames` | Size/variation names, e.g. `["Half", "12 inch", "14 inch"]` |
-| &nbsp;&nbsp;`labels` | Dietary labels, e.g. `vegetarian`, `vegan`, `spicy` |
+| &nbsp;&nbsp;`price` | Normal selling price (deal-only bundle prices excluded) |
+| &nbsp;&nbsp;`priceRange` | `{min, max}` when the item has multiple paid sizes |
+| &nbsp;&nbsp;`variationNames` | Size/variation names, e.g. `["Regular", "Large"]` |
+| &nbsp;&nbsp;`labels` | Dietary labels, e.g. `vegetarian`, `vegan` |
+| &nbsp;&nbsp;`energyContent` | Energy label, e.g. `282 kcal` |
+| &nbsp;&nbsp;`imageUrl` | Item image URL |
 | &nbsp;&nbsp;`modifierGroups` | Add-on groups with each option's extra cost |
-| `itemCount` | Total number of items on the menu |
+| `itemCount` | Number of resolved items across categories |
 | `sourceUrl` | Canonical menu page URL |
 | `recordType` | Always `menu` for menu-mode records |
 | `scrapedAt` | UTC timestamp of the scrape |
@@ -57,24 +61,25 @@ One record per restaurant, with nested categories and items:
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `search` | `search` (restaurants near a postcode/city) or `menu` (full menu by restaurant ID). |
-| `location` | string | – | UK postcode/outcode or major UK city name, used in `search` mode. |
-| `cuisine` | string | `Any` | Restrict results to one of 39 cuisine categories; restaurants with no cuisine data always pass through. |
-| `sortBy` | string | `relevance` | `relevance`, `rating`, or `deliveryTime`. `distance` is also accepted but currently behaves like `relevance`. |
+| `mode` | string | `search` | `search` (restaurants near a postcode/city) or `menu` (full menus). |
+| `location` | string | – | UK postcode/outcode or major UK city name. In `menu` mode, optional but needed to resolve numeric restaurant IDs. |
+| `cuisine` | string | `Any` | Restrict results to one of the listed cuisine categories; restaurants with no cuisine data always pass through. |
+| `sortBy` | string | `relevance` | `relevance`, `rating`, `deliveryTime`, or `distance`. |
 | `openNowOnly` | boolean | `false` | Keep only restaurants currently open for delivery. |
 | `minRating` | integer | – | Drop restaurants below this star rating (1-5); restaurants with no rating always pass through. |
-| `restaurantIds` | array | `[]` | Restaurant IDs to fetch full menus for, used in `menu` mode. |
-| `maxItems` | integer | `20` | Maximum number of records to return. |
-| `proxyConfiguration` | object | AUTO proxy enabled | Proxy configuration for the request. |
+| `restaurantIds` | array | `[]` | Menu URLs, restaurant slugs, or numeric IDs. Numeric IDs also need `location`. |
+| `offset` | integer | `0` | Skip this many matching restaurants before emitting records. |
+| `maxItems` | integer | `20` | Maximum number of records to emit (1-500). |
+| `proxyConfiguration` | object | automatic | Optional override. The actor automatically uses Apify's included AUTO proxy when a direct request is blocked. |
 
-### Example: pizza near a postcode, highest rated first
+### Example: pizza near a postcode, nearest first
 
 ```json
 {
   "mode": "search",
   "location": "SW1A 1AA",
   "cuisine": "Pizza",
-  "sortBy": "rating",
+  "sortBy": "distance",
   "maxItems": 30
 }
 ```
@@ -91,22 +96,56 @@ One record per restaurant, with nested categories and items:
 }
 ```
 
-### Example: full menus for specific restaurants
+### Example: page through a large area
+
+```json
+{
+  "mode": "search",
+  "location": "EC4M",
+  "sortBy": "rating",
+  "offset": 100,
+  "maxItems": 100
+}
+```
+
+### Example: full menus by URL, slug, or ID
 
 ```json
 {
   "mode": "menu",
-  "restaurantIds": ["100059", "200060"]
+  "restaurantIds": [
+    "https://www.just-eat.co.uk/restaurants-pretamanger-paternostersquarelondon/menu",
+    "grain-mediterranean-london"
+  ],
+  "maxItems": 5
+}
+```
+
+Numeric IDs still work when you also pass a `location`:
+
+```json
+{
+  "mode": "menu",
+  "location": "EC4M",
+  "restaurantIds": [114934]
 }
 ```
 
 ## Use cases
 
-- **Market research** — compare cuisine mix, ratings, and pricing across different postcodes.
-- **Menu intelligence** — track competitor menu items, prices, and portion options over time.
-- **Delivery benchmarking** — compare delivery ETAs, fees, and minimum order values across an area.
-- **Partnership outreach** — find restaurants in a postcode by cuisine for aggregator or supplier outreach.
-- **Local directory enrichment** — add live rating, hygiene, and delivery data to a restaurant listing.
+- **Market research** — compare cuisine mix, ratings, fees, and distance across postcodes.
+- **Menu intelligence** — track competitor menu items, prices, sizes, and add-ons over time.
+- **Delivery benchmarking** — compare ETAs, delivery fees, and minimum order values across an area.
+- **Partnership outreach** — find restaurants in a postcode by cuisine for supplier or aggregator outreach.
+- **Local directory enrichment** — add live ratings, coordinates, and menu data to a restaurant listing.
+
+## Limitations
+
+- **UK only.** Just Eat's other country sites run on separate stacks and aren't covered.
+- **Numeric menu IDs need a location.** The public API has no restaurant-ID lookup; without `location` the actor cannot map an ID to the menu slug. Pass a menu URL or slug instead for exact targeting.
+- **Paging is local.** Just Eat's endpoint accepts a result `limit` but ignores `offset`/`page`, so the actor fetches the area result set and slices it with `offset`.
+- **Some competitor fields aren't published.** Hygiene ratings, phone numbers, reviews, and opening hours are not in the public consumer payload; they are omitted rather than guessed.
+- **City names come from a curated list.** Any UK postcode or outcode works; outside the supported city list, use a postcode.
 
 ## FAQ
 
@@ -116,23 +155,20 @@ No. This actor reads Just Eat's own public restaurant and menu data and isn't af
 **Do I need a login or API key?**
 No.
 
-**Why does `location` only work for the UK?**
-This actor covers Just Eat's UK service only; Just Eat's other country sites (Ireland, Lieferando in Germany, Thuisbezorgd in the Netherlands, and others) run as separate platforms and aren't covered here.
-
-**Can I search by an arbitrary place name?**
-`location` accepts a UK postcode/outcode directly, or one of the curated major city names. Place names outside that list won't resolve to an area — use a postcode instead for anywhere not on the list.
+**Do I need to configure a proxy?**
+No. The actor tries a direct request first and automatically switches to Apify's included AUTO proxy if Just Eat's bot protection blocks it.
 
 **Why did my search return no restaurants?**
-Either there's no Just Eat coverage for that postcode or city, or your `cuisine`/`minRating`/`openNowOnly` combination filtered everything out — try widening the filters.
+Either there's no Just Eat coverage for that postcode/city, the offset is past the end of the result set, or the cuisine/rating/open-now combination filtered everything out. Try widening the filters or lowering `offset`.
 
-**How fresh is the data?**
-Every run reads Just Eat's live data at request time, so ratings, open status, and menu prices reflect what's current when the actor runs.
-
-**Why would a restaurant be missing a hygiene rating or logo?**
-Not every restaurant has those published in Just Eat's own data; fields with nothing to report are left off the record instead of showing a placeholder.
+**How many restaurants can one run return?**
+A busy London outcode currently has about 1,700 delivery restaurants. Increase `maxItems` (up to 500) and use `offset` to collect the rest in further runs.
 
 **What's the difference between `price` and `priceRange` on a menu item?**
-`price` is the item's lowest listed price. `priceRange` only appears when the item has more than one size or variation, giving the lowest and highest price across those options.
+`price` is the item's normal selling price; deal-only bundle prices are excluded. `priceRange` appears when the item has more than one paid size.
 
-**Why would a proxy help?**
-Just Eat's restaurant and menu data sits behind bot-detection; routing requests through the proxy configuration improves how reliably each request succeeds.
+**Why would a restaurant be missing a fee, rating, or logo?**
+Just Eat doesn't publish every field for every restaurant, and some are collection-only. Fields with nothing to report are left off the record instead of showing a placeholder.
+
+**How fresh is the data?**
+Every run reads Just Eat's live data at request time, so ratings, open status, fees, and menu prices reflect what's current when the actor runs.
