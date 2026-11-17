@@ -180,7 +180,7 @@ Replay a search you built on the site:
 
 ## Reliability
 
-Requests are cookieless: the actor opens Propwire's public homepage, uses the guest token it issues, and keeps the resulting session cookies in memory. When an exit is challenged, it rotates the browser fingerprint, proxy session and token, then retries. No cookies, logins, API keys or proxy configuration are required from you; the actor selects its own proxy. It never writes invented rows: if Propwire is unreachable after retries, the run fails with a clear status message instead of returning sentinel records.
+No cookies, logins or API keys are needed. Requests are cookieless: the actor opens Propwire's public homepage, uses the guest token it issues, and keeps the resulting session cookies in memory. Propwire sits behind a DataDome JavaScript challenge, so when a plain HTTP session is refused the actor runs the same public homepage in a headless browser, solves the challenge, and reuses that verified browser session for the search, detail and owner endpoints. Each retry rotates the proxy session and browser fingerprint; no cookies, logins, API keys or proxy configuration are required from you, and the actor selects its own proxy. It never writes invented rows: if Propwire is unreachable after retries, the run fails with a clear status message instead of returning sentinel records.
 
 ## Limitations
 
@@ -188,7 +188,8 @@ Requests are cookieless: the actor opens Propwire's public homepage, uses the gu
 - Cash-buyer contact fields depend on Propwire's profile access level; some profiles return portfolio data without contact details.
 - State-only property searches are unreliable at the API level, as noted above.
 - Propwire serves at most 10,000 rows per search. Split broad markets by city, county or ZIP to collect more.
-- The actor reads Propwire's public index; it does not log in or bypass paywalls.
+- Propwire's DataDome challenge can occasionally refuse several proxy exits in a row. The actor retries with a fresh session and fingerprint, then fails with a clear status instead of returning partial or invented data. It reads Propwire's public index; it does not log in or bypass paywalls.
+- A stale or broken mirror is not used for live lead data: Wayback and cached copies lag by days, which makes them unsafe for motivated-seller and auction timing. The actor reads the live public index.
 
 ## FAQ
 
