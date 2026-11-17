@@ -1,0 +1,168 @@
+{
+  "description": "Search or browse Loaded.com (formerly CDKeys.com) for game keys, gift cards, memberships and top-ups.",
+  "properties": {
+    "category": {
+      "default": "games",
+      "description": "Product category within the chosen platform. Not every category exists on every platform (e.g. Steam and Time Cards are PC-only, Season Passes is Xbox-only, Add-ons is PlayStation-only) — an unsupported combination falls back to Games.",
+      "editor": "select",
+      "enum": [
+        "games",
+        "giftCards",
+        "memberships",
+        "addOns",
+        "steam",
+        "timeCards",
+        "seasonPasses"
+      ],
+      "enumTitles": [
+        "Games",
+        "Gift cards",
+        "Memberships / subscriptions",
+        "Add-ons (PlayStation)",
+        "Steam (PC)",
+        "Time cards (PC)",
+        "Season passes (Xbox)"
+      ],
+      "prefill": "games",
+      "title": "Category (mode=byPlatform)",
+      "type": "string"
+    },
+    "franchiseSlug": {
+      "default": "doom",
+      "description": "Loaded.com franchise URL slug, e.g. `doom`, `assassins-creed`, `call-of-duty`, `grand-theft-auto`, `the-elder-scrolls`, `far-cry`, `resident-evil`, `final-fantasy`.",
+      "editor": "textfield",
+      "prefill": "doom",
+      "title": "Franchise slug (mode=byFranchise)",
+      "type": "string"
+    },
+    "genre": {
+      "description": "Keep only products whose genre matches (e.g. `action`, `strategy`, `rpg`, `sports`, `shooter`, `horror`). Case-insensitive.",
+      "editor": "textfield",
+      "title": "Genre filter",
+      "type": "string"
+    },
+    "inStockOnly": {
+      "default": false,
+      "description": "Only emit products currently in stock.",
+      "prefill": false,
+      "title": "In stock only",
+      "type": "boolean"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Hard cap on emitted records.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Drop products more expensive than this (GBP).",
+      "maximum": 5000,
+      "minimum": 0,
+      "title": "Max price (GBP)",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Drop products cheaper than this (GBP).",
+      "maximum": 5000,
+      "minimum": 0,
+      "title": "Min price (GBP)",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to fetch from Loaded.com.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byPlatform",
+        "deals",
+        "newReleases",
+        "giftCards",
+        "byFranchise"
+      ],
+      "enumTitles": [
+        "Search by keyword",
+        "Browse by platform / category",
+        "Deals & discounts (Flash Sale)",
+        "New releases",
+        "Gift cards",
+        "Browse by franchise"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "onSaleOnly": {
+      "default": false,
+      "description": "Only emit products currently discounted below their regular price.",
+      "prefill": false,
+      "title": "On sale only",
+      "type": "boolean"
+    },
+    "platform": {
+      "default": "",
+      "description": "Platform hub to browse (mode=byPlatform, required) or to filter results by (all other modes, optional).",
+      "editor": "select",
+      "enum": [
+        "",
+        "pc",
+        "playstation",
+        "xbox-live",
+        "nintendo"
+      ],
+      "enumTitles": [
+        "(none / all platforms)",
+        "PC",
+        "PlayStation",
+        "Xbox",
+        "Nintendo"
+      ],
+      "prefill": "pc",
+      "title": "Platform",
+      "type": "string"
+    },
+    "publisher": {
+      "description": "Keep only products whose publisher name contains this text (e.g. `ubisoft`, `ea`, `rockstar`). Case-insensitive.",
+      "editor": "textfield",
+      "title": "Publisher filter",
+      "type": "string"
+    },
+    "searchQuery": {
+      "default": "call of duty",
+      "description": "Free-text keyword to search Loaded.com's catalog, e.g. a game title or franchise.",
+      "editor": "textfield",
+      "prefill": "call of duty",
+      "title": "Search query (mode=search)",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Result order (applies to every mode). Uses the store's own listing-page sort.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "priceAsc",
+        "priceDesc",
+        "newest"
+      ],
+      "enumTitles": [
+        "Relevance (default)",
+        "Price: low to high",
+        "Price: high to low",
+        "Newest first"
+      ],
+      "prefill": "relevance",
+      "title": "Sort by",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Loaded (CDKeys) Game Key Store Scraper Input",
+  "type": "object"
+}

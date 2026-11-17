@@ -1,0 +1,189 @@
+{
+  "description": "Search Just Eat UK restaurants by postcode or city, filter by cuisine, or fetch a restaurant's full menu.",
+  "properties": {
+    "cuisine": {
+      "default": "Any",
+      "description": "Only emit restaurants whose cuisines include this. Restaurants with no cuisine data always pass through.",
+      "editor": "select",
+      "enum": [
+        "Any",
+        "Pizza",
+        "Indian",
+        "Chinese",
+        "Italian",
+        "Chicken",
+        "Burgers",
+        "Kebab",
+        "Thai",
+        "Japanese",
+        "Sushi",
+        "Mexican",
+        "American",
+        "Turkish",
+        "Greek",
+        "Lebanese",
+        "Caribbean",
+        "Desserts",
+        "Breakfast",
+        "Healthy",
+        "Vegan",
+        "Vegetarian",
+        "Halal",
+        "Fish and Chips",
+        "Sandwiches",
+        "Noodles",
+        "Curry",
+        "BBQ",
+        "Steakhouse",
+        "Cafe",
+        "Bakery",
+        "Asian",
+        "Korean",
+        "Spanish",
+        "French",
+        "African",
+        "Bubble Tea",
+        "Ice Cream",
+        "Wings",
+        "Sharing"
+      ],
+      "enumTitles": [
+        "Any cuisine",
+        "Pizza",
+        "Indian",
+        "Chinese",
+        "Italian",
+        "Chicken",
+        "Burgers",
+        "Kebab",
+        "Thai",
+        "Japanese",
+        "Sushi",
+        "Mexican",
+        "American",
+        "Turkish",
+        "Greek",
+        "Lebanese",
+        "Caribbean",
+        "Desserts",
+        "Breakfast",
+        "Healthy",
+        "Vegan",
+        "Vegetarian",
+        "Halal",
+        "Fish and Chips",
+        "Sandwiches",
+        "Noodles",
+        "Curry",
+        "BBQ",
+        "Steakhouse",
+        "Cafe",
+        "Bakery",
+        "Asian",
+        "Korean",
+        "Spanish",
+        "French",
+        "African",
+        "Bubble Tea",
+        "Ice Cream",
+        "Wings",
+        "Sharing"
+      ],
+      "prefill": "Any",
+      "title": "Cuisine filter",
+      "type": "string"
+    },
+    "location": {
+      "description": "A UK postcode/outcode (e.g. `EC4M`, `SW1A 1AA`) or a major UK city name (e.g. `London`, `Manchester`).",
+      "editor": "textfield",
+      "prefill": "London",
+      "title": "Postcode or city (mode=search)",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Hard cap on emitted records.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "minRating": {
+      "description": "Drop restaurants below this star rating (1-5). Restaurants with no rating data always pass through.",
+      "maximum": 5,
+      "minimum": 1,
+      "title": "Minimum star rating",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "menu"
+      ],
+      "enumTitles": [
+        "Search restaurants by postcode/city",
+        "Get full menu by restaurant ID"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "openNowOnly": {
+      "default": false,
+      "description": "Only emit restaurants currently open for delivery.",
+      "prefill": false,
+      "title": "Open now for delivery only",
+      "type": "boolean"
+    },
+    "proxyConfiguration": {
+      "default": {
+        "useApifyProxy": true
+      },
+      "description": "Recommended. Just Eat's API sits behind Cloudflare bot protection; the free AUTO proxy group materially improves reliability.",
+      "editor": "proxy",
+      "prefill": {
+        "useApifyProxy": true
+      },
+      "title": "Proxy configuration",
+      "type": "object"
+    },
+    "restaurantIds": {
+      "default": [],
+      "description": "Just Eat numeric restaurant IDs to fetch full menus for.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Restaurant IDs (mode=menu)",
+      "type": "array"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "How to order emitted restaurants.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "rating",
+        "deliveryTime",
+        "distance"
+      ],
+      "enumTitles": [
+        "Relevance (default)",
+        "Highest rated",
+        "Fastest delivery",
+        "Nearest first"
+      ],
+      "prefill": "relevance",
+      "title": "Sort order",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Just Eat Scraper Input",
+  "type": "object"
+}

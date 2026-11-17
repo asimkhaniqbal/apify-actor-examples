@@ -1,0 +1,67 @@
+{
+  "description": "Scrape LoL champion stats and items using Riot DDragon public API.",
+  "properties": {
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum records to return.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "champions",
+      "description": "Champions or items.",
+      "editor": "select",
+      "enum": [
+        "champions",
+        "items"
+      ],
+      "enumTitles": [
+        "Champions",
+        "Items"
+      ],
+      "prefill": "champions",
+      "title": "Mode",
+      "type": "string"
+    },
+    "tag": {
+      "default": "",
+      "description": "Filter champions by role tag.",
+      "editor": "select",
+      "enum": [
+        "",
+        "Assassin",
+        "Fighter",
+        "Mage",
+        "Marksman",
+        "Support",
+        "Tank"
+      ],
+      "enumTitles": [
+        "All",
+        "Assassin",
+        "Fighter",
+        "Mage",
+        "Marksman",
+        "Support",
+        "Tank"
+      ],
+      "title": "Champion tag filter",
+      "type": "string"
+    },
+    "version": {
+      "description": "DDragon version (blank = latest).",
+      "editor": "textfield",
+      "title": "Game version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "League of Legends Champion Data Scraper Input",
+  "type": "object"
+}

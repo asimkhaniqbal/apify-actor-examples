@@ -1,0 +1,111 @@
+# League of Legends Champion & Item Stats Extractor
+
+Riot Games publishes League of Legends' champion and item data openly through Data Dragon, its static-data CDN, but pulling it into a usable dataset still means parsing per-patch JSON files yourself. This actor does that for you: every champion with its stats and role tags, or every in-game item with its cost and effects, for the current patch or any version you specify.
+
+## What this actor does
+
+- Fetches every League of Legends champion, with base stats, difficulty rating, role tags, and a short lore blurb.
+- Fetches every in-game item, with gold cost (base, total, and sell value) and its tags.
+- Filters champions to a single role tag, e.g. Mage or Support.
+- Reads a specific Data Dragon game version on request, or the latest published version by default.
+- Leaves a field out of a record whenever Data Dragon has nothing published for it, rather than sending it empty.
+
+## Output per record
+
+### Champions (`mode: "champions"`)
+
+| Field | Description |
+|---|---|
+| `championId` | Champion's internal ID, e.g. `Ahri` |
+| `championName` | Display name |
+| `title` | Champion's title, e.g. "the Nine-Tailed Fox" |
+| `blurb` | Short lore summary |
+| `tags` | Role tags, e.g. `["Mage", "Assassin"]` |
+| `partype` | Resource type, e.g. Mana, Energy |
+| `attackDamage`, `attackSpeed`, `armor`, `spellBlock`, `hp`, `moveSpeed` | Base stats at level 1 |
+| `difficulty`, `attack`, `defense`, `magic` | Riot's 1-10 rating for how hard the champion is to play, and its attack/defense/magic emphasis |
+| `imageUrl` | Champion portrait image URL |
+| `version` | Data Dragon game version this record came from |
+
+### Items (`mode: "items"`)
+
+| Field | Description |
+|---|---|
+| `itemId` | Item's internal ID |
+| `itemName` | Item name |
+| `description` | Plain-text item description |
+| `totalGold`, `baseGold`, `sellGold` | Total purchase cost, base cost, and sell-back value |
+| `tags` | Item tags, e.g. `["Damage", "CriticalStrike"]` |
+| `imageUrl` | Item icon image URL |
+| `version` | Data Dragon game version this record came from |
+
+Every record also includes `recordType` (`lol_champion` or `lol_item`) and `scrapedAt`, a UTC timestamp of the run.
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `mode` | string | `champions` | `champions` or `items`. Required. |
+| `tag` | string | – (all) | Restrict champions to one role: Assassin, Fighter, Mage, Marksman, Support, or Tank. Only applies to `champions` mode. |
+| `version` | string | – (latest) | Specific Data Dragon game version to read, e.g. `14.9.1`. Leave blank for the current latest version. |
+| `maxItems` | integer | `50` | Maximum number of records to return. |
+
+### Example: all champions
+
+```json
+{
+  "mode": "champions",
+  "maxItems": 200
+}
+```
+
+### Example: Support champions only
+
+```json
+{
+  "mode": "champions",
+  "tag": "Support",
+  "maxItems": 50
+}
+```
+
+### Example: items from a specific game version
+
+```json
+{
+  "mode": "items",
+  "version": "14.9.1",
+  "maxItems": 200
+}
+```
+
+## Use cases
+
+- **Build and strategy tools** — pull current champion stats and item costs to power a build calculator.
+- **Content and wiki sites** — keep champion and item reference pages in sync with the live game data.
+- **Esports and coaching content** — compare base stats and difficulty ratings across champions by role.
+- **Historical comparisons** — fetch the same champion or item at two different game versions to see what changed.
+- **Data analysis** — feed champion stat distributions into broader League of Legends analytics.
+
+## FAQ
+
+**Do I need a Riot API key?**
+No. Data Dragon is Riot's public static-data CDN and doesn't require an API key or login.
+
+**How current is the data?**
+Data Dragon is updated with each League of Legends patch, roughly every two weeks. This actor reads whichever version you specify, or the latest one published if you leave `version` blank.
+
+**Can I compare two patches?**
+Yes — run the actor once per `version` you want and compare the resulting datasets; each record includes its own `version` field.
+
+**Why would a champion be missing `blurb` or an item missing `description`?**
+Those fields are truncated and included only when Data Dragon publishes text for that champion or item; a record never gets a placeholder when the text is empty.
+
+**Does `tag` affect item results?**
+No — `tag` only filters champions in `champions` mode. Items don't have a role tag to filter on.
+
+**What does `difficulty` mean?**
+It's Riot's own 1-10 rating of how hard a champion is to play well, published alongside its attack/defense/magic ratings in the same game data.
+
+**Is this affiliated with Riot Games?**
+No. This actor reads Riot's public Data Dragon CDN and isn't affiliated with, endorsed by, or sponsored by Riot Games.

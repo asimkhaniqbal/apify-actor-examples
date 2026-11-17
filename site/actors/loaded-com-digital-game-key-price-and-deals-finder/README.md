@@ -1,0 +1,120 @@
+# Loaded.com Digital Game Key Price & Deals Finder
+
+Loaded.com (formerly CDKeys.com) sells digital game keys, gift cards, and memberships across PC, PlayStation, Xbox, and Nintendo. This actor searches its catalog by keyword, browses a platform's categories, pulls current flash-sale deals or new releases, or walks an entire game franchise, returning price, discount, and stock data for each product.
+
+## What this actor does
+
+- Searches by keyword, or browses a chosen platform's category — games, gift cards, memberships, Steam, time cards, season passes, or add-ons, depending on what that platform offers.
+- Pulls the store's current flash-sale deals, newest releases, general gift-card catalog, or every product under one game franchise.
+- Filters results by price range, on-sale status, in-stock status, genre, publisher, and platform.
+- Computes the discount percentage itself from the current and regular price on the same listing, so it always lines up with the prices in the record.
+- Leaves a field out of a record whenever that product type doesn't have a value for it (a gift card has no genre, for instance), rather than sending it empty.
+
+## Output per product
+
+| Field | Description |
+|---|---|
+| `title` | Product name |
+| `sku` | Store SKU/product code |
+| `price` | Current price |
+| `originalPrice` | Pre-discount price, only present when the product is on sale |
+| `discountPercent` | Discount percentage, only present when the product is on sale |
+| `currency` | Price currency |
+| `onSale` | Whether the product is currently discounted |
+| `platform` | e.g. Windows, Steam, PlayStation 5, Xbox Series X/S, Nintendo Switch |
+| `publisher` | Publisher or platform-holder name |
+| `genre` | Primary genre, when the product has one |
+| `franchise` | Franchise name, when the product belongs to one |
+| `productType` | e.g. PC Games, Xbox DLC & Add-ons, Roblox Top-ups |
+| `region` | e.g. Worldwide, EU, US |
+| `inStock` | Whether the product is currently in stock |
+| `isPreorder` | Whether the product is a pre-order |
+| `imageUrl` | Product cover image |
+| `sourceUrl` | Canonical product page URL |
+| `searchQuery`, `searchPlatform`, `searchCategory`, `searchFranchise` | The request parameters that produced this record |
+| `recordType` | Always `product` |
+| `scrapedAt` | UTC timestamp of the scrape |
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `mode` | string | `search` | `search`, `byPlatform`, `deals`, `newReleases`, `giftCards`, or `byFranchise`. |
+| `searchQuery` | string | `call of duty` | Keyword to search, used in `search` mode. |
+| `platform` | string | – (all platforms) | `pc`, `playstation`, `xbox-live`, or `nintendo`. Required for `byPlatform`; an optional results filter in every other mode. |
+| `category` | string | `games` | Category within the platform in `byPlatform` mode: `games`, `giftCards`, `memberships`, `addOns`, `steam`, `timeCards`, or `seasonPasses`. Falls back to `games` if the category doesn't exist on that platform. |
+| `franchiseSlug` | string | `doom` | Franchise URL slug, used in `byFranchise` mode, e.g. `assassins-creed`, `call-of-duty`, `grand-theft-auto`. |
+| `minPrice` | integer | – | Drop products cheaper than this, in GBP. |
+| `maxPrice` | integer | – | Drop products more expensive than this, in GBP. |
+| `sortBy` | string | `relevance` | `relevance`, `priceAsc`, `priceDesc`, or `newest`. |
+| `onSaleOnly` | boolean | `false` | Keep only products currently discounted below their regular price. |
+| `inStockOnly` | boolean | `false` | Keep only products currently in stock. |
+| `genre` | string | – | Keep only products whose genre matches this text. |
+| `publisher` | string | – | Keep only products whose publisher name contains this text. |
+| `maxItems` | integer | `50` | Maximum number of records to return. |
+
+### Example: keyword search for sale items
+
+```json
+{
+  "mode": "search",
+  "searchQuery": "assassin's creed",
+  "onSaleOnly": true,
+  "maxItems": 50
+}
+```
+
+### Example: PlayStation games under a price cap
+
+```json
+{
+  "mode": "byPlatform",
+  "platform": "playstation",
+  "category": "games",
+  "maxPrice": 20,
+  "maxItems": 100
+}
+```
+
+### Example: current flash-sale deals
+
+```json
+{
+  "mode": "deals",
+  "maxItems": 50
+}
+```
+
+## Use cases
+
+- **Price tracking** — monitor game-key prices and discounts over time across platforms.
+- **Deal aggregation** — pull current flash-sale items into a site, newsletter, or alert feed.
+- **Catalog comparison** — compare pricing for the same franchise or genre across platforms.
+- **Database enrichment** — feed titles, images, and metadata into a game catalog.
+- **Affiliate content** — build "best deals right now" pages from live pricing.
+
+## FAQ
+
+**Do I need to log in or provide cookies?**
+No. Every mode reads the store's public catalog without authentication.
+
+**What currency are prices in?**
+Whatever currency the store returns for an unauthenticated visitor; the `currency` field on each record tells you which one.
+
+**Why do some products have no `genre` or `franchise`?**
+Products like gift cards, top-ups, and memberships don't have a genre or franchise in the first place, so those fields are left off rather than shown empty.
+
+**Why would `category` fall back to games?**
+Not every category exists on every platform — Steam and time cards are PC-only, season passes are Xbox-only, and add-ons are PlayStation-only. Requesting a combination that doesn't exist falls back to that platform's games listing.
+
+**Can I combine `platform` with modes other than `byPlatform`?**
+Yes — outside of `byPlatform`, `platform` filters whatever results that mode already returns rather than driving which page gets fetched.
+
+**How is `discountPercent` calculated?**
+From the live current price against the store's own regular price on the same listing, so it's always consistent with the `price` and `originalPrice` in the same record.
+
+**Does `giftCards` mode cover platform-specific gift cards too?**
+`mode: "giftCards"` covers the store's general gift-card catalog. Platform-specific credit, like PlayStation Store credit, instead appears under `byPlatform` with `category: "giftCards"`.
+
+**Is this affiliated with Loaded.com or CDKeys?**
+No. This actor reads Loaded.com's public catalog and is not affiliated with, endorsed by, or connected to Loaded.com in any way.
