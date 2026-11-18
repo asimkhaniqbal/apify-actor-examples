@@ -1,0 +1,123 @@
+# Trade Me NZ Residential Listings Scraper
+
+Trade Me is New Zealand's largest property marketplace, listing homes for sale and rent across every region from Northland to Southland. This actor pulls residential listings straight from Trade Me Property's search results, or enriches a list of listing URLs you already have, without needing a Trade Me account.
+
+## What this actor does
+
+- Searches residential "for sale" or "for rent" listings for a chosen New Zealand region, with price, bedroom, bathroom and property-type filters.
+- Re-fetches a specific set of listing URLs you supply, useful for tracking price or status changes on known properties.
+- Resolves region names (including common city aliases like "Tauranga" or "Dunedin") to the correct Trade Me region without extra setup.
+- Captures address, price or weekly rent, bedrooms/bathrooms, floor and land area, agency, listing date, photos and GPS coordinates where Trade Me publishes them.
+- Fields that Trade Me doesn't expose for a given listing (for example GPS coordinates on a brand-new listing) are simply left out of that record.
+
+## Output per listing
+
+| Field | Description |
+| --- | --- |
+| `listingId` | Trade Me's numeric listing ID. |
+| `url` | Direct link to the listing on trademe.co.nz. |
+| `title` | Listing headline as shown in search results. |
+| `address` | Full display address or the best address text Trade Me provides. |
+| `suburb` | Suburb name. |
+| `city` | District/city name. |
+| `imageUrl` | URL of the first listing photo. |
+| `images` | URLs of all available listing photos. |
+| `bedrooms` | Number of bedrooms. |
+| `bathrooms` | Number of bathrooms. |
+| `garages` | Number of garage/parking spaces. |
+| `landArea` | Land area in square metres. |
+| `floorArea` | Floor area in square metres. |
+| `propertyType` | Property category (house, apartment, section, lifestyle, etc.). |
+| `price` | Numeric asking price in NZD, when Trade Me publishes one. |
+| `priceDisplay` | Original price text (e.g. "By Negotiation", "Tender") when no clean number can be derived. |
+| `rentPerWeek` | Numeric weekly rent in NZD (rental mode only). |
+| `rentPerWeekDisplay` | Original rent text when no clean weekly figure can be derived (rental mode only). |
+| `agency` | Listing agency or agent name. |
+| `listingDate` | Date the listing was published, in `YYYY-MM-DD`. |
+| `description` | Listing description text (truncated to 2000 characters). |
+| `latitude` / `longitude` | GPS coordinates of the property, when published. |
+| `region` | The New Zealand region the search was run against. |
+| `recordType` | Always `tradeMeProperty`. |
+| `scrapedAt` | ISO timestamp of when the record was captured. |
+
+## Input
+
+| Field | Type | Default | Description |
+| --- | --- | --- | --- |
+| `mode` | String (select) | `searchForSale` | `searchForSale`, `searchForRent`, or `byListingUrls` to enrich specific listings. |
+| `region` | String (select) | `Auckland` | New Zealand region to search, or "All New Zealand". |
+| `propertyType` | String (select) | – | Filter by house, townhouse, apartment, unit, section, lifestyle, rural, new development, or carpark. Leave blank for all types. |
+| `minPrice` | Integer | – | Minimum listing price in NZD. |
+| `maxPrice` | Integer | – | Maximum listing price in NZD. |
+| `minBedrooms` | Integer | – | Minimum number of bedrooms. |
+| `maxBedrooms` | Integer | – | Maximum number of bedrooms. |
+| `minBathrooms` | Integer | – | Minimum number of bathrooms. |
+| `startUrls` | Array of strings | `[]` | Trade Me listing URLs to enrich directly (used only with `mode=byListingUrls`). |
+| `maxItems` | Integer | 50 | Maximum number of listings to return. |
+
+### Example: search houses for sale in Waikato
+
+```json
+{
+  "mode": "searchForSale",
+  "region": "Waikato",
+  "propertyType": "house",
+  "minBedrooms": 3,
+  "maxPrice": 900000,
+  "maxItems": 100
+}
+```
+
+### Example: rentals in Wellington under $650/week
+
+```json
+{
+  "mode": "searchForRent",
+  "region": "Wellington",
+  "maxPrice": 650,
+  "maxItems": 60
+}
+```
+
+### Example: re-check specific listings
+
+```json
+{
+  "mode": "byListingUrls",
+  "startUrls": [
+    "https://www.trademe.co.nz/a/property/residential/sale/listing/4123456",
+    "https://www.trademe.co.nz/a/property/residential/sale/listing/4123789"
+  ]
+}
+```
+
+## Use cases
+
+- **Buyers and renters** tracking new listings in a target region without refreshing Trade Me manually.
+- **Real estate analysts** building regional price, bedroom-count or land-area comparisons.
+- **Investors** screening rental yields by comparing asking prices against weekly rent in the same suburb.
+- **Agencies** monitoring how their own or competitors' listings appear and price over time by re-scraping known listing URLs.
+- **Market researchers** tracking listing volume and type (section vs. house vs. lifestyle block) across New Zealand regions.
+
+## FAQ
+
+**Does this need a Trade Me login or API key?**
+No. It reads the same listing data shown to any visitor on trademe.co.nz.
+
+**Why do some listings show `priceDisplay` instead of `price`?**
+Trade Me lets sellers list "By Negotiation", "Tender", or "Enquiries Over" instead of a fixed figure. When no clean number can be derived from that text, the original text is kept in `priceDisplay` instead of a fabricated `price`.
+
+**Why is `rentPerWeek` only present for rental searches?**
+Sale listings carry a sale price, not a weekly rent, so the rent fields only appear when `mode` is `searchForRent`.
+
+**Can I combine price, bedroom and bathroom filters together?**
+Yes, all the numeric filters (`minPrice`/`maxPrice`, `minBedrooms`/`maxBedrooms`, `minBathrooms`) apply together on top of the chosen `region` and `propertyType`.
+
+**What happens if a listing I pass to `byListingUrls` has been removed from Trade Me?**
+No listing data can be extracted for it, so at most you get back a bare record with just its `listingId` and `url` rather than a full set of fields.
+
+**Why do `latitude`/`longitude` sometimes not appear?**
+Not every Trade Me listing publishes exact coordinates; when that data isn't available, the fields are omitted rather than filled with a guess.
+
+**Is this affiliated with Trade Me?**
+No. This is an independent tool and is not affiliated with, endorsed by, or sponsored by Trade Me Limited.

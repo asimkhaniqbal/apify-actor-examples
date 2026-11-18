@@ -1,0 +1,166 @@
+{
+  "description": "Search Viator for tours and activities, browse by destination or category, get experience details, or extract customer reviews.",
+  "properties": {
+    "category": {
+      "description": "Activity category to filter by (mode=byCategory or combined with byDestination).",
+      "editor": "select",
+      "enum": [
+        "Tours-and-Sightseeing",
+        "Food-and-Drink",
+        "Outdoor-Adventures",
+        "Water-Activities",
+        "Air-Activities-and-Helicopter-Tours",
+        "Cruises-Sailing-and-Water-Tours",
+        "Cultural-and-Theme-Tours",
+        "Day-Trips-and-Excursions",
+        "Nightlife-and-Clubs",
+        "Transfers-and-Transportation",
+        "Spa-and-Wellness",
+        "Classes-and-Workshops"
+      ],
+      "enumTitles": [
+        "Tours & Sightseeing",
+        "Food & Drink",
+        "Outdoor Adventures",
+        "Water Activities",
+        "Air Activities & Helicopter Tours",
+        "Cruises & Sailing",
+        "Cultural & Theme Tours",
+        "Day Trips & Excursions",
+        "Nightlife & Clubs",
+        "Transfers & Transportation",
+        "Spa & Wellness",
+        "Classes & Workshops"
+      ],
+      "title": "Activity category",
+      "type": "string"
+    },
+    "destination": {
+      "default": "Paris",
+      "description": "City or region to browse (mode=byDestination or search). E.g. Paris, Rome, New York City.",
+      "editor": "textfield",
+      "prefill": "Paris",
+      "title": "Destination",
+      "type": "string"
+    },
+    "maxDurationHours": {
+      "description": "Maximum experience duration in hours.",
+      "maximum": 1000,
+      "minimum": 0,
+      "title": "Max duration (hours)",
+      "type": "number"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Maximum number of experience records to return.",
+      "maximum": 5000,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Only include experiences priced at or below this value.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Max price (USD)",
+      "type": "number"
+    },
+    "maxReviewsPerExperience": {
+      "default": 50,
+      "description": "Maximum number of reviews to fetch per experience (mode=getReviews).",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max reviews per experience",
+      "type": "integer"
+    },
+    "minDurationHours": {
+      "description": "Minimum experience duration in hours.",
+      "maximum": 1000,
+      "minimum": 0,
+      "title": "Min duration (hours)",
+      "type": "number"
+    },
+    "minPrice": {
+      "description": "Only include experiences priced at or above this value.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Min price (USD)",
+      "type": "number"
+    },
+    "minRating": {
+      "description": "Only include experiences with rating at or above this threshold.",
+      "maximum": 5,
+      "minimum": 0,
+      "title": "Min rating (0–5)",
+      "type": "number"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to scrape.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byDestination",
+        "byCategory",
+        "getExperience",
+        "getReviews"
+      ],
+      "enumTitles": [
+        "Search experiences by keyword",
+        "Browse experiences by destination",
+        "Browse by activity category",
+        "Get experience details by URL(s)",
+        "Get reviews for experience(s) by URL(s)"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "searchQuery": {
+      "default": "Eiffel Tower tour",
+      "description": "Keyword(s) to search (mode=search).",
+      "editor": "textfield",
+      "prefill": "Eiffel Tower tour",
+      "title": "Search query",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "default",
+      "description": "Sort order for listing results.",
+      "editor": "select",
+      "enum": [
+        "default",
+        "price-asc",
+        "price-desc",
+        "rating",
+        "reviews"
+      ],
+      "enumTitles": [
+        "Default (Recommended)",
+        "Price: Low to High",
+        "Price: High to Low",
+        "Highest Rated",
+        "Most Reviews"
+      ],
+      "prefill": "default",
+      "title": "Sort by",
+      "type": "string"
+    },
+    "startUrls": {
+      "default": [],
+      "description": "Viator experience or destination page URLs (mode=getExperience / getReviews / byDestination).",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Start URLs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Viator Experiences & Reviews Scraper Input",
+  "type": "object"
+}

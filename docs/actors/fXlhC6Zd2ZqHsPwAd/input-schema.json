@@ -1,0 +1,38 @@
+{
+  "description": "Search and filter job listings from Arbeitnow — a global job board with thousands of remote and on-site opportunities.",
+  "properties": {
+    "maxItems": {
+      "default": 10,
+      "description": "Maximum number of job listings to return. The Arbeitnow API returns up to 15 jobs per page.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "remote": {
+      "default": false,
+      "description": "When enabled, only remote-friendly jobs are returned.",
+      "prefill": false,
+      "title": "Remote only",
+      "type": "boolean"
+    },
+    "searchQuery": {
+      "description": "Keyword to filter jobs by title or description (case-insensitive substring match). Leave blank to return all jobs.",
+      "editor": "textfield",
+      "prefill": "python developer",
+      "title": "Search query",
+      "type": "string"
+    },
+    "tags": {
+      "description": "Filter jobs by one or more category tags (e.g. [\"Software Development\", \"IT\"]). A job must match ALL specified tags. Tags are job categories as used by Arbeitnow (not technology names).",
+      "editor": "stringList",
+      "title": "Tags (tech stack / category)",
+      "type": "array"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "Arbeitnow Job Listings Scraper Input",
+  "type": "object"
+}

@@ -1,0 +1,79 @@
+{
+  "description": "Search Brazilian property listings on ChavesNaMao by city and transaction type.",
+  "properties": {
+    "city": {
+      "default": "sao-paulo",
+      "description": "Brazilian city to search in.",
+      "editor": "select",
+      "enum": [
+        "sao-paulo",
+        "rio-de-janeiro",
+        "belo-horizonte",
+        "porto-alegre",
+        "curitiba",
+        "brasilia",
+        "salvador",
+        "fortaleza",
+        "recife",
+        "campinas",
+        "manaus",
+        "belem",
+        "goiania",
+        "florianopolis",
+        "vitoria"
+      ],
+      "enumTitles": [
+        "São Paulo",
+        "Rio de Janeiro",
+        "Belo Horizonte",
+        "Porto Alegre",
+        "Curitiba",
+        "Brasília",
+        "Salvador",
+        "Fortaleza",
+        "Recife",
+        "Campinas",
+        "Manaus",
+        "Belém",
+        "Goiânia",
+        "Florianópolis",
+        "Vitória"
+      ],
+      "prefill": "sao-paulo",
+      "title": "City",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Maximum number of listings to return (1–500).",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "sell",
+      "description": "Whether to search for properties for sale or rent.",
+      "editor": "select",
+      "enum": [
+        "sell",
+        "rent"
+      ],
+      "enumTitles": [
+        "For Sale (Venda)",
+        "For Rent (Aluguel)"
+      ],
+      "prefill": "sell",
+      "title": "Transaction type",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode",
+    "city"
+  ],
+  "schemaVersion": 1,
+  "title": "ChavesNaMao Scraper Input",
+  "type": "object"
+}

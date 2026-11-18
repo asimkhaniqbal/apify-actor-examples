@@ -1,0 +1,79 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "description": "Arbeitnow job listings with title, company, location, remote status, job types, tags and plain-text description.",
+  "properties": {
+    "jobs": {
+      "description": "Dataset containing all scraped Arbeitnow job listings.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items",
+      "title": "Arbeitnow job listings",
+      "type": "string"
+    }
+  },
+  "schema": {
+    "properties": {
+      "company": {
+        "description": "Name of the hiring company.",
+        "title": "Company",
+        "type": "string"
+      },
+      "description": {
+        "description": "Plain-text job description (HTML tags stripped).",
+        "title": "Description",
+        "type": "string"
+      },
+      "jobTypes": {
+        "description": "Employment types for this role (e.g. ['Full-time', 'Contract']).",
+        "items": {
+          "type": "string"
+        },
+        "title": "Job types",
+        "type": "array"
+      },
+      "location": {
+        "description": "Geographic location of the role (e.g. 'Berlin, Germany').",
+        "title": "Location",
+        "type": "string"
+      },
+      "postedAt": {
+        "description": "ISO 8601 datetime when the job was posted (UTC).",
+        "title": "Posted at",
+        "type": "string"
+      },
+      "remote": {
+        "description": "Whether the position is remote-friendly.",
+        "title": "Remote",
+        "type": "boolean"
+      },
+      "scrapedAt": {
+        "description": "ISO 8601 datetime when this record was scraped (UTC).",
+        "title": "Scraped at",
+        "type": "string"
+      },
+      "slug": {
+        "description": "Unique job identifier from Arbeitnow.",
+        "title": "Slug",
+        "type": "string"
+      },
+      "sourceUrl": {
+        "description": "Direct URL to the job listing on Arbeitnow.",
+        "title": "Source URL",
+        "type": "string"
+      },
+      "tags": {
+        "description": "Tech stack and category tags associated with the listing (e.g. ['python', 'django']).",
+        "items": {
+          "type": "string"
+        },
+        "title": "Tags",
+        "type": "array"
+      },
+      "title": {
+        "description": "The job title as posted by the employer.",
+        "title": "Job title",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "title": "Arbeitnow Global Job Board Extractor Output"
+}
