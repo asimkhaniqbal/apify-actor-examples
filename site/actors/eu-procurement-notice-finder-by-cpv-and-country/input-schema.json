@@ -1,6 +1,31 @@
 {
-  "description": "Search EU public procurement notices on TED (Tenders Electronic Daily) by CPV category, country, publication date and keyword, or fetch a single notice by its publication number.",
+  "description": "Search EU public procurement notices on TED (Tenders Electronic Daily) by CPV category, notice type, procedure, contract nature, buyer country, buyer name, publication date, deadline, contract value and keyword, or fetch specific notices by publication number.",
   "properties": {
+    "buyerName": {
+      "description": "Match notices whose contracting authority name contains this text, e.g. `comune di milano`. Used in `search` mode.",
+      "editor": "textfield",
+      "title": "Buyer Name",
+      "type": "string"
+    },
+    "contractNature": {
+      "default": "",
+      "description": "Restrict to works, supplies, or services. Used in `search` mode.",
+      "editor": "select",
+      "enum": [
+        "",
+        "works",
+        "supplies",
+        "services"
+      ],
+      "enumTitles": [
+        "Any contract nature",
+        "Works",
+        "Supplies",
+        "Services"
+      ],
+      "title": "Contract Nature",
+      "type": "string"
+    },
     "country": {
       "default": "",
       "description": "Filter by the buyer's country (ISO-3166 alpha-3, TED style). Used in `search` mode.",
@@ -203,9 +228,21 @@
       "type": "string"
     },
     "cpvCode": {
-      "description": "Optional exact/partial CPV code override (e.g. `45233140` for roadworks, `48000000` for software). Combined with CPV Category. Used in `search` mode.",
+      "description": "Optional exact or partial CPV code(s) (e.g. `45233140`, `48000000`). Separate several codes with commas or spaces; each matches the code and its sub-codes. Combined with CPV Category. Used in `search` mode.",
       "editor": "textfield",
-      "title": "CPV Code (advanced)",
+      "title": "CPV Code(s) (advanced)",
+      "type": "string"
+    },
+    "deadlineFrom": {
+      "description": "Only notices with a submission deadline on or after this date (YYYY-MM-DD). Used in `search` mode.",
+      "editor": "textfield",
+      "title": "Tender Deadline From",
+      "type": "string"
+    },
+    "deadlineTo": {
+      "description": "Only notices with a submission deadline on or before this date (YYYY-MM-DD). Used in `search` mode.",
+      "editor": "textfield",
+      "title": "Tender Deadline To",
       "type": "string"
     },
     "keyword": {
@@ -216,11 +253,23 @@
     },
     "maxItems": {
       "default": 50,
-      "description": "Maximum number of notice records to return.",
-      "maximum": 1000,
+      "description": "Maximum number of notice records to return (1-10,000).",
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 50,
+      "prefill": 3,
       "title": "Max Items",
+      "type": "integer"
+    },
+    "maxValue": {
+      "description": "Only notices whose total contract value is at most this amount, in the notice's own currency. Used in `search` mode.",
+      "minimum": 0,
+      "title": "Maximum Contract Value",
+      "type": "integer"
+    },
+    "minValue": {
+      "description": "Only notices whose total contract value is at least this amount, in the notice's own currency. Used in `search` mode.",
+      "minimum": 0,
+      "title": "Minimum Contract Value",
       "type": "integer"
     },
     "mode": {
@@ -237,6 +286,94 @@
       ],
       "prefill": "search",
       "title": "Mode",
+      "type": "string"
+    },
+    "noticeType": {
+      "default": "",
+      "description": "Restrict to one TED notice type, e.g. contract notices or contract award notices. Used in `search` mode.",
+      "editor": "select",
+      "enum": [
+        "",
+        "cn-standard",
+        "cn-social",
+        "cn-desg",
+        "can-standard",
+        "can-social",
+        "can-desg",
+        "can-modif",
+        "can-tran",
+        "pin-buyer",
+        "pin-only",
+        "pin-rtl",
+        "pin-cfc-standard",
+        "pin-cfc-social",
+        "pin-tran",
+        "veat",
+        "qu-sy",
+        "subco",
+        "compl",
+        "pmc",
+        "brin-ecs",
+        "brin-eeig"
+      ],
+      "enumTitles": [
+        "Any notice type",
+        "Contract or concession notice - standard regime",
+        "Contract notice - light regime",
+        "Design contest notice",
+        "Contract or concession award notice - standard regime",
+        "Contract award notice - light regime",
+        "Design contest result notice",
+        "Contract modification notice",
+        "Public passenger transport contract award notice",
+        "Prior information notice on a buyer profile",
+        "Prior information notice, information only",
+        "Prior information notice to shorten time limits",
+        "Prior information notice used as a call for competition - standard",
+        "Prior information notice used as a call for competition - light",
+        "Prior information notice for public passenger transport",
+        "Voluntary ex-ante transparency notice",
+        "Qualification system notice",
+        "Subcontracting notice",
+        "Contract completion notice",
+        "Pre-market consultation notice",
+        "European Company / ECS notice",
+        "European Economic Interest Grouping notice"
+      ],
+      "title": "Notice Type",
+      "type": "string"
+    },
+    "procedureType": {
+      "default": "",
+      "description": "Restrict to a procurement procedure, e.g. open or restricted. Used in `search` mode.",
+      "editor": "select",
+      "enum": [
+        "",
+        "open",
+        "restricted",
+        "comp-dial",
+        "comp-tend",
+        "neg-w-call",
+        "neg-wo-call",
+        "innovation",
+        "exp-int-rail",
+        "oth-mult",
+        "oth-single"
+      ],
+      "enumTitles": [
+        "Any procedure",
+        "Open procedure",
+        "Restricted procedure",
+        "Competitive dialogue",
+        "Competitive procedure with negotiation",
+        "Negotiated procedure with prior call for competition",
+        "Negotiated procedure without prior call for competition",
+        "Innovation partnership",
+        "Railway transport services procedure",
+        "Other multi-stage procedure",
+        "Other single-stage procedure"
+      ],
+      "title": "Procedure Type",
       "type": "string"
     },
     "publicationDateFrom": {
@@ -273,6 +410,26 @@
       ],
       "prefill": "ACTIVE",
       "title": "Scope",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "newest",
+      "description": "Order of the returned notices. Used in `search` mode.",
+      "editor": "select",
+      "enum": [
+        "newest",
+        "oldest",
+        "deadlineSoonest",
+        "valueHighest"
+      ],
+      "enumTitles": [
+        "Newest published first",
+        "Oldest published first",
+        "Submission deadline soonest",
+        "Highest contract value first"
+      ],
+      "prefill": "newest",
+      "title": "Sort Results By",
       "type": "string"
     }
   },

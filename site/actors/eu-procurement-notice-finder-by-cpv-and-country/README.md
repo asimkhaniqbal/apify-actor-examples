@@ -1,14 +1,16 @@
 # EU Procurement Notice Finder by CPV & Country
 
-TED (Tenders Electronic Daily) is the EU's official publication for public procurement notices — hundreds of thousands of calls for tender from public buyers across Europe. This actor searches TED by CPV category, buyer country, publication date, and keyword, or fetches specific notices directly by their publication number.
+TED (Tenders Electronic Daily) is the EU's official journal for public procurement. It publishes contract notices, award results, prior information notices and modifications from thousands of public buyers across Europe. This actor queries TED's open Search API directly and returns clean notice records — no account, API key, cookie, or proxy is needed.
 
 ## What this actor does
 
-- Searches TED notices by CPV category (and an optional exact CPV code override), buyer country, a publication-date range, and a free-text keyword.
-- Fetches one or more specific notices directly by publication number.
-- Scopes a search to notices still open for submission, the latest version of each notice, or every notice and version in the archive.
-- Returns title, buyer, CPV codes, deadline, contract value, and links to the notice's HTML, XML, and PDF versions.
-- Leaves a field out of a record whenever TED doesn't publish that value for the notice, rather than sending it empty.
+- Searches notices by CPV category (one of 45 divisions) and optional exact/partial CPV codes, buyer country, publication-date range, tender-deadline range, contract-value range, notice type, procedure type, contract nature, buyer name and full-text keyword.
+- Fetches specific notices by publication number — one, several, or a pasted TED URL.
+- Scopes a search to notices still open for submission (`ACTIVE`), the latest version of each notice (`LATEST`), or the complete archive (`ALL`).
+- Sorts results newest first, oldest first, by soonest submission deadline, or by highest contract value.
+- Pages through results with a stable server cursor, up to 10,000 notices per run, with no duplicates.
+- Returns buyer identity and contact details, CPV codes, dates, deadlines, contract and award values, winning suppliers with their identifiers, and links to the HTML, XML and PDF versions of every notice.
+- Leaves a field out of a record when TED does not publish it for that notice, instead of sending an empty value.
 
 ## Output per notice
 
@@ -16,32 +18,36 @@ TED (Tenders Electronic Daily) is the EU's official publication for public procu
 |---|---|
 | `publicationNumber` | TED publication number, e.g. `463590-2022` |
 | `title` | Notice title |
-| `buyerName` | Contracting authority or buyer name |
-| `buyerCountry`, `buyerCountryName` | Buyer country code and name |
-| `placeOfPerformance` | Country/region codes where the contract will be performed |
+| `buyerName`, `buyerIdentifier`, `buyerLegalType` | Contracting authority name, registration identifier and legal form code |
+| `buyerCountry`, `buyerCountryName`, `buyerCity` | Buyer country and city |
+| `buyerEmail`, `buyerContactPoint`, `buyerWebsite` | Buyer contact details when published |
+| `placeOfPerformance` | NUTS and country codes where the contract is performed |
 | `cpvCodes`, `cpvMain` | All CPV classification codes on the notice, and the primary one |
-| `noticeType` | TED notice type, e.g. `cn-standard`, `can-standard` |
-| `formType` | Form type, e.g. competition, result, planning |
-| `contractNature` | Contract nature: works, supplies, or services |
-| `procedureType` | Procurement procedure type, e.g. open, restricted |
-| `publicationDate` | When the notice was published |
+| `noticeType`, `noticeSubtype`, `noticeVersion`, `formType` | Notice classification and version |
+| `procedureType`, `contractNature` | Procedure and nature (works, supplies, services) |
+| `publicationDate`, `ojsNumber` | Publication date and Official Journal issue |
 | `deadline` | Earliest tender submission deadline, when published |
 | `value`, `valueCurrency` | Total contract value and its currency, when published |
-| `htmlUrl` | Direct HTML page of the notice |
-| `xmlUrl` | Machine-readable XML version |
-| `pdfUrl` | PDF version |
-| `sourceUrl` | Canonical TED notice detail page |
+| `estimatedValue`, `estimatedValueCurrency`, `estimatedValueLots` | Estimated value for the procedure and per lot |
+| `awardValue`, `awardValueCurrency` | Awarded value on award notices |
+| `winnerName`, `winnerNames`, `winnerIdentifiers`, `winnerCountries`, `winnerEmails` | Winning supplier(s), with identifiers, countries and contact emails |
+| `winnerSizes`, `winnerSelectionStatuses` | Winner size class and selection status codes |
+| `contractConclusionDate`, `winnerDecisionDate` | Contract signature and award decision dates |
+| `contractTitle` | Contract or lot title when published |
+| `durationValue`, `durationUnit` | Contract duration and unit |
+| `frameworkAgreement`, `subcontracting` | Framework-agreement and subcontracting codes |
+| `htmlUrl`, `xmlUrl`, `pdfUrl`, `sourceUrl` | Official notice formats and canonical page |
 | `recordType` | Always `notice` |
 | `scrapedAt` | UTC timestamp of the scrape |
 
 ## Output when a request fails
 
-If a search query is rejected by TED, a fetch fails outright, or `getNotice` is called without a valid `publicationNumber`, the actor pushes an error record instead of silently returning nothing:
+If TED rejects a query, a request fails after retries, or `getNotice` is called without a valid publication number, the actor pushes an error record instead of silently returning nothing:
 
 | Field | Description |
 |---|---|
 | `recordType` | Always `error` |
-| `error` | Short error code, e.g. `query_error`, `request_failed`, `missing_input` |
+| `error` | Short code, e.g. `query_error`, `request_failed`, `missing_input` |
 | `message` | Human-readable explanation |
 | `input` | The query or input value that triggered the error, when applicable |
 | `sourceUrl` | The TED endpoint that was called |
@@ -53,36 +59,60 @@ If a search query is rejected by TED, a fetch fails outright, or `getNotice` is 
 |---|---|---|---|
 | `mode` | string | `search` | `search` (filter-based) or `getNotice` (by publication number). |
 | `cpvCategory` | string | – (any) | CPV top-level division, e.g. `45` for construction, `72` for IT services. Matches the division and all its sub-codes. |
-| `cpvCode` | string | – | Exact or partial CPV code override, e.g. `45233140`, combined with `cpvCategory`. |
-| `country` | string | – (all) | Buyer country, as an ISO-3166 alpha-3 code. |
-| `keyword` | string | – | Full-text keyword to match anywhere in the notice. |
-| `publicationDateFrom` | string | – | Earliest publication date to include, `YYYY-MM-DD`. |
-| `publicationDateTo` | string | – | Latest publication date to include, `YYYY-MM-DD`. |
-| `scope` | string | `ACTIVE` | `ACTIVE` (open for submission), `LATEST` (latest version of each notice), or `ALL` (every notice and version). |
-| `publicationNumber` | string | – | One or more TED publication numbers to fetch, used in `getNotice` mode. |
-| `maxItems` | integer | `50` | Maximum number of notice records to return. |
+| `cpvCode` | string | – | One or more CPV codes, separated by commas or spaces, e.g. `45233140, 48000000`. Each matches the code and its sub-codes. |
+| `noticeType` | string | – (any) | Contract notice, contract award notice, prior information notice, modification, and the other TED notice types. |
+| `procedureType` | string | – (any) | Open, restricted, competitive dialogue, negotiated, innovation partnership, and other procedure types. |
+| `contractNature` | string | – (any) | `works`, `supplies`, or `services`. |
+| `country` | string | – (all) | Buyer country as an ISO-3166 alpha-3 code (alpha-2 is also accepted). |
+| `keyword` | string | – | Full-text keyword matched anywhere in the notice. |
+| `buyerName` | string | – | Text that must appear in the contracting authority name. |
+| `publicationDateFrom`, `publicationDateTo` | string | – | Publication-date range, `YYYY-MM-DD`. |
+| `deadlineFrom`, `deadlineTo` | string | – | Tender submission deadline range, `YYYY-MM-DD`. |
+| `minValue`, `maxValue` | integer | – | Total contract-value range, in the notice's own currency. |
+| `scope` | string | `ACTIVE` | `ACTIVE` (open for submission), `LATEST` (latest version of each notice), or `ALL` (full archive). |
+| `sortBy` | string | `newest` | `newest`, `oldest`, `deadlineSoonest`, or `valueHighest`. |
+| `publicationNumber` | string | – | One or more TED publication numbers or notice URLs, used in `getNotice` mode. |
+| `maxItems` | integer | `50` | Maximum notice records to return, 1–10,000. |
 
-### Example: open construction tenders in Germany
+### Example: open German construction tenders above EUR 1 million
 
 ```json
 {
   "mode": "search",
   "cpvCategory": "45",
   "country": "DEU",
+  "noticeType": "cn-standard",
+  "procedureType": "open",
+  "contractNature": "works",
+  "minValue": 1000000,
   "scope": "ACTIVE",
+  "sortBy": "deadlineSoonest",
   "maxItems": 50
 }
 ```
 
-### Example: keyword search across a date range
+### Example: recent IT awards, highest value first
 
 ```json
 {
   "mode": "search",
-  "keyword": "hospital equipment",
+  "cpvCategory": "72",
+  "noticeType": "can-standard",
+  "publicationDateFrom": "2026-01-01",
+  "sortBy": "valueHighest",
+  "maxItems": 100
+}
+```
+
+### Example: notices for one buyer in a date window
+
+```json
+{
+  "mode": "search",
+  "buyerName": "comune di milano",
   "publicationDateFrom": "2026-01-01",
   "publicationDateTo": "2026-03-31",
-  "maxItems": 100
+  "maxItems": 200
 }
 ```
 
@@ -91,7 +121,7 @@ If a search query is rejected by TED, a fetch fails outright, or `getNotice` is 
 ```json
 {
   "mode": "getNotice",
-  "publicationNumber": "463590-2022, 471201-2022"
+  "publicationNumber": "463590-2022, 4-2026"
 }
 ```
 
@@ -99,35 +129,50 @@ If a search query is rejected by TED, a fetch fails outright, or `getNotice` is 
 
 - **Bid discovery** — find open tenders in your sector and country before the submission deadline.
 - **Market intelligence** — track which buyers are procuring what, where, and at what value.
-- **Competitor monitoring** — watch contract award notices and framework agreements by CPV category.
+- **Competitor monitoring** — watch award notices, winners and contract values by CPV category.
 - **Procurement research** — build datasets of public spending across Europe by category and time period.
-- **Lead generation** — surface contracting authorities active in a specific sector.
+- **Lead generation** — surface contracting authorities active in a specific sector, with contact details.
 
 ## FAQ
 
-**Do I need an account or API key?**
-No. TED's public data is open and doesn't require login, a key, or cookies.
+**Do I need an account, API key, or proxy?**
+No. TED's published-notice Search API is anonymous and cookieless, and the actor calls it directly.
 
-**What's a CPV code, and how does `cpvCategory` relate to `cpvCode`?**
-CPV (Common Procurement Vocabulary) is the EU's standard classification for public contracts. `cpvCategory` matches a whole top-level division plus all its sub-codes. `cpvCode` adds another exact/partial CPV code to match against — when both are set, a notice matching either one is returned, so use `cpvCode` on its own for the tightest match on a specific code.
+**What is a CPV code?**
+CPV (Common Procurement Vocabulary) is the EU's classification for public contracts. `cpvCategory` matches one top-level division and all of its sub-codes; `cpvCode` adds specific codes and matches them hierarchically (a code also returns its sub-codes). When both are set, a notice matching either is returned.
 
 **Which countries are covered?**
-The EU member states, EEA/EFTA countries (Iceland, Liechtenstein, Norway, Switzerland), the United Kingdom, and other European countries that publish notices on TED.
+EU member states, EEA/EFTA countries (Iceland, Liechtenstein, Norway, Switzerland), the United Kingdom, and other European countries that publish on TED.
 
-**What's the difference between the three `scope` options?**
-`ACTIVE` returns only notices still open for submission. `LATEST` returns the newest version of each matching notice, including ones no longer open. `ALL` returns every notice and every version in the archive, which can include duplicates across amendments.
+**What do the three scopes mean?**
+`ACTIVE` returns notices still open for submission. `LATEST` returns the newest version of each matching notice. `ALL` returns every notice and every version in the archive, including amendments.
+
+**What is the difference between `value`, `estimatedValue` and `awardValue`?**
+`value` is the notice's total contract value. `estimatedValue` is the buyer's estimate for the procedure or lots. `awardValue` is the value actually awarded on an award notice. Not every notice publishes all three.
+
+**Why are some fields missing from a notice?**
+TED only publishes them for certain notice types. For example, winner and award fields exist on award notices, while deadlines exist on notices that invite tenders. Missing values are omitted, never sent as `null`.
+
+**Why is `buyerEmail` or `buyerContactPoint` missing?**
+Contact details are optional in eForms and many buyers omit them. The actor returns them whenever TED publishes them, but never invents them. Phone numbers are not exposed by the Search API at all.
 
 **How many notices can one run return?**
-Up to `maxItems`, capped at 1000, retrieved through pagination. Narrowing with CPV, country, date, and keyword filters keeps results focused.
-
-**Why would `value` be missing from a notice?**
-Not every notice publishes a contract value — some notice types (like calls for competition before an award) don't have one yet.
+Up to `maxItems`, capped at 10,000. The actor uses TED's stable iteration cursor, so it does not duplicate rows or hit the 15,000-row page-number window.
 
 **How fresh is the data?**
-Each run queries TED's live data at request time, so results reflect what's currently published.
+Each run queries TED live, so results reflect what is published when the run starts.
 
 **What happens if my query is invalid or a request fails?**
-The actor pushes a single error record describing what went wrong (`recordType: "error"`) instead of failing silently or returning nothing at all.
+The actor retries transient failures with backoff and pushes a single descriptive error record (`recordType: "error"`) rather than failing silently.
 
 **Is this affiliated with TED or the EU?**
 No. This actor reads TED's public data and is not affiliated with, endorsed by, or connected to the Publications Office of the European Union.
+
+## Limitations
+
+- Winner and award fields are only present on award notices; tender notices have no winners yet.
+- Contract values are reported in the notice's own currency, not converted to EUR.
+- Buyer phone numbers are not part of TED's Search API response.
+- Sorting is available for publication date, submission deadline and total value; TED does not expose a relevance score through this API.
+- A single run is capped at 10,000 notices. For larger exports, partition by publication date, country or CPV division.
+- Contract descriptions are not included to keep records compact; every notice links to its official HTML, XML and PDF versions.

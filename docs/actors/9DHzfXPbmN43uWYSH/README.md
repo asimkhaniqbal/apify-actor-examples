@@ -4,99 +4,170 @@
 
 # ChavesNaMao City Property Listings Extractor
 
-ChavesNaMão is a long-running Brazilian classifieds and real-estate portal covering residential and commercial properties for sale and rent. This actor searches its listings for one of 15 major Brazilian cities at a time, returning each property with price, size, rooms, location and taxes as published on the listing page.
+ChavesNaMão is one of Brazil's busiest property portals, with hundreds of thousands of sale and rental ads in a single city. This actor reads those listings without cookies or login, applies the portal's own filters, walks its result pages, and can open each ad to return the full published details.
 
-## What this actor does
+## What it collects
 
-- Searches ChavesNaMão for properties for sale (venda) or for rent (aluguel) in a chosen city.
-- Covers 15 major Brazilian cities, from São Paulo and Rio de Janeiro to Florianópolis and Vitória.
-- Extracts price, condominium fee and IPTU (property tax) figures as displayed on the listing.
-- Captures bedrooms, bathrooms, suites, garages, area, neighborhood, street and GPS coordinates when published.
-- Fields that a given listing doesn't include (e.g. no GPS point, no pet-friendly flag) are left out of that record.
+- Sale (venda) and rental (aluguel) listings in 17 major Brazilian cities.
+- Structured search by property type, price range, area range, minimum bedrooms, bathrooms and parking spaces, advertiser type and sort order.
+- Every result page, with duplicate listing IDs removed, up to the requested limit.
+- Optional detail enrichment for each listing: full description, publisher name, CRECI and phone, complete photo list, amenities, video and 360° tour links, publication and update dates.
+
+Fields are omitted when ChavesNaMão does not publish them for a particular ad. The actor never writes null, empty-string or placeholder values.
+
+## Input defaults
+
+| Input | Default | Notes |
+| --- | --- | --- |
+| `collectionMode` | `listings` | `details` for known ads. |
+| `transactionType` | `sell` | `rent` for aluguel. |
+| `city` | `sao-paulo` | One of 17 built-in city slugs. |
+| `propertyType` | `all` | Every type when not restricted. |
+| `bedroomsMin` | 0 | No minimum. |
+| `bathroomsMin` | 0 | No minimum. |
+| `garagesMin` | 0 | No minimum. |
+| `priceMin` | – | No minimum. |
+| `priceMax` | – | No maximum. |
+| `areaMin` | – | No minimum. |
+| `areaMax` | – | No maximum. |
+| `sortBy` | `relevance` | Site default order. |
+| `ownerType` | `all` | All advertisers. |
+| `maxItems` | 20 | Daily-test prefill uses 3. |
+| `maxPages` | 34 | 30 rows per page. |
+| `includeDetails` | false | One extra request per listing. |
+| `listingUrls` | – | Any ChavesNaMão search URL. |
+| `propertyUrls` | – | Details mode only. |
+| `propertyIds` | – | Details mode only. |
+
+## Collection modes
+
+### Search listings
+
+Choose a transaction, city and any combination of filters. The actor translates them into the same filter syntax the ChavesNaMão website uses, then follows the selected sort order across pages.
+
+| Input | Meaning |
+| --- | --- |
+| `transactionType` | `sell` for venda, `rent` for aluguel. |
+| `city` | One of the 17 built-in city slugs. |
+| `propertyType` | All types or one of apartments, houses, gated houses, kitnets, penthouses, flats, lofts, commercial rooms/houses/points, buildings, warehouses, land, chácaras, farms or garages. |
+| `bedroomsMin`, `bathroomsMin`, `garagesMin` | Minimum room counts. 0 means no minimum. |
+| `priceMin`, `priceMax`, `areaMin`, `areaMax` | Numeric bounds in BRL and square metres. |
+| `sortBy` | Relevance, newest, price ascending/descending, area ascending/descending. |
+| `ownerType` | All advertisers, direct with owner, or agencies only. |
+| `maxItems` | Total listings to save (1–1000). |
+| `maxPages` | Pages to request per search, 30 listings each. |
+| `includeDetails` | Add one detail request per listing for the richer fields. |
+| `listingUrls` | Optional ChavesNaMão search URLs, used verbatim. Any city or neighbourhood reachable on the site can be scraped this way. |
+
+### Property details
+
+Set `collectionMode` to `details` and provide `propertyIds`, `propertyUrls`, or both. Each ad is fetched from ChavesNaMão's detail endpoint and returned once. This is the cheapest way to refresh a known shortlist.
 
 ## Output per listing
 
 | Field | Description |
 | --- | --- |
-| `propertyId` | ChavesNaMão's internal listing ID. |
-| `title` | Listing title. |
-| `transactionType` | Sale or rent transaction type as reported by the listing. |
-| `price` | Numeric price in BRL. |
-| `priceDisplay` | Original formatted price text. |
-| `condominiumFee` | Monthly condominium fee, when published. |
-| `iptuValue` | Annual property tax (IPTU) value, when published. |
-| `propertyType` | Property category (house, apartment, commercial, etc.). |
-| `bedrooms` | Number of bedrooms. |
-| `bathrooms` | Number of bathrooms. |
-| `suites` | Number of en-suite bedrooms. |
-| `garages` | Number of garage/parking spaces. |
-| `areaSqM` | Property area in square metres. |
-| `neighborhood` | Neighborhood name. |
-| `latitude` / `longitude` | GPS coordinates of the neighborhood, when published. |
-| `city` | City name. |
-| `stateAcronym` | Two-letter Brazilian state code (e.g. SP, RJ). |
-| `street` | Street name, when published. |
-| `description` | Listing description text (truncated to 2000 characters). |
-| `reference` | Advertiser's internal reference code for the listing. |
-| `petFriendly` | Whether the listing is marked pet-friendly. |
-| `propertyUrl` | Direct link to the listing on chavesnamao.com.br. |
-| `scrapedAt` | ISO timestamp of when the record was captured. |
+| `propertyId` | ChavesNaMão listing ID. |
+| `title` | Listing title as published. |
+| `transactionType` | `SELL` or `RENT`. |
+| `price`, `priceCurrency`, `priceDisplay` | Numeric asking price, currency and the original formatted text. |
+| `condominiumFee`, `condominiumFeeValue` | Monthly condominium fee text and numeric value when available. |
+| `iptuValue`, `iptuValueNumeric` | Annual IPTU property-tax text and numeric value when available. |
+| `propertyType`, `propertyTypeId`, `propertyTypeSlug` | Property category. |
+| `bedrooms`, `bedroomsMax` | Bedrooms (minimum and maximum when the ad publishes a range). |
+| `bathrooms`, `bathroomsMax` | Bathrooms. |
+| `suites`, `suitesMax` | En-suite bedrooms. |
+| `garages`, `garagesMax` | Garage or parking spaces. |
+| `commercialRooms`, `commercialRoomsMax` | Commercial rooms when applicable. |
+| `areaSqM`, `usableAreaSqM`, `totalAreaSqM` | Primary, usable and total area in square metres. |
+| `street`, `addressNumber`, `neighborhood`, `neighborhoodId` | Address details. |
+| `city`, `cityId`, `stateAcronym`, `state`, `zipCode` | Location details. |
+| `latitude`, `longitude` | Coordinates when the ad or neighbourhood supplies them. |
+| `publicAddress` | Whether the full street address is public on the ad. |
+| `description` | Full description (HTML stripped, up to 5,000 characters). |
+| `reference` | Advertiser's internal reference code. |
+| `petFriendly`, `acceptTrade`, `active`, `highlighted` | Booleans published by the ad. |
+| `publisherName`, `publisherType`, `publisherCreci`, `publisherVerified` | Advertiser identity. |
+| `publisherPhone`, `publisherWhatsApp`, `publisherUrl` | Advertiser contact details and profile link. |
+| `imageCount`, `featuredImage`, `imageUrls` | Photo count and full-resolution image links. |
+| `videoUrl`, `tour360Url` | Video and virtual-tour links. |
+| `amenities`, `buildingAmenities` | Private and common-area features from the detail page. |
+| `createdAt`, `updatedAt` | Publication and last-update timestamps. |
+| `propertyUrl` | Direct link to the ad. |
+| `scrapedAt` | ISO timestamp of collection. |
 
-## Input
+## Examples
 
-| Field | Type | Default | Description |
-| --- | --- | --- | --- |
-| `mode` | String (select) | `sell` | Transaction type: `sell` (Venda) or `rent` (Aluguel). |
-| `city` | String (select) | `sao-paulo` | One of 15 supported Brazilian cities. |
-| `maxItems` | Integer | 20 | Maximum number of listings to return (1–500), capped by how many listings ChavesNaMão's first results page for that city and transaction type actually shows. |
-
-### Example: apartments for rent in Belo Horizonte
+Three apartments for sale in São Paulo with the daily-test prefill:
 
 ```json
 {
-  "mode": "rent",
-  "city": "belo-horizonte",
-  "maxItems": 50
+  "collectionMode": "listings",
+  "transactionType": "sell",
+  "city": "sao-paulo",
+  "maxItems": 3,
+  "maxPages": 1
 }
 ```
 
-### Example: houses for sale in Curitiba
+Rentals in Rio de Janeiro between R$ 2,000 and R$ 4,000, at least two bedrooms, newest first, with full details:
 
 ```json
 {
-  "mode": "sell",
-  "city": "curitiba",
+  "collectionMode": "listings",
+  "transactionType": "rent",
+  "city": "rio-de-janeiro",
+  "bedroomsMin": 2,
+  "priceMin": 2000,
+  "priceMax": 4000,
+  "sortBy": "newest",
+  "maxItems": 50,
+  "includeDetails": true
+}
+```
+
+Houses for sale in a neighbourhood using the site's own URL:
+
+```json
+{
+  "collectionMode": "listings",
+  "listingUrls": ["https://www.chavesnamao.com.br/casas-a-venda/sp-sao-paulo/pinheiros/"],
   "maxItems": 100
 }
 ```
 
-## Use cases
+Full details for known ads:
 
-- **Real estate agents** in a supported city tracking current asking prices and condominium fees.
-- **Relocation and expat services** comparing rent levels and neighborhood options across Brazilian cities.
-- **Market researchers** building city-level price-per-square-metre comparisons.
-- **Property investors** screening listings by room count and area within one city at a time.
-- **Tax and cost analysts** reviewing IPTU and condominium fee figures alongside asking price.
+```json
+{
+  "collectionMode": "details",
+  "propertyUrls": ["https://www.chavesnamao.com.br/imovel/apartamento-a-venda-2-quartos-sp-sao-paulo-pinheiros-90m2-RS750000/id-26583048/"]
+}
+```
+
+## Compatibility with older tasks
+
+Older tasks that send `mode` as `sell` or `rent`, plus `city` and `maxItems`, keep working: the actor reads those hidden legacy keys and maps them to `transactionType` and listings mode. The schema exposes `collectionMode` for new tasks. Existing output fields are unchanged; the revamp only adds fields beside them.
 
 ## FAQ
 
-**Does this need a ChavesNaMão account or login?**
-No. It reads the same listing pages shown to any visitor on chavesnamao.com.br.
+**Do I need a ChavesNaMão account or cookies?**
+No. The actor reads the same public pages and JSON endpoints shown to any visitor, with no login, cookie or proxy input.
 
-**Can I search multiple cities in one run?**
-No, each run searches one `city` value from the supported list. Run the actor again with a different `city` to cover another one.
+**Can I search several cities at once?**
+Yes. Pass several `listingUrls` (one per city) in a single run. When no URL is supplied, one city is searched from the `city` control.
 
-**Why are `condominiumFee` and `iptuValue` text instead of numbers?**
-ChavesNaMão publishes these as formatted strings (e.g. "R$ 450"), so they're kept as the original display text rather than converted to a number.
+**How many listings can one search return?**
+ChavesNaMão reports hundreds of thousands of ads per large city and currently exposes up to 333 pages (about 10,000 rows) per search. Set `maxItems` and `maxPages` to the depth you need. Larger total volumes are reached by splitting the query with price, area or neighbourhood filters.
 
-**Why might `latitude`/`longitude` be missing from a listing?**
-Coordinates come from the listing's neighborhood data; when ChavesNaMão doesn't publish a geoposition for that neighborhood, the fields are left out.
+**Why are some fields missing from a row?**
+ChavesNaMão does not publish every detail for every ad. Empty values are omitted rather than fabricated. Turn on `includeDetails` to fill the detail-only fields for the listings that have them.
 
-**What's the difference between `bedrooms` and `suites`?**
-`bedrooms` is the total bedroom count; `suites` counts only the bedrooms that have an attached (en-suite) bathroom.
+**Are condominium fee and IPTU numbers or text?**
+Both are kept as the original display text (`condominiumFee`, `iptuValue`) and, when parseable, also as numbers (`condominiumFeeValue`, `iptuValueNumeric`).
 
-**Can I get more listings by raising `maxItems`?**
-Only up to the number of listings shown on that city and transaction type's first results page — the actor doesn't page through further results, so raising `maxItems` beyond that count won't return more.
+**What does `publicAddress` mean?**
+When true, the ad shows the street and number publicly. When false or absent, the portal hides the exact address even though the neighbourhood is known.
 
 **Is this affiliated with ChavesNaMão?**
-No. This is an independent tool and is not affiliated with, endorsed by, or sponsored by ChavesNaMão.
+No. This is an independent data tool and is not affiliated with, endorsed by or sponsored by ChavesNaMão.

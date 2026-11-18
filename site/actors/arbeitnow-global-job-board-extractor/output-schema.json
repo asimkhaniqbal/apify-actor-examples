@@ -1,6 +1,6 @@
 {
   "actorOutputSchemaVersion": 1,
-  "description": "Arbeitnow job listings with title, company, location, remote status, job types, tags and plain-text description.",
+  "description": "Arbeitnow job listings with title, company, location, remote status, job types, tags, full description, posting and expiry dates, benefits and apply links.",
   "properties": {
     "jobs": {
       "description": "Dataset containing all scraped Arbeitnow job listings.",
@@ -11,18 +11,56 @@
   },
   "schema": {
     "properties": {
+      "applyUrl": {
+        "description": "Arbeitnow's apply/company-portal URL for this listing.",
+        "title": "Apply URL",
+        "type": "string"
+      },
+      "benefits": {
+        "description": "Curated benefits listed on the job page, e.g. ['English speaker friendly', 'Visa sponsorship possible'] (detail extras only).",
+        "items": {
+          "type": "string"
+        },
+        "title": "Benefits",
+        "type": "array"
+      },
       "company": {
         "description": "Name of the hiring company.",
         "title": "Company",
         "type": "string"
       },
+      "companyLogoUrl": {
+        "description": "Employer logo from the job page (available when detail extras are fetched).",
+        "title": "Company logo URL",
+        "type": "string"
+      },
+      "companySlug": {
+        "description": "Arbeitnow company identifier taken from the listing URL.",
+        "title": "Company slug",
+        "type": "string"
+      },
+      "companyUrl": {
+        "description": "Arbeitnow company page for the employer.",
+        "title": "Company URL",
+        "type": "string"
+      },
       "description": {
-        "description": "Plain-text job description (HTML tags stripped).",
+        "description": "Full job description as plain text, with HTML tags and entities removed.",
         "title": "Description",
         "type": "string"
       },
+      "employmentType": {
+        "description": "Human-readable schema.org employment type from the job page, e.g. 'Full time' (detail extras only).",
+        "title": "Employment type",
+        "type": "string"
+      },
+      "englishSpeakingFriendly": {
+        "description": "True when Arbeitnow's curated benefits mark the role as English-speaking friendly.",
+        "title": "English-speaking friendly",
+        "type": "boolean"
+      },
       "jobTypes": {
-        "description": "Employment types for this role (e.g. ['Full-time', 'Contract']).",
+        "description": "Employment and experience labels attached by Arbeitnow (e.g. ['Full Time']).",
         "items": {
           "type": "string"
         },
@@ -30,22 +68,27 @@
         "type": "array"
       },
       "location": {
-        "description": "Geographic location of the role (e.g. 'Berlin, Germany').",
+        "description": "Location text published by the employer (e.g. 'Berlin' or 'Munich, Bavaria').",
         "title": "Location",
         "type": "string"
       },
       "postedAt": {
-        "description": "ISO 8601 datetime when the job was posted (UTC).",
+        "description": "ISO 8601 datetime when the job was posted.",
         "title": "Posted at",
         "type": "string"
       },
+      "relocationSupport": {
+        "description": "True when Arbeitnow's curated benefits mention relocation support.",
+        "title": "Relocation support",
+        "type": "boolean"
+      },
       "remote": {
-        "description": "Whether the position is remote-friendly.",
+        "description": "Whether Arbeitnow flags the position as remote-friendly.",
         "title": "Remote",
         "type": "boolean"
       },
       "scrapedAt": {
-        "description": "ISO 8601 datetime when this record was scraped (UTC).",
+        "description": "ISO 8601 datetime when this record was collected (UTC).",
         "title": "Scraped at",
         "type": "string"
       },
@@ -60,7 +103,7 @@
         "type": "string"
       },
       "tags": {
-        "description": "Tech stack and category tags associated with the listing (e.g. ['python', 'django']).",
+        "description": "Category and tech labels attached by Arbeitnow (e.g. ['Software Development', 'Remote']).",
         "items": {
           "type": "string"
         },
@@ -71,6 +114,16 @@
         "description": "The job title as posted by the employer.",
         "title": "Job title",
         "type": "string"
+      },
+      "validThrough": {
+        "description": "ISO 8601 expiry date from the job page (detail extras only).",
+        "title": "Valid through",
+        "type": "string"
+      },
+      "visaSponsorship": {
+        "description": "True when Arbeitnow's curated benefits explicitly mention visa sponsorship. Omitted when the page does not say so.",
+        "title": "Visa sponsorship",
+        "type": "boolean"
       }
     },
     "type": "object"

@@ -1,53 +1,146 @@
 {
-  "description": "Search Trade Me Property for residential listings for sale or rent across New Zealand. No API credentials required.",
+  "description": "Search Trade Me Property residential listings for sale or rent across New Zealand, or refresh specific listings. No account, cookies or API key required.",
   "properties": {
+    "district": {
+      "description": "Narrow the search to one district, for example Auckland City or Christchurch City. Enter a district name or Trade Me district ID.",
+      "editor": "textfield",
+      "title": "District (optional)",
+      "type": "string"
+    },
+    "homeIncomeOnly": {
+      "default": false,
+      "description": "Return only home-and-income properties.",
+      "prefill": false,
+      "title": "Only home and income",
+      "type": "boolean"
+    },
+    "includeDetails": {
+      "default": false,
+      "description": "Fetch the full listing page data for each result. Adds the description, every photo, agent names and property features, at the cost of one extra request per listing.",
+      "prefill": false,
+      "title": "Load full details for every search result",
+      "type": "boolean"
+    },
+    "listingUrls": {
+      "default": [],
+      "description": "Trade Me Property listing URLs or numeric listing IDs. Used when mode is Refresh specific listing URLs.",
+      "editor": "stringList",
+      "prefill": [],
+      "sectionCaption": "Specific listings",
+      "title": "Listing URLs or IDs",
+      "type": "array"
+    },
+    "maxBathrooms": {
+      "description": "Largest number of bathrooms to include.",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Maximum bathrooms",
+      "type": "integer"
+    },
     "maxBedrooms": {
-      "description": "Maximum number of bedrooms.",
-      "maximum": 10,
-      "minimum": 1,
-      "title": "Maximum Bedrooms",
+      "description": "Largest number of bedrooms to include.",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Maximum bedrooms",
+      "type": "integer"
+    },
+    "maxFloorArea": {
+      "description": "Largest floor area in square metres.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Maximum floor area (m²)",
       "type": "integer"
     },
     "maxItems": {
       "default": 50,
-      "description": "Maximum number of listings to return.",
+      "description": "Maximum number of listings to save. Trade Me serves up to 50 per page; the actor walks pages until it reaches this limit or the source is exhausted.",
       "maximum": 5000,
       "minimum": 1,
-      "prefill": 50,
-      "title": "Max Items",
+      "prefill": 20,
+      "sectionCaption": "Output",
+      "title": "Maximum listings",
+      "type": "integer"
+    },
+    "maxLandArea": {
+      "description": "Largest land area in square metres.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Maximum land area (m²)",
+      "type": "integer"
+    },
+    "maxLounges": {
+      "description": "Largest number of separate lounges or living areas.",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Maximum living areas",
+      "type": "integer"
+    },
+    "maxParking": {
+      "description": "Largest number of garage, carport or off-street parking spaces.",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Maximum parking spaces",
       "type": "integer"
     },
     "maxPrice": {
-      "description": "Maximum listing price in New Zealand dollars.",
-      "maximum": 50000000,
+      "description": "Highest asking price for sale listings, or highest weekly rent for rental listings.",
+      "maximum": 10000000,
       "minimum": 0,
-      "title": "Maximum Price (NZD)",
+      "title": "Maximum price or weekly rent (NZD)",
       "type": "integer"
     },
     "minBathrooms": {
-      "description": "Minimum number of bathrooms.",
-      "maximum": 10,
-      "minimum": 1,
-      "title": "Minimum Bathrooms",
+      "description": "Smallest number of bathrooms to include.",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Minimum bathrooms",
       "type": "integer"
     },
     "minBedrooms": {
-      "description": "Minimum number of bedrooms.",
-      "maximum": 10,
-      "minimum": 1,
-      "title": "Minimum Bedrooms",
+      "description": "Smallest number of bedrooms to include. Use 0 to include studios.",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Minimum bedrooms",
+      "type": "integer"
+    },
+    "minFloorArea": {
+      "description": "Smallest floor area in square metres.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Minimum floor area (m²)",
+      "type": "integer"
+    },
+    "minLandArea": {
+      "description": "Smallest land area in square metres.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Minimum land area (m²)",
+      "type": "integer"
+    },
+    "minLounges": {
+      "description": "Smallest number of separate lounges or living areas.",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Minimum living areas",
+      "type": "integer"
+    },
+    "minParking": {
+      "description": "Smallest number of garage, carport or off-street parking spaces.",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Minimum parking spaces",
       "type": "integer"
     },
     "minPrice": {
-      "description": "Minimum listing price in New Zealand dollars.",
-      "maximum": 50000000,
+      "description": "Lowest asking price for sale listings, or lowest weekly rent for rental listings.",
+      "maximum": 10000000,
       "minimum": 0,
-      "title": "Minimum Price (NZD)",
+      "title": "Minimum price or weekly rent (NZD)",
       "type": "integer"
     },
     "mode": {
       "default": "searchForSale",
-      "description": "What to scrape: residential properties for sale, rental listings, or enrich specific listing URLs.",
+      "description": "Search residential properties for sale, search rental listings, or refresh a list of property URLs you already track.",
       "editor": "select",
       "enum": [
         "searchForSale",
@@ -57,23 +150,40 @@
       "enumTitles": [
         "Search properties for sale",
         "Search rental listings",
-        "Enrich specific listing URLs"
+        "Refresh specific listing URLs"
       ],
       "prefill": "searchForSale",
-      "title": "Mode",
+      "sectionCaption": "Mode and location",
+      "title": "What to scrape",
       "type": "string"
+    },
+    "newHomesOnly": {
+      "default": false,
+      "description": "Return only new-build properties.",
+      "prefill": false,
+      "title": "Only new builds",
+      "type": "boolean"
+    },
+    "openHomesOnly": {
+      "default": false,
+      "description": "Return only properties that have an upcoming open home.",
+      "prefill": false,
+      "title": "Only listings with open homes",
+      "type": "boolean"
     },
     "propertyType": {
       "default": "",
-      "description": "Type of property to filter results.",
+      "description": "Limit results to one type of property.",
       "editor": "select",
       "enum": [
         "",
         "house",
-        "townhouse",
         "apartment",
+        "townhouse",
         "unit",
         "section",
+        "dwelling",
+        "bareland",
         "lifestyle",
         "rural",
         "newdevelopment",
@@ -82,70 +192,123 @@
       "enumTitles": [
         "All types",
         "House",
-        "Townhouse",
         "Apartment",
+        "Townhouse",
         "Unit",
         "Section / Land",
-        "Lifestyle",
-        "Rural",
-        "New Development",
-        "Carpark"
+        "Lifestyle / Dwelling",
+        "Bare land",
+        "Lifestyle (legacy, same as Lifestyle / Dwelling)",
+        "Rural (legacy, maps to Lifestyle / Dwelling)",
+        "New development (legacy, new builds only)",
+        "Carpark (legacy, keyword search)"
       ],
       "prefill": "",
-      "title": "Property Type",
+      "title": "Property type",
       "type": "string"
     },
     "region": {
       "default": "Auckland",
-      "description": "New Zealand region to search. Use 'All New Zealand' for nationwide results.",
+      "description": "New Zealand region to search. Choose All New Zealand to search nationwide.",
       "editor": "select",
       "enum": [
+        "Northland",
         "Auckland",
+        "Waikato",
         "Bay of Plenty",
-        "Canterbury",
         "Gisborne",
         "Hawke's Bay",
+        "Taranaki",
         "Manawatu / Whanganui",
-        "Marlborough",
+        "Wellington",
         "Nelson / Tasman",
-        "Northland",
+        "Marlborough",
+        "West Coast",
+        "Canterbury",
         "Otago",
         "Southland",
-        "Taranaki",
-        "Waikato",
-        "Wellington",
-        "West Coast",
         "All New Zealand"
       ],
       "enumTitles": [
+        "Northland",
         "Auckland",
+        "Waikato",
         "Bay of Plenty",
-        "Canterbury",
         "Gisborne",
         "Hawke's Bay",
+        "Taranaki",
         "Manawatu / Whanganui",
-        "Marlborough",
+        "Wellington",
         "Nelson / Tasman",
-        "Northland",
+        "Marlborough",
+        "West Coast",
+        "Canterbury",
         "Otago",
         "Southland",
-        "Taranaki",
-        "Waikato",
-        "Wellington",
-        "West Coast",
         "All New Zealand"
       ],
       "prefill": "Auckland",
       "title": "Region",
       "type": "string"
     },
-    "startUrls": {
-      "default": [],
-      "description": "Trade Me property listing URLs to enrich, e.g. https://www.trademe.co.nz/a/property/residential/sale/listing/12345678",
-      "editor": "stringList",
-      "prefill": [],
-      "title": "Listing URLs (mode=byListingUrls)",
-      "type": "array"
+    "salesMethod": {
+      "default": "",
+      "description": "Only return sale listings using this method. Ignored for rental searches.",
+      "editor": "select",
+      "enum": [
+        "",
+        "auction",
+        "negotiation",
+        "tender",
+        "deadlinesale",
+        "pricedisplayed"
+      ],
+      "enumTitles": [
+        "Any method",
+        "Auction",
+        "Negotiation",
+        "Tender",
+        "Deadline sale",
+        "Asking price"
+      ],
+      "prefill": "",
+      "title": "Sale method",
+      "type": "string"
+    },
+    "searchString": {
+      "description": "Only return listings whose title or description matches this keyword, for example villa, waterfront or garage.",
+      "editor": "textfield",
+      "sectionCaption": "Search filters",
+      "title": "Keyword (optional)",
+      "type": "string"
+    },
+    "sortOrder": {
+      "default": "Default",
+      "description": "Order of the search results.",
+      "editor": "select",
+      "enum": [
+        "Default",
+        "PriceAsc",
+        "PriceDesc",
+        "ExpiryDesc",
+        "EarliestOpenHome"
+      ],
+      "enumTitles": [
+        "Featured first",
+        "Lowest price first",
+        "Highest price first",
+        "Latest listings first",
+        "Earliest open home first"
+      ],
+      "prefill": "Default",
+      "title": "Sort order",
+      "type": "string"
+    },
+    "suburb": {
+      "description": "Narrow the search to one suburb, for example Ponsonby or Riccarton. Enter a suburb name or Trade Me suburb ID.",
+      "editor": "textfield",
+      "title": "Suburb (optional)",
+      "type": "string"
     }
   },
   "required": [

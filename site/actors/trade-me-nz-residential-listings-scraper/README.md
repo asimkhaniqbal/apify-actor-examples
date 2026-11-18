@@ -1,123 +1,129 @@
 # Trade Me NZ Residential Listings Scraper
 
-Trade Me is New Zealand's largest property marketplace, listing homes for sale and rent across every region from Northland to Southland. This actor pulls residential listings straight from Trade Me Property's search results, or enriches a list of listing URLs you already have, without needing a Trade Me account.
+Trade Me is New Zealand's largest property marketplace, with homes for sale and rentals listed in every region from Northland to Southland. This actor collects residential listings straight from Trade Me Property's public search data, runs entirely without an account, cookie, API key or proxy setup, and returns clean rows ready for analysis, alerts or a CRM.
 
-## What this actor does
+## What you can do
 
-- Searches residential "for sale" or "for rent" listings for a chosen New Zealand region, with price, bedroom, bathroom and property-type filters.
-- Re-fetches a specific set of listing URLs you supply, useful for tracking price or status changes on known properties.
-- Resolves region names (including common city aliases like "Tauranga" or "Dunedin") to the correct Trade Me region without extra setup.
-- Captures address, price or weekly rent, bedrooms/bathrooms, floor and land area, agency, listing date, photos and GPS coordinates where Trade Me publishes them.
-- Fields that Trade Me doesn't expose for a given listing (for example GPS coordinates on a brand-new listing) are simply left out of that record.
+- **Search homes for sale** with price, bedroom, bathroom, land area, floor area, parking, living area, property type and sale-method filters.
+- **Search rental listings** with weekly rent, bedroom, bathroom, parking and property-type filters, plus available-from and tenant details.
+- **Refresh listings you already track** by pasting Trade Me Property URLs or numeric listing IDs.
+- **Narrow by location** with a region, district or suburb, or search all of New Zealand at once.
+- **Order the results** by featured, price, newest or the earliest open home.
+- **Walk the full result set** automatically. Trade Me serves up to 50 listings per page; the actor requests page after page until it reaches your limit or the source runs out.
+- **Optionally load full details** for every search result to add the description, every photo, agent names and property features.
 
-## Output per listing
+No login or developer application is needed, so the actor works the same for every user.
+
+## Inputs
+
+| Input | Default | What it does |
+| --- | --- | --- |
+| `mode` | `searchForSale` | `searchForSale`, `searchForRent` or `byListingUrls`. |
+| `region` | `Auckland` | One of the 15 New Zealand regions, or All New Zealand. |
+| `district` | – | Optional district name or Trade Me district ID. |
+| `suburb` | – | Optional suburb name or Trade Me suburb ID. |
+| `searchString` | – | Optional keyword matched against the listing title and description. |
+| `propertyType` | All types | House, apartment, townhouse, unit, section, lifestyle/dwelling or bare land. |
+| `minPrice` / `maxPrice` | – | Asking price for sale searches, weekly rent for rental searches. |
+| `minBedrooms` / `maxBedrooms` | – | Bedroom range. Use 0 to include studios. |
+| `minBathrooms` / `maxBathrooms` | – | Bathroom range. |
+| `minLandArea` / `maxLandArea` | – | Land area range in square metres. |
+| `minFloorArea` / `maxFloorArea` | – | Floor area range in square metres. |
+| `minParking` / `maxParking` | – | Garage, carport and off-street parking range. |
+| `minLounges` / `maxLounges` | – | Separate living-area range. |
+| `salesMethod` | Any method | Auction, negotiation, tender, deadline sale or asking price. |
+| `openHomesOnly` | `false` | Keep only listings with an upcoming open home. |
+| `newHomesOnly` | `false` | Keep only new-build listings. |
+| `homeIncomeOnly` | `false` | Keep only home-and-income listings. |
+| `sortOrder` | `Default` | Featured first, lowest price, highest price, latest listings or earliest open home. |
+| `includeDetails` | `false` | Load the full detail view for each search result (description, all photos, agents, features). |
+| `listingUrls` | – | Trade Me listing URLs or numeric IDs for `byListingUrls`. |
+| `maxItems` | 50 | Upper limit for the run, from 1 to 5,000. |
+
+Old saved tasks that still send `startUrls` are handled automatically: those URLs are treated as `listingUrls`.
+
+## Output
+
+Every dataset item is one property. Empty values are omitted rather than written as `null`.
 
 | Field | Description |
 | --- | --- |
-| `listingId` | Trade Me's numeric listing ID. |
-| `url` | Direct link to the listing on trademe.co.nz. |
-| `title` | Listing headline as shown in search results. |
-| `address` | Full display address or the best address text Trade Me provides. |
-| `suburb` | Suburb name. |
-| `city` | District/city name. |
-| `imageUrl` | URL of the first listing photo. |
-| `images` | URLs of all available listing photos. |
-| `bedrooms` | Number of bedrooms. |
-| `bathrooms` | Number of bathrooms. |
-| `garages` | Number of garage/parking spaces. |
-| `landArea` | Land area in square metres. |
-| `floorArea` | Floor area in square metres. |
-| `propertyType` | Property category (house, apartment, section, lifestyle, etc.). |
-| `price` | Numeric asking price in NZD, when Trade Me publishes one. |
-| `priceDisplay` | Original price text (e.g. "By Negotiation", "Tender") when no clean number can be derived. |
-| `rentPerWeek` | Numeric weekly rent in NZD (rental mode only). |
-| `rentPerWeekDisplay` | Original rent text when no clean weekly figure can be derived (rental mode only). |
-| `agency` | Listing agency or agent name. |
-| `listingDate` | Date the listing was published, in `YYYY-MM-DD`. |
-| `description` | Listing description text (truncated to 2000 characters). |
-| `latitude` / `longitude` | GPS coordinates of the property, when published. |
-| `region` | The New Zealand region the search was run against. |
+| `listingId` | Trade Me listing ID. |
+| `url` | Canonical Trade Me Property listing URL. |
+| `title` | Listing headline. |
+| `address` | Full display address, or the best address text Trade Me provides. |
+| `streetAddress` | Street portion of the address exactly as listed. |
+| `suburb`, `city` | Suburb and district/city. |
+| `region`, `regionId` | New Zealand region and its Trade Me ID. |
+| `districtId`, `suburbId` | Trade Me location IDs. |
+| `propertyId` | Agency's property reference, when published (common on rentals). |
+| `propertyType` | House, apartment, townhouse, unit, section, dwelling or bare land. |
+| `bedrooms`, `bathrooms` | Room counts. |
+| `landArea`, `floorArea` | Square metres, when published. |
+| `garages`, `totalParking` | Total parking spaces. |
+| `parking` | Parking description, for example `2 Car Garage`. |
+| `lounges`, `toilets`, `studies`, `ensuites` | Additional room counts, when published. |
+| `price`, `priceDisplay` | Numeric asking price (when the listing shows one) and the original price text. Auction, tender and negotiation listings keep the label without inventing a number. |
+| `rentPerWeek`, `rentPerWeekDisplay` | Weekly rent in NZD for rentals, or the original rent text when no clean number exists. |
+| `rateableValue` | Council rateable value (RV) in NZD, when published. |
+| `agency`, `agencyPhone`, `agencyWebsite` | Listing agency details. |
+| `agentName`, `agentNames` | Listing agent name(s). |
+| `listingDate`, `expiryDate` | Listing start and end dates in `YYYY-MM-DD`. |
+| `saleMethod`, `saleDate` | Sale method and auction/tender/deadline date for for-sale listings. |
+| `description` | Full description (up to 2,000 characters) when full details are loaded. |
+| `features` | Feature lines from the listing detail view, such as broadband or smoke alarm. |
+| `imageUrl`, `images` | Main photo and every photo, using full-size URLs. |
+| `latitude`, `longitude` | GPS coordinates. |
+| `openHomes` | Upcoming open-home objects with ISO `start` and `end` timestamps. |
+| `availableFrom` | Rental availability date. |
+| `smokersOkay`, `maxTenants`, `whiteware`, `idealTenant`, `amenities` | Rental terms, when published. |
+| `broadband`, `smokeAlarm` | Connectivity and safety details from the detail view. |
+| `viewCount`, `watcherCount` | Public view and watcher counts from the detail view. |
+| `suburbAverageSalePrice` | Recent average sale price for the suburb, when Trade Me publishes it. |
 | `recordType` | Always `tradeMeProperty`. |
-| `scrapedAt` | ISO timestamp of when the record was captured. |
+| `scrapedAt` | UTC scrape timestamp. |
 
-## Input
+## Examples
 
-| Field | Type | Default | Description |
-| --- | --- | --- | --- |
-| `mode` | String (select) | `searchForSale` | `searchForSale`, `searchForRent`, or `byListingUrls` to enrich specific listings. |
-| `region` | String (select) | `Auckland` | New Zealand region to search, or "All New Zealand". |
-| `propertyType` | String (select) | – | Filter by house, townhouse, apartment, unit, section, lifestyle, rural, new development, or carpark. Leave blank for all types. |
-| `minPrice` | Integer | – | Minimum listing price in NZD. |
-| `maxPrice` | Integer | – | Maximum listing price in NZD. |
-| `minBedrooms` | Integer | – | Minimum number of bedrooms. |
-| `maxBedrooms` | Integer | – | Maximum number of bedrooms. |
-| `minBathrooms` | Integer | – | Minimum number of bathrooms. |
-| `startUrls` | Array of strings | `[]` | Trade Me listing URLs to enrich directly (used only with `mode=byListingUrls`). |
-| `maxItems` | Integer | 50 | Maximum number of listings to return. |
-
-### Example: search houses for sale in Waikato
+Search the first 100 Auckland homes for sale between NZ$700,000 and NZ$1,200,000 with at least three bedrooms:
 
 ```json
 {
   "mode": "searchForSale",
-  "region": "Waikato",
-  "propertyType": "house",
+  "region": "Auckland",
+  "minPrice": 700000,
+  "maxPrice": 1200000,
   "minBedrooms": 3,
-  "maxPrice": 900000,
+  "sortOrder": "PriceAsc",
   "maxItems": 100
 }
 ```
 
-### Example: rentals in Wellington under $650/week
-
-```json
-{
-  "mode": "searchForRent",
-  "region": "Wellington",
-  "maxPrice": 650,
-  "maxItems": 60
-}
-```
-
-### Example: re-check specific listings
+Refresh three listings you already follow:
 
 ```json
 {
   "mode": "byListingUrls",
-  "startUrls": [
-    "https://www.trademe.co.nz/a/property/residential/sale/listing/4123456",
-    "https://www.trademe.co.nz/a/property/residential/sale/listing/4123789"
+  "listingUrls": [
+    "https://www.trademe.co.nz/a/property/residential/sale/auckland/auckland-city/epsom/listing/6226341247",
+    "6224742628",
+    "6236406095"
   ]
 }
 ```
 
-## Use cases
+## How it works
 
-- **Buyers and renters** tracking new listings in a target region without refreshing Trade Me manually.
-- **Real estate analysts** building regional price, bedroom-count or land-area comparisons.
-- **Investors** screening rental yields by comparing asking prices against weekly rent in the same suburb.
-- **Agencies** monitoring how their own or competitors' listings appear and price over time by re-scraping known listing URLs.
-- **Market researchers** tracking listing volume and type (section vs. house vs. lifestyle block) across New Zealand regions.
+The actor reads the same public search and listing data that powers the Trade Me Property website. It requests 50 listings per page, de-duplicates by listing ID and stops at your `maxItems` limit or when Trade Me has no more matching listings. Optional detail requests reuse the same cookieless connection. Transient rate limits and server errors are retried with backoff.
 
-## FAQ
+## Limitations
 
-**Does this need a Trade Me login or API key?**
-No. It reads the same listing data shown to any visitor on trademe.co.nz.
+- Trade Me serves at most 50 listings per search request. The actor pages through the result set, but a single run is capped at 5,000 saved listings; split a very large search by region, price band or property type.
+- Pets-allowed status is not exposed in Trade Me's public listing data, so it cannot be returned.
+- New-development, rural and commercial listings sit in separate Trade Me categories and are outside this residential actor.
+- Some fields are conditional by nature: an auction listing has no numeric price, a brand-new listing may not have GPS coordinates yet, and open homes only exist for properties that schedule them.
+- Trade Me can change its public data format at any time. The actor validates every response and reports a clear status message rather than saving partial or fabricated rows.
 
-**Why do some listings show `priceDisplay` instead of `price`?**
-Trade Me lets sellers list "By Negotiation", "Tender", or "Enquiries Over" instead of a fixed figure. When no clean number can be derived from that text, the original text is kept in `priceDisplay` instead of a fabricated `price`.
+## Data source
 
-**Why is `rentPerWeek` only present for rental searches?**
-Sale listings carry a sale price, not a weekly rent, so the rent fields only appear when `mode` is `searchForRent`.
-
-**Can I combine price, bedroom and bathroom filters together?**
-Yes, all the numeric filters (`minPrice`/`maxPrice`, `minBedrooms`/`maxBedrooms`, `minBathrooms`) apply together on top of the chosen `region` and `propertyType`.
-
-**What happens if a listing I pass to `byListingUrls` has been removed from Trade Me?**
-No listing data can be extracted for it, so at most you get back a bare record with just its `listingId` and `url` rather than a full set of fields.
-
-**Why do `latitude`/`longitude` sometimes not appear?**
-Not every Trade Me listing publishes exact coordinates; when that data isn't available, the fields are omitted rather than filled with a guess.
-
-**Is this affiliated with Trade Me?**
-No. This is an independent tool and is not affiliated with, endorsed by, or sponsored by Trade Me Limited.
+Public Trade Me Property search and listing data at `trademe.co.nz`, read without authentication, cookies or user-supplied credentials.

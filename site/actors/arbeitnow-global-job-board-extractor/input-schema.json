@@ -1,34 +1,266 @@
 {
-  "description": "Search and filter job listings from Arbeitnow — a global job board with thousands of remote and on-site opportunities.",
+  "description": "Search current Arbeitnow job listings by keyword, category, tags, company or city, or paste specific Arbeitnow job URLs. No login, cookies or proxy needed.",
   "properties": {
+    "category": {
+      "default": "any",
+      "description": "Use one of Arbeitnow's own topic, city or collection pages, such as Python, Berlin, Remote, Visa sponsorship or English speaking. Choose 'Any' for no category filter.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "english speaking",
+        "visa sponsorship",
+        "jobs with relocation",
+        "4 day work week",
+        "ai",
+        "android",
+        "backend",
+        "customer-service",
+        "data",
+        "data-analyst",
+        "design",
+        "developer",
+        "devops",
+        "engineering",
+        "entwickler",
+        "freelance",
+        "frontend",
+        "homeoffice",
+        "ios",
+        "it",
+        "javascript",
+        "junior",
+        "laravel",
+        "marketing",
+        "part-time",
+        "php",
+        "product-manager",
+        "python",
+        "qa",
+        "recruiter",
+        "seo",
+        "social-media",
+        "startup",
+        "aachen",
+        "augsburg",
+        "berlin",
+        "bielefeld",
+        "bochum",
+        "bonn",
+        "bremen",
+        "cologne",
+        "dortmund",
+        "dresden",
+        "dusseldorf",
+        "frankfurt",
+        "freiburg",
+        "hamburg",
+        "hanover",
+        "karlsruhe",
+        "leipzig",
+        "mainz",
+        "munich",
+        "nuremberg",
+        "potsdam",
+        "remote",
+        "stuttgart"
+      ],
+      "enumTitles": [
+        "Any / all jobs",
+        "English speaking",
+        "Visa sponsorship",
+        "Jobs with relocation",
+        "4 day work week",
+        "AI",
+        "Android",
+        "Backend",
+        "Customer Service",
+        "Data",
+        "Data Analyst",
+        "Design",
+        "Developer",
+        "DevOps",
+        "Engineering",
+        "Entwickler",
+        "Freelance",
+        "Frontend",
+        "Home Office",
+        "iOS",
+        "IT",
+        "JavaScript",
+        "Junior",
+        "Laravel",
+        "Marketing",
+        "Part Time",
+        "PHP",
+        "Product Manager",
+        "Python",
+        "QA",
+        "Recruiter",
+        "SEO",
+        "Social Media",
+        "Startup",
+        "Aachen",
+        "Augsburg",
+        "Berlin",
+        "Bielefeld",
+        "Bochum",
+        "Bonn",
+        "Bremen",
+        "Cologne",
+        "Dortmund",
+        "Dresden",
+        "Düsseldorf",
+        "Frankfurt",
+        "Freiburg",
+        "Hamburg",
+        "Hanover",
+        "Karlsruhe",
+        "Leipzig",
+        "Mainz",
+        "Munich",
+        "Nuremberg",
+        "Potsdam",
+        "Remote",
+        "Stuttgart"
+      ],
+      "prefill": "any",
+      "title": "Category or city",
+      "type": "string"
+    },
+    "companies": {
+      "description": "Keep jobs from these companies. Accepts company names, company slugs or company page URLs, e.g. [\"Zattoo\", \"https://www.arbeitnow.com/jobs/companies/n8n\"]. Any match is kept.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Companies",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "datePosted": {
+      "default": "7d",
+      "description": "Arbeitnow's feed holds roughly the last seven days of jobs. Choose a shorter window for fresher listings.",
+      "editor": "select",
+      "enum": [
+        "24h",
+        "3d",
+        "7d"
+      ],
+      "enumTitles": [
+        "Last 24 hours",
+        "Last 3 days",
+        "Last 7 days"
+      ],
+      "prefill": "7d",
+      "title": "Posted within",
+      "type": "string"
+    },
+    "includeDetails": {
+      "default": false,
+      "description": "Open each selected job page to add the company logo, expiry date, employment type and curated benefits (visa sponsorship, relocation, English-friendly). Slower but richer.",
+      "prefill": false,
+      "sectionCaption": "Details",
+      "sectionDescription": "Optional enrichment from the job's detail page.",
+      "title": "Fetch detail-page extras",
+      "type": "boolean"
+    },
+    "jobTypes": {
+      "description": "Keep jobs whose employment labels contain any of these phrases, e.g. [\"Full Time\"], [\"Internship\"], [\"Werkstudent\"], [\"Freelance\"]. Leave empty for all types.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Job types",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "location": {
+      "description": "Keep jobs whose location text contains this phrase (case-insensitive), e.g. \"Berlin\", \"Munich\" or \"Germany\". Leave blank for any location.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Location contains",
+      "type": "string"
+    },
     "maxItems": {
-      "default": 10,
-      "description": "Maximum number of job listings to return. The Arbeitnow API returns up to 15 jobs per page.",
-      "maximum": 500,
+      "default": 50,
+      "description": "Stop after this many matching jobs. The whole current feed is about 5,900 jobs; larger runs take longer and read more pages.",
+      "maximum": 5000,
       "minimum": 1,
       "prefill": 3,
-      "title": "Max items",
+      "sectionCaption": "Limits",
+      "sectionDescription": "Cap the run so schedules stay predictable.",
+      "title": "Maximum jobs",
       "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "Choose how to find jobs. Search uses Arbeitnow's own search and filters; By URLs reads the exact listing pages you paste.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byUrls"
+      ],
+      "enumTitles": [
+        "Search jobs",
+        "Scrape these job URLs"
+      ],
+      "prefill": "search",
+      "sectionCaption": "What to scrape",
+      "sectionDescription": "Use search for keywords and filters, or paste specific Arbeitnow job links.",
+      "title": "Mode",
+      "type": "string"
     },
     "remote": {
       "default": false,
-      "description": "When enabled, only remote-friendly jobs are returned.",
+      "description": "Only return jobs that Arbeitnow flags as remote. Arbeitnow's flag is sparse; the Remote category also finds jobs whose location or title says remote.",
       "prefill": false,
+      "sectionCaption": "Filters",
+      "sectionDescription": "Optional filters. Search mode applies them through Arbeitnow's search where possible, then verifies each row.",
       "title": "Remote only",
       "type": "boolean"
     },
     "searchQuery": {
-      "description": "Keyword to filter jobs by title or description (case-insensitive substring match). Leave blank to return all jobs.",
+      "description": "Keyword matched by Arbeitnow's search across job title, company and description (e.g. \"python developer\", \"data engineer\", \"sales\"). Leave blank to list all jobs matching the other filters.",
       "editor": "textfield",
       "prefill": "python developer",
       "title": "Search query",
       "type": "string"
     },
+    "sortBy": {
+      "default": "newest",
+      "description": "Newest returns the most recently posted jobs first. Relevance uses Arbeitnow's keyword ranking when a search query is set.",
+      "editor": "select",
+      "enum": [
+        "newest",
+        "relevance"
+      ],
+      "enumTitles": [
+        "Newest first",
+        "Most relevant"
+      ],
+      "prefill": "newest",
+      "title": "Sort results",
+      "type": "string"
+    },
     "tags": {
-      "description": "Filter jobs by one or more category tags (e.g. [\"Software Development\", \"IT\"]). A job must match ALL specified tags. Tags are job categories as used by Arbeitnow (not technology names).",
+      "description": "Keep jobs carrying every tag listed here (case-insensitive), e.g. [\"Software Development\", \"Remote\"]. Tags are Arbeitnow's category/tech labels, not free-text keywords.",
       "editor": "stringList",
-      "title": "Tags (tech stack / category)",
-      "type": "array"
+      "items": {
+        "type": "string"
+      },
+      "title": "Tags",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "urls": {
+      "description": "Used only in 'Scrape these job URLs' mode. Paste full Arbeitnow job links, e.g. https://www.arbeitnow.com/jobs/companies/zattoo/senior-backend-engineer-python-berlin-435689.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Job URLs",
+      "type": "array",
+      "uniqueItems": true
     }
   },
   "required": [],

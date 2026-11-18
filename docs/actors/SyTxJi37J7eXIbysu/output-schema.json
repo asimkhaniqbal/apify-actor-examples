@@ -1,13 +1,13 @@
 {
   "actorOutputSchemaVersion": 1,
-  "description": "Viator tour and activity listings with price, rating and destination, plus traveler review records with rating and review text.",
+  "description": "One dataset with experience records (tour/activity listings and details) and traveler review records. Every record has recordType, scrapedAt and a direct Viator URL.",
   "properties": {
     "records": {
-      "description": "Dataset containing all scraped Viator experience and review records.",
+      "description": "Dataset containing experience records and, in getReviews mode, review records. Fields that Viator does not publish for a record are omitted rather than returned empty.",
       "template": "{{links.apiDefaultDatasetUrl}}/items",
       "title": "Viator records",
       "type": "string"
     }
   },
-  "title": "Viator Tours, Activities & Review Extractor Output"
+  "title": "Viator Tours, Activities & Reviews Output"
 }

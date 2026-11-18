@@ -1,130 +1,174 @@
 # Viator Tours, Activities & Review Extractor
 
-Viator is one of the largest global marketplaces for bookable tours, excursions and activities. This actor browses Viator's destination and category listing pages to collect experience details, or pulls the traveler reviews published on a tour's page — all from publicly visible pages, no account needed.
+Viator is a large marketplace for bookable tours, activities, day trips and travel experiences. This actor reads Viator's public pages without an account, cookie or API key, and returns clean JSON for keyword searches, destination and category browsing, individual experience details, and traveler reviews.
 
-## What this actor does
+## Modes
 
-- Browses a destination's "things to do" listing (e.g. Paris, Rome, New York City) or a specific activity category within a destination.
-- Looks up details for specific experience URLs you already have, or collects the traveler reviews shown on those experience pages.
-- Applies price and rating filters so only experiences matching your criteria are kept.
-- Returns two distinct record types depending on mode: experience records (tour listing info) and review records (traveler feedback).
-- Fields Viator doesn't publish for a given experience or review are omitted from that record rather than returned empty.
+| Mode | What it collects |
+| --- | --- |
+| `search` | Experiences matching a keyword query, e.g. `Eiffel Tower tour`, `pasta making class`, `Seine cruise`. |
+| `byDestination` | Experiences from a destination's things-to-do listing, e.g. Paris, Rome, New York City. |
+| `byCategory` | Experiences in an activity category, optionally scoped to a destination. |
+| `getExperience` | Full details for experience URLs you already have. |
+| `getReviews` | Traveler reviews for experience URLs, or the review shelf on a destination URL. |
 
-## Output per experience (modes: search, byDestination, byCategory, getExperience)
+## Filters and ordering
+
+- `minPrice` / `maxPrice` – from-price bounds.
+- `minRating` – average traveler rating floor (0–5).
+- `minDurationHours` / `maxDurationHours` – shortest listed duration bounds.
+- `minReviewCount` – minimum number of traveler reviews.
+- `sortBy` – Viator order, price low/high, highest rated, or most reviewed.
+- `maxItems` – cap on experience records.
+- `maxReviewsPerExperience` – cap on reviews returned for each experience URL.
+
+Filters are applied before the cap, so `maxItems` counts matching records rather than raw listing rows. When `sortBy` is not the default, sorting is applied to the scanned listing window before the cap.
+
+## Pagination
+
+- Search results follow Viator's `/searchResults/all/{page}` paging (Viator exposes up to 200 results per query).
+- Destination and category listings follow Viator's listing pages, 24 experiences per page, until `maxItems` matching records are collected.
+- Reviews are paged through Viator's public review query in batches of 30 until `maxReviewsPerExperience` is reached.
+- Duplicate products and reviews are removed by Viator's product code and review id.
+
+## Output per experience (search, byDestination, byCategory, getExperience)
 
 | Field | Description |
 | --- | --- |
-| `url` | Link to the experience page on viator.com. |
-| `productCode` | Viator's internal product code for the experience. |
-| `title` | Experience name. |
-| `description` | Experience description text. |
-| `images` | List of experience photo URLs. |
-| `price` | Starting price as shown on the listing. |
-| `currency` | Currency code for `price`. |
-| `rating` | Average star rating (0–5). |
-| `reviewCount` | Number of reviews behind the rating. |
-| `destination` | Destination name the experience belongs to. |
-| `country` | Country of the destination, when available. |
-| `recordType` | Always `experience`. |
-| `scrapedAt` | ISO timestamp of when the record was captured. |
+| `recordType` | `experience`. |
+| `scrapedAt` | ISO timestamp of capture. |
+| `productCode` | Viator product code. |
+| `url` | Canonical Viator experience URL. |
+| `title` | Experience title. |
+| `description` | Overview text from the listing or detail page. |
+| `highlights` | Bullet highlights from a detail page. |
+| `images` | Supplier/listing photo URLs. |
+| `price` | Current from-price. |
+| `priceOriginal` | Pre-discount from-price when Viator shows one. |
+| `currency` | Currency code (USD by default). |
+| `isOnSale` | Present when a discount is active. |
+| `rating` | Average traveler rating (0–5). |
+| `reviewCount` | Number of traveler reviews behind the rating. |
+| `durationHours` | Shortest listed duration in hours. |
+| `durationHoursMax` | Longest listed duration when a range is shown. |
+| `durationText` | Duration label as Viator writes it. |
+| `destination` | Destination city/region. |
+| `destinationId` | Viator destination id. |
+| `country` | Destination country when published. |
+| `freeCancellation` | Present when free cancellation is offered. |
+| `likelyToSellOut` | Present when Viator flags the experience. |
+| `privateTour` | Present for private experiences. |
+| `newOnViator` | Present for new listings. |
+| `mobileTicket` | Present when a mobile ticket is accepted. |
+| `languages` | Offered guide/audio languages. |
+| `badges` | Viator merchandising badges, e.g. `SPECIAL_OFFER`. |
+| `travelerImageCount` | Traveler photo count on a detail page. |
+| `meetingPoints` | Meeting points with address, instructions and coordinates. |
+| `itineraryStops` | Stops with duration, coordinates and admission flag. |
+| `inclusions` / `exclusions` | Included and excluded items. |
+| `additionalInfo` | Practical traveler notes. |
+| `faqs` | Question/answer pairs when published. |
+| `timeZone` | Local time zone. |
+| `nextAvailableDate` | Next bookable date when published. |
+| `maxTravelersPerBooking` | Booking size limit when published. |
+| `productType` | Viator product type, e.g. `TOUR`. |
 
-## Output per review (mode: getReviews)
+## Output per review (getReviews)
 
 | Field | Description |
 | --- | --- |
-| `productCode` | Product code of the experience the review belongs to. |
-| `productTitle` | Name of the reviewed experience. |
-| `reviewerName` | Display name of the reviewer. |
-| `rating` | Star rating the reviewer gave (0–5). |
-| `reviewTitle` | Title of the review, if the reviewer added one. |
+| `recordType` | `review`. |
+| `scrapedAt` | ISO timestamp of capture. |
+| `reviewId` | Viator/TripAdvisor review id. |
+| `productCode` | Product code of the reviewed experience. |
+| `productTitle` | Reviewed experience title. |
+| `url` | Experience URL the review belongs to. |
+| `reviewerName` | Reviewer display name. |
+| `rating` | Reviewer rating (0–5). |
+| `reviewTitle` | Review headline when supplied. |
 | `reviewBody` | Full review text. |
-| `publishedDate` | Date the review was published. |
-| `url` | Link to the experience page the review was posted on. |
-| `recordType` | Always `review`. |
-| `scrapedAt` | ISO timestamp of when the record was captured. |
+| `reviewLanguage` | Review language code. |
+| `publishedDate` | Publication timestamp. |
+| `travelDate` | Date the reviewer traveled, when published. |
+| `helpfulVotes` | Helpful-vote count. |
+| `travelerType` | Reviewer party type, e.g. `FAMILY`. |
+| `isTripadvisor` | Present when the review came from TripAdvisor. |
+| `machineTranslated` | Present when Viator marks the review as translated. |
+| `photos` | Traveler photo URLs attached to the review. |
+| `ownerResponse` | Operator response text and date. |
 
-## Input
+## Inputs
 
 | Field | Type | Default | Description |
 | --- | --- | --- | --- |
-| `mode` | String (select) | `search` | `search`, `byDestination`, `byCategory`, `getExperience`, or `getReviews`. |
-| `searchQuery` | String | `Eiffel Tower tour` | Keyword used in `search` mode; Viator has no public keyword search API, so the actor treats this as a destination hint when `destination` isn't set. |
-| `destination` | String | `Paris` | City or region to browse, used by `search`, `byDestination`, and `byCategory`. |
-| `startUrls` | Array of strings | `[]` | Viator experience or destination page URLs, used by `byDestination`, `getExperience`, and `getReviews`. |
-| `category` | String (select) | – | Activity category to filter by, used alone with `byCategory` or combined with `destination`. |
-| `sortBy` | String (select) | `default` | Preferred sort order for listing pages (`default`, `price-asc`, `price-desc`, `rating`, `reviews`). |
-| `minPrice` | Number | – | Only keep experiences priced at or above this value (USD). |
-| `maxPrice` | Number | – | Only keep experiences priced at or below this value (USD). |
-| `minRating` | Number | – | Only keep experiences rated at or above this value (0–5). |
-| `minDurationHours` | Number | – | Reserved for filtering by minimum experience duration; has no effect in the current output (see FAQ). |
-| `maxDurationHours` | Number | – | Reserved for filtering by maximum experience duration; has no effect in the current output (see FAQ). |
-| `maxItems` | Integer | 20 | Maximum number of experience records to return. |
-| `maxReviewsPerExperience` | Integer | 50 | Maximum number of reviews to return per experience URL (`getReviews` mode). |
+| `mode` | select | `search` | One of the five modes above. |
+| `searchQuery` | text | `Eiffel Tower tour` | Keyword(s) for `search`. |
+| `destination` | text | `Paris` | City/region for `search`, `byDestination`, `byCategory`. |
+| `startUrls` | string list | `[]` | Viator experience, destination or category URLs. |
+| `category` | select | – | Activity category for `byCategory`. |
+| `sortBy` | select | `default` | Result order. |
+| `minPrice` / `maxPrice` | number | – | Price bounds. |
+| `minRating` | number | – | Rating floor. |
+| `minDurationHours` / `maxDurationHours` | number | – | Duration bounds. |
+| `minReviewCount` | integer | – | Review-count floor. |
+| `maxItems` | integer | `20` | Experience-record cap (prefill 3). |
+| `maxReviewsPerExperience` | integer | `50` | Per-URL review cap (prefill 5). |
 
-### Example: browse top things to do in Rome
+### Examples
 
 ```json
 {
-  "mode": "byDestination",
-  "destination": "Rome",
-  "maxItems": 40
+  "mode": "search",
+  "searchQuery": "Eiffel Tower tour",
+  "maxItems": 20
 }
 ```
-
-### Example: food & drink experiences in Paris under $100
 
 ```json
 {
   "mode": "byCategory",
   "destination": "Paris",
   "category": "Food-and-Drink",
-  "maxPrice": 100,
-  "minRating": 4
+  "minRating": 4.5,
+  "maxPrice": 120,
+  "sortBy": "price-asc"
 }
 ```
-
-### Example: pull reviews for specific tours
 
 ```json
 {
   "mode": "getReviews",
   "startUrls": [
-    "https://www.viator.com/tours/Paris/Skip-the-Line-Eiffel-Tower-Tour/d479-5010EIFFEL"
+    "https://www.viator.com/tours/Paris/Eiffel-Tower-Small-Group-Tour/d479-3731EIFFELTOWER"
   ],
   "maxReviewsPerExperience": 100
 }
 ```
 
+## Backward compatibility
+
+Saved tasks from earlier versions keep working. Older input keys such as `query`, `search`, `keyword`, `city`, `location`, `urls`, `productUrls`, `categoryName`, `sort`, `orderBy`, `priceMin`, `priceMax`, `ratingMin`, `durationMin`, `durationMax`, `minReviews`, `limit`, `max`, `maxReviews` and `reviewsPerExperience` are mapped in code. Existing output fields keep their names; new fields are added beside them.
+
 ## Use cases
 
-- **Travel agencies and OTAs** benchmarking Viator's pricing and ratings for a destination before setting their own offers.
-- **Tour operators** monitoring how their own listings and competitors' listings appear, including price and review counts.
-- **Market researchers** comparing activity categories (e.g. food tours vs. outdoor adventures) across multiple cities.
-- **Reputation and sentiment teams** collecting traveler review text and ratings for a set of experiences.
-- **Content and itinerary builders** sourcing experience descriptions, images and booking links for a destination.
+- Travel agencies and OTAs benchmarking Viator prices, ratings and inclusions for a destination.
+- Tour operators monitoring their own and competitors' listings.
+- Market researchers comparing categories and destinations.
+- Reputation and sentiment teams collecting review text, ratings and traveler photos.
+- Content and itinerary builders sourcing descriptions, photos and booking links.
 
 ## FAQ
 
-**Does this need a Viator account or API key?**
-No. It reads the same publicly visible listing, experience and review content shown to any visitor on viator.com.
+**Does this need a Viator account, cookie or API key?** No. It reads the same public pages a visitor sees.
 
-**Why does `search` mode behave like browsing a destination?**
-Viator doesn't expose a public keyword-search endpoint, so `search` resolves your `searchQuery` or `destination` to that city's "things to do" listing page and returns experiences from there, same as `byDestination`.
+**Why does keyword search stop at 200 results?** Viator's public search page itself caps a query at 200 results. Split a broad keyword into narrower queries or browse the destination/category listing for deeper coverage.
 
-**Why might `minDurationHours`/`maxDurationHours` not reduce my results?**
-Experience records don't currently carry a duration field, so these two filters don't narrow results — every experience is kept regardless of what you set them to.
+**Why might a sorted result look different from Viator's own sort?** Viator does not expose its server-side sort to cookieless clients, so the actor sorts the scanned listing window (up to 60 pages, about 1,440 experiences) before applying `maxItems`. For the default order it reads listing pages directly.
 
-**Why do `country` or `images` sometimes not appear on an experience?**
-Those fields are only included when Viator's page includes that data; they're left out rather than filled with placeholder values.
+**Why are some fields missing on a record?** Viator does not publish every field for every experience. Missing values are omitted, never filled with nulls or placeholders.
 
-**Can I combine `destination` and `category` together?**
-Yes, `byCategory` mode scopes the chosen category to the given destination when both are set. `byCategory` only resolves destinations from a curated list of major cities (Paris, Rome, London, Tokyo, New York City, and several dozen others); a city outside that list won't resolve in this mode.
+**Why did a destination URL or category return nothing?** Some destinations have no public products, and category pages move over time. Try the destination name, a nearby major city, or a keyword search.
 
-**Does `destination` work for any city?**
-`byDestination` and `search` fall back to guessing a listing URL from the city name for cities outside the curated list, which can fail for less common destinations. Sticking to well-known major cities is the most reliable option.
+**Does this book anything or return live availability?** No. It returns publicly displayed prices and the next-published availability date; it does not reserve or book experiences.
 
-**What happens if an experience URL in `startUrls` no longer exists?**
-It's skipped and no record is produced for that URL.
-
-**Is this affiliated with Viator?**
-No. This is an independent tool and is not affiliated with, endorsed by, or sponsored by Viator or TripAdvisor.
+**Is this affiliated with Viator?** No. This is an independent tool and is not affiliated with, endorsed by, or sponsored by Viator or TripAdvisor.

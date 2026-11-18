@@ -1,9 +1,39 @@
 {
-  "description": "Search Brazilian property listings on ChavesNaMao by city and transaction type.",
+  "description": "Scrape sale and rental property listings from ChavesNaMão with city, price, room, area, type and sorting filters, or fetch full details for known listings.",
   "properties": {
+    "areaMax": {
+      "description": "Maximum usable area in square metres. Leave empty for no maximum.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Maximum area (m²)",
+      "type": "integer"
+    },
+    "areaMin": {
+      "description": "Minimum usable area in square metres. Leave empty for no minimum.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Minimum area (m²)",
+      "type": "integer"
+    },
+    "bathroomsMin": {
+      "default": 0,
+      "description": "Minimum number of bathrooms (banheiros). Use 0 for no minimum.",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Minimum bathrooms",
+      "type": "integer"
+    },
+    "bedroomsMin": {
+      "default": 0,
+      "description": "Minimum number of bedrooms (quartos). Use 0 for no minimum.",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Minimum bedrooms",
+      "type": "integer"
+    },
     "city": {
       "default": "sao-paulo",
-      "description": "Brazilian city to search in.",
+      "description": "Brazilian city to search in listings mode. For any other city, paste one of its ChavesNaMão search URLs into Listing URLs.",
       "editor": "select",
       "enum": [
         "sao-paulo",
@@ -20,7 +50,9 @@
         "belem",
         "goiania",
         "florianopolis",
-        "vitoria"
+        "vitoria",
+        "praia-grande",
+        "joao-pessoa"
       ],
       "enumTitles": [
         "São Paulo",
@@ -37,43 +69,216 @@
         "Belém",
         "Goiânia",
         "Florianópolis",
-        "Vitória"
+        "Vitória",
+        "Praia Grande",
+        "João Pessoa"
       ],
       "prefill": "sao-paulo",
       "title": "City",
       "type": "string"
     },
-    "maxItems": {
-      "default": 20,
-      "description": "Maximum number of listings to return (1–500).",
-      "maximum": 500,
-      "minimum": 1,
-      "prefill": 20,
-      "title": "Max items",
+    "collectionMode": {
+      "default": "listings",
+      "description": "Search listings by city and filters, or fetch full details for specific ChavesNaMão listings.",
+      "editor": "select",
+      "enum": [
+        "listings",
+        "details"
+      ],
+      "enumTitles": [
+        "Search listings",
+        "Property details"
+      ],
+      "prefill": "listings",
+      "sectionCaption": "Collection mode",
+      "title": "What to collect",
+      "type": "string"
+    },
+    "garagesMin": {
+      "default": 0,
+      "description": "Minimum number of garage or parking spaces (vagas). Use 0 for no minimum.",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Minimum parking spaces",
       "type": "integer"
     },
-    "mode": {
+    "includeDetails": {
+      "default": false,
+      "description": "Fetch each listing's detail page data: full description, publisher phone and CRECI, photo list, amenities, video and tour links, created and updated dates. Costs one extra request per listing.",
+      "prefill": false,
+      "title": "Fetch full details",
+      "type": "boolean"
+    },
+    "listingUrls": {
+      "description": "Optional ChavesNaMão search URLs to scrape exactly as configured on the site. Use this for cities, neighbourhoods or filter combinations not covered by the controls above.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "sectionCaption": "Advanced",
+      "title": "Listing URLs",
+      "type": "array"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Maximum number of listings to save across all selected searches (1–1000).",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 3,
+      "sectionCaption": "Result limits",
+      "title": "Maximum listings",
+      "type": "integer"
+    },
+    "maxPages": {
+      "default": 34,
+      "description": "Maximum result pages to request for each search (30 listings per page). Stops earlier when the source runs out.",
+      "maximum": 100,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Maximum pages per search",
+      "type": "integer"
+    },
+    "ownerType": {
+      "default": "all",
+      "description": "Show every advertiser, only listings direct from the owner, or only real-estate agencies.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "owner",
+        "agency"
+      ],
+      "enumTitles": [
+        "All advertisers",
+        "Direct with owner",
+        "Real-estate agencies only"
+      ],
+      "title": "Advertiser",
+      "type": "string"
+    },
+    "priceMax": {
+      "description": "Maximum asking price in Brazilian reais. Leave empty for no maximum.",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Maximum price (BRL)",
+      "type": "integer"
+    },
+    "priceMin": {
+      "description": "Minimum asking price in Brazilian reais. Leave empty for no minimum.",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Minimum price (BRL)",
+      "type": "integer"
+    },
+    "propertyIds": {
+      "description": "ChavesNaMão listing IDs to fetch in details mode. Property URLs also work.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Property IDs",
+      "type": "array"
+    },
+    "propertyType": {
+      "default": "all",
+      "description": "Restrict the search to one property type, or search every type.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "apartments",
+        "houses",
+        "gated-houses",
+        "kitnets",
+        "penthouses",
+        "flats",
+        "lofts",
+        "commercial-rooms",
+        "commercial-houses",
+        "commercial-points",
+        "buildings",
+        "warehouses",
+        "land",
+        "gated-land",
+        "commercial-land",
+        "farms",
+        "rural-farms",
+        "garages"
+      ],
+      "enumTitles": [
+        "All property types",
+        "Apartments",
+        "Houses and townhouses",
+        "Houses in gated communities",
+        "Kitnets",
+        "Penthouses",
+        "Flats",
+        "Lofts",
+        "Commercial rooms",
+        "Commercial houses",
+        "Commercial points",
+        "Buildings",
+        "Warehouses",
+        "Land",
+        "Land in gated communities",
+        "Commercial land",
+        "Chácaras",
+        "Farms",
+        "Garages"
+      ],
+      "sectionCaption": "Listing filters",
+      "sectionDescription": "These filters apply when mode is Search listings. Any value left at zero or empty is not sent to ChavesNaMão.",
+      "title": "Property type",
+      "type": "string"
+    },
+    "propertyUrls": {
+      "description": "ChavesNaMão property URLs to fetch in details mode (they contain an id-<number> segment).",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Property detail URLs",
+      "type": "array"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Order of the listing results.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "newest",
+        "priceAsc",
+        "priceDesc",
+        "areaAsc",
+        "areaDesc"
+      ],
+      "enumTitles": [
+        "Relevance (site default)",
+        "Newest first",
+        "Lowest price first",
+        "Highest price first",
+        "Smallest area first",
+        "Largest area first"
+      ],
+      "title": "Sort order",
+      "type": "string"
+    },
+    "transactionType": {
       "default": "sell",
-      "description": "Whether to search for properties for sale or rent.",
+      "description": "Whether to search properties for sale (venda) or for rent (aluguel).",
       "editor": "select",
       "enum": [
         "sell",
         "rent"
       ],
       "enumTitles": [
-        "For Sale (Venda)",
-        "For Rent (Aluguel)"
+        "For sale (Venda)",
+        "For rent (Aluguel)"
       ],
       "prefill": "sell",
-      "title": "Transaction type",
+      "title": "Sale or rent",
       "type": "string"
     }
   },
-  "required": [
-    "mode",
-    "city"
-  ],
   "schemaVersion": 1,
-  "title": "ChavesNaMao Scraper Input",
+  "title": "ChavesNaMão City Property Listings Extractor",
   "type": "object"
 }
