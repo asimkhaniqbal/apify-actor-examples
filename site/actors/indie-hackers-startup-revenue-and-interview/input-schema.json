@@ -1,0 +1,72 @@
+{
+  "description": "Browse Indie Hackers products, interviews, or groups. Filter and sort by revenue, date, or member count.",
+  "properties": {
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of items to return.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "products",
+      "description": "What to fetch from Indie Hackers.",
+      "editor": "select",
+      "enum": [
+        "products",
+        "interviews",
+        "groups",
+        "byUrl"
+      ],
+      "enumTitles": [
+        "Products",
+        "Interviews",
+        "Groups",
+        "Fetch by URL"
+      ],
+      "prefill": "products",
+      "title": "Mode",
+      "type": "string"
+    },
+    "pageUrls": {
+      "description": "Indie Hackers page URLs to scrape (product or interview pages).",
+      "editor": "stringList",
+      "title": "Page URLs (mode=byUrl)",
+      "type": "array"
+    },
+    "searchQuery": {
+      "description": "Keyword filter for product name/tagline or group name/description.",
+      "editor": "textfield",
+      "title": "Search query",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "revenue-desc",
+      "description": "Sort order for products (mode=products).",
+      "editor": "select",
+      "enum": [
+        "revenue-desc",
+        "foundedDate-desc",
+        "memberCount-desc",
+        "name-asc"
+      ],
+      "enumTitles": [
+        "Revenue (High to Low)",
+        "Newest First",
+        "Most Members / Followers",
+        "Alphabetical"
+      ],
+      "prefill": "revenue-desc",
+      "title": "Sort by",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Indie Hackers Scraper Input",
+  "type": "object"
+}
