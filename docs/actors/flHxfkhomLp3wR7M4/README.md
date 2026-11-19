@@ -10,9 +10,11 @@ DHgate is a major China-based wholesale marketplace with tiered pricing that dro
 
 - Searches DHgate by keyword, browses one of 21 top-level categories, or walks a seller shop's full product catalog by shop ID.
 - Fetches full detail for specific product, category, or store URLs you paste in.
-- Captures wholesale price tiers (unit price per order-quantity band), not just a single listing price.
+- Optionally opens every product page (`includeDetails`) to add wholesale price tiers, variants, shipping quotes, specifications and supplier reputation to listing results.
+- Captures quantity-based wholesale price tiers (unit price per order band), not just a single listing price.
 - Collects supplier reputation signals: rating, positive-feedback percentage, transaction count, seller level and year established.
-- Filters results by price range, minimum seller rating, a required title keyword, or shipping-eligible country.
+- Filters results by price range, minimum product/seller rating, minimum sold count, maximum minimum-order quantity, free shipping, a required title keyword, or destination country.
+- Reads DHgate's public pages without cookies, a login or a proxy; when the direct request is blocked, the same page is read through a public translation mirror and every link is normalised back to dhgate.com.
 - Fields a listing or shop page doesn't publish (for example company introduction on a newer shop) are left out of that record.
 
 ## Output per product
@@ -24,6 +26,7 @@ DHgate is a major China-based wholesale marketplace with tiered pricing that dro
 | `categoryName` | Category the product is listed under. |
 | `description` / `descriptionBullets` / `specifications` | Product description text, bullet points, and name/value spec pairs. |
 | `priceMin` / `priceMax` / `priceRange` | Lowest and highest unit price, and the displayed price range text. |
+| `originalPriceMin` / `originalPriceMax` / `discountPercent` | Pre-discount price bounds and the computed discount when a listing is on sale. |
 | `priceTiers` | Wholesale pricing bands — unit price for each order-quantity range (e.g. 1–3 pieces vs. 4+ pieces). |
 | `minOrderQty` / `measureUnit` | Minimum order quantity and the unit it's measured in. |
 | `variants` | Product variant options (e.g. color/size) with their own images. |
@@ -34,15 +37,19 @@ DHgate is a major China-based wholesale marketplace with tiered pricing that dro
 | `freeShipping` | Whether free shipping applies. |
 | `moneyBackDays` / `deliveryEstimate` | Money-back guarantee window and delivery estimate text. |
 | `saleNum` / `soldCount` | Units sold, as reported on the product or listing page. |
+| `deliveryDays` | The "arrives in N days" badge when the listing shows one. |
+| `coupons` | Seller coupon labels shown on the card. |
+| `isSponsored` | Whether the slot is a paid placement. |
+| `categoryId` | DHgate catalog ID for the product. |
 | `dimensionsCm` / `grossWeightKg` | Package dimensions and gross weight. |
 | `lastModifiedDate` | When the listing was last updated. |
-| `rating` / `reviewCount` / `transactionCount` / `reviewBreakdown` | Average rating, review count, completed transaction count, and per-star review counts. |
+| `rating` / `reviewCount` / `positiveReviewPercent` / `transactionCount` / `reviewBreakdown` | Product rating, review count, share of positive reviews, completed transaction count, and per-star review counts. |
 | `sellerName` / `sellerStoreUrl` / `sellerRatingPercent` / `sellerLevel` / `sellerTier` / `yearEstablished` / `companyIntroduction` | Seller identity and reputation details. |
 | `sourceUrl` / `productUrl` | Canonical and display URLs for the product. |
 | `recordType` | Always `product`. |
 | `scrapedAt` | ISO timestamp of when the record was captured. |
 
-Listing pages (`search`, `browseByCategory`, `shopProducts`) give the fields visible on the results grid — identifiers, title, price, minimum order, sold count and seller basics. Richer fields like `priceTiers`, `variants`, `stockCountries`, shipping details, `dimensionsCm` and the review breakdown only come from a full product page, which `byUrl` mode fetches directly.
+Listing pages (`search`, `browseByCategory`, `shopProducts`) give the fields visible on the results grid — identifiers, title, price range, original price, discount, minimum order, sold count, rating, coupons and seller basics. Set `includeDetails` to open each product page and add `priceTiers`, `variants`, `stockCountries`, shipping details, `dimensionsCm`, specifications and the full supplier profile. `byUrl` mode always fetches full product details.
 
 ## Output per shop
 
@@ -66,15 +73,20 @@ Listing pages (`search`, `browseByCategory`, `shopProducts`) give the fields vis
 | `mode` | String (select) | `search` | `search`, `browseByCategory`, `shopProducts`, or `byUrl`. |
 | `searchQuery` | String | `smart watch` | Keyword to search for (mode=search). |
 | `category` | String (select) | `electronics` | One of 21 top-level categories to browse (mode=browseByCategory). |
-| `startUrls` | Array of strings | `[]` | DHgate product, category, or store URLs to fetch directly (mode=byUrl). |
+| `includeDetails` | Boolean | false | Fetch each product page for wholesale tiers, variants, shipping and supplier profile. |
+| `startUrls` | Array of strings | `[]` | DHgate product, category, store, or search URLs to fetch directly (mode=byUrl). |
 | `shopId` | Integer | – | DHgate supplier shop ID, found in store URLs like `dhgate.com/store/22268785` (mode=shopProducts). |
 | `minPrice` | Number | – | Drop products whose lowest price is below this (USD). |
 | `maxPrice` | Number | – | Drop products whose lowest price is above this (USD). |
-| `minRating` | Number | – | Drop products whose seller rating is below this (0–5). |
+| `minRating` | Number | – | Drop products whose product or seller rating is below this (0–5). |
+| `freeShippingOnly` | Boolean | false | Keep only products that ship free. |
+| `minSold` | Integer | – | Keep only products with at least this many recent sales. |
+| `maxMoq` | Integer | – | Keep products whose minimum order quantity is at most this number (1 = single-unit orders). |
 | `containsKeyword` | String | – | Only emit products whose title contains this keyword (case-insensitive). |
-| `country` | String (select) | – | Only emit products shippable to this country, best-effort since shipping data is per-product. |
+| `country` | String (select) | – | Quote prices and shipping for this destination; keep detail records that report the same destination. |
 | `maxItems` | Integer | 50 | Hard cap on the number of records emitted. |
-| `proxyConfiguration` | Object | off | Optional proxy, used only if DHgate blocks a direct request. |
+| `maxPages` | Integer | 20 | Pagination safety cap per search, category or shop. |
+| `proxyConfiguration` | Object | off | Optional last resort after direct and mirror reads are blocked. |
 
 ### Example: search with a price band
 
@@ -96,6 +108,19 @@ Listing pages (`search`, `browseByCategory`, `shopProducts`) give the fields vis
   "category": "jewelry",
   "minRating": 4.5,
   "maxItems": 100
+}
+```
+
+### Example: keyword search with full wholesale details
+
+```json
+{
+  "mode": "search",
+  "searchQuery": "wireless earbuds",
+  "includeDetails": true,
+  "freeShippingOnly": true,
+  "maxMoq": 1,
+  "maxItems": 20
 }
 ```
 
@@ -139,14 +164,22 @@ DHgate's wholesale pricing structure: the per-unit price changes depending on ho
 **Why does a keyword search sometimes return unrelated-looking products?**
 Like the DHgate website itself, a search with very few direct matches can fall back to a popular-products listing instead of an empty result page. Every record returned is still a real, live product with a working URL.
 
-**What does the `country` filter actually check?**
-It keeps products whose rendered shipping data shows they can ship to the chosen country. Since shipping eligibility is read per product, this is best-effort rather than an exhaustive country-wide filter.
+**What does the `country` option actually check?**
+It asks DHgate to quote prices and shipping for that destination. With `includeDetails`, records whose product page reports a different destination are dropped. Without details, the quote country is set but the listing card does not carry a per-seller eligibility flag.
+
+**Do I need a proxy?**
+No. The actor reads the public page directly first and falls back to a public translation mirror of the same page when DHgate blocks the request. `proxyConfiguration` is optional and only tried last.
 
 **How do I find a shop's `shopId`?**
 It's the number in the shop's storefront URL, e.g. `dhgate.com/store/22268785` → `22268785`. It also appears in product records as part of `sellerStoreUrl`.
 
-**When should I use the optional `proxyConfiguration`?**
-Only if a run fails to fetch pages directly; most regions don't need it.
+## Limitations
+
+- **Listing vs detail data.** Search, category and shop cards only carry what DHgate renders on the grid. Turn on `includeDetails` when you need wholesales tiers, variants, shipping, specifications or the complete supplier profile.
+- **Reviews are not included.** This actor focuses on products, pricing and suppliers; review text and buyer photos live on separate review pages.
+- **Very large detail runs are slow by design.** Each enriched record is one extra page read, paced to stay within the public mirror's limits. Keep `maxItems` realistic when `includeDetails` is on.
+- **Promotions and coupons expire.** Discount percentages, coupon labels and delivery badges are a snapshot of the moment of the run.
+- **Broad keywords can return loosely related products.** DHgate sometimes fills sparse searches with popular items; every returned row is still a real, live product with a working URL.
 
 **Is this affiliated with DHgate?**
 No. This is an independent tool and is not affiliated with, endorsed by, or sponsored by DHgate.

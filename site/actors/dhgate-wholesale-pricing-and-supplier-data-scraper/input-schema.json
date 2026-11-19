@@ -62,7 +62,7 @@
       "type": "string"
     },
     "country": {
-      "description": "Only emit products shippable to this country (best-effort; shipping info is per-product).",
+      "description": "Quotes prices and shipping for this destination and keeps products whose detail page reports the same destination.",
       "editor": "select",
       "enum": [
         "US",
@@ -121,6 +121,20 @@
       "title": "Shipping country",
       "type": "string"
     },
+    "freeShippingOnly": {
+      "default": false,
+      "description": "Keep only products that ship free.",
+      "prefill": false,
+      "title": "Free shipping only",
+      "type": "boolean"
+    },
+    "includeDetails": {
+      "default": false,
+      "description": "Also open each product page to fill wholesale price tiers, variants, shipping, specifications and supplier reputation. Slower but much richer records.",
+      "prefill": false,
+      "title": "Fetch full product details",
+      "type": "boolean"
+    },
     "maxItems": {
       "default": 50,
       "description": "Hard cap on emitted records.",
@@ -128,6 +142,22 @@
       "minimum": 1,
       "prefill": 20,
       "title": "Max items",
+      "type": "integer"
+    },
+    "maxMoq": {
+      "description": "Keep products whose minimum order quantity is at most this number, e.g. 1 for single-unit orders.",
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Maximum minimum-order quantity",
+      "type": "integer"
+    },
+    "maxPages": {
+      "default": 20,
+      "description": "Pagination safety cap for search, category and shop pages.",
+      "maximum": 50,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max pages per source",
       "type": "integer"
     },
     "maxPrice": {
@@ -151,6 +181,13 @@
       "title": "Min seller rating",
       "type": "number"
     },
+    "minSold": {
+      "description": "Keep only products whose listing shows at least this many recent sales.",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Minimum sold count",
+      "type": "integer"
+    },
     "mode": {
       "default": "search",
       "description": "What to fetch from DHgate.",
@@ -172,11 +209,8 @@
       "type": "string"
     },
     "proxyConfiguration": {
-      "description": "Optional. Used only when DHgate's WAF blocks direct access (lazy trigger) — the free AUTO group is enough for most regions.",
+      "description": "Optional. Only tried after a direct request is blocked; the actor does not need a proxy.",
       "editor": "proxy",
-      "prefill": {
-        "useApifyProxy": true
-      },
       "title": "Proxy configuration",
       "type": "object"
     },
@@ -199,9 +233,6 @@
       "default": [],
       "description": "Product, category, store or search URLs, e.g. `https://www.dhgate.com/product/designer-bag/1086662889.html`.",
       "editor": "stringList",
-      "prefill": [
-        "https://www.dhgate.com/product/10a-premium-original-luxury-handbags-designer/1086662889.html"
-      ],
       "title": "DHgate URLs (mode=byUrl)",
       "type": "array"
     }
