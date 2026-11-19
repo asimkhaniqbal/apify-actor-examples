@@ -1,128 +1,128 @@
 # GSMArena Device Database & Spec Sheet Extractor
 
-GSMArena maintains one of the most complete historical records of mobile phones, from early-2000s feature phones to the newest flagships. This actor reads that catalog in two depths: a lighter summary record for browsing/searching many devices at once, and a full spec-sheet record for one device at a time.
+GSMArena keeps one of the largest public archives of mobile devices, from 1990s feature phones to this month's flagships. This actor reads that archive without cookies, logins or a proxy setup: search by keyword, pull full spec sheets for one device or a list of URLs, walk an entire brand, read the current rankings, or list every brand.
 
-## What this actor does
+## What you can do
 
-- Searches the catalog by keyword with optional OS, availability and sort filters.
-- Lists every device for a given brand, or the current top devices by popularity/price/weight/camera/battery.
-- Pulls a complete specification sheet — display, chipset, cameras, battery, connectivity, body and sensors — for one device by URL or slug.
-- Normalizes shorthand specs (RAM, storage, battery capacity, display size) out of the brief text shown in listings.
-- Fields GSMArena doesn't publish for a device (e.g. no listed price, no memory card slot) are left out of that record.
+- **Search the whole catalog** by keyword. Matching runs over device names, aliases and URLs, so `pixel 9 pro`, `sgs27u` and `sony ericsson z780` all work. Leave the query empty to browse from the newest end.
+- **Filter and sort** by operating system, availability, and price, weight, camera resolution or battery capacity. Missing values are placed last, never invented.
+- **Get full spec sheets** for one URL, a list of URLs, a slug or a numeric GSMArena device ID.
+- **List a brand** from its GSMArena brand page, with automatic pagination.
+- **Read the homepage rankings** — top devices by daily interest or by fans.
+- **List all brands** with slug, numeric ID and device count.
+- **Ask for full specs in any mode** with `includeDetails`; otherwise search, brand and ranking modes return the lighter listing summary.
 
-## Output per device (search, byBrand, topDevices modes)
+Every record is omit-empty: if GSMArena does not publish a value for a device, that field is absent from the record rather than `null` or a placeholder.
 
-| Field | Description |
+## Modes
+
+| Mode | What it returns |
 | --- | --- |
-| `url` | GSMArena device page URL. |
-| `slug` | GSMArena's URL slug for the device. |
-| `deviceName` | Full device name as listed. |
-| `brand` | Manufacturer, inferred from the device name. |
-| `imageUrl` | Listing thumbnail image URL. |
-| `os` | Operating system, when shown in the listing's brief specs. |
-| `released` | Announcement or release period, when shown in the brief specs. |
-| `displaySize` | Screen size, when shown in the brief specs. |
-| `chipset` | Chipset/SoC, when shown in the brief specs. |
-| `battery` | Battery capacity, when shown in the brief specs. |
-| `storage` | Internal storage, when shown in the brief specs. |
-| `ram` | RAM capacity, when shown in the brief specs. |
-| `scrapedAt` | ISO timestamp of when the record was captured. |
+| `search` | Devices matching a keyword, optionally filtered/sorted. |
+| `deviceDetails` | Full spec sheet for each URL, slug or numeric ID. |
+| `byBrand` | Devices from one brand, newest first. |
+| `topDevices` | The current top-10 ranking (daily interest or fans). |
+| `brands` | The brand directory with device counts. |
 
-## Output per device (deviceDetails mode)
-
-| Field | Description |
-| --- | --- |
-| `url` / `slug` | Device page URL and GSMArena slug. |
-| `deviceName` / `brand` | Full device name and manufacturer. |
-| `imageUrl` | Product image URL. |
-| `released` / `status` | Release date and current availability status. |
-| `displaySize` / `displayResolution` / `displayType` / `displayProtection` | Screen size, resolution, panel technology, and protective glass/coating. |
-| `chipset` / `cpu` / `gpu` | Processor, CPU core layout, and graphics processor. |
-| `os` | Operating system and version/skin. |
-| `ram` / `storage` / `memorySlot` | RAM capacity, internal storage, and memory-card slot support. |
-| `rearCamera` / `rearCameraDetails` | Main rear camera resolution and the full rear camera module specs. |
-| `frontCamera` / `frontCameraDetails` | Selfie camera resolution and full front camera specs. |
-| `battery` / `batteryDetails` | Battery capacity and full battery/charging details. |
-| `network` / `networkTechnology` | Highest supported network generation and the full network band list. |
-| `wlan` / `bluetooth` / `nfc` / `usb` / `gps` / `radio` | Connectivity specs. |
-| `dimensions` / `weight` / `build` | Physical size, weight, and build materials. |
-| `sim` / `bodyOther` | SIM configuration and other body notes. |
-| `sensors` | List of onboard sensors. |
-| `colors` / `models` | Available color options and regional model numbers. |
-| `price` | Suggested or observed retail price, when GSMArena lists one. |
-| `scrapedAt` | ISO timestamp of when the record was captured. |
-
-## Input
+## Inputs
 
 | Field | Type | Default | Description |
 | --- | --- | --- | --- |
-| `mode` | String (select) | `search` | `search`, `deviceDetails`, `byBrand`, or `topDevices`. |
-| `searchQuery` | String | `Samsung Galaxy` | Keyword to search for (mode=search). |
-| `osFilter` | String (select) | – | Filter by operating system: Android, iOS, feature phones, KaiOS, Windows Phone, Symbian, BlackBerry, Bada, or Firefox OS (mode=search). |
-| `availability` | String (select) | – | Filter by availability: Available, Coming soon, Discontinued, or Rumored (mode=search). |
-| `sortBy` | String (select) | `0` (Popularity) | Sort order: Popularity, Price, Weight, Camera resolution, or Battery capacity (mode=search and topDevices). |
-| `deviceUrl` | String | – | Full device URL or slug (mode=deviceDetails). |
-| `brandSlug` | String | – | Brand slug to list, e.g. `apple`, `xiaomi`, `google` (mode=byBrand). |
-| `maxItems` | Integer | 20 | Maximum number of device records to return. |
+| `mode` | Select | `search` | `search`, `deviceDetails`, `byBrand`, `topDevices` or `brands`. |
+| `searchQuery` | String | empty | Keyword for `search`; empty browses the catalog. |
+| `osFilter` | Select | `any` | Android, iOS, feature phones, KaiOS, Windows Phone, Symbian, BlackBerry, Bada or Firefox OS. |
+| `availability` | Select | `any` | Available, coming soon, discontinued, rumoured or cancelled. |
+| `sortBy` | Select | `popularity` | Popularity, newest, price, weight, camera resolution or battery capacity. |
+| `topChart` | Select | `daily` | Daily-interest or fans ranking for `topDevices`. |
+| `deviceUrl` | String | – | One GSMArena URL, slug or numeric ID for `deviceDetails`. |
+| `deviceUrls` | String list | empty | Additional devices for `deviceDetails`; combined and deduplicated with `deviceUrl`. |
+| `brandSlug` | Select | `samsung` | Brand for `byBrand`. |
+| `maxItems` | Integer | 20 | 1–2000 records. |
+| `includeDetails` | Boolean | false | Open each device page and return full specs in search, brand and ranking modes. |
 
-### Example: search Android phones sorted by battery capacity
-
-```json
-{
-  "mode": "search",
-  "searchQuery": "Galaxy",
-  "osFilter": "2",
-  "sortBy": "4",
-  "maxItems": 30
-}
-```
-
-### Example: full spec sheet for one device
+### Examples
 
 ```json
-{
-  "mode": "deviceDetails",
-  "deviceUrl": "samsung_galaxy_s25_ultra-12610"
-}
+{"mode": "search", "searchQuery": "galaxy s25", "maxItems": 10}
 ```
-
-### Example: every current device from a brand
 
 ```json
-{
-  "mode": "byBrand",
-  "brandSlug": "xiaomi",
-  "maxItems": 100
-}
+{"mode": "search", "searchQuery": "pixel", "osFilter": "android", "sortBy": "battery", "maxItems": 5}
 ```
 
-## Use cases
+```json
+{"mode": "deviceDetails", "deviceUrls": ["samsung_galaxy_s25_ultra-13322", "apple_iphone_15-12559"]}
+```
 
-- **Tech comparison sites** pulling spec sheets for review articles and comparison tables.
-- **E-commerce catalogs** enriching phone listings with authoritative display, camera and battery specs.
-- **Market researchers** tracking which chipsets, display types or camera resolutions ship across a brand's lineup.
-- **App and accessory developers** building device-compatibility matrices from dimensions, SIM type and connectivity data.
-- **Price trackers** monitoring suggested retail prices across a large set of devices.
+```json
+{"mode": "byBrand", "brandSlug": "xiaomi", "maxItems": 100}
+```
+
+```json
+{"mode": "topDevices", "topChart": "fans", "maxItems": 10}
+```
+
+## Output
+
+### Device records
+
+| Field | Description |
+| --- | --- |
+| `recordType` | `device`. |
+| `url`, `slug`, `deviceId` | Canonical GSMArena page, URL slug and numeric device ID. |
+| `deviceName`, `brand`, `brandId` | Device name, manufacturer and GSMArena brand ID. |
+| `imageUrl` | Product image URL. |
+| `released`, `releaseDate`, `announced`, `announcedDate` | Release/announcement text and ISO dates when available. |
+| `status`, `availability` | Availability text and normalised label. |
+| `displaySize`, `displaySizeInches`, `displayResolution`, `displayType`, `displayProtection` | Screen details, with numeric inches. |
+| `chipset`, `cpu`, `gpu` | Platform details. |
+| `os`, `osFamily` | Operating system text and normalised family. |
+| `ram`, `ramGb`, `storage`, `storageGb`, `memorySlot` | Memory and storage, with numeric GB values. |
+| `rearCamera`, `rearCameraMp`, `rearCameraDetails`, `frontCamera`, `frontCameraMp`, `frontCameraDetails` | Cameras, with numeric megapixels. |
+| `battery`, `batteryMah`, `batteryDetails` | Battery capacity and charging details. |
+| `network`, `networkTechnology`, `networkBands`, `networkSpeed` | Network generation, bands and speed. |
+| `wlan`, `bluetooth`, `nfc`, `usb`, `gps`, `radio` | Connectivity. |
+| `dimensions`, `weight`, `weightGrams`, `build`, `sim`, `bodyOther` | Body details, with numeric grams. |
+| `sensors`, `colors`, `models`, `sarUs`, `sarEu` | Sensors, colours, model numbers and SAR. |
+| `price`, `priceAmount`, `priceCurrency` | Referenced price text, number and currency when identified. |
+| `chart`, `chartRank`, `popularityValue` | Present only for ranking records. |
+| `scrapedAt` | ISO timestamp of capture. |
+
+### Brand records
+
+`recordType: "brand"`, plus `brandName`, `brandSlug`, `brandId`, `deviceCount` and `url`.
+
+## Compatibility
+
+All previous inputs still work. The old numeric values for `osFilter` (`2` = Android, `3` = iOS, `1` = feature phones, etc.), `availability` (`1`–`5`) and `sortBy` (`0`–`4`) are mapped automatically. Legacy keys such as `query`, `keyword`, `url`, `brand`, `max` and `limit` are read from the raw input even though the form now shows the clearer names. Existing output fields are unchanged; new fields are additive.
+
+## How it stays reliable
+
+Search no longer depends on GSMArena's challenge-protected results page. The actor builds its search index from the public phone sitemap and the public quicksearch catalog. Detail, brand and sitemap pages are fetched directly first; if GSMArena rate-limits the request, the actor switches to a public reader mirror that returns the same page markup, then continues.
+
+## Limitations
+
+- **Detail enrichment is capped at 250 device pages per run.** This keeps the actor inside GSMArena's rate limit and the run time predictable. Light search, brand and ranking records are not capped except by `maxItems`.
+- **`maxItems` is capped at 2,000.** For larger brand archives, split by brand and concatenate the datasets.
+- **Reference prices only.** GSMArena publishes one price reference per device, not per-retailer prices. Store prices are not available from this source.
+- **No user reviews or ratings.** They live on separate pages and are outside this actor's scope.
+- **Very old feature phones may lack OS or chipset.** Those values are genuinely absent on GSMArena and are omitted.
+- **Brand-wide spec sorting samples the newest pages.** Sorting a whole brand by price/camera/battery reads four times the requested rows; increase `maxItems` or run once per brand to widen the pool.
+- **A few thumbnails are placeholders on GSMArena itself.** The detail-page image is preferred, so full spec records usually have the better image.
 
 ## FAQ
 
-**Is GSMArena's data public?**
-Yes. This actor reads the same specification pages GSMArena publishes openly to any visitor, without an account or login.
+**Do I need cookies, an API key or a proxy?**
+No. Everything is read from public pages without an account, and the actor picks its own fetch path.
 
-**Why does a `search` or `byBrand` record have fewer fields than `deviceDetails`?**
-Search and brand-listing pages only show a brief spec summary per device. To get the complete spec sheet for a device, run `deviceDetails` on that device's URL or slug.
+**Why does a search record have fewer fields than a detail record?**
+Search, brand and ranking records use the listing summary unless you enable `includeDetails`. That keeps large runs fast.
 
-**How current is the device catalog?**
-GSMArena typically adds new devices within days of their announcement, and this actor reads the live catalog on each run.
+**How current is the catalog?**
+The phone sitemap and search catalog are read on every run, so new devices appear as soon as GSMArena indexes them.
 
-**Does this cover older or discontinued phones?**
-Yes, GSMArena's archive spans from early feature phones to current flagships; use the `availability` filter to narrow to Discontinued or Rumored devices specifically.
-
-**What's the best way to collect every device from one manufacturer?**
-Use `byBrand` with that brand's slug and a high `maxItems`; large manufacturers can have over a thousand devices across their history.
-
-**Why might `price` be missing from a device record?**
-GSMArena only lists a price when one has been reported for that device; without one, the field is omitted.
+**Can I paste a GSMArena URL?**
+Yes. `deviceUrl` and `deviceUrls` accept full URLs, slugs and numeric IDs.
 
 **Is this affiliated with GSMArena?**
-No. This is an independent tool and is not affiliated with, endorsed by, or sponsored by GSMArena.
+No. This is an independent tool and is not affiliated with, endorsed by or sponsored by GSMArena.
