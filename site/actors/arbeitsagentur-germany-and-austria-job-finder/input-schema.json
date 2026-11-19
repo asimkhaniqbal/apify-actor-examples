@@ -1,8 +1,16 @@
 {
+  "description": "Search Germany's federal job board and Austrian AMS listings by keyword, location, occupation or job URL.",
   "properties": {
+    "careerChanger": {
+      "default": false,
+      "description": "Only jobs marked as suitable for people changing careers (Quereinstieg).",
+      "prefill": false,
+      "title": "Suitable for career changers",
+      "type": "boolean"
+    },
     "contractType": {
       "default": "all",
-      "description": "Filter by contract type. 'all' returns everything.",
+      "description": "Permanent or fixed-term contracts.",
       "editor": "select",
       "enum": [
         "all",
@@ -11,56 +19,234 @@
         "any"
       ],
       "enumTitles": [
-        "All",
+        "All contract types",
         "Permanent (unbefristet)",
         "Fixed-term (befristet)",
-        "Any contract"
+        "Either permanent or fixed-term"
       ],
-      "title": "Contract Type",
+      "prefill": "all",
+      "title": "Contract type",
       "type": "string"
     },
+    "disabilityFriendly": {
+      "default": false,
+      "description": "Only jobs aimed at severely disabled or equivalent applicants.",
+      "prefill": false,
+      "title": "For severely disabled people",
+      "type": "boolean"
+    },
+    "employer": {
+      "description": "Exact employer name as shown on Arbeitsagentur, e.g. Deutsche Bahn AG.",
+      "editor": "textfield",
+      "sectionCaption": "Precise filters",
+      "sectionDescription": "Optional exact-match filters from the Arbeitsagentur catalogue.",
+      "title": "Employer name",
+      "type": "string"
+    },
+    "excludeExternalBoards": {
+      "default": false,
+      "description": "Hide postings that only link to a third-party job board.",
+      "prefill": false,
+      "title": "Exclude external job boards",
+      "type": "boolean"
+    },
+    "excludeTempWork": {
+      "default": false,
+      "description": "Hide temporary-work (Zeitarbeit) postings.",
+      "prefill": false,
+      "title": "Exclude temporary work",
+      "type": "boolean"
+    },
+    "homeOffice": {
+      "default": "all",
+      "description": "Require home office or a minimum home-office share.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "possible",
+        "at-least-50",
+        "full"
+      ],
+      "enumTitles": [
+        "Any home-office arrangement",
+        "Home office possible",
+        "At least 50% home office",
+        "100% home office"
+      ],
+      "prefill": "all",
+      "title": "Home office",
+      "type": "string"
+    },
+    "includeDetails": {
+      "default": true,
+      "description": "Adds description, all work locations, contact details, flags and the employer profile. Uses one extra request per job.",
+      "prefill": true,
+      "sectionCaption": "Output",
+      "sectionDescription": "Control how much data is collected for each job.",
+      "title": "Fetch full descriptions and employer profiles",
+      "type": "boolean"
+    },
+    "jobLocation": {
+      "description": "Exact city filter, e.g. Wien or Berlin. Use this for Austrian cities.",
+      "editor": "textfield",
+      "title": "Job location (exact city)",
+      "type": "string"
+    },
+    "jobType": {
+      "default": "all",
+      "description": "Regular jobs, apprenticeships, internships or self-employment.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "arbeit",
+        "ausbildung",
+        "praktikum",
+        "selbststaendigkeit"
+      ],
+      "enumTitles": [
+        "All offer types",
+        "Employment (Arbeit)",
+        "Apprenticeship (Ausbildung)",
+        "Internship / trainee / working student",
+        "Self-employment (Selbstständigkeit)"
+      ],
+      "prefill": "all",
+      "sectionCaption": "Filters",
+      "sectionDescription": "Narrow the search with the filters below.",
+      "title": "Offer type",
+      "type": "string"
+    },
+    "jobUrls": {
+      "default": [],
+      "description": "Paste Arbeitsagentur job URLs or reference numbers to fetch those postings directly. When filled, the keyword search is skipped.",
+      "editor": "stringList",
+      "prefill": [],
+      "sectionCaption": "Direct job URLs",
+      "sectionDescription": "Fetch specific postings instead of running a search.",
+      "title": "Job URLs or reference numbers",
+      "type": "array"
+    },
     "location": {
-      "description": "City, postal code, or region (e.g., 'Berlin', '10115', 'Bayern'). Leave empty for all of Germany.",
+      "default": "",
+      "description": "City, postal code or region to search around, e.g. Berlin, 10115, Bayern. For all Austrian jobs use Österreich.",
       "editor": "textfield",
       "title": "Location",
       "type": "string"
     },
     "maxItems": {
       "default": 50,
-      "description": "Maximum number of jobs to return.",
-      "maximum": 1000,
+      "description": "Stop after this many jobs. Arbeitsagentur returns at most 10,000 results per query.",
+      "maximum": 10000,
       "minimum": 1,
       "prefill": 5,
-      "title": "Max Items",
+      "title": "Maximum number of jobs",
       "type": "integer"
     },
-    "publishedSince": {
-      "default": 0,
-      "description": "Only include jobs published within the last N days (1, 3, 7, 14, 28). 0 = all.",
-      "maximum": 100,
-      "minimum": 0,
-      "prefill": 0,
-      "title": "Published Since (days)",
-      "type": "integer"
+    "occupation": {
+      "description": "Exact occupation title, e.g. Softwareentwickler/in.",
+      "editor": "textfield",
+      "title": "Occupation",
+      "type": "string"
+    },
+    "occupationField": {
+      "description": "Exact occupation field, e.g. Informatik or Softwareentwicklung und Programmierung.",
+      "editor": "textfield",
+      "title": "Occupation field",
+      "type": "string"
+    },
+    "privatePlacementOnly": {
+      "default": false,
+      "description": "Only postings from private recruitment agencies (Personalvermittlung).",
+      "prefill": false,
+      "title": "Private recruitment agencies only",
+      "type": "boolean"
+    },
+    "publishedWithin": {
+      "default": "all",
+      "description": "Only jobs published in the selected window. Arbeitsagentur supports today, 1, 7, 14 and 28 days.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "today",
+        "1",
+        "7",
+        "14",
+        "28"
+      ],
+      "enumTitles": [
+        "Any publication date",
+        "Today",
+        "Last 1 day",
+        "Last 7 days",
+        "Last 14 days",
+        "Last 28 days"
+      ],
+      "prefill": "all",
+      "title": "Published within",
+      "type": "string"
     },
     "radius": {
       "default": 25,
-      "description": "Search radius around the location in kilometers (only used when location is set).",
+      "description": "Radius around the location. Only applied when a location is set.",
       "maximum": 200,
       "minimum": 0,
-      "title": "Search Radius (km)",
+      "prefill": 25,
+      "title": "Search radius (km)",
       "type": "integer"
     },
+    "salaryDisclosure": {
+      "default": "all",
+      "description": "Only jobs that disclose an annual salary or an hourly wage.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "annual",
+        "hourly"
+      ],
+      "enumTitles": [
+        "Any salary disclosure",
+        "Annual salary disclosed",
+        "Hourly wage disclosed"
+      ],
+      "prefill": "all",
+      "title": "Salary disclosure",
+      "type": "string"
+    },
     "search": {
-      "description": "Keyword to search for (e.g., 'Softwareentwickler', 'Krankenpfleger', 'Lehrer'). Searches title + description.",
+      "default": "Softwareentwickler",
+      "description": "Words to search for in job titles and descriptions, e.g. Softwareentwickler, Krankenpfleger, Lagerhelfer. Leave empty to browse all current postings.",
       "editor": "textfield",
       "prefill": "Softwareentwickler",
-      "title": "Search Keyword",
+      "sectionCaption": "Search",
+      "sectionDescription": "Search by keyword, or paste job URLs below to skip the search.",
+      "title": "Search keyword",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Order of the returned jobs.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "newest",
+        "modified",
+        "start-date",
+        "distance"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Newest publication date",
+        "Recently modified",
+        "Earliest start date",
+        "Shortest distance"
+      ],
+      "prefill": "relevance",
+      "title": "Sort results by",
       "type": "string"
     },
     "workingTime": {
       "default": "all",
-      "description": "Filter by working time arrangement.",
+      "description": "Full-time, part-time, shift work, home-based work or minijob.",
       "editor": "select",
       "enum": [
         "all",
@@ -71,20 +257,20 @@
         "minijob"
       ],
       "enumTitles": [
-        "All",
+        "All working-time models",
         "Full-time (Vollzeit)",
         "Part-time (Teilzeit)",
-        "Shift work (Schicht/Nacht/Wochenende)",
-        "Home office (Homeoffice)",
+        "Shift / night / weekend (Schicht)",
+        "Home-based work (Heimarbeit)",
         "Minijob"
       ],
       "prefill": "all",
-      "title": "Working Time",
+      "title": "Working time",
       "type": "string"
     }
   },
   "required": [],
   "schemaVersion": 1,
-  "title": "Arbeitsagentur Scraper Input",
+  "title": "Arbeitsagentur Job Finder Input",
   "type": "object"
 }

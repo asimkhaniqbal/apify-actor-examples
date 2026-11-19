@@ -2,10 +2,44 @@
   "actorSpecification": 1,
   "fields": {
     "properties": {
-      "city": {
-        "description": "Job city",
+      "alliancePartnerName": {
+        "description": "Name of the source or partner portal",
         "type": [
           "string",
+          "null"
+        ]
+      },
+      "alliancePartnerUrl": {
+        "description": "URL of the source or partner portal",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "city": {
+        "description": "City of the first work location",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "contactEmails": {
+        "description": "E-mail addresses found in the description or employer profile",
+        "items": {
+          "type": "string"
+        },
+        "type": [
+          "array",
+          "null"
+        ]
+      },
+      "contactPhones": {
+        "description": "Phone numbers found in the description or employer profile",
+        "items": {
+          "type": "string"
+        },
+        "type": [
+          "array",
           "null"
         ]
       },
@@ -17,16 +51,30 @@
         ]
       },
       "country": {
-        "description": "Country",
+        "description": "Country name as published by Arbeitsagentur",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "description": {
+        "description": "Full job description text",
         "type": [
           "string",
           "null"
         ]
       },
       "distanceKm": {
-        "description": "Distance from search location in km",
+        "description": "Distance from the searched location in kilometres",
         "type": [
           "integer",
+          "null"
+        ]
+      },
+      "educationRequirement": {
+        "description": "Required education level when published",
+        "type": [
+          "string",
           "null"
         ]
       },
@@ -37,10 +85,89 @@
           "null"
         ]
       },
-      "externalUrl": {
-        "description": "External application URL (employer website)",
+      "employerBenefits": {
+        "description": "Benefits listed by the employer",
+        "items": {
+          "type": "string"
+        },
+        "type": [
+          "array",
+          "null"
+        ]
+      },
+      "employerContactInfo": {
+        "description": "Contact block from the employer profile",
         "type": [
           "string",
+          "null"
+        ]
+      },
+      "employerDescription": {
+        "description": "Employer profile description",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "employerFoundedYear": {
+        "description": "Employer founding year",
+        "type": [
+          "integer",
+          "null"
+        ]
+      },
+      "employerHeadquarters": {
+        "description": "Employer headquarters",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "employerKeywords": {
+        "description": "Employer profile keywords",
+        "items": {
+          "type": "string"
+        },
+        "type": [
+          "array",
+          "null"
+        ]
+      },
+      "employerSize": {
+        "description": "Employer headcount",
+        "type": [
+          "integer",
+          "null"
+        ]
+      },
+      "employerSocialLinks": {
+        "description": "Employer social profile URLs",
+        "items": {
+          "type": "string"
+        },
+        "type": [
+          "array",
+          "null"
+        ]
+      },
+      "employerWebsite": {
+        "description": "Employer website from the employer profile",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "externalUrl": {
+        "description": "External application URL",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "homeOfficePercent": {
+        "description": "Home office share in percent",
+        "type": [
+          "integer",
           "null"
         ]
       },
@@ -52,7 +179,7 @@
         ]
       },
       "homeOfficeType": {
-        "description": "Home office arrangement (e.g. NACH_VEREINBARUNG)",
+        "description": "Home office arrangement as published",
         "type": [
           "string",
           "null"
@@ -65,36 +192,124 @@
           "null"
         ]
       },
+      "isDisabilityFriendly": {
+        "description": "Reserved for severely disabled applicants",
+        "type": [
+          "boolean",
+          "null"
+        ]
+      },
+      "isManagedByEmployer": {
+        "description": "Posting managed directly by the employer",
+        "type": [
+          "boolean",
+          "null"
+        ]
+      },
       "isMinijob": {
-        "description": "Geringfügige Beschäftigung (minijob)",
+        "description": "Marginal employment (Minijob)",
+        "type": [
+          "boolean",
+          "null"
+        ]
+      },
+      "isPrivatePlacement": {
+        "description": "Posted by a private recruitment agency",
+        "type": [
+          "boolean",
+          "null"
+        ]
+      },
+      "isTempWork": {
+        "description": "Temporary work / employee leasing",
         "type": [
           "boolean",
           "null"
         ]
       },
       "jobType": {
-        "description": "Job offer type (e.g. ARBEIT)",
+        "description": "Offer type (ARBEIT, AUSBILDUNG, PRAKTIKUM_TRAINEE, SELBSTAENDIGKEIT)",
         "type": [
           "string",
           "null"
         ]
       },
       "latitude": {
-        "description": "Latitude",
+        "description": "Latitude of the first work location",
         "type": [
           "number",
           "null"
         ]
       },
+      "locations": {
+        "description": "Every work location returned for the posting, first location first",
+        "items": {
+          "properties": {
+            "city": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "country": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "distanceKm": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "latitude": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "longitude": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "postalCode": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "region": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "street": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "type": "object"
+        },
+        "type": [
+          "array",
+          "null"
+        ]
+      },
       "longitude": {
-        "description": "Longitude",
+        "description": "Longitude of the first work location",
         "type": [
           "number",
           "null"
         ]
       },
       "modifiedTimestamp": {
-        "description": "Last modified ISO 8601",
+        "description": "Last modified timestamp",
         "type": [
           "string",
           "null"
@@ -108,7 +323,7 @@
         ]
       },
       "occupations": {
-        "description": "All listed occupations",
+        "description": "All occupations listed for the posting",
         "items": {
           "type": "string"
         },
@@ -118,7 +333,7 @@
         ]
       },
       "portalUrl": {
-        "description": "Arbeitsagentur portal URL",
+        "description": "Arbeitsagentur posting URL",
         "type": [
           "string",
           "null"
@@ -132,14 +347,14 @@
         ]
       },
       "publishedDate": {
-        "description": "Date posted (YYYY-MM-DD)",
+        "description": "First publication date (YYYY-MM-DD)",
         "type": [
           "string",
           "null"
         ]
       },
       "quereinstiegSuitable": {
-        "description": "Career-change (Quereinstieg) suitable",
+        "description": "Suitable for career changers",
         "type": [
           "boolean",
           "null"
@@ -153,14 +368,49 @@
         ]
       },
       "salary": {
-        "description": "Annual gross salary when disclosed (EUR)",
+        "description": "Annual gross salary in EUR when an annual figure is disclosed",
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "salaryAmount": {
+        "description": "Disclosed fixed salary amount in the unit given by salaryUnit",
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "salaryCurrency": {
+        "description": "Currency code (EUR)",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "salaryMax": {
+        "description": "Upper bound of a disclosed salary range",
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "salaryMin": {
+        "description": "Lower bound of a disclosed salary range",
         "type": [
           "number",
           "null"
         ]
       },
       "salaryType": {
-        "description": "Salary disclosure type (e.g. JAHRESGEHALT)",
+        "description": "Salary disclosure type as published (JAHRESGEHALT, STUNDENLOHN, ...)",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "salaryUnit": {
+        "description": "year, hour or month",
         "type": [
           "string",
           "null"
@@ -174,14 +424,14 @@
         ]
       },
       "startDate": {
-        "description": "Job start date (YYYY-MM-DD)",
+        "description": "Earliest job start date (YYYY-MM-DD)",
         "type": [
           "string",
           "null"
         ]
       },
       "street": {
-        "description": "Street address",
+        "description": "Street address of the first work location",
         "type": [
           "string",
           "null"
@@ -189,6 +439,41 @@
       },
       "title": {
         "description": "Job title",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "trainingSalaryYear1": {
+        "description": "Apprenticeship pay in year 1",
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "trainingSalaryYear2": {
+        "description": "Apprenticeship pay in year 2",
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "trainingSalaryYear3": {
+        "description": "Apprenticeship pay in year 3",
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "trainingSalaryYear4": {
+        "description": "Apprenticeship pay in year 4",
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "trainingType": {
+        "description": "Apprenticeship type when published",
         "type": [
           "string",
           "null"
@@ -240,6 +525,10 @@
             "format": "text",
             "label": "Employer"
           },
+          "employerWebsite": {
+            "format": "link",
+            "label": "Employer site"
+          },
           "externalUrl": {
             "format": "link",
             "label": "Apply"
@@ -284,6 +573,14 @@
             "format": "number",
             "label": "Salary (EUR)"
           },
+          "salaryMax": {
+            "format": "number",
+            "label": "Salary max"
+          },
+          "salaryMin": {
+            "format": "number",
+            "label": "Salary min"
+          },
           "scrapedAt": {
             "format": "text",
             "label": "Scraped At"
@@ -315,7 +612,10 @@
           "startDate",
           "contractDuration",
           "salary",
+          "salaryMin",
+          "salaryMax",
           "homeOfficePossible",
+          "employerWebsite",
           "externalUrl",
           "portalUrl",
           "scrapedAt"
@@ -346,6 +646,10 @@
             "format": "text",
             "label": "Region"
           },
+          "salary": {
+            "format": "number",
+            "label": "Salary (EUR)"
+          },
           "title": {
             "format": "text",
             "label": "Title"
@@ -360,6 +664,7 @@
           "city",
           "region",
           "publishedDate",
+          "salary",
           "portalUrl"
         ]
       }

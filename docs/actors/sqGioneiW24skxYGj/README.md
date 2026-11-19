@@ -4,65 +4,70 @@
 
 # CarGurus Deal Rating & Dealer Inventory Scraper
 
-CarGurus is known for its deal-rating system, which flags each used-car listing as a Great Deal, Good Deal, Fair Deal, High Price, or Overpriced relative to the market. This actor collects CarGurus listings by make/model/ZIP search, by a single listing ID, or from a pasted CarGurus search URL, keeping that deal rating alongside price, mileage, and dealer details.
+CarGurus rates every listing against its Instant Market Value (IMV) and labels it from Great Deal down to Overpriced. This actor collects that rating, the IMV, the numeric deal score, the asking price, mileage, specs, dealer contact details and photos — by make/model/ZIP search, by a single listing ID, or from a CarGurus search URL you paste in.
 
-## What this actor does
+## Modes
 
-- Searches by vehicle make, model, ZIP code and price/mileage range.
-- Fetches a single listing directly by its CarGurus listing ID.
-- Walks every page of results from a CarGurus search URL you paste in.
-- Normalizes CarGurus's deal-rating codes into readable labels (Great Deal, Good Deal, Fair Deal, High Price, Overpriced).
-- Fields a listing doesn't publish (such as VIN on some used listings, or MPG on certain trims) are left out of that record.
+- **Search** — build a query from make, model, ZIP, radius, condition, deal rating, body style, fuel, transmission, drivetrain, price, mileage, photo and price-drop filters, and walk every result page.
+- **Single listing** — fetch one listing by its CarGurus ID (for example `464410035` from `/details/464410035`).
+- **Paste a URL** — paste a CarGurus search-results URL (old `searchResults.action` links are accepted) or a listing URL.
 
-## Output per listing
+## What you get per listing
 
 | Field | Description |
 | --- | --- |
-| `listingId` | CarGurus's internal listing ID. |
-| `vin` | Vehicle identification number, when published. |
-| `url` | Direct link to the listing on cargurus.com. |
-| `year` | Model year. |
-| `make` | Vehicle manufacturer. |
-| `model` | Vehicle model. |
-| `trim` | Trim level. |
-| `price` | Listing price in USD. |
-| `dealRating` | CarGurus's deal-rating label for this price vs. the market. |
-| `mileage` | Odometer reading in miles. |
-| `condition` | New, Used, or Certified Pre-Owned. |
-| `exteriorColor` | Exterior color. |
-| `interiorColor` | Interior color. |
-| `transmission` | Transmission type. |
-| `driveType` | Drivetrain (e.g. FWD, AWD, 4WD). |
-| `fuelType` | Fuel type. |
-| `mpgCity` | EPA city fuel economy rating. |
-| `mpgHighway` | EPA highway fuel economy rating. |
-| `dealerName` | Selling dealer's name. |
-| `dealerCity` | Dealer's city. |
-| `dealerState` | Dealer's state. |
-| `daysOnMarket` | Number of days the listing has been live. |
-| `photoCount` | Number of photos on the listing. |
-| `primaryPhotoUrl` | URL of the listing's main photo. |
-| `siteName` | Always "CarGurus". |
-| `scrapedAt` | ISO timestamp of when the record was captured. |
+| `listingId` | CarGurus listing ID. |
+| `url` | Direct `cargurus.com/details/<id>` link. |
+| `title` | Year, make, model and trim as shown by CarGurus. |
+| `vin`, `stockNumber` | VIN and dealer stock number when published. |
+| `year`, `make`, `model`, `trim`, `bodyType` | Vehicle identity. |
+| `price`, `pricePlusFees` | Asking price and the advertised price including disclosed fees. |
+| `expectedPrice` | CarGurus Instant Market Value (IMV) for this car. |
+| `priceDifference` | Price minus IMV (positive means above market). |
+| `dealRating`, `dealRatingCode`, `dealScore` | Human label, raw CarGurus code and numeric deal score. |
+| `mileage`, `condition` | Odometer reading and New / Used / Certified Pre-Owned. |
+| `exteriorColor`, `interiorColor` | Published colors. |
+| `transmission`, `driveType`, `engine`, `fuelType` | Powertrain and engine details. |
+| `mpgCity`, `mpgHighway`, `mpgCombined` | EPA-style fuel economy when published. |
+| `doors`, `options`, `tags`, `safetyRating` | Body details, installed options, badges and NHTSA rating. |
+| `dealerName`, `dealerId`, `dealerType` | Selling dealer identity. |
+| `dealerCity`, `dealerState`, `dealerPostalCode`, `dealerPhone` | Dealer location and phone. |
+| `dealerWebsite`, `dealerRating`, `dealerReviewCount` | Dealer site and review summary (single-listing mode). |
+| `dealerStreet`, `dealerLatitude`, `dealerLongitude`, `dealerLogoUrl` | More dealer detail (single-listing mode). |
+| `distanceMiles`, `daysOnMarket` | Distance from the search ZIP and days listed. |
+| `photoCount`, `primaryPhotoUrl`, `images` | Photo count, main photo and every photo (single-listing mode). |
+| `accidentCount`, `ownerCount`, `vehicleHistoryReport` | Vehicle-history summary (single-listing mode). |
+| `siteName`, `scrapedAt`, `recordType` | Source and capture metadata. |
+
+Fields the source does not publish for a listing are omitted from that record — never filled with `null` or a placeholder.
 
 ## Input
 
 | Field | Type | Default | Description |
 | --- | --- | --- | --- |
-| `mode` | String (select) | `search` | `search` (make/model/ZIP/price), `byListingId` (single listing), or `byUrl` (scrape a pasted search URL). |
-| `make` | String (select) | – | Vehicle manufacturer to filter by (used with `search`). |
-| `model` | String | – | Model name to filter by, e.g. "Camry". Leave empty for all models of the chosen make. |
-| `condition` | String (select) | – | `New`, `Used`, or `Certified Pre-Owned`. Leave empty for any condition. |
-| `sortBy` | String (select) | `best_deal` | Result order: best deal, lowest/highest price, lowest mileage, newest/oldest year. |
-| `zipCode` | String | – | 5-digit US ZIP code for a localized search (used with `search`). |
-| `minPrice` | Integer | – | Minimum listing price in USD. |
-| `maxPrice` | Integer | – | Maximum listing price in USD. |
-| `maxMileage` | Integer | – | Maximum odometer reading in miles. |
-| `listingId` | String | – | CarGurus listing ID (used with `byListingId`). |
-| `url` | String | – | A CarGurus search results URL to scrape (used with `byUrl`). |
-| `maxItems` | Integer | 5 | Maximum number of listings to emit. |
+| `mode` | Select | `search` | `search`, `byListingId` or `byUrl`. |
+| `make` | Select | – | Manufacturer (all makes CarGurus lists). |
+| `model` | Text | – | Model name, e.g. `Camry`. Empty means every model. |
+| `condition` | Select | Any | New, Used or Certified Pre-Owned. Certified searches need a make. |
+| `sortBy` | Select | `best_deal` | Best deal/match, price, mileage, year or distance. |
+| `zipCode` | Text | – | 5-digit US ZIP code. |
+| `distanceMiles` | Select | 50 | Search radius: 10–500 miles. |
+| `minPrice`, `maxPrice` | Integer | – | Price range in USD. |
+| `maxMileage` | Integer | – | Odometer ceiling. |
+| `dealRating` | Select | Any | Great Deal, Good Deal, Fair Deal, High Price, Overpriced, No Price Analysis or Uncertain. |
+| `bodyType` | Select | Any | Coupe, Convertible, Hatchback, Minivan, Pickup, Sedan, SUV/Crossover, Van, Wagon. |
+| `fuelType` | Select | Any | Gasoline, Hybrid, Electric, Diesel, Biodiesel or Flex Fuel. |
+| `transmission` | Select | Any | Automatic or Manual. |
+| `drivetrain` | Select | Any | AWD, FWD, RWD, 4WD or 4X2. |
+| `onlyWithPhotos` | Boolean | false | Skip listings with no photos. |
+| `onlyPriceDrops` | Boolean | false | Only recent price drops. |
+| `listingId` | Text | – | Listing ID for `byListingId`. |
+| `url` | Text | – | Search or listing URL for `byUrl`. |
+| `maxItems` | Integer | 5 | Maximum records to emit (1–1000). |
 
-### Example: used Toyota Camrys near a ZIP code
+### Examples
+
+Used Toyota Camry near New York:
 
 ```json
 {
@@ -71,54 +76,75 @@ CarGurus is known for its deal-rating system, which flags each used-car listing 
   "model": "Camry",
   "condition": "Used",
   "zipCode": "10001",
-  "maxPrice": 25000,
+  "distanceMiles": 50,
+  "maxPrice": 30000,
   "maxItems": 50
 }
 ```
 
-### Example: a single listing by ID
+Great-deal hybrid SUVs with all-wheel drive and photos:
 
 ```json
 {
-  "mode": "byListingId",
-  "listingId": "444595478"
+  "mode": "search",
+  "make": "Toyota",
+  "zipCode": "10001",
+  "dealRating": "GREAT_PRICE",
+  "bodyType": "SUV / Crossover",
+  "fuelType": "Hybrid",
+  "drivetrain": "All-Wheel Drive",
+  "onlyWithPhotos": true,
+  "maxItems": 25
 }
 ```
 
-### Example: scrape a pasted search URL
+One listing by ID:
 
 ```json
-{
-  "mode": "byUrl",
-  "url": "https://www.cargurus.com/Cars/inventorylisting/viewDetailsFilterViewInventoryListing.action?sourceContext=carGurusHomePageModel&zip=10001",
-  "maxItems": 100
-}
+{"mode": "byListingId", "listingId": "464410035", "maxItems": 1}
 ```
+
+A pasted search URL:
+
+```json
+{"mode": "byUrl", "url": "https://www.cargurus.com/Cars/l-Used-Toyota-Camry-Raleigh-d292_L25152", "maxItems": 100}
+```
+
+## Data source and reliability
+
+CarGurus renders its search results from a public Remix loader payload. The actor reads that payload through Google's live translate mirror (no account or cookies) and rotates exits/languages, with an Apify unblocker fallback for DataDome-protected detail pages. You do not need to supply cookies, API keys or proxy settings; the actor selects its route automatically.
 
 ## Use cases
 
-- **Car shoppers** comparing deal ratings and prices for a specific make/model near their ZIP code.
-- **Dealers** monitoring their own and competitors' inventory, pricing and days-on-market.
-- **Price analysts** tracking how deal ratings shift with mileage and model year.
-- **Lead-generation teams** collecting dealer name and location alongside active listings.
-- **Fleet buyers** screening listings by mileage cap and price range across multiple models.
+- **Car shoppers** compare deal ratings and IMV on a shortlist near a ZIP code.
+- **Dealers** monitor competitors' inventory, pricing and days on market.
+- **Pricing analysts** track how deal scores and price differences move by model and region.
+- **Lead generation** collects dealer name, phone and location alongside active listings.
+- **Fleet buyers** screen by mileage, body style, fuel and drivetrain.
 
 ## FAQ
 
-**Does this need a CarGurus account or login?**
-No. It reads the same listing pages shown to any visitor on cargurus.com.
+**Does this need a CarGurus login?**
+No. It reads publicly visible listing data and never asks for an account.
 
-**What does `dealRating` actually mean?**
-It's CarGurus's own assessment of how a listing's price compares to similar vehicles in the market, ranging from "Great Deal" down to "Overpriced". This actor only relabels CarGurus's own rating; it doesn't calculate its own score.
+**What does `dealRating` mean?**
+CarGurus compares a car's price with its Instant Market Value. Great Deal and Good Deal are below IMV, Fair Deal is close, High Price and Overpriced are above it. `dealRatingCode` keeps CarGurus's raw value.
 
-**Why is `vin` sometimes missing?**
-Not every CarGurus listing publishes the VIN publicly; when it isn't shown, the field is left out rather than filled with a placeholder.
+**Why is a field missing on some records?**
+Not every listing publishes a VIN, MPG, dealer rating or full photo set. Missing fields are omitted, not filled with a placeholder.
 
-**What's the difference between `search` and `byUrl` mode?**
-`search` builds the query from the `make`, `model`, `zipCode` and price/mileage fields you provide. `byUrl` instead walks every result page of a CarGurus search URL you already have, which is useful for filters this actor doesn't expose directly (like specific trims or features).
+**Can I filter by model year?**
+Not yet: CarGurus's current search loader ignores year-range parameters. Use `minPrice`/`maxPrice` and sort by model year, or paste a URL with the site's own year filter.
 
-**Can I fetch just one listing I already know?**
-Yes, use `byListingId` with the numeric ID found in that listing's CarGurus URL.
+**Can I scrape certified pre-owned cars?**
+Yes, with a make selected. CarGurus exposes certified inventory through its make pages; a make-less certified search is not available.
+
+**How many results can I get?**
+Up to 1,000 per run via `maxItems`. Large runs walk result pages until `maxItems` or the source ends. CarGurus shows an approximate national total that is not filter-specific, so result counts in the dataset are authoritative.
 
 **Is this affiliated with CarGurus?**
 No. This is an independent tool and is not affiliated with, endorsed by, or sponsored by CarGurus.
+
+## Legacy inputs
+
+Saved tasks that still send `zip`, `searchUrl`, `startUrl`, `startUrls`, `maxResults`, `carCondition`, `makeName`, `modelName`, `listingID` or `sort` keep working: the actor maps them in code to the current fields.
