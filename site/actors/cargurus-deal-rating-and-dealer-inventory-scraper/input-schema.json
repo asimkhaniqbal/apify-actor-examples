@@ -1,0 +1,179 @@
+{
+  "description": "Search CarGurus for car listings, fetch by listing ID, or scrape from a search URL.",
+  "properties": {
+    "condition": {
+      "default": "",
+      "description": "Listing condition filter.",
+      "editor": "select",
+      "enum": [
+        "",
+        "New",
+        "Used",
+        "Certified Pre-Owned"
+      ],
+      "enumTitles": [
+        "Any",
+        "New",
+        "Used",
+        "Certified Pre-Owned"
+      ],
+      "prefill": "",
+      "title": "Condition",
+      "type": "string"
+    },
+    "listingId": {
+      "description": "CarGurus listing ID from a listing URL.",
+      "editor": "textfield",
+      "prefill": "444595478",
+      "title": "Listing ID (mode=byListingId)",
+      "type": "string"
+    },
+    "make": {
+      "description": "Car manufacturer to filter by.",
+      "editor": "select",
+      "enum": [
+        "Toyota",
+        "Honda",
+        "Ford",
+        "Chevrolet",
+        "BMW",
+        "Mercedes-Benz",
+        "Audi",
+        "Volkswagen",
+        "Hyundai",
+        "Kia",
+        "Nissan",
+        "Subaru",
+        "Mazda",
+        "Jeep",
+        "Ram",
+        "Dodge",
+        "Tesla",
+        "Lexus",
+        "Acura",
+        "Volvo"
+      ],
+      "enumTitles": [
+        "Toyota",
+        "Honda",
+        "Ford",
+        "Chevrolet",
+        "BMW",
+        "Mercedes-Benz",
+        "Audi",
+        "Volkswagen",
+        "Hyundai",
+        "Kia",
+        "Nissan",
+        "Subaru",
+        "Mazda",
+        "Jeep",
+        "Ram",
+        "Dodge",
+        "Tesla",
+        "Lexus",
+        "Acura",
+        "Volvo"
+      ],
+      "prefill": "Toyota",
+      "title": "Make (mode=search)",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 5,
+      "description": "Maximum number of listings to emit.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxMileage": {
+      "description": "Maximum odometer reading in miles.",
+      "maximum": 999999,
+      "minimum": 0,
+      "title": "Max mileage",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Maximum listing price in USD.",
+      "maximum": 9999999,
+      "minimum": 0,
+      "title": "Max price (USD)",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Minimum listing price in USD.",
+      "maximum": 9999999,
+      "minimum": 0,
+      "title": "Min price (USD)",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "How to find listings.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byListingId",
+        "byUrl"
+      ],
+      "enumTitles": [
+        "Search by make/model/zip/price range",
+        "Single listing by CarGurus listing ID",
+        "Scrape all listings from a CarGurus search URL"
+      ],
+      "prefill": "byListingId",
+      "title": "Mode",
+      "type": "string"
+    },
+    "model": {
+      "description": "Model name to filter by, e.g. 'Camry', 'F-150'. Leave empty for all models.",
+      "editor": "textfield",
+      "title": "Model (mode=search)",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "best_deal",
+      "description": "Result ordering.",
+      "editor": "select",
+      "enum": [
+        "best_deal",
+        "lowest_price",
+        "highest_price",
+        "lowest_mileage",
+        "newest_year",
+        "oldest_year"
+      ],
+      "enumTitles": [
+        "Best Deal",
+        "Lowest Price",
+        "Highest Price",
+        "Lowest Mileage",
+        "Newest Year",
+        "Oldest Year"
+      ],
+      "prefill": "best_deal",
+      "title": "Sort by",
+      "type": "string"
+    },
+    "url": {
+      "description": "Paste a CarGurus search results URL to scrape all listings from it.",
+      "editor": "textfield",
+      "title": "CarGurus search URL (mode=byUrl)",
+      "type": "string"
+    },
+    "zipCode": {
+      "description": "5-digit US ZIP code for local search, e.g. '10001'.",
+      "editor": "textfield",
+      "title": "ZIP code (mode=search)",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "CarGurus Car Listings Scraper Input",
+  "type": "object"
+}

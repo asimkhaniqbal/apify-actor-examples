@@ -1,0 +1,215 @@
+{
+  "description": "Search DHgate products, browse categories and seller shops, or fetch individual product pages.",
+  "properties": {
+    "category": {
+      "default": "electronics",
+      "description": "DHgate category to browse.",
+      "editor": "select",
+      "enum": [
+        "electronics",
+        "apparel",
+        "cell-phones-accessories",
+        "computers-networking",
+        "home-garden",
+        "health-beauty",
+        "jewelry",
+        "shoes-accessories",
+        "bags-luggage-accessories",
+        "sports-outdoors",
+        "toys-gifts",
+        "automobiles-motorcycles",
+        "fashion-accessories",
+        "games-accessories",
+        "baby-kids-maternity",
+        "hair-products",
+        "lights-lighting",
+        "office-school-business-industrial",
+        "pet-supplies",
+        "video-surveillance",
+        "wedding-party-events"
+      ],
+      "enumTitles": [
+        "Electronics",
+        "Apparel",
+        "Cell Phones & Accessories",
+        "Computers & Networking",
+        "Home & Garden",
+        "Health & Beauty",
+        "Jewelry & Watches",
+        "Shoes & Accessories",
+        "Bags & Luggage",
+        "Sports & Outdoors",
+        "Toys & Gifts",
+        "Automobile & Motorcycle",
+        "Fashion Accessories",
+        "Games & Accessories",
+        "Baby & Kids & Maternity",
+        "Hair & Styling",
+        "Lights & Lighting",
+        "Industrial & Office",
+        "Pet Supplies",
+        "Video Surveillance",
+        "Weddings & Formal Events"
+      ],
+      "prefill": "electronics",
+      "title": "Category (mode=browseByCategory)",
+      "type": "string"
+    },
+    "containsKeyword": {
+      "description": "Only emit products whose title contains this keyword (case-insensitive).",
+      "editor": "textfield",
+      "title": "Contains keyword",
+      "type": "string"
+    },
+    "country": {
+      "description": "Only emit products shippable to this country (best-effort; shipping info is per-product).",
+      "editor": "select",
+      "enum": [
+        "US",
+        "GB",
+        "DE",
+        "FR",
+        "ES",
+        "IT",
+        "NL",
+        "PL",
+        "CA",
+        "AU",
+        "PK",
+        "IN",
+        "AE",
+        "SA",
+        "BR",
+        "MX",
+        "JP",
+        "KR",
+        "RU",
+        "ZA",
+        "TR",
+        "ID",
+        "MY",
+        "TH",
+        "SG"
+      ],
+      "enumTitles": [
+        "United States",
+        "United Kingdom",
+        "Germany",
+        "France",
+        "Spain",
+        "Italy",
+        "Netherlands",
+        "Poland",
+        "Canada",
+        "Australia",
+        "Pakistan",
+        "India",
+        "United Arab Emirates",
+        "Saudi Arabia",
+        "Brazil",
+        "Mexico",
+        "Japan",
+        "South Korea",
+        "Russia",
+        "South Africa",
+        "Turkey",
+        "Indonesia",
+        "Malaysia",
+        "Thailand",
+        "Singapore"
+      ],
+      "title": "Shipping country",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Hard cap on emitted records.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Drop products whose lowest price is above this.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Max price (USD)",
+      "type": "number"
+    },
+    "minPrice": {
+      "description": "Drop products whose lowest price is below this.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Min price (USD)",
+      "type": "number"
+    },
+    "minRating": {
+      "description": "Drop products whose seller rating is below this (0–5).",
+      "maximum": 5,
+      "minimum": 0,
+      "title": "Min seller rating",
+      "type": "number"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to fetch from DHgate.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "browseByCategory",
+        "byUrl",
+        "shopProducts"
+      ],
+      "enumTitles": [
+        "Search products",
+        "Browse by category",
+        "Fetch by URL",
+        "Seller shop products"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "proxyConfiguration": {
+      "description": "Optional. Used only when DHgate's WAF blocks direct access (lazy trigger) — the free AUTO group is enough for most regions.",
+      "editor": "proxy",
+      "prefill": {
+        "useApifyProxy": true
+      },
+      "title": "Proxy configuration",
+      "type": "object"
+    },
+    "searchQuery": {
+      "default": "smart watch",
+      "description": "Free-text keyword (mode=search).",
+      "editor": "textfield",
+      "prefill": "smart watch",
+      "title": "Search query",
+      "type": "string"
+    },
+    "shopId": {
+      "description": "DHgate supplier shop ID, e.g. `22268785`. Found in store URLs: dhgate.com/store/22268785.",
+      "maximum": 9999999999,
+      "minimum": 1,
+      "title": "Shop ID (mode=shopProducts)",
+      "type": "integer"
+    },
+    "startUrls": {
+      "default": [],
+      "description": "Product, category, store or search URLs, e.g. `https://www.dhgate.com/product/designer-bag/1086662889.html`.",
+      "editor": "stringList",
+      "prefill": [
+        "https://www.dhgate.com/product/10a-premium-original-luxury-handbags-designer/1086662889.html"
+      ],
+      "title": "DHgate URLs (mode=byUrl)",
+      "type": "array"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "DHgate Scraper Input",
+  "type": "object"
+}

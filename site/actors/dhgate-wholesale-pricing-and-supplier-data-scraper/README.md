@@ -1,0 +1,148 @@
+# DHgate Wholesale Pricing & Supplier Data Scraper
+
+DHgate is a major China-based wholesale marketplace with tiered pricing that drops as order quantity rises. This actor collects DHgate product listings and detail pages, keeping the wholesale price tiers, minimum order quantity, variants, shipping and supplier reputation data that sourcing teams actually need, without requiring a DHgate account.
+
+## What this actor does
+
+- Searches DHgate by keyword, browses one of 21 top-level categories, or walks a seller shop's full product catalog by shop ID.
+- Fetches full detail for specific product, category, or store URLs you paste in.
+- Captures wholesale price tiers (unit price per order-quantity band), not just a single listing price.
+- Collects supplier reputation signals: rating, positive-feedback percentage, transaction count, seller level and year established.
+- Filters results by price range, minimum seller rating, a required title keyword, or shipping-eligible country.
+- Fields a listing or shop page doesn't publish (for example company introduction on a newer shop) are left out of that record.
+
+## Output per product
+
+| Field | Description |
+| --- | --- |
+| `id` / `productId` / `skuId` / `supplierId` | DHgate's internal identifiers for the item code, product, SKU and supplier. |
+| `title` | Product title. |
+| `categoryName` | Category the product is listed under. |
+| `description` / `descriptionBullets` / `specifications` | Product description text, bullet points, and name/value spec pairs. |
+| `priceMin` / `priceMax` / `priceRange` | Lowest and highest unit price, and the displayed price range text. |
+| `priceTiers` | Wholesale pricing bands — unit price for each order-quantity range (e.g. 1–3 pieces vs. 4+ pieces). |
+| `minOrderQty` / `measureUnit` | Minimum order quantity and the unit it's measured in. |
+| `variants` | Product variant options (e.g. color/size) with their own images. |
+| `images` / `imageUrl` | Gallery image URLs and the primary listing image. |
+| `stockCountries` / `stockCountry` | Countries the product ships from. |
+| `shipToCountry` / `shipToCountryCode` | Destination country the shipping quote was calculated for. |
+| `shippingCostUsd` / `shippingCurrency` / `shippingDays` | Shipping cost, currency, and estimated delivery day range. |
+| `freeShipping` | Whether free shipping applies. |
+| `moneyBackDays` / `deliveryEstimate` | Money-back guarantee window and delivery estimate text. |
+| `saleNum` / `soldCount` | Units sold, as reported on the product or listing page. |
+| `dimensionsCm` / `grossWeightKg` | Package dimensions and gross weight. |
+| `lastModifiedDate` | When the listing was last updated. |
+| `rating` / `reviewCount` / `transactionCount` / `reviewBreakdown` | Average rating, review count, completed transaction count, and per-star review counts. |
+| `sellerName` / `sellerStoreUrl` / `sellerRatingPercent` / `sellerLevel` / `sellerTier` / `yearEstablished` / `companyIntroduction` | Seller identity and reputation details. |
+| `sourceUrl` / `productUrl` | Canonical and display URLs for the product. |
+| `recordType` | Always `product`. |
+| `scrapedAt` | ISO timestamp of when the record was captured. |
+
+Listing pages (`search`, `browseByCategory`, `shopProducts`) give the fields visible on the results grid — identifiers, title, price, minimum order, sold count and seller basics. Richer fields like `priceTiers`, `variants`, `stockCountries`, shipping details, `dimensionsCm` and the review breakdown only come from a full product page, which `byUrl` mode fetches directly.
+
+## Output per shop
+
+| Field | Description |
+| --- | --- |
+| `storeName` | Shop's display name. |
+| `storeUrl` | Link to the shop's storefront. |
+| `logoUrl` | Shop logo image URL. |
+| `positiveFeedbackPercent` | Shop's positive feedback percentage. |
+| `transactionCount` | Number of completed transactions reported for the shop. |
+| `onTimeDeliveryRate` | Shop's on-time delivery rate. |
+| `sellerLevel` / `sellerTier` | Shop's seller level and tier classification. |
+| `sourceUrl` | Link to the shop page. |
+| `recordType` | Always `shop`. |
+| `scrapedAt` | ISO timestamp of when the record was captured. |
+
+## Input
+
+| Field | Type | Default | Description |
+| --- | --- | --- | --- |
+| `mode` | String (select) | `search` | `search`, `browseByCategory`, `shopProducts`, or `byUrl`. |
+| `searchQuery` | String | `smart watch` | Keyword to search for (mode=search). |
+| `category` | String (select) | `electronics` | One of 21 top-level categories to browse (mode=browseByCategory). |
+| `startUrls` | Array of strings | `[]` | DHgate product, category, or store URLs to fetch directly (mode=byUrl). |
+| `shopId` | Integer | – | DHgate supplier shop ID, found in store URLs like `dhgate.com/store/22268785` (mode=shopProducts). |
+| `minPrice` | Number | – | Drop products whose lowest price is below this (USD). |
+| `maxPrice` | Number | – | Drop products whose lowest price is above this (USD). |
+| `minRating` | Number | – | Drop products whose seller rating is below this (0–5). |
+| `containsKeyword` | String | – | Only emit products whose title contains this keyword (case-insensitive). |
+| `country` | String (select) | – | Only emit products shippable to this country, best-effort since shipping data is per-product. |
+| `maxItems` | Integer | 50 | Hard cap on the number of records emitted. |
+| `proxyConfiguration` | Object | off | Optional proxy, used only if DHgate blocks a direct request. |
+
+### Example: search with a price band
+
+```json
+{
+  "mode": "search",
+  "searchQuery": "smart watch",
+  "minPrice": 10,
+  "maxPrice": 50,
+  "maxItems": 50
+}
+```
+
+### Example: browse a category filtered by seller rating
+
+```json
+{
+  "mode": "browseByCategory",
+  "category": "jewelry",
+  "minRating": 4.5,
+  "maxItems": 100
+}
+```
+
+### Example: a seller's full catalog
+
+```json
+{
+  "mode": "shopProducts",
+  "shopId": 22268785,
+  "maxItems": 200
+}
+```
+
+### Example: fetch specific product pages
+
+```json
+{
+  "mode": "byUrl",
+  "startUrls": [
+    "https://www.dhgate.com/product/10a-premium-original-luxury-handbags-designer/1086662889.html"
+  ]
+}
+```
+
+## Use cases
+
+- **Wholesale buyers** comparing minimum order quantities and quantity-based price tiers before committing to a supplier.
+- **Dropshippers** screening products by price range and seller rating within a category.
+- **Competitor price monitoring** teams tracking price ranges and sold counts over time.
+- **Supplier due-diligence teams** reviewing a shop's feedback percentage, transaction count and seller level before placing an order.
+- **Market researchers** analyzing variant options, shipping times and stock countries for a product category.
+
+## FAQ
+
+**Does this need a DHgate account?**
+No. It reads the same storefront pages shown to any shopper on dhgate.com.
+
+**What is `priceTiers`?**
+DHgate's wholesale pricing structure: the per-unit price changes depending on how many units you order (e.g. $3.00/unit for 1–3 pieces, $2.86/unit for 4+ pieces). `priceTiers` lists each of those quantity bands with its unit price.
+
+**Why does a keyword search sometimes return unrelated-looking products?**
+Like the DHgate website itself, a search with very few direct matches can fall back to a popular-products listing instead of an empty result page. Every record returned is still a real, live product with a working URL.
+
+**What does the `country` filter actually check?**
+It keeps products whose rendered shipping data shows they can ship to the chosen country. Since shipping eligibility is read per product, this is best-effort rather than an exhaustive country-wide filter.
+
+**How do I find a shop's `shopId`?**
+It's the number in the shop's storefront URL, e.g. `dhgate.com/store/22268785` → `22268785`. It also appears in product records as part of `sellerStoreUrl`.
+
+**When should I use the optional `proxyConfiguration`?**
+Only if a run fails to fetch pages directly; most regions don't need it.
+
+**Is this affiliated with DHgate?**
+No. This is an independent tool and is not affiliated with, endorsed by, or sponsored by DHgate.

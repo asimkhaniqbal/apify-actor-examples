@@ -1,0 +1,90 @@
+{
+  "properties": {
+    "contractType": {
+      "default": "all",
+      "description": "Filter by contract type. 'all' returns everything.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "permanent",
+        "fixed-term",
+        "any"
+      ],
+      "enumTitles": [
+        "All",
+        "Permanent (unbefristet)",
+        "Fixed-term (befristet)",
+        "Any contract"
+      ],
+      "title": "Contract Type",
+      "type": "string"
+    },
+    "location": {
+      "description": "City, postal code, or region (e.g., 'Berlin', '10115', 'Bayern'). Leave empty for all of Germany.",
+      "editor": "textfield",
+      "title": "Location",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of jobs to return.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "publishedSince": {
+      "default": 0,
+      "description": "Only include jobs published within the last N days (1, 3, 7, 14, 28). 0 = all.",
+      "maximum": 100,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Published Since (days)",
+      "type": "integer"
+    },
+    "radius": {
+      "default": 25,
+      "description": "Search radius around the location in kilometers (only used when location is set).",
+      "maximum": 200,
+      "minimum": 0,
+      "title": "Search Radius (km)",
+      "type": "integer"
+    },
+    "search": {
+      "description": "Keyword to search for (e.g., 'Softwareentwickler', 'Krankenpfleger', 'Lehrer'). Searches title + description.",
+      "editor": "textfield",
+      "prefill": "Softwareentwickler",
+      "title": "Search Keyword",
+      "type": "string"
+    },
+    "workingTime": {
+      "default": "all",
+      "description": "Filter by working time arrangement.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "full-time",
+        "part-time",
+        "shift",
+        "homework",
+        "minijob"
+      ],
+      "enumTitles": [
+        "All",
+        "Full-time (Vollzeit)",
+        "Part-time (Teilzeit)",
+        "Shift work (Schicht/Nacht/Wochenende)",
+        "Home office (Homeoffice)",
+        "Minijob"
+      ],
+      "prefill": "all",
+      "title": "Working Time",
+      "type": "string"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "Arbeitsagentur Scraper Input",
+  "type": "object"
+}

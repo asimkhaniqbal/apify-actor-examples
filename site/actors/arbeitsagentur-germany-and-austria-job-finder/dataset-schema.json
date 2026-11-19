@@ -1,0 +1,368 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "properties": {
+      "city": {
+        "description": "Job city",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "contractDuration": {
+        "description": "Contract duration (UNBEFRISTET / BEFRISTET / KEINE_ANGABE)",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "country": {
+        "description": "Country",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "distanceKm": {
+        "description": "Distance from search location in km",
+        "type": [
+          "integer",
+          "null"
+        ]
+      },
+      "employer": {
+        "description": "Employer / company name",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "externalUrl": {
+        "description": "External application URL (employer website)",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "homeOfficePossible": {
+        "description": "Home office possible",
+        "type": [
+          "boolean",
+          "null"
+        ]
+      },
+      "homeOfficeType": {
+        "description": "Home office arrangement (e.g. NACH_VEREINBARUNG)",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "id": {
+        "description": "Job reference number (Refnr)",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "isMinijob": {
+        "description": "Geringfügige Beschäftigung (minijob)",
+        "type": [
+          "boolean",
+          "null"
+        ]
+      },
+      "jobType": {
+        "description": "Job offer type (e.g. ARBEIT)",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "latitude": {
+        "description": "Latitude",
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "longitude": {
+        "description": "Longitude",
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "modifiedTimestamp": {
+        "description": "Last modified ISO 8601",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "occupation": {
+        "description": "Primary occupation (Beruf)",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "occupations": {
+        "description": "All listed occupations",
+        "items": {
+          "type": "string"
+        },
+        "type": [
+          "array",
+          "null"
+        ]
+      },
+      "portalUrl": {
+        "description": "Arbeitsagentur portal URL",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "postalCode": {
+        "description": "Postal code (PLZ)",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "publishedDate": {
+        "description": "Date posted (YYYY-MM-DD)",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "quereinstiegSuitable": {
+        "description": "Career-change (Quereinstieg) suitable",
+        "type": [
+          "boolean",
+          "null"
+        ]
+      },
+      "region": {
+        "description": "Federal state / region",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "salary": {
+        "description": "Annual gross salary when disclosed (EUR)",
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "salaryType": {
+        "description": "Salary disclosure type (e.g. JAHRESGEHALT)",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "scrapedAt": {
+        "description": "ISO 8601 scrape timestamp",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "startDate": {
+        "description": "Job start date (YYYY-MM-DD)",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "street": {
+        "description": "Street address",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "title": {
+        "description": "Job title",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "workingTimeFullTime": {
+        "description": "Full-time position",
+        "type": [
+          "boolean",
+          "null"
+        ]
+      },
+      "workingTimePartTime": {
+        "description": "Part-time position",
+        "type": [
+          "boolean",
+          "null"
+        ]
+      },
+      "workingTimeShift": {
+        "description": "Shift / night / weekend work",
+        "type": [
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "type": "object"
+  },
+  "title": "Arbeitsagentur Jobs",
+  "views": {
+    "detailed": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "city": {
+            "format": "text",
+            "label": "City"
+          },
+          "contractDuration": {
+            "format": "text",
+            "label": "Contract"
+          },
+          "country": {
+            "format": "text",
+            "label": "Country"
+          },
+          "employer": {
+            "format": "text",
+            "label": "Employer"
+          },
+          "externalUrl": {
+            "format": "link",
+            "label": "Apply"
+          },
+          "homeOfficePossible": {
+            "format": "text",
+            "label": "Home Office"
+          },
+          "id": {
+            "format": "text",
+            "label": "Ref Nr"
+          },
+          "latitude": {
+            "format": "number",
+            "label": "Lat"
+          },
+          "longitude": {
+            "format": "number",
+            "label": "Lng"
+          },
+          "occupation": {
+            "format": "text",
+            "label": "Occupation"
+          },
+          "portalUrl": {
+            "format": "link",
+            "label": "Portal"
+          },
+          "postalCode": {
+            "format": "text",
+            "label": "PLZ"
+          },
+          "publishedDate": {
+            "format": "text",
+            "label": "Posted"
+          },
+          "region": {
+            "format": "text",
+            "label": "Region"
+          },
+          "salary": {
+            "format": "number",
+            "label": "Salary (EUR)"
+          },
+          "scrapedAt": {
+            "format": "text",
+            "label": "Scraped At"
+          },
+          "startDate": {
+            "format": "text",
+            "label": "Starts"
+          },
+          "title": {
+            "format": "text",
+            "label": "Title"
+          }
+        }
+      },
+      "title": "Detailed Results",
+      "transformation": {
+        "fields": [
+          "id",
+          "title",
+          "occupation",
+          "employer",
+          "city",
+          "postalCode",
+          "region",
+          "country",
+          "latitude",
+          "longitude",
+          "publishedDate",
+          "startDate",
+          "contractDuration",
+          "salary",
+          "homeOfficePossible",
+          "externalUrl",
+          "portalUrl",
+          "scrapedAt"
+        ]
+      }
+    },
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "city": {
+            "format": "text",
+            "label": "City"
+          },
+          "employer": {
+            "format": "text",
+            "label": "Employer"
+          },
+          "portalUrl": {
+            "format": "link",
+            "label": "Portal"
+          },
+          "publishedDate": {
+            "format": "text",
+            "label": "Posted"
+          },
+          "region": {
+            "format": "text",
+            "label": "Region"
+          },
+          "title": {
+            "format": "text",
+            "label": "Title"
+          }
+        }
+      },
+      "title": "Overview",
+      "transformation": {
+        "fields": [
+          "title",
+          "employer",
+          "city",
+          "region",
+          "publishedDate",
+          "portalUrl"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "description": "Search devices, get full specs, browse by brand, or list top phones from GSMArena.",
+  "properties": {
+    "availability": {
+      "default": "",
+      "description": "Filter by device availability (mode=search).",
+      "editor": "select",
+      "enum": [
+        "",
+        "1",
+        "2",
+        "3",
+        "5"
+      ],
+      "enumTitles": [
+        "All",
+        "Available",
+        "Coming soon",
+        "Discontinued",
+        "Rumored"
+      ],
+      "prefill": "",
+      "title": "Availability filter",
+      "type": "string"
+    },
+    "brandSlug": {
+      "description": "Brand slug for mode=byBrand. Example: `samsung`, `apple`, `xiaomi`, `google`, `huawei`, `sony`, `nokia`, `motorola`, `oneplus`, `realme`, `honor`, `oppo`, `vivo`, `lenovo`.",
+      "editor": "textfield",
+      "prefill": "samsung",
+      "title": "Brand slug (mode=byBrand)",
+      "type": "string"
+    },
+    "deviceUrl": {
+      "description": "Full URL or slug for mode=deviceDetails. Example: `samsung_galaxy_s25_ultra-12610` or `https://www.gsmarena.com/samsung_galaxy_s25_ultra-12610.php`.",
+      "editor": "textfield",
+      "prefill": "samsung_galaxy_s25_ultra-12610",
+      "title": "Device URL or slug",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Maximum number of device records to return.",
+      "maximum": 2000,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to scrape.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "deviceDetails",
+        "byBrand",
+        "topDevices"
+      ],
+      "enumTitles": [
+        "Search / filter devices",
+        "Full specs for one device (by URL or slug)",
+        "All devices for a brand",
+        "Top devices by popularity"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "osFilter": {
+      "default": "",
+      "description": "Filter by operating system (mode=search).",
+      "editor": "select",
+      "enum": [
+        "",
+        "2",
+        "3",
+        "1",
+        "10",
+        "4",
+        "5",
+        "6",
+        "7",
+        "9"
+      ],
+      "enumTitles": [
+        "All",
+        "Android",
+        "iOS",
+        "Feature phones",
+        "KaiOS",
+        "Windows Phone",
+        "Symbian",
+        "BlackBerry (RIM)",
+        "Bada",
+        "Firefox OS"
+      ],
+      "prefill": "",
+      "title": "OS filter",
+      "type": "string"
+    },
+    "searchQuery": {
+      "default": "Samsung Galaxy",
+      "description": "Free-text search (mode=search). Example: `Samsung Galaxy S25`.",
+      "editor": "textfield",
+      "prefill": "Samsung Galaxy",
+      "title": "Search query",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "0",
+      "description": "Sort search results (mode=search and mode=topDevices).",
+      "editor": "select",
+      "enum": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "enumTitles": [
+        "Popularity",
+        "Price",
+        "Weight",
+        "Camera resolution",
+        "Battery capacity"
+      ],
+      "prefill": "0",
+      "title": "Sort order",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "GSMArena Scraper Input",
+  "type": "object"
+}
