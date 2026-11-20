@@ -1,0 +1,173 @@
+{
+  "description": "Search Corporations Canada by corporate name, or fetch exact records by corporation number, business number (BN), or internal corporation ID.",
+  "properties": {
+    "businessNumbers": {
+      "default": [],
+      "description": "Exact CRA business numbers to look up, e.g. `847871746` (with or without the `RC0001` program-account suffix).",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Business numbers / BN (mode=byBusinessNumber)",
+      "type": "array"
+    },
+    "corpAct": {
+      "default": "",
+      "description": "Restrict search results to corporations incorporated under this federal act.",
+      "editor": "select",
+      "enum": [
+        "",
+        "6",
+        "14",
+        "3",
+        "9",
+        "7",
+        "8",
+        "12",
+        "5",
+        "13"
+      ],
+      "enumTitles": [
+        "Any act",
+        "Canada Business Corporations Act",
+        "Canada Not-for-profit Corporations Act",
+        "Canada Corporations Act - Part II",
+        "Special Act of Parliament",
+        "Boards of Trade Act - Part I",
+        "Boards of Trade Act - Part II",
+        "Canada Cooperatives Act",
+        "Pension Fund Societies Act",
+        "Other"
+      ],
+      "prefill": "",
+      "title": "Governing legislation / act (mode=search)",
+      "type": "string"
+    },
+    "corpName": {
+      "default": "Shopify",
+      "description": "Free-text corporate name search, e.g. `Shopify`. Matches whole or partial legal names on Corporations Canada.",
+      "editor": "textfield",
+      "prefill": "Shopify",
+      "title": "Corporate name (mode=search)",
+      "type": "string"
+    },
+    "corpNumbers": {
+      "default": [],
+      "description": "Exact corporation numbers to look up, e.g. `426160-7`.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Corporation numbers (mode=byCorporationNumber)",
+      "type": "array"
+    },
+    "corpProvince": {
+      "default": "",
+      "description": "Restrict search results to corporations whose registered office is in this province/territory.",
+      "editor": "select",
+      "enum": [
+        "",
+        "AB",
+        "BC",
+        "MB",
+        "NB",
+        "NF",
+        "NT",
+        "NS",
+        "NU",
+        "ON",
+        "PE",
+        "QC",
+        "SK",
+        "YT"
+      ],
+      "enumTitles": [
+        "Any province",
+        "Alberta",
+        "British Columbia",
+        "Manitoba",
+        "New Brunswick",
+        "Newfoundland and Labrador",
+        "Northwest Territories",
+        "Nova Scotia",
+        "Nunavut",
+        "Ontario",
+        "Prince Edward Island",
+        "Quebec",
+        "Saskatchewan",
+        "Yukon Territory"
+      ],
+      "prefill": "",
+      "title": "Province of registered office (mode=search)",
+      "type": "string"
+    },
+    "corpStatus": {
+      "default": "",
+      "description": "Restrict search results to corporations with this status.",
+      "editor": "select",
+      "enum": [
+        "",
+        "1",
+        "9",
+        "10",
+        "11"
+      ],
+      "enumTitles": [
+        "Any status",
+        "Active",
+        "Inactive - Amalgamated",
+        "Inactive - Discontinued",
+        "Dissolved"
+      ],
+      "prefill": "",
+      "title": "Corporation status (mode=search)",
+      "type": "string"
+    },
+    "corporationIds": {
+      "default": [],
+      "description": "Internal Corporations Canada `corpId` values to fetch directly, e.g. `4261607`. Get these from a prior search result's `corpId` field or from a bookmarked `fdrlCrpDtls.html?corpId=...` URL.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Corporation IDs (mode=byCorporationId)",
+      "type": "array"
+    },
+    "includeFullDetails": {
+      "default": true,
+      "description": "Fetch the full corporation detail page for every match (registered office address, directors, individuals with significant control, annual filings, corporate name history). When off, only the fast list-level fields are returned (name, numbers, status).",
+      "prefill": true,
+      "title": "Include full details",
+      "type": "boolean"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Hard cap on emitted records.",
+      "maximum": 200,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byCorporationNumber",
+        "byBusinessNumber",
+        "byCorporationId"
+      ],
+      "enumTitles": [
+        "Search by corporate name",
+        "Lookup by corporation number",
+        "Lookup by business number (BN)",
+        "Lookup by corporation ID"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Corporations Canada Registry Scraper Input",
+  "type": "object"
+}

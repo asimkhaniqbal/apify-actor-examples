@@ -1,0 +1,120 @@
+{
+  "description": "Search Europages for European B2B companies by product, service, or company name.",
+  "properties": {
+    "companyUrls": {
+      "default": [],
+      "description": "List of Europages company profile URLs to fetch.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Company URLs (mode=companyDetails)",
+      "type": "array"
+    },
+    "country": {
+      "default": "DE",
+      "description": "Filter by country name or 2-letter ISO code (e.g. 'DE', 'France', 'Italy').",
+      "editor": "select",
+      "enum": [
+        "",
+        "DE",
+        "FR",
+        "IT",
+        "ES",
+        "GB",
+        "NL",
+        "BE",
+        "PL",
+        "SE",
+        "AT",
+        "CH",
+        "DK",
+        "FI",
+        "NO",
+        "PT",
+        "CZ",
+        "HU",
+        "RO",
+        "GR",
+        "TR",
+        "RU",
+        "UA",
+        "HR",
+        "SK",
+        "BG"
+      ],
+      "enumTitles": [
+        "All countries",
+        "Germany",
+        "France",
+        "Italy",
+        "Spain",
+        "United Kingdom",
+        "Netherlands",
+        "Belgium",
+        "Poland",
+        "Sweden",
+        "Austria",
+        "Switzerland",
+        "Denmark",
+        "Finland",
+        "Norway",
+        "Portugal",
+        "Czech Republic",
+        "Hungary",
+        "Romania",
+        "Greece",
+        "Turkey",
+        "Russia",
+        "Ukraine",
+        "Croatia",
+        "Slovakia",
+        "Bulgaria"
+      ],
+      "prefill": "DE",
+      "title": "Country filter",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Maximum number of company records to return.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "searchCompanies",
+      "description": "How to search Europages.",
+      "editor": "select",
+      "enum": [
+        "searchCompanies",
+        "searchByCategory",
+        "searchByCountry",
+        "companyDetails"
+      ],
+      "enumTitles": [
+        "Search companies by query",
+        "Browse by product category",
+        "Browse companies by country",
+        "Fetch company details by URL"
+      ],
+      "prefill": "searchCompanies",
+      "title": "Mode",
+      "type": "string"
+    },
+    "query": {
+      "default": "food processing equipment",
+      "description": "Product, service, or company name to search for.",
+      "editor": "textfield",
+      "prefill": "food processing equipment",
+      "title": "Search query",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Europages Scraper Input",
+  "type": "object"
+}
