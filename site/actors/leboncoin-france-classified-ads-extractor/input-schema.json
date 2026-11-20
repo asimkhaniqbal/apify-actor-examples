@@ -1,39 +1,281 @@
 {
   "properties": {
+    "adType": {
+      "default": "offer",
+      "description": "Offers are listings for sale or rent; demands are wanted ads.",
+      "editor": "select",
+      "enum": [
+        "offer",
+        "demand",
+        "all"
+      ],
+      "enumTitles": [
+        "Offers",
+        "Wanted ads",
+        "Both"
+      ],
+      "prefill": "offer",
+      "title": "Ad type",
+      "type": "string"
+    },
     "category": {
-      "description": "Leboncoin category ID. Verified IDs: 9 = Ventes immobilières (real estate sales), 10 = Locations (rentals), 2 = Voitures (cars), 6 = Équipement auto, 17 = Téléphones, 33 = Offres d'emploi (jobs). For other categories, find the ID in any leboncoin.fr search URL (e.g. ?category=N) or use startUrls. Used only when no startUrls.",
+      "description": "Leboncoin category ID used when no search URL is pasted. Common IDs: 9 = property sales, 10 = rentals, 2 = cars, 6 = car parts, 17 = phones, 33 = jobs. You can find any other ID in a leboncoin.fr search URL after ?category=.",
       "editor": "number",
+      "maximum": 99999,
       "minimum": 1,
-      "title": "Category ID (optional)",
+      "title": "Category ID",
       "type": "integer"
+    },
+    "condition": {
+      "description": "Goods filter. Values: 1 = new, 6 = refurbished, 2 = very good, 3 = good, 7 = fair, 5 = for parts.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "1",
+          "6",
+          "2",
+          "3",
+          "7",
+          "5"
+        ],
+        "enumTitles": [
+          "New",
+          "Refurbished",
+          "Very good",
+          "Good",
+          "Fair",
+          "For parts"
+        ],
+        "type": "string"
+      },
+      "title": "Item condition",
+      "type": "array"
+    },
+    "contractType": {
+      "description": "Jobs filter. Values: 1 = fixed-term, 2 = permanent, 3 = temporary, 4 = freelance, 5 = apprenticeship, 6 = internship, 7 = volunteering.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7"
+        ],
+        "enumTitles": [
+          "Fixed-term",
+          "Permanent",
+          "Temporary",
+          "Freelance",
+          "Apprenticeship",
+          "Internship",
+          "Volunteering"
+        ],
+        "type": "string"
+      },
+      "title": "Job contract",
+      "type": "array"
+    },
+    "locations": {
+      "description": "French places to search in. Paste the values Leboncoin uses in its own URL, for example Paris, Lyon, 75015, d_75 (department), r_12 (region), or a full city code such as Paris__48.8566_2.3522_75056. Separate multiple places with one entry each.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Locations",
+      "type": "array"
     },
     "maxItems": {
       "default": 50,
-      "description": "Maximum number of ads to return.",
+      "description": "Stop after this many ads. The actor stops sooner when Leboncoin runs out of matching results.",
+      "editor": "number",
       "maximum": 1000,
       "minimum": 1,
-      "prefill": 5,
-      "title": "Max Items",
+      "prefill": 3,
+      "title": "Maximum ads",
+      "type": "integer"
+    },
+    "mileageMax": {
+      "description": "Vehicle filter: largest odometer reading in kilometres.",
+      "editor": "number",
+      "maximum": 2000000,
+      "minimum": 0,
+      "title": "Maximum mileage (km)",
+      "type": "integer"
+    },
+    "mileageMin": {
+      "description": "Vehicle filter: smallest odometer reading in kilometres.",
+      "editor": "number",
+      "maximum": 2000000,
+      "minimum": 0,
+      "title": "Minimum mileage (km)",
+      "type": "integer"
+    },
+    "ownerType": {
+      "default": "all",
+      "description": "Keep every seller, only private individuals, or only professionals.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "private",
+        "pro"
+      ],
+      "enumTitles": [
+        "All sellers",
+        "Private individuals",
+        "Professionals"
+      ],
+      "prefill": "all",
+      "title": "Seller type",
+      "type": "string"
+    },
+    "priceMax": {
+      "description": "Largest price to include. Leave empty for no upper bound.",
+      "editor": "number",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Maximum price (EUR)",
+      "type": "integer"
+    },
+    "priceMin": {
+      "description": "Smallest price to include. Leave empty for no lower bound.",
+      "editor": "number",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Minimum price (EUR)",
+      "type": "integer"
+    },
+    "realEstateType": {
+      "description": "Real-estate filter. Values: 1 = house, 2 = apartment, 3 = land, 4 = parking, 5 = other.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "enumTitles": [
+          "House",
+          "Apartment",
+          "Land",
+          "Parking",
+          "Other"
+        ],
+        "type": "string"
+      },
+      "title": "Property type",
+      "type": "array"
+    },
+    "roomsMax": {
+      "description": "Real-estate filter: largest number of rooms.",
+      "editor": "number",
+      "maximum": 30,
+      "minimum": 0,
+      "title": "Maximum rooms",
+      "type": "integer"
+    },
+    "roomsMin": {
+      "description": "Real-estate filter: smallest number of rooms.",
+      "editor": "number",
+      "maximum": 30,
+      "minimum": 0,
+      "title": "Minimum rooms",
       "type": "integer"
     },
     "search": {
-      "description": "Free-text keyword. Used with category when no startUrls.",
+      "description": "Free-text keywords, for example a model, a neighbourhood, or a job title. Combine with a category and location for a narrower search.",
       "editor": "textfield",
-      "title": "Search Query (optional)",
+      "title": "Keywords",
+      "type": "string"
+    },
+    "searchInTitle": {
+      "default": false,
+      "description": "Restrict the keyword match to ad titles instead of titles and descriptions.",
+      "prefill": false,
+      "title": "Search keywords in titles only",
+      "type": "boolean"
+    },
+    "shippable": {
+      "default": false,
+      "description": "Return only ads where the seller offers shipping.",
+      "prefill": false,
+      "title": "Shippable only",
+      "type": "boolean"
+    },
+    "sort": {
+      "default": "relevance",
+      "description": "How Leboncoin should order the results.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "newest",
+        "oldest",
+        "price_low",
+        "price_high"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Newest first",
+        "Oldest first",
+        "Price: low to high",
+        "Price: high to low"
+      ],
+      "prefill": "relevance",
+      "title": "Sort order",
       "type": "string"
     },
     "startUrls": {
-      "description": "Leboncoin search URLs (e.g., https://www.leboncoin.fr/recherche?category=10&locations=Paris). Any filters in the URL are preserved.",
+      "description": "Paste one or more leboncoin.fr search URLs. Every filter already in the URL is preserved (location, price, category, sort, property or vehicle filters). When you use this, the search filters below are ignored.",
       "editor": "stringList",
+      "items": {
+        "pattern": "^https?://([a-z0-9-]+\\.)?leboncoin\\.fr/",
+        "type": "string"
+      },
       "prefill": [
         "https://www.leboncoin.fr/recherche?category=10"
       ],
-      "title": "Start URLs",
+      "title": "Search URLs",
       "type": "array"
+    },
+    "surfaceMax": {
+      "description": "Real-estate filter: largest living area in square metres.",
+      "editor": "number",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Maximum surface (m²)",
+      "type": "integer"
+    },
+    "surfaceMin": {
+      "description": "Real-estate filter: smallest living area in square metres.",
+      "editor": "number",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Minimum surface (m²)",
+      "type": "integer"
+    },
+    "yearMax": {
+      "description": "Vehicle filter: newest registration year.",
+      "editor": "number",
+      "maximum": 2100,
+      "minimum": 1900,
+      "title": "Maximum model year",
+      "type": "integer"
+    },
+    "yearMin": {
+      "description": "Vehicle filter: oldest registration year.",
+      "editor": "number",
+      "maximum": 2100,
+      "minimum": 1900,
+      "title": "Minimum model year",
+      "type": "integer"
     }
   },
   "required": [],
   "schemaVersion": 1,
-  "title": "Leboncoin Scraper Input",
+  "title": "Leboncoin France classifieds input",
   "type": "object"
 }

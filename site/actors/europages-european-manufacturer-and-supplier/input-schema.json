@@ -1,120 +1,282 @@
 {
-  "description": "Search Europages for European B2B companies by product, service, or company name.",
+  "description": "Search Europages for European manufacturers, wholesalers and service providers, or fetch specific company profiles.",
   "properties": {
+    "category": {
+      "default": "",
+      "description": "A Europages product/service category name or slug to browse, e.g. `packaging`, `industrial valves`, `food-processing-equipment`. Used when `searchQueries` is empty.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Category (mode=category)",
+      "type": "string"
+    },
     "companyUrls": {
       "default": [],
-      "description": "List of Europages company profile URLs to fetch.",
+      "description": "Europages company profile URLs or bare slugs, e.g. `https://www.europages.co.uk/en/company/weber-food-technology-se-co-kg-508813` or `weber-food-technology-se-co-kg-508813`.",
       "editor": "stringList",
       "prefill": [],
-      "title": "Company URLs (mode=companyDetails)",
+      "title": "Company profile URLs (mode=company)",
       "type": "array"
     },
-    "country": {
-      "default": "DE",
-      "description": "Filter by country name or 2-letter ISO code (e.g. 'DE', 'France', 'Italy').",
+    "countries": {
+      "default": [],
+      "description": "Only return suppliers located in these countries. Leave empty for all Europages countries.",
       "editor": "select",
-      "enum": [
-        "",
-        "DE",
-        "FR",
-        "IT",
-        "ES",
-        "GB",
-        "NL",
-        "BE",
-        "PL",
-        "SE",
-        "AT",
-        "CH",
-        "DK",
-        "FI",
-        "NO",
-        "PT",
-        "CZ",
-        "HU",
-        "RO",
-        "GR",
-        "TR",
-        "RU",
-        "UA",
-        "HR",
-        "SK",
-        "BG"
+      "items": {
+        "enum": [
+          "AD",
+          "AL",
+          "AT",
+          "BA",
+          "BE",
+          "BG",
+          "CH",
+          "CY",
+          "CZ",
+          "DE",
+          "DK",
+          "EE",
+          "ES",
+          "FI",
+          "FR",
+          "GB",
+          "GR",
+          "HR",
+          "HU",
+          "IE",
+          "IS",
+          "IT",
+          "LI",
+          "LT",
+          "LU",
+          "LV",
+          "MD",
+          "MK",
+          "MT",
+          "NL",
+          "NO",
+          "PL",
+          "PT",
+          "RO",
+          "RS",
+          "SE",
+          "SI",
+          "SK",
+          "SM",
+          "TR",
+          "UA"
+        ],
+        "enumTitles": [
+          "Andorra",
+          "Albania",
+          "Austria",
+          "Bosnia & Herzegovina",
+          "Belgium",
+          "Bulgaria",
+          "Switzerland",
+          "Cyprus",
+          "Czech Republic",
+          "Germany",
+          "Denmark",
+          "Estonia",
+          "Spain",
+          "Finland",
+          "France",
+          "United Kingdom",
+          "Greece",
+          "Croatia",
+          "Hungary",
+          "Ireland",
+          "Iceland",
+          "Italy",
+          "Liechtenstein",
+          "Lithuania",
+          "Luxembourg",
+          "Latvia",
+          "Moldova",
+          "Macedonia",
+          "Malta",
+          "Netherlands",
+          "Norway",
+          "Poland",
+          "Portugal",
+          "Romania",
+          "Serbia",
+          "Sweden",
+          "Slovenia",
+          "Slovakia",
+          "San Marino",
+          "Turkey",
+          "Ukraine"
+        ],
+        "type": "string"
+      },
+      "prefill": [
+        "DE"
       ],
-      "enumTitles": [
-        "All countries",
-        "Germany",
-        "France",
-        "Italy",
-        "Spain",
-        "United Kingdom",
-        "Netherlands",
-        "Belgium",
-        "Poland",
-        "Sweden",
-        "Austria",
-        "Switzerland",
-        "Denmark",
-        "Finland",
-        "Norway",
-        "Portugal",
-        "Czech Republic",
-        "Hungary",
-        "Romania",
-        "Greece",
-        "Turkey",
-        "Russia",
-        "Ukraine",
-        "Croatia",
-        "Slovakia",
-        "Bulgaria"
-      ],
-      "prefill": "DE",
-      "title": "Country filter",
-      "type": "string"
+      "title": "Supplier countries",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "employeeCounts": {
+      "default": [],
+      "description": "Only return suppliers in these employee-count bands. Leave empty for every company size.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "1-4",
+          "5-9",
+          "10-19",
+          "20-49",
+          "50-99",
+          "100-199",
+          "200-499",
+          "500-999",
+          "1000+"
+        ],
+        "enumTitles": [
+          "1-4 employees",
+          "5-9 employees",
+          "10-19 employees",
+          "20-49 employees",
+          "50-99 employees",
+          "100-199 employees",
+          "200-499 employees",
+          "500-999 employees",
+          "1000+ employees"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Employee range",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "includeDetails": {
+      "default": false,
+      "description": "Adds VAT ID, certificates, named contacts, product portfolio and categories by opening each company's profile page. Adds one request per company.",
+      "prefill": false,
+      "title": "Open each company profile",
+      "type": "boolean"
     },
     "maxItems": {
       "default": 20,
-      "description": "Maximum number of company records to return.",
-      "maximum": 500,
+      "description": "Maximum number of company records to return across all keywords and countries.",
+      "maximum": 5000,
       "minimum": 1,
-      "prefill": 20,
-      "title": "Max items",
+      "prefill": 3,
+      "title": "Max suppliers",
+      "type": "integer"
+    },
+    "maxPages": {
+      "default": 100,
+      "description": "Europages returns 30 companies per page and caps a single search at 100 pages (about 3,000 companies).",
+      "maximum": 100,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Max result pages per keyword",
       "type": "integer"
     },
     "mode": {
-      "default": "searchCompanies",
-      "description": "How to search Europages.",
+      "default": "search",
+      "description": "Search by keyword, browse a product category, browse a country, or fetch specific company profile URLs. Legacy mode names are accepted for saved tasks.",
       "editor": "select",
       "enum": [
+        "search",
+        "category",
+        "country",
+        "company",
         "searchCompanies",
         "searchByCategory",
         "searchByCountry",
         "companyDetails"
       ],
       "enumTitles": [
-        "Search companies by query",
-        "Browse by product category",
-        "Browse companies by country",
-        "Fetch company details by URL"
+        "Search by keyword",
+        "Browse a product category",
+        "Browse a country",
+        "Fetch company profiles",
+        "Search companies (legacy)",
+        "Browse by category (legacy)",
+        "Browse by country (legacy)",
+        "Fetch company details (legacy)"
       ],
-      "prefill": "searchCompanies",
+      "prefill": "search",
       "title": "Mode",
       "type": "string"
     },
-    "query": {
-      "default": "food processing equipment",
-      "description": "Product, service, or company name to search for.",
-      "editor": "textfield",
-      "prefill": "food processing equipment",
-      "title": "Search query",
+    "partitionByCountry": {
+      "default": true,
+      "description": "When more than 3,000 suppliers are requested without a country filter, search each Europages country separately and deduplicate the results.",
+      "prefill": false,
+      "title": "Split large searches by country",
+      "type": "boolean"
+    },
+    "searchQueries": {
+      "default": [
+        "food processing equipment"
+      ],
+      "description": "Product, service or industry keywords to search on Europages, e.g. `food processing equipment`, `packaging machinery`, `cnc machining`. Required for search, category and country modes. One search per keyword.",
+      "editor": "stringList",
+      "prefill": [
+        "food processing equipment"
+      ],
+      "title": "Search keywords",
+      "type": "array"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Relevance keeps Europages' own ranking; Distance sorts by distance from the proxy location.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "distance"
+      ],
+      "enumTitles": [
+        "Relevance (Europages ranking)",
+        "Distance"
+      ],
+      "prefill": "relevance",
+      "title": "Sort order",
       "type": "string"
+    },
+    "supplierTypes": {
+      "default": [],
+      "description": "Only return suppliers with at least one of these business roles. Leave empty for every type.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "Production",
+          "CustomerSpecificManufacturing",
+          "Distribution",
+          "Service",
+          "Wholesaler"
+        ],
+        "enumTitles": [
+          "Manufacturer / producer",
+          "Customer-specific manufacturer",
+          "Distributor",
+          "Service provider",
+          "Wholesaler"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Supplier type",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "verifiedOnly": {
+      "default": false,
+      "description": "Only return companies whose Europages profile is verified.",
+      "prefill": false,
+      "title": "Verified companies only",
+      "type": "boolean"
     }
   },
   "required": [
     "mode"
   ],
   "schemaVersion": 1,
-  "title": "Europages Scraper Input",
+  "title": "Europages European Supplier Finder Input",
   "type": "object"
 }

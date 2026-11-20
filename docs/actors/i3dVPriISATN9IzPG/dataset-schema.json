@@ -10,8 +10,16 @@
         "description": "Generic attributes (real estate fields, car specs, etc.)",
         "type": "object"
       },
+      "attributesDetailed": {
+        "description": "Every published category attribute with key, label, value and generic flag",
+        "type": "array"
+      },
       "body": {
         "description": "Ad description text (truncated)",
+        "type": "string"
+      },
+      "brand": {
+        "description": "Brand for vehicles and goods",
         "type": "string"
       },
       "categoryId": {
@@ -26,6 +34,10 @@
         "description": "City",
         "type": "string"
       },
+      "cityLabel": {
+        "description": "Full city label shown by Leboncoin",
+        "type": "string"
+      },
       "country": {
         "description": "Country code",
         "type": "string"
@@ -34,9 +46,17 @@
         "description": "Department name",
         "type": "string"
       },
+      "departmentId": {
+        "description": "Department code",
+        "type": "string"
+      },
       "expirationDate": {
         "description": "Expiration date",
         "type": "string"
+      },
+      "favorites": {
+        "description": "Number of favourites",
+        "type": "integer"
       },
       "hasPhone": {
         "description": "Whether phone is exposed",
@@ -54,8 +74,28 @@
         "description": "All large image URLs",
         "type": "array"
       },
+      "indexDate": {
+        "description": "Date the ad was last indexed",
+        "type": "string"
+      },
+      "isBoosted": {
+        "description": "Boosted ad flag",
+        "type": "boolean"
+      },
+      "isGallery": {
+        "description": "Gallery ad flag",
+        "type": "boolean"
+      },
       "isHighlighted": {
         "description": "Highlighted ad flag",
+        "type": "boolean"
+      },
+      "isPhotosup": {
+        "description": "Photo-up ad flag",
+        "type": "boolean"
+      },
+      "isSubToplist": {
+        "description": "Sub-toplist ad flag",
         "type": "boolean"
       },
       "isUrgent": {
@@ -78,6 +118,10 @@
         "description": "Seller name",
         "type": "string"
       },
+      "ownerSiren": {
+        "description": "Professional seller SIREN when published",
+        "type": "string"
+      },
       "ownerStoreId": {
         "description": "Pro store ID (if pro)",
         "type": "string"
@@ -86,9 +130,25 @@
         "description": "private / pro",
         "type": "string"
       },
+      "pageNumber": {
+        "description": "Leboncoin results page the ad was read from",
+        "type": "integer"
+      },
+      "position": {
+        "description": "Position in the returned results",
+        "type": "integer"
+      },
       "price": {
         "description": "Price in EUR",
         "type": "integer"
+      },
+      "priceCents": {
+        "description": "Price in euro cents",
+        "type": "integer"
+      },
+      "priceCurrency": {
+        "description": "Price currency (EUR)",
+        "type": "string"
       },
       "publishedDate": {
         "description": "First publication date",
@@ -98,8 +158,16 @@
         "description": "Region name",
         "type": "string"
       },
+      "regionId": {
+        "description": "Region code",
+        "type": "string"
+      },
       "scrapedAt": {
         "description": "ISO 8601 scrape timestamp",
+        "type": "string"
+      },
+      "searchUrl": {
+        "description": "Search URL that produced the ad",
         "type": "string"
       },
       "status": {

@@ -17,6 +17,7 @@ This is the same database used to confirm whether a company is a legitimate fede
   - `byCorporationId` — direct fetch using the registry's internal corporation ID
 - **Full public filing per corporation:** legal name, corporation number, business number, status, governing legislation, registered office address, directors, individuals with significant control (or exemption reason), annual filing history, corporate name history, and every certificate/filing on record (incorporation, amendments, restated articles, revival, proxy circulars, financial statements)
 - **Filters:** province/territory of registered office, corporation status (active/dissolved/etc.), governing federal act
+- **Pagination:** configurable `maxPages` plus a hard `maxItems` cap, with deduplication by corporation ID
 - **No login, no cookies, no paid proxy** — reads Corporations Canada's public search pages directly
 - **Empty fields are omitted** — every record only contains data the registry actually published for that corporation
 
@@ -30,13 +31,17 @@ This is the same database used to confirm whether a company is a legitimate fede
 | `businessNumber` | CRA business number, including program-account suffix if on file (e.g. `847871746RC0001`) |
 | `status` | Current status text (e.g. `Active`, `Dissolved for non-compliance (s. 212) on 2009-04-17`) |
 | `statusDate` | Date associated with the status, when the registry publishes one (dissolution/discontinuance date) |
+| `statusCategory` | Normalised status bucket: `Active`, `Inactive - Amalgamated`, `Inactive - Discontinued`, or `Dissolved` |
+| `isActive` | `true` only when the current status is active |
 | `governingLegislation` | Federal act the corporation is incorporated under |
 | `governingLegislationDate` | Date the corporation came under that act (incorporation, continuance, or amalgamation date) |
 | `registeredOfficeAddress` | Full registered office address as filed |
 | `registeredOfficeProvince` | Two-letter province/territory code parsed from the address |
+| `registeredOfficeProvinceName` | Full province/territory name for the parsed code |
 | `registeredOfficePostalCode` | Postal code parsed from the address |
 | `directorsMin` / `directorsMax` | Minimum/maximum number of directors permitted per the articles |
 | `directors[]` | Current directors on file — `name`, `address` |
+| `directorCount` | Number of current directors in `directors[]` |
 | `iscExemptionReason` | Why the corporation is exempt from disclosing individuals with significant control (public companies, wholly-owned subsidiaries, etc.) — present instead of `iscIndividuals` when an exemption applies |
 | `iscIndividuals[]` | Individuals with significant control on file — `name`, `address`, `typeOfInterest`, `startDate` |
 | `iscLastUpdated` | Date the ISC information was last updated or confirmed |
@@ -68,6 +73,7 @@ With `includeFullDetails: false`, only `corpId`, `corpName`, `corpNumber`, `busi
 | `corporationIds` | array | – | Internal corporation IDs, e.g. `4261607` (mode=byCorporationId) |
 | `includeFullDetails` | boolean | `true` | Fetch the full detail page per match. Turn off for a fast name/number/status-only listing |
 | `maxItems` | integer | `20` | Hard cap on emitted records (1–200) |
+| `maxPages` | integer | `20` | Maximum result pages per search/lookup query (1–50; 20 results per page) |
 
 ### Example: search by name with filters
 
@@ -108,6 +114,41 @@ With `includeFullDetails: false`, only `corpId`, `corpName`, `corpNumber`, `busi
   "corporationIds": ["4261607"]
 }
 ```
+
+### Example: paginated filtered search
+
+```json
+{
+  "mode": "search",
+  "corpName": "Bank",
+  "corpProvince": "ON",
+  "corpStatus": "1",
+  "includeFullDetails": false,
+  "maxItems": 40,
+  "maxPages": 2
+}
+```
+
+`maxItems` and `maxPages` both apply: the actor stops at whichever limit is reached first. A single page returns 20 search rows, so `maxPages: 2` fetches up to 40 candidates. When `maxPages` stops the run before `maxItems`, the log says how many results remain available.
+
+### Legacy input keys
+
+Old saved tasks and integrations are supported without schema changes. The actor maps these in code before validating:
+
+| Legacy key | Maps to |
+|---|---|
+| `query`, `keyword`, `searchTerm`, `searchTerms`, `companyName`, `corporateName` | `corpName` |
+| `province`, `provinceCode`, `registeredOfficeProvince` | `corpProvince` |
+| `status`, `statusCode`, `corporationStatus` | `corpStatus` |
+| `act`, `governingAct`, `governingLegislation`, `legislation` | `corpAct` |
+| `corpNumber`, `corporationNumber`, `federalCorporationNumber` | `corpNumbers` (and mode `byCorporationNumber`) |
+| `businessNumber`, `bn`, `craBusinessNumber`, `businessNo` | `businessNumbers` (and mode `byBusinessNumber`) |
+| `corporationId`, `corpId`, `internalCorporationId` | `corporationIds` (and mode `byCorporationId`) |
+| `fullDetails`, `includeDetails`, `detailedItems`, `enrichDetails`, `fetchDetails` | `includeFullDetails` |
+| `maxResults`, `maxRecords`, `maxCompanies`, `limit`, `max` | `maxItems` |
+| `pages`, `pageLimit`, `maxPage` | `maxPages` |
+
+Mode aliases such as `name`, `byName`, `byNumber`, `byBN`, `byCorpId`, and `byId` are also accepted. Legacy values win only when the matching visible field is absent or still at its schema default, so a newer task never overrides its own explicit values.
 
 ## Use cases
 

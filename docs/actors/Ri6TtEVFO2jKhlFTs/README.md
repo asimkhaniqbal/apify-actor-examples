@@ -4,146 +4,191 @@
 
 # Collective Horology Watch Inventory & Price Tracker
 
-Pull current inventory from [Collective Horology](https://www.collectivehorology.com), a boutique retailer specializing in independent and artisan watchmakers like Czapek, MING, Armin Strom, Atelier Wen, and Arcanaut. Browse the whole catalog, one brand's collection, or a specific set of watches, with price and availability attached to every listing.
+Collect current inventory from [Collective Horology](https://collectivehorology.com), the Ojai-based boutique for independent and artisan watchmakers: Czapek, Horologer MING, Fears, Armin Strom, Arcanaut, Atelier Wen, Garrick, Sartory-Billard and more. The actor reads the store's public Shopify catalog directly, so prices, stock status, variants and galleries come from live listings rather than a cache.
 
-## What this actor does
+## What it collects
 
-- **Browse all products** — paginate through the full catalog
-- **Browse by brand/collection** — fetch all watches from a specific brand collection (e.g., `ming`, `czapek`, `armin-strom`)
-- **Look up specific products** — fetch individual watches by handle or product URL
-- **Filter by brand** — case-insensitive substring match on vendor/brand name
-- **Filter by max price** — skip products above your budget
-- **Available only** — return only in-stock watches
-- **Empty fields are omitted** — a listing only carries the fields the store actually published for it
+- **Whole catalog** — every product page, 250 per request, paginated to the end.
+- **One collection** — a brand page by handle or URL, with fuzzy name resolution (`ming` finds `horologer-ming`).
+- **Specific products** — one or many handles or product URLs, resolved through the same catalog listing.
+- **Search and filters** — keyword, brand, product type, new/pre-owned condition, price range and in-stock status.
+- **Sorting** — store order, best selling, title, price or newest/oldest.
+- **Complete product shape** — min/max price, sale price, per-variant stock and SKUs, options, description, tags, dates and up to 12 gallery images.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string (enum) | `browseAll` | `browseAll`, `browseCollection`, or `byProductIds` |
-| `collectionHandle` | string | – | Brand collection slug, e.g. `ming`, `czapek` (required for `browseCollection`) |
-| `productHandles` | string[] | `[]` | Product handles or URLs (required for `byProductIds`) |
-| `brandFilter` | string | – | Case-insensitive filter on brand name, e.g. `czapek`, `ming` |
-| `maxPrice` | integer | – | Skip products priced above this USD value |
-| `availableOnly` | boolean | `false` | Only emit currently in-stock products |
-| `maxItems` | integer | `50` | Maximum records to return, 1–1000 |
+| `mode` | string (enum) | `browseAll` | `browseAll`, `browseCollection` or `byProductIds` |
+| `collectionHandle` | string | – | Collection slug or URL; `ming` resolves to `horologer-ming` |
+| `productHandles` | string[] | `[]` | Product handles or full product URLs |
+| `searchQuery` | string | – | All words must appear in title, brand, type, tags, description or SKU |
+| `brandFilter` | string | – | Case-insensitive brand substring, e.g. `czapek` |
+| `productTypeFilter` | string (enum) | `all` | `all`, `Watches`, `Wrist Watch`, `Straps`, `Watch Bracelet`, `Books`, `Shirt`, `Hoodie`, `Mug` |
+| `condition` | string (enum) | `any` | `any`, `new` or `preowned` |
+| `minPrice` | integer | – | Minimum USD price (0–500000) |
+| `maxPrice` | integer | – | Maximum USD price (1–500000) |
+| `availableOnly` | boolean | `false` | Only products with at least one in-stock variant |
+| `sortBy` | string (enum) | `manual` | `manual`, `best-selling`, `title-ascending`, `title-descending`, `price-ascending`, `price-descending`, `created-ascending`, `created-descending` |
+| `maxItems` | integer | `50` | Record cap after filters, 1–1000 |
 
 ### Example inputs
 
-**Browse all watches:**
+**Daily catalog check**
+
+```json
+{ "mode": "browseAll", "maxItems": 25 }
+```
+
+**In-stock watches under $10,000, cheapest first**
+
 ```json
 {
   "mode": "browseAll",
-  "maxItems": 20
+  "productTypeFilter": "Watches",
+  "availableOnly": true,
+  "maxPrice": 10000,
+  "sortBy": "price-ascending",
+  "maxItems": 100
 }
 ```
 
-**Browse MING collection:**
+**A brand collection by URL**
+
+```json
+{
+  "mode": "browseCollection",
+  "collectionHandle": "https://collectivehorology.com/collections/fears"
+}
+```
+
+**Pre-owned MING pieces mentioning a model name**
+
 ```json
 {
   "mode": "browseCollection",
   "collectionHandle": "ming",
-  "availableOnly": true
+  "condition": "preowned",
+  "searchQuery": "mosaic",
+  "maxItems": 20
 }
 ```
 
-**Look up specific watches:**
+**Exact products from saved links**
+
 ```json
 {
   "mode": "byProductIds",
   "productHandles": [
-    "czapek-promenade-goutte-de-rosee-limited-availability",
-    "ming-37-07-mosaic-certified-pre-owned"
+    "https://collectivehorology.com/products/ming-37-02-monolith-in-stock-ships-now",
+    "fears-brunswick-40-pre-owned"
   ]
-}
-```
-
-**Filter under $5,000:**
-```json
-{
-  "mode": "browseAll",
-  "maxPrice": 5000,
-  "availableOnly": true,
-  "maxItems": 50
 }
 ```
 
 ## Output
 
-Each record contains:
+Every record carries only fields the store published for that product; empty values are omitted, never sent as `null`.
 
 | Field | Type | Description |
 |---|---|---|
 | `productId` | string | Shopify product ID |
-| `title` | string | Full product title |
-| `brand` | string | Watch brand/vendor (e.g., `Czapek`, `Horologer MING`) |
-| `productType` | string | Product type (e.g., `Watches`) |
-| `productUrl` | string | Direct URL to the product page |
-| `price` | number | Price in USD |
-| `currency` | string | Always `USD` |
-| `compareAtPrice` | number | Original price (present when on sale) |
-| `available` | boolean | Whether the product is in stock |
-| `sku` | string | Product SKU (when provided) |
-| `imageUrl` | string | Primary product image URL |
-| `tags` | string[] | Shopify tags (up to 20) |
-| `description` | string | HTML-stripped product description |
-| `publishedAt` | string | ISO 8601 publish date |
+| `title` | string | Product title |
+| `handle` | string | Product URL handle |
+| `brand` | string | Vendor, e.g. `Czapek`, `Horologer MING` |
+| `productType` | string | Store product type |
+| `productUrl` | string | Absolute product page URL |
+| `price` | number | Lowest variant price (USD) |
+| `priceMin` / `priceMax` | number | Lowest and highest variant price |
+| `compareAtPrice` | number | Original price when the piece is marked down |
+| `onSale` | boolean | Present and `true` when a compare-at price exists |
+| `currency` | string | `USD` |
+| `available` | boolean | At least one variant in stock |
+| `inStockVariantCount` | integer | Number of in-stock variants |
 | `variantCount` | integer | Number of variants |
-| `recordType` | string | Always `watch` |
+| `sku` | string | First published SKU (only some products have one) |
+| `variants` | object[] | `variantId`, `title`, `sku`, `price`, `compareAtPrice`, `available`, `option1`–`option3`, `grams`, `weight`, `weightUnit` |
+| `productOptions` | object[] | `{ name, values }` for each Shopify option |
+| `imageUrl` | string | Primary image |
+| `imageUrls` | string[] | Up to 12 distinct images, tracking parameters removed |
+| `imageCount` | integer | Images retained in `imageUrls` |
+| `tags` | string[] | Up to 20 store tags |
+| `tagCount` | integer | Total tags published |
+| `description` | string | HTML-stripped product description |
+| `collectionHandle` | string | Set in collection mode |
+| `createdAt` | string | ISO 8601 creation time |
+| `publishedAt` | string | ISO 8601 publish time |
+| `updatedAt` | string | Product update time, else newest variant update |
+| `recordType` | string | `watch`, `strap`, `book`, `merchandise` or `product` |
 | `scrapedAt` | string | ISO 8601 scrape timestamp (UTC) |
 
-### Example output record
+### Example record
 
 ```json
 {
-  "productId": "8508756099251",
-  "title": "Czapek Promenade Goutte De Rosée",
-  "brand": "Czapek",
+  "productId": "8290403287219",
+  "title": "MING 37.02 Monolith (In Stock - Ships Now)",
+  "handle": "ming-37-02-monolith-in-stock-ships-now",
+  "brand": "Horologer MING",
   "productType": "Watches",
-  "productUrl": "https://www.collectivehorology.com/products/czapek-promenade-goutte-de-rosee-limited-availability",
-  "price": 60200.00,
+  "productUrl": "https://www.collectivehorology.com/products/ming-37-02-monolith-in-stock-ships-now",
+  "price": 5000.0,
+  "priceMin": 5000.0,
+  "priceMax": 5000.0,
   "currency": "USD",
   "available": true,
-  "sku": "CZAPEK-PGR-001",
-  "imageUrl": "https://cdn.shopify.com/s/files/.../CzapekHeroSquare.001.jpg",
-  "tags": ["czapek", "czapekpreorder", "new"],
-  "description": "Limited edition of 25. Contact us for availability.",
-  "publishedAt": "2026-05-29T10:06:16-07:00",
+  "inStockVariantCount": 1,
   "variantCount": 1,
+  "tags": ["ads", "instock", "ming", "new"],
+  "tagCount": 4,
+  "imageUrl": "https://cdn.shopify.com/s/files/1/0559/0623/8643/files/MINGMonolith37.02.001.jpg",
+  "imageCount": 8,
+  "createdAt": "2025-07-10T11:14:26-07:00",
+  "publishedAt": "2025-07-15T13:47:12-07:00",
   "recordType": "watch",
-  "scrapedAt": "2026-06-02T12:00:00.000000+00:00"
+  "scrapedAt": "2026-11-20T06:00:00+00:00"
 }
 ```
 
-## Use cases
+## How it stays reliable
 
-- **Price tracking** — monitor prices and sale status across a brand's catalog over time
-- **Inventory monitoring** — watch for new arrivals or sold-out pieces in a specific collection
-- **Market research** — survey which independent watchmakers are carried and at what price points
-- **Collector alerts** — check for availability of a specific limited-edition piece by handle
+- Requests are paced and retried up to five times. A `429` response honours the server's `Retry-After`; `5xx` responses use exponential backoff.
+- Pages continue until the catalog is exhausted, the requested `maxItems` is reached, or the store returns a short page. Products are deduplicated by `productId`.
+- `byProductIds` resolves requested handles from the catalog listing instead of individual product endpoints, which the store rate-limits from data-center addresses.
+- If the collection endpoint fails on a fresh catalog read, one legacy `/products.json` attempt is made before reporting failure.
+- A run that cannot reach the store reports it in the status message and emits nothing. There are no placeholder or sample records.
+
+## Data source and scope
+
+- Public Shopify catalog JSON at `collectivehorology.com`; no login, cookie, API key or proxy is needed.
+- Prices are US Dollars; the store publishes a single currency.
+- The catalog currently holds about 480 products across two pages at 250 per page. The actor can page further as the store grows.
+- SKU and barcode are sparse or empty upstream; fields appear only when the store fills them.
+- Numeric Shopify product IDs are not routable on the public storefront; use the handle or product URL in `byProductIds`.
+
+## Saved-task compatibility
+
+Older task keys still work without being shown in the form: `query`, `keyword`, `brand`, `type`, `inStockOnly`, `max_price`, `limit`, `collectionUrl`, `productUrls`, `handles` and their underscore variants are mapped onto the current fields in code. A task saved with the previous prefill (`browseAll`, 5 items) produces the same kind of records.
 
 ## FAQ
 
-**Is this affiliated with Collective Horology?**
-No. This is an independent, third-party actor that reads Collective Horology's publicly available catalog pages and is not affiliated with or endorsed by Collective Horology.
+**Do I need a proxy or cookies?** No. The catalog JSON is public and the actor reads it directly.
 
-**Which brands are available on Collective Horology?**
-Collective Horology carries independent and artisan watch brands including Czapek, MING (Horologer MING), Armin Strom, Atelier Wen, Arcanaut, Carl Suchy & Söhne, and others. Use `mode=browseAll` to discover all brands.
+**Why are some prices missing?** A handful of products are published without a positive price (for example, made-to-order enquiries). Those records omit `price` rather than inventing one.
 
-**How do I find the collection handle for a brand?**
-Visit the brand's page on collectivehorology.com. The URL slug after `/collections/` is the collection handle (e.g., `https://www.collectivehorology.com/collections/ming` → `ming`).
+**Why does `sku` only appear on a few records?** Collective Horology fills SKU for a small subset of products; the value is omitted when the source has none.
 
-**Do I need a login or proxy to use this?**
-No. Collective Horology's catalog pages are publicly accessible without authentication or a proxy.
+**Can I track price changes?** Run the actor on a schedule and compare `price` across datasets; the store does not publish a price-history endpoint.
 
-**Are prices in USD?**
-Yes. The store prices all products in US Dollars.
+**Can I filter by box, papers or production year?** The storefront does not publish those attributes, so the actor does not expose filters it cannot honour.
 
-**Can I filter only pre-owned watches?**
-Pre-owned watches are tagged with `preowned`. Browse all and filter in your downstream pipeline, or use `browseCollection` with a pre-owned collection handle if the brand offers one.
+**Why are product pages not fetched one by one?** Individual product endpoints are rate-limited from data-center IPs. The actor resolves saved handles through the catalog listing, which returns the same price, stock and variant data and keeps runs reliable.
 
-**Why is `compareAtPrice` missing on most listings?**
-It's only included when a watch is actively marked down from a higher listed price. Full-price listings simply don't have that field.
+**Is this affiliated with Collective Horology?** No. It is an independent data tool that reads the publicly available catalog and is not endorsed by the retailer.
 
-**How often is the catalog updated?**
-Each run reads the live catalog, so results reflect whatever Collective Horology has published — including new arrivals and sold-out pieces — at run time.
+## Use cases
+
+- Watch new arrivals and limited editions across independent brands.
+- Monitor stock and price for a shortlist of references.
+- Compare pre-owned versus new inventory in one dataset.
+- Feed a market-research pipeline with structured brand, type and price data.

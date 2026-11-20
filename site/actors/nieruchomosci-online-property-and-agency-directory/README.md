@@ -16,9 +16,14 @@ Nieruchomosci-online.pl is one of Poland's largest independent real estate porta
 
 - `title`, `description`
 - `price` (PLN), `pricePerM2` (PLN), `currency`
-- `rooms`, `size` (m²)
-- `address`, `city`, `region`, `country`
+- `rooms`, `size` (m²), `floorLevel`, `yearBuilt`
+- `address`, `city`, `district`, `region`, `country`
+- `latitude`, `longitude`
 - `imageUrl`
+- `sellerType` (`agency` / `private` / `developer` / `company`), `agencyName`, `agentName`, `agentPhone`, `agentUrl`, `isProAgent`, `noCommission`
+- `marketType` (`primary` / `secondary`), `dateModified`
+- `details` — extra card facts such as `totalFloors`, `conditionType`, `parkingType`, `garageType`, `completionDate`
+- `virtualTourUrl`, `videoUrl` when the listing publishes them
 - `propertyType`, `transactionType`
 - `url`
 - `recordType: "listing"`, `scrapedAt`
@@ -29,9 +34,13 @@ Developer new-build projects from the site's `/inwestycje/` hub — each record 
 
 - `title` (the source's own price-teaser headline, e.g. "Mieszkania od 629 000 zł do 849 000 zł")
 - `price` (PLN, starting price), `pricePerM2` (PLN), `currency`
-- `address`, `city`, `region`, `country`
+- `address`, `city`, `district`, `region`, `country`, `latitude`, `longitude`
 - `imageUrl`
+- `developerName`, `developerUrl`, `salesOfficeName`, `salesOfficeAddress`, `salesOfficeCity`, `salesOfficePostalCode`, `agentPhone`
+- `availableUnits` — currently advertised unit count
+- `sellerType` (`developer`), `marketType` (`primary`), `dateModified`
 - `category` (`"Inwestycje"`)
+- `virtualTourUrl`, `videoUrl` when published
 - `url`
 - `recordType: "investment"`, `scrapedAt`
 
@@ -39,13 +48,15 @@ Developer new-build projects from the site's `/inwestycje/` hub — each record 
 
 - `title`, `description`
 - `price` (PLN), `pricePerM2` (PLN), `currency`
-- `rooms`, `bathrooms`, `size` (m²), `floorLevel`, `yearBuilt`
-- `address`, `city`, `region`, `country`, `latitude`, `longitude`
+- `rooms`, `bedrooms`, `bathrooms`, `size` (m²), `floorLevel`, `yearBuilt`
+- `address`, `city`, `district` where available, `region`, `country`, `latitude`, `longitude`
 - `amenities[]` — e.g. Parking, Elevator, Balcony, Garage, WiFi
 - `details` — extra structured facts that vary by property type (e.g. `totalFloors`, `buildingType`, `landArea`, `landType` for plots; `numberOfUnits`, `unitMix`, `yearBuilt` for developer projects)
 - `availableUnits` — currently-available unit count (developer-project pages only)
 - `images[]`
-- `agentName`, `agentAddress`
+- `agentName`, `agentAddress`, `agentPhone`
+- `sellerType`, `marketType`
+- `virtualTourUrl`, `videoUrl` when published
 - `datePosted`
 - `category`, `transactionLabel` — Polish labels from the site's own breadcrumb (e.g. `category: "Inwestycje"` for a developer-project URL instead of a property-type label)
 - `url`
@@ -77,6 +88,7 @@ From the site's `/biura-nieruchomosci/` (agencies) and `/deweloperzy/` (develope
 | `propertyType` | string | `mieszkanie` | Apartment / room / house / plot / commercial premises / commercial building (mode=search) |
 | `transactionType` | string | `sprzedaz` | For sale / for rent (mode=search) |
 | `sortBy` | string | `newest` | Newest / price asc-desc / price-per-m² asc-desc / area asc-desc (mode=search) |
+| `sellerType` | string | `any` | `any` / `agency` / `private` / `developer` / `company` — keeps only offers from that seller type (mode=search; every investment project is a developer) |
 | `minPrice` / `maxPrice` | int | – | Price range in PLN (mode=search or mode=investments) |
 | `minRooms` / `maxRooms` | int | – | Room count range (mode=search) |
 | `minSize` / `maxSize` | int | – | Size range in m² (mode=search) |
@@ -165,10 +177,21 @@ From the site's `/biura-nieruchomosci/` (agencies) and `/deweloperzy/` (develope
 
 **Why do some listings have no `price`?** New-development marketing cards (mode=`search`/`investments`) sometimes leave `price`/`size` blank on the search-result card itself — the actor detects this and automatically fetches that listing's own detail page to backfill the real figures (same data `mode=byUrl` returns), so this happens transparently in the vast majority of cases. Only the rare listing that has genuinely never published a price anywhere on the site (even its own detail page) ends up with the field omitted rather than a fabricated placeholder.
 
-**Can I search a district/neighborhood within a city?** Not currently — only city-level search is supported. District/street are still returned as part of `address` when available.
+**Can I search a district/neighborhood within a city?** Not as an input filter — the site's district filter needs JavaScript and is not applied server-side. `district` (e.g. `Ochota`, `Nowa Huta`) is extracted and returned on every listing where the source publishes it, so you can filter the dataset by district after the run. `address` and `city` are also returned as separate fields.
+
+**What does `sellerType` mean?** The source labels every card with a publisher type. The actor normalizes it to `agency`, `private` (ad placed directly by the owner), `developer` (new-build project) or `company`, and exposes it as `sellerType`. Set `sellerType: "private"` to keep only owner-placed offers, or `agency` to exclude private sellers.
+
+**Do I get the full photo gallery?** Search and investment cards publish only the cover photo (`imageUrl`); the full `images[]` array is returned in `mode=byUrl` from each listing's detail page. Use `byUrl` when you need every photo, the floor plan facts, or the full description.
 
 **What is `mode=investments`?** It browses the site's dedicated `/inwestycje/` hub — brand-new multi-unit developments from developers, listed nationwide. Each record represents a whole project (not one flat), so `price`/`pricePerM2` are the project's advertised *starting* price. The hub doesn't support server-side city scoping, so — same as `search` — `city` is applied client-side as an optional narrowing filter over the nationwide feed; clear the `city` field for unfiltered nationwide results. `minRooms`/`maxRooms`/`minSize`/`maxSize`/`sortBy` aren't offered for this mode since a project spans many unit sizes/layouts rather than one, and the hub doesn't support sorting.
 
 **How fresh is the data?** Listings and projects are scraped live on every run — pricing, availability and descriptions reflect what's currently published on the site.
 
 **Is a proxy or login required?** No — the actor works entirely over plain HTTP with no authentication or paid proxy.
+
+## Limitations
+
+- **District filter:** returned per listing but not accepted as an input filter (the site's own district widget is JavaScript-only). Filter the dataset downstream by `district`.
+- **Rows per run:** `maxItems` is capped at 2,000. The actor scans up to 60 result pages and deduplicates by URL, so a broad search returns the first 2,000 unique matches; split by city/property type to reach more.
+- **Search-card depth:** `mode=search` and `mode=investments` return the card payload (plus one automatic detail fetch when price/size are blank). Full galleries, amenities and free-text building facts require `mode=byUrl`.
+- **Single portal:** this actor covers Nieruchomosci-online.pl only; it does not aggregate Otodom, OLX, Morizon or other portals.

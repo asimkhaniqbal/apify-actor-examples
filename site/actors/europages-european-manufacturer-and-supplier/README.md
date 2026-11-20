@@ -1,103 +1,140 @@
-# Europages European Manufacturer & Supplier Finder
+# Europages European Supplier Finder
 
-Europages is the directory most European manufacturers, wholesalers and service companies use to list themselves for cross-border trade. This actor searches it by product keyword, browses it by category or by country, or pulls a company's own profile directly from its URL, and returns the location, size and contact details each listing publishes.
+Europages is one of Europe's largest B2B directories, listing manufacturers, wholesalers, distributors and service companies across the continent. This actor turns a product keyword, a category, a country or a set of company profile links into structured supplier records: location, company size, products, supplier roles, phone, website, certifications and optional VAT/contact enrichment.
+
+No Europages account, cookie or API key is needed. The actor reads the public search and company pages, rotating through Apify's datacenter proxy automatically so the site's bot challenge does not stop a run.
 
 ## What this actor does
 
-- **Four modes:** `searchCompanies` (keyword search), `searchByCategory` (search scoped to a product/service category term), `searchByCountry` (browse listings for one country, defaults to a generic "manufacturer" query when no keyword is given), and `companyDetails` (fetch specific profile URLs directly)
-- **Country filter** restricts any search mode to one of 25 European markets
-- **Paginates automatically** through Europages' result pages until `maxItems` is reached or the listing runs out
-- **Captures contact and sizing data** — employee range, phone, website, and quality certifications, when the profile publishes them
-- **Empty fields are omitted** — a field only appears on a record when Europages actually published that value
+- **Search by keyword** — one or many product/service keywords, each run independently and deduplicated by company.
+- **Browse a product category** — use a category name or slug such as `packaging` or `industrial valves`.
+- **Browse a country** — keep the legacy `searchByCountry` behaviour, with an optional keyword.
+- **Fetch specific company profiles** — paste profile URLs or bare slugs; the actor opens each one and returns the full record.
+- **Filter the source** — supplier country, supplier type, employee-count band, verified-only profiles, and relevance or distance ordering.
+- **Paginate** — 30 companies per page, up to Europages' 100-page (about 3,000-company) ceiling per search. Larger requests can be split by country automatically.
+- **Enrich profiles on request** — `includeDetails` adds VAT ID, certificates, named contacts, the product portfolio and product categories.
 
 ## Output per company
 
-- `companyId` — slug/identifier parsed from the Europages profile URL
-- `companyName` — company's listed name
-- `country` — country name or code shown on the listing
-- `city` — city/region shown on the listing
-- `employees` — employee count range as published (e.g. `10 - 49`)
-- `products` — product/service/activity categories listed for the company
-- `certifications` — quality certifications shown on the profile (ISO, CE, etc.)
-- `websiteUrl` — company's own website, when linked
-- `companyUrl` — Europages profile URL for this company
-- `phone` — contact phone number, when published
+Legacy fields (kept for existing integrations):
+
+- `companyId` — profile slug, exactly as returned in the profile URL
+- `companyName` — company name
+- `country` — ISO-2 country code
+- `city` — city
+- `employees` — employee-count band, e.g. `20-49` or `1000+`
+- `products` — comma-separated product names or categories
+- `certifications` — comma-separated certificates (when the profile publishes them)
+- `websiteUrl` — the company's own website
+- `companyUrl` — Europages profile URL
+- `phone` — switchboard phone number
 - `recordType` — always `company`
-- `scrapedAt` — UTC timestamp of when the record was captured
+- `scrapedAt` — UTC capture timestamp
+
+Additional fields:
+
+- `companyNumericId`, `companyUuid`, `companySlug`, `acronym`
+- `countryName`, `street`, `postalCode`, `latitude`, `longitude`
+- `employeeCount`, `foundingYear`, `distributionArea`, `supplierTypes`
+- `description`, `logoUrl`, `imageUrls`, `productCount`
+- `portfolioProducts` — product name, URL, description, image, minimum order quantity and price when published
+- `productCategories` — product headings from the profile
+- `vatId`, `mainBusinessArea`, `mainBusinessAreaSlug`
+- `contacts` — named people with role and phone, when the company publishes them
+- `certificates`, `certificatesCount`, `paymentMethods`, `paymentTerms`, `incoterms`
+- `isEuropagesCustomer`, `responseRate`, `averageResponseTime`
+- `sourceQuery`, `hasDetails`
+
+Every field is omitted when Europages does not publish it. The actor never emits `null`, empty strings or guessed values.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `searchCompanies` | `searchCompanies` / `searchByCategory` / `searchByCountry` / `companyDetails` |
-| `query` | string | `food processing equipment` | Product, service or company keyword (required for `searchCompanies`/`searchByCategory`; optional for `searchByCountry`) |
-| `country` | string | `DE` | 2-letter country code to filter/browse by; leave blank for no country filter |
-| `companyUrls` | array | – | Europages company profile URLs to fetch directly (mode=`companyDetails`) |
-| `maxItems` | integer | `20` | Maximum number of company records to return (1–500) |
+| `mode` | string | `search` | `search` / `category` / `country` / `company` |
+| `searchQueries` | array | `["food processing equipment"]` | Product/service keywords, one search each |
+| `category` | string | — | Category name or slug for `mode=category` |
+| `countries` | array | `[]` | ISO-2 supplier countries; empty means all |
+| `supplierTypes` | array | `[]` | Manufacturer, customer-specific manufacturer, distributor, service provider, wholesaler |
+| `employeeCounts` | array | `[]` | Employee bands: `1-4` … `1000+` |
+| `verifiedOnly` | boolean | `false` | Only verified Europages profiles |
+| `sortBy` | string | `relevance` | `relevance` or `distance` |
+| `companyUrls` | array | `[]` | Profile URLs or slugs for `mode=company` |
+| `includeDetails` | boolean | `false` | Open each profile for VAT, certificates, contacts and products |
+| `maxItems` | integer | `20` | Maximum company records returned |
+| `maxPages` | integer | `100` | Maximum result pages per keyword (30 companies per page) |
+| `partitionByCountry` | boolean | `true` | Split requests above 3,000 rows by country |
 
-### Example: keyword search in one country
+### Example: search German packaging suppliers
+
+```json
+{
+  "mode": "search",
+  "searchQueries": ["packaging"],
+  "countries": ["DE"],
+  "supplierTypes": ["Production", "Distribution"],
+  "employeeCounts": ["20-49", "50-99"],
+  "includeDetails": false,
+  "maxItems": 100
+}
+```
+
+### Example: fetch two company profiles
+
+```json
+{
+  "mode": "company",
+  "companyUrls": [
+    "https://www.europages.co.uk/en/company/weber-food-technology-se-co-kg-508813",
+    "weber-food-technology-se-co-kg-508813"
+  ],
+  "includeDetails": true,
+  "maxItems": 2
+}
+```
+
+### Example: legacy production input
+
+Saved tasks that still send the old keys keep working. The actor maps:
+
+- `mode=searchCompanies` → `search`
+- `mode=searchByCategory` → `category`
+- `mode=searchByCountry` → `country`
+- `mode=companyDetails` → `company`
+- `query` → `searchQueries`
+- `country` → `countries`
 
 ```json
 {
   "mode": "searchCompanies",
   "query": "food processing equipment",
   "country": "DE",
-  "maxItems": 30
-}
-```
-
-### Example: browse a country without a keyword
-
-```json
-{
-  "mode": "searchByCountry",
-  "country": "IT",
-  "maxItems": 50
-}
-```
-
-### Example: category search across all countries
-
-```json
-{
-  "mode": "searchByCategory",
-  "query": "packaging machinery",
-  "country": "",
-  "maxItems": 40
-}
-```
-
-### Example: fetch specific company profiles
-
-```json
-{
-  "mode": "companyDetails",
-  "companyUrls": [
-    "https://www.europages.co.uk/company/example-company.html"
-  ]
+  "maxItems": 20
 }
 ```
 
 ## Use cases
 
-- **Supplier sourcing** — shortlist manufacturers or distributors for a product category in a target country
-- **Lead list building** — collect company name, phone and website for outbound sales in a European market
-- **Market mapping** — count and compare how many listed suppliers exist per country for a product line
-- **Certification screening** — filter prospective suppliers down to ones advertising ISO/CE certification
-- **Profile refresh** — re-fetch a known set of `companyUrls` to check for updated contact details
+- **Supplier sourcing** — shortlist manufacturers or distributors for a product in one or more European markets.
+- **Lead-list building** — collect company name, phone, website, address and size for outbound sales.
+- **Market mapping** — compare how many listed suppliers exist per country or category.
+- **Certification and VAT screening** — add `includeDetails` and filter on the certificates or VAT ID after export.
+- **Profile refresh** — re-fetch a known list of `companyUrls` to check updated contact and product data.
+
+## How it works
+
+Europages serves its search and profile pages as server-rendered Nuxt HTML with a complete `__NUXT_DATA__` payload. The actor decodes that payload instead of relying on brittle CSS selectors. Requests go through Apify's datacenter proxy with a fresh session per request, which clears the AWS WAF challenge that blocks plain HTTP from most networks.
 
 ## FAQ
 
-**Does `searchByCategory` return different results from `searchCompanies`?** No — both run the same keyword search; `searchByCategory` is just a naming convenience for when your `query` is a product/service category rather than a free-text phrase.
+**Do I need cookies or a Europages login?** No. The actor uses only public pages and needs no account, cookie, token or API key.
 
-**What happens if I use `searchByCountry` without a `query`?** As long as `country` is set, the actor searches with a generic `manufacturer` keyword so you still get a browsable set of listings for that country. If both `query` and `country` are blank, the run stops and asks for a keyword.
+**Why is a field missing on some records?** Europages only publishes what each company fills in. Fields the source does not have are omitted rather than filled with a placeholder.
 
-**Why are `employees`, `phone` or `certifications` missing on some records?** Europages only shows these fields when the company itself filled them in on its profile; the actor never fills in a guessed or placeholder value.
+**How many companies can one search return?** Europages caps a single search at 100 pages, about 3,000 companies. For a larger request leave `countries` empty, keep `partitionByCountry` on, and the actor searches country by country and deduplicates the output.
 
-**Can I search without restricting to a country?** Yes — set `country` to an empty string to search across all of Europages' 25 supported countries.
+**Why do some profiles have no email address?** Europages shows the email-exists flag on search cards but does not expose the address itself to anonymous visitors. The actor does not invent one; use `websiteUrl` or the published contact people instead.
 
-**Does this require a Europages account or login?** No — the actor reads only the public search and profile pages that are visible to anyone without signing in.
+**Does `mode=company` accept old-style profile URLs?** It accepts any Europages `/en/company/...` URL and bare slugs. Very old `/companies/...` profile URLs may no longer resolve on Europages; paste the current profile link instead.
 
-**How many pages does a search mode fetch?** It keeps paging until it reaches `maxItems` or Europages returns fewer than 5 results on a page, which signals the end of that result set.
-
-**Is this affiliated with Europages?** No, this is an independent third-party actor that reads Europages' public pages. It is not affiliated with, endorsed by, or sponsored by Europages SA.
+**Is this affiliated with Europages?** No. This is an independent third-party actor that reads publicly available pages. It is not affiliated with, endorsed by or sponsored by Europages or Visable.

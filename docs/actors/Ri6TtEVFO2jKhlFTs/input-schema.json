@@ -1,28 +1,45 @@
 {
-  "description": "Browse all watches, filter by brand or collection, or look up specific products on Collective Horology.",
+  "description": "Browse the Collective Horology catalog, one brand collection, or specific watches, with price and availability filters.",
   "properties": {
     "availableOnly": {
       "default": false,
-      "description": "Only emit products that are currently in stock.",
+      "description": "Only emit products that currently have at least one variant in stock.",
       "prefill": false,
-      "title": "Available only",
+      "title": "In stock only",
       "type": "boolean"
     },
     "brandFilter": {
-      "description": "Case-insensitive substring filter on brand/vendor name, e.g. `ming`, `czapek`, `arcanaut`.",
+      "description": "Case-insensitive substring match on the brand name, e.g. `ming`, `czapek`, `arcanaut`.",
       "editor": "textfield",
-      "title": "Filter by brand (vendor)",
+      "title": "Brand",
       "type": "string"
     },
     "collectionHandle": {
-      "description": "Shopify collection slug, e.g. `ming`, `czapek`, `armin-strom`. Used only in browseCollection mode.",
+      "description": "Brand or collection slug, or paste its URL. Examples: `horologer-ming`, `czapek`, `armin-strom`, `https://collectivehorology.com/collections/fears`. Used in browseCollection mode. Approximate names such as `ming` are resolved automatically.",
       "editor": "textfield",
-      "title": "Collection handle (mode=browseCollection)",
+      "title": "Collection",
+      "type": "string"
+    },
+    "condition": {
+      "default": "any",
+      "description": "Filter by the condition tags Collective Horology publishes.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "new",
+        "preowned"
+      ],
+      "enumTitles": [
+        "Any condition",
+        "New",
+        "Pre-owned"
+      ],
+      "title": "Condition",
       "type": "string"
     },
     "maxItems": {
       "default": 50,
-      "description": "Hard cap on emitted records (1–1000).",
+      "description": "Hard cap on emitted records (1–1000). Filters are applied before this cap.",
       "maximum": 1000,
       "minimum": 1,
       "prefill": 5,
@@ -30,15 +47,22 @@
       "type": "integer"
     },
     "maxPrice": {
-      "description": "Skip products with a price above this value.",
+      "description": "Skip products priced above this amount.",
       "maximum": 500000,
       "minimum": 1,
-      "title": "Max price (USD)",
+      "title": "Maximum price (USD)",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Skip products priced below this amount.",
+      "maximum": 500000,
+      "minimum": 0,
+      "title": "Minimum price (USD)",
       "type": "integer"
     },
     "mode": {
       "default": "browseAll",
-      "description": "What to fetch from Collective Horology.",
+      "description": "Choose what to fetch from Collective Horology.",
       "editor": "select",
       "enum": [
         "browseAll",
@@ -46,8 +70,8 @@
         "byProductIds"
       ],
       "enumTitles": [
-        "Browse all watches (paginated catalog)",
-        "Browse a specific brand/collection",
+        "Browse the whole catalog",
+        "Browse one brand/collection",
         "Look up specific products by handle or URL"
       ],
       "prefill": "browseAll",
@@ -56,11 +80,73 @@
     },
     "productHandles": {
       "default": [],
-      "description": "Shopify product handles, e.g. `czapek-promenade-goutte-de-rosee` or a full product URL. Used only in byProductIds mode.",
+      "description": "Shopify product handles or full product URLs, one per line. Used in byProductIds mode.",
       "editor": "stringList",
       "prefill": [],
-      "title": "Product handles or URLs (mode=byProductIds)",
+      "title": "Product handles or URLs",
       "type": "array"
+    },
+    "productTypeFilter": {
+      "default": "all",
+      "description": "Keep only one product type. Use `all` to include watches, straps, books and merchandise.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "Watches",
+        "Wrist Watch",
+        "Straps",
+        "Watch Bracelet",
+        "Books",
+        "Shirt",
+        "Hoodie",
+        "Mug"
+      ],
+      "enumTitles": [
+        "All product types",
+        "Watches",
+        "Wrist watch",
+        "Straps",
+        "Watch bracelet",
+        "Books",
+        "Shirts",
+        "Hoodies",
+        "Mugs"
+      ],
+      "title": "Product type",
+      "type": "string"
+    },
+    "searchQuery": {
+      "description": "Keep only products whose title, brand, type, tags, description or SKU contain all of these words (case-insensitive).",
+      "editor": "textfield",
+      "title": "Search words",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "manual",
+      "description": "Order applied by Collective Horology before records are emitted.",
+      "editor": "select",
+      "enum": [
+        "manual",
+        "best-selling",
+        "title-ascending",
+        "title-descending",
+        "price-ascending",
+        "price-descending",
+        "created-ascending",
+        "created-descending"
+      ],
+      "enumTitles": [
+        "Store order",
+        "Best selling",
+        "Title A → Z",
+        "Title Z → A",
+        "Price low → high",
+        "Price high → low",
+        "Oldest first",
+        "Newest first"
+      ],
+      "title": "Sort order",
+      "type": "string"
     }
   },
   "required": [

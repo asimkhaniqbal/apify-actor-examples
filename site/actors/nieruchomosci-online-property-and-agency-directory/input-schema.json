@@ -22,7 +22,7 @@
       "description": "Hard cap on emitted records.",
       "maximum": 2000,
       "minimum": 1,
-      "prefill": 20,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
@@ -112,6 +112,28 @@
       ],
       "prefill": "mieszkanie",
       "title": "Property type",
+      "type": "string"
+    },
+    "sellerType": {
+      "default": "any",
+      "description": "Keep only offers published by a given seller type (mode=search; in mode=investments every project is a developer). `any` keeps all sellers. Private means the ad is placed directly by the owner.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "agency",
+        "private",
+        "developer",
+        "company"
+      ],
+      "enumTitles": [
+        "Any seller",
+        "Real estate agency",
+        "Private owner",
+        "Developer",
+        "Company"
+      ],
+      "prefill": "any",
+      "title": "Seller type",
       "type": "string"
     },
     "sortBy": {
