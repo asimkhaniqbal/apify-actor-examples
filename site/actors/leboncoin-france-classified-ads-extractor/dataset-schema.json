@@ -1,0 +1,280 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "properties": {
+      "adType": {
+        "description": "offer / demand",
+        "type": "string"
+      },
+      "attributes": {
+        "description": "Generic attributes (real estate fields, car specs, etc.)",
+        "type": "object"
+      },
+      "body": {
+        "description": "Ad description text (truncated)",
+        "type": "string"
+      },
+      "categoryId": {
+        "description": "Category ID",
+        "type": "string"
+      },
+      "categoryName": {
+        "description": "Category name",
+        "type": "string"
+      },
+      "city": {
+        "description": "City",
+        "type": "string"
+      },
+      "country": {
+        "description": "Country code",
+        "type": "string"
+      },
+      "department": {
+        "description": "Department name",
+        "type": "string"
+      },
+      "expirationDate": {
+        "description": "Expiration date",
+        "type": "string"
+      },
+      "hasPhone": {
+        "description": "Whether phone is exposed",
+        "type": "boolean"
+      },
+      "id": {
+        "description": "Leboncoin list_id",
+        "type": "integer"
+      },
+      "imageCount": {
+        "description": "Number of images",
+        "type": "integer"
+      },
+      "imageUrls": {
+        "description": "All large image URLs",
+        "type": "array"
+      },
+      "isHighlighted": {
+        "description": "Highlighted ad flag",
+        "type": "boolean"
+      },
+      "isUrgent": {
+        "description": "Urgent ad flag",
+        "type": "boolean"
+      },
+      "latitude": {
+        "description": "Latitude",
+        "type": "number"
+      },
+      "longitude": {
+        "description": "Longitude",
+        "type": "number"
+      },
+      "ownerId": {
+        "description": "Seller user ID",
+        "type": "string"
+      },
+      "ownerName": {
+        "description": "Seller name",
+        "type": "string"
+      },
+      "ownerStoreId": {
+        "description": "Pro store ID (if pro)",
+        "type": "string"
+      },
+      "ownerType": {
+        "description": "private / pro",
+        "type": "string"
+      },
+      "price": {
+        "description": "Price in EUR",
+        "type": "integer"
+      },
+      "publishedDate": {
+        "description": "First publication date",
+        "type": "string"
+      },
+      "region": {
+        "description": "Region name",
+        "type": "string"
+      },
+      "scrapedAt": {
+        "description": "ISO 8601 scrape timestamp",
+        "type": "string"
+      },
+      "status": {
+        "description": "active / sold / expired",
+        "type": "string"
+      },
+      "subject": {
+        "description": "Ad title",
+        "type": "string"
+      },
+      "thumbnail": {
+        "description": "Thumbnail image URL",
+        "type": "string"
+      },
+      "url": {
+        "description": "Ad URL",
+        "type": "string"
+      },
+      "zipcode": {
+        "description": "Zip code",
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "title": "Leboncoin Ads",
+  "views": {
+    "detailed": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "categoryName": {
+            "format": "text",
+            "label": "Category"
+          },
+          "city": {
+            "format": "text",
+            "label": "City"
+          },
+          "department": {
+            "format": "text",
+            "label": "Dept"
+          },
+          "id": {
+            "format": "number",
+            "label": "ID"
+          },
+          "imageCount": {
+            "format": "number",
+            "label": "Images"
+          },
+          "latitude": {
+            "format": "number",
+            "label": "Lat"
+          },
+          "longitude": {
+            "format": "number",
+            "label": "Lng"
+          },
+          "ownerName": {
+            "format": "text",
+            "label": "Owner"
+          },
+          "ownerType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "price": {
+            "format": "number",
+            "label": "Price"
+          },
+          "publishedDate": {
+            "format": "text",
+            "label": "Posted"
+          },
+          "region": {
+            "format": "text",
+            "label": "Region"
+          },
+          "scrapedAt": {
+            "format": "text",
+            "label": "Scraped At"
+          },
+          "subject": {
+            "format": "text",
+            "label": "Title"
+          },
+          "thumbnail": {
+            "format": "link",
+            "label": "Thumb"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          },
+          "zipcode": {
+            "format": "text",
+            "label": "Zip"
+          }
+        }
+      },
+      "title": "Detailed Results",
+      "transformation": {
+        "fields": [
+          "id",
+          "subject",
+          "categoryName",
+          "price",
+          "city",
+          "zipcode",
+          "department",
+          "region",
+          "latitude",
+          "longitude",
+          "ownerName",
+          "ownerType",
+          "imageCount",
+          "thumbnail",
+          "publishedDate",
+          "url",
+          "scrapedAt"
+        ]
+      }
+    },
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "categoryName": {
+            "format": "text",
+            "label": "Category"
+          },
+          "city": {
+            "format": "text",
+            "label": "City"
+          },
+          "ownerType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "price": {
+            "format": "number",
+            "label": "Price €"
+          },
+          "publishedDate": {
+            "format": "text",
+            "label": "Posted"
+          },
+          "subject": {
+            "format": "text",
+            "label": "Title"
+          },
+          "url": {
+            "format": "link",
+            "label": "URL"
+          },
+          "zipcode": {
+            "format": "text",
+            "label": "Zip"
+          }
+        }
+      },
+      "title": "Overview",
+      "transformation": {
+        "fields": [
+          "subject",
+          "categoryName",
+          "price",
+          "city",
+          "zipcode",
+          "publishedDate",
+          "ownerType",
+          "url"
+        ]
+      }
+    }
+  }
+}

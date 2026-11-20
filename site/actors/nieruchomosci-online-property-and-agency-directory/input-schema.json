@@ -1,0 +1,166 @@
+{
+  "description": "Search real estate listings on nieruchomosci-online.pl by city, property type and transaction type, or fetch full details for specific listing URLs.",
+  "properties": {
+    "city": {
+      "default": "Warszawa",
+      "description": "Polish city or town name, e.g. `Warszawa`, `Krakow`, `Wroclaw`, `Gdansk`, `Poznan`. Required scope for mode=search. For mode=investments/agencies/developers it's an optional narrowing filter — clear it for nationwide results.",
+      "editor": "textfield",
+      "prefill": "Warszawa",
+      "title": "City",
+      "type": "string"
+    },
+    "listingUrls": {
+      "default": [],
+      "description": "Full nieruchomosci-online.pl listing URLs, e.g. `https://warszawa.nieruchomosci-online.pl/mieszkanie,na-sprzedaz/26869247.html`.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Listing URLs (mode=byUrl)",
+      "type": "array"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Hard cap on emitted records.",
+      "maximum": 2000,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Drop listings priced above this (PLN). Applied client-side against each record's price (mode=search or mode=investments; for investments this is the project's starting price).",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Max price (PLN)",
+      "type": "integer"
+    },
+    "maxRooms": {
+      "description": "Drop listings with more rooms than this (mode=search).",
+      "maximum": 20,
+      "minimum": 1,
+      "title": "Max rooms",
+      "type": "integer"
+    },
+    "maxSize": {
+      "description": "Drop listings larger than this (m²) (mode=search).",
+      "maximum": 1000000,
+      "minimum": 1,
+      "title": "Max size (m²)",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Drop listings priced below this (PLN). Applied client-side against each record's price (mode=search or mode=investments; for investments this is the project's starting price).",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Min price (PLN)",
+      "type": "integer"
+    },
+    "minRooms": {
+      "description": "Drop listings with fewer rooms than this. Only meaningful for apartments/houses/rooms; plots and buildings without a room count always pass through (mode=search).",
+      "maximum": 20,
+      "minimum": 1,
+      "title": "Min rooms",
+      "type": "integer"
+    },
+    "minSize": {
+      "description": "Drop listings smaller than this (m²) (mode=search).",
+      "maximum": 1000000,
+      "minimum": 1,
+      "title": "Min size (m²)",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byUrl",
+        "investments",
+        "agencies",
+        "developers"
+      ],
+      "enumTitles": [
+        "Search listings (city + property type + transaction type)",
+        "Lookup by listing URL(s)",
+        "Browse new-build developer projects (nationwide)",
+        "Browse real estate agencies directory",
+        "Browse developer companies directory"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "propertyType": {
+      "default": "mieszkanie",
+      "description": "Type of property to search (mode=search).",
+      "editor": "select",
+      "enum": [
+        "mieszkanie",
+        "pokoj",
+        "dom",
+        "dzialka",
+        "lokal-uzytkowy",
+        "budynek-uzytkowy"
+      ],
+      "enumTitles": [
+        "Apartment (Mieszkanie)",
+        "Room (Pokój)",
+        "House (Dom)",
+        "Plot / Land (Działka)",
+        "Commercial premises (Lokal użytkowy)",
+        "Commercial building (Budynek użytkowy)"
+      ],
+      "prefill": "mieszkanie",
+      "title": "Property type",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "newest",
+      "description": "Result ordering (mode=search).",
+      "editor": "select",
+      "enum": [
+        "newest",
+        "price_desc",
+        "price_asc",
+        "pricePerM2_desc",
+        "pricePerM2_asc",
+        "area_desc",
+        "area_asc"
+      ],
+      "enumTitles": [
+        "Newest first (default)",
+        "Price: highest first",
+        "Price: lowest first",
+        "Price per m²: highest first",
+        "Price per m²: lowest first",
+        "Area: largest first",
+        "Area: smallest first"
+      ],
+      "prefill": "newest",
+      "title": "Sort order",
+      "type": "string"
+    },
+    "transactionType": {
+      "default": "sprzedaz",
+      "description": "Sale or rent (mode=search).",
+      "editor": "select",
+      "enum": [
+        "sprzedaz",
+        "wynajem"
+      ],
+      "enumTitles": [
+        "For sale (Sprzedaż)",
+        "For rent (Wynajem)"
+      ],
+      "prefill": "sprzedaz",
+      "title": "Transaction type",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Nieruchomosci-online.pl Scraper Input",
+  "type": "object"
+}

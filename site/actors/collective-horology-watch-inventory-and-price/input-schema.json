@@ -1,0 +1,72 @@
+{
+  "description": "Browse all watches, filter by brand or collection, or look up specific products on Collective Horology.",
+  "properties": {
+    "availableOnly": {
+      "default": false,
+      "description": "Only emit products that are currently in stock.",
+      "prefill": false,
+      "title": "Available only",
+      "type": "boolean"
+    },
+    "brandFilter": {
+      "description": "Case-insensitive substring filter on brand/vendor name, e.g. `ming`, `czapek`, `arcanaut`.",
+      "editor": "textfield",
+      "title": "Filter by brand (vendor)",
+      "type": "string"
+    },
+    "collectionHandle": {
+      "description": "Shopify collection slug, e.g. `ming`, `czapek`, `armin-strom`. Used only in browseCollection mode.",
+      "editor": "textfield",
+      "title": "Collection handle (mode=browseCollection)",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Hard cap on emitted records (1–1000).",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Skip products with a price above this value.",
+      "maximum": 500000,
+      "minimum": 1,
+      "title": "Max price (USD)",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "browseAll",
+      "description": "What to fetch from Collective Horology.",
+      "editor": "select",
+      "enum": [
+        "browseAll",
+        "browseCollection",
+        "byProductIds"
+      ],
+      "enumTitles": [
+        "Browse all watches (paginated catalog)",
+        "Browse a specific brand/collection",
+        "Look up specific products by handle or URL"
+      ],
+      "prefill": "browseAll",
+      "title": "Mode",
+      "type": "string"
+    },
+    "productHandles": {
+      "default": [],
+      "description": "Shopify product handles, e.g. `czapek-promenade-goutte-de-rosee` or a full product URL. Used only in byProductIds mode.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Product handles or URLs (mode=byProductIds)",
+      "type": "array"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Collective Horology Scraper Input",
+  "type": "object"
+}

@@ -1,0 +1,39 @@
+{
+  "properties": {
+    "category": {
+      "description": "Leboncoin category ID. Verified IDs: 9 = Ventes immobilières (real estate sales), 10 = Locations (rentals), 2 = Voitures (cars), 6 = Équipement auto, 17 = Téléphones, 33 = Offres d'emploi (jobs). For other categories, find the ID in any leboncoin.fr search URL (e.g. ?category=N) or use startUrls. Used only when no startUrls.",
+      "editor": "number",
+      "minimum": 1,
+      "title": "Category ID (optional)",
+      "type": "integer"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of ads to return.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "search": {
+      "description": "Free-text keyword. Used with category when no startUrls.",
+      "editor": "textfield",
+      "title": "Search Query (optional)",
+      "type": "string"
+    },
+    "startUrls": {
+      "description": "Leboncoin search URLs (e.g., https://www.leboncoin.fr/recherche?category=10&locations=Paris). Any filters in the URL are preserved.",
+      "editor": "stringList",
+      "prefill": [
+        "https://www.leboncoin.fr/recherche?category=10"
+      ],
+      "title": "Start URLs",
+      "type": "array"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "Leboncoin Scraper Input",
+  "type": "object"
+}
