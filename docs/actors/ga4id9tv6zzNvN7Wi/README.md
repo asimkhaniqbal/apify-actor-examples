@@ -118,7 +118,7 @@ Refresh three listings you already follow:
 
 ## How it works
 
-The actor reads the same public search and listing data that powers the Trade Me Property website. It requests 50 listings per page, de-duplicates by listing ID and stops at your `maxItems` limit or when Trade Me has no more matching listings. Optional detail requests reuse the same cookieless connection. Transient rate limits and server errors are retried with backoff.
+The actor reads the same public search and listing data that powers the Trade Me Property website. It requests 50 listings per page, de-duplicates by listing ID and stops at your `maxItems` limit or when Trade Me has no more matching listings. Optional detail requests reuse the same connection. The actor picks up Trade Me's anonymous signed API token from the public property site, so no account or developer key is involved. Transient rate limits and server errors are retried with backoff, and if a data-centre IP is blocked outright the actor switches to Apify's proxy automatically for the rest of the run; there is nothing to configure.
 
 ## Limitations
 
@@ -126,7 +126,8 @@ The actor reads the same public search and listing data that powers the Trade Me
 - Pets-allowed status is not exposed in Trade Me's public listing data, so it cannot be returned.
 - New-development, rural and commercial listings sit in separate Trade Me categories and are outside this residential actor.
 - Some fields are conditional by nature: an auction listing has no numeric price, a brand-new listing may not have GPS coordinates yet, and open homes only exist for properties that schedule them.
-- Trade Me can change its public data format at any time. The actor validates every response and reports a clear status message rather than saving partial or fabricated rows.
+- Trade Me throttles anonymous traffic and may answer a burst of requests with HTTP 429 or a temporary block. The actor backs off and retries, and falls back to Apify's proxy when the direct route is refused. If both routes stay blocked for a whole page, the run stops with a clear status message; listings already collected are kept rather than duplicated or invented.
+- Trade Me can change its public data format at any time. The actor validates every response and reports a clear status message rather than saving fabricated rows.
 
 ## Data source
 

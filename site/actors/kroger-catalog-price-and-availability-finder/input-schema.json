@@ -1,0 +1,75 @@
+{
+  "description": "Search the Kroger product catalog, or look up products by UPC.",
+  "properties": {
+    "maxItems": {
+      "default": 50,
+      "description": "Hard cap on emitted records.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Only emit products priced at or below this amount.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Max price (USD)",
+      "type": "number"
+    },
+    "minPrice": {
+      "description": "Only emit products priced at or above this amount.",
+      "maximum": 100000,
+      "minimum": 0,
+      "title": "Min price (USD)",
+      "type": "number"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byUpc"
+      ],
+      "enumTitles": [
+        "Search products by keyword",
+        "Lookup products by UPC"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "proxyConfiguration": {
+      "description": "Optional Apify proxy. Use Apify proxy (AUTO) if your IP is blocked.",
+      "editor": "proxy",
+      "prefill": {
+        "useApifyProxy": true
+      },
+      "title": "Proxy configuration",
+      "type": "object"
+    },
+    "searchQuery": {
+      "default": "milk",
+      "description": "Free-text query (mode=search), e.g. `milk`, `coffee`, `protein bars`.",
+      "editor": "textfield",
+      "prefill": "milk",
+      "title": "Search query",
+      "type": "string"
+    },
+    "upcs": {
+      "default": [],
+      "description": "UPC / GTIN codes to look up (12-14 digits).",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "UPCs (mode=byUpc)",
+      "type": "array"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Kroger Grocery Scraper Input",
+  "type": "object"
+}

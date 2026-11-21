@@ -1,0 +1,217 @@
+{
+  "description": "Search a retailer's Instacart storefront for priced products, browse a department/aisle, look up specific items by ID, or pull a retailer's store overview.",
+  "properties": {
+    "aisleSlug": {
+      "description": "Which department/aisle (a.k.a. \"collection\") to browse within the selected retailer, e.g. `9797-crackers`, `produce`, or `dynamic_collection-sales` (retailer-wide deals). Run `mode=listAisles` first to get the exact slugs available for your chosen Retailer, or copy one from an Instacart collection URL: instacart.com/store/<retailer>/collections/<slug>.",
+      "editor": "textfield",
+      "prefill": "9797-crackers",
+      "title": "Aisle / department slug (mode=browseAisle)",
+      "type": "string"
+    },
+    "brandContains": {
+      "description": "Keep only items whose brand name contains this text (case-insensitive).",
+      "editor": "textfield",
+      "title": "Brand name contains",
+      "type": "string"
+    },
+    "customRetailerSlug": {
+      "description": "Any Instacart retailer slug, e.g. `whole-foods-market` or `sprouts-farmers-market`. Find a retailer's slug in its Instacart storefront URL: instacart.com/store/<slug>/storefront. Leave empty to use the Retailer dropdown instead.",
+      "editor": "textfield",
+      "title": "Custom retailer slug (overrides Retailer above)",
+      "type": "string"
+    },
+    "inStockOnly": {
+      "default": false,
+      "description": "Drop items that are marked out of stock.",
+      "prefill": false,
+      "title": "In-stock only",
+      "type": "boolean"
+    },
+    "itemIds": {
+      "default": [],
+      "description": "Full Instacart item IDs to look up, e.g. `items_74-17444603` (copy from a `search`, `browseAisle`, or `storeOverview` result's `itemId` field). Must all belong to the same Retailer selected above.",
+      "editor": "stringList",
+      "prefill": [
+        "items_74-17444603"
+      ],
+      "title": "Item IDs (mode=productDetail)",
+      "type": "array"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Hard cap on emitted records.",
+      "maximum": 200,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Drop items priced above this amount (whole dollars).",
+      "maximum": 10000,
+      "minimum": 0,
+      "title": "Max price (USD)",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Drop items priced below this amount (whole dollars).",
+      "maximum": 10000,
+      "minimum": 0,
+      "title": "Min price (USD)",
+      "type": "integer"
+    },
+    "minRating": {
+      "description": "Drop items with an average customer rating below this (out of 5). Items without a public rating are kept (unknown, not zero).",
+      "maximum": 5,
+      "minimum": 0,
+      "title": "Min rating (0-5)",
+      "type": "number"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "browseAisle",
+        "listAisles",
+        "productDetail",
+        "storeOverview"
+      ],
+      "enumTitles": [
+        "Search products by keyword",
+        "Browse a department/aisle (category)",
+        "List a retailer's departments/aisles",
+        "Lookup items by ID",
+        "Store overview (retailer info + trending items)"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "onSaleOnly": {
+      "default": false,
+      "description": "Keep only items currently discounted from their regular price (has a `regularPrice` higher than `price`).",
+      "prefill": false,
+      "title": "On sale only",
+      "type": "boolean"
+    },
+    "orderBy": {
+      "default": "bestMatch",
+      "description": "How to order results.",
+      "editor": "select",
+      "enum": [
+        "bestMatch",
+        "priceAsc",
+        "priceDesc"
+      ],
+      "enumTitles": [
+        "Best match (default)",
+        "Price: low to high",
+        "Price: high to low"
+      ],
+      "prefill": "bestMatch",
+      "title": "Sort order (mode=search, browseAisle)",
+      "type": "string"
+    },
+    "proxyConfiguration": {
+      "default": {
+        "useApifyProxy": true
+      },
+      "description": "Optional. Instacart's storefront does not require a proxy in most regions; enable the free Apify datacenter proxy if you see repeated 429/403 responses.",
+      "editor": "proxy",
+      "prefill": {
+        "useApifyProxy": true
+      },
+      "title": "Proxy configuration",
+      "type": "object"
+    },
+    "retailerSlug": {
+      "default": "costco",
+      "description": "Which Instacart-partnered retailer's storefront to scrape. Pick from the list, or use \"Custom retailer slug\" below to supply any Instacart retailer slug not in this list.",
+      "editor": "select",
+      "enum": [
+        "costco",
+        "safeway",
+        "publix",
+        "cvs",
+        "walgreens",
+        "aldi",
+        "wegmans",
+        "kroger",
+        "meijer",
+        "food-lion",
+        "giant-eagle",
+        "vons",
+        "randalls",
+        "king-soopers",
+        "fred-meyer",
+        "ralphs",
+        "hy-vee",
+        "shoprite",
+        "winn-dixie",
+        "sams-club",
+        "gristedes",
+        "jewel-osco",
+        "acme-markets",
+        "pavilions",
+        "tom-thumb",
+        "smart-final",
+        "bevmo",
+        "cub",
+        "petco",
+        "staples"
+      ],
+      "enumTitles": [
+        "Costco",
+        "Safeway",
+        "Publix",
+        "CVS",
+        "Walgreens",
+        "ALDI",
+        "Wegmans",
+        "Kroger",
+        "Meijer",
+        "Food Lion",
+        "Giant Eagle",
+        "Vons",
+        "Randalls",
+        "King Soopers",
+        "Fred Meyer",
+        "Ralphs",
+        "Hy-Vee",
+        "ShopRite",
+        "Winn-Dixie",
+        "Sam's Club",
+        "Gristedes",
+        "Jewel-Osco",
+        "Acme Markets",
+        "Pavilions",
+        "Tom Thumb",
+        "Smart & Final",
+        "BevMo!",
+        "Cub",
+        "Petco",
+        "Staples"
+      ],
+      "prefill": "costco",
+      "title": "Retailer",
+      "type": "string"
+    },
+    "searchQuery": {
+      "default": "milk",
+      "description": "Keyword to search for within the selected retailer's storefront, e.g. `milk`, `organic eggs`, `paper towels`. Results are filtered so every returned item's name/brand/category contains each significant word of your query (generic words like \"organic\" are ignored for this check). Note: this is a substring check, not full product understanding, so on rare occasions an item that happens to contain all your query words in an unrelated context (e.g. a \"milk chocolate\"-flavored candy matching a search for \"almond milk\") can still slip through.",
+      "editor": "textfield",
+      "prefill": "milk",
+      "title": "Search query (mode=search)",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode",
+    "retailerSlug"
+  ],
+  "schemaVersion": 1,
+  "title": "Instacart Storefront Price Scraper Input",
+  "type": "object"
+}

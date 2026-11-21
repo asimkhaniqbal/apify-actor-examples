@@ -1,0 +1,105 @@
+# HigherEdJobs Academic Job Listings by Category & Region
+
+[HigherEdJobs.com](https://www.higheredjobs.com) is one of the largest US job boards dedicated to careers in higher education. This actor searches live faculty, administrative, and executive job postings by keyword, category, region/state, position type, and institution type, or fetches full job details (description, salary, application deadline) by job ID. No login or API key required.
+
+## What this actor does
+
+- **Two modes:** `search` (browse/filter job listings) and `byJobId` (full detail lookup for specific jobs)
+- **237 job categories** across Admin, Executive, and Faculty tracks — from "Admin - Human Resources" to "Faculty - Technical and Career - Welding"
+- **Geographic filters** — 13 broad regions (US regions, Canada, international) plus 75 individual states/provinces
+- **Position type** — Full-Time / Adjunct-Part-Time
+- **Institution type** — Four-Year, Two-Year/Community College, Outside Higher Education
+- **Location type** — Location-bound vs. Online/Remote
+- **6 sort orders** — priority, date posted, institution, location, job title, category
+- **Empty fields are always omitted** from output
+
+## Output per job
+
+### Search mode
+- `jobId`, `title`, `sourceUrl`
+- `institutionName`
+- `location`, `city`, `state`
+- `category`
+- `salaryText` (when the employer discloses a range)
+- `postedText` (e.g. "Posted 5 days ago")
+- `isPriority`, `isMilitaryFriendly` — employer-purchased listing badges
+- `recordType: "job"`, `scrapedAt`
+
+### Detail mode (`byJobId`) — everything above, plus
+- `description` — full job description, HTML stripped to plain text
+- `datePosted`, `validThrough`
+- `institutionUrl`
+- `country`
+- `positionType` — e.g. `Full-Time`, `Part-Time`
+- `categoryId`
+- `applicationDue` — a date, or `"Open Until Filled"`
+- `industries[]`
+
+## Input
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `mode` | select | `search` | `search` / `byJobId` |
+| `keyword` | string | – | Free-text search (title + institution + location); leave blank to browse by filters only |
+| `onlyTitle` | bool | `false` | Restrict keyword search to job titles only |
+| `jobCategories` | array (select) | – | One or more of 237 job categories |
+| `region` | select | – | Broad geographic region |
+| `subRegions` | array (select) | – | Specific states/provinces |
+| `positionTypes` | array (select) | – | Full-Time / Adjunct-Part-Time (empty = both) |
+| `institutionTypes` | array (select) | – | Four-Year / Two-Year / Outside Higher Ed (empty = all) |
+| `remoteTypes` | array (select) | – | Location Bound / Online-Remote (empty = both) |
+| `sortBy` | select | `1` (Date Posted) | Sort order for results |
+| `priorityOnly` | bool | `false` | Only emit priority-upgrade listings |
+| `jobIds` | array | – | Job codes for `mode=byJobId`, e.g. `179509399` |
+| `proxyConfiguration` | object | AUTO | Apify proxy configuration |
+| `maxItems` | int | `50` | Hard cap on emitted records (1–2000) |
+
+> **Note:** `search` mode needs at least one filter set — a keyword, category, region, or similar. HigherEdJobs' own search endpoint returns zero listings for a completely blank query (no keyword and no filters), so leave `keyword` set or add another filter to browse broadly.
+
+### Example: search
+
+```json
+{
+  "mode": "search",
+  "keyword": "professor",
+  "jobCategories": ["122"],
+  "region": "3",
+  "positionTypes": ["1"],
+  "maxItems": 50
+}
+```
+
+### Example: lookup by job ID
+
+```json
+{
+  "mode": "byJobId",
+  "jobIds": ["179509399", "179514018"]
+}
+```
+
+## Use cases
+
+- **Higher-ed recruiting intelligence** — track new faculty/admin openings by category or region
+- **Career sites / aggregators** — mirror live academic job listings
+- **Labor-market research** — analyze hiring trends by institution type or discipline
+- **Job alerts** — poll a keyword/category combination on a schedule
+- **Salary benchmarking** — collect disclosed salary ranges by category and region
+
+## FAQ
+
+**Do I need an account or cookies?**  No. All search and detail pages used by this actor are publicly accessible without login.
+
+**Why are some jobs missing `salaryText`?**  Many employers don't disclose a salary range; the field is only included when present.
+
+**What's the difference between `region` and `subRegions`?**  `region` is a broad multi-state area (e.g. "US - Southeast"); `subRegions` lets you pick individual states/provinces. Combine them for a state within a specific region, or use `subRegions` alone for state-only filtering.
+
+**What does `isPriority` mean?**  HigherEdJobs lets employers pay to feature a listing; `isPriority` mirrors that on-site badge. It does not affect data completeness.
+
+**How current is the data?**  Real-time — every request hits the live HigherEdJobs search/detail pages, the same ones a job seeker sees in their browser.
+
+**Can `applicationDue` be a date instead of "Open Until Filled"?**  Yes — many listings have a hard deadline; when present it's returned as-is from the listing.
+
+**Why did my run return 0 results even though the filters look fine?**  HigherEdJobs runs bot protection that can occasionally rate-limit or challenge requests for a period of time, independent of your filters. When that happens, the actor's status message explicitly says the search was blocked rather than showing the generic "try widening filters" message you'd see for a genuinely empty result set — so the two cases are never confused. Wait a while and re-run `search`, or switch to `mode=byJobId` if you already have job IDs, since the detail-page endpoint is less often affected.
+
+**When is the proxy configuration actually used?**  Only as a fallback if HigherEdJobs briefly rate-limits requests from Apify's infrastructure; the default free datacenter group is normally all that's needed.
