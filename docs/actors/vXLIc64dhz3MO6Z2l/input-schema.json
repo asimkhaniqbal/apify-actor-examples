@@ -40,7 +40,7 @@
     "maxItems": {
       "default": 20,
       "description": "Hard cap on emitted records.",
-      "maximum": 200,
+      "maximum": 1000,
       "minimum": 1,
       "prefill": 20,
       "title": "Max items",
@@ -114,15 +114,16 @@
       "title": "Sort order (mode=search, browseAisle)",
       "type": "string"
     },
+    "postalCode": {
+      "description": "Five-digit US ZIP code to price this retailer's storefront at, e.g. `10001`. Leave empty to use Instacart's default location for the session. The actor resolves the matching shop and zone before scraping; a ZIP this retailer does not serve fails the run instead of silently returning another market's prices.",
+      "editor": "textfield",
+      "pattern": "^[0-9]{5}$",
+      "title": "Delivery ZIP code (optional)",
+      "type": "string"
+    },
     "proxyConfiguration": {
-      "default": {
-        "useApifyProxy": true
-      },
-      "description": "Optional. Instacart's storefront does not require a proxy in most regions; enable the free Apify datacenter proxy if you see repeated 429/403 responses.",
+      "description": "Optional. Leave empty to let the actor choose a working connection automatically (a proxy is never required). Set this only if you want to use your own proxy configuration.",
       "editor": "proxy",
-      "prefill": {
-        "useApifyProxy": true
-      },
       "title": "Proxy configuration",
       "type": "object"
     },

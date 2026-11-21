@@ -4,69 +4,64 @@
 
 # Global Sources Verified Supplier & Product Finder
 
-Global Sources is a B2B trade platform where buyers source manufacturers and products, mostly out of Asia, and where some supplier profiles carry an on-site "audited/verified" badge. This actor runs product keyword searches, supplier keyword searches, or category browsing, and can restrict any of the three to audited/verified suppliers only.
+Global Sources is a B2B sourcing marketplace where importers find manufacturers, trading companies and wholesale products, mostly from Asia. This actor reads the marketplace's public search results and turns them into structured product or supplier records: FOB price ranges, minimum order quantities, lead times, supplier rank, certificates, verification badges and profile links.
 
-## What this actor does
+It runs without a Global Sources account, cookies, API keys or proxy configuration.
 
-- **Three modes:** `searchProducts` (product keyword search), `searchSuppliers` (supplier keyword search), `categoryBrowse` (browse a fixed product category instead of a keyword)
-- **Verified-only filter** drops any product or supplier that doesn't carry a verified/audited badge
-- **Paginates automatically** through result pages until `maxItems` is reached or a page returns fewer than 5 results
-- **Covers ten top-level categories** for `categoryBrowse` — Electronics, Fashion & Accessories, Home & Garden, Auto & Transportation, Gifts & Premiums, Health & Beauty, Computer & Networking, Machinery & Industrial, Building & Construction, Telecommunications
-- **Empty fields are omitted** — a listing only has the fields Global Sources actually displayed for it
+## What you can collect
 
-## Output per product (modes `searchProducts`, `categoryBrowse`)
+- **Product keyword search** — one or many keywords, each paginated automatically (80 products per request).
+- **Supplier keyword search** — companies that match a product or company keyword (80 suppliers per request).
+- **Category browsing** — walk any of the 22 top-level Global Sources sourcing categories.
 
-- `productId` — identifier parsed from the product URL
-- `title` — product listing title
-- `price` — price or price range as shown on the listing
-- `minOrder` — minimum order quantity, as published
-- `supplier` — manufacturer/supplier name shown on the listing
-- `supplierCountry` — supplier's country
-- `imageUrl` — product thumbnail image
-- `productUrl` — Global Sources product listing URL
-- `verifiedStatus` — verification/audit badge text, when shown
-- `recordType` — always `product`
-- `scrapedAt` — UTC timestamp of when the record was captured
+Filters are applied by Global Sources before results are returned, so you get the supplier set you asked for rather than a post-filtered slice of one page:
 
-## Output per supplier (mode `searchSuppliers`)
+- supplier business type
+- supplier country
+- verified product certificate
+- verified company certificate
+- supplier rank (P0–P6)
+- years in business
+- past export market (supplier search)
+- FOB port (product search)
+- OEM/ODM services
+- trade-show history
+- verified suppliers or manufacturers only
 
-- `supplierId` — identifier parsed from the supplier profile URL
-- `supplier` — company name
-- `supplierCountry` — company's country
-- `products` — main product categories the company lists
-- `verifiedStatus` — verification/audit badge text, when shown
-- `supplierUrl` — Global Sources supplier profile URL
-- `recordType` — always `supplier`
-- `scrapedAt` — UTC timestamp of when the record was captured
+Every keyword is deduplicated by product or supplier ID, so overlapping searches do not emit the same record twice.
 
 ## Input
 
-| Field | Type | Default | Description |
+| Field | Type | Default | What it does |
 |---|---|---|---|
-| `mode` | string | `searchProducts` | `searchProducts` / `searchSuppliers` / `categoryBrowse` |
-| `keyword` | string | `solar panel` | Product or supplier keyword (used for `searchProducts`/`searchSuppliers`; falls back to this default if left empty) |
-| `category` | string | `Electronics` | Product category to browse (mode=`categoryBrowse`); leaving it blank falls back to a `keyword` product search instead of browsing all categories |
-| `verifiedOnly` | boolean | `false` | Keep only listings with a verified/audited supplier badge |
-| `maxItems` | integer | `20` | Maximum number of records to return (1–500) |
+| `mode` | select | `searchProducts` | `searchProducts`, `searchSuppliers` or `categoryBrowse`. |
+| `keywords` | string list | `["solar panel"]` | Product or supplier keywords. Used by both keyword modes; ignored by category browsing. |
+| `category` | select | Consumer Electronics | Top-level category for `categoryBrowse`. Slug values from 1.0.x are still accepted and mapped to the closest current category. |
+| `verifiedOnly` | boolean | `false` | Keep suppliers with a verified-supplier or verified-manufacturer badge. |
+| `businessTypes` | multi-select | empty | Manufacturer, Trading Company, Online Seller, Wholesaler, Buying Office, Exporter, Distributor, Agent, Retailer, Other, Consultant, Importer. |
+| `supplierCountries` | multi-select | empty | Country-level supplier locations. |
+| `productCertificates` | multi-select | empty | CE, ROHS, FCC, Test Report, REACH, EN71, EMC, UL, TUV, ASTM, UKCA, CPC, CB, SGS, Certificate of Compliance, PSE, Certificate of Conformity, CCC, OEKO-Tex 100, ETL. |
+| `companyCertificates` | multi-select | empty | ISO 9001:2015, ISO 14001, BSCI, SGS, FSC, SA8000, ISO 9001:2000, ISO 13485, ISO 9001:2008, OHSAS 18001, ISO/TS 16949. |
+| `supplierRank` | multi-select | empty | P0 (unranked) through P6. |
+| `yearsInBusiness` | multi-select | empty | 0–4, 5–14, 15–24 or 30+ years. |
+| `exportMarkets` | multi-select | empty | Supplier search only: Asia, Australasia, Central/South America, Eastern Europe, Mid East/Africa, North America, Western Europe. |
+| `fobPort` | text | empty | Product search only: a port name such as `Shenzhen` or `Guangzhou`. |
+| `oemServicesOnly` | boolean | `false` | Keep suppliers offering OEM/ODM services. |
+| `tradeShowOnly` | boolean | `false` | Keep suppliers with Global Sources trade-show history. |
+| `maxItems` | integer | `100` | 1–5,000 records across all keywords. |
 
-### Example: product search, verified suppliers only
+### Example: verified Chinese manufacturers with CE-marked solar products
 
 ```json
 {
   "mode": "searchProducts",
-  "keyword": "LED lights",
+  "keywords": ["solar panel"],
+  "businessTypes": ["Manufacturer"],
+  "supplierCountries": ["China"],
+  "productCertificates": ["CE"],
+  "supplierRank": ["5", "6"],
   "verifiedOnly": true,
-  "maxItems": 40
-}
-```
-
-### Example: supplier search
-
-```json
-{
-  "mode": "searchSuppliers",
-  "keyword": "solar panel",
-  "maxItems": 20
+  "maxItems": 80
 }
 ```
 
@@ -75,31 +70,122 @@ Global Sources is a B2B trade platform where buyers source manufacturers and pro
 ```json
 {
   "mode": "categoryBrowse",
-  "category": "Machinery-Industrial",
-  "maxItems": 50
+  "category": "21067",
+  "maxItems": 160
 }
 ```
 
-## Use cases
+### Example: suppliers that export to North America
 
-- **Sourcing shortlists** — pull a first-pass list of manufacturers for a product you want to import
-- **Verified-supplier vetting** — filter straight to audited suppliers before reaching out
-- **Category price scanning** — browse a whole category to see the spread of prices and MOQs
-- **Competitive intelligence** — see which suppliers are listing a specific product keyword and at what price
-- **Procurement research** — compare minimum order quantities across multiple suppliers before negotiating
+```json
+{
+  "mode": "searchSuppliers",
+  "keywords": ["solar panel", "portable power station"],
+  "exportMarkets": ["North America"],
+  "companyCertificates": ["ISO 9001:2015"],
+  "maxItems": 40
+}
+```
+
+## Output
+
+Each record carries `recordType` (`product` or `supplier`) and a UTC `scrapedAt` timestamp. Empty optional fields are omitted, never emitted as `null` or empty strings.
+
+### Product records
+
+| Field | Meaning |
+|---|---|
+| `productId` | Global Sources product ID. |
+| `title` | Product title with search-highlight markup removed. |
+| `price` | Price string as published, with currency (for example `US $8.08 - 8.28`). |
+| `priceMin` / `priceMax` | Numeric FOB bounds when the source publishes a range. |
+| `priceCurrency` | ISO currency code derived from the published price unit. |
+| `priceType` | `range`, `byOrderQuantity`, `fixed`, `negotiable`, or the source value. |
+| `minOrder` | Human-readable MOQ, for example `100 Pieces`. |
+| `minOrderQuantity` / `minOrderUnit` | Numeric MOQ and its unit. |
+| `supplier` / `supplierId` | Supplier company name and Global Sources organisation ID. |
+| `supplierCountry` | Supplier country as published. |
+| `supplierUrl` | Supplier's public showroom homepage. |
+| `supplierRank` / `supplierRankLabel` | Numeric rank and `P0`–`P6` label. |
+| `supplierYears` | Years the supplier has been listed on Global Sources. |
+| `supplierBusinessTypes` | Business types declared on the supplier profile. |
+| `supplierUsp` | Supplier's published unique-selling-point line. |
+| `isVerifiedSupplier` / `isVerifiedManufacturer` | Badge flags. |
+| `verifiedStatus` | Readable badge text derived from the flags. |
+| `imageUrl` | Primary product image. |
+| `imageUrls` | Additional product images, when the source returns them. |
+| `productUrl` | Public product page URL. |
+| `modelNumber` | Model number published on the listing. |
+| `categoryId` / `categoryPath` | Leaf category ID and the full L1 → L4 category path. |
+| `firstListedDate` | First-listed date exactly as the source prints it (MM/YY). |
+| `leadTimeDays` | Lead time in days when the supplier publishes it. |
+| `fobPort` | FOB port when the supplier publishes it. |
+| `videoUrl` / `hasVideo` | Product video URL and whether one exists. |
+| `hasVrShowroom` / `vrShowroomUrl` | Supplier VR showroom flag and URL when present. |
+| `productCertificates` | Verified product certificates attached to the listing. |
+| `companyCertificates` | Verified company certificates on the supplier profile. |
+| `tradeShow` / `tradeShowBooth` | Trade-show history and booth text when present. |
+| `pastTradeShowCount` | Number of past Global Sources shows, when published. |
+
+### Supplier records
+
+| Field | Meaning |
+|---|---|
+| `supplierId` | Global Sources organisation ID. |
+| `supplier` | Company name. |
+| `supplierCountry` | Country as published. |
+| `products` | Main product lines published by the supplier. |
+| `supplierUrl` | Public supplier showroom homepage. |
+| `supplierRank` / `supplierRankLabel` | Numeric rank and `P0`–`P6` label. |
+| `supplierYears` | Years listed on Global Sources. |
+| `logoUrl` | Supplier logo. |
+| `usp` | Published unique-selling-point line. |
+| `businessTypes` | Declared business types. |
+| `employees` | Employee count band published by the supplier. |
+| `exportMarkets` | Regions the supplier has exported to. |
+| `companyCertificates` / `productCertificates` | Verified certificate lists. |
+| `hasVrShowroom` / `vrShowroomUrl` | VR showroom availability and URL. |
+| `tradeShowTimes` / `tradeShow` / `tradeShowBooth` | Trade-show history fields. |
+| `sampleProducts` | Up to three sample products, each with ID, title, image and URL. |
+| `isVerifiedSupplier` / `isVerifiedManufacturer` / `verifiedStatus` | Verification badges. |
+
+## How it works
+
+Global Sources serves its search results from public JSON endpoints behind a Nuxt front end. The actor calls those endpoints directly with a Safari TLS fingerprint, which is enough to avoid the WAF challenge that blocks plain HTTP clients. It does not open product detail pages, does not log in, and does not need a browser or proxy.
+
+Pagination stops when `maxItems` is reached, when the source reports no further pages, or when a page comes back shorter than a full page.
 
 ## FAQ
 
-**What does a "verified" or "audited" badge mean?** Global Sources runs on-site factory audits for some suppliers and marks their listings accordingly; it's a trust signal the platform itself assigns, not something this actor calculates.
+**Do I need a Global Sources account?** No. Everything this actor reads is public.
 
-**Does `verifiedOnly` work in every mode?** Yes — it applies to products, suppliers, and category browsing alike, dropping any record without a verification badge.
+**Do I need to configure a proxy?** No. The actor reaches the public endpoints directly.
 
-**Why do some products show a price range instead of one number?** Global Sources often publishes a price range tied to order quantity tiers; the actor returns exactly what's shown on the listing rather than picking one number.
+**Why do some records have fewer fields?** Global Sources only publishes lead time, FOB port, certificates, video, VR, trade-show text and MOQ units for some listings. Those fields are omitted when the source does not have them.
 
-**Why are some supplier records missing `products`?** That field only appears when the supplier's listing shows its product categories; not every profile publishes this.
+**Does `verifiedOnly` apply to both products and suppliers?** Yes. It drops any record whose supplier lacks a verified-supplier or verified-manufacturer badge.
 
-**Can I browse a category and filter by keyword at the same time?** No — as long as `category` is set, `categoryBrowse` ignores `keyword` and lists everything in that category; use `searchProducts` with a keyword if you need both a category feel and a specific term. If `category` is left blank ("All categories"), the run falls back to a `keyword` product search instead of browsing every category.
+**What is supplier rank?** Global Sources assigns suppliers a P0–P6 level based on its own assessment. P6 is the highest level shown in the public filter.
 
-**Do I need a Global Sources account to run this?** No — it reads only the public search, category, and listing pages that are visible without logging in.
+**What does the price mean?** It is the published FOB price range. When the supplier prices by order quantity, `priceType` is `byOrderQuantity` and the published range is still returned verbatim.
 
-**Is this affiliated with Global Sources?** No, this is an independent third-party actor that reads Global Sources' public pages. It is not affiliated with, endorsed by, or sponsored by Global Sources Ltd.
+**Can I combine category browsing with keywords?** No. `categoryBrowse` walks a whole top-level category; use `searchProducts` with keywords for a narrower search.
+
+**Can I get more than 5,000 records?** Run the actor in batches with narrower keywords, categories, countries or certificates.
+
+**Why not use product detail pages?** The detail pages are protected by a browser-only WAF, while the search JSON already carries the structured fields above. Staying on the JSON endpoints keeps the actor cookieless and reliable. The product and supplier links in the dataset open normally in a browser and return 200 to a Safari-impersonating client; a plain `curl` request is challenged with 403.
+
+**Are duplicate products removed?** Yes. Records are deduplicated by product ID or supplier ID across every keyword in a run.
+
+## Limitations
+
+- Category browsing is limited to the 22 top-level Global Sources categories; it does not recurse into every leaf.
+- Supplier country filtering uses the country-level values the site exposes, not individual Chinese provinces.
+- Product detail pages (descriptions, full spec tables, all gallery images) are not opened; their links still open in a browser.
+- Product and supplier HTML pages answer 200 to a Safari-impersonating client but return 403 to a plain `curl`; the dataset links are not broken.
+- `firstListedDate` is a source string in MM/YY form, not an ISO date.
+- The public search endpoint caps a single request at 80 records; the actor paginates, but very deep result sets are best split by keyword or filter.
+
+## Data source
+
+The actor reads the public product search, supplier search and category endpoints on globalsources.com. It is an independent third-party tool, not affiliated with, endorsed by, or sponsored by Global Sources.

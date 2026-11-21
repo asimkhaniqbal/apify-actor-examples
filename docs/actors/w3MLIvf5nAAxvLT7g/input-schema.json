@@ -1,5 +1,5 @@
 {
-  "description": "Browse live freelance job postings on Guru.com by category, or fetch full job detail pages by URL.",
+  "description": "Browse live freelance job postings on Guru.com with server-side category, keyword, skill, location, budget and sort filters, or fetch full job detail pages by URL.",
   "properties": {
     "budgetType": {
       "default": "any",
@@ -48,6 +48,13 @@
       "title": "Category",
       "type": "string"
     },
+    "includeDetails": {
+      "default": false,
+      "description": "When enabled, each browse result also opens its job-detail page, adding the full description, employer statistics and payment-verification badge. Costs one extra request per emitted job.",
+      "prefill": false,
+      "title": "Fetch full detail pages (browse mode)",
+      "type": "boolean"
+    },
     "jobUrls": {
       "default": [],
       "description": "Full Guru.com job URLs, e.g. https://www.guru.com/jobs/dentist-website-in-wordpress/2119938 (copy the `jobUrl` field from a browse-mode record).",
@@ -57,26 +64,32 @@
       "type": "array"
     },
     "keyword": {
-      "description": "Best-effort client-side filter: only keep jobs whose title, description, category or skills contain this keyword (case-insensitive).",
+      "description": "Guru keyword search, e.g. `python`. Runs server-side through Guru's keyword/skill path; if Guru has no keyword match the actor falls back to filtering the category listing client-side.",
       "editor": "textfield",
-      "title": "Keyword filter (optional)",
+      "title": "Keyword (optional)",
       "type": "string"
     },
+    "locations": {
+      "default": [],
+      "description": "Keep jobs whose client prefers these locations. Use a country name (`India`) or a Guru location path (`l/india`, `ls/united-states/new-york`, `lc/united-states/new-york/new-york`). Multiple entries are combined server-side.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Locations (optional)",
+      "type": "array"
+    },
     "maxItems": {
-      "default": 40,
       "description": "Hard cap on emitted records.",
       "maximum": 500,
       "minimum": 1,
-      "prefill": 40,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
     "maxPages": {
-      "default": 10,
       "description": "Hard cap on the number of listing pages crawled (20 jobs/page).",
       "maximum": 50,
       "minimum": 1,
-      "prefill": 10,
+      "prefill": 1,
       "title": "Max listing pages (mode=browse)",
       "type": "integer"
     },
@@ -89,7 +102,7 @@
         "byJobId"
       ],
       "enumTitles": [
-        "Browse jobs (by category/keyword)",
+        "Browse jobs (category, keyword, skill, location)",
         "Fetch job detail pages (by URL)"
       ],
       "prefill": "browse",
@@ -108,8 +121,42 @@
       "title": "Proxy configuration",
       "type": "object"
     },
+    "skills": {
+      "default": [],
+      "description": "Keep only jobs tagged with every listed skill, e.g. `python`, `automation-testing`. Guru applies these server-side.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Skills (optional, all must match)",
+      "type": "array"
+    },
+    "sortOrder": {
+      "default": "newest",
+      "description": "How Guru should order the listing. Guru honours budget sorts for Fixed Price jobs and hourly-rate sorts for Hourly jobs; the actor maps the equivalent sort automatically when they are combined.",
+      "editor": "select",
+      "enum": [
+        "newest",
+        "oldest",
+        "closing-soon",
+        "budget-high",
+        "budget-low",
+        "hourly-rate-high",
+        "hourly-rate-low"
+      ],
+      "enumTitles": [
+        "Newest first",
+        "Oldest first",
+        "Closing soon",
+        "Budget - highest first",
+        "Budget - lowest first",
+        "Hourly rate - highest first",
+        "Hourly rate - lowest first"
+      ],
+      "prefill": "newest",
+      "title": "Sort order",
+      "type": "string"
+    },
     "subcategory": {
-      "description": "Optional subcategory slug or name within the selected category, e.g. `Web Development & Design`. Ignored when category=all.",
+      "description": "Subcategory title or Guru slug within the selected category, e.g. `Web Development & Design` or `web-development-design`. Ignored when category=all.",
       "editor": "textfield",
       "title": "Subcategory (optional)",
       "type": "string"

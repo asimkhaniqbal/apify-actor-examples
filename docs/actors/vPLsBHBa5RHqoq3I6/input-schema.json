@@ -1,6 +1,13 @@
 {
   "description": "Search HigherEdJobs.com job listings, or fetch full details for specific job IDs.",
   "properties": {
+    "includeDetails": {
+      "default": false,
+      "description": "Fetch each matching job's detail page to add the full description, apply URL, application deadline, posting/valid dates, structured salary and category. Slower and uses one extra request per job.",
+      "prefill": false,
+      "title": "Include full job details (mode=search)",
+      "type": "boolean"
+    },
     "institutionTypes": {
       "default": [],
       "description": "Type of hiring institution. Leave empty for all types.",
@@ -513,7 +520,7 @@
     },
     "jobIds": {
       "default": [],
-      "description": "HigherEdJobs numeric job codes, e.g. `179509399`. Found in the search results or in a job's URL as `JobCode=...`.",
+      "description": "HigherEdJobs numeric job codes or full job URLs, e.g. `179509399` or `https://www.higheredjobs.com/search/details.cfm?JobCode=179509399`.",
       "editor": "stringList",
       "prefill": [],
       "title": "Job IDs (mode=byJobId)",
@@ -528,10 +535,10 @@
     },
     "maxItems": {
       "default": 50,
-      "description": "Hard cap on emitted records (mode=search).",
-      "maximum": 2000,
+      "description": "Hard cap on emitted records. HigherEdJobs serves up to 5,000 results per search; split by category or region to go deeper.",
+      "maximum": 5000,
       "minimum": 1,
-      "prefill": 50,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },

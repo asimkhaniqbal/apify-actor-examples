@@ -4,97 +4,113 @@
 
 # Kroger Catalog Price & Availability Finder
 
-Kroger.com runs the product catalog for America's largest grocery chain. This actor searches that catalog by keyword or looks up specific items by UPC/GTIN, returning product title, brand, size, regular and sale price, unit price, dietary information, department, aisle location, inventory level and product photos.
+Kroger.com publishes store-scoped prices, promotions, ratings, nutrition labels and aisle locations for tens of thousands of grocery items. This actor turns that public catalog into clean product records: search by keyword, look up UPCs or product URLs, or walk whole category pages.
 
 ## What this actor does
 
-- **Two modes:** `search` (keyword catalog search) and `byUpc` (exact UPC/GTIN lookup)
-- **Paginated search** with 24 results per request and price filters applied to every record
-- **Rich records:** price, unit price, sale price, equivalized price, dietary info, department/commodity taxonomy, aisle, stock level
-- **Product photos:** front thumbnail and large image URLs built from the UPC
-- **Empty fields are omitted**
+- **Four ways in:** keyword search, UPC lookup, product-URL lookup, and category browsing.
+- **Store-scoped prices:** regular price, sale/promotional price, unit price and price-format text from the store Kroger serves for the request.
+- **Stock and shelf data:** available count, stock level, aisle, side, bay, shelf and facing count when published.
+- **Product detail:** ratings and review counts, nutrition facts, ingredients, allergens, dietary claims, package dimensions and weight, all product photos, and fulfillment options.
+- **Filters:** regular-price range and availability (`any`, `inStock`, `outOfStock`).
+- **Pagination built in:** search and category modes keep fetching pages until `maxItems` is reached or the source runs out.
+- **Omit-empty output:** a field the source does not publish for a product is absent, never `null` or a placeholder.
 
-## Output per product
-
-- `upc`, `gtin14` — product identifiers
-- `title` — product description, e.g. `Kroger® 1% Lowfat Milk Gallon`
-- `brandName`, `brandCode`
-- `size` — customer-facing size, e.g. `1 gal`
-- `price`, `priceDisplay` — regular price (`3.99` / `$3.99`)
-- `salePrice`, `saleDisplay` — sale price when on offer
-- `unitPrice`, `equivalizedUnitPriceString`, `nfor` — unit-level pricing
-- `priceTemplate` — Kroger's own display-format code for the price block, when published
-- `categories`, `primaryCategory` — e.g. `Dairy`
-- `department`, `commodity`, `subCommodity` — Kroger taxonomy
-- `dietaryInformation` — e.g. `Vegetarian`, `Kosher`
-- `countriesOfOrigin`
-- `aisle` — store aisle description
-- `inventoryAvailable`, `stockLevel` — store stock
-- `imageUrl`, `thumbnailUrl`, `productUrl`
-- `sourceUrl`, `recordType: "product"`, `scrapedAt`
-
-## Input
+## Inputs
 
 | Field | Type | Default | Description |
-|---|---|---|---|
-| `mode` | string | `search` | `search` / `byUpc` |
-| `searchQuery` | string | `milk` | Free-text query (mode=search) |
-| `upcs` | array | – | UPC/GTIN codes (mode=byUpc) |
-| `minPrice` / `maxPrice` | number | – | Price range in USD |
-| `proxyConfiguration` | object | – | Optional Apify proxy; use AUTO if your IP is blocked |
-| `maxItems` | int | `50` | Hard cap (1–500) |
+| --- | --- | --- | --- |
+| `mode` | Select | `search` | `search`, `byUpc`, `byProductUrl` or `byCategory`. |
+| `searchQueries` | String list | `["milk"]` | Keywords for `search`. Multiple queries are combined and deduplicated. |
+| `upcs` | String list | `[]` | 12-14 digit UPC/GTIN codes for `byUpc`. |
+| `productUrls` | String list | `[]` | Kroger product page URLs for `byProductUrl`. The UPC is read from the URL. |
+| `categoryUrls` | String list | `[]` | Kroger category URLs or numeric taxonomy IDs for `byCategory`, e.g. `https://www.kroger.com/pl/fresh-fruit/06111` or `06111`. |
+| `availability` | Select | `any` | `any`, `inStock` or `outOfStock`. |
+| `minPrice` | Number | – | Minimum regular price in USD. |
+| `maxPrice` | Number | – | Maximum regular price in USD. |
+| `maxItems` | Integer | `50` | 1–5000 emitted records. |
 
-### Example: search for a product
+### Examples
 
-```json
-{
-  "mode": "search",
-  "searchQuery": "coffee",
-  "maxItems": 50
-}
-```
-
-### Example: look up products by UPC
+Search for two product types:
 
 ```json
-{
-  "mode": "byUpc",
-  "upcs": ["0001111041700", "0001111001215"]
-}
+{"mode": "search", "searchQueries": ["milk", "coffee"], "maxItems": 40}
 ```
 
-### Example: budget-filtered search
+Look up UPCs:
 
 ```json
-{
-  "mode": "search",
-  "searchQuery": "protein bars",
-  "minPrice": 2,
-  "maxPrice": 8,
-  "maxItems": 100
-}
+{"mode": "byUpc", "upcs": ["0001111041660", "0086102900012"]}
 ```
 
-## Use cases
+Look up product URLs:
 
-- **Price monitoring** — track Kroger prices and sales over time
-- **CPG analytics** — product-level assortment, size and unit-price research
-- **Dietary research** — filter catalogs by vegetarian/kosher/organic claims
-- **Competitive intelligence** — benchmark Kroger pricing against other chains
-- **Shopping apps** — enrich products with aisle and stock data
+```json
+{"mode": "byProductUrl", "productUrls": ["https://www.kroger.com/p/kroger-1-lowfat-milk-gallon/0001111041660"]}
+```
+
+Browse a category, in-stock items only:
+
+```json
+{"mode": "byCategory", "categoryUrls": ["https://www.kroger.com/pl/fresh-fruit/06111"], "availability": "inStock", "maxItems": 50}
+```
+
+## Output
+
+Each record is one product, stamped with `recordType: "product"` and `scrapedAt`.
+
+| Field | Description |
+| --- | --- |
+| `upc`, `gtin14`, `krogerUpc`, `aliasUpcs` | Standard GTIN-13, raw GTIN-14, Kroger's own 13-digit code used in URLs, and alternate codes. |
+| `title`, `brandName`, `brandCode`, `size` | Product name, brand and package size. |
+| `description` | Product description with HTML stripped. |
+| `categories`, `primaryCategory` | Kroger merchandising categories. |
+| `department`, `commodity`, `subCommodity` | Legacy Kroger family-tree taxonomy. |
+| `taxonomyDepartment`, `taxonomyCommodity`, `taxonomySubCommodity` | Current taxonomy breadcrumb. |
+| `dietaryInformation`, `nutritionalClaims` | Dietary and marketing claims. |
+| `price`, `priceDisplay`, `unitPrice`, `pricePerUnitString`, `equivalizedUnitPriceString`, `nfor`, `priceTemplate` | Regular pricing and unit pricing. |
+| `salePrice`, `saleDisplay`, `saleEndDate`, `saleUnitPriceString` | Promotional price when one is published. |
+| `offers`, `promotionText`, `promotionEndDate` | Structured offers and the headline promotion. |
+| `inventoryAvailable`, `stockLevel`, `locationId`, `storeName`, `storeAddress` | Store-scoped stock and the store that supplied it. |
+| `aisle`, `aisleNumber`, `aisleSide`, `bay`, `shelf`, `facings` | Shelf location when published. |
+| `averageRating`, `reviewCount`, `ratingDistribution`, `nutritionalRating` | Ratings and review counts. |
+| `ingredients`, `allergens`, `nutritionFacts`, `servingSize`, `servingsPerContainer` | Nutrition label data. |
+| `organic`, `glutenFree`, `nonGmo`, `kosher`, `fatFree`, `lowFat`, `liveNaturally`, `organicClaim`, `glutenFreeClaim`, `productWarning` | Dietary flags and claims. |
+| `snapEligible`, `soldInStore`, `homeDelivery`, `krogerDelivery`, `alcohol`, `ageRestricted`, `hazmat`, `verified`, `liveNaturallyEligible` | Fulfillment and restriction flags. |
+| `temperature`, `heightIn`, `widthIn`, `lengthIn`, `weightLb` | Storage and package measurements. |
+| `imageUrl`, `thumbnailUrl`, `imageUrls` | Front image, thumbnail and up to ten large photos. |
+| `fulfillmentOptions` | Pickup/delivery/in-store availability, order cap and price. |
+| `productUrl`, `sourceUrl` | Canonical product page and the page the record came from. |
+| `countriesOfOrigin` | Country of origin when published. |
+| `scrapedAt` | ISO capture timestamp. |
+
+## Compatibility
+
+Saved tasks that still send `searchQuery`, `query`, `keyword`, `productUrl` or `categoryUrl` keep working: those keys are mapped in code onto `searchQueries`, `productUrls` and `categoryUrls`. `proxyConfiguration` is accepted but no longer needed. Existing output fields keep their names; new fields are added beside them.
+
+## How it stays reliable
+
+Kroger's web app is fronted by a bot filter that drops plain HTTP requests and non-browser sessions from many networks. The actor reads the same public product pages through a reader mirror that renders the page server-side, then extracts the product objects the page itself embeds. Every fetch is cache-busted so prices are current, requests are paced below the mirror's rate limit, and 429/5xx responses are retried with backoff. No login, cookie, API key or proxy setup is required.
+
+## Limitations
+
+- **Prices and stock are store-scoped.** Kroger selects the store from the request's location; the resulting `locationId`, `storeName` and `storeAddress` are included so you can see which store supplied the price.
+- **Search and category pages return about 24 products per page.** The actor paginates automatically, but very broad queries can take several minutes at the default pacing.
+- **Some values are genuinely absent.** Nutrition labels, ratings, promotions, aisle data and package dimensions exist only for products where Kroger publishes them; those fields are omitted.
+- **Product-URL mode uses the UPC embedded in the URL.** A discontinued product page can still load while its UPC no longer appears in search; the actor then returns the product-page record, which may have no current price.
+- **The catalog is the Kroger banner.** Other Kroger-family banners use different storefronts and are not covered.
 
 ## FAQ
 
-**What is the data source?** Kroger's own public product search and catalog pages at kroger.com. This is an independent third-party actor — not affiliated with, endorsed by, or sponsored by The Kroger Co.
+**Do I need an account, cookies or a proxy?** No. Everything comes from public product pages, and the actor manages its own fetch path.
 
-**Do I need to log in?** No. The actor reads the same public product data the website shows to any visitor — no account, cookies or API keys required.
+**Are sale prices included?** Yes. When Kroger publishes a promotional price for the store, `salePrice`, `saleDisplay` and `saleEndDate` are filled; otherwise those fields are absent.
 
-**Are the prices real-time?** Yes — every run reflects current store prices, including sale prices and unit pricing.
+**Why does a product not have a nutrition label?** Kroger does not publish one for every item, and some third-party brands omit it. The actor never invents values.
 
-**Why are some fields missing?** Empty fields are omitted. Fields like `salePrice` only exist when a product is on sale.
+**Can I search with a UPC?** Yes. Use `mode: "byUpc"` with the code, or paste a full product URL with `mode: "byProductUrl"`.
 
-**Why is `productUrl` a template?** Kroger product URLs are built as `kroger.com/p/<slug>/pid_<upc>`. The actor doesn't have the slug text, so `productUrl` contains a literal `{slug}` placeholder in that position with the real UPC after `pid_`; the `upc` field lets you look the product up directly if that link doesn't resolve for you.
+**Can I combine filters?** Yes. Price and availability filters apply to every record in every mode.
 
-**When would I need the proxy configuration?** Only if Kroger temporarily rate-limits requests from Apify's infrastructure — leave it on `AUTO` unless you see repeated failures.
-
-**Can I search in other languages?** Search is keyword-based and matches the English catalog.
+**Is this affiliated with Kroger?** No. This is an independent tool and is not affiliated with, endorsed by or sponsored by The Kroger Co.

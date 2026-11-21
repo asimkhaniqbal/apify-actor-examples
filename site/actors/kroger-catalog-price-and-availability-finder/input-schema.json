@@ -1,24 +1,53 @@
 {
-  "description": "Search the Kroger product catalog, or look up products by UPC.",
+  "description": "Search Kroger's public product catalog, or look up products by UPC, product URL or category.",
   "properties": {
+    "availability": {
+      "default": "any",
+      "description": "Keep all products, only products in stock, or only products currently out of stock.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "inStock",
+        "outOfStock"
+      ],
+      "enumTitles": [
+        "Any availability",
+        "In stock only",
+        "Out of stock only"
+      ],
+      "prefill": "any",
+      "title": "Availability",
+      "type": "string"
+    },
+    "categoryUrls": {
+      "default": [],
+      "description": "Kroger category page URLs such as `https://www.kroger.com/pl/fresh-fruit/06111`, or a numeric taxonomy ID like `06111`.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Category URLs or IDs (mode=byCategory)",
+      "type": "array"
+    },
     "maxItems": {
       "default": 50,
       "description": "Hard cap on emitted records.",
-      "maximum": 500,
+      "maximum": 5000,
       "minimum": 1,
-      "prefill": 50,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
     "maxPrice": {
-      "description": "Only emit products priced at or below this amount.",
+      "description": "Only emit products whose regular price is at or below this amount.",
       "maximum": 100000,
       "minimum": 0,
       "title": "Max price (USD)",
       "type": "number"
     },
     "minPrice": {
-      "description": "Only emit products priced at or above this amount.",
+      "description": "Only emit products whose regular price is at or above this amount.",
       "maximum": 100000,
       "minimum": 0,
       "title": "Min price (USD)",
@@ -26,41 +55,57 @@
     },
     "mode": {
       "default": "search",
-      "description": "What to fetch.",
+      "description": "What to collect: a keyword search, UPC lookups, product URLs or whole category pages.",
       "editor": "select",
       "enum": [
         "search",
-        "byUpc"
+        "byUpc",
+        "byProductUrl",
+        "byCategory"
       ],
       "enumTitles": [
-        "Search products by keyword",
-        "Lookup products by UPC"
+        "Search by keyword",
+        "Look up UPCs",
+        "Look up product URLs",
+        "Browse categories"
       ],
       "prefill": "search",
       "title": "Mode",
       "type": "string"
     },
-    "proxyConfiguration": {
-      "description": "Optional Apify proxy. Use Apify proxy (AUTO) if your IP is blocked.",
-      "editor": "proxy",
-      "prefill": {
-        "useApifyProxy": true
+    "productUrls": {
+      "default": [],
+      "description": "Kroger product page URLs such as `https://www.kroger.com/p/<slug>/<upc>`. The UPC is read from the URL.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
       },
-      "title": "Proxy configuration",
-      "type": "object"
+      "prefill": [],
+      "title": "Product URLs (mode=byProductUrl)",
+      "type": "array"
     },
-    "searchQuery": {
-      "default": "milk",
-      "description": "Free-text query (mode=search), e.g. `milk`, `coffee`, `protein bars`.",
-      "editor": "textfield",
-      "prefill": "milk",
-      "title": "Search query",
-      "type": "string"
+    "searchQueries": {
+      "default": [
+        "milk"
+      ],
+      "description": "Keywords for mode=search, e.g. `milk`, `coffee`, `protein bars`. Results from all queries are combined and deduplicated.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "milk"
+      ],
+      "title": "Search queries",
+      "type": "array"
     },
     "upcs": {
       "default": [],
-      "description": "UPC / GTIN codes to look up (12-14 digits).",
+      "description": "Kroger UPC/GTIN codes to look up, 12-14 digits. Each code is searched and returned once.",
       "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
       "prefill": [],
       "title": "UPCs (mode=byUpc)",
       "type": "array"
@@ -70,6 +115,6 @@
     "mode"
   ],
   "schemaVersion": 1,
-  "title": "Kroger Grocery Scraper Input",
+  "title": "Kroger Catalog Scraper Input",
   "type": "object"
 }

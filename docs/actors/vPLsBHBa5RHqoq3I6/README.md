@@ -15,29 +15,33 @@
 - **Institution type** — Four-Year, Two-Year/Community College, Outside Higher Education
 - **Location type** — Location-bound vs. Online/Remote
 - **6 sort orders** — priority, date posted, institution, location, job title, category
+- **Pagination up to 5,000 jobs** per search, de-duplicated by job code
+- **Optional detail enrichment** — add descriptions, apply links and deadlines to search results
 - **Empty fields are always omitted** from output
 
 ## Output per job
 
 ### Search mode
 - `jobId`, `title`, `sourceUrl`
-- `institutionName`
-- `location`, `city`, `state`
-- `category`
-- `salaryText` (when the employer discloses a range)
-- `postedText` (e.g. "Posted 5 days ago")
-- `isPriority`, `isMilitaryFriendly` — employer-purchased listing badges
+- `institutionName`, `institutionLogoUrl`
+- `location`, `city`, `state`, `isRemote`
+- `salaryText` plus structured `salaryMin` / `salaryMax` / `salaryAmount`, `salaryCurrency`, `salaryPeriod` (when the employer discloses a range)
+- `postedText` (e.g. "Posted 3h ago")
+- `isPriority`, `isMilitaryFriendly`, `isInclusive` — on-site listing badges
 - `recordType: "job"`, `scrapedAt`
 
-### Detail mode (`byJobId`) — everything above, plus
+### Detail mode (`byJobId`) — the job's identity fields (job ID, title, URL, institution, location, salary, badges), plus:
 - `description` — full job description, HTML stripped to plain text
 - `datePosted`, `validThrough`
 - `institutionUrl`
+- `applyUrl` — the employer's application URL
 - `country`
 - `positionType` — e.g. `Full-Time`, `Part-Time`
-- `categoryId`
+- `category`, `categoryId`
 - `applicationDue` — a date, or `"Open Until Filled"`
 - `industries[]`
+
+With `includeDetails: true`, search records gain the same detail-mode fields when the detail page is reachable (one extra request per job). If a detail page is challenged, the actor retries with a fresh session; records that still cannot be enriched keep their search-card fields and the run status reports how many were affected.
 
 ## Input
 
@@ -54,9 +58,10 @@
 | `remoteTypes` | array (select) | – | Location Bound / Online-Remote (empty = both) |
 | `sortBy` | select | `1` (Date Posted) | Sort order for results |
 | `priorityOnly` | bool | `false` | Only emit priority-upgrade listings |
-| `jobIds` | array | – | Job codes for `mode=byJobId`, e.g. `179509399` |
+| `includeDetails` | bool | `false` | Enrich each search result with its detail page (description, apply URL, deadline, dates, salary) |
+| `jobIds` | array | – | Job codes or full job URLs for `mode=byJobId`, e.g. `179509399` |
 | `proxyConfiguration` | object | AUTO | Apify proxy configuration |
-| `maxItems` | int | `50` | Hard cap on emitted records (1–2000) |
+| `maxItems` | int | `50` | Hard cap on emitted records (1–5000) |
 
 > **Note:** `search` mode needs at least one filter set — a keyword, category, region, or similar. HigherEdJobs' own search endpoint returns zero listings for a completely blank query (no keyword and no filters), so leave `keyword` set or add another filter to browse broadly.
 
@@ -103,6 +108,8 @@
 **How current is the data?**  Real-time — every request hits the live HigherEdJobs search/detail pages, the same ones a job seeker sees in their browser.
 
 **Can `applicationDue` be a date instead of "Open Until Filled"?**  Yes — many listings have a hard deadline; when present it's returned as-is from the listing.
+
+**Why do some `includeDetails` records lack a description?**  HigherEdJobs occasionally challenges detail pages separately from search pages. The actor treats a page with no job data as a failed enrichment, retries it with a fresh session, and keeps the record's search-card fields if the challenge persists. The run status message reports how many detail pages could not be fetched or parsed. Re-run to enrich those records.
 
 **Why did my run return 0 results even though the filters look fine?**  HigherEdJobs runs bot protection that can occasionally rate-limit or challenge requests for a period of time, independent of your filters. When that happens, the actor's status message explicitly says the search was blocked rather than showing the generic "try widening filters" message you'd see for a genuinely empty result set — so the two cases are never confused. Wait a while and re-run `search`, or switch to `mode=byJobId` if you already have job IDs, since the detail-page endpoint is less often affected.
 

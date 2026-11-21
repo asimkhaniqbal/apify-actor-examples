@@ -58,6 +58,7 @@ Scrape **real-time grocery prices from Instacart storefronts** — Costco, Safew
 | `mode` | string | `search` | `search` / `browseAisle` / `listAisles` / `productDetail` / `storeOverview` |
 | `retailerSlug` | string | `costco` | Retailer to scrape (dropdown of 30 popular retailers) |
 | `customRetailerSlug` | string | – | Any Instacart retailer slug not in the dropdown; overrides `retailerSlug` |
+| `postalCode` | string | – | Optional 5-digit US ZIP code. Prices the storefront at that ZIP's shop/zone; empty uses Instacart's default location. |
 | `searchQuery` | string | `milk` | Keyword to search (mode=search) |
 | `orderBy` | string | `bestMatch` | `bestMatch` / `priceAsc` / `priceDesc` (mode=search, browseAisle) |
 | `aisleSlug` | string | – | Department/aisle (collection) slug to browse (mode=browseAisle); discover slugs via `mode=listAisles` |
@@ -68,8 +69,12 @@ Scrape **real-time grocery prices from Instacart storefronts** — Costco, Safew
 | `inStockOnly` | boolean | `false` | Drop out-of-stock items |
 | `onSaleOnly` | boolean | `false` | Keep only items currently discounted from their regular price |
 | `minRating` | number | – | Drop items with an average rating below this (0–5); items without a public rating are kept |
-| `maxItems` | int | `20` | Hard cap on emitted records (1–200) |
-| `proxyConfiguration` | object | Apify proxy (auto) | Optional; enable if you see repeated 429/403s |
+| `maxItems` | int | `20` | Hard cap on emitted records (1–1000) |
+| `proxyConfiguration` | object | auto | Optional. Leave empty and the actor chooses a working connection automatically; a proxy is never required. |
+
+### Compatibility with saved tasks
+
+Older saved tasks that still send the pre-rename keys keep working: `query`/`searchQueries` map to `searchQuery`, `retailer` to `retailerSlug`, `category`/`collection` to `aisleSlug`, `ids`/`productIds` to `itemIds`, `sort`/`sortBy` to `orderBy`, `maxResults`/`limit` to `maxItems`, `zip`/`zipCode`/`postal` to `postalCode`, and `inStock`/`onSale`/`brand` to the matching filters. Legacy keys are accepted silently and never override a value supplied under the current field name.
 
 ### Example: search a retailer by keyword
 
@@ -169,14 +174,23 @@ No — this is an independent, third-party actor that reads Instacart's public s
 **Do I need an Instacart account or login?**
 No. All data comes from Instacart's public, unauthenticated storefront pages, the same pages any visitor sees when browsing without signing in.
 
+**Do I need to configure a proxy?**
+No. Leave `proxyConfiguration` empty and the actor picks a working connection automatically. Instacart rejects requests from many datacenter addresses, so the actor falls back to its own working route when the direct connection is blocked. You never have to supply proxy credentials.
+
 **Why do prices show a specific location's pricing?**
-Instacart prices are location-based. Without a saved delivery address, the actor uses Instacart's default guest location (typically the San Francisco Bay Area). Prices may differ from your local store.
+Instacart prices are location-based. Set `postalCode` to price a specific US ZIP; leave it empty and Instacart resolves the guest session to its default location (usually ZIP 94105, San Francisco). The actor resolves that ZIP's shop and zone before scraping, so every mode uses the selected market.
+
+**Can I choose a ZIP code or country?**
+Yes for US ZIPs: set `postalCode` to a five-digit ZIP such as `10001`. A ZIP the selected retailer does not serve fails the run with a status message rather than returning another market's prices. Non-US postal codes and Canadian storefronts on `instacart.ca` are out of scope.
 
 **Why doesn't a retailer I searched for show up in results?**
 Only retailers that partner with Instacart are available. Use `customRetailerSlug` with the retailer's exact Instacart storefront slug (found in the URL `instacart.com/store/<slug>/storefront`) if it's not in the dropdown.
 
 **How many results does `search` mode return?**
-Instacart's search returns a curated set of best-match results (similar to what a shopper sees on the first search screen) rather than a deep paginated list — typically 10–30 relevant items per query, capped by `maxItems`.
+Instacart's search response contains the full best-match set for the query (including carousels that are only hydrated lazily on the live site). The actor resolves those stubs, so a common query returns dozens to several hundred matches; `maxItems` caps the final output.
+
+**How deep can `browseAisle` go?**
+Instacart returns a department/aisle's full item set to a storefront session in one placements response (the actor follows cursors when the API paginates). Large sale collections can contain several hundred products; `maxItems` accepts up to 1000 so you can pull the whole set.
 
 **How fresh is the pricing data?**
 Prices are fetched live at run time directly from Instacart's storefront.

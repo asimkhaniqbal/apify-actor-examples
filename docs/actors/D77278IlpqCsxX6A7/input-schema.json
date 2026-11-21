@@ -1,12 +1,60 @@
 {
-  "description": "Search Global Sources for products, suppliers, or browse by product category.",
+  "description": "Search Global Sources products or suppliers, or browse a product category. Every filter is optional and applied by Global Sources itself.",
   "properties": {
+    "businessTypes": {
+      "default": [],
+      "description": "Keep suppliers with at least one of these business types. Empty means no filter.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "Manufacturer",
+          "Trading Company",
+          "Online Seller",
+          "Wholesaler",
+          "Buying Office",
+          "Exporter",
+          "Distributor",
+          "Agent",
+          "Retailer",
+          "Other",
+          "Consultant",
+          "Importer"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "sectionCaption": "Filters",
+      "title": "Supplier business types",
+      "type": "array",
+      "uniqueItems": true
+    },
     "category": {
-      "default": "Electronics",
-      "description": "Global Sources product category slug for browsing (e.g. 'Electronics', 'Fashion').",
+      "default": "21067",
+      "description": "Top-level Global Sources category to browse in categoryBrowse mode. Values from earlier versions are still accepted and mapped to the closest current category.",
       "editor": "select",
       "enum": [
-        "",
+        "21067",
+        "34869",
+        "22638",
+        "18244",
+        "21063",
+        "21066",
+        "18269",
+        "50518",
+        "23771",
+        "21043",
+        "22590",
+        "50478",
+        "21104",
+        "21060",
+        "21062",
+        "21064",
+        "48659",
+        "23120",
+        "50218",
+        "48660",
+        "50538",
+        "48658",
         "Electronics",
         "Fashion-Accessories",
         "Home-Garden",
@@ -19,42 +67,126 @@
         "Telecommunications"
       ],
       "enumTitles": [
-        "All categories",
-        "Electronics",
-        "Fashion & Accessories",
-        "Home & Garden",
-        "Auto & Transportation",
-        "Gifts & Premiums",
-        "Health & Beauty",
-        "Computer & Networking",
-        "Machinery & Industrial",
-        "Building & Construction",
-        "Telecommunications"
+        "Consumer Electronics",
+        "Mobile Electronics",
+        "Smart Living Electronics",
+        "Electronic Components",
+        "Household & Pets",
+        "Sports & Outdoors",
+        "Fashion Accessories & Footwear",
+        "Beauty & Personal Care",
+        "Health Care",
+        "Auto Vehicle & Accessories",
+        "Fashion Apparel & Fabrics",
+        "Food & Beverages",
+        "Furniture & Home Decor",
+        "Gifts, Festival & Hobbies",
+        "Hardware",
+        "Home Appliances",
+        "Industrial Supplies",
+        "Machinery & Equipment",
+        "Mother, Kids & Toys",
+        "Printing & Packaging",
+        "School & Office Supplies",
+        "Services",
+        "Electronics (legacy value)",
+        "Fashion Accessories (legacy value)",
+        "Home & Garden (legacy value)",
+        "Auto & Transportation (legacy value)",
+        "Gifts & Premiums (legacy value)",
+        "Health & Beauty (legacy value)",
+        "Computer & Networking (legacy value)",
+        "Machinery & Industrial (legacy value)",
+        "Building & Construction (legacy value)",
+        "Telecommunications (legacy value)"
       ],
-      "prefill": "Electronics",
-      "title": "Product category (categoryBrowse mode)",
+      "prefill": "21067",
+      "title": "Product category",
       "type": "string"
     },
-    "keyword": {
-      "default": "solar panel",
-      "description": "Product or supplier keyword (e.g. 'solar panel', 'LED lights').",
+    "companyCertificates": {
+      "default": [],
+      "description": "Keep suppliers with at least one of these verified company certificates. Empty means no filter.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "ISO 9001:2015",
+          "ISO 14001",
+          "BSCI",
+          "SGS",
+          "FSC",
+          "SA8000",
+          "ISO 9001:2000",
+          "ISO 13485",
+          "ISO 9001:2008",
+          "OHSAS 18001",
+          "ISO/TS 16949"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Company certificates",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "exportMarkets": {
+      "default": [],
+      "description": "Supplier search only: keep suppliers that have exported to these regions. Empty means no filter.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "Asia",
+          "Australasia",
+          "Central/South America",
+          "Eastern Europe",
+          "Mid East/Africa",
+          "North America",
+          "Western Europe"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "sectionCaption": "Supplier filters",
+      "title": "Past export markets",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "fobPort": {
+      "description": "Product search only: keep products shipping from this port, for example Shenzhen or Guangzhou. Leave empty for all ports.",
       "editor": "textfield",
-      "prefill": "solar panel",
-      "title": "Search keyword",
+      "title": "FOB port",
       "type": "string"
+    },
+    "keywords": {
+      "default": [
+        "solar panel"
+      ],
+      "description": "One or more product or supplier keywords (for example \"solar panel\" or \"LED lights\"). Used by the two keyword modes; category browsing ignores it.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "prefill": [
+        "solar panel"
+      ],
+      "sectionCaption": "Search",
+      "title": "Search keywords",
+      "type": "array"
     },
     "maxItems": {
-      "default": 20,
-      "description": "Maximum number of records to return.",
-      "maximum": 500,
+      "default": 100,
+      "description": "Maximum number of records to return across all keywords.",
+      "maximum": 5000,
       "minimum": 1,
-      "prefill": 20,
+      "prefill": 3,
+      "sectionCaption": "Output",
       "title": "Max items",
       "type": "integer"
     },
     "mode": {
       "default": "searchProducts",
-      "description": "What to scrape from Global Sources.",
+      "description": "What to collect from Global Sources.",
       "editor": "select",
       "enum": [
         "searchProducts",
@@ -62,20 +194,175 @@
         "categoryBrowse"
       ],
       "enumTitles": [
-        "Search Products by keyword",
-        "Search Suppliers by keyword",
-        "Browse by product category"
+        "Search products by keyword",
+        "Search suppliers by keyword",
+        "Browse a product category"
       ],
       "prefill": "searchProducts",
+      "sectionCaption": "Mode",
       "title": "Mode",
       "type": "string"
     },
+    "oemServicesOnly": {
+      "default": false,
+      "description": "Keep only suppliers that offer OEM/ODM services.",
+      "prefill": false,
+      "title": "OEM services only",
+      "type": "boolean"
+    },
+    "productCertificates": {
+      "default": [],
+      "description": "Keep products with at least one of these verified product certificates. Empty means no filter.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "CE",
+          "ROHS",
+          "FCC",
+          "Test Report",
+          "REACH",
+          "EN71",
+          "EMC",
+          "UL",
+          "TUV",
+          "ASTM",
+          "UKCA",
+          "CPC",
+          "CB",
+          "SGS",
+          "Certificate of Compliance",
+          "PSE",
+          "Certificate of Conformity",
+          "CCC",
+          "OEKO-Tex 100",
+          "ETL"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Product certificates",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "supplierCountries": {
+      "default": [],
+      "description": "Keep suppliers located in one of these countries. Empty means no filter.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "China",
+          "Hong Kong SAR",
+          "Taiwan",
+          "Thailand",
+          "Vietnam",
+          "India",
+          "Bangladesh",
+          "Pakistan",
+          "Indonesia",
+          "Malaysia",
+          "Singapore",
+          "Philippines",
+          "South Korea",
+          "Japan",
+          "United States",
+          "Canada",
+          "Mexico",
+          "Brazil",
+          "United Kingdom",
+          "Germany",
+          "France",
+          "Italy",
+          "Spain",
+          "Netherlands",
+          "Belgium",
+          "Poland",
+          "Czech Republic",
+          "Sweden",
+          "Switzerland",
+          "Denmark",
+          "Turkey",
+          "United Arab Emirates",
+          "Saudi Arabia",
+          "Egypt",
+          "South Africa",
+          "Australia",
+          "Russia",
+          "Ukraine"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Supplier countries",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "supplierRank": {
+      "default": [],
+      "description": "Keep suppliers at one of these Global Sources rank levels (P0 is unranked). Empty means no filter.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "enumTitles": [
+          "P0",
+          "P1",
+          "P2",
+          "P3",
+          "P4",
+          "P5",
+          "P6"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Supplier rank",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "tradeShowOnly": {
+      "default": false,
+      "description": "Keep only suppliers with a Global Sources trade-show history.",
+      "prefill": false,
+      "title": "Trade-show suppliers only",
+      "type": "boolean"
+    },
     "verifiedOnly": {
       "default": false,
-      "description": "Only return listings from verified/audited suppliers.",
+      "description": "Keep only listings whose supplier has a Global Sources verified-supplier or verified-manufacturer badge.",
       "prefill": false,
       "title": "Verified suppliers only",
       "type": "boolean"
+    },
+    "yearsInBusiness": {
+      "default": [],
+      "description": "Keep suppliers in one of these company-age bands. Empty means no filter.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "30",
+          "15-25",
+          "5-15",
+          "-5"
+        ],
+        "enumTitles": [
+          "30+ years",
+          "15 - 24 years",
+          "5 - 14 years",
+          "0 - 4 years"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Years in business",
+      "type": "array",
+      "uniqueItems": true
     }
   },
   "required": [
