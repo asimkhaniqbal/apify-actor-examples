@@ -1,0 +1,87 @@
+{
+  "description": "Search Global Sources for products, suppliers, or browse by product category.",
+  "properties": {
+    "category": {
+      "default": "Electronics",
+      "description": "Global Sources product category slug for browsing (e.g. 'Electronics', 'Fashion').",
+      "editor": "select",
+      "enum": [
+        "",
+        "Electronics",
+        "Fashion-Accessories",
+        "Home-Garden",
+        "Auto-Transportation",
+        "Gifts-Premiums",
+        "Health-Beauty",
+        "Computer-Networking",
+        "Machinery-Industrial",
+        "Building-Construction",
+        "Telecommunications"
+      ],
+      "enumTitles": [
+        "All categories",
+        "Electronics",
+        "Fashion & Accessories",
+        "Home & Garden",
+        "Auto & Transportation",
+        "Gifts & Premiums",
+        "Health & Beauty",
+        "Computer & Networking",
+        "Machinery & Industrial",
+        "Building & Construction",
+        "Telecommunications"
+      ],
+      "prefill": "Electronics",
+      "title": "Product category (categoryBrowse mode)",
+      "type": "string"
+    },
+    "keyword": {
+      "default": "solar panel",
+      "description": "Product or supplier keyword (e.g. 'solar panel', 'LED lights').",
+      "editor": "textfield",
+      "prefill": "solar panel",
+      "title": "Search keyword",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Maximum number of records to return.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "searchProducts",
+      "description": "What to scrape from Global Sources.",
+      "editor": "select",
+      "enum": [
+        "searchProducts",
+        "searchSuppliers",
+        "categoryBrowse"
+      ],
+      "enumTitles": [
+        "Search Products by keyword",
+        "Search Suppliers by keyword",
+        "Browse by product category"
+      ],
+      "prefill": "searchProducts",
+      "title": "Mode",
+      "type": "string"
+    },
+    "verifiedOnly": {
+      "default": false,
+      "description": "Only return listings from verified/audited suppliers.",
+      "prefill": false,
+      "title": "Verified suppliers only",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Global Sources Scraper Input",
+  "type": "object"
+}

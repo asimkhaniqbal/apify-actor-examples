@@ -1,0 +1,124 @@
+{
+  "description": "Browse live freelance job postings on Guru.com by category, or fetch full job detail pages by URL.",
+  "properties": {
+    "budgetType": {
+      "default": "any",
+      "description": "Filter jobs by how the client wants to pay.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "Fixed Price",
+        "Hourly",
+        "Fixed Price or Hourly"
+      ],
+      "enumTitles": [
+        "Any",
+        "Fixed Price",
+        "Hourly",
+        "Fixed Price or Hourly"
+      ],
+      "prefill": "any",
+      "title": "Budget type",
+      "type": "string"
+    },
+    "category": {
+      "description": "Guru.com top-level job category. Choose `all` to browse every category.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "administrative-secretarial",
+        "design-art",
+        "education-training",
+        "engineering-architecture",
+        "programming-development",
+        "sales-marketing",
+        "writing-translation"
+      ],
+      "enumTitles": [
+        "All categories",
+        "Administrative & Secretarial",
+        "Design & Art",
+        "Education & Training",
+        "Engineering & Architecture",
+        "Programming & Development",
+        "Sales & Marketing",
+        "Writing & Translation"
+      ],
+      "prefill": "programming-development",
+      "title": "Category",
+      "type": "string"
+    },
+    "jobUrls": {
+      "default": [],
+      "description": "Full Guru.com job URLs, e.g. https://www.guru.com/jobs/dentist-website-in-wordpress/2119938 (copy the `jobUrl` field from a browse-mode record).",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Job URLs (mode=byJobId)",
+      "type": "array"
+    },
+    "keyword": {
+      "description": "Best-effort client-side filter: only keep jobs whose title, description, category or skills contain this keyword (case-insensitive).",
+      "editor": "textfield",
+      "title": "Keyword filter (optional)",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 40,
+      "description": "Hard cap on emitted records.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 40,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxPages": {
+      "default": 10,
+      "description": "Hard cap on the number of listing pages crawled (20 jobs/page).",
+      "maximum": 50,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Max listing pages (mode=browse)",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "browse",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "browse",
+        "byJobId"
+      ],
+      "enumTitles": [
+        "Browse jobs (by category/keyword)",
+        "Fetch job detail pages (by URL)"
+      ],
+      "prefill": "browse",
+      "title": "Mode",
+      "type": "string"
+    },
+    "proxyConfiguration": {
+      "default": {
+        "useApifyProxy": true
+      },
+      "description": "Only used if Guru.com temporarily blocks direct requests. Defaults to the free Apify AUTO datacenter group.",
+      "editor": "proxy",
+      "prefill": {
+        "useApifyProxy": true
+      },
+      "title": "Proxy configuration",
+      "type": "object"
+    },
+    "subcategory": {
+      "description": "Optional subcategory slug or name within the selected category, e.g. `Web Development & Design`. Ignored when category=all.",
+      "editor": "textfield",
+      "title": "Subcategory (optional)",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Guru Freelance Jobs Scraper Input",
+  "type": "object"
+}
