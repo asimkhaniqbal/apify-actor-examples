@@ -1,41 +1,103 @@
 {
-  "description": "Search OpenAlex's open scholarly database, or fetch specific works/authors by ID.",
+  "description": "Search OpenAlex's open scholarly index, pull works by ID / author / journal / institution, or walk citations in either direction. No cookies or login required. An optional free OpenAlex API key only unlocks cursor paging beyond 10,000 results.",
   "properties": {
+    "apiKey": {
+      "default": "",
+      "description": "Optional free key from openalex.org/settings/api. Only needed for cursor paging past 10,000 results or a larger daily request budget. Never required.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "OpenAlex API key (optional)",
+      "type": "string"
+    },
     "authorIds": {
       "default": [],
-      "description": "OpenAlex author IDs (`A123...`) or ORCIDs.",
+      "description": "OpenAlex author IDs (A...) or ORCIDs, for byAuthorIds.",
       "editor": "stringList",
       "prefill": [],
-      "title": "Author IDs (mode=byAuthorIds)",
+      "title": "Author IDs / ORCIDs",
       "type": "array"
+    },
+    "citationDirection": {
+      "default": "both",
+      "description": "Which side of the citation graph to walk when mode is getCitationGraph.",
+      "editor": "select",
+      "enum": [
+        "both",
+        "citations",
+        "references"
+      ],
+      "enumTitles": [
+        "Both directions",
+        "Forward: works that cite the seed",
+        "Backward: works the seed cites"
+      ],
+      "prefill": "both",
+      "title": "Citation direction (getCitationGraph)",
+      "type": "string"
+    },
+    "customFilter": {
+      "default": "",
+      "description": "Advanced: an extra OpenAlex filter expression, e.g. language:en,is_retracted:false or topics.id:T10102. Combined with the filters above.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Raw OpenAlex filter",
+      "type": "string"
+    },
+    "hasFulltextOnly": {
+      "default": false,
+      "description": "Only works where OpenAlex has machine-readable full text.",
+      "prefill": false,
+      "title": "Has searchable full text only",
+      "type": "boolean"
     },
     "includeAbstract": {
       "default": true,
-      "description": "Reconstruct the abstract from OpenAlex's inverted index. Costs zero extra API calls.",
+      "description": "Reconstruct readable abstract text from OpenAlex's inverted index. No extra API calls.",
       "prefill": true,
       "title": "Include abstract",
       "type": "boolean"
     },
     "includeAuthorships": {
       "default": true,
-      "description": "Include the full authorship list (with affiliations).",
+      "description": "Include every author, their affiliations and corresponding-author flag.",
       "prefill": true,
-      "title": "Include authorships",
+      "title": "Include full authorships",
+      "type": "boolean"
+    },
+    "includeCitationIds": {
+      "default": false,
+      "description": "Include referencedWorks / relatedWorks ID arrays and the citedBy API URL. Off by default because long reference lists make records large.",
+      "prefill": false,
+      "title": "Include citation ID lists",
       "type": "boolean"
     },
     "includeConcepts": {
       "default": true,
-      "description": "Include the topic / concept tags assigned by OpenAlex.",
+      "description": "Include OpenAlex's deprecated concept tags (kept for backward compatibility). Prefer topics.",
       "prefill": true,
-      "title": "Include topics / concepts",
+      "title": "Include legacy concepts",
+      "type": "boolean"
+    },
+    "includeOpenAccessLocations": {
+      "default": true,
+      "description": "Include all OA landing pages / PDFs, licenses and the OpenAlex full-text PDF and TEI links when available.",
+      "prefill": true,
+      "title": "Include every open-access copy",
+      "type": "boolean"
+    },
+    "includeTopics": {
+      "default": true,
+      "description": "Include the current OpenAlex topic hierarchy, keyword tags and UN Sustainable Development Goals.",
+      "prefill": true,
+      "title": "Include topics, keywords and SDGs",
       "type": "boolean"
     },
     "institutionIds": {
       "default": [],
-      "description": "OpenAlex institution IDs prefixed with `I` (university / lab / company). Examples: `I27837315` (Univ. of Michigan), `I97018004` (Stanford), `I136199984` (Harvard), `I32971472` (MIT), `I114027177` (DeepMind). Or pass a ROR ID URL.",
+      "description": "OpenAlex institution IDs (I...) or ROR URLs, for byInstitutionIds. Examples: I136199984 (Harvard), I32971472 (MIT), https://ror.org/042nb2s44.",
       "editor": "stringList",
       "prefill": [],
-      "title": "Institution IDs (mode=byInstitutionIds)",
+      "title": "Institution IDs / ROR IDs",
       "type": "array"
     },
     "maxItems": {
@@ -43,23 +105,26 @@
       "description": "Hard cap on emitted records.",
       "maximum": 10000,
       "minimum": 1,
-      "prefill": 50,
-      "title": "Max items",
+      "prefill": 1,
+      "title": "Max records",
       "type": "integer"
     },
     "minCitedBy": {
-      "description": "Drop works with fewer citations than this.",
+      "description": "Drop works cited fewer times than this. 0 means no minimum.",
       "maximum": 1000000,
       "minimum": 0,
-      "title": "Min citation count",
+      "title": "Minimum citations",
       "type": "integer"
     },
     "mode": {
       "default": "searchWorks",
-      "description": "What to fetch.",
+      "description": "Pick a search mode, a direct-lookup mode, or a citation direction.",
       "editor": "select",
       "enum": [
         "searchWorks",
+        "getCitations",
+        "getReferences",
+        "getCitationGraph",
         "searchAuthors",
         "byWorkIds",
         "byAuthorIds",
@@ -67,108 +132,216 @@
         "byInstitutionIds"
       ],
       "enumTitles": [
-        "Search works",
+        "Search works (keyword + filters)",
+        "Works that cite a paper (forward citations)",
+        "Works a paper cites (references / backward citations)",
+        "Both citation directions",
         "Search authors",
-        "Fetch works by ID / DOI / PMID",
-        "Fetch all works by author ID",
-        "Fetch works by venue / source ID (journal, repo)",
-        "Fetch works by institution ID (university, lab)"
+        "Fetch specific works by ID / DOI / PMID",
+        "Every work by an author ID / ORCID",
+        "Every work in a venue / journal ID / ISSN",
+        "Every work affiliated with an institution ID / ROR"
       ],
-      "prefill": "searchWorks",
-      "title": "Mode",
+      "prefill": "byWorkIds",
+      "title": "What to fetch",
+      "type": "string"
+    },
+    "oaStatus": {
+      "default": "any",
+      "description": "Filter by OpenAlex's OA colour. Any status other than 'any' also implies open access.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "diamond",
+        "gold",
+        "green",
+        "hybrid",
+        "bronze",
+        "closed"
+      ],
+      "enumTitles": [
+        "Any",
+        "Diamond (free journal, no APC)",
+        "Gold (fully OA journal)",
+        "Green (free repository copy)",
+        "Hybrid (open license in a toll journal)",
+        "Bronze (free to read, no open license)",
+        "Closed"
+      ],
+      "prefill": "any",
+      "title": "Open-access status",
       "type": "string"
     },
     "openAccessOnly": {
       "default": false,
-      "description": "Only emit works with open-access full-text available.",
+      "description": "Only return works with a free, legal full-text copy.",
       "prefill": false,
-      "title": "Open-access only",
+      "title": "Open access only",
       "type": "boolean"
     },
+    "perPage": {
+      "default": 50,
+      "description": "How many records to request per page (1-100). Smaller pages keep the daily test cheap.",
+      "maximum": 100,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Results per API page",
+      "type": "integer"
+    },
     "publicationYearMax": {
-      "description": "Drop works published after this year.",
+      "description": "Drop works published after this year. Sent to OpenAlex as a server-side filter.",
       "maximum": 2100,
       "minimum": 1800,
-      "title": "Publication year (max)",
+      "title": "Publication year to",
       "type": "integer"
     },
     "publicationYearMin": {
-      "description": "Drop works published before this year.",
+      "description": "Drop works published before this year. Sent to OpenAlex as a server-side filter.",
       "maximum": 2100,
       "minimum": 1800,
-      "title": "Publication year (min)",
+      "title": "Publication year from",
       "type": "integer"
+    },
+    "searchField": {
+      "default": "default",
+      "description": "Which text field the query searches. Title/abstract options are much cheaper and faster than full text.",
+      "editor": "select",
+      "enum": [
+        "default",
+        "title",
+        "titleAbstractKeywords",
+        "titleAndAbstract",
+        "abstract",
+        "fulltext"
+      ],
+      "enumTitles": [
+        "Everything OpenAlex searches (title, abstract, full text, keywords)",
+        "Title only",
+        "Title, abstract and keywords (OpenAlex website default)",
+        "Title and abstract only",
+        "Abstract only",
+        "Full text when available, plus title and abstract"
+      ],
+      "prefill": "default",
+      "title": "Search in",
+      "type": "string"
     },
     "searchQuery": {
       "default": "large language models",
-      "description": "Free-text query.",
+      "description": "Keyword, phrase, or OpenAlex Boolean query. Used by searchWorks and searchAuthors. In searchWorks it may be omitted when at least one filter is set (filter-only browsing).",
       "editor": "textfield",
       "prefill": "large language models",
-      "title": "Search query (mode=searchWorks / searchAuthors)",
+      "title": "Search query",
       "type": "string"
     },
     "sortBy": {
       "default": "relevance_score:desc",
-      "description": "OpenAlex sort field.",
+      "description": "Ordering for works. Relevance requires a search query; filter-only modes fall back to most cited.",
       "editor": "select",
       "enum": [
         "relevance_score:desc",
         "cited_by_count:desc",
+        "cited_by_count:asc",
         "publication_date:desc",
-        "publication_year:desc"
+        "publication_date:asc",
+        "publication_year:desc",
+        "publication_year:asc",
+        "fwci:desc"
       ],
       "enumTitles": [
-        "Relevance (default for search)",
-        "Most cited",
-        "Newest publication date",
-        "Newest publication year"
+        "Relevance (default for keyword searches)",
+        "Most cited first",
+        "Least cited first",
+        "Newest publication date first",
+        "Oldest publication date first",
+        "Newest publication year first",
+        "Oldest publication year first",
+        "Highest field-weighted citation impact"
       ],
       "prefill": "relevance_score:desc",
       "title": "Sort by",
       "type": "string"
     },
+    "startCursor": {
+      "default": "",
+      "description": "Optional saved OpenAlex cursor for a resumable cursor-paged run. Leave empty to start from the beginning.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Start cursor",
+      "type": "string"
+    },
+    "startPage": {
+      "default": 1,
+      "description": "Resume page-based paging from this page (1-10000 combined with perPage must stay within 10,000 results).",
+      "maximum": 10000,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Start page",
+      "type": "integer"
+    },
+    "useCursor": {
+      "default": false,
+      "description": "Follow OpenAlex next_cursor pages instead of page numbers. Needs the optional free API key; without it the actor uses page paging.",
+      "prefill": false,
+      "title": "Use cursor paging",
+      "type": "boolean"
+    },
     "userAgentEmail": {
       "default": "apify-actor@noreply.apify.com",
-      "description": "OpenAlex's polite pool requires a contact email in the User-Agent. Default works for low-volume; for production scraping, supply your own email.",
+      "description": "Email sent in the User-Agent so OpenAlex can contact you about API usage. The default works; supply your own for high-volume runs.",
       "editor": "textfield",
       "prefill": "apify-actor@noreply.apify.com",
-      "title": "User-Agent contact email",
+      "title": "Contact email (polite pool)",
       "type": "string"
     },
     "venueIds": {
       "default": [],
-      "description": "OpenAlex source IDs prefixed with `S` (journal / repository / conference). Examples: `S4306400194` (arXiv), `S137773608` (Nature), `S99775433` (Science). Or pass an ISSN like `0028-0836` and it will be resolved.",
+      "description": "OpenAlex source IDs (S..., journal / repository / conference) or ISSNs, for byVenueIds. Examples: S4306400194 (arXiv), S137773608 (Nature), 0028-0836.",
       "editor": "stringList",
       "prefill": [],
-      "title": "Venue / source IDs (mode=byVenueIds)",
+      "title": "Venue / source IDs / ISSNs",
       "type": "array"
     },
     "workIds": {
       "default": [],
-      "description": "OpenAlex work IDs (`W123...`), DOIs, PMIDs, or PMCIDs. Examples: `W2741809807`, `https://doi.org/10.1145/3442188.3445922`, `pmid:25524000`.",
+      "description": "Used by byWorkIds and as the citation seeds for getCitations / getReferences / getCitationGraph. Accepts OpenAlex W-IDs, DOI URLs, bare DOIs, PMIDs, PMCIDs and MAG IDs. Examples: W2741809807, https://doi.org/10.1145/3442188.3445922, pmid:25524000.",
       "editor": "stringList",
-      "prefill": [],
-      "title": "Work IDs (mode=byWorkIds)",
+      "prefill": [
+        "W2741809807"
+      ],
+      "title": "Work IDs / DOIs / PMIDs",
       "type": "array"
     },
     "workType": {
       "default": "any",
-      "description": "Optional OpenAlex `type` filter.",
+      "description": "Optional OpenAlex work type filter.",
       "editor": "select",
       "enum": [
         "any",
         "article",
         "book",
         "book-chapter",
+        "book-review",
+        "conference-abstract",
+        "conference-paper",
+        "data-paper",
         "dataset",
         "dissertation",
-        "preprint",
-        "report",
-        "review",
-        "letter",
         "editorial",
         "erratum",
+        "letter",
+        "other",
+        "paratext",
+        "peer-review",
+        "preprint",
+        "reference-entry",
+        "report",
+        "retraction",
+        "review",
+        "software",
+        "software-paper",
         "standard",
+        "study-registration",
         "supplementary-materials"
       ],
       "prefill": "any",
@@ -180,6 +353,6 @@
     "mode"
   ],
   "schemaVersion": 1,
-  "title": "OpenAlex Scraper Input",
+  "title": "OpenAlex works, citations & open access",
   "type": "object"
 }

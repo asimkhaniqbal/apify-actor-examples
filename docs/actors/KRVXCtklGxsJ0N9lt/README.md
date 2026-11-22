@@ -4,67 +4,75 @@
 
 # OpenAlex Citation & Open-Access Works Explorer
 
-OpenAlex is a free, open catalog of scholarly works, authors, institutions, and sources that replaced Microsoft Academic Graph. This actor searches works or authors, fetches specific records by ID/DOI, or pulls every work tied to a given author, journal/source, or institution — with citation counts, open-access links, and abstracts attached. No auth, no proxy.
+OpenAlex is a free, open index of scholarly works, authors, institutions and venues. This actor searches it, pulls records by ID, walks citations in either direction, and returns the evidence around open access: every OA copy, its license, and the PDF/TEI links where OpenAlex has full text. No cookies, login or proxy.
 
-## What this actor does
+## Modes
 
-- **Six modes:** `searchWorks`, `searchAuthors` (keyword search), `byWorkIds` (fetch specific works), `byAuthorIds`, `byVenueIds`, `byInstitutionIds` (every work tied to that author/journal/university)
-- **Universal IDs:** OpenAlex (`W…`, `A…`, `S…`, `I…`), DOI, PMID, PMCID, ORCID, ISSN, ROR — all auto-normalized
-- **Reconstructs abstracts** from OpenAlex's inverted index
-- **Filters:** publication year range, min citation count, open-access only, work type
-- **Sorts:** relevance, most cited, newest publication date / year
-- **Empty fields are omitted** — no nulls reach the dataset
+| Mode | What it returns |
+|---|---|
+| `searchWorks` | Works matching a keyword/Boolean query and/or server-side filters. A query is optional when at least one filter is set, so you can browse e.g. every 2024 open-access review. |
+| `getCitations` | Works that cite each seed work (forward citations). |
+| `getReferences` | Works each seed work cites (backward citations / references). |
+| `getCitationGraph` | Both directions for each seed, with a `citationContext` on every row. |
+| `searchAuthors` | Author profiles: ORCID, works/citation counts, h-index, affiliations, topics. |
+| `byWorkIds` | Fetch specific works by OpenAlex ID, DOI, PMID, PMCID or MAG ID. |
+| `byAuthorIds` | Every work by an author ID or ORCID. |
+| `byVenueIds` | Every work in a journal / repository / conference source ID or ISSN. |
+| `byInstitutionIds` | Every work with an author affiliated to an institution ID or ROR. |
 
-## Output per work
+## What each work record contains
 
-- `openalexId`, `doi`, `pmid`, `pmcid`, `magId` — universal IDs
-- `title`, `publicationDate`, `publicationYear`, `type`, `language`
-- `citedByCount`, `fwci` (field-weighted citation impact), `hasFulltext`
-- `isOa`, `openAccessOaUrl`, `openAccessStatus`, `bestOaUrl`
-- `venue` — `{name, issn_l, publisher, type, isOa, license}`
-- `authorships[]` — `[{authorId, name, orcid, position, institutions}, ...]` (when `includeAuthorships=true`)
-- `primaryAuthor` — first author display name (always present scalar)
-- `concepts[]` — top 10 OpenAlex concept tags (when `includeConcepts=true`)
-- `abstract` — reconstructed text (when `includeAbstract=true` and OpenAlex has it)
-- `relevanceScore` — search relevance score (search modes)
-- `isRetracted`, `isParatext` — research-integrity flags
-- `biblio` — `{volume, issue, firstPage, lastPage}`, when published
-- `countriesDistinctCount`, `institutionsDistinctCount` — number of distinct countries/institutions among the authorships
-- `apcPaid` — article processing charge actually paid (`{valueUsd}` or `{value, currency}`), when OpenAlex has it on file
-- `openalexUrl` — canonical link
-- `recordType: "work"`, `scrapedAt`
+- **Identifiers:** `openalexId`, `doi`, `pmid`, `pmcid`, `magId`, `openalexUrl`
+- **Bibliographic:** `title`, `publicationDate`, `publicationYear`, `type`, `language`, `biblio` (volume/issue/pages)
+- **Citations:** `citedByCount`, `referencedWorksCount`, `fwci`, `citationPercentile`, `citedByPercentileYear`, `countsByYear`
+- **Open access:** `isOa`, `openAccessStatus` (diamond/gold/green/hybrid/bronze/closed), `openAccessOaUrl`, `bestOaUrl`, `anyRepositoryHasFulltext`, `oaLocations[]` (every OA landing page/PDF with license, version and source), `contentUrls` (OpenAlex PDF and Grobid TEI when cached)
+- **Authors:** `authorships[]` with author ID, ORCID, position, corresponding flag, raw name, institution names, institution details and countries; scalar `primaryAuthor`
+- **Topics:** `primaryTopic`, `topics[]` (topic → subfield → field → domain), `keywords[]`, `sdgs[]`, plus legacy `concepts[]`
+- **Abstract:** reconstructed readable text from OpenAlex's inverted index
+- **Flags:** `isRetracted`, `isParatext`, `isPulled`, `isXpac`, `isTraditional`, `hasFulltext`, `hasContent`
+- **Cost data:** `apcPaid`, `apcList`
+- **Citation mode only:** `citationContext` (`seedWorkId`, `seedDoi`, `seedTitle`, `direction`)
+- **Meta:** `recordType`, `scrapedAt`
 
-## Output per author
+Opt in to `referencedWorks` / `relatedWorks` ID arrays and `citedByApiUrl` with `includeCitationIds=true`.
 
-- `openalexId`, `name`, `orcid`
-- `worksCount`, `citedByCount`
-- `lastKnownInstitutions[]`
-- `hIndex`, `i10Index`
-- `openalexUrl`, `recordType: "author"`, `scrapedAt`
+Author rows carry `openalexId`, `name`, `fullName`, `orcid`, `worksCount`, `citedByCount`, `summaryStats` (h-index, i10-index, 2-year mean citedness), `affiliations[]`, `lastKnownInstitutions`, `topics[]`, `nameAlternatives`, `worksApiUrl`, `recordType` and `scrapedAt`.
 
-## Input
+## Inputs
 
-| Field | Type | Default | Description |
-|---|---|---|---|
-| `mode` | string | `searchWorks` | `searchWorks` / `searchAuthors` / `byWorkIds` / `byAuthorIds` / `byVenueIds` / `byInstitutionIds` |
-| `searchQuery` | string | `large language models` | For `searchWorks` / `searchAuthors` |
-| `workIds` | array | – | OpenAlex IDs / DOIs / PMIDs / PMCIDs (for `byWorkIds`) |
-| `authorIds` | array | – | OpenAlex author IDs / ORCIDs — every work by that author (for `byAuthorIds`) |
-| `venueIds` | array | – | OpenAlex source IDs (`S…`) or ISSNs — every work published in that journal/repository (for `byVenueIds`) |
-| `institutionIds` | array | – | OpenAlex institution IDs (`I…`) or ROR URLs — every work with an author affiliated to that institution (for `byInstitutionIds`) |
-| `publicationYearMin` | int | – | Drop works before this year |
-| `publicationYearMax` | int | – | Drop works after this year |
-| `minCitedBy` | int | – | Drop works with fewer citations |
-| `openAccessOnly` | bool | `false` | Only emit OA works |
-| `workType` | string | `any` | `article`/`book`/`preprint`/`review`/`dataset`/etc. |
-| `sortBy` | string | `relevance_score:desc` | Search ordering; `byAuthorIds` always returns works sorted by citation count regardless of this setting |
-| `includeAbstract` | bool | `true` | Reconstruct abstract from inverted index |
-| `includeAuthorships` | bool | `true` | Full authorship array |
-| `includeConcepts` | bool | `true` | Top concept tags |
-| `userAgentEmail` | string | `apify-actor@noreply.apify.com` | OpenAlex polite-pool email |
-| `maxItems` | int | `50` | Hard cap (1–10000) |
+| Field | Default | Notes |
+|---|---|---|
+| `mode` | `searchWorks` | One of the nine modes above. |
+| `searchQuery` | `large language models` | Used by `searchWorks` / `searchAuthors`. OpenAlex Boolean syntax is supported. |
+| `searchField` | `default` | `title`, `titleAbstractKeywords`, `titleAndAbstract`, `abstract` or `fulltext` for cheaper scoped searches. |
+| `workIds` | – | Work IDs/DOIs/PMIDs for direct lookup **and** citation seeds. |
+| `authorIds` / `venueIds` / `institutionIds` | – | IDs, ORCIDs, ISSNs or RORs for the matching lookup modes. |
+| `citationDirection` | `both` | `citations`, `references` or `both` for `getCitationGraph`. |
+| `publicationYearMin` / `publicationYearMax` | – | Server-side publication-year range. |
+| `minCitedBy` | – | Server-side citation floor; `0` means no minimum. |
+| `openAccessOnly` | `false` | Server-side OA filter. |
+| `oaStatus` | `any` | `diamond`, `gold`, `green`, `hybrid`, `bronze` or `closed`. |
+| `hasFulltextOnly` | `false` | Only works with searchable full text. |
+| `workType` | `any` | Article, book, dataset, preprint, review, etc. |
+| `sortBy` | `relevance_score:desc` | Citation/date/year/FWCI sorts; filter-only modes fall back to most cited. |
+| `perPage` | `50` | 1–100 records per API page. |
+| `startPage` | `1` | Resume page paging. Page × perPage must stay within 10,000. |
+| `useCursor` | `false` | Optional cursor paging; needs the optional free API key. |
+| `startCursor` | — | Cursor value to resume a cursor-paged run. |
+| `customFilter` | – | Extra raw OpenAlex filter, e.g. `language:en,is_retracted:false`. |
+| `includeAbstract` / `includeAuthorships` / `includeConcepts` | `true` | Toggle those blocks. |
+| `includeTopics` | `true` | Current topics, keywords and SDGs. |
+| `includeOpenAccessLocations` | `true` | All OA copies plus full-text links. |
+| `includeCitationIds` | `false` | Referenced/related ID arrays and cited-by API URL. |
+| `userAgentEmail` | `apify-actor@noreply.apify.com` | Contact address for OpenAlex's polite pool. |
+| `apiKey` | empty | Optional free key from openalex.org/settings/api; never required. |
+| `maxItems` | `50` | Hard cap, 1–10,000. |
 
-### Example: top-cited LLM papers from 2024
+Legacy saved-task keys are mapped in code, not kept in the input form: `query`/`searchTerm` → `searchQuery`, `ids`/`dois` → `workIds`, `authorId` → `authorIds`, `venueId` → `venueIds`, `institutionId` → `institutionIds`, `maxResults`/`limit` → `maxItems`, `fromYear`/`toYear` → publication-year bounds, `minCitations` → `minCitedBy`, `oaOnly`/`openAccess` → `openAccessOnly`, `type` → `workType`, `sort` → `sortBy`, `email`/`mailto` → `userAgentEmail`, `includeAbstracts` → `includeAbstract`. A legacy key wins when the new field still holds its schema default, so old tasks keep their saved limits and filters.
+
+## Examples
+
+Top-cited open-access 2024 articles:
 
 ```json
 {
@@ -72,96 +80,69 @@ OpenAlex is a free, open catalog of scholarly works, authors, institutions, and 
   "searchQuery": "large language models",
   "publicationYearMin": 2024,
   "minCitedBy": 50,
+  "openAccessOnly": true,
+  "workType": "article",
   "sortBy": "cited_by_count:desc",
   "maxItems": 100
 }
 ```
 
-### Example: lookup specific papers by DOI
+Forward citations of a paper:
 
 ```json
 {
-  "mode": "byWorkIds",
-  "workIds": [
-    "10.1145/3442188.3445922",
-    "https://doi.org/10.48550/arXiv.2310.06825",
-    "pmid:25524000"
-  ]
+  "mode": "getCitations",
+  "workIds": ["W2741809807"],
+  "sortBy": "cited_by_count:desc",
+  "maxItems": 50
 }
 ```
 
-### Example: all works by an author (Geoffrey Hinton)
+Both directions with OA copies:
 
 ```json
 {
-  "mode": "byAuthorIds",
-  "authorIds": ["A1969205038"],
-  "minCitedBy": 100,
-  "maxItems": 200
+  "mode": "getCitationGraph",
+  "workIds": ["https://doi.org/10.7717/peerj.4375"],
+  "citationDirection": "both",
+  "includeOpenAccessLocations": true,
+  "maxItems": 100
 }
 ```
 
-### Example: open-access ML papers only
+Browse every 2024 open-access review without a keyword:
 
 ```json
 {
   "mode": "searchWorks",
-  "searchQuery": "machine learning fairness",
+  "publicationYearMin": 2024,
+  "publicationYearMax": 2024,
   "openAccessOnly": true,
-  "workType": "article",
-  "publicationYearMin": 2020
+  "workType": "review",
+  "maxItems": 200
 }
 ```
 
-### Example: every work published in a journal
+## Pagination
 
-```json
-{
-  "mode": "byVenueIds",
-  "venueIds": ["S137773608"],
-  "sortBy": "cited_by_count:desc",
-  "maxItems": 100
-}
-```
+Page paging is the default and needs no key. `startPage` resumes a page-paged run; the first 10,000 results are reachable. Cursor paging (`useCursor=true`) follows OpenAlex `next_cursor` values beyond that and needs the optional free API key. `startCursor` resumes a cursor-paged run. The actor stops only on `maxItems`, source exhaustion, or the cursor/page limit — never on a wall-clock timer.
 
-### Example: every work affiliated with an institution
+## OpenAlex API budget
 
-```json
-{
-  "mode": "byInstitutionIds",
-  "institutionIds": ["I136199984"],
-  "publicationYearMin": 2023,
-  "maxItems": 150
-}
-```
-
-## Use cases
-
-- **Literature reviews** — bulk-export every paper matching a topic across all disciplines
-- **Citation tracking** — find the most-cited works on a topic, or all works citing a specific paper
-- **Author intelligence** — track an author's publication record, h-index, institutional affiliations
-- **Open-access auditing** — find OA copies of every paper in a reading list
-- **Topic monitoring** — schedule recurring runs to catch new papers in your area
-- **Cross-database enrichment** — feed DOIs from arXiv / PubMed / Crossref → enrich with OpenAlex citations
+OpenAlex is free but its anonymous list/search calls share a small daily budget per IP. Single-record lookups (the default prefill) are free. For heavy use, add a free API key from [openalex.org/settings/api](https://openalex.org/settings/api); it raises the daily budget and enables cursor paging. The actor treats the key as optional and never requires it.
 
 ## FAQ
 
-**What's OpenAlex?**  An open replacement for Microsoft Academic Graph: 250M+ scholarly works, 80M+ authors, free for any use, fully indexed by content+citations. See [openalex.org](https://openalex.org).
+**Do I need an API key?** No. Everything works without one. A free key only helps with very large runs and cursor paging.
 
-**Is there a rate limit?**  Yes — 100k requests/day in the polite pool (anyone with an email in their User-Agent). The actor sets this header automatically.
+**Why is an abstract sometimes missing?** OpenAlex omits it when the publisher's license does not allow redistribution. The row still contains the work; only the `abstract` field is omitted.
 
-**Why are abstracts sometimes missing?**  OpenAlex omits abstracts when their license doesn't permit redistribution. The actor returns whatever's available; missing abstracts mean the source publisher doesn't allow it.
+**Why does the citation count differ from Google Scholar?** OpenAlex matches reference lists to records in its index. Unmatched references are left out, so counts are usually lower than a publisher PDF's reference list.
 
-**How does it differ from arXiv / PubMed?**  OpenAlex is broader — covers all disciplines, all sources (preprint servers, journals, books, datasets). arXiv only covers preprints in physics/math/CS. PubMed only covers biomedical literature.
+**What is `fwci`?** Field-Weighted Citation Impact: citations received divided by the field-year-type average. `1.0` is the world average.
 
-**What ID formats are accepted?**  OpenAlex IDs (`W123…`, `A123…`), full DOI URLs (`https://doi.org/10.1145/...`), bare DOIs (`10.1145/...`), `pmid:N`, `pmcid:N`, and ORCIDs (`0000-0001-…`).
+**Why are some OA fields missing?** OpenAlex only emits OA evidence when it has found a free copy. Closed works have `isOa=false` and no OA locations; fields are omitted rather than set to null.
 
-**What's `fwci`?**  Field-weighted citation impact — a paper's citation count normalized to its field's average. 1.0 = field average, 2.0 = twice field average, etc. Useful for cross-discipline comparison.
+**Can I get the full text?** `contentUrls.pdf` and `contentUrls.grobidXml` point to OpenAlex's cached copies for works where `hasFulltext` is true; `oaLocations` lists publisher and repository copies.
 
-**Why is `concepts` capped at 10?**  OpenAlex assigns dozens of low-confidence concepts per work. We keep the top 10 (already sorted by score) for table display compactness; the full list is in OpenAlex's web UI.
-
-**How fresh is the data?**  Daily — OpenAlex re-indexes nightly from Crossref, PubMed, ORCID, ROR, etc.
-
-**What's the difference between `byVenueIds` and `byInstitutionIds`?**  `byVenueIds` returns every work published in a given journal, repository, or conference (an OpenAlex "source"). `byInstitutionIds` returns every work with at least one author affiliated to that university, lab, or company. Both return the same work-record shape as `searchWorks`.
-
-**Is this affiliated with OpenAlex?**  No, this is an independent third-party actor that reads OpenAlex's public API. It is not affiliated with, endorsed by, or sponsored by OurResearch, the nonprofit that runs OpenAlex.
+**Is this affiliated with OpenAlex?** No. It is an independent third-party actor that reads OpenAlex's public API. OpenAlex is run by OurResearch.

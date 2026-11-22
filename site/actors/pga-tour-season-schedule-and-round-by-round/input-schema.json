@@ -1,14 +1,14 @@
 {
-  "description": "Scrape PGA Tour schedules and live leaderboards for the PGA Tour, Korn Ferry Tour and PGA Tour Champions.",
+  "description": "Scrape PGA Tour, Korn Ferry Tour, PGA Tour Champions and PGA Tour Americas schedules, full-tournament leaderboards and round-by-round scores.",
   "properties": {
     "containsKeyword": {
-      "description": "Only keep rows whose tournament / player / course name contains this text.",
+      "description": "Only keep rows whose tournament, player, team or course name contains this text.",
       "editor": "textfield",
       "title": "Keyword filter",
       "type": "string"
     },
     "maxPosition": {
-      "description": "Keep only players at or above this position (mode=leaderboard).",
+      "description": "Leaderboard / rounds mode: keep players or teams at or above this position (ties like T5 count as 5).",
       "maximum": 200,
       "minimum": 1,
       "title": "Max leaderboard position",
@@ -16,31 +16,33 @@
     },
     "maxResults": {
       "default": 50,
-      "description": "Hard cap on emitted records.",
-      "maximum": 500,
+      "description": "Page size: hard cap on records emitted by this run.",
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 20,
+      "prefill": 3,
       "title": "Max results",
       "type": "integer"
     },
     "mode": {
       "default": "schedule",
-      "description": "What to fetch.",
+      "description": "What to fetch: a season schedule, one leaderboard row per player/team, or one row per player/team per round.",
       "editor": "select",
       "enum": [
         "schedule",
-        "leaderboard"
+        "leaderboard",
+        "rounds"
       ],
       "enumTitles": [
         "Tournament schedule",
-        "Leaderboard for a tournament"
+        "Leaderboard",
+        "Round-by-round scores"
       ],
       "prefill": "schedule",
       "title": "Mode",
       "type": "string"
     },
     "proxyConfiguration": {
-      "description": "Optional proxy (used automatically if the API blocks the datacenter IP).",
+      "description": "Optional proxy. The public PGA Tour API does not require one; it is used only if the API blocks the datacenter IP.",
       "editor": "proxy",
       "prefill": {
         "useApifyProxy": false
@@ -48,45 +50,116 @@
       "title": "Proxy configuration",
       "type": "object"
     },
-    "season": {
-      "default": 2026,
-      "description": "Season year (e.g. 2026).",
-      "maximum": 2030,
-      "minimum": 2000,
-      "prefill": 2026,
-      "title": "Season",
+    "roundNumber": {
+      "description": "Rounds mode only: keep a single round (1-8). Empty = every played round.",
+      "maximum": 8,
+      "minimum": 1,
+      "title": "Round number",
+      "type": "integer"
+    },
+    "seasons": {
+      "default": [],
+      "description": "One or more season years for schedule mode (2012-2030; PGA Tour data starts in 2012, Korn Ferry/Champions in 2013, Americas in 2024). Empty = use the legacy season input or 2026.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025",
+          "2026",
+          "2027",
+          "2028",
+          "2029",
+          "2030"
+        ],
+        "enumTitles": [
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025",
+          "2026",
+          "2027",
+          "2028",
+          "2029",
+          "2030"
+        ],
+        "type": "string"
+      },
+      "prefill": [
+        "2026"
+      ],
+      "title": "Seasons",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "startIndex": {
+      "default": 0,
+      "description": "Skip this many matching records before emitting the page. Use with Max results for pagination.",
+      "maximum": 100000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Start index (pagination)",
       "type": "integer"
     },
     "tour": {
       "default": "R",
-      "description": "Which tour to scrape.",
+      "description": "Which tour to scrape. Schedules and leaderboards are available for all four tours.",
       "editor": "select",
       "enum": [
         "R",
         "H",
-        "S"
+        "S",
+        "Y",
+        "K",
+        "C"
       ],
       "enumTitles": [
         "PGA Tour",
         "Korn Ferry Tour",
-        "PGA Tour Champions"
+        "PGA Tour Champions",
+        "PGA Tour Americas",
+        "Korn Ferry Tour (legacy K)",
+        "PGA Tour Champions (legacy C)"
       ],
       "prefill": "R",
       "title": "Tour",
       "type": "string"
     },
-    "tournamentId": {
-      "description": "PGA Tour tournament ID, e.g. `R2026027` (mode=leaderboard).",
-      "editor": "textfield",
-      "title": "Tournament ID (mode=leaderboard)",
-      "type": "string"
+    "tournamentIds": {
+      "default": [],
+      "description": "Tournament IDs (e.g. R2026006) or pgatour.com leaderboard URLs for leaderboard / rounds mode. Up to 50; the legacy single tournamentId is accepted too.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Tournament IDs or URLs",
+      "type": "array"
     },
     "tournamentStatus": {
       "default": [],
-      "description": "Keep only tournaments with these statuses (mode=schedule).",
+      "description": "Only keep tournaments with these statuses (COMPLETED, IN_PROGRESS, UPCOMING; case-insensitive). Empty = any status.",
       "editor": "stringList",
       "prefill": [],
-      "title": "Tournament status (mode=schedule)",
+      "title": "Tournament status",
       "type": "array"
     }
   },

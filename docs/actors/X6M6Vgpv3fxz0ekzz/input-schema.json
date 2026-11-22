@@ -1,17 +1,38 @@
 {
-  "description": "Scrape Owler.com for public company intelligence — CEO, revenue ranges, employee ranges, industry, competitors.",
+  "description": "Scrape Owler.com for public company intelligence — CEO, revenue, employee ranges, industry, headquarters, funding, news, and competitors.",
   "properties": {
+    "companySlugs": {
+      "description": "Legacy alias for companyUrls.",
+      "editor": "hidden",
+      "items": {
+        "type": "string"
+      },
+      "title": "companySlugs (legacy)",
+      "type": "array"
+    },
+    "companyUrl": {
+      "description": "Legacy alias for companyUrls.",
+      "editor": "hidden",
+      "title": "companyUrl (legacy)",
+      "type": "string"
+    },
     "companyUrls": {
       "default": [],
-      "description": "List of Owler company URLs (e.g. `https://www.owler.com/company/apple`) or domain names (e.g. `apple.com`, `stripe.com`). The slug is derived from the domain or URL.",
+      "description": "List of Owler company URLs (e.g. `https://www.owler.com/company/apple`), plain domains (e.g. `apple.com`, `stripe.com`), or Owler slugs (e.g. `openai`).",
       "editor": "stringList",
       "prefill": [],
       "title": "Company URLs or domains (mode=byCompany)",
       "type": "array"
     },
+    "hq": {
+      "description": "Legacy alias for location.",
+      "editor": "hidden",
+      "title": "hq (legacy)",
+      "type": "string"
+    },
     "industry": {
       "default": "",
-      "description": "Filter results to a specific industry (applied after fetching).",
+      "description": "Keep only companies whose Owler industry or sub-industry matches this sector. Applied after each profile is fetched; combine with Search or By Company.",
       "editor": "select",
       "enum": [
         "",
@@ -63,18 +84,38 @@
       "title": "Industry filter",
       "type": "string"
     },
+    "limit": {
+      "description": "Legacy alias for maxItems.",
+      "editor": "hidden",
+      "title": "limit (legacy)",
+      "type": "integer"
+    },
+    "location": {
+      "default": "",
+      "description": "Optional text that must appear in the company's headquarters or city, e.g. `California`, `London`, or `Ontario`. Case-insensitive; leave empty for all locations.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Headquarters location filter",
+      "type": "string"
+    },
     "maxItems": {
       "default": 20,
-      "description": "Hard cap on total records emitted.",
+      "description": "Hard cap on total company profiles emitted. Search mode paginates through Owler's competitor graph until this cap is reached (up to 200).",
       "maximum": 200,
       "minimum": 1,
       "prefill": 10,
       "title": "Max items",
       "type": "integer"
     },
+    "maxResults": {
+      "description": "Legacy alias for maxItems.",
+      "editor": "hidden",
+      "title": "maxResults (legacy)",
+      "type": "integer"
+    },
     "mode": {
       "default": "search",
-      "description": "What to scrape. `search` looks up companies by name/keyword (slug-based). `byCompany` fetches specific company profiles by Owler URL or domain name.",
+      "description": "What to scrape. `search` uses Owler's public company search to find companies by name or keyword, then expands through their competitor graph. `byCompany` fetches specific profiles from Owler URLs or website domains.",
       "editor": "select",
       "enum": [
         "search",
@@ -88,13 +129,66 @@
       "title": "Mode",
       "type": "string"
     },
+    "ownership": {
+      "description": "Legacy alias for ownershipStatus.",
+      "editor": "hidden",
+      "title": "ownership (legacy)",
+      "type": "string"
+    },
+    "ownershipStatus": {
+      "default": "",
+      "description": "Keep only Public companies, Private companies, or Government agencies. Applied after each profile is fetched.",
+      "editor": "select",
+      "enum": [
+        "",
+        "Public",
+        "Private",
+        "Government"
+      ],
+      "enumTitles": [
+        "All ownership types",
+        "Public companies",
+        "Private companies",
+        "Government agencies"
+      ],
+      "prefill": "",
+      "title": "Ownership filter",
+      "type": "string"
+    },
+    "query": {
+      "description": "Legacy alias for searchQuery.",
+      "editor": "hidden",
+      "title": "query (legacy)",
+      "type": "string"
+    },
     "searchQuery": {
       "default": "artificial intelligence",
-      "description": "Company name or keyword to search for. The actor will attempt to resolve the company slug on Owler and fetch the profile. Also expands results via competitors.",
+      "description": "Company name, domain, or keyword to search for, e.g. `stripe`, `artificial intelligence`, or `renewable energy`. Owler returns its relevance-ranked company matches; the actor fetches their profiles and continues through their competitor graphs until Max items is reached.",
       "editor": "textfield",
       "prefill": "artificial intelligence",
       "title": "Search query (mode=search)",
       "type": "string"
+    },
+    "searchTerm": {
+      "description": "Legacy alias for searchQuery.",
+      "editor": "hidden",
+      "title": "searchTerm (legacy)",
+      "type": "string"
+    },
+    "sector": {
+      "description": "Legacy alias for industry.",
+      "editor": "hidden",
+      "title": "sector (legacy)",
+      "type": "string"
+    },
+    "urls": {
+      "description": "Legacy alias for companyUrls.",
+      "editor": "hidden",
+      "items": {
+        "type": "string"
+      },
+      "title": "urls (legacy)",
+      "type": "array"
     }
   },
   "required": [

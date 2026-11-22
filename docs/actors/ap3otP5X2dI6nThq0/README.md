@@ -4,49 +4,65 @@
 
 # NZ Doctor Register Scraper
 
-Search and browse the **Medical Council of New Zealand (MCNZ) public Register of Doctors** — the official government register of every doctor licensed to practise medicine in New Zealand. Filter by name, town/city, specialty (vocational scope), and registration status to get structured, ready-to-use records: name, previous name, practice location, specialty, current registration status, and practising-certificate expiry date.
+Search and browse the **Medical Council of New Zealand (MCNZ) public register of doctors and physician associates** — the official register of practitioners licensed to work in New Zealand. Filter by name, profession, town/city, specialty (vocational scope), and registration status, then export structured records with the practitioner's name, previous name, profession, practice location, specialty, registration status, and practising-certificate expiry date.
 
-No login, no API key, no cookies required — this actor reads MCNZ's public register pages directly.
+No login, no API key, no cookies, and no proxy setup required — the actor reads the public register pages directly.
 
 ## What this actor does
 
-- **Free-text name search** — find a doctor by current or previous name (MCNZ's search also does phonetic matching, e.g. `smith` can surface `smyth`)
-- **Browse without a name** — filter purely by location, specialty, and/or status to pull segments of the register (e.g. every practising GP in Wellington)
-- **181 New Zealand towns/cities** and **36 medical specialties** available as dropdowns — no guessing at spelling
-- **4 registration statuses**: Practising, Not Practising, Inactive, Suspended
-- **Automatic pagination** up to your requested `maxItems`
-- **Clean output** — every field is either a real value or omitted entirely; no `null`/`"N/A"` placeholders
+- **Two modes** — search by current or previous name, or browse the register using only the dropdown filters
+- **Doctor and physician-associate coverage** — the MCNZ register now lists both professions; choose one or include all
+- **170 live locations**, **36 medical specialties**, and **4 registration statuses** as dropdowns
+- **Real pagination** — follows MCNZ's cumulative `start` paging up to the register's 1000-result ceiling, with a page-by-page fallback and duplicate protection
+- **Legacy input support** — saved tasks using older key names (`query`, `area`, `region`, `registrationStatus`, `limit`, …) are mapped onto the current fields automatically
+- **Clean output** — every field is a real value or omitted entirely; no `null`, `""`, or `"N/A"` placeholders
 
-## Output per doctor
+## Output per practitioner
 
 | Field | Description |
 |---|---|
-| `fullName` | Doctor's current registered name (e.g. `Smith, David`) |
-| `previouslyKnownAs` | Previous registered name, if MCNZ records one |
-| `location` | Recorded practice town/city, if published |
-| `specialty` | Recorded vocational scope / specialty area, if any |
+| `fullName` | Current registered name exactly as published |
+| `previouslyKnownAs` | Previous registered name, when MCNZ records one |
+| `profession` | `Doctor` or `Physician Associate` |
+| `location` | Recorded practice town/city, when published |
+| `specialty` | Vocational scope / type of medicine; multiple scopes are comma-separated |
 | `registrationStatus` | `Practising`, `Not Practising`, `Inactive`, or `Suspended` |
-| `certificateExpiryDate` | Practising-certificate expiry date (ISO `YYYY-MM-DD`), if shown |
-| `profileUrl` | Canonical MCNZ register URL for this doctor |
-| `recordType` | Always `"doctor"` |
+| `certificateExpiryDate` | Practising-certificate expiry date (ISO `YYYY-MM-DD`), when shown |
+| `profileUrl` | Canonical MCNZ register URL for this practitioner |
+| `recordType` | `doctor` or `physician-associate` |
 | `scrapedAt` | UTC timestamp the record was collected |
 
-Only fields MCNZ actually publishes for that doctor are included — for example, doctors with no recorded location simply omit `location` rather than showing a placeholder.
+Only fields MCNZ publishes for that practitioner are included — for example, a practitioner with no recorded location omits `location` rather than showing a placeholder.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `keyword` | string | – | Free-text name / previous-name search. Leave blank to browse using only the filters below. |
-| `location` | select | *(all)* | Restrict to a specific New Zealand town/city (182 options) |
-| `specialty` | select | *(all)* | Restrict to a specific vocational scope / specialty (36 options) |
-| `status` | select | *(all)* | Restrict to `Practising`, `Not Practising`, `Inactive`, or `Suspended` |
-| `maxItems` | integer | `50` | Hard cap on the number of records returned (1–1000) |
+| `mode` | select | `search` | `search` matches names; `browse` ignores the keyword and uses only the filters |
+| `keyword` | string | – | Free-text name / previous-name search. MCNZ also matches phonetically |
+| `profession` | select | *(all)* | `Doctor`, `Physician Associate`, or all professions |
+| `location` | select | *(all)* | Restrict to a live town/city/overseas option (170 options) |
+| `specialty` | select | *(all)* | Restrict to a vocational scope / type of medicine (36 options) |
+| `status` | select | *(all)* | `Practising`, `Not Practising`, `Inactive`, or `Suspended` |
+| `maxItems` | integer | `50` | Hard cap on records returned (1–1000) |
+
+### Example: search a name
+
+```json
+{
+  "mode": "search",
+  "keyword": "wilson",
+  "profession": "doctor",
+  "maxItems": 50
+}
+```
 
 ### Example: browse practising GPs in Auckland
 
 ```json
 {
+  "mode": "browse",
+  "profession": "doctor",
   "location": "auckland",
   "specialty": "general-practice",
   "status": "practising",
@@ -54,46 +70,55 @@ Only fields MCNZ actually publishes for that doctor are included — for example
 }
 ```
 
-### Example: name search across the whole register
+### Example: physician associates nationwide
 
 ```json
 {
-  "keyword": "wilson",
-  "maxItems": 50
+  "mode": "browse",
+  "profession": "physician-associate",
+  "maxItems": 20
 }
 ```
 
-### Example: every suspended doctor nationwide
+### Example: every suspended practitioner
 
 ```json
 {
+  "mode": "browse",
+  "profession": "",
   "status": "suspended",
-  "maxItems": 200
+  "maxItems": 100
 }
 ```
 
 ## Use cases
 
-- **Employer due diligence** — verify a doctor's current registration status before hiring or credentialing
-- **Healthcare directories** — build location- or specialty-based doctor directories for patients
-- **Compliance & research** — monitor suspended/inactive practitioners or track specialty distribution by region
-- **Recruitment** — find practising doctors in a target specialty and city for outreach
-- **Data journalism** — analyse the geographic or specialty spread of New Zealand's medical workforce
+- **Employer and credentialing checks** — confirm a practitioner's current registration status and certificate expiry
+- **Healthcare directories** — build location- or specialty-based directories for patients and referrers
+- **Compliance monitoring** — track suspended, inactive, or not-practising practitioners
+- **Workforce research** — measure the geographic and specialty distribution of New Zealand's medical workforce
+- **Recruitment** — find practising practitioners in a target specialty and city
 
 ## FAQ
 
-**Is this official data?** Yes — everything comes directly from the Medical Council of New Zealand's public register, the statutory authority responsible for registering doctors in New Zealand.
+**Is this official data?** Yes. Every record comes from the Medical Council of New Zealand's public register, the statutory authority that registers doctors and physician associates in New Zealand.
 
-**Does this cover doctors outside New Zealand?** No, this actor is specific to MCNZ's Register of Doctors (New Zealand only).
+**Does this include physician associates?** Yes. Set `profession` to `Physician Associate`, or leave it on all professions to include both.
 
-**Why is `location` sometimes missing?** Not every doctor has a published practice location on the public register (e.g. some records show "Not available"). The actor omits the field rather than inventing a value.
+**Does this cover practitioners outside New Zealand?** No. It is specific to MCNZ's New Zealand register.
 
-**Can I search by registration number instead of name?** The `keyword` field searches MCNZ's name index; it is optimized for names (including phonetic matches) rather than registration numbers.
+**Why is `location` sometimes missing?** Not every practitioner has a published practice location; some records show "Not available". The actor omits the field rather than inventing a value.
 
-**Does the actor visit individual doctor profile pages?** No. MCNZ's `robots.txt` explicitly disallows crawling individual doctor profile pages, so this actor only reads the public search/browse listing (which is not restricted) and returns the fields shown there. The `profileUrl` field links to the doctor's full profile on mcnz.org.nz for reference.
+**Can I search by registration number?** The public listing search is name-based. Registration numbers are not exposed on the listing tiles, so the actor does not invent or guess them.
 
-**How often is the register updated?** MCNZ updates the public register continuously; the actor always reads the live page, so results reflect the current register at run time.
+**Does the actor visit individual profile pages?** No. MCNZ's `robots.txt` disallows crawling individual practitioner profiles, so the actor only reads the public search/browse listing (which is not restricted) and links to each profile via `profileUrl`.
 
-**What if my filters return zero doctors?** The actor finishes cleanly with 0 records and a status message — no error — so you can safely automate broad filter sweeps.
+**Why do I get at most 1000 records even though MCNZ reports more matches?** MCNZ's own search backend never serves past the first 1000 cumulative results for a single query. Narrow the keyword, profession, location, specialty, or status filters so each query's match count stays under 1000. The register also displays a 10,000 cap for some profession counts, so the reported total can be an approximation.
 
-**Why do I only get 1000 records even though MCNZ says there are more matches?** MCNZ's own register never serves more than 1000 cumulative results for any single query, no matter how many total matches it reports (e.g. it may say "10,000 doctors" while still refusing to serve past the first 1000). This is a limit on MCNZ's side, not this actor. To reach doctors beyond the first 1000 matches, narrow your search with the `location`, `specialty`, and/or `status` filters (or a more specific `keyword`) so each individual run's match count stays under 1000.
+**What happens if I pass an old location or specialty that no longer exists?** The actor validates dropdown values against the live register and stops with a clear status message instead of sending an unknown value, which MCNZ would silently ignore and answer with the whole register.
+
+**How often is the register updated?** MCNZ updates it continuously; every run reads the live page.
+
+**What if my filters return zero practitioners?** The run finishes cleanly with 0 records and a status message, so broad filter sweeps are safe to automate.
+
+**Are cookies, API keys, or a proxy required?** No. The actor runs cookielessly on a plain HTTP client.

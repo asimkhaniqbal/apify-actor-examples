@@ -4,36 +4,39 @@
 
 # Owler Revenue, CEO & Competitor Lookup
 
-Owler is a crowdsourced competitive-intelligence platform where sales teams, analysts, and researchers track company size, leadership, and rival companies. This actor searches Owler by keyword, or fetches specific company profiles by URL or domain, returning revenue and employee estimates, CEO/executive info, funding data, and each company's top competitors.
+Owler is a crowdsourced competitive-intelligence platform used by sales teams, analysts, and researchers to track company size, leadership, funding, and rival companies. This actor returns that public company intelligence as clean JSON — revenue and employee estimates, the CEO or top executive, headquarters, industry, funding, recent news, and up to 10 competitors per company.
 
 ## What this actor does
 
-- **Two modes:** `search` (seed companies from a keyword, then expand through each profile's competitor links) and `byCompany` (fetch specific profiles by Owler URL or plain domain, e.g. `stripe.com`)
-- **Firmographics per company:** founding year, headquarters, industry/sub-industry, ownership status, stock ticker (if public), funding, revenue and employee estimates
-- **Competitor graph:** up to 10 top competitors per company, each with its own name and Owler URL
-- **Industry filter** narrows either mode down to one of 20 industries, applied after each profile is fetched
-- **Empty fields are omitted** — a field only appears when Owler's public profile actually shows that value
+- **Two modes:** `search` uses Owler's public company search to find companies by name or keyword, then walks each profile's competitor links to keep filling your result set; `byCompany` fetches specific profiles from Owler URLs, plain domains (e.g. `stripe.com`), or Owler slugs
+- **Firmographics per company:** founding year, headquarters, industry/sub-industry, ownership status, stock exchange and ticker (for public companies), funding, revenue and employee estimates, follower count, and website
+- **Leadership:** CEO name plus the top executive's title/name (for companies whose leader has a different title, such as President or Co-CEO) and the public CEO-approval rating
+- **Competitor graph:** up to 10 competitors per company, each with its own name, slug, Owler URL, and logo when available
+- **Recent news:** the latest public events Owler lists (event type, date, source, headline)
+- **Filters:** narrow either mode by industry, ownership type (Public/Private/Government), and headquarters location
+- **Pagination:** `maxItems` caps the run; search mode keeps expanding through the competitor graph until the cap is reached or the graph is exhausted
+- **Omit-empty output:** a field appears only when Owler's public profile actually shows a real value — never `null`, empty strings, or placeholders
 
 ## Output per company
 
-- `name`, `slug`, `owlerUrl` — company name, Owler URL slug, and profile link
-- `ceoName` — current CEO's name (only when the title literally includes "CEO")
+- `name`, `slug`, `owlerUrl` — company name, Owler profile slug, and profile link
+- `description` — the public profile summary
+- `ceoName` — CEO name when Owler labels the top executive as CEO (including Co-CEO, Founder & CEO, and similar titles)
 - `executiveTitle`, `executiveName` — top executive's title and name, regardless of exact wording
-- `ceoApprovalRating` — employee approval rating for the top executive (0–100), when Owler shows one
+- `ceoApprovalRating` — public employee approval rating for the top executive (0–100), when shown
 - `founded` — year founded
 - `headquarters`, `city` — headquarters location
 - `industry`, `subIndustry` — primary industry and sub-industry/sector
-- `ownershipStatus` — `Public` or `Private`
+- `ownershipStatus` — `Public`, `Private`, or `Government`
 - `stockExchange`, `tickerSymbol` — for publicly traded companies only
 - `totalFunding` — total funding raised (e.g. `$9.8B`)
 - `acquisitionsCount`, `investmentsCount` — number of acquisitions/investments made by the company
 - `annualRevenue`, `revenueRange` — revenue estimate and bucket (`Under $1M` to `Over $1B`)
-- `employeeCount`, `employeeRange` — headcount estimate and bucket (`1-10` to `5001+`)
+- `employeeCount`, `employeeRange` — headcount when Owler publishes an exact number, plus the published range (`1-10` to `5001+`)
 - `followersCount` — number of Owler followers
-- `websiteUrl` — company's own website
-- `description` — profile meta description
-- `recentNews[]` — recent company news/events (event type, date, source, headline), when published
-- `competitors[]` — up to 10 top competitors, each with `name`, `slug`, `owlerUrl`, and `logoUrl` when Owler shows one
+- `websiteUrl` — the company's own website
+- `recentNews[]` — recent company news/events, when published
+- `competitors[]` — up to 10 public competitors, each with `name`, `slug`, `owlerUrl`, and `logoUrl` when shown
 - `sourceUrl` — Owler profile URL this record was scraped from
 - `recordType` — always `company`
 - `scrapedAt` — ISO 8601 timestamp of when the record was captured
@@ -43,10 +46,16 @@ Owler is a crowdsourced competitive-intelligence platform where sales teams, ana
 | Field | Type | Default | Description |
 |---|---|---|---|
 | `mode` | string | `search` | `search` / `byCompany` |
-| `searchQuery` | string | `artificial intelligence` | Keyword to search (mode=search) |
-| `companyUrls` | array | – | Owler company URLs or plain domains (mode=byCompany) |
-| `industry` | string | *(all)* | Restrict results to one of 20 industries, applied after fetching |
+| `searchQuery` | string | `artificial intelligence` | Company name, domain, or keyword to search (mode=search) |
+| `companyUrls` | array | – | Owler URLs, plain domains, or slugs (mode=byCompany) |
+| `industry` | string | *(all)* | Keep one of 20 industries, applied after fetching |
+| `ownershipStatus` | string | *(all)* | Keep `Public`, `Private`, or `Government` companies |
+| `location` | string | *(all)* | Headquarters/city text filter, e.g. `California` |
 | `maxItems` | integer | `20` | Hard cap on total records emitted (1–200) |
+
+### Legacy input aliases
+
+Saved tasks created against earlier versions of this actor keep working. Older key names are accepted automatically and mapped onto the current fields: `searchTerm`, `query` → `searchQuery`; `companyUrl`, `urls`, `companySlugs` → `companyUrls`; `maxResults`, `limit` → `maxItems`; `ownership` → `ownershipStatus`; `sector` → `industry`; `hq` → `location`. These aliases stay hidden in the input form; only the fields above are shown.
 
 ### Example: find companies in a space
 
@@ -66,43 +75,49 @@ Owler is a crowdsourced competitive-intelligence platform where sales teams, ana
   "companyUrls": [
     "https://www.owler.com/company/stripe",
     "apple.com",
-    "openai.com"
+    "openai"
   ]
 }
 ```
 
-### Example: search a keyword, keep one industry only
+### Example: search a keyword, keep public companies only
 
 ```json
 {
   "mode": "search",
   "searchQuery": "fintech",
-  "industry": "Finance",
+  "ownershipStatus": "Public",
+  "location": "California",
   "maxItems": 50
 }
 ```
 
 ## Use cases
 
-- **Sales intelligence** — size up a prospect's revenue tier, headcount, leadership and competitors before outreach
+- **Sales intelligence** — size up a prospect's revenue tier, headcount, leadership, and competitors before outreach
 - **Competitive mapping** — follow the competitor graph outward from a known company to find adjacent players
-- **Market sizing** — aggregate revenue and employee ranges across a keyword-defined industry segment
+- **Market sizing** — aggregate revenue and employee ranges across a keyword-defined segment
 - **CRM enrichment** — attach firmographic fields to existing company records
-- **Investor screening** — shortlist companies in a sector along with estimated revenue and funding
-- **Partnership evaluation** — compare a potential partner's scale against its listed competitors
+- **Investor and partnership screening** — shortlist companies by sector, ownership, and location, with funding and scale context
 
 ## FAQ
 
-**Do I need an Owler Pro subscription?** No. This actor extracts only the data visible to any visitor without logging in — Owler Pro's detailed financial breakdowns and employee contact details aren't accessible this way and aren't returned.
+**Do I need an Owler Pro subscription?** No. This actor reads only data visible to any visitor without logging in. Owler Pro's detailed financial breakdowns and employee contact details are not accessible this way and are not returned.
 
-**How does `search` mode find companies?** It starts from companies matching your keyword, then follows the competitor links on each fetched profile to expand the result set until `maxItems` is reached.
+**How does `search` mode find companies?** It first asks Owler's public company search for relevance-ranked matches to your keyword, fetches their public profiles, then follows competitor links from those profiles to expand the result set until `maxItems` is reached. Search is not limited to a fixed list of companies.
 
-**Can I search by domain name instead of company name?** Yes — in `byCompany` mode, pass plain domains like `stripe.com` or `openai.com` and the actor resolves them to the matching Owler profile slug.
+**Does search return every matching company?** Owler's public search returns up to 30 relevance-ranked matches per keyword. The actor fetches those profiles and then follows their competitor links until `maxItems` is reached, so a run can contain more than 30 companies but only 30 are direct keyword matches.
 
-**How current are the revenue and employee figures?** Owler's data is community-sourced and periodically updated by its userbase, so these figures are estimates and may lag the company's actual current numbers by months.
+**What happens if my keyword has no matches?** The run finishes with a clear status message instead of inventing or substituting unrelated companies. Try a company name, domain, or broader keyword.
 
-**Does the industry filter run before or after fetching?** After. Every matched company is fetched first, then the industry filter is applied to the extracted profile.
+**Can I search by domain or company name?** Yes. `search` accepts names and keywords; `byCompany` accepts plain domains like `stripe.com`, Owler URLs, and Owler slugs.
 
-**Why is `ceoName` sometimes empty while `executiveName` is filled in?** `ceoName` only populates when the top executive's title literally contains "CEO" (e.g. founders with a different title like "President" won't set it); `executiveName`/`executiveTitle` always reflect whoever Owler lists as the top executive.
+**How current are the revenue and employee figures?** Owler's data is community-sourced and periodically updated by its users, so figures are estimates and may lag a company's current numbers. Owler often publishes a range (for example `$10-50B` or `5.0-10K`) rather than an exact figure; both the published value and a normalized bucket are returned when available.
 
-**Is this affiliated with Owler?** No, this is an independent third-party actor that reads Owler's public company pages. It is not affiliated with, endorsed by, or sponsored by Owler, Inc.
+**Why is `ceoName` sometimes empty while `executiveName` is filled in?** `ceoName` is set only when Owler labels the top executive with a CEO title. `executiveName`/`executiveTitle` always reflect whoever Owler lists as the top executive, even if that title is President, Founder, or Chair.
+
+**Does the industry filter run before or after fetching?** After. Profiles are fetched first, then the industry, ownership, and location filters are applied. A very narrow filter may return fewer than `maxItems`; the status message explains when that happens.
+
+**How many competitors are included?** Owler's public profile exposes up to 10 competitors; that is also the maximum returned per company.
+
+**Is this affiliated with Owler?** No. This is an independent third-party actor that reads Owler's public company pages. It is not affiliated with, endorsed by, or sponsored by Owler, Inc.

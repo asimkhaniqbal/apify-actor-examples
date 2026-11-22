@@ -4,18 +4,24 @@
 
 # PGA Tour Season Schedule & Round-by-Round Leaderboard
 
-PGA Tour runs the official schedule and scoring feed for professional golf's main US tours. This actor pulls a season's tournament schedule with champions, purses and courses, or a single tournament's live leaderboard with per-round scores and tee times. No login or proxy required.
+PGA Tour runs the official schedule and scoring feed for professional golf's main US tours. This actor reads pgatour.com's public browser-facing JSON services and returns a season schedule, a tournament leaderboard, or one row per player per round. It covers the PGA Tour, Korn Ferry Tour, PGA Tour Champions and PGA Tour Americas, including team events. No login, cookies, API key or proxy is required.
 
 ## What this actor does
 
-- **Two modes:** `schedule`, `leaderboard`
-- **Full schedules:** tournament name, dates, status, champion(s), purse, course and location
-- **Live leaderboards:** player position, total score, thru hole, per-round scores, tee times and course grouping
-- **Seasons 2000–2030** (PGA Tour season data)
-- **Filters:** tournament status, max leaderboard position, keyword containment
-- **Empty fields are omitted**
+- **Three modes:** `schedule`, `leaderboard`, `rounds`
+- **Four tours:** PGA Tour (`R`), Korn Ferry Tour (`H`), PGA Tour Champions (`S`), PGA Tour Americas (`Y`)
+- **Full schedules:** dates, status, champion(s), purse, course, city/state/country and tickets/site links
+- **Full leaderboards:** one row per player or team, position, total, today's score, thru, total strokes, movement, round status and per-round scores
+- **Round-by-round:** one record per player/team per completed round, ideal for round-form models
+- **Team events:** Zurich Classic and other team-format events are read through the site's own team leaderboard payload
+- **Filters:** status, max position, round number, keyword
+- **Pagination:** deterministic `startIndex` + `maxResults` slicing over the filtered result set
+- **Several events or seasons per run:** up to 50 tournament IDs and up to 10 seasons
+- **Empty fields and unplayed rounds are omitted** — never `null` or `-` sentinels
 
 ## Output per record
+
+All rows carry `recordType`, `scrapedAt`, `tour`, `season` and `sourceUrl` when the source has them.
 
 ### Tournament (`recordType: "tournament"`, mode=schedule)
 
@@ -23,65 +29,91 @@ PGA Tour runs the official schedule and scoring feed for professional golf's mai
 - `displayDate`, `dateAccessibilityText`, `status` (`COMPLETED` / `UPCOMING` / `IN_PROGRESS`)
 - `champion`, `champions[]`, `championPlayerIds[]`, `championEarnings`
 - `purse`, `par`, `yardage`, `qualifiers`, `location`, `thisWeek`, `display`
-- `courseName`, `courseCity`, `courseStateCode`, `courseCountry`
-- `tour`, `season`, `sourceUrl`
+- `courseName`, `courseCity`, `courseStateCode`, `courseCountry`, `courseCountryCode`
+- `tournamentSiteUrl`, `ticketsUrl`
 
 ### Leaderboard row (`recordType: "leaderboardRow"`, mode=leaderboard)
 
-- `playerId`, `firstName`, `lastName`, `displayName`, `shortName`, `country`, `amateur`
-- `position`, `total`, `thru`, `score`, `roundHeader`, `currentRound`
-- `roundScores[]`, `totalSort`, `scoreSort`, `courseId`, `groupNumber`, `teeTime`, `startingHole`
-- `status`, `bettingProfile`, `tournamentId`, `tour`, `sourceUrl`
+- `playerId`, `firstName`, `lastName`, `displayName`, `shortName`, `country`, `countryCode`, `amateur`
+- `position`, `total`, `thru`, `score`, `roundHeader`, `currentRound`, `roundStatus`, `playerState`
+- `totalStrokes`, `totalSort`, `scoreSort`, `official`, `projected`
+- `movementDirection`, `movementAmount`, `rankingMovement`, `backNine`, `tourBound`
+- `roundScores[]` (display strings) and `roundDetails[]` (`roundNumber`, `roundStrokes`, `roundActive`)
+- `courseId`, `courseName`, `groupNumber`, `status`, `tournamentId`, `tournamentName`, `tournamentStatus`, `timezone`, `formatType`
+- Team events: `teamId`, `teamName`, `teamMembers[]` instead of a single player block
+
+### Round (`recordType: "round"`, mode=rounds)
+
+- `roundNumber`, `roundStrokes`, `roundActive`, `roundHeader`
+- Plus the player/team identity, `position`, `total`, `thru`, `totalStrokes`, `tournamentId`, `tournamentName`, `tournamentStatus`, `courseId`, `courseName`, `sourceUrl`
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `schedule` | `schedule` / `leaderboard` |
-| `tour` | string | `R` | PGA Tour / Korn Ferry Tour / PGA Tour Champions |
-| `season` | int | `2026` | Season year (2000–2030) |
-| `tournamentId` | string | – | e.g. `R2026027` (mode=leaderboard) |
-| `tournamentStatus` | array | – | Keep only these statuses (mode=schedule) |
-| `maxPosition` | int | – | Keep players at or above this position (mode=leaderboard) |
-| `containsKeyword` | string | – | Tournament / player / course name filter |
-| `maxResults` | int | `50` | Hard cap (1–500) |
-| `proxyConfiguration` | object | off | Optional Apify proxy, used automatically only if the API blocks the datacenter IP |
+| `mode` | select | `schedule` | `schedule` / `leaderboard` / `rounds` |
+| `tour` | select | `R` | PGA Tour / Korn Ferry / Champions / Americas |
+| `seasons` | multi-select | – | Season years for schedule mode (2012–2030; Korn Ferry/Champions 2013+, Americas 2024+) |
+| `tournamentIds` | list | – | IDs or leaderboard URLs (leaderboard / rounds), up to 50 |
+| `tournamentStatus` | multi-select | – | `COMPLETED` / `IN_PROGRESS` / `UPCOMING` |
+| `maxPosition` | int | – | Keep players/teams at or above this position |
+| `roundNumber` | int | – | Rounds mode: keep one round (1–8) |
+| `containsKeyword` | string | – | Tournament / player / team / course name contains |
+| `startIndex` | int | `0` | Pagination offset |
+| `maxResults` | int | `50` | Page size (1–10,000) |
+| `proxyConfiguration` | object | off | Optional; only used if the API blocks the datacenter IP |
 
 ## Examples
 
-### Example: current season schedule
+### Current season schedule
+
+```json
+{ "mode": "schedule", "tour": "R", "seasons": ["2026"], "maxResults": 50 }
+```
+
+### Completed majors only, two seasons
 
 ```json
 {
   "mode": "schedule",
   "tour": "R",
-  "season": 2026,
-  "maxResults": 50
-}
-```
-
-### Example: completed majors only
-
-```json
-{
-  "mode": "schedule",
-  "season": 2026,
+  "seasons": ["2025", "2026"],
   "tournamentStatus": ["COMPLETED"],
   "containsKeyword": "championship",
-  "maxResults": 20
+  "maxResults": 40
 }
 ```
 
-### Example: live leaderboard
+### Two leaderboards, top 20
 
 ```json
 {
   "mode": "leaderboard",
-  "tournamentId": "R2026027",
+  "tournamentIds": ["R2026006", "R2026014"],
   "maxPosition": 20,
+  "maxResults": 40
+}
+```
+
+### Round 4 scores for one event, page 2
+
+```json
+{
+  "mode": "rounds",
+  "tournamentIds": ["R2026014"],
+  "roundNumber": 4,
+  "startIndex": 20,
   "maxResults": 20
 }
 ```
+
+### Legacy saved-task input (still works)
+
+```json
+{ "mode": "schedule", "tour": "K", "season": 2025, "year": 2025, "maxItems": 10 }
+```
+
+Legacy keys are mapped in code: `season`/`year`, `tournamentId`/`tournament`/`url`, `status`, `keyword`/`query`, `limit`/`maxItems`, `offset`/`skip`, `topN`, `round`, old tour codes `K` (Korn Ferry) and `C` (Champions).
 
 ## Use cases
 
@@ -93,14 +125,28 @@ PGA Tour runs the official schedule and scoring feed for professional golf's mai
 
 ## FAQ
 
-**What is the data source?** PGA Tour's own public schedule and leaderboard pages at pgatour.com. This is an independent third-party actor — not affiliated with, endorsed by, or sponsored by the PGA Tour.
+**What is the data source?** PGA Tour's own public browser-facing JSON services and, for team events, the leaderboard page's embedded payload. This is an independent third-party actor — not affiliated with, endorsed by, or sponsored by the PGA Tour.
 
-**Why does the Korn Ferry / Champions schedule return nothing?** The public schedule endpoint currently publishes tournament data for the main PGA Tour (`R`). Korn Ferry and Champions tournament IDs still work in `leaderboard` mode when you have one.
+**Do all four tours have schedules?** Yes. The PGA Tour, Korn Ferry Tour, PGA Tour Champions and PGA Tour Americas all publish schedules and leaderboards through the same endpoints.
 
 **How fresh is the data?** Fetched live on every run — leaderboards reflect the current round.
 
 **What does `thru` mean?** The player's progress through the current round: `F` = finished the round, otherwise the hole number.
 
 **Why are some `roundScores` missing?** Rounds not yet played are omitted; empty fields are never emitted.
+
+**Why does a future event return no leaderboard?** Leaderboards exist once an event starts. The run reports that clearly in its status message.
+
+**Where are tee times, hole-by-hole scorecards, odds or player stats?** Those live behind a GraphQL endpoint that requires the site's rotating frontend key, so this actor deliberately stays on the keyless REST and HTML surfaces. It returns the full score, position and round data those pages publish.
+
+**Why no FedExCup points or official money on leaderboard rows?** The public REST leaderboard carries the winner's purse only; per-player money and cup points are not in that payload.
+
+## Limitations
+
+- No tee times, hole-by-hole scorecards, odds, player statistics or shot tracking (GraphQL-only, rotating frontend key).
+- Per-player earnings and FedExCup points are not published by the public REST leaderboard.
+- Team events use a different upstream payload; rows are per team with `teamMembers[]`.
+- LPGA, DP World Tour, LIV Golf and other circuits are not covered (not on these PGA Tour-operated endpoints).
+- Schedule coverage starts in 2012 for the PGA Tour, 2013 for Korn Ferry/Champions and 2024 for PGA Tour Americas; earlier seasons return no tournaments upstream.
 
 **Is this affiliated with the PGA Tour?** No, this is an independent third-party actor that reads PGA Tour's public schedule and leaderboard pages. It is not affiliated with, endorsed by, or sponsored by the PGA Tour.
