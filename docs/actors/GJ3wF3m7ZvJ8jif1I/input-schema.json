@@ -1,0 +1,99 @@
+{
+  "description": "Scrape PGA Tour schedules and live leaderboards for the PGA Tour, Korn Ferry Tour and PGA Tour Champions.",
+  "properties": {
+    "containsKeyword": {
+      "description": "Only keep rows whose tournament / player / course name contains this text.",
+      "editor": "textfield",
+      "title": "Keyword filter",
+      "type": "string"
+    },
+    "maxPosition": {
+      "description": "Keep only players at or above this position (mode=leaderboard).",
+      "maximum": 200,
+      "minimum": 1,
+      "title": "Max leaderboard position",
+      "type": "integer"
+    },
+    "maxResults": {
+      "default": 50,
+      "description": "Hard cap on emitted records.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max results",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "schedule",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "schedule",
+        "leaderboard"
+      ],
+      "enumTitles": [
+        "Tournament schedule",
+        "Leaderboard for a tournament"
+      ],
+      "prefill": "schedule",
+      "title": "Mode",
+      "type": "string"
+    },
+    "proxyConfiguration": {
+      "description": "Optional proxy (used automatically if the API blocks the datacenter IP).",
+      "editor": "proxy",
+      "prefill": {
+        "useApifyProxy": false
+      },
+      "title": "Proxy configuration",
+      "type": "object"
+    },
+    "season": {
+      "default": 2026,
+      "description": "Season year (e.g. 2026).",
+      "maximum": 2030,
+      "minimum": 2000,
+      "prefill": 2026,
+      "title": "Season",
+      "type": "integer"
+    },
+    "tour": {
+      "default": "R",
+      "description": "Which tour to scrape.",
+      "editor": "select",
+      "enum": [
+        "R",
+        "H",
+        "S"
+      ],
+      "enumTitles": [
+        "PGA Tour",
+        "Korn Ferry Tour",
+        "PGA Tour Champions"
+      ],
+      "prefill": "R",
+      "title": "Tour",
+      "type": "string"
+    },
+    "tournamentId": {
+      "description": "PGA Tour tournament ID, e.g. `R2026027` (mode=leaderboard).",
+      "editor": "textfield",
+      "title": "Tournament ID (mode=leaderboard)",
+      "type": "string"
+    },
+    "tournamentStatus": {
+      "default": [],
+      "description": "Keep only tournaments with these statuses (mode=schedule).",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Tournament status (mode=schedule)",
+      "type": "array"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "PGA Tour Scraper Input",
+  "type": "object"
+}

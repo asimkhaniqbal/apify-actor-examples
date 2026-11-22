@@ -1,0 +1,185 @@
+{
+  "description": "Search OpenAlex's open scholarly database, or fetch specific works/authors by ID.",
+  "properties": {
+    "authorIds": {
+      "default": [],
+      "description": "OpenAlex author IDs (`A123...`) or ORCIDs.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Author IDs (mode=byAuthorIds)",
+      "type": "array"
+    },
+    "includeAbstract": {
+      "default": true,
+      "description": "Reconstruct the abstract from OpenAlex's inverted index. Costs zero extra API calls.",
+      "prefill": true,
+      "title": "Include abstract",
+      "type": "boolean"
+    },
+    "includeAuthorships": {
+      "default": true,
+      "description": "Include the full authorship list (with affiliations).",
+      "prefill": true,
+      "title": "Include authorships",
+      "type": "boolean"
+    },
+    "includeConcepts": {
+      "default": true,
+      "description": "Include the topic / concept tags assigned by OpenAlex.",
+      "prefill": true,
+      "title": "Include topics / concepts",
+      "type": "boolean"
+    },
+    "institutionIds": {
+      "default": [],
+      "description": "OpenAlex institution IDs prefixed with `I` (university / lab / company). Examples: `I27837315` (Univ. of Michigan), `I97018004` (Stanford), `I136199984` (Harvard), `I32971472` (MIT), `I114027177` (DeepMind). Or pass a ROR ID URL.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Institution IDs (mode=byInstitutionIds)",
+      "type": "array"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Hard cap on emitted records.",
+      "maximum": 10000,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "minCitedBy": {
+      "description": "Drop works with fewer citations than this.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Min citation count",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "searchWorks",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "searchWorks",
+        "searchAuthors",
+        "byWorkIds",
+        "byAuthorIds",
+        "byVenueIds",
+        "byInstitutionIds"
+      ],
+      "enumTitles": [
+        "Search works",
+        "Search authors",
+        "Fetch works by ID / DOI / PMID",
+        "Fetch all works by author ID",
+        "Fetch works by venue / source ID (journal, repo)",
+        "Fetch works by institution ID (university, lab)"
+      ],
+      "prefill": "searchWorks",
+      "title": "Mode",
+      "type": "string"
+    },
+    "openAccessOnly": {
+      "default": false,
+      "description": "Only emit works with open-access full-text available.",
+      "prefill": false,
+      "title": "Open-access only",
+      "type": "boolean"
+    },
+    "publicationYearMax": {
+      "description": "Drop works published after this year.",
+      "maximum": 2100,
+      "minimum": 1800,
+      "title": "Publication year (max)",
+      "type": "integer"
+    },
+    "publicationYearMin": {
+      "description": "Drop works published before this year.",
+      "maximum": 2100,
+      "minimum": 1800,
+      "title": "Publication year (min)",
+      "type": "integer"
+    },
+    "searchQuery": {
+      "default": "large language models",
+      "description": "Free-text query.",
+      "editor": "textfield",
+      "prefill": "large language models",
+      "title": "Search query (mode=searchWorks / searchAuthors)",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "relevance_score:desc",
+      "description": "OpenAlex sort field.",
+      "editor": "select",
+      "enum": [
+        "relevance_score:desc",
+        "cited_by_count:desc",
+        "publication_date:desc",
+        "publication_year:desc"
+      ],
+      "enumTitles": [
+        "Relevance (default for search)",
+        "Most cited",
+        "Newest publication date",
+        "Newest publication year"
+      ],
+      "prefill": "relevance_score:desc",
+      "title": "Sort by",
+      "type": "string"
+    },
+    "userAgentEmail": {
+      "default": "apify-actor@noreply.apify.com",
+      "description": "OpenAlex's polite pool requires a contact email in the User-Agent. Default works for low-volume; for production scraping, supply your own email.",
+      "editor": "textfield",
+      "prefill": "apify-actor@noreply.apify.com",
+      "title": "User-Agent contact email",
+      "type": "string"
+    },
+    "venueIds": {
+      "default": [],
+      "description": "OpenAlex source IDs prefixed with `S` (journal / repository / conference). Examples: `S4306400194` (arXiv), `S137773608` (Nature), `S99775433` (Science). Or pass an ISSN like `0028-0836` and it will be resolved.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Venue / source IDs (mode=byVenueIds)",
+      "type": "array"
+    },
+    "workIds": {
+      "default": [],
+      "description": "OpenAlex work IDs (`W123...`), DOIs, PMIDs, or PMCIDs. Examples: `W2741809807`, `https://doi.org/10.1145/3442188.3445922`, `pmid:25524000`.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Work IDs (mode=byWorkIds)",
+      "type": "array"
+    },
+    "workType": {
+      "default": "any",
+      "description": "Optional OpenAlex `type` filter.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "article",
+        "book",
+        "book-chapter",
+        "dataset",
+        "dissertation",
+        "preprint",
+        "report",
+        "review",
+        "letter",
+        "editorial",
+        "erratum",
+        "standard",
+        "supplementary-materials"
+      ],
+      "prefill": "any",
+      "title": "Work type",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "OpenAlex Scraper Input",
+  "type": "object"
+}
