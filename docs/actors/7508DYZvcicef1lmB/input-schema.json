@@ -1,0 +1,134 @@
+{
+  "description": "Search luxury resale items, browse categories/brands, or scrape specific product URLs.",
+  "properties": {
+    "brandSlug": {
+      "description": "Vestiaire brand slug, e.g. `gucci`, `louis-vuitton`, `chanel`, `hermes`.",
+      "editor": "textfield",
+      "title": "Brand slug (mode=byBrand)",
+      "type": "string"
+    },
+    "categorySlug": {
+      "default": "women-bags",
+      "description": "Vestiaire category slug matching the URL path, e.g. `women-bags`, `men-clothing`. Watches and jewellery appear under their parent accessory category.",
+      "editor": "select",
+      "enum": [
+        "women-bags",
+        "women-clothing",
+        "women-shoes",
+        "women-accessories",
+        "women-jewellery",
+        "men-bags",
+        "men-clothing",
+        "men-shoes",
+        "men-accessories",
+        "kids-girls",
+        "kids-boys",
+        "kids-shoes",
+        "kids-accessories"
+      ],
+      "enumTitles": [
+        "Women — Bags",
+        "Women — Clothing",
+        "Women — Shoes",
+        "Women — Accessories",
+        "Women — Jewellery",
+        "Men — Bags",
+        "Men — Clothing",
+        "Men — Shoes",
+        "Men — Accessories",
+        "Kids — Girls",
+        "Kids — Boys",
+        "Kids — Shoes",
+        "Kids — Accessories"
+      ],
+      "title": "Category (mode=byCategory)",
+      "type": "string"
+    },
+    "condition": {
+      "default": "",
+      "description": "Filter by item condition.",
+      "editor": "select",
+      "enum": [
+        "",
+        "never_worn",
+        "very_good",
+        "good",
+        "fair"
+      ],
+      "enumTitles": [
+        "Any condition",
+        "Never worn",
+        "Very good condition",
+        "Good condition",
+        "Fair condition"
+      ],
+      "title": "Condition filter",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of items to scrape.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Maximum price filter in USD.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Max price (USD)",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Minimum price filter in USD.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Min price (USD)",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to scrape.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byCategory",
+        "byBrand",
+        "byUrl"
+      ],
+      "enumTitles": [
+        "Search (keyword query)",
+        "Browse by category",
+        "Browse by brand",
+        "Fetch specific product URLs"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "productUrls": {
+      "default": [],
+      "description": "List of Vestiaire Collective product page URLs to scrape.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Product URLs (mode=byUrl)",
+      "type": "array"
+    },
+    "searchQuery": {
+      "default": "gucci bag",
+      "description": "Free-text search query, e.g. `gucci bag` or `chanel classic flap`.",
+      "editor": "textfield",
+      "prefill": "gucci bag",
+      "title": "Search query (mode=search)",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Vestiaire Collective Scraper Input",
+  "type": "object"
+}

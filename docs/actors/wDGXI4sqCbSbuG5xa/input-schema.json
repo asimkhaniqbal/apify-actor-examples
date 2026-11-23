@@ -1,0 +1,182 @@
+{
+  "description": "Scrape posts, comments, topic feeds, and company-specific feeds from TeamBlind. A logged-in cookie is REQUIRED — TeamBlind is login-walled.",
+  "properties": {
+    "autoEscalateOnBlock": {
+      "default": true,
+      "description": "If true (default), the actor engages Apify residential proxy on HTTP 403 / 429 blocks.",
+      "editor": "checkbox",
+      "prefill": true,
+      "title": "Auto-escalate to Apify residential proxy on block",
+      "type": "boolean"
+    },
+    "companies": {
+      "default": [
+        "Google"
+      ],
+      "description": "Company slugs as they appear in TeamBlind URLs (e.g. `Google`, `Amazon`, `Meta`, `Microsoft`, `Apple`, `Netflix`, `Salesforce`, `Uber`, `Airbnb`, `Stripe`).",
+      "editor": "stringList",
+      "title": "Companies (mode=byCompany)",
+      "type": "array"
+    },
+    "cookieHeader": {
+      "description": "Optional for list modes (searchPosts, byTopic, byCompany) — those work without login. Required for byPost (full thread + comments). To get: open teamblind.com while signed in, DevTools → Network → any request → copy the full `Cookie` header value. Look for `b_session_id=...`. The actor sends this verbatim.",
+      "editor": "textfield",
+      "isSecret": true,
+      "sectionCaption": "Authentication",
+      "sectionDescription": "List modes (searchPosts, byTopic, byCompany) work without a cookie. byPost requires a logged-in cookie to retrieve the full thread body.",
+      "title": "TeamBlind cookie header (required for byPost mode)",
+      "type": "string"
+    },
+    "country": {
+      "default": "us",
+      "description": "TeamBlind region. `us` and `in` both use www.teamblind.com (TeamBlind serves India-region feeds via the same host based on user account country). `kr` swaps to kr.teamblind.com.",
+      "editor": "select",
+      "enum": [
+        "us",
+        "kr",
+        "in"
+      ],
+      "enumTitles": [
+        "United States (www.teamblind.com)",
+        "Korea (kr.teamblind.com)",
+        "India (www.teamblind.com — India-region feeds)"
+      ],
+      "prefill": "us",
+      "title": "Country / locale",
+      "type": "string"
+    },
+    "includeComments": {
+      "default": true,
+      "description": "Emit each comment as a separate record alongside the post body.",
+      "editor": "checkbox",
+      "prefill": true,
+      "title": "Include comments (mode=byPost)",
+      "type": "boolean"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Hard cap on emitted records (post + comment + error records combined).",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 10,
+      "sectionCaption": "Pagination & proxy",
+      "sectionDescription": "Output cap and anti-bot escalation behaviour.",
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "searchPosts",
+      "description": "What to scrape.",
+      "editor": "select",
+      "enum": [
+        "searchPosts",
+        "byPost",
+        "byTopic",
+        "byCompany",
+        "byUrl"
+      ],
+      "enumTitles": [
+        "Search posts (by keyword query)",
+        "By post (single thread URL → full content + comments)",
+        "By topic (Career / Compensation / Interview / Tech / ...)",
+        "By company (single company feed)",
+        "By URL (paste teamblind.com URLs)"
+      ],
+      "prefill": "searchPosts",
+      "sectionCaption": "Mode",
+      "sectionDescription": "Pick what to scrape from TeamBlind. Other inputs adapt to the selected mode.",
+      "title": "Mode",
+      "type": "string"
+    },
+    "postUrls": {
+      "default": [],
+      "description": "Full TeamBlind post URLs (e.g. `https://www.teamblind.com/post/...`). For mode=byUrl you can also paste topic / company / search URLs.",
+      "editor": "stringList",
+      "title": "Post URLs (mode=byPost / byUrl)",
+      "type": "array"
+    },
+    "proxyGroups": {
+      "default": [],
+      "description": "Apify proxy groups to engage on auto-escalation. Empty = datacenter (default), then residential fallback.",
+      "editor": "stringList",
+      "title": "Apify proxy groups (used on auto-escalation)",
+      "type": "array"
+    },
+    "query": {
+      "default": "layoffs",
+      "description": "Free-text search query. TeamBlind's search returns matched posts ranked by relevance.",
+      "editor": "textfield",
+      "prefill": "layoffs",
+      "sectionCaption": "Inputs",
+      "sectionDescription": "Provide a query, topic, companies, or URLs depending on the mode you picked above.",
+      "title": "Search query (mode=searchPosts)",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "newest",
+      "description": "Sort feed by recency (default) or popularity.",
+      "editor": "select",
+      "enum": [
+        "newest",
+        "popular"
+      ],
+      "enumTitles": [
+        "Newest",
+        "Most popular"
+      ],
+      "prefill": "newest",
+      "sectionCaption": "Filters & locale",
+      "sectionDescription": "Sort, locale, and per-post options.",
+      "title": "Sort order (mode=byTopic / byCompany)",
+      "type": "string"
+    },
+    "topic": {
+      "default": "Career",
+      "description": "TeamBlind topic / channel. The most popular feeds are listed here; if you need a less-common one use mode=byUrl.",
+      "editor": "select",
+      "enum": [
+        "Career",
+        "Compensation",
+        "Interview",
+        "Tech",
+        "Layoffs",
+        "Startups",
+        "Investing",
+        "Real-Estate",
+        "Education",
+        "Health",
+        "Relationships",
+        "Travel",
+        "Lifestyle",
+        "Marketplace",
+        "General"
+      ],
+      "enumTitles": [
+        "Career",
+        "Compensation",
+        "Interview",
+        "Tech Industry",
+        "Layoffs",
+        "Startups",
+        "Investing",
+        "Real Estate",
+        "Education",
+        "Health",
+        "Relationships",
+        "Travel",
+        "Lifestyle",
+        "Marketplace",
+        "General"
+      ],
+      "prefill": "Career",
+      "title": "Topic (mode=byTopic)",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "TeamBlind Scraper Input",
+  "type": "object"
+}

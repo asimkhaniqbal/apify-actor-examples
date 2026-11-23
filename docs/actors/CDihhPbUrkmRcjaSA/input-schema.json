@@ -1,0 +1,85 @@
+{
+  "description": "Search TheHub.io for startup job listings by keyword, role, or remote status.",
+  "properties": {
+    "jobRole": {
+      "description": "Role category to browse.",
+      "editor": "select",
+      "enum": [
+        "software-engineer",
+        "frontend-developer",
+        "backend-developer",
+        "fullstack-developer",
+        "mobile-developer",
+        "data-scientist",
+        "devops-engineer",
+        "product-manager",
+        "ux-designer",
+        "marketing",
+        "sales",
+        "customer-success"
+      ],
+      "enumTitles": [
+        "Software Engineer",
+        "Frontend Developer",
+        "Backend Developer",
+        "Full Stack Developer",
+        "Mobile Developer",
+        "Data Scientist",
+        "DevOps Engineer",
+        "Product Manager",
+        "UX Designer",
+        "Marketing",
+        "Sales",
+        "Customer Success"
+      ],
+      "title": "Job role (mode=browseByRole)",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Hard cap on emitted records.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "searchJobs",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "searchJobs",
+        "browseByRole"
+      ],
+      "enumTitles": [
+        "Search jobs by keyword",
+        "Browse jobs by role"
+      ],
+      "prefill": "searchJobs",
+      "title": "Mode",
+      "type": "string"
+    },
+    "query": {
+      "default": "developer",
+      "description": "Keyword or job title to search (mode=searchJobs). E.g. 'developer', 'data scientist', 'designer'.",
+      "editor": "textfield",
+      "prefill": "developer",
+      "title": "Search query / keyword",
+      "type": "string"
+    },
+    "remoteOnly": {
+      "default": false,
+      "description": "Only return remote-eligible jobs.",
+      "prefill": false,
+      "title": "Remote only",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "The Hub Startup Jobs Scraper Input",
+  "type": "object"
+}

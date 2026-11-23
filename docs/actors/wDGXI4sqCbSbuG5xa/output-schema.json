@@ -1,0 +1,13 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "description": "Posts, comments, and error records scraped from TeamBlind. Each row carries a `recordType` field — `post` for thread bodies, `comment` for reply bodies, `error` for fetch / login-wall failures.",
+  "properties": {
+    "records": {
+      "description": "Dataset of all scraped posts and comments. Each record begins with `recordType` (post / comment / error), followed by entity fields (id, alias, title, content, author, timestamps, counts, url) and a `scrapedAt` ISO timestamp.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items",
+      "title": "TeamBlind records",
+      "type": "string"
+    }
+  },
+  "title": "TeamBlind Topic, Company & Post Thread Extractor Output"
+}
