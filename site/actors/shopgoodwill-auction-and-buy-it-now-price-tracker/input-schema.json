@@ -1,0 +1,194 @@
+{
+  "description": "Search or browse ShopGoodwill.com — Goodwill's official online auction marketplace for secondhand clothing, shoes, accessories, and jewelry.",
+  "properties": {
+    "brand": {
+      "description": "Optional brand name to AND into the search text (e.g. `levis`, `coach`, `nike`). ShopGoodwill does not expose a structured brand facet — this is a keyword narrowing, not an exact filter.",
+      "editor": "textfield",
+      "title": "Brand keyword",
+      "type": "string"
+    },
+    "buyNowOnly": {
+      "default": false,
+      "description": "Only include items with an active Buy-It-Now price (skip bid-only auctions).",
+      "prefill": false,
+      "title": "Buy-it-now listings only",
+      "type": "boolean"
+    },
+    "categoryId": {
+      "default": "",
+      "description": "Fashion category to browse or narrow by (mode=byCategory uses this as the primary filter; other modes use it as an optional narrowing filter). Includes both top-level departments and their live subcategories.",
+      "editor": "select",
+      "enum": [
+        "",
+        "10",
+        "27",
+        "28",
+        "29",
+        "1729",
+        "453",
+        "137",
+        "2272",
+        "169",
+        "6",
+        "84",
+        "100",
+        "91",
+        "2240",
+        "90",
+        "2241",
+        "85",
+        "102",
+        "436",
+        "101",
+        "86",
+        "87",
+        "353",
+        "88",
+        "89"
+      ],
+      "enumTitles": [
+        "Any / all categories",
+        "All Clothing",
+        "Women's Clothing",
+        "Men's Clothing",
+        "Children's Clothing",
+        "Juniors' Clothing",
+        "Baby Clothing",
+        "Clothing: Belt Buckles",
+        "Clothing: Collegiate Wear",
+        "Clothing: Eyewear",
+        "Jewelry & Gemstones (all)",
+        "Jewelry: Bracelets",
+        "Jewelry: Brooches/Pins",
+        "Jewelry: Costume Jewelry",
+        "Jewelry: Costume Jewelry Grabbags",
+        "Jewelry: Earrings",
+        "Jewelry: Fine Jewelry Grabbags",
+        "Jewelry: Jewelry Boxes",
+        "Jewelry: Jewelry Sets",
+        "Jewelry: Loose Gemstones",
+        "Jewelry: Men's Accessories",
+        "Jewelry: Necklaces",
+        "Jewelry: Pendants",
+        "Jewelry: Precious Metal Scrap",
+        "Jewelry: Rings",
+        "Jewelry: Watches"
+      ],
+      "prefill": "",
+      "title": "Category",
+      "type": "string"
+    },
+    "includeClosedAuctions": {
+      "default": false,
+      "description": "Search recently-ended (sold) listings instead of only live auctions — useful for sold-price research.",
+      "prefill": false,
+      "title": "Include closed/ended auctions",
+      "type": "boolean"
+    },
+    "itemIds": {
+      "default": [],
+      "description": "Numeric ShopGoodwill item IDs to fetch full detail for, e.g. `269254306`.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Item IDs (mode=byItemIds)",
+      "type": "array"
+    },
+    "maxItems": {
+      "default": 40,
+      "description": "Hard cap on emitted records.",
+      "maximum": 2000,
+      "minimum": 1,
+      "prefill": 40,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byCategory",
+        "bySeller",
+        "byItemIds"
+      ],
+      "enumTitles": [
+        "Keyword search",
+        "Browse by category",
+        "Browse by seller (Goodwill store)",
+        "Lookup by item ID"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "pickupOnly": {
+      "default": false,
+      "description": "Only include items offered for local pickup (skip shipped-only listings).",
+      "prefill": false,
+      "title": "Local pickup listings only",
+      "type": "boolean"
+    },
+    "priceMax": {
+      "description": "Drop items priced above this (current bid / buy-now price).",
+      "maximum": 999999,
+      "minimum": 0,
+      "title": "Max price (USD)",
+      "type": "integer"
+    },
+    "priceMin": {
+      "description": "Drop items priced below this (current bid / buy-now price).",
+      "maximum": 999999,
+      "minimum": 0,
+      "title": "Min price (USD)",
+      "type": "integer"
+    },
+    "searchQuery": {
+      "default": "nike",
+      "description": "Free-text keyword search (mode=search). Combine with `brand` / `sizeKeyword` to narrow results — ShopGoodwill has no separate brand/size facets, so these terms are ANDed into the search text.",
+      "editor": "textfield",
+      "prefill": "nike",
+      "title": "Search query",
+      "type": "string"
+    },
+    "sellerId": {
+      "description": "Numeric ShopGoodwill seller/store ID, e.g. `16` (Goodwill Industries of South Florida). Found in an item's `sellerId` output field or the store's URL.",
+      "maximum": 999999,
+      "minimum": 1,
+      "title": "Seller ID (mode=bySeller)",
+      "type": "integer"
+    },
+    "sizeKeyword": {
+      "description": "Optional size to AND into the search text (e.g. `medium`, `size 8`, `xl`). ShopGoodwill does not expose a structured size facet on most categories — this is a keyword narrowing, not an exact filter.",
+      "editor": "textfield",
+      "title": "Size keyword",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "endingSoonest",
+      "description": "Result ordering.",
+      "editor": "select",
+      "enum": [
+        "endingSoonest",
+        "endingLatest",
+        "priceLowToHigh",
+        "priceHighToLow"
+      ],
+      "enumTitles": [
+        "Ending soonest",
+        "Ending latest",
+        "Price: low to high",
+        "Price: high to low"
+      ],
+      "prefill": "endingSoonest",
+      "title": "Sort order",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "ShopGoodwill Scraper Input",
+  "type": "object"
+}
