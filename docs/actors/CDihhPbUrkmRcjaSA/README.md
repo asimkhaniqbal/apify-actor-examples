@@ -4,111 +4,144 @@
 
 # TheHub Nordic Startup Jobs by Role & Keyword
 
-[TheHub.io](https://www.thehub.io) is a Nordic and European startup job board. This actor searches its listings by keyword or browses by job role, returning job title, company, salary range, equity, location, remote status, and a direct apply URL. No auth or proxy required.
+Scrape live job listings from [TheHub.io](https://thehub.io), the Nordic and European startup job board. Search by keyword, browse a job role, pick a country or remote-only, pull every active listing, or paste job and saved-search URLs. Each row carries the job, its company profile, role and job-type labels, structured salary and equity when published, location with coordinates, view counts, posting dates, and a direct apply link or apply email.
 
-## What this actor does
+No account, API key, cookie or proxy is needed. The actor reads TheHub's public pages and job JSON, and never emits placeholder or fabricated rows.
 
-- **Two modes:** `searchJobs` (keyword search) and `browseByRole` (browse by job role)
-- **Filters:** remote-only toggle
-- **Salary data:** formatted range string plus raw min/max fields when available
-- **Equity data:** extracted when listed by the company
-- **Clean text:** HTML stripped from job descriptions
-- **Empty fields are omitted** — a field only appears when TheHub actually published that value for the job
+## Modes
 
-## Output per job
+| Mode | What it does | Required input |
+|---|---|---|
+| `searchJobs` | Keyword search across titles, companies and descriptions | `searchQuery` |
+| `browseByRole` | One of TheHub's 24 job roles | `jobRole` |
+| `browseByCountry` | One Nordic/European country, or remote-only | `country` |
+| `allJobs` | Every active listing, paginated to the end | none |
+| `scrapeUrls` | Job URLs/ids and saved `/jobs?...` search URLs | `urls` |
 
-| Field | Description |
-|---|---|
-| `jobId` | Unique TheHub job ID |
-| `jobKey` | URL-friendly job key |
-| `jobTitle` | Job title |
-| `companyName` | Hiring company name |
-| `companyLogoUrl` | Company logo image URL |
-| `location` | Location string (city, country or "Remote") |
-| `countryCode` | ISO country code |
-| `isRemote` | Boolean — whether the job is remote-eligible |
-| `jobRole` | Role category slug (software-engineer, data-scientist, etc.) |
-| `salaryRange` | Formatted salary range |
-| `salaryMin` | Minimum salary (raw number) |
-| `salaryMax` | Maximum salary (raw number) |
-| `equity` | Equity percentage if offered |
-| `jobDescription` | Plain-text job description |
-| `expirationDate` | Job listing expiration date |
-| `createdAt` | Date the listing was created |
-| `jobUrl` | Direct link to the job on TheHub |
-| `recordType` | Always `"job"` |
-| `scrapedAt` | UTC timestamp of when the record was scraped |
+## Filters
+
+- **Job role:** 24 site roles (engineer, backend developer, data science, design, sales, ...).
+- **Country:** Denmark, Finland, Iceland, Northern Ireland, Norway, Other Europe, Sweden, Remote.
+- **Job type:** internship, advisory board, student, cofounder, full-time, part-time, freelance.
+- **Remote only:** forces the site's remote filter (overrides country).
+- **Paid jobs only:** hides unpaid roles.
+- **Sort:** most popular (7-day views) or newest.
+- **Max jobs:** hard cap, 1-5,000.
+
+Role and country also work as extra filters in `searchJobs` and `allJobs`; combine them with the keyword for narrow searches.
 
 ## Input
 
-| Field | Type | Default | Description |
+| Field | Type | Default | Notes |
 |---|---|---|---|
-| `mode` | select | `searchJobs` | `searchJobs` — search by keyword; `browseByRole` — list jobs by role |
-| `query` | string | `developer` | Keyword or job title (required for `searchJobs`) |
-| `jobRole` | select | – | Job role slug (required for `browseByRole`) |
-| `remoteOnly` | boolean | `false` | Only return remote-eligible jobs |
-| `maxItems` | integer | `50` | Hard cap on emitted records (1–500) |
+| `mode` | select | `searchJobs` | One of the five modes |
+| `searchQuery` | text | `developer` | Keyword for `searchJobs` |
+| `role` | select | none | Required for `browseByRole`; optional elsewhere |
+| `country` | select | none | Required for `browseByCountry`; optional elsewhere |
+| `positionType` | select | none | Job-type filter |
+| `remoteOnly` | boolean | `false` | Remote filter |
+| `paidOnly` | boolean | `false` | Paid listings only |
+| `sortBy` | select | `mostPopular` | `mostPopular` or `newJobs` |
+| `maxItems` | integer | `3` | 1-5,000 |
+| `urls` | string list | none | Job URLs/ids and `/jobs?...` search URLs |
+| `compact` | boolean | `false` | Drop long descriptions, perks, gallery and video |
 
-### Job role options
+### Examples
 
-`software-engineer`, `frontend-developer`, `backend-developer`, `fullstack-developer`, `mobile-developer`, `data-scientist`, `devops-engineer`, `product-manager`, `ux-designer`, `marketing`, `sales`, `customer-success`
+Keyword search, remote roles only:
 
-### Example: search for developer jobs
+```json
+{ "mode": "searchJobs", "searchQuery": "data scientist", "remoteOnly": true, "maxItems": 100 }
+```
+
+Browse design roles in Denmark:
+
+```json
+{ "mode": "browseByRole", "role": "design", "country": "DK", "maxItems": 50 }
+```
+
+New full-time jobs across Europe:
+
+```json
+{ "mode": "browseByCountry", "country": "EU", "positionType": "5b8e46b3853f039706b6ea70", "sortBy": "newJobs", "maxItems": 200 }
+```
+
+Reuse a TheHub search and a specific job:
 
 ```json
 {
-  "mode": "searchJobs",
-  "query": "developer",
-  "remoteOnly": true,
-  "maxItems": 50
+  "mode": "scrapeUrls",
+  "urls": [
+    "https://thehub.io/jobs?search=product%20manager&countryCode=SE",
+    "https://thehub.io/jobs/6aebc71236c1c8820e3fcdc5"
+  ],
+  "maxItems": 30
 }
 ```
 
-### Example: browse data scientist roles
+## Output
 
-```json
-{
-  "mode": "browseByRole",
-  "jobRole": "data-scientist",
-  "maxItems": 100
-}
-```
+| Field | Description |
+|---|---|
+| `jobId`, `jobKey`, `jobTitle`, `jobUrl` | Job identity and TheHub URL |
+| `jobDescription` | Plain text (HTML stripped); omitted in compact mode |
+| `companyName`, `companyKey`, `companyId`, `companyLogoUrl` | Company identity |
+| `companyWebsite`, `companyFounded`, `companySize`, `companyCountry` | Company basics |
+| `companyDescription` | What the company does; omitted in compact mode |
+| `companyIndustries`, `companyBusinessModels` | Label lists |
+| `companyFundingStage`, `companyStage`, `companyActiveJobs` | Funding/growth signals |
+| `companyPerks`, `companyGalleryImages`, `companyVideoUrl` | Culture/media; omitted in compact mode |
+| `location`, `city`, `country`, `countryCode` | Job location and site market code |
+| `latitude`, `longitude` | Job map coordinates when published |
+| `isRemote`, `isFeatured` | Boolean flags |
+| `jobRole`, `jobRoles`, `jobRoleSlugs` | First role label, all labels, all slugs |
+| `jobType`, `jobTypes` | Employment type labels |
+| `salaryType` | `monthly_range`, `range`, `hourly_range`, `competitive` or `unpaid` |
+| `salaryMin`, `salaryMax`, `salaryPeriod`, `salaryCurrency`, `salaryRange` | Structured range plus a readable string |
+| `equity`, `equityMin`, `equityMax` | Equity type and percentage when published |
+| `createdAt`, `publishedAt`, `approvedAt`, `expirationDate` | Job dates |
+| `applyUrl`, `applyEmail` | External apply link or application email when present |
+| `viewsTotal`, `viewsWeek` | Popularity counters |
+| `recordType`, `scrapedAt` | `job` and the run timestamp |
 
-### Example: remote product managers
+Empty values are omitted, never written as `null`.
 
-```json
-{
-  "mode": "browseByRole",
-  "jobRole": "product-manager",
-  "remoteOnly": true,
-  "maxItems": 50
-}
-```
+## How it works
 
-## Use cases
-
-- **Startup job boards** — aggregate European startup job listings
-- **Salary benchmarking** — track salary and equity ranges for tech roles
-- **Remote job aggregators** — filter and surface remote-first opportunities
-- **Talent analytics** — analyse hiring trends in the European startup ecosystem
-- **Job alerts** — monitor TheHub for new roles matching your search criteria
+1. Listing pages are server-rendered by TheHub; the actor reads the embedded search payload and walks pages of 15 until `maxItems`, the last page, or an empty page.
+2. The first listing page also supplies the site's role, job-type, country and currency maps, so labels stay in sync with TheHub.
+3. Each job is completed from the public `/api/jobs/<id>` JSON. If a detail fetch fails, the listing summary is still saved (with fewer fields) instead of dropping or inventing data.
+4. Results are de-duplicated by job id.
 
 ## FAQ
 
-**What is TheHub?**
-TheHub.io is a Scandinavian and European startup job board connecting job seekers with technology companies and startups. It features jobs across Denmark, Sweden, Germany, and other European markets, as well as fully remote roles.
+**Do I need a TheHub account or API key?**  
+No. Listings and job details are public.
 
-**Do I need an API key or account?**
-No. TheHub's job listings are publicly accessible; no credentials are required.
+**Why are some salary or equity fields missing?**  
+Most employers publish "competitive" or "undisclosed". The actor ships the structured range whenever TheHub has one, and keeps `salaryType`/`equity` so you can tell the difference.
 
-**What does `isRemote` mean?**
-When `true`, the company has indicated the role is remote-eligible. This field is omitted if TheHub does not provide this information for a particular listing.
+**How is `salaryCurrency` chosen?**  
+TheHub shows pay in the company's home-market currency. The actor derives it from the company country, falling back to the job market code.
 
-**Are salary fields always populated?**
-No — salary and equity are optional on TheHub. When absent, those fields are omitted entirely from the record.
+**Why is `applyUrl` missing on some jobs?**  
+Those applications run on TheHub itself; `jobUrl` is the correct apply page. `applyEmail` is included when the employer exposes one.
 
-**How fresh is the data?**
-Every run reads TheHub's current active listings live; the actor adds a `scrapedAt` timestamp to each record for each run.
+**Why is `location` sometimes missing?**  
+Some employers leave the location blank. The actor omits it rather than guessing from the company address.
 
-**Is this affiliated with TheHub?**
-No, this is an independent third-party actor that reads TheHub.io's public job listings. It is not affiliated with, endorsed by, or sponsored by TheHub.
+**Can I filter by city?**  
+TheHub's location box is a fuzzy location search, not an exact city filter (a city name can return nearby or mixed-country rows). Use the keyword search plus the country/remote filter, or save that search on TheHub and pass its URL to `scrapeUrls`.
+
+**Can I get only new or changed jobs?**  
+Sort with `sortBy=newJobs` and filter on `publishedAt` downstream. The site does not expose a timestamp filter or a changed-only flag.
+
+**Does this use a browser or proxy?**  
+No. It uses TheHub's public HTML and JSON endpoints directly.
+
+## Notes
+
+- Older saved tasks that send `jobRole` values from the previous version are mapped to the matching TheHub role automatically; new tasks use `role`.
+
+- Listings change constantly; a run captures the live state at that moment.
+- The actor is not affiliated with, endorsed by, or sponsored by TheHub.io.

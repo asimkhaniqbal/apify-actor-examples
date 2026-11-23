@@ -4,86 +4,109 @@
 
 # Vestiaire Collective Pre-Owned Luxury Price Tracker
 
-Vestiaire Collective is one of the largest authenticated pre-owned luxury fashion platforms, with sellers worldwide listing designer bags, clothing, shoes and accessories. This actor finds listings by keyword, browses a category or brand, or fetches specific product URLs directly, returning price, condition, brand and seller detail for each item.
+Vestiaire Collective is a global marketplace for authenticated pre-owned designer fashion. This actor turns its public catalog into structured listing data: current and original prices, condition grade, brand, model, size, colour, seller country and images, with the filters and sort orders the marketplace itself supports.
 
-## What this actor does
+Use it for resale price research, brand benchmarking, sourcing under a budget, or monitoring a saved search over time.
 
-- **Four modes:** `search` (keyword match against a large sample of current listings), `byCategory` (browse one of 13 category slugs), `byBrand` (browse one brand's listings), `byUrl` (fetch specific product page URLs directly)
-- **Condition and price filters** apply to every mode — `never_worn` through `fair`, plus min/max USD price
-- **Rich product detail**: brand, category/subcategory/universe, material, color, model, original price and discount %, authentication status, seller country
-- **Image URLs** at full resolution for every fetched product
-- **Empty fields are omitted** — a field only appears when Vestiaire Collective actually published that value for the item
+## Collection modes
 
-## Output per product
+| Mode | What it does |
+|---|---|
+| `search` | Keyword search against Vestiaire's live catalog, e.g. `gucci bag`, `chanel classic flap`. |
+| `byCategory` | Browse one of 13 categories: women's/men's/kids bags, clothing, shoes, accessories and jewellery. |
+| `byBrand` | Browse a brand by slug (`gucci`, `louis-vuitton`, `hermes`) or by pasting its brand-page URL. |
+| `byUrl` | Fetch listed prices and details for specific product page URLs. |
 
-- `productId` — Vestiaire's numeric product ID
-- `name`, `description` — listing title and description
-- `brand` — designer brand name
-- `category`, `parentCategory`, `subcategory`, `universe` — Vestiaire's category taxonomy (`universe` is Women/Men/Kids)
-- `material`, `color`, `model` — when listed
-- `condition` — e.g. `Never worn, with tag`, `Very good condition`
-- `price`, `currency` — current listed price
-- `originalPrice`, `discount` — original retail price and discount percentage, when the seller provided one
-- `isSold`, `inStock` — availability flags
-- `likeCount` — number of likes on the listing, when shown
-- `negotiable` — whether the seller accepts offers, when Vestiaire shows this
-- `sellerCountry`, `sellerUsername` — seller detail
-- `isAuthenticated` — Vestiaire's own authentication status flag
-- `imageUrls[]` — full-resolution image URLs
-- `publishedAt` — when the listing was published
-- `productUrl` — direct link to the listing
-- `sourceUrl` — canonical page URL the record was scraped from
-- `recordType` — always `product`
-- `scrapedAt` — UTC timestamp of when the record was captured
+## Filters and sorting
 
-## Input
+- **Condition:** never worn (with or without tag), very good, good, fair.
+- **Price range:** minimum and maximum in the selected market's currency.
+- **Seller countries:** optional ISO-3166 alpha-2 codes (`FR`, `IT`, `US`, …).
+- **Sold items only:** switch the feed to Vestiaire's sold listings for completed-price comparables.
+- **Sort order:** relevance, price low→high, price high→low, or newest first.
+- **Markets:** US (USD), UK (GBP), Australia (AUD), France (EUR), Germany (EUR), Italy (EUR), Spain (EUR). Prices and availability follow the market.
 
-| Field | Type | Default | Description |
+Filters are applied by Vestiaire's own search service, so a filtered run does not waste requests on items that will be discarded.
+
+## Output
+
+Each row is one listing:
+
+- `productId`, `name`, `description`
+- `brand`, `model`, `condition`, `category`, `parentCategory`, `universe`
+- `size`, `color`
+- `price`, `currency`, `originalPrice`, `discount`
+- `isSold`, `inStock`, `likeCount`
+- `sellerCountry`, `sellerBadge`
+- `directShippingEligible`, `isAuthenticated`
+- `imageUrls[]`, `productUrl`, `publishedAt`
+- `sourceUrl`, `recordType`, `scrapedAt`
+
+With **Fetch product details** enabled, list modes also add `material`, `subcategory`, `measurements`, `sellerUsername`, `sellerProductsSold` and `sellerProductsListed`. The `byUrl` mode always reads the product page, so those fields are included there.
+
+Fields that Vestiaire does not publish for a listing are omitted — never sent as `null` or a placeholder.
+
+`isAuthenticated` reflects Vestiaire's standard fulfilment path: items that are not eligible for direct-from-seller shipping pass through Vestiaire's authentication centre. Direct-shipping items can add authentication at checkout, so they are marked `false`.
+
+## Input reference
+
+| Field | Type | Default | Notes |
 |---|---|---|---|
-| `mode` | string | `search` | `search` / `byCategory` / `byBrand` / `byUrl` |
-| `searchQuery` | string | `gucci bag` | Keyword to match against listings (mode=`search`) |
-| `categorySlug` | string | `women-bags` | Category to browse (mode=`byCategory`) |
-| `brandSlug` | string | – | Brand slug to browse, e.g. `gucci`, `chanel`, `hermes` (mode=`byBrand`) |
-| `productUrls` | array | – | Specific Vestiaire Collective product URLs (mode=`byUrl`) |
-| `condition` | string | *(any)* | `never_worn` / `very_good` / `good` / `fair` |
-| `minPrice` | integer | – | Minimum price in USD |
-| `maxPrice` | integer | – | Maximum price in USD |
-| `maxItems` | integer | `50` | Maximum number of items to return (1–1000) |
+| `mode` | select | `search` | `search`, `byCategory`, `byBrand`, `byUrl` |
+| `searchQuery` | text | – (prefilled with `gucci bag`) | Keywords for `search` |
+| `categorySlug` | select | `women-bags` | Category for `byCategory` |
+| `brandSlug` | text | – | Brand slug or URL for `byBrand` |
+| `productUrls` | list | – | Product URLs for `byUrl` |
+| `condition` | select | any | Condition grade filter |
+| `sellerCountries` | list | all | ISO country codes |
+| `minPrice` / `maxPrice` | integer | – | Price bounds in market currency |
+| `sortBy` | select | relevance | `relevance`, `price_asc`, `price_desc`, `recency` |
+| `soldOnly` | boolean | `false` | Sold listings only |
+| `includeDetails` | boolean | `false` | Add product-page enrichment |
+| `market` | select | `US` | Storefront and currency |
+| `maxItems` | integer | `50` | 1–1000 rows |
 
-### Example: keyword search with condition filter
+## Examples
+
+Search with a condition and price ceiling:
 
 ```json
 {
   "mode": "search",
   "searchQuery": "gucci bag",
-  "condition": "never_worn",
+  "condition": "very_good",
+  "maxPrice": 1500,
+  "sortBy": "price_asc",
+  "market": "US",
   "maxItems": 100
 }
 ```
 
-### Example: browse a category within a price range
+Browse a category, newest first, with seller-country filtering:
 
 ```json
 {
   "mode": "byCategory",
   "categorySlug": "women-shoes",
-  "minPrice": 100,
-  "maxPrice": 500,
-  "maxItems": 50
+  "sellerCountries": ["FR", "IT"],
+  "sortBy": "recency",
+  "market": "GB",
+  "maxItems": 80
 }
 ```
 
-### Example: browse one brand
+Browse a brand with product-page enrichment:
 
 ```json
 {
   "mode": "byBrand",
   "brandSlug": "louis-vuitton",
-  "maxItems": 80
+  "includeDetails": true,
+  "maxItems": 40
 }
 ```
 
-### Example: fetch specific listings
+Fetch specific listings:
 
 ```json
 {
@@ -94,26 +117,22 @@ Vestiaire Collective is one of the largest authenticated pre-owned luxury fashio
 }
 ```
 
-## Use cases
+## Limits worth knowing
 
-- **Resale price research** — track asking prices and discount percentages for specific brands or models
-- **Inventory monitoring** — check whether a known listing is still in stock or has sold
-- **Brand benchmarking** — compare price and condition spread across a brand's current listings
-- **Catalog enrichment** — fetch full detail for a list of product URLs gathered elsewhere
-- **Sourcing for resellers** — browse a category or brand under a target price ceiling
+- Vestiaire's search service caps a single query at **1,200 rows** (offset ceiling 1,000 plus one 200-row page). `maxItems` is capped at 1,000, so a run stays inside that ceiling. For a larger slice, split the query by category, brand, price band or sort order.
+- `includeDetails` adds one product-page request per row and is slower and heavier than a list-only run. Leave it off when you only need prices and listing fields.
+- `byUrl` does not use the search service; it reads each page directly, so it returns exactly the URLs you provide (up to `maxItems`). Its prices stay in the currency shown on that page, and any price filter is compared in that same currency.
+- Markets return the currency and inventory Vestiaire shows for that storefront. The same query can return different items in different markets.
+- Listings sell and change constantly; a row is a snapshot at `scrapedAt`.
 
 ## FAQ
 
-**Does `search` run Vestiaire's own search engine?** No — it matches your keyword against a large sample of current listings (by name, brand, category and description) rather than querying Vestiaire's live search box. For a specific brand or category, `byCategory`/`byBrand` are more exhaustive; for known items, use `byUrl`.
+**Do I need an account, cookies or a proxy?** No. The actor reads publicly available catalog data and manages its own connection; there is nothing to configure.
 
-**Does it require login or cookies?** No. All data comes from Vestiaire Collective's publicly accessible listing pages.
+**Does `search` query Vestiaire's real search engine?** Yes. It uses the same public search service that powers the site's listing grid, including its filters, sort orders and pagination.
 
-**Does it work for all regions?** Listings come from sellers worldwide; prices are shown in the currency Vestiaire itself displays for the listing (typically USD).
+**Why is `originalPrice` sometimes missing?** It is only present when Vestiaire shows a struck-through original price. `discount` is the percentage Vestiaire displays.
 
-**Why is `originalPrice` sometimes missing?** It's only included when the seller entered the item's original retail price; `discount` is calculated only when both prices are present.
+**Are image links stable?** They point at Vestiaire's public photo CDN and may change when a listing is edited or removed. Re-run the actor to refresh them.
 
-**What does `isAuthenticated` mean?** It reflects Vestiaire Collective's own authentication badge for that listing, not a judgment made by this actor.
-
-**Are image URLs permanent?** Vestiaire's CDN URLs are generally stable but may expire after an extended period; re-run the actor to refresh them.
-
-**Is this affiliated with Vestiaire Collective?** No, this is an independent third-party actor that reads Vestiaire Collective's public listing pages. It is not affiliated with, endorsed by, or sponsored by Vestiaire Collective.
+**Is this affiliated with Vestiaire Collective?** No. It is an independent tool that reads public listing data. Vestiaire Collective is a trademark of its owner.

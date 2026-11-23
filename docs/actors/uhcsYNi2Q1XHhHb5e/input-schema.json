@@ -1,5 +1,5 @@
 {
-  "description": "Browse live event tickets on TickPick by city, by performer/team/venue, or by category. Returns real no-fee pricing.",
+  "description": "Browse TickPick live events by city, keyword search, performer/team, venue or category, with real no-fee low/high prices, performer details, filters and sorting.",
   "properties": {
     "category": {
       "default": "mlb",
@@ -193,9 +193,33 @@
       "title": "Category (mode=byPerformer, byCategory)",
       "type": "string"
     },
+    "citySection": {
+      "default": "all",
+      "description": "Limit a city to one event section. `all` uses TickPick's full city page (capped at 300 events); pick a section to browse that section's complete list.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "concerts",
+        "sports",
+        "comedy",
+        "theater",
+        "other"
+      ],
+      "enumTitles": [
+        "All sections",
+        "Concerts",
+        "Sports",
+        "Comedy",
+        "Theater",
+        "Other"
+      ],
+      "prefill": "all",
+      "title": "City section (mode=byCity)",
+      "type": "string"
+    },
     "citySlug": {
       "default": "new-york",
-      "description": "City to browse upcoming live events in.",
+      "description": "City to browse. Use `citySlugs` below when you need more than one city.",
       "editor": "select",
       "enum": [
         "anaheim",
@@ -325,6 +349,17 @@
       "title": "City (mode=byCity)",
       "type": "string"
     },
+    "citySlugs": {
+      "default": [],
+      "description": "Additional TickPick city slugs to browse in the same run. Values combine with `citySlug`; duplicates are removed. Examples: new-york, chicago, los-angeles.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Extra cities (mode=byCity)",
+      "type": "array"
+    },
     "dateFrom": {
       "description": "ISO date (YYYY-MM-DD). Drop events before this date.",
       "editor": "datepicker",
@@ -344,12 +379,19 @@
       "title": "Fetch events for each performer (mode=byCategory)",
       "type": "boolean"
     },
+    "includePerformerDirectory": {
+      "default": false,
+      "description": "Add one directory record per unique performer/team found in the results, including image, profile URL, category, next event date and upcoming event count.",
+      "prefill": false,
+      "title": "Include performer directory",
+      "type": "boolean"
+    },
     "maxItems": {
       "default": 50,
       "description": "Hard cap on emitted records.",
       "maximum": 2000,
       "minimum": 1,
-      "prefill": 50,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
@@ -369,16 +411,18 @@
     },
     "mode": {
       "default": "byCity",
-      "description": "What to fetch.",
+      "description": "What to browse: events in a city, a keyword search across performers and events, a performer/team, a venue, or a category performer directory.",
       "editor": "select",
       "enum": [
         "byCity",
+        "bySearch",
         "byPerformer",
         "byVenue",
         "byCategory"
       ],
       "enumTitles": [
         "Browse events by city",
+        "Search performers and events",
         "Browse events by performer/team",
         "Browse events by venue",
         "Browse performers/teams by category"
@@ -386,6 +430,13 @@
       "prefill": "byCity",
       "title": "Mode",
       "type": "string"
+    },
+    "onlyWithPrices": {
+      "default": false,
+      "description": "Drop events that currently have no ticket listings or no published price.",
+      "prefill": false,
+      "title": "Only events with prices",
+      "type": "boolean"
     },
     "performerSlugs": {
       "default": [
@@ -398,6 +449,48 @@
       ],
       "title": "Performer/team slugs (mode=byPerformer)",
       "type": "array"
+    },
+    "searchQuery": {
+      "description": "Free-text search across TickPick performers, teams and events, e.g. `red sox`, `taylor swift`, `knicks`.",
+      "editor": "textfield",
+      "title": "Search query (mode=bySearch)",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "date",
+      "description": "Order applied to event records after filters.",
+      "editor": "select",
+      "enum": [
+        "date",
+        "priceLow",
+        "priceHigh",
+        "name"
+      ],
+      "enumTitles": [
+        "Event date",
+        "Lowest ticket price",
+        "Highest ticket price",
+        "Event name"
+      ],
+      "prefill": "date",
+      "title": "Sort events by",
+      "type": "string"
+    },
+    "sortOrder": {
+      "default": "asc",
+      "description": "Ascending or descending order for the chosen sort field.",
+      "editor": "select",
+      "enum": [
+        "asc",
+        "desc"
+      ],
+      "enumTitles": [
+        "Ascending",
+        "Descending"
+      ],
+      "prefill": "asc",
+      "title": "Sort direction",
+      "type": "string"
     },
     "venueSlugs": {
       "default": [
@@ -416,6 +509,6 @@
     "mode"
   ],
   "schemaVersion": 1,
-  "title": "TickPick Scraper Input",
+  "title": "TickPick Live Event Price & Performer Directory Input",
   "type": "object"
 }

@@ -4,123 +4,155 @@
 
 # TickPick Live Event Price & Performer Directory
 
-TickPick is a no-fee ticket resale marketplace for concerts, sports, and theater. This actor browses its live events by city, by performer/team, or by venue, or discovers performers/teams within a category (MLB, NBA, NFL, concerts, comedy, and 85 more). Every event record includes TickPick's no-fee pricing (low/high ticket price), venue address, and performer details. No auth, no proxy.
+TickPick is a no-fee ticket resale marketplace for concerts, sports, comedy and theater. This actor reads TickPick's own public event data — no login, no cookies, no proxy — and returns live events with real no-fee pricing plus a performer/team directory. If TickPick's edge blocks a performer, venue or category page, the actor transparently reads the same catalogue from TickPick's public JSON API or search page.
 
-## What this actor does
+## What you can do
 
-- **Four modes:** `byCity`, `byPerformer`, `byVenue`, `byCategory`
-- **60 cities** and **90 categories/leagues** exposed as dropdown enums
-- **Real no-fee pricing** — low/high ticket price straight from TickPick's own event data
-- **Filters:** event date range, min/max ticket price
-- **Optional enrichment:** `byCategory` mode can additionally fetch each performer's upcoming events
-- **Empty fields are omitted** — you'll never see `null`, `""`, or `[]` in the output
+- **Browse a city** (`byCity`) with 60 city dropdowns and an optional section filter (concerts, sports, comedy, theater, other).
+- **Search** (`bySearch`) performers, teams and events by keyword, e.g. `red sox` or `taylor swift`.
+- **Browse a performer or team** (`byPerformer`) by TickPick slug or pasted TickPick URL.
+- **Browse a venue** (`byVenue`) by venue slug or URL.
+- **Discover performers/teams in a category** (`byCategory`) — MLB, NBA, NFL, NHL, concerts, comedy and 80+ more — and optionally fetch each performer's upcoming events.
+- **Filter** by date range, lowest/highest price and "has prices", then **sort** by date, low price, high price or name.
+- **Add a performer directory** to any run (`includePerformerDirectory`) with profile URLs, images, category, next event date and upcoming event count.
 
-## Output per event (`recordType: "event"`)
+## Output
 
-- `eventId` — TickPick's numeric event ID
-- `eventName`, `eventDescription`, `eventImage`
-- `startDate`, `endDate`, `eventStatus`, `eventAttendanceMode` (`Offline` / `Online` / `Mixed`)
-- `venueName`, `venueUrl`, `venueCity`, `venueState`, `venueCountry`
-- `performers[]`, `homeTeam`, `awayTeams[]` (sports events)
-- `lowPrice`, `highPrice`, `price`, `priceCurrency`, `availability`
-- `ticketUrl` — direct link to buy on TickPick
-- `sourceUrl` — canonical event page URL
-- `category` — league/category used for the lookup (if applicable)
-- `recordType: "event"`, `scrapedAt`
+Every dataset row has a `recordType`.
 
-## Output per performer directory entry (`recordType: "performer"`, mode=byCategory)
+### Event rows (`recordType: "event"`)
 
-- `performerName`, `performerSlug`, `category`
-- `performerDescription`, `performerImage` (when `enrichEvents` is on)
-- `sourceUrl`
-- `recordType: "performer"`, `scrapedAt`
+- `eventId`, `eventName`, `eventDescription`, `eventImage`
+- `startDate` (venue-local), `startDateUtc`, `eventStatus`, `eventType`, `subCategory`, `citySection`
+- `eventCity`, `eventState`
+- `venueName`, `venueSlug`, `venueUrl`, `venueSeatingChartUrl`, `venueAddress`, `venueCity`, `venueState`, `venueZip`, `venueCountry`, `venueLatitude`, `venueLongitude`, `venueTimezone`
+- `performers[]` and `performerDetails[]` (name, slug, profile URL, image, TickPick performer ID, category, role)
+- `lowPrice`, `highPrice`, `averagePrice`, `listingCount`, `priceCurrency`
+- `ticketUrl` (direct buy page), `sourceUrl`, `category`, `scrapedAt`
+
+### Performer rows (`recordType: "performer"`)
+
+- `performerName`, `performerSlug`, `performerCategory`, `category`
+- `performerUrl`, `performerImage`, `performerDescription` (when profile enrichment is on)
+- `nextEventDate`, `upcomingEventCount` (directory built from events)
+- `sourceUrl`, `scrapedAt`
+
+Empty fields are omitted at every depth: no `null`, `""`, `[]` or `{}` is pushed.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `byCity` | `byCity` / `byPerformer` / `byVenue` / `byCategory` |
-| `citySlug` | string (select) | `new-york` | City to browse (mode=byCity) |
-| `category` | string (select) | `mlb` | League/category (mode=byPerformer, byCategory) |
-| `performerSlugs` | array | `["boston-red-sox"]` | Performer/team URL slugs within `category` (mode=byPerformer) |
-| `venueSlugs` | array | `["madison-square-garden"]` | Venue URL slugs (mode=byVenue) |
-| `enrichEvents` | boolean | `false` | Also fetch events for each performer found (mode=byCategory) |
-| `dateFrom` | string | – | ISO date; drop events before this date |
-| `dateTo` | string | – | ISO date; drop events after this date |
-| `minPrice` | integer | – | Drop events priced below this (USD) |
-| `maxPrice` | integer | – | Drop events priced above this (USD) |
-| `maxItems` | integer | `50` | Hard cap on emitted records (1–2000) |
+| `mode` | select | `byCity` | `byCity` / `bySearch` / `byPerformer` / `byVenue` / `byCategory` |
+| `citySlug` | select | `new-york` | City to browse (mode=byCity) |
+| `citySlugs` | string list | `[]` | Extra cities to browse in the same run (mode=byCity) |
+| `citySection` | select | `all` | `all` / `concerts` / `sports` / `comedy` / `theater` / `other` |
+| `searchQuery` | text | – | Free-text search across performers, teams and events (mode=bySearch) |
+| `category` | select | `mlb` | League/category (mode=byPerformer, byCategory) |
+| `performerSlugs` | string list | `["boston-red-sox"]` | Performer/team slugs or TickPick URLs (mode=byPerformer) |
+| `venueSlugs` | string list | `["madison-square-garden"]` | Venue slugs or TickPick URLs (mode=byVenue) |
+| `enrichEvents` | boolean | `false` | Also fetch each performer's events (mode=byCategory) |
+| `includePerformerDirectory` | boolean | `false` | Add performer directory rows for the results |
+| `onlyWithPrices` | boolean | `false` | Drop events without a published price |
+| `dateFrom` / `dateTo` | date | – | Inclusive event-date range |
+| `minPrice` / `maxPrice` | integer | – | Keep events whose lowest price is inside the range |
+| `sortBy` | select | `date` | `date` / `priceLow` / `priceHigh` / `name` |
+| `sortOrder` | select | `asc` | `asc` / `desc` |
+| `maxItems` | integer | `50` | Hard cap on emitted rows (1–2000) |
 
-### Example: upcoming events in a city
+Legacy task keys keep working in code even though they are no longer shown in the schema: `citySlug`, `city`, `cities`, `performer`, `performers`, `venue`, `venues`, `maxResults`, `priceMin`, `priceMax`, `fromDate`, `toDate`, `includeEvents`, `includePerformers`. A task saved with the old `citySlug` or `maxResults` input behaves exactly like the new fields.
+
+### Examples
+
+Upcoming events in a city, cheapest first:
 
 ```json
 {
   "mode": "byCity",
-  "citySlug": "new-york",
+  "citySlugs": ["new-york"],
+  "onlyWithPrices": true,
+  "sortBy": "priceLow",
   "maxItems": 50
 }
 ```
 
-### Example: a team's home schedule with pricing
+A team's schedule with prices:
 
 ```json
 {
   "mode": "byPerformer",
   "category": "mlb",
   "performerSlugs": ["boston-red-sox", "new-york-yankees"],
-  "dateFrom": "2026-07-01",
-  "dateTo": "2026-09-30"
+  "dateFrom": "2027-04-01",
+  "dateTo": "2027-09-30"
 }
 ```
 
-### Example: everything at a venue under $200
+Every concert in a city:
 
 ```json
 {
-  "mode": "byVenue",
-  "venueSlugs": ["madison-square-garden"],
-  "maxPrice": 200
+  "mode": "byCity",
+  "citySlug": "chicago",
+  "citySection": "concerts",
+  "maxItems": 500
 }
 ```
 
-### Example: discover NBA teams and their schedules
+Search performers and events by keyword:
+
+```json
+{
+  "mode": "bySearch",
+  "searchQuery": "red sox",
+  "maxItems": 50
+}
+```
+
+Discover NBA teams and their schedules:
 
 ```json
 {
   "mode": "byCategory",
   "category": "nba",
   "enrichEvents": true,
+  "includePerformerDirectory": true,
   "maxItems": 200
 }
 ```
 
-## Use cases
+## How it works
 
-- **Price tracking** — monitor no-fee low/high prices for a team's home games
-- **Event discovery** — build a local "what's on" feed for a city
-- **Fan tools** — alert fans when tickets for a favorite artist/team drop below a price threshold
-- **Venue analytics** — compare pricing across events at the same venue
-- **Market research** — compare resale pricing across categories and cities
+TickPick publishes structured event data on every listing page. This actor reads two cookieless sources from the same page: the schema.org JSON-LD blocks that TickPick emits for search engines, and the richer server-rendered event payload that carries live listing counts and min/max/average prices. It merges both, deduplicates by event ID across every source, applies filters and sorting, and pushes the top `maxItems` rows.
+
+Performer, venue and category pages can be Cloudflare-challenged from cloud IPs even though city and search pages are not. Those modes fall back, in order, to TickPick's public JSON API (`/search/all`, the venue event feed and the performer-navigation tree) and then to the always-open search page, so they keep returning live rows instead of failing. The direct page is always tried first when available.
 
 ## FAQ
 
 **Is this affiliated with TickPick?**
-No. This is an independent third-party actor that reads TickPick's own publicly published event data (the same structured data TickPick publishes for search engines).
+No. It is an independent reader of TickPick's publicly published event data.
 
-**Why does TickPick advertise "no fees"?**
-TickPick builds its buyer fee into the listed price instead of adding it at checkout — the `lowPrice`/`highPrice` fields already reflect the final price you'd pay.
+**Does TickPick really have no fees?**
+TickPick builds its buyer fee into the listed price. `lowPrice`, `highPrice` and `averagePrice` already reflect the price a buyer sees.
 
-**Why are some events missing pricing?**
-A small number of listings (informational/experience listings, sold-out shows) don't carry an `offers` block on TickPick's page; those fields are simply omitted rather than shown as zero or null.
+**Why do some events have no price?**
+Some listings are informational, sold out, or have no current listings. Those price fields are omitted rather than filled with a fake zero. Turn on `onlyWithPrices` to drop them.
+
+**Why is a city or search capped at 300 events?**
+TickPick's own city and search feeds return at most 300 events, and its section pages partition the same set rather than extending it. The actor exposes every event TickPick publishes for that feed; use `byPerformer`, `byVenue`, `byCategory` or `bySearch` for other slices.
+
+**Why does `byCategory` return no performers for some categories?**
+The directory is discovered from TickPick's own category navigation. A few niche categories have no performer links there; their events can still be reached with `byPerformer` if you know the slug or with `byCity` or `bySearch`.
 
 **Can I look up a performer without knowing its category?**
-Not directly — TickPick nests performer pages under a league/category prefix (e.g. `/mlb/boston-red-sox-tickets/`). Use `mode=byCategory` first to discover the exact `performerSlugs` for a given `category`.
-
-**Why does `mode=byCategory` return 0 performers for some categories?**
-`byCategory` discovers performers from TickPick's own site-wide navigation menu, which only features a subset of categories (major sports leagues, concerts, comedy, theater, golf, racing, MMA, and similar high-traffic categories). Niche categories (e.g. opera, ballet, circus) aren't listed in that navigation, so discovery returns 0 for them — the category page itself still exists on TickPick, it's just not crawlable this way. If you already know a performer's slug for a niche category, `mode=byPerformer` will still work directly.
-
-**How fresh is the pricing?**
-Every run fetches TickPick's live pages directly, so prices reflect the current live market at scrape time.
+Not directly. TickPick nests performer pages under a category prefix, so use `byCategory` first or paste a full TickPick performer URL — the slug and category can be read from it when provided.
 
 **Does this cover international events?**
-Yes for the cities TickPick itself covers (including London, Toronto, Vancouver, Montreal, Calgary, Edmonton in addition to major US markets).
+Yes, for the cities TickPick itself lists (including London, Toronto, Vancouver, Montreal, Calgary and Edmonton).
+
+## Limitations
+
+- TickPick's public city and keyword search feeds stop at 300 events; there is no "page 2", and section pages partition the same events rather than adding new ones. Other slices (performer, venue, category, search) reach the rest of the catalogue.
+- When a performer, venue or category page is blocked from cloud infrastructure, the public-API fallback keeps venue address, coordinates, listing stats and performer details; the search-page fallback keeps the core event fields (name, date, venue name/city/state, prices, URL) but omits venue address/coordinates and per-event performer detail arrays.
+- Seat-level listings, seller notes and reviews are not exposed cookielessly and are out of scope.
+- Prices are a snapshot of the live marketplace at run time and change continuously.

@@ -1,15 +1,15 @@
 {
-  "description": "Search luxury resale items, browse categories/brands, or scrape specific product URLs.",
+  "description": "Search luxury resale listings, browse a category or brand, or fetch specific product URLs. Filter by condition, seller country and price, then sort the results.",
   "properties": {
     "brandSlug": {
-      "description": "Vestiaire brand slug, e.g. `gucci`, `louis-vuitton`, `chanel`, `hermes`.",
+      "description": "Brand slug or brand page URL, e.g. `gucci`, `louis-vuitton`, `hermes`, or `https://www.vestiairecollective.com/chanel/`. Used by the `byBrand` mode.",
       "editor": "textfield",
-      "title": "Brand slug (mode=byBrand)",
+      "title": "Brand (browse a brand)",
       "type": "string"
     },
     "categorySlug": {
       "default": "women-bags",
-      "description": "Vestiaire category slug matching the URL path, e.g. `women-bags`, `men-clothing`. Watches and jewellery appear under their parent accessory category.",
+      "description": "Vestiaire category to browse. Used by the `byCategory` mode.",
       "editor": "select",
       "enum": [
         "women-bags",
@@ -41,12 +41,12 @@
         "Kids — Shoes",
         "Kids — Accessories"
       ],
-      "title": "Category (mode=byCategory)",
+      "title": "Category (browse a category)",
       "type": "string"
     },
     "condition": {
       "default": "",
-      "description": "Filter by item condition.",
+      "description": "Only return items in this condition grade.",
       "editor": "select",
       "enum": [
         "",
@@ -57,40 +57,73 @@
       ],
       "enumTitles": [
         "Any condition",
-        "Never worn",
+        "Never worn (with or without tag)",
         "Very good condition",
         "Good condition",
         "Fair condition"
       ],
-      "title": "Condition filter",
+      "title": "Condition",
+      "type": "string"
+    },
+    "includeDetails": {
+      "default": false,
+      "description": "Open each listing's product page for extra fields: material, subcategory, measurements, seller username and seller statistics. Adds one request per item and makes the run slower.",
+      "prefill": false,
+      "title": "Fetch product details",
+      "type": "boolean"
+    },
+    "market": {
+      "default": "US",
+      "description": "Vestiaire storefront used for prices and availability. Each market returns prices in its own currency.",
+      "editor": "select",
+      "enum": [
+        "US",
+        "GB",
+        "AU",
+        "FR",
+        "DE",
+        "IT",
+        "ES"
+      ],
+      "enumTitles": [
+        "United States (USD)",
+        "United Kingdom (GBP)",
+        "Australia (AUD)",
+        "France (EUR)",
+        "Germany (EUR)",
+        "Italy (EUR)",
+        "Spain (EUR)"
+      ],
+      "prefill": "US",
+      "title": "Market",
       "type": "string"
     },
     "maxItems": {
       "default": 50,
-      "description": "Maximum number of items to scrape.",
+      "description": "Maximum number of listings to return (1–1000).",
       "maximum": 1000,
       "minimum": 1,
-      "prefill": 50,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
     "maxPrice": {
-      "description": "Maximum price filter in USD.",
+      "description": "Maximum listing price in the selected market's currency.",
       "maximum": 1000000,
       "minimum": 0,
-      "title": "Max price (USD)",
+      "title": "Maximum price",
       "type": "integer"
     },
     "minPrice": {
-      "description": "Minimum price filter in USD.",
+      "description": "Minimum listing price in the selected market's currency.",
       "maximum": 1000000,
       "minimum": 0,
-      "title": "Min price (USD)",
+      "title": "Minimum price",
       "type": "integer"
     },
     "mode": {
       "default": "search",
-      "description": "What to scrape.",
+      "description": "Choose what to collect.",
       "editor": "select",
       "enum": [
         "search",
@@ -99,9 +132,9 @@
         "byUrl"
       ],
       "enumTitles": [
-        "Search (keyword query)",
-        "Browse by category",
-        "Browse by brand",
+        "Search by keyword",
+        "Browse a category",
+        "Browse a brand",
         "Fetch specific product URLs"
       ],
       "prefill": "search",
@@ -110,18 +143,51 @@
     },
     "productUrls": {
       "default": [],
-      "description": "List of Vestiaire Collective product page URLs to scrape.",
+      "description": "Specific Vestiaire product page URLs to scrape. Used by the `byUrl` mode.",
       "editor": "stringList",
       "prefill": [],
-      "title": "Product URLs (mode=byUrl)",
+      "title": "Product URLs",
       "type": "array"
     },
     "searchQuery": {
-      "default": "gucci bag",
-      "description": "Free-text search query, e.g. `gucci bag` or `chanel classic flap`.",
+      "description": "Keyword, model or brand to search for, e.g. `gucci bag`, `chanel classic flap`, `hermes kelly 28`.",
       "editor": "textfield",
       "prefill": "gucci bag",
-      "title": "Search query (mode=search)",
+      "title": "Search query",
+      "type": "string"
+    },
+    "sellerCountries": {
+      "default": [],
+      "description": "Optional ISO 3166-1 alpha-2 country codes for where the seller/item is located, e.g. `FR`, `IT`, `US`. Leave empty for all countries.",
+      "editor": "stringList",
+      "title": "Seller countries",
+      "type": "array"
+    },
+    "soldOnly": {
+      "default": false,
+      "description": "Return only items Vestiaire has marked as sold. Useful for sold-price comparables.",
+      "prefill": false,
+      "title": "Sold items only",
+      "type": "boolean"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "How to order the results.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "price_asc",
+        "price_desc",
+        "recency"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Price: low to high",
+        "Price: high to low",
+        "Most recently listed"
+      ],
+      "prefill": "relevance",
+      "title": "Sort order",
       "type": "string"
     }
   },
@@ -129,6 +195,6 @@
     "mode"
   ],
   "schemaVersion": 1,
-  "title": "Vestiaire Collective Scraper Input",
+  "title": "Vestiaire Collective Pre-Owned Luxury Price Tracker Input",
   "type": "object"
 }

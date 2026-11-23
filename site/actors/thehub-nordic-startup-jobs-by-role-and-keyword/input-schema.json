@@ -1,85 +1,211 @@
 {
-  "description": "Search TheHub.io for startup job listings by keyword, role, or remote status.",
+  "description": "Choose what to scrape: a keyword search, a job role, a country or remote jobs, every active listing, or specific job/search URLs.",
   "properties": {
-    "jobRole": {
-      "description": "Role category to browse.",
+    "compact": {
+      "default": false,
+      "description": "Omit long job descriptions and company description/perks/gallery/video fields to keep rows small.",
+      "prefill": false,
+      "title": "Compact output",
+      "type": "boolean"
+    },
+    "country": {
+      "description": "Country filter. Required for browseByCountry; optional extra filter for searchJobs, browseByRole and allJobs. Choose Remote for remote-only jobs.",
       "editor": "select",
       "enum": [
-        "software-engineer",
-        "frontend-developer",
-        "backend-developer",
-        "fullstack-developer",
-        "mobile-developer",
-        "data-scientist",
-        "devops-engineer",
-        "product-manager",
-        "ux-designer",
-        "marketing",
-        "sales",
-        "customer-success"
+        "DK",
+        "FI",
+        "IS",
+        "NI",
+        "NO",
+        "EU",
+        "SE",
+        "REMOTE"
       ],
       "enumTitles": [
-        "Software Engineer",
-        "Frontend Developer",
-        "Backend Developer",
-        "Full Stack Developer",
-        "Mobile Developer",
-        "Data Scientist",
-        "DevOps Engineer",
-        "Product Manager",
-        "UX Designer",
-        "Marketing",
-        "Sales",
-        "Customer Success"
+        "Denmark",
+        "Finland",
+        "Iceland",
+        "Northern Ireland",
+        "Norway",
+        "Other Europe",
+        "Sweden",
+        "Remote only"
       ],
-      "title": "Job role (mode=browseByRole)",
+      "title": "Country",
+      "type": "string"
+    },
+    "jobRole": {
+      "description": "Legacy role value from older saved tasks. Use the job role dropdown instead.",
+      "editor": "hidden",
+      "title": "Legacy job role",
       "type": "string"
     },
     "maxItems": {
-      "default": 50,
-      "description": "Hard cap on emitted records.",
-      "maximum": 500,
+      "default": 3,
+      "description": "Hard cap on the number of jobs saved to the dataset.",
+      "maximum": 5000,
       "minimum": 1,
-      "prefill": 50,
-      "title": "Max items",
+      "prefill": 3,
+      "title": "Max jobs",
       "type": "integer"
     },
     "mode": {
       "default": "searchJobs",
-      "description": "What to fetch.",
+      "description": "searchJobs — keyword search. browseByRole — one TheHub job role. browseByCountry — one country or remote. allJobs — every active listing. scrapeUrls — job URLs/ids and saved /jobs? search URLs.",
       "editor": "select",
       "enum": [
         "searchJobs",
-        "browseByRole"
+        "browseByRole",
+        "browseByCountry",
+        "allJobs",
+        "scrapeUrls"
       ],
       "enumTitles": [
-        "Search jobs by keyword",
-        "Browse jobs by role"
+        "Search by keyword",
+        "Browse by job role",
+        "Browse by country / remote",
+        "All active jobs",
+        "Job URLs and search URLs"
       ],
       "prefill": "searchJobs",
-      "title": "Mode",
+      "sectionCaption": "Choose what to scrape",
+      "title": "What to scrape",
       "type": "string"
     },
-    "query": {
-      "default": "developer",
-      "description": "Keyword or job title to search (mode=searchJobs). E.g. 'developer', 'data scientist', 'designer'.",
-      "editor": "textfield",
-      "prefill": "developer",
-      "title": "Search query / keyword",
+    "paidOnly": {
+      "default": false,
+      "description": "Hide unpaid roles.",
+      "prefill": false,
+      "title": "Paid jobs only",
+      "type": "boolean"
+    },
+    "positionType": {
+      "description": "Employment type filter.",
+      "editor": "select",
+      "enum": [
+        "5b8e46b3853f039706b6ea73",
+        "62e28180d8cca695ee60c98e",
+        "5b8e46b3853f039706b6ea72",
+        "5b8e46b3853f039706b6ea74",
+        "5b8e46b3853f039706b6ea70",
+        "5b8e46b3853f039706b6ea71",
+        "5b8e46b3853f039706b6ea75"
+      ],
+      "enumTitles": [
+        "Internship",
+        "Advisory board",
+        "Student",
+        "Cofounder",
+        "Full-time",
+        "Part-time",
+        "Freelance"
+      ],
+      "title": "Job type",
       "type": "string"
     },
     "remoteOnly": {
       "default": false,
-      "description": "Only return remote-eligible jobs.",
+      "description": "Only return remote-eligible jobs. Overrides the country filter.",
       "prefill": false,
       "title": "Remote only",
       "type": "boolean"
+    },
+    "role": {
+      "description": "TheHub role filter. Required for browseByRole; optional extra filter for searchJobs, browseByCountry and allJobs.",
+      "editor": "select",
+      "enum": [
+        "analyst",
+        "backenddeveloper",
+        "businessdevelopment",
+        "customerservice",
+        "customersuccess",
+        "cxo",
+        "datascience",
+        "design",
+        "devops",
+        "engineer",
+        "finance",
+        "frontenddeveloper",
+        "fullstackdeveloper",
+        "humanresources",
+        "legal",
+        "marketing",
+        "mobiledevelopment",
+        "operations",
+        "other",
+        "productmanagement",
+        "projectmanagement",
+        "qualityassurance",
+        "sales",
+        "uxuidesigner"
+      ],
+      "enumTitles": [
+        "Analyst",
+        "Backend developer",
+        "Business Development",
+        "Customer Service",
+        "Customer Success",
+        "CxO",
+        "Data Science",
+        "Design",
+        "DevOps",
+        "Engineer",
+        "Finance",
+        "Frontend developer",
+        "Full-stack developer",
+        "HR",
+        "Legal",
+        "Marketing & Communication",
+        "Mobile Development",
+        "Operations",
+        "Other",
+        "Product Management",
+        "Project Management",
+        "Quality Assurance",
+        "Sales",
+        "UX / UI Designer"
+      ],
+      "title": "Job role",
+      "type": "string"
+    },
+    "searchQuery": {
+      "default": "developer",
+      "description": "Keyword or job title to search for (mode=searchJobs). Case-insensitive; matches titles, companies and descriptions.",
+      "editor": "textfield",
+      "prefill": "developer",
+      "title": "Search keyword",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "mostPopular",
+      "description": "Most popular uses the last seven days of views; New jobs uses the posting date.",
+      "editor": "select",
+      "enum": [
+        "mostPopular",
+        "newJobs"
+      ],
+      "enumTitles": [
+        "Most popular",
+        "Newest jobs"
+      ],
+      "prefill": "mostPopular",
+      "title": "Sort by",
+      "type": "string"
+    },
+    "urls": {
+      "description": "Used by mode=scrapeUrls. Accepts TheHub job URLs (https://thehub.io/jobs/<id>), bare job ids, and saved search URLs (https://thehub.io/jobs?search=...).",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Job or search URLs",
+      "type": "array"
     }
   },
   "required": [
     "mode"
   ],
   "schemaVersion": 1,
-  "title": "The Hub Startup Jobs Scraper Input",
+  "title": "TheHub Startup Jobs Input",
   "type": "object"
 }

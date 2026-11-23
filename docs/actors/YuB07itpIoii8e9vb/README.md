@@ -4,136 +4,131 @@
 
 # ShopGoodwill Auction & Buy-It-Now Price Tracker
 
-[ShopGoodwill.com](https://shopgoodwill.com) is Goodwill's official online auction marketplace for secondhand clothing, shoes, accessories, and jewelry. This actor searches it by keyword, browses by category or seller (Goodwill store), or fetches full item detail by ID. No login, no cookies, no paid proxy required.
+[ShopGoodwill.com](https://shopgoodwill.com) is Goodwill's official online marketplace, where every US Goodwill store auctions donated goods and sells some of them at a fixed Buy-It-Now price. This actor reads the site's public buyer API directly — no login, no cookies, no API key, no proxy setup.
+
+Use it to watch live auctions, browse a category or a single Goodwill store, pull full detail for specific items, or research sold prices from recently ended auctions.
 
 ## What this actor does
 
 - **Four modes:** `search`, `byCategory`, `bySeller`, `byItemIds`
-- **Keyword + brand + size narrowing** — free-text search that can be combined with an optional brand and size keyword
-- **Category browsing** — Women's, Men's, Children's, Juniors', Baby clothing, and Jewelry & Gemstones
-- **Seller/store browsing** — pull every current listing from a specific Goodwill store
-- **Direct item lookup** — full detail (description, all images, seller info, shipping) by item ID
-- **Filters** — price range, sort order, buy-it-now only, local-pickup only, include closed/sold auctions
-- **Empty fields are omitted** from every record
+- **Keyword search** — free-text query that can be narrowed with a brand keyword and a size keyword
+- **All 33 departments** — every live ShopGoodwill category and subcategory (Clothing, Jewelry, Electronics, Collectibles, Toys, Books, Home, Tools, and the rest) is in the category dropdown
+- **Store browsing** — every current listing from one Goodwill store by its numeric seller ID
+- **Item lookup** — full detail by item ID or by pasting `https://shopgoodwill.com/item/...` URLs
+- **Auction and Buy-It-Now** — `buyNowOnly` isolates fixed-price listings; closed auctions can be searched for sold-price research
+- **Real filters** — price range, one-cent shipping, local pickup, shipping destination, search-in-descriptions, sort by ending time or price
+- **Merged details** — `includeDetails` fetches each listing's detail page too, adding description, all images, seller address, pickup details, reserve info and bid history
+- **Pagination** — follows ShopGoodwill's own result cursor up to `maxItems`, de-duplicates live-marketplace page churn, and stops on the source's real total
+- **Clean output** — empty fields are omitted, never emitted as `null`, `""`, `[]`, or `{}`
 
 ## Output per item
 
-**Search / category / seller listing records:**
-- `itemId`, `title`, `description`
-- `currentPrice`, `startingPrice`, `buyNowPrice`, `isBuyNowAvailable`, `minimumBid`, `numBids`
+Every listing record contains:
+
+- `itemId`, `title`, `description` (detail only by default)
+- `currentPrice`, `startingPrice`, `buyNowPrice`, `discountedBuyNowPrice`, `isBuyNowAvailable`, `minimumBid`, `numBids`
 - `shippingPrice`, `discountPercent`
 - `categoryId`, `categoryName`, `categoryPath`
-- `imageUrl`
-- `startTime`, `endTime`, `remainingTime`
-- `sellerId`
-- `itemQuantity`, `views`, `isStockPhoto`
+- `imageUrl`, `images[]` and `thumbnailUrl` (detail / enriched records)
+- `startTime`, `endTime`, `remainingTime` (ShopGoodwill server time, US Pacific)
+- `sellerId`, `sellerName`, `sellerUrl`, `sellerCountryCode` (detail / enriched records)
+- `itemQuantity`, `maxQuantity`, `views`, `isStockPhoto`
+- `pickupCity`, `pickupState`, `pickupZip`, `pickupCountry`, `pickupStreet`, `pickupHours`, `pickupOnly`, `sellerAllowPickup` (detail / enriched records)
+- `weightLbs`, `handlingPrice`, `shippingCarrier`, `itemPartNumber` (detail / enriched records)
+- `isAuction`, `bidIncrement`, `reservePrice`, `isReserveMet`, `isClosed`
+- `bidHistory[]` — the live bid ledger (`bidderName` is masked by ShopGoodwill, as on the site)
 - `itemUrl` — direct link to the listing
-- `recordType: "item"`, `scrapedAt`
-
-**Item-detail records (`mode=byItemIds`) add:**
-- `images[]` (full-resolution), `thumbnailUrl`
-- `sellerName`, `sellerUrl`
-- `keywords[]`
-- `weightLbs`
-- `pickupCity`, `pickupState`, `pickupZip`, `pickupCountry`, `pickupOnly`
-- `handlingPrice`
-- `isAuction`, `bidIncrement`
-- `shippingCarrier`
-- `bidHistory[]` — full live bid ledger (`bidderName` masked by ShopGoodwill, `amount`, `time`, `isBuyNow`) when the item has bids
+- `keywords[]`, `recordType: "item"`, `scrapedAt`
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
 | `mode` | string | `search` | `search` / `byCategory` / `bySeller` / `byItemIds` |
-| `searchQuery` | string | `nike` | Free-text keyword search |
-| `brand` | string | – | Brand keyword, ANDed into the search text |
-| `sizeKeyword` | string | – | Size keyword, ANDed into the search text |
-| `categoryId` | string | – | Category to browse/narrow by (see enum below) |
-| `sellerId` | integer | – | Numeric seller/store ID (mode=bySeller) |
-| `itemIds` | array | – | Numeric item IDs (mode=byItemIds) |
-| `priceMin` | integer | – | Minimum price (USD) |
-| `priceMax` | integer | – | Maximum price (USD) |
+| `searchQuery` | string | – | Free-text keyword search (daily prefill: `nike`) |
+| `brand` | string | – | Brand keyword ANDed into the search text |
+| `sizeKeyword` | string | – | Size keyword ANDed into the search text |
+| `categoryId` | string | – | Any live ShopGoodwill category (dropdown, all departments) |
+| `sellerId` | integer | – | Numeric Goodwill store ID (mode=bySeller) |
+| `itemIds` | array | – | Item IDs or item URLs (mode=byItemIds) |
+| `priceMin` | integer | – | Minimum current price (USD) |
+| `priceMax` | integer | – | Maximum current price (USD) |
 | `sortBy` | string | `endingSoonest` | `endingSoonest` / `endingLatest` / `priceLowToHigh` / `priceHighToLow` |
 | `buyNowOnly` | boolean | `false` | Only Buy-It-Now listings |
+| `oneCentShippingOnly` | boolean | `false` | Only items with $0.01 shipping |
 | `pickupOnly` | boolean | `false` | Only local-pickup listings |
-| `includeClosedAuctions` | boolean | `false` | Search recently-ended (sold) listings instead of live ones |
+| `shippingDestination` | string | `any` | `any` / `usOnly` / `canada` / `international` |
+| `searchDescriptions` | boolean | `false` | Match the query in descriptions too |
+| `includeClosedAuctions` | boolean | `false` | Search recently ended/sold listings |
+| `closedAuctionDaysBack` | integer | `7` | Lookback window for closed auctions (1–365 days) |
+| `includeDetails` | boolean | `false` | Fetch each listing's detail page as well |
 | `maxItems` | integer | `40` | Hard cap on emitted records (1–2000) |
 
-`categoryId` options — Clothing: `10` All Clothing · `27` Women's · `28` Men's · `29` Children's · `1729` Juniors' · `453` Baby · `137` Belt Buckles · `2272` Collegiate Wear · `169` Eyewear. Jewelry & Gemstones: `6` All · `84` Bracelets · `100` Brooches/Pins · `91` Costume Jewelry · `2240` Costume Jewelry Grabbags · `90` Earrings · `2241` Fine Jewelry Grabbags · `85` Jewelry Boxes · `102` Jewelry Sets · `436` Loose Gemstones · `101` Men's Accessories · `86` Necklaces · `87` Pendants · `353` Precious Metal Scrap · `88` Rings · `89` Watches.
-
-### Example: keyword search with price cap
+### Example: BIN-only listings under $40
 
 ```json
 {
   "mode": "search",
   "searchQuery": "levis jacket",
+  "buyNowOnly": true,
   "priceMax": 40,
   "sortBy": "priceLowToHigh",
-  "maxItems": 50
-}
-```
-
-### Example: browse a category
-
-```json
-{
-  "mode": "byCategory",
-  "categoryId": "27",
-  "brand": "coach",
   "maxItems": 100
 }
 ```
 
-### Example: everything from one seller
+### Example: sold-price research
 
 ```json
 {
-  "mode": "bySeller",
-  "sellerId": 16,
+  "mode": "search",
+  "searchQuery": "nike air jordan",
+  "includeClosedAuctions": true,
+  "closedAuctionDaysBack": 30,
+  "includeDetails": true,
   "maxItems": 200
 }
 ```
 
-### Example: direct item lookup
+### Example: browse a category with details
+
+```json
+{
+  "mode": "byCategory",
+  "categoryId": "6",
+  "includeDetails": true,
+  "maxItems": 50
+}
+```
+
+### Example: paste item links
 
 ```json
 {
   "mode": "byItemIds",
-  "itemIds": ["269254306", "268831482"]
+  "itemIds": [
+    "269254306",
+    "https://shopgoodwill.com/item/268831482"
+  ]
 }
 ```
 
-## Use cases
+## Data source and limits
 
-- **Resale/thrift price research** — track sold prices for a brand or item type over time
-- **Sourcing for resellers** — monitor a favorite Goodwill store's new listings
-- **Sustainable-fashion apps** — surface secondhand clothing inventory by category
-- **Deal alerting** — filter by price range and Buy-It-Now to catch underpriced listings
-- **Market analytics** — aggregate category/brand-keyword demand across regions
+- ShopGoodwill's public buyer API returns at most **10,000 records per query** (`maxTotalRecords`). The actor caps a run at 2,000 items; to cover more, split the search by category, price band, or seller.
+- Listing records come from the search endpoint. Description, images, seller name/address, pickup details and bid history are only present in `byItemIds` records or when `includeDetails` is on (one extra request per item).
+- Times are reported exactly as ShopGoodwill serves them (US Pacific, no timezone suffix).
+- A handful of category leaves can be empty at any moment (for example Atari Jaguar); an empty category returns zero items rather than an error.
+- Some auctions reveal a reserve only after bidding starts; `reservePrice` / `isReserveMet` are omitted when the item has none.
 
 ## FAQ
 
-**Do I need an account or cookies?** No. All modes work anonymously against ShopGoodwill's public listings.
+**Do I need a ShopGoodwill account or cookies?** No. Every request is anonymous.
 
-**What currency are prices in?** US dollars.
+**Do I need an Apify proxy?** No. The actor talks to ShopGoodwill's public JSON API from the Apify container without any proxy configuration.
 
-**Why are `brand` and `sizeKeyword` not exact filters?** ShopGoodwill doesn't expose structured brand or size facets — items are donated goods without a standardized catalog. These two inputs are keyword terms ANDed into the free-text search, so results depend on whether the seller mentioned that term in the title or description.
+**Why are some fields missing on a listing?** ShopGoodwill genuinely does not publish them on the search endpoint; turn on `includeDetails` or use `mode=byItemIds` to fill them.
 
-**Is there a "condition" field like New/Like New/Good?** No. ShopGoodwill doesn't grade condition per item; the closest thing is a generic, seller-wide "sold as-is" disclaimer that's identical across every listing from that seller, so it isn't surfaced as a per-item field. There's also no seller feedback/rating score on the platform.
+**Can I get sold prices?** Yes. Set `includeClosedAuctions` and choose a lookback with `closedAuctionDaysBack`; the final `currentPrice` of an ended listing is the sold price.
 
-**What does `remainingTime` look like?** A short human string like `"16s"`, `"2m 16s"`, or `"3d 4h"` as shown live by ShopGoodwill at scrape time — it is not re-computed, so re-run the actor for a fresh value.
-
-**Why do some items have no `buyNowPrice`?** Many auctions are bid-only; `buyNowPrice` (and `isBuyNowAvailable`) is only included when the seller enabled an instant-purchase price.
-
-**Can I get items ending in the far future?** Some listings use placeholder end dates for ongoing "Buy It Now" style stock; sort by `priceHighToLow` or `priceLowToHigh` if `endingSoonest` results look unexpected.
-
-**How many items can I fetch in one run?** Up to `maxItems` (max 2000) per run; the actor pages through ShopGoodwill's own result pages automatically.
-
-**Is `bySeller` mode the same as a Goodwill "store"?** Yes — each regional Goodwill agency runs its own seller account on ShopGoodwill; `sellerId` identifies that store's listings.
-
-**What does `includeClosedAuctions` search?** A rolling window of recently-ended (sold) listings instead of only live auctions, useful for sold-price research.
-
-**Why does `bidHistory` show masked bidder names?** That's ShopGoodwill's own display convention (e.g. `b****r`) on the live item page — the actor reproduces it as shown, not a redaction it applies itself.
-
-**Is this affiliated with Goodwill?** No, this is an independent third-party actor that reads ShopGoodwill's public listing pages. It is not affiliated with, endorsed by, or sponsored by Goodwill Industries International or ShopGoodwill.com.
+**Which categories are supported?** Every live category on ShopGoodwill. The dropdown is rebuilt from the site's own category tree and includes all 33 departments plus their subcategories.
