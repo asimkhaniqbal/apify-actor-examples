@@ -1,0 +1,229 @@
+{
+  "description": "Browse a Uline catalog department, search by keyword, or fetch full product detail by item number.",
+  "properties": {
+    "categoryUrl": {
+      "default": "https://www.uline.com/Grp_9/Corrugated-Boxes",
+      "description": "A full Uline department (`Cls_XX`), group (`Grp_XX`), or subgroup (`BL_XX`) URL — copy it straight from your browser's address bar while browsing uline.com. Crawls every product from that exact node down, without being limited to the 45 top-level departments in `productClass`.",
+      "editor": "textfield",
+      "prefill": "https://www.uline.com/Grp_9/Corrugated-Boxes",
+      "title": "Category/group/subgroup URL (mode=browseByUrl)",
+      "type": "string"
+    },
+    "country": {
+      "default": "US",
+      "description": "Which localized Uline storefront to scrape. Changes the base domain, currency, and (for Mexico) language — the catalog structure and item numbers are identical across markets.",
+      "editor": "select",
+      "enum": [
+        "US",
+        "CA",
+        "CA_FR",
+        "MX"
+      ],
+      "enumTitles": [
+        "United States - uline.com (USD)",
+        "Canada, English - uline.ca (CAD)",
+        "Canada, French - fr.uline.ca (CAD)",
+        "Mexico, Spanish - uline.mx (MXN)"
+      ],
+      "prefill": "US",
+      "title": "Market / country",
+      "type": "string"
+    },
+    "fetchFullDetails": {
+      "default": false,
+      "description": "(mode=browseByCategory, browseByUrl, search) Fetch each result's own product page to add pack price, pack quantity, availability, color, dimensions, and price-valid-until date. Adds one extra request per result, so runs take longer. `productDetail` mode always includes these fields at no extra cost.",
+      "prefill": false,
+      "title": "Fetch full product details",
+      "type": "boolean"
+    },
+    "itemNumbers": {
+      "default": [],
+      "description": "Uline item numbers, e.g. `S-4992`, or full product URLs.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Item numbers (mode=productDetail)",
+      "type": "array"
+    },
+    "keywords": {
+      "default": "corrugated boxes 12x12x12",
+      "description": "Free-text keyword search, e.g. `corrugated boxes 12x12x12`, `packing tape 2 inch`, `nitrile gloves`. More specific phrases (including a size) return the most precise matches.",
+      "editor": "textfield",
+      "prefill": "corrugated boxes 12x12x12",
+      "title": "Search keywords (mode=search)",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 30,
+      "description": "Hard cap on emitted records.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 30,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Drop products pricier than this (in the currency of the selected `country` market).",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Max price",
+      "type": "number"
+    },
+    "minPrice": {
+      "description": "Drop products cheaper than this (in the currency of the selected `country` market — Uline prices are rarely whole numbers, e.g. `1.18`).",
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Min price",
+      "type": "number"
+    },
+    "mode": {
+      "default": "browseByCategory",
+      "description": "What to fetch from Uline.",
+      "editor": "select",
+      "enum": [
+        "browseByCategory",
+        "browseByUrl",
+        "search",
+        "productDetail"
+      ],
+      "enumTitles": [
+        "Browse a catalog department",
+        "Browse by group/subgroup URL",
+        "Search by keyword",
+        "Product detail by item number"
+      ],
+      "prefill": "browseByCategory",
+      "title": "Mode",
+      "type": "string"
+    },
+    "productClass": {
+      "default": "Cls_04",
+      "description": "One of Uline's 45 top-level catalog departments. The actor crawls every group and subgroup under it to collect real, in-stock products with prices.",
+      "editor": "select",
+      "enum": [
+        "Cls_01",
+        "Cls_02",
+        "Cls_03",
+        "Cls_04",
+        "Cls_05",
+        "Cls_06",
+        "Cls_07",
+        "Cls_08",
+        "Cls_09",
+        "Cls_10",
+        "Cls_11",
+        "Cls_12",
+        "Cls_13",
+        "Cls_14",
+        "Cls_15",
+        "Cls_16",
+        "Cls_17",
+        "Cls_18",
+        "Cls_19",
+        "Cls_20",
+        "Cls_21",
+        "Cls_22",
+        "Cls_23",
+        "Cls_24",
+        "Cls_25",
+        "Cls_26",
+        "Cls_27",
+        "Cls_28",
+        "Cls_29",
+        "Cls_30",
+        "Cls_31",
+        "Cls_32",
+        "Cls_33",
+        "Cls_34",
+        "Cls_35",
+        "Cls_36",
+        "Cls_37",
+        "Cls_38",
+        "Cls_39",
+        "Cls_40",
+        "Cls_41",
+        "Cls_42",
+        "Cls_43",
+        "Cls_44",
+        "Cls_45"
+      ],
+      "enumTitles": [
+        "Bags, Poly & Plastic",
+        "Tape",
+        "Stretch Wrap",
+        "Boxes, Corrugated",
+        "Cushioning, Peanuts & Foam",
+        "Free Offers",
+        "Material Handling",
+        "Janitorial Supplies",
+        "Strapping",
+        "Damage Indicators",
+        "Mailers and Envelopes",
+        "Markers & Stencils",
+        "Labels",
+        "Packing List Envelopes",
+        "Tubes",
+        "Shrink Wrap",
+        "Bubble Cushioning",
+        "Safety Products",
+        "Edge Protectors",
+        "CDs, DVDs and Media",
+        "Anti-Static",
+        "Retail Packaging",
+        "Scales",
+        "Office Supplies",
+        "Tags",
+        "Barcode Labels and Printers",
+        "3M Tape",
+        "Warehouse Equipment & Supplies",
+        "Facilities Maintenance",
+        "Gloves",
+        "Drums, Pails and Containers",
+        "Shelving and Storage",
+        "Jars, Jugs and Bottles",
+        "Store Operations",
+        "Food Service and Packaging",
+        "Mats",
+        "Carts",
+        "Personal Protective Equipment",
+        "Desiccants",
+        "Office Furniture",
+        "Workbenches and Packing Tables",
+        "Packing Tables",
+        "Cleaners",
+        "Bins and Totes",
+        "Cleanroom Supplies"
+      ],
+      "prefill": "Cls_04",
+      "title": "Catalog department (mode=browseByCategory)",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Client-side sort applied after fetching.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "priceLowToHigh",
+        "priceHighToLow",
+        "itemNumber",
+        "nameAToZ"
+      ],
+      "enumTitles": [
+        "Relevance (default order)",
+        "Price: low to high",
+        "Price: high to low",
+        "Item number",
+        "Name: A to Z"
+      ],
+      "prefill": "relevance",
+      "title": "Sort results by",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Uline Catalog & Price Scraper Input",
+  "type": "object"
+}

@@ -1,0 +1,368 @@
+{
+  "description": "Scrape the US government clinical-trial registry (ClinicalTrials.gov v2 REST API). Search by free-text, condition, intervention, location, sponsor, or look up by NCT ID. Filter by status, phase, study type, demographic eligibility, country, and date ranges.",
+  "properties": {
+    "ageGroups": {
+      "default": [],
+      "description": "Restrict to studies enrolling one or more age groups. Empty = no filter.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "CHILD",
+          "ADULT",
+          "OLDER_ADULT"
+        ],
+        "enumTitles": [
+          "Child (birth-17)",
+          "Adult (18-64)",
+          "Older Adult (65+)"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Age groups",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "completionDateFrom": {
+      "description": "Drop studies whose completion date is before this date.",
+      "editor": "textfield",
+      "title": "Completion date — from (YYYY or YYYY-MM-DD)",
+      "type": "string"
+    },
+    "completionDateTo": {
+      "description": "Drop studies whose completion date is after this date.",
+      "editor": "textfield",
+      "title": "Completion date — to (YYYY or YYYY-MM-DD)",
+      "type": "string"
+    },
+    "conditionQuery": {
+      "description": "Disease, condition, or medical term (e.g. `diabetes`, `breast cancer`, `Alzheimer disease`).",
+      "editor": "textfield",
+      "title": "Condition / disease (mode=byCondition)",
+      "type": "string"
+    },
+    "containsKeyword": {
+      "description": "Client-side filter: keep only records whose title, summary, eligibility, conditions, keywords, or interventions contain this substring (case-insensitive).",
+      "editor": "textfield",
+      "title": "Contains keyword",
+      "type": "string"
+    },
+    "country": {
+      "description": "Restrict to studies with a trial location in a specific country (matches `protocolSection.contactsLocationsModule.locations[].country`).",
+      "editor": "select",
+      "enum": [
+        "",
+        "United States",
+        "Canada",
+        "United Kingdom",
+        "Germany",
+        "France",
+        "Italy",
+        "Spain",
+        "Netherlands",
+        "Belgium",
+        "Sweden",
+        "Norway",
+        "Denmark",
+        "Finland",
+        "Switzerland",
+        "Austria",
+        "Poland",
+        "Czechia",
+        "Hungary",
+        "Romania",
+        "Bulgaria",
+        "Greece",
+        "Portugal",
+        "Ireland",
+        "Iceland",
+        "Russia",
+        "Ukraine",
+        "Turkey",
+        "Israel",
+        "Saudi Arabia",
+        "United Arab Emirates",
+        "Egypt",
+        "South Africa",
+        "China",
+        "Japan",
+        "Korea, Republic of",
+        "Taiwan",
+        "Hong Kong",
+        "India",
+        "Pakistan",
+        "Bangladesh",
+        "Thailand",
+        "Vietnam",
+        "Indonesia",
+        "Malaysia",
+        "Singapore",
+        "Philippines",
+        "Australia",
+        "New Zealand",
+        "Mexico",
+        "Brazil",
+        "Argentina",
+        "Chile",
+        "Colombia",
+        "Peru"
+      ],
+      "enumTitles": [
+        "Any country",
+        "United States",
+        "Canada",
+        "United Kingdom",
+        "Germany",
+        "France",
+        "Italy",
+        "Spain",
+        "Netherlands",
+        "Belgium",
+        "Sweden",
+        "Norway",
+        "Denmark",
+        "Finland",
+        "Switzerland",
+        "Austria",
+        "Poland",
+        "Czechia",
+        "Hungary",
+        "Romania",
+        "Bulgaria",
+        "Greece",
+        "Portugal",
+        "Ireland",
+        "Iceland",
+        "Russia",
+        "Ukraine",
+        "Turkey",
+        "Israel",
+        "Saudi Arabia",
+        "United Arab Emirates",
+        "Egypt",
+        "South Africa",
+        "China",
+        "Japan",
+        "Korea, Republic of",
+        "Taiwan",
+        "Hong Kong",
+        "India",
+        "Pakistan",
+        "Bangladesh",
+        "Thailand",
+        "Vietnam",
+        "Indonesia",
+        "Malaysia",
+        "Singapore",
+        "Philippines",
+        "Australia",
+        "New Zealand",
+        "Mexico",
+        "Brazil",
+        "Argentina",
+        "Chile",
+        "Colombia",
+        "Peru"
+      ],
+      "title": "Country",
+      "type": "string"
+    },
+    "hasResults": {
+      "default": false,
+      "description": "When enabled, only emit studies that have results posted on ClinicalTrials.gov. When disabled (default), all studies are returned regardless of results status.",
+      "groupCaption": "Filters",
+      "prefill": false,
+      "title": "Only studies with posted results",
+      "type": "boolean"
+    },
+    "interventionQuery": {
+      "description": "Drug name, device, biological, or therapy (e.g. `metformin`, `pembrolizumab`, `CAR-T`).",
+      "editor": "textfield",
+      "title": "Intervention / drug (mode=byIntervention)",
+      "type": "string"
+    },
+    "locationQuery": {
+      "description": "Geographic location text (city, state, country) — e.g. `Boston`, `California`, `United States`.",
+      "editor": "textfield",
+      "title": "Location (mode=byLocation)",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Hard cap on emitted records.",
+      "maximum": 5000,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "Which lookup axis to use.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byNctIds",
+        "byCondition",
+        "byIntervention",
+        "byLocation",
+        "bySponsor"
+      ],
+      "enumTitles": [
+        "Free-text search",
+        "Lookup by NCT IDs",
+        "Browse by condition / disease",
+        "Browse by intervention / drug",
+        "Browse by location / country",
+        "Browse by lead sponsor"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "nctIds": {
+      "default": [],
+      "description": "List of NCT identifiers like `NCT04280705`. Full URLs (`https://clinicaltrials.gov/study/NCT...`) are also accepted.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "NCT IDs (mode=byNctIds)",
+      "type": "array"
+    },
+    "phases": {
+      "default": [],
+      "description": "Restrict to one or more trial phases. Empty array = no filter.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "EARLY_PHASE1",
+          "PHASE1",
+          "PHASE2",
+          "PHASE3",
+          "PHASE4",
+          "NA"
+        ],
+        "enumTitles": [
+          "Early Phase 1",
+          "Phase 1",
+          "Phase 2",
+          "Phase 3",
+          "Phase 4",
+          "Not Applicable"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Phases",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "searchQuery": {
+      "default": "cancer immunotherapy",
+      "description": "Free-text query against the full study record. Used by mode=search; also serves as a fallback for the other browse modes if their specific query is empty.",
+      "editor": "textfield",
+      "prefill": "cancer immunotherapy",
+      "title": "Search query (mode=search)",
+      "type": "string"
+    },
+    "sex": {
+      "description": "Restrict to studies enrolling a specific sex. `ALL` matches studies open to any sex.",
+      "editor": "select",
+      "enum": [
+        "",
+        "ALL",
+        "MALE",
+        "FEMALE"
+      ],
+      "enumTitles": [
+        "Any",
+        "All sexes",
+        "Male only",
+        "Female only"
+      ],
+      "title": "Eligible sex",
+      "type": "string"
+    },
+    "sponsorQuery": {
+      "description": "Lead sponsor / organization name (e.g. `Pfizer`, `Mayo Clinic`, `NIH`). Use the exact registered lead-sponsor name as it appears on ClinicalTrials.gov — for example, `ModernaTX` (not `Moderna`), `Pfizer Inc.` (not `Pfizer`). Partial names may return 0 results — use the CT.gov website search to identify the exact registered name first.",
+      "editor": "textfield",
+      "title": "Lead sponsor (mode=bySponsor)",
+      "type": "string"
+    },
+    "startDateFrom": {
+      "description": "Drop studies that started before this date. ISO 8601 partial dates accepted (e.g. `2020`, `2020-01`, `2020-01-15`).",
+      "editor": "textfield",
+      "title": "Start date — from (YYYY or YYYY-MM-DD)",
+      "type": "string"
+    },
+    "startDateTo": {
+      "description": "Drop studies that started after this date.",
+      "editor": "textfield",
+      "title": "Start date — to (YYYY or YYYY-MM-DD)",
+      "type": "string"
+    },
+    "status": {
+      "description": "Restrict to a single recruitment / overall status. Leave empty for no filter.",
+      "editor": "select",
+      "enum": [
+        "",
+        "NOT_YET_RECRUITING",
+        "RECRUITING",
+        "ENROLLING_BY_INVITATION",
+        "ACTIVE_NOT_RECRUITING",
+        "SUSPENDED",
+        "TERMINATED",
+        "COMPLETED",
+        "WITHDRAWN",
+        "UNKNOWN",
+        "AVAILABLE",
+        "NO_LONGER_AVAILABLE",
+        "TEMPORARILY_NOT_AVAILABLE",
+        "APPROVED_FOR_MARKETING",
+        "WITHHELD"
+      ],
+      "enumTitles": [
+        "Any status",
+        "Not yet recruiting",
+        "Recruiting",
+        "Enrolling by invitation",
+        "Active, not recruiting",
+        "Suspended",
+        "Terminated",
+        "Completed",
+        "Withdrawn",
+        "Unknown",
+        "Available (expanded access)",
+        "No longer available (expanded access)",
+        "Temporarily not available (expanded access)",
+        "Approved for marketing (expanded access)",
+        "Withheld"
+      ],
+      "title": "Overall status",
+      "type": "string"
+    },
+    "studyType": {
+      "description": "Restrict to a study type. Leave empty for no filter.",
+      "editor": "select",
+      "enum": [
+        "",
+        "INTERVENTIONAL",
+        "OBSERVATIONAL",
+        "EXPANDED_ACCESS"
+      ],
+      "enumTitles": [
+        "Any type",
+        "Interventional (clinical trial)",
+        "Observational",
+        "Expanded access (compassionate use)"
+      ],
+      "title": "Study type",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "ClinicalTrialsGov Scraper Input",
+  "type": "object"
+}

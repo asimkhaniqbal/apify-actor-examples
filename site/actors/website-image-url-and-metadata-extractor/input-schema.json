@@ -1,0 +1,85 @@
+{
+  "description": "Crawl a website and extract every image URL it references. Supports `<img>` tags, `<picture>`/`<source>`, `srcset` candidates, and CSS `background-image` declarations.",
+  "properties": {
+    "imageExtensions": {
+      "default": [
+        "jpg",
+        "jpeg",
+        "png",
+        "gif",
+        "webp",
+        "svg",
+        "avif",
+        "bmp",
+        "ico"
+      ],
+      "description": "Only image URLs whose path ends in one of these extensions are kept. Drop entries to filter to a subset (e.g. only ['svg']) or extend with custom formats.",
+      "editor": "stringList",
+      "prefill": [
+        "jpg",
+        "jpeg",
+        "png",
+        "gif",
+        "webp",
+        "svg",
+        "avif",
+        "bmp",
+        "ico"
+      ],
+      "title": "Image extensions to accept",
+      "type": "array"
+    },
+    "includeBackgroundImages": {
+      "default": true,
+      "description": "Also extract images referenced via inline `style=\"background-image: url(...)\"` attributes. Disable to only collect `<img>`-sourced images.",
+      "title": "Include CSS background-images",
+      "type": "boolean"
+    },
+    "maxCrawlDepth": {
+      "default": 1,
+      "description": "0 = only the start URL. 1 = also follow links found on the start URL (same host only). Higher values widen the crawl but cost more time.",
+      "maximum": 5,
+      "minimum": 0,
+      "prefill": 1,
+      "title": "Maximum crawl depth",
+      "type": "integer"
+    },
+    "maxImagesPerPage": {
+      "default": 200,
+      "description": "Cap on how many images are extracted from a single page. Pathological gallery pages can list hundreds of duplicates; this keeps runs bounded.",
+      "maximum": 5000,
+      "minimum": 1,
+      "prefill": 200,
+      "title": "Maximum images per page",
+      "type": "integer"
+    },
+    "maxTotalImages": {
+      "default": 1000,
+      "description": "Hard cap on the total number of image records pushed across all crawled pages. The crawl stops once this many images are emitted.",
+      "maximum": 50000,
+      "minimum": 1,
+      "prefill": 1000,
+      "title": "Maximum images per run",
+      "type": "integer"
+    },
+    "startUrl": {
+      "description": "The page to start crawling from (e.g. 'https://example.com'). The actor extracts images from this page and, if `maxCrawlDepth >= 1`, follows internal links to additional pages on the same host.",
+      "editor": "textfield",
+      "prefill": "https://apify.com",
+      "title": "Start URL",
+      "type": "string"
+    },
+    "userAgent": {
+      "description": "Override the default Chrome User-Agent string. Most sites accept the default; only set this if a target server filters by UA.",
+      "editor": "textfield",
+      "title": "Custom User-Agent (optional)",
+      "type": "string"
+    }
+  },
+  "required": [
+    "startUrl"
+  ],
+  "schemaVersion": 1,
+  "title": "Website Image Scraper Input",
+  "type": "object"
+}

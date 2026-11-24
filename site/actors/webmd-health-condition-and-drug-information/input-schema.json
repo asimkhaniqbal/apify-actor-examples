@@ -1,0 +1,44 @@
+{
+  "description": "Input for WebMD Scraper.",
+  "properties": {
+    "maxItems": {
+      "default": 20,
+      "description": "Max records.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "conditions",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "conditions",
+        "drugs"
+      ],
+      "enumTitles": [
+        "Medical Conditions",
+        "Drugs & Medications"
+      ],
+      "prefill": "conditions",
+      "title": "Mode",
+      "type": "string"
+    },
+    "searchQuery": {
+      "default": "diabetes",
+      "description": "Medical condition or drug name.",
+      "editor": "textfield",
+      "prefill": "diabetes",
+      "title": "Search query",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "WebMD Scraper Input",
+  "type": "object"
+}
