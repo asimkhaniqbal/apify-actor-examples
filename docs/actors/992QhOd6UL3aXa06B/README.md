@@ -14,7 +14,7 @@ Scrape live industrial, packaging, and shipping-supply listings from [Uline.com]
 - **Product detail by item number** — paste one or more Uline item numbers (e.g. `S-4992`) or product URLs to get the full detail record, including pack price/quantity, availability, color, and dimensions.
 - **Multi-market** — scrape uline.com (US, USD), uline.ca (Canada, CAD, English or French), or uline.mx (Mexico, MXN, Spanish) — same catalog and item numbers, localized pricing.
 - **Filters** — price range and 5 sort orders (relevance, price low/high, item number, name A-Z).
-- **Optional full-detail enrichment** — turn on `fetchFullDetails` during browse/search to backfill pack price, pack quantity, availability, color, and dimensions onto every result (normally only returned by `productDetail` mode).
+- **Optional full-detail enrichment** — turn on `fetchFullDetails` during browse/search to backfill pack price, pack quantity, availability, color, dimensions, unit weight, country of origin, and published specifications onto every result (normally only returned by `productDetail` mode).
 - Empty fields are always omitted — every record only contains data actually found on the page.
 
 ## Output per product
@@ -32,6 +32,9 @@ Scrape live industrial, packaging, and shipping-supply listings from [Uline.com]
 - `availability` — `InStock` / `OutOfStock` / etc. *(same conditions as `packPrice`)*
 - `color`, `dimensions`, `width`, `height` — physical attributes where Uline publishes them *(same conditions as `packPrice`)*
 - `priceValidUntil` — date the listed price is guaranteed until *(same conditions as `packPrice`)*
+- `unitWeight`, `weightUnit` — Uline's per-unit shipping weight (e.g. `0.5` / `lbs`) *(same conditions as `packPrice`)*
+- `countryOfOrigin` — where Uline says the item is made, e.g. `USA` *(same conditions as `packPrice`)*
+- `specifications` — Uline's `SPECIFICATIONS` bullets for the item, when published *(same conditions as `packPrice`)*
 - `productUrl` — direct Uline product page
 - `imageUrl` — product photo
 - `sourceUrl` — the exact Uline page the record was scraped from
@@ -126,7 +129,7 @@ Every one of Uline's 45 public top-level catalog departments — shipping, packa
 **What markets are supported?**
 `US` (uline.com, USD), `CA` (uline.ca, CAD, English), `CA_FR` (fr.uline.ca, CAD, French), and `MX` (uline.mx, MXN, Spanish). All four serve the same catalog structure and item numbers with localized pricing.
 
-**Why don't `packPrice`, `availability`, `color`, etc. show up on browse/search results?**
+**Why don't `packPrice`, `availability`, `unitWeight`, `countryOfOrigin`, etc. show up on browse/search results?**
 Those fields come from each product's own detail page, which browse/search modes don't fetch by default (to keep runs fast). Turn on `fetchFullDetails` to fetch them for every result, at the cost of one extra request per item — or use `productDetail` mode directly, which always includes them at no extra configuration.
 
 **Why did I get 0 results?**

@@ -1,37 +1,127 @@
 {
-  "description": "Input for WebMD Scraper.",
+  "description": "Choose what to collect from WebMD's public A-Z condition and drug references.",
   "properties": {
+    "drugType": {
+      "default": "all",
+      "description": "Filter drug results by availability. Ignored in conditions mode.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "prescription",
+        "otc"
+      ],
+      "enumTitles": [
+        "All drug types",
+        "Prescription (Rx)",
+        "Over-the-counter (OTC)"
+      ],
+      "prefill": "all",
+      "title": "Drug type",
+      "type": "string"
+    },
+    "includeDetails": {
+      "default": true,
+      "description": "Open each matched page to add description, symptoms, drug class, brand names, review date and other details. Turn off for a faster index-only run.",
+      "prefill": true,
+      "title": "Fetch detail pages",
+      "type": "boolean"
+    },
+    "letter": {
+      "default": "all",
+      "description": "Limit results to one A-Z letter. Use All letters to let the search decide where to look.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z"
+      ],
+      "enumTitles": [
+        "All letters",
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z"
+      ],
+      "prefill": "all",
+      "title": "Browse a letter",
+      "type": "string"
+    },
     "maxItems": {
       "default": 20,
-      "description": "Max records.",
+      "description": "Stop after this many records.",
       "maximum": 500,
       "minimum": 1,
-      "prefill": 20,
-      "title": "Max items",
+      "prefill": 1,
+      "title": "Maximum records",
       "type": "integer"
     },
     "mode": {
       "default": "conditions",
-      "description": "What to fetch.",
+      "description": "Whether to collect medical-condition topics or drug monographs.",
       "editor": "select",
       "enum": [
         "conditions",
         "drugs"
       ],
       "enumTitles": [
-        "Medical Conditions",
-        "Drugs & Medications"
+        "Medical conditions",
+        "Drugs & medications"
       ],
       "prefill": "conditions",
-      "title": "Mode",
+      "title": "What to collect",
       "type": "string"
     },
     "searchQuery": {
-      "default": "diabetes",
-      "description": "Medical condition or drug name.",
+      "description": "Condition or drug name, brand name, or keyword. Leave blank to browse the A-Z index. Multiple words must all appear in the name.",
       "editor": "textfield",
       "prefill": "diabetes",
-      "title": "Search query",
+      "title": "Search by name or keyword",
       "type": "string"
     }
   },
@@ -39,6 +129,6 @@
     "mode"
   ],
   "schemaVersion": 1,
-  "title": "WebMD Scraper Input",
+  "title": "WebMD Condition & Drug Reference Input",
   "type": "object"
 }

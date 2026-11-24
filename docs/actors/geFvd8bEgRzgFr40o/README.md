@@ -4,107 +4,235 @@
 
 # ClinicalTrials.gov Sponsor, Location & NCT Lookup Tool
 
-ClinicalTrials.gov is the US National Library of Medicine's public registry of clinical research, covering over 500,000 studies worldwide. This actor is built around the registry's lookup axes — pull every trial run by a given sponsor, every trial active in a region, or a specific list of NCT IDs — alongside the usual condition/intervention search, with the full set of status, phase, demographic and date filters.
+ClinicalTrials.gov is the US National Library of Medicine's public registry of clinical research, covering more than 500,000 studies worldwide. This actor is built for the registry's three practical lookup paths — follow a sponsor's pipeline, see what is running at a trial site or in a country, or resolve a saved list of NCT IDs — and it also searches by condition, intervention, title, outcome, sponsor study ID or facility. Everything is public: no account, cookie or proxy is needed.
 
 ## What this actor does
 
-- Looks up trials six ways: free-text `search`, `byNctIds`, `byCondition`, `byIntervention`, `byLocation`, or `bySponsor`
-- Narrows results by recruitment status, study type, trial phase, eligible sex, age group and country
-- Narrows further by study start/completion date windows, results-posted flag, and a free keyword substring
-- Resolves and merges a list of specific NCT IDs in one call, deduplicating repeats
-- Leaves out any field a study record doesn't actually have, rather than sending a blank placeholder
+- **Ten lookup modes**: `search`, `byNctIds`, `byCondition`, `byIntervention`, `byLocation`, `bySponsor`, `byTitle`, `byOutcome`, `byStudyId`, `byFacility`
+- **Paste a URL**: a study link, a search-results link, or an `api/v2/studies` link is parsed into the matching mode and filters
+- **Sponsor scope**: match the lead sponsor only, or include collaborators
+- **Server-side filtering** for recruitment status, study type, phase, intervention type, age group, country, state, facility, funder class, healthy volunteers, patient registries, FDAAA 801 violations, results availability, FDA regulation, document labels, enrollment and six date ranges
+- **Eligibility parsing**: raw criteria plus separated inclusion/exclusion lines, sex, minimum/maximum age in text and years, standard age groups and the healthy-volunteer flag
+- **Posted documents**: protocol, statistical-analysis-plan and informed-consent metadata with public PDF URLs
+- **Optional posted-results summary**: participant-flow and baseline counts, outcome-measure counts and a short sample, adverse-event counts and limitations
+- **Token pagination up to 10,000 records per run**, deduplicated by NCT ID; the first page asks for the server-side match total
+- **Omit-empty output**: a field the registry does not have is left out, never written as `null`, `""`, `[]` or `{}`
 
-## Output per study
+## Output per study (sample)
 
-| Field group | Fields |
-|---|---|
-| Identification | `nctId`, `briefTitle`, `officialTitle`, `acronym`, `organization`, `organizationClass`, `orgStudyId` |
-| Status & timeline | `overallStatus`, `statusVerifiedDate`, `startDate`, `startDateType`, `primaryCompletionDate`, `completionDate`, `studyFirstSubmitDate`, `studyFirstPostDate`, `lastUpdateSubmitDate`, `lastUpdatePostDate`, `resultsFirstPostDate`, `hasExpandedAccess` |
-| Sponsors & oversight | `leadSponsor`, `leadSponsorClass`, `collaborators[]`, `responsiblePartyType`, `responsiblePartyInvestigator`, `isFdaRegulatedDrug`, `isFdaRegulatedDevice`, `hasDataMonitoringCommittee` |
-| Description | `briefSummary`, `detailedDescription`, `conditions[]`, `keywords[]` |
-| Design | `studyType`, `phases[]`, `enrollmentCount`, `enrollmentType`, `allocation`, `interventionModel`, `primaryPurpose`, `masking` |
-| Arms & interventions | `armGroups[]`, `interventions[]`, `interventionNames[]`, `interventionTypes[]` |
-| Eligibility | `eligibilityCriteria`, `sex`, `minimumAge`, `maximumAge`, `standardAges[]`, `healthyVolunteers` |
-| Outcomes | `primaryOutcomes[]`, `secondaryOutcomes[]` |
-| Locations | `locations[]`, `locationCities[]`, `locationCountries[]`, `locationCount`, `overallOfficials[]` |
-| Results & housekeeping | `hasResults`, `studyUrl`, `recordType`, `scrapedAt` |
+```json
+{
+  "nctId": "NCT04280705",
+  "briefTitle": "Adaptive COVID-19 Treatment Trial (ACTT)",
+  "officialTitle": "A Multicenter, Adaptive, Randomized Blinded Controlled Trial...",
+  "organization": "National Institute of Allergy and Infectious Diseases (NIAID)",
+  "overallStatus": "COMPLETED",
+  "startDate": "2020-02-21",
+  "completionDate": "2020-05-21",
+  "leadSponsor": "National Institute of Allergy and Infectious Diseases (NIAID)",
+  "leadSponsorClass": "NIH",
+  "conditions": ["COVID-19"],
+  "studyType": "INTERVENTIONAL",
+  "phases": ["PHASE3"],
+  "enrollmentCount": 1062,
+  "sex": "ALL",
+  "minimumAge": "18 Years",
+  "maximumAge": "99 Years",
+  "minimumAgeYears": 18.0,
+  "maximumAgeYears": 99.0,
+  "standardAges": ["ADULT", "OLDER_ADULT"],
+  "healthyVolunteers": false,
+  "inclusionCriteria": ["Admitted to a hospital with symptoms suggestive of COVID-19 infection."],
+  "exclusionCriteria": ["Alanine Transaminase (ALT) or Aspartate Transaminase (AST) > 5 times the upper limit of normal."],
+  "documentTypes": ["PROTOCOL", "SAP"],
+  "documents": [
+    {
+      "type": "Prot_SAP",
+      "label": "Study Protocol and Statistical Analysis Plan",
+      "filename": "Prot_SAP_000.pdf",
+      "sizeBytes": 989192,
+      "url": "https://clinicaltrials.gov/ProvidedDocs/05/NCT04280705/Prot_SAP_000.pdf"
+    }
+  ],
+  "locations": [
+    {
+      "facility": "National Institutes of Health Clinical Center",
+      "city": "Bethesda",
+      "state": "Maryland",
+      "country": "United States"
+    }
+  ],
+  "locationCountries": ["United States", "Japan"],
+  "locationCount": 73,
+  "hasResults": true,
+  "studyUrl": "https://clinicaltrials.gov/study/NCT04280705",
+  "recordType": "clinicalTrial",
+  "scrapedAt": "2026-11-24T12:00:00+00:00"
+}
+```
+
+### Available fields
+
+- **Identification**: `nctId`, `briefTitle`, `officialTitle`, `acronym`, `organization`, `organizationClass`, `orgStudyId`
+- **Status & dates**: `overallStatus`, `startDate`, `startDateType`, `primaryCompletionDate`, `completionDate`, `studyFirstSubmitDate`, `studyFirstPostDate`, `lastUpdateSubmitDate`, `lastUpdatePostDate`, `resultsFirstPostDate`, `statusVerifiedDate`, `hasExpandedAccess`
+- **Sponsors**: `leadSponsor`, `leadSponsorClass`, `collaborators[]`, `responsiblePartyType`, `responsiblePartyInvestigator`
+- **Oversight**: `isFdaRegulatedDrug`, `isFdaRegulatedDevice`, `hasDataMonitoringCommittee`, `fdaaa801Violation`
+- **Description**: `briefSummary`, `detailedDescription`
+- **Conditions**: `conditions[]`, `keywords[]`
+- **Design**: `studyType`, `phases[]`, `enrollmentCount`, `enrollmentType`, `allocation`, `interventionModel`, `primaryPurpose`, `masking`, `whoMasked[]`, `observationalModel`, `timePerspective`, `targetDuration`, `patientRegistry`
+- **Arms / interventions**: `armGroups[]`, `interventions[]`, `interventionNames[]`, `interventionTypes[]`
+- **Eligibility**: `eligibilityCriteria`, `inclusionCriteria[]`, `exclusionCriteria[]`, `sex`, `minimumAge`, `maximumAge`, `minimumAgeYears`, `maximumAgeYears`, `standardAges[]`, `healthyVolunteers`
+- **Outcomes**: `primaryOutcomes[]`, `secondaryOutcomes[]`
+- **Locations**: `locations[]`, `locationCities[]`, `locationStates[]`, `locationCountries[]`, `locationCount`, `overallOfficials[]`
+- **Documents**: `documents[]`, `documentTypes[]`, `documentCount`
+- **Results** (with `includeResults`): `results` → `participantFlowGroupCount`, `participantFlowPeriodCount`, `baselineGroupCount`, `outcomeMeasureCount`, `outcomeMeasureTypes[]`, `topOutcomeMeasures[]`, `seriousAdverseEventCount`, `otherAdverseEventCount`, `adverseEventFrequencyThreshold`, `adverseEventTimeFrame`, `limitationsAndCaveats`, `resultsUrl`
+- **Derived**: `studyUrl`, `recordType`, `scrapedAt`
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `search` | `search`, `byNctIds`, `byCondition`, `byIntervention`, `byLocation`, `bySponsor` |
-| `searchQuery` | string | `cancer immunotherapy` | Free-text query for `mode=search`, also used as a fallback query for the other modes |
-| `conditionQuery` | string | – | Disease/condition text for `mode=byCondition` |
-| `interventionQuery` | string | – | Drug/device/therapy text for `mode=byIntervention` |
-| `locationQuery` | string | – | City/state/country text for `mode=byLocation` |
-| `sponsorQuery` | string | – | Lead sponsor's exact registered name for `mode=bySponsor` |
-| `nctIds` | array | – | NCT IDs or study URLs for `mode=byNctIds` |
-| `status` | enum | – | One overall recruitment status, or any |
-| `studyType` | enum | – | Interventional, Observational, or Expanded Access |
-| `phases` | array enum | – | One or more trial phases |
-| `sex` | enum | – | All / Male / Female eligibility |
+| `mode` | enum | `search` | `search`, `byNctIds`, `byCondition`, `byIntervention`, `byLocation`, `bySponsor`, `byTitle`, `byOutcome`, `byStudyId`, `byFacility` |
+| `searchQuery` | string | `cancer immunotherapy` | Free-text query for `mode=search`; fallback for the other browse modes |
+| `conditionQuery` | string | – | Disease or condition for `mode=byCondition` |
+| `interventionQuery` | string | – | Drug, device, biological or therapy for `mode=byIntervention` |
+| `interventionTypes` | array enum | – | Drug / Device / Biological / Procedure / Behavioral / Dietary supplement / Combination product / Diagnostic test / Genetic / Other |
+| `locationQuery` | string | – | City, state or country text for `mode=byLocation` |
+| `sponsorQuery` | string | – | Sponsor name for `mode=bySponsor`; exact registered names work best |
+| `sponsorScope` | enum | `lead` | `lead` (lead sponsor only) or `all` (lead sponsor plus collaborators) |
+| `titleQuery` | string | – | Words from the title or acronym for `mode=byTitle` |
+| `outcomeQuery` | string | – | Words from an outcome measure for `mode=byOutcome` |
+| `studyIdQuery` | string | – | Sponsor's own study identifier for `mode=byStudyId` |
+| `facilityQuery` | string | – | Trial-site facility name for `mode=byFacility` |
+| `nctIds` | array | – | NCT IDs or study URLs for `mode=byNctIds`; repeats are dropped |
+| `startUrl` | string | – | Study, search-results or `api/v2/studies` URL; parsed values override the matching fields |
+| `statuses` | array enum | – | Any of the 14 recruitment/overall statuses |
+| `studyTypes` | array enum | – | Interventional / Observational / Expanded Access |
+| `phases` | array enum | – | Early Phase 1 / Phase 1 / 2 / 3 / 4 / Not Applicable |
+| `sex` | enum | – | `ALL` (both sexes only), `MALE`, `FEMALE`; empty keeps every study |
 | `ageGroups` | array enum | – | Child / Adult / Older Adult |
-| `country` | enum | – | A country with a trial location |
-| `startDateFrom` / `startDateTo` | string | – | Bound the study start date (`YYYY`, `YYYY-MM`, or `YYYY-MM-DD`) |
-| `completionDateFrom` / `completionDateTo` | string | – | Bound the completion date |
-| `hasResults` | boolean | `false` | Keep only studies with posted results |
-| `containsKeyword` | string | – | Substring match across title, summary, eligibility, conditions and interventions |
-| `maxItems` | integer | `50` (prefill `20`) | Hard cap on emitted records (1–5000) |
+| `healthyVolunteersFilter` | enum | – | `yes` or `no`; empty means no filter |
+| `ageRangeUnit` | enum | `years` | Unit for `ageRangeFrom` and `ageRangeTo`: `years` or `months` |
+| `ageRangeFrom` | int | – | Lower bound of the eligible-age overlap window (0-1440) |
+| `ageRangeTo` | int | – | Upper bound of the eligible-age overlap window (0-1440) |
+| `country` | enum | – | 54 common trial countries |
+| `countryText` | string | – | Any country name; overrides `country` |
+| `state` | string | – | Registered state or region name (not a two-letter code) |
+| `sponsorClass` | enum | – | NIH / Other US federal / Industry / Network / Individual / Other / Other government / Unknown / Ambiguous |
+| `fdaRegulated` | enum | – | `drug` or `device` |
+| `onlyPatientRegistries` | bool | `false` | Keep only studies flagged as patient registries |
+| `onlyFdaaaViolations` | bool | `false` | Keep only studies with an FDAAA 801 violation |
+| `resultsAvailability` | enum | – | `with_results` or `without_results` |
+| `startDateFrom` | string | – | Study-start lower bound |
+| `startDateTo` | string | – | Study-start upper bound |
+| `primaryCompletionDateFrom` | string | – | Primary-completion lower bound |
+| `primaryCompletionDateTo` | string | – | Primary-completion upper bound |
+| `completionDateFrom` | string | – | Study-completion lower bound |
+| `completionDateTo` | string | – | Study-completion upper bound |
+| `firstPostedDateFrom` | string | – | First-posted lower bound |
+| `firstPostedDateTo` | string | – | First-posted upper bound |
+| `resultsFirstPostedDateFrom` | string | – | Results-first-posted lower bound |
+| `resultsFirstPostedDateTo` | string | – | Results-first-posted upper bound |
+| `lastUpdatePostedDateFrom` | string | – | Last-update lower bound |
+| `lastUpdatePostedDateTo` | string | – | Last-update upper bound |
+| `enrollmentFrom` | int | – | Minimum planned or actual enrollment |
+| `enrollmentTo` | int | – | Maximum planned or actual enrollment |
+| `containsKeyword` | string | – | Client-side case-insensitive substring across title, summary, eligibility, conditions, keywords and interventions |
+| `documentTypes` | array enum | – | Protocol / Statistical analysis plan / Informed consent form |
+| `sort` | enum | `relevance` | Relevance, last update, start/completion/first-posted/results dates or enrollment |
+| `includeResults` | bool | `false` | Add the compact `results` summary when the study has posted results |
+| `maxItems` | int | `50` | Hard cap (1-10,000); prefill `3` for the smallest paid test run |
 
-### Example: every trial sponsored by a specific organization
+Dates accept ISO 8601 partial values — `2020`, `2020-01` or `2020-01-15`.
+
+### Example: a sponsor's recruiting pipeline
 
 ```json
 {
   "mode": "bySponsor",
   "sponsorQuery": "Mayo Clinic",
-  "status": "RECRUITING",
+  "sponsorScope": "lead",
+  "statuses": ["RECRUITING"],
+  "studyTypes": ["INTERVENTIONAL"],
+  "sort": "lastUpdateDesc",
   "maxItems": 100
 }
 ```
 
-### Example: trials running at sites in a given country
+### Example: what is running at sites in a country
 
 ```json
 {
   "mode": "byLocation",
   "locationQuery": "Germany",
-  "studyType": "INTERVENTIONAL",
-  "maxItems": 100
+  "phases": ["PHASE2", "PHASE3"],
+  "country": "Germany",
+  "maxItems": 200
 }
 ```
 
-### Example: resolve a fixed list of NCT IDs
+### Example: resolve a saved NCT list, including URLs
 
 ```json
 {
   "mode": "byNctIds",
-  "nctIds": ["NCT04280705", "NCT03695107"]
+  "nctIds": [
+    "NCT04280705",
+    "https://clinicaltrials.gov/study/NCT03695107",
+    "NCT04611802"
+  ],
+  "includeResults": true
 }
 ```
 
+### Example: filtered condition landscape by URL
+
+```json
+{
+  "startUrl": "https://clinicaltrials.gov/search?cond=breast%20cancer&aggFilters=status:rec%20act,phase:3,studyType:int&country=United%20States",
+  "ageRangeFrom": 18,
+  "ageRangeTo": 65,
+  "maxItems": 500
+}
+```
+
+## Legacy input compatibility
+
+Saved tasks and integrations built on earlier versions keep working. The actor maps these old keys in code without showing them in the input form:
+
+`query`, `searchTerm`, `term`, `keyword`, `q`, `condition`, `cond`, `intervention`, `intr`, `location`, `locationTerm`, `locn`, `sponsor`, `sponsorOrCollaborator`, `leadSponsor`, `titleOrAcronym`, `outcomeMeasure`, `studyIds`, `nctId`, `nct_id`, `status`, `overallStatus`, `statusFilter`, `studyType`, `phase`, `phaseFilter`, `hasResults`, `resultsSubmitted`, `acceptsHealthyVolunteers`, `healthyVolunteers`, `maxStudies`, `maxResults`, `limit`, `sortBy`, `studyStartDateFrom/To`, `studyCompletionDateFrom/To`, `postedFrom/To`, `url`, `searchUrl`.
+
+Only the fields the actor actually reads are shown in the form; old keys are accepted in the raw input and mapped onto the current contract.
+
 ## Use cases
 
-- **Competitive intelligence** — pull every registered trial for a named sponsor to track a competitor's pipeline
-- **Site feasibility** — find which trials are already running in a target country or region
-- **Portfolio tracking** — resolve a saved list of NCT IDs into current status and dates on a schedule
-- **Journalism and advocacy** — cross-reference sponsor, condition and location to spot patterns in trial activity
-- **Data science** — export filtered trial sets for downstream statistical or NLP work
+- **Competitive intelligence** — collect every registered trial for a named sponsor, including collaborators, and sort by the latest update
+- **Site feasibility** — see which studies are recruiting around a city, state or country before opening a new site
+- **Portfolio tracking** — resolve a spreadsheet of NCT IDs into current status, dates and enrollment on a schedule
+- **Patient matching** — combine condition, sex and age-window filters with the raw inclusion/exclusion criteria
+- **Regulatory and policy work** — monitor FDA-regulated studies, posted results and protocol/SAP/ICF documents
+- **Research data pipelines** — export a filtered trial landscape with structured interventions, outcomes and locations
 
 ## FAQ
 
-**Who maintains ClinicalTrials.gov?** The US National Library of Medicine, part of the National Institutes of Health. It is the registry trial sponsors worldwide are required or encouraged to submit to.
+**Who runs ClinicalTrials.gov?** The US National Library of Medicine, part of the National Institutes of Health. Sponsors and investigators worldwide submit and update the records.
 
-**Is this tool affiliated with ClinicalTrials.gov or the NIH?** No — it's an independent client for the registry's public data, not an official NIH product.
+**Is this an official ClinicalTrials.gov or NIH product?** No. It is an independent client for the registry's public v2 API.
 
-**Why does `bySponsor` sometimes return nothing for a sponsor I know exists?** Sponsor names must match the exact string registered on ClinicalTrials.gov (e.g. `Pfizer Inc.`, not `Pfizer`). Check the sponsor's exact name on the ClinicalTrials.gov website first if a query returns zero results.
+**Why does a sponsor lookup sometimes miss a company I know?** The API matches the registered sponsor string, so `Pfizer` and `Pfizer Inc.` are not identical. Check the exact name in a ClinicalTrials.gov record, and remember that collaborators are only searched when `sponsorScope` is `all`.
 
-**What happens if I list a mix of valid and invalid NCT IDs?** Valid IDs resolve normally; IDs that don't match a study are simply absent from the output rather than causing the run to fail.
+**What happens with a mixed NCT list?** Valid IDs resolve; IDs that do not match a study are omitted, and the status message reports how many were emitted. Duplicate IDs are removed before lookup.
 
-**How do `locations[]`, `locationCities[]` and `locationCountries[]` differ?** `locations[]` holds the full facility/city/state/country/coordinates for each site (capped at 30). `locationCities[]` and `locationCountries[]` are flattened lists derived from the same sites, handy for quick grouping without parsing the full objects.
+**Do I need an API key or proxy?** No. The actor calls the public registry directly and never uses cookies or credentials.
 
-**Can I combine `bySponsor` with other filters like `phases` or `status`?** Yes — the lookup mode just chooses the primary search axis; every other filter (status, phase, dates, demographics, keyword) still applies on top of it.
+**How does pagination stop?** It stops when `maxItems` is reached, when the registry returns no further page token, or when the query is exhausted. It never pads the dataset to hit the cap.
 
-**Why is `officialTitle` sometimes missing?** It's only emitted when ClinicalTrials.gov's own record for that study includes one — many studies register just a `briefTitle` and leave the formal official title blank.
+**What is the difference between `locations[]` and the flattened location fields?** `locations[]` holds one object per trial site (facility, city, state, zip, country, coordinates). `locationCities[]`, `locationStates[]` and `locationCountries[]` are convenience lists derived from those sites, and `locationCount` is the number of sites.
 
-**Does `maxItems` guarantee I'll get exactly that many records?** It's a ceiling, not a guarantee — if your query matches fewer studies than `maxItems`, you'll get all matches and nothing more.
+**Why do some dates have only a month?** Sponsors may register partial dates. The actor preserves the precision the registry supplies instead of inventing a day.
+
+**What does `includeResults` add?** A small `results` object with counts, a five-item outcome-measure sample, adverse-event counts, limitations and a `resultsUrl` — not the full results tables.
+
+**Are filters applied before or after download?** Status, study type, phase, intervention type, age group, country, state, facility, funder, healthy volunteers, registries, FDAAA, results availability, FDA regulation, documents, enrollment and date ranges are applied by the API. Sex, age-window overlap and the keyword substring are re-checked after fetch; the status message notes when that reduces the result set.
+
+**Why is `officialTitle` sometimes absent?** Many records register only a brief title. The actor omits fields the registry does not provide rather than sending a placeholder.

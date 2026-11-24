@@ -1,9 +1,9 @@
 {
-  "description": "Scrape the US government clinical-trial registry (ClinicalTrials.gov v2 REST API). Search by free-text, condition, intervention, location, sponsor, or look up by NCT ID. Filter by status, phase, study type, demographic eligibility, country, and date ranges.",
+  "description": "Query the public ClinicalTrials.gov v2 registry without a login, cookie or proxy. Choose a sponsor, trial-site location or NCT-ID lookup, or search by condition, intervention, title, outcome, study ID or facility. Narrow by recruitment status, study type, phase, eligibility, funder, documents, results, enrollment and dates, then page to as many as 10,000 matching studies.",
   "properties": {
     "ageGroups": {
       "default": [],
-      "description": "Restrict to studies enrolling one or more age groups. Empty = no filter.",
+      "description": "Keep studies that enroll any of the selected age groups. Empty = no age-group filter.",
       "editor": "select",
       "items": {
         "enum": [
@@ -23,16 +23,46 @@
       "type": "array",
       "uniqueItems": true
     },
+    "ageRangeFrom": {
+      "description": "Keep studies whose eligibility age window overlaps this lower bound, expressed in `ageRangeUnit` (years by default). Studies with no age limit are treated as 0-120 years.",
+      "maximum": 1440,
+      "minimum": 0,
+      "title": "Age range — from (years)",
+      "type": "integer"
+    },
+    "ageRangeTo": {
+      "description": "Keep studies whose eligibility age window overlaps this upper bound, expressed in `ageRangeUnit`.",
+      "maximum": 1440,
+      "minimum": 0,
+      "title": "Age range — to (years)",
+      "type": "integer"
+    },
+    "ageRangeUnit": {
+      "default": "years",
+      "description": "Unit for ageRangeFrom/ageRangeTo.",
+      "editor": "select",
+      "enum": [
+        "years",
+        "months"
+      ],
+      "enumTitles": [
+        "Years",
+        "Months"
+      ],
+      "prefill": "years",
+      "title": "Age range unit",
+      "type": "string"
+    },
     "completionDateFrom": {
       "description": "Drop studies whose completion date is before this date.",
       "editor": "textfield",
-      "title": "Completion date — from (YYYY or YYYY-MM-DD)",
+      "title": "Study completion — from",
       "type": "string"
     },
     "completionDateTo": {
       "description": "Drop studies whose completion date is after this date.",
       "editor": "textfield",
-      "title": "Completion date — to (YYYY or YYYY-MM-DD)",
+      "title": "Study completion — to",
       "type": "string"
     },
     "conditionQuery": {
@@ -48,7 +78,7 @@
       "type": "string"
     },
     "country": {
-      "description": "Restrict to studies with a trial location in a specific country (matches `protocolSection.contactsLocationsModule.locations[].country`).",
+      "description": "Keep studies with a trial location in this country.",
       "editor": "select",
       "enum": [
         "",
@@ -167,18 +197,158 @@
       "title": "Country",
       "type": "string"
     },
-    "hasResults": {
+    "countryText": {
+      "description": "Any country name, including countries not in the dropdown. Takes precedence over `country`.",
+      "editor": "textfield",
+      "title": "Country name (any)",
+      "type": "string"
+    },
+    "documentTypes": {
+      "default": [],
+      "description": "Keep studies that have any of these documents posted. Empty = no document filter.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "PROTOCOL",
+          "SAP",
+          "ICF"
+        ],
+        "enumTitles": [
+          "Study protocol",
+          "Statistical analysis plan (SAP)",
+          "Informed consent form (ICF)"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Study documents",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "enrollmentFrom": {
+      "description": "Drop studies whose planned or actual enrollment is below this number.",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Enrollment — minimum",
+      "type": "integer"
+    },
+    "enrollmentTo": {
+      "description": "Drop studies whose planned or actual enrollment is above this number.",
+      "maximum": 10000000,
+      "minimum": 0,
+      "title": "Enrollment — maximum",
+      "type": "integer"
+    },
+    "facilityQuery": {
+      "description": "Trial-site facility name (e.g. `Mayo Clinic`, `Johns Hopkins`).",
+      "editor": "textfield",
+      "title": "Facility name (mode=byFacility)",
+      "type": "string"
+    },
+    "fdaRegulated": {
+      "description": "Keep studies that are FDA-regulated drug or device trials. Empty = no filter.",
+      "editor": "select",
+      "enum": [
+        "",
+        "drug",
+        "device"
+      ],
+      "enumTitles": [
+        "Any",
+        "FDA-regulated drug",
+        "FDA-regulated device"
+      ],
+      "title": "FDA-regulated",
+      "type": "string"
+    },
+    "firstPostedDateFrom": {
+      "description": "Drop studies first posted before this date.",
+      "editor": "textfield",
+      "title": "First posted — from",
+      "type": "string"
+    },
+    "firstPostedDateTo": {
+      "description": "Drop studies first posted after this date.",
+      "editor": "textfield",
+      "title": "First posted — to",
+      "type": "string"
+    },
+    "healthyVolunteersFilter": {
+      "description": "Keep studies that do or do not accept healthy volunteers. Empty = no filter.",
+      "editor": "select",
+      "enum": [
+        "",
+        "yes",
+        "no"
+      ],
+      "enumTitles": [
+        "Any",
+        "Accepts healthy volunteers",
+        "Does not accept healthy volunteers"
+      ],
+      "title": "Accepts healthy volunteers",
+      "type": "string"
+    },
+    "includeResults": {
       "default": false,
-      "description": "When enabled, only emit studies that have results posted on ClinicalTrials.gov. When disabled (default), all studies are returned regardless of results status.",
-      "groupCaption": "Filters",
+      "description": "When enabled, add a compact `results` object (participant-flow/baseline group counts, outcome-measure counts and a 5-item sample, adverse-event counts, limitations) for studies with posted results.",
+      "groupCaption": "Output",
       "prefill": false,
-      "title": "Only studies with posted results",
+      "title": "Include posted results summary",
       "type": "boolean"
     },
     "interventionQuery": {
       "description": "Drug name, device, biological, or therapy (e.g. `metformin`, `pembrolizumab`, `CAR-T`).",
       "editor": "textfield",
       "title": "Intervention / drug (mode=byIntervention)",
+      "type": "string"
+    },
+    "interventionTypes": {
+      "default": [],
+      "description": "Keep studies with any of the selected intervention types. Empty = no intervention-type filter.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "DRUG",
+          "DEVICE",
+          "BIOLOGICAL",
+          "PROCEDURE",
+          "BEHAVIORAL",
+          "DIETARY_SUPPLEMENT",
+          "COMBINATION_PRODUCT",
+          "DIAGNOSTIC_TEST",
+          "GENETIC",
+          "OTHER"
+        ],
+        "enumTitles": [
+          "Drug",
+          "Device",
+          "Biological",
+          "Procedure",
+          "Behavioral",
+          "Dietary supplement",
+          "Combination product",
+          "Diagnostic test",
+          "Genetic",
+          "Other"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Intervention types",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "lastUpdatePostedDateFrom": {
+      "description": "Drop studies last updated before this date.",
+      "editor": "textfield",
+      "title": "Last update posted — from",
+      "type": "string"
+    },
+    "lastUpdatePostedDateTo": {
+      "description": "Drop studies last updated after this date.",
+      "editor": "textfield",
+      "title": "Last update posted — to",
       "type": "string"
     },
     "locationQuery": {
@@ -190,9 +360,9 @@
     "maxItems": {
       "default": 50,
       "description": "Hard cap on emitted records.",
-      "maximum": 5000,
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 20,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
@@ -206,15 +376,23 @@
         "byCondition",
         "byIntervention",
         "byLocation",
-        "bySponsor"
+        "bySponsor",
+        "byTitle",
+        "byOutcome",
+        "byStudyId",
+        "byFacility"
       ],
       "enumTitles": [
-        "Free-text search",
+        "Free-text search (all fields)",
         "Lookup by NCT IDs",
         "Browse by condition / disease",
         "Browse by intervention / drug",
         "Browse by location / country",
-        "Browse by lead sponsor"
+        "Browse by sponsor",
+        "Search by title / acronym",
+        "Search by outcome measure",
+        "Lookup by sponsor study ID",
+        "Search by facility name"
       ],
       "prefill": "search",
       "title": "Mode",
@@ -228,9 +406,29 @@
       "title": "NCT IDs (mode=byNctIds)",
       "type": "array"
     },
+    "onlyFdaaaViolations": {
+      "default": false,
+      "description": "When enabled, keep only studies with an FDAAA 801 violation.",
+      "prefill": false,
+      "title": "FDAAA 801 violations only",
+      "type": "boolean"
+    },
+    "onlyPatientRegistries": {
+      "default": false,
+      "description": "When enabled, keep only studies flagged as patient registries.",
+      "prefill": false,
+      "title": "Patient registries only",
+      "type": "boolean"
+    },
+    "outcomeQuery": {
+      "description": "Words from a primary or secondary outcome measure (e.g. `quality of life`, `progression-free survival`).",
+      "editor": "textfield",
+      "title": "Outcome measure (mode=byOutcome)",
+      "type": "string"
+    },
     "phases": {
       "default": [],
-      "description": "Restrict to one or more trial phases. Empty array = no filter.",
+      "description": "Keep studies in any of the selected trial phases. Empty = no phase filter.",
       "editor": "select",
       "items": {
         "enum": [
@@ -256,6 +454,46 @@
       "type": "array",
       "uniqueItems": true
     },
+    "primaryCompletionDateFrom": {
+      "description": "Drop studies whose primary completion date is before this date.",
+      "editor": "textfield",
+      "title": "Primary completion — from",
+      "type": "string"
+    },
+    "primaryCompletionDateTo": {
+      "description": "Drop studies whose primary completion date is after this date.",
+      "editor": "textfield",
+      "title": "Primary completion — to",
+      "type": "string"
+    },
+    "resultsAvailability": {
+      "description": "Keep studies with or without posted results. Empty = no filter.",
+      "editor": "select",
+      "enum": [
+        "",
+        "with_results",
+        "without_results"
+      ],
+      "enumTitles": [
+        "Any",
+        "With posted results",
+        "Without posted results"
+      ],
+      "title": "Study results",
+      "type": "string"
+    },
+    "resultsFirstPostedDateFrom": {
+      "description": "Drop studies whose results were first posted before this date.",
+      "editor": "textfield",
+      "title": "Results first posted — from",
+      "type": "string"
+    },
+    "resultsFirstPostedDateTo": {
+      "description": "Drop studies whose results were first posted after this date.",
+      "editor": "textfield",
+      "title": "Results first posted — to",
+      "type": "string"
+    },
     "searchQuery": {
       "default": "cancer immunotherapy",
       "description": "Free-text query against the full study record. Used by mode=search; also serves as a fallback for the other browse modes if their specific query is empty.",
@@ -265,7 +503,7 @@
       "type": "string"
     },
     "sex": {
-      "description": "Restrict to studies enrolling a specific sex. `ALL` matches studies open to any sex.",
+      "description": "Restrict by the sex a study enrolls. `ALL` keeps only studies open to both sexes; `MALE`/`FEMALE` keep studies open to that sex (including both-sex studies).",
       "editor": "select",
       "enum": [
         "",
@@ -275,87 +513,203 @@
       ],
       "enumTitles": [
         "Any",
-        "All sexes",
-        "Male only",
-        "Female only"
+        "All sexes (both)",
+        "Male (including all-sex studies)",
+        "Female (including all-sex studies)"
       ],
       "title": "Eligible sex",
       "type": "string"
     },
+    "sort": {
+      "default": "relevance",
+      "description": "Order of the results returned by ClinicalTrials.gov.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "lastUpdateDesc",
+        "lastUpdateAsc",
+        "startDateDesc",
+        "startDateAsc",
+        "completionDateDesc",
+        "completionDateAsc",
+        "firstPostedDesc",
+        "firstPostedAsc",
+        "resultsFirstPostedDesc",
+        "resultsFirstPostedAsc",
+        "enrollmentDesc",
+        "enrollmentAsc"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Last update — newest first",
+        "Last update — oldest first",
+        "Start date — newest first",
+        "Start date — oldest first",
+        "Completion date — newest first",
+        "Completion date — oldest first",
+        "First posted — newest first",
+        "First posted — oldest first",
+        "Results first posted — newest first",
+        "Results first posted — oldest first",
+        "Enrollment — largest first",
+        "Enrollment — smallest first"
+      ],
+      "prefill": "relevance",
+      "title": "Sort by",
+      "type": "string"
+    },
+    "sponsorClass": {
+      "description": "Keep studies by lead-sponsor class. Empty = no funder filter.",
+      "editor": "select",
+      "enum": [
+        "",
+        "NIH",
+        "FED",
+        "INDUSTRY",
+        "NETWORK",
+        "INDIV",
+        "OTHER",
+        "OTHER_GOV",
+        "UNKNOWN",
+        "AMBIG"
+      ],
+      "enumTitles": [
+        "Any funder type",
+        "NIH",
+        "Other U.S. federal agency",
+        "Industry",
+        "Network",
+        "Individual",
+        "All others (universities, organizations, individuals)",
+        "Other government",
+        "Unknown",
+        "Ambiguous"
+      ],
+      "title": "Funder type",
+      "type": "string"
+    },
     "sponsorQuery": {
-      "description": "Lead sponsor / organization name (e.g. `Pfizer`, `Mayo Clinic`, `NIH`). Use the exact registered lead-sponsor name as it appears on ClinicalTrials.gov — for example, `ModernaTX` (not `Moderna`), `Pfizer Inc.` (not `Pfizer`). Partial names may return 0 results — use the CT.gov website search to identify the exact registered name first.",
+      "description": "Lead sponsor or collaborator name. Use `sponsorScope` to choose which one. Exact registered names work best (e.g. `Pfizer Inc.`, `Mayo Clinic`); partial names usually still match.",
       "editor": "textfield",
-      "title": "Lead sponsor (mode=bySponsor)",
+      "title": "Sponsor (mode=bySponsor)",
+      "type": "string"
+    },
+    "sponsorScope": {
+      "default": "lead",
+      "description": "Match `sponsorQuery` against the lead sponsor only or against lead sponsor plus collaborators.",
+      "editor": "select",
+      "enum": [
+        "lead",
+        "all"
+      ],
+      "enumTitles": [
+        "Lead sponsor only",
+        "Lead sponsor or collaborator"
+      ],
+      "prefill": "lead",
+      "title": "Sponsor scope",
       "type": "string"
     },
     "startDateFrom": {
       "description": "Drop studies that started before this date. ISO 8601 partial dates accepted (e.g. `2020`, `2020-01`, `2020-01-15`).",
       "editor": "textfield",
-      "title": "Start date — from (YYYY or YYYY-MM-DD)",
+      "title": "Study start — from",
       "type": "string"
     },
     "startDateTo": {
       "description": "Drop studies that started after this date.",
       "editor": "textfield",
-      "title": "Start date — to (YYYY or YYYY-MM-DD)",
+      "title": "Study start — to",
       "type": "string"
     },
-    "status": {
-      "description": "Restrict to a single recruitment / overall status. Leave empty for no filter.",
-      "editor": "select",
-      "enum": [
-        "",
-        "NOT_YET_RECRUITING",
-        "RECRUITING",
-        "ENROLLING_BY_INVITATION",
-        "ACTIVE_NOT_RECRUITING",
-        "SUSPENDED",
-        "TERMINATED",
-        "COMPLETED",
-        "WITHDRAWN",
-        "UNKNOWN",
-        "AVAILABLE",
-        "NO_LONGER_AVAILABLE",
-        "TEMPORARILY_NOT_AVAILABLE",
-        "APPROVED_FOR_MARKETING",
-        "WITHHELD"
-      ],
-      "enumTitles": [
-        "Any status",
-        "Not yet recruiting",
-        "Recruiting",
-        "Enrolling by invitation",
-        "Active, not recruiting",
-        "Suspended",
-        "Terminated",
-        "Completed",
-        "Withdrawn",
-        "Unknown",
-        "Available (expanded access)",
-        "No longer available (expanded access)",
-        "Temporarily not available (expanded access)",
-        "Approved for marketing (expanded access)",
-        "Withheld"
-      ],
-      "title": "Overall status",
+    "startUrl": {
+      "description": "Paste a study URL (`https://clinicaltrials.gov/study/NCT...`), a search-results URL, or an `https://clinicaltrials.gov/api/v2/studies?...` URL. Values in the URL take precedence over the matching input fields; the remaining filters still apply.",
+      "editor": "textfield",
+      "title": "Start from a ClinicalTrials.gov URL",
       "type": "string"
     },
-    "studyType": {
-      "description": "Restrict to a study type. Leave empty for no filter.",
+    "state": {
+      "description": "Trial-site state or region as registered on ClinicalTrials.gov (e.g. `California`, `Ontario`). Exact name, not a two-letter code.",
+      "editor": "textfield",
+      "title": "State / region",
+      "type": "string"
+    },
+    "statuses": {
+      "default": [],
+      "description": "Keep studies with any of the selected statuses. Empty = no status filter.",
       "editor": "select",
-      "enum": [
-        "",
-        "INTERVENTIONAL",
-        "OBSERVATIONAL",
-        "EXPANDED_ACCESS"
-      ],
-      "enumTitles": [
-        "Any type",
-        "Interventional (clinical trial)",
-        "Observational",
-        "Expanded access (compassionate use)"
-      ],
+      "items": {
+        "enum": [
+          "NOT_YET_RECRUITING",
+          "RECRUITING",
+          "ENROLLING_BY_INVITATION",
+          "ACTIVE_NOT_RECRUITING",
+          "SUSPENDED",
+          "TERMINATED",
+          "COMPLETED",
+          "WITHDRAWN",
+          "UNKNOWN",
+          "AVAILABLE",
+          "NO_LONGER_AVAILABLE",
+          "TEMPORARILY_NOT_AVAILABLE",
+          "APPROVED_FOR_MARKETING",
+          "WITHHELD"
+        ],
+        "enumTitles": [
+          "Not yet recruiting",
+          "Recruiting",
+          "Enrolling by invitation",
+          "Active, not recruiting",
+          "Suspended",
+          "Terminated",
+          "Completed",
+          "Withdrawn",
+          "Unknown",
+          "Available (expanded access)",
+          "No longer available (expanded access)",
+          "Temporarily not available (expanded access)",
+          "Approved for marketing (expanded access)",
+          "Withheld"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Recruitment / overall status",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "studyIdQuery": {
+      "description": "The sponsor's own study identifier (e.g. `20-0006`, `SC2900`). Exact identifier only.",
+      "editor": "textfield",
+      "title": "Sponsor study ID (mode=byStudyId)",
+      "type": "string"
+    },
+    "studyTypes": {
+      "default": [],
+      "description": "Keep studies of any of the selected types. Empty = no study-type filter.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "INTERVENTIONAL",
+          "OBSERVATIONAL",
+          "EXPANDED_ACCESS"
+        ],
+        "enumTitles": [
+          "Interventional (clinical trial)",
+          "Observational",
+          "Expanded access (compassionate use)"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
       "title": "Study type",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "titleQuery": {
+      "description": "Words from the brief title, official title or acronym (e.g. `remdesivir`, `ACTT`).",
+      "editor": "textfield",
+      "title": "Title / acronym (mode=byTitle)",
       "type": "string"
     }
   },
@@ -363,6 +717,6 @@
     "mode"
   ],
   "schemaVersion": 1,
-  "title": "ClinicalTrialsGov Scraper Input",
+  "title": "ClinicalTrials.gov Sponsor, Location & NCT Lookup Input",
   "type": "object"
 }

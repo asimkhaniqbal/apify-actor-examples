@@ -1,6 +1,28 @@
 {
   "actorSpecification": 1,
   "views": {
+    "eligibility": {
+      "display": {
+        "component": "table",
+        "properties": {}
+      },
+      "title": "Eligibility",
+      "transformation": {
+        "fields": [
+          "nctId",
+          "briefTitle",
+          "overallStatus",
+          "sex",
+          "minimumAge",
+          "maximumAge",
+          "standardAges",
+          "healthyVolunteers",
+          "conditions",
+          "locationCountries",
+          "studyUrl"
+        ]
+      }
+    },
     "overview": {
       "display": {
         "component": "table",
@@ -14,8 +36,30 @@
           "overallStatus",
           "studyType",
           "phases",
+          "conditions",
           "leadSponsor",
+          "enrollmentCount",
           "startDate",
+          "completionDate",
+          "hasResults",
+          "studyUrl"
+        ]
+      }
+    },
+    "results": {
+      "display": {
+        "component": "table",
+        "properties": {}
+      },
+      "title": "Posted results",
+      "transformation": {
+        "fields": [
+          "nctId",
+          "briefTitle",
+          "hasResults",
+          "results.outcomeMeasureCount",
+          "results.seriousAdverseEventCount",
+          "results.otherAdverseEventCount",
           "studyUrl"
         ]
       }

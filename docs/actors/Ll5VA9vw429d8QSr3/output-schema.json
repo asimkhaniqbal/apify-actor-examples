@@ -1,11 +1,17 @@
 {
   "actorOutputSchemaVersion": 1,
-  "description": "Every image found while crawling a website, with its source page, alt text, dimensions, file format and how it was discovered.",
+  "description": "One record per unique image URL, with the page and sitemap it came from, alt text, declared dimensions, format, discovery source and optional HTTP header metadata.",
   "properties": {
     "images": {
-      "description": "Dataset containing all images found during the crawl.",
+      "description": "Dataset containing every image found during the run.",
       "template": "{{links.apiDefaultDatasetUrl}}/items",
       "title": "Image records",
+      "type": "string"
+    },
+    "imagesCsv": {
+      "description": "The same image records as a CSV file, ready for spreadsheets and audit reports.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?format=csv",
+      "title": "Image records (CSV)",
       "type": "string"
     }
   },

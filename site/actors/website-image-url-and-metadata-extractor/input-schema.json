@@ -1,6 +1,50 @@
 {
-  "description": "Crawl a website and extract every image URL it references. Supports `<img>` tags, `<picture>`/`<source>`, `srcset` candidates, and CSS `background-image` declarations.",
+  "description": "Crawl pages or XML sitemaps and extract every image reference with alt text, dimensions, format and provenance. Supports img/lazy attributes, srcset, picture sources, icons, CSS backgrounds, Open Graph/Twitter images and JSON-LD.",
   "properties": {
+    "acceptExtensionlessImages": {
+      "default": true,
+      "description": "Many CDNs serve images from paths like /media/abc123?w=800. Keep them when on; when off, only URLs with an accepted extension are emitted.",
+      "prefill": true,
+      "title": "Accept image URLs without a file extension",
+      "type": "boolean"
+    },
+    "crawlSitemapPages": {
+      "default": false,
+      "description": "When on, page URLs from regular (non-image) sitemaps are fetched and parsed for images, not just <image:loc> entries. Bounded by Maximum pages.",
+      "prefill": false,
+      "title": "Also crawl pages listed in sitemaps (sitemap mode)",
+      "type": "boolean"
+    },
+    "excludeTrackingPixels": {
+      "default": true,
+      "description": "Drop declared 1x1 images and common pixel/beacon/spacer/blank image names.",
+      "prefill": true,
+      "title": "Exclude tracking pixels",
+      "type": "boolean"
+    },
+    "fetchExternalStylesheets": {
+      "default": false,
+      "description": "Also download up to 5 same-host CSS files per page to find background-image URLs. Adds requests; leave off for the fastest runs.",
+      "prefill": false,
+      "title": "Fetch same-host stylesheets",
+      "type": "boolean"
+    },
+    "fetchImageMetadata": {
+      "default": false,
+      "description": "Request each image URL to add content type, byte size, last-modified and HTTP status. Adds one small request per unique image.",
+      "prefill": false,
+      "sectionCaption": "Image metadata",
+      "sectionDescription": "Optional enrichment for each unique image URL. Leave off to keep runs fast and cheap.",
+      "title": "Fetch image headers (HEAD)",
+      "type": "boolean"
+    },
+    "followPagination": {
+      "default": true,
+      "description": "Follow next-page links (rel=next, pager containers, and links whose text is 'next'). Bounded by Maximum pages.",
+      "prefill": false,
+      "title": "Follow pagination links (crawl mode)",
+      "type": "boolean"
+    },
     "imageExtensions": {
       "default": [
         "jpg",
@@ -13,8 +57,11 @@
         "bmp",
         "ico"
       ],
-      "description": "Only image URLs whose path ends in one of these extensions are kept. Drop entries to filter to a subset (e.g. only ['svg']) or extend with custom formats.",
+      "description": "Keep only image URLs whose path ends in one of these extensions. Extensionless URLs are controlled separately.",
       "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
       "prefill": [
         "jpg",
         "jpeg",
@@ -26,60 +73,192 @@
         "bmp",
         "ico"
       ],
-      "title": "Image extensions to accept",
+      "sectionCaption": "Image sources & filters",
+      "sectionDescription": "Choose which image sources to read and which records to keep. Empty fields are omitted from each record.",
+      "title": "Accepted file extensions",
       "type": "array"
     },
     "includeBackgroundImages": {
       "default": true,
-      "description": "Also extract images referenced via inline `style=\"background-image: url(...)\"` attributes. Disable to only collect `<img>`-sourced images.",
-      "title": "Include CSS background-images",
+      "description": "Emit URLs from inline style background declarations and <style> blocks.",
+      "prefill": true,
+      "title": "Include CSS background images",
+      "type": "boolean"
+    },
+    "includeIcons": {
+      "default": true,
+      "description": "Emit icon, shortcut icon and apple-touch-icon links.",
+      "prefill": true,
+      "title": "Include favicons / icon links",
+      "type": "boolean"
+    },
+    "includeMetaImages": {
+      "default": true,
+      "description": "Emit og:image, twitter:image, image_src, and image/logo/thumbnailUrl values from JSON-LD blocks.",
+      "prefill": true,
+      "title": "Include Open Graph, Twitter and JSON-LD images",
+      "type": "boolean"
+    },
+    "includeSrcset": {
+      "default": true,
+      "description": "Emit each candidate URL from img/srcset and picture/source srcset, with its width or density descriptor.",
+      "prefill": true,
+      "title": "Include srcset candidates",
+      "type": "boolean"
+    },
+    "includeSubdomains": {
+      "default": false,
+      "description": "Also follow links on subdomains of the starting host (e.g. blog.example.com when starting at example.com).",
+      "prefill": false,
+      "title": "Allow subdomains (crawl mode)",
       "type": "boolean"
     },
     "maxCrawlDepth": {
       "default": 1,
-      "description": "0 = only the start URL. 1 = also follow links found on the start URL (same host only). Higher values widen the crawl but cost more time.",
-      "maximum": 5,
+      "description": "0 = only the start URLs. 1 = also follow links on those pages. Higher values widen the crawl; pagination pages do not consume depth.",
+      "maximum": 10,
       "minimum": 0,
-      "prefill": 1,
-      "title": "Maximum crawl depth",
+      "prefill": 0,
+      "title": "Maximum crawl depth (crawl mode)",
       "type": "integer"
     },
     "maxImagesPerPage": {
-      "default": 200,
-      "description": "Cap on how many images are extracted from a single page. Pathological gallery pages can list hundreds of duplicates; this keeps runs bounded.",
+      "default": 500,
+      "description": "Cap on unique image records collected from a single page before moving on.",
       "maximum": 5000,
       "minimum": 1,
-      "prefill": 200,
+      "prefill": 20,
       "title": "Maximum images per page",
+      "type": "integer"
+    },
+    "maxPages": {
+      "default": 50,
+      "description": "Hard cap on page or sitemap-document requests per run. In sitemap mode this includes sitemap indexes and their children.",
+      "maximum": 10000,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Maximum pages / sitemap files",
       "type": "integer"
     },
     "maxTotalImages": {
       "default": 1000,
-      "description": "Hard cap on the total number of image records pushed across all crawled pages. The crawl stops once this many images are emitted.",
+      "description": "Hard cap on unique image records emitted. The crawl stops once this many records are collected.",
       "maximum": 50000,
       "minimum": 1,
-      "prefill": 1000,
+      "prefill": 10,
       "title": "Maximum images per run",
       "type": "integer"
     },
-    "startUrl": {
-      "description": "The page to start crawling from (e.g. 'https://example.com'). The actor extracts images from this page and, if `maxCrawlDepth >= 1`, follows internal links to additional pages on the same host.",
+    "metadataConcurrency": {
+      "default": 5,
+      "description": "How many image HEAD requests run in parallel when header fetching is on.",
+      "maximum": 20,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Image header concurrency",
+      "type": "integer"
+    },
+    "minHeight": {
+      "default": 0,
+      "description": "0 = no minimum. Images without a declared height are excluded when this is above 0.",
+      "maximum": 10000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum declared height (px)",
+      "type": "integer"
+    },
+    "minWidth": {
+      "default": 0,
+      "description": "0 = no minimum. Images without a declared width or srcset width descriptor are excluded when this is above 0.",
+      "maximum": 10000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Minimum declared width (px)",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "crawl",
+      "description": "Crawl a website (follow links and pagination), read only specific pages, or read XML sitemaps (including image sitemaps).",
+      "editor": "select",
+      "enum": [
+        "crawl",
+        "pages",
+        "sitemap"
+      ],
+      "enumTitles": [
+        "Crawl a website",
+        "Specific pages only",
+        "XML sitemaps"
+      ],
+      "prefill": "crawl",
+      "sectionCaption": "What to scrape",
+      "sectionDescription": "Choose a mode, then paste one or more URLs. In sitemap mode, paste sitemap XML URLs (an HTML page with a sitemap link also works).",
+      "title": "Mode",
+      "type": "string"
+    },
+    "paginationSelector": {
+      "description": "Extra CSS selector for next-page links (e.g. '.pagination a.next'). Auto-detection still runs.",
       "editor": "textfield",
-      "prefill": "https://apify.com",
-      "title": "Start URL",
+      "title": "Pagination link CSS selector (optional)",
+      "type": "string"
+    },
+    "requestTimeoutSecs": {
+      "default": 20,
+      "description": "Per-request timeout for pages, sitemaps and image headers. Retries handle 429/5xx responses.",
+      "maximum": 120,
+      "minimum": 5,
+      "prefill": 20,
+      "sectionCaption": "Advanced",
+      "sectionDescription": "Networking overrides. The defaults work for almost every site.",
+      "title": "Request timeout (seconds)",
+      "type": "integer"
+    },
+    "requireAltText": {
+      "default": false,
+      "description": "Keep only images that have a non-empty alt attribute — useful for accessibility audits.",
+      "prefill": false,
+      "title": "Only images with alt text",
+      "type": "boolean"
+    },
+    "sameHostOnly": {
+      "default": true,
+      "description": "When on, only links whose host matches a start URL are followed. Turn off to crawl external links too (still bounded by Maximum pages).",
+      "prefill": true,
+      "title": "Stay on the starting host (crawl mode)",
+      "type": "boolean"
+    },
+    "startUrls": {
+      "description": "Page URLs for crawl/pages mode, or sitemap URLs for sitemap mode. Provide at least one URL; the legacy single `startUrl` key is also accepted.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "https://books.toscrape.com/"
+      ],
+      "title": "Start URLs",
+      "type": "array"
+    },
+    "urlExcludePattern": {
+      "description": "Regular expression applied to every image URL and every page link. Example: '/blog/' skips blog pages and images.",
+      "editor": "textfield",
+      "title": "Skip URLs matching this regex (optional)",
+      "type": "string"
+    },
+    "urlIncludePattern": {
+      "description": "Regular expression applied to every image URL and every page link. Example: '/products/' keeps only URLs containing that path.",
+      "editor": "textfield",
+      "title": "Only URLs matching this regex (optional)",
       "type": "string"
     },
     "userAgent": {
-      "description": "Override the default Chrome User-Agent string. Most sites accept the default; only set this if a target server filters by UA.",
+      "description": "Override the default Chrome User-Agent string. Only needed if a server filters by user agent.",
       "editor": "textfield",
       "title": "Custom User-Agent (optional)",
       "type": "string"
     }
   },
-  "required": [
-    "startUrl"
-  ],
   "schemaVersion": 1,
-  "title": "Website Image Scraper Input",
+  "title": "Website Image URL & Metadata Extractor",
   "type": "object"
 }

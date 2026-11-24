@@ -2,7 +2,7 @@
   "actorSpecification": 1,
   "title": "Website images",
   "views": {
-    "overview": {
+    "accessibility": {
       "display": {
         "component": "table",
         "properties": {
@@ -10,17 +10,17 @@
             "format": "text",
             "label": "Alt text"
           },
-          "crawlDepth": {
+          "ariaLabel": {
+            "format": "text",
+            "label": "ARIA label"
+          },
+          "hasAltText": {
+            "format": "boolean",
+            "label": "Has alt"
+          },
+          "height": {
             "format": "number",
-            "label": "Depth"
-          },
-          "discoveredVia": {
-            "format": "text",
-            "label": "Discovered via"
-          },
-          "mimeTypeHint": {
-            "format": "text",
-            "label": "Type"
+            "label": "Height"
           },
           "sourcePage": {
             "format": "link",
@@ -29,6 +29,98 @@
           "url": {
             "format": "link",
             "label": "Image URL"
+          },
+          "width": {
+            "format": "number",
+            "label": "Width"
+          }
+        }
+      },
+      "title": "Accessibility audit",
+      "transformation": {
+        "fields": [
+          "url",
+          "sourcePage",
+          "alt",
+          "hasAltText",
+          "width",
+          "height",
+          "ariaLabel"
+        ]
+      }
+    },
+    "headers": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "contentLengthBytes": {
+            "format": "number",
+            "label": "Bytes"
+          },
+          "contentType": {
+            "format": "text",
+            "label": "Content type"
+          },
+          "httpStatus": {
+            "format": "number",
+            "label": "HTTP status"
+          },
+          "lastModified": {
+            "format": "text",
+            "label": "Last modified"
+          },
+          "url": {
+            "format": "link",
+            "label": "Image URL"
+          }
+        }
+      },
+      "title": "HTTP header metadata",
+      "transformation": {
+        "fields": [
+          "url",
+          "contentType",
+          "contentLengthBytes",
+          "lastModified",
+          "httpStatus"
+        ]
+      }
+    },
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "alt": {
+            "format": "text",
+            "label": "Alt text"
+          },
+          "discoveredVia": {
+            "format": "text",
+            "label": "Discovered via"
+          },
+          "extension": {
+            "format": "text",
+            "label": "Format"
+          },
+          "foundOnPageCount": {
+            "format": "number",
+            "label": "Pages referencing"
+          },
+          "height": {
+            "format": "number",
+            "label": "Height"
+          },
+          "sourcePage": {
+            "format": "link",
+            "label": "Source page"
+          },
+          "url": {
+            "format": "link",
+            "label": "Image URL"
+          },
+          "width": {
+            "format": "number",
+            "label": "Width"
           }
         }
       },
@@ -39,8 +131,10 @@
           "sourcePage",
           "alt",
           "discoveredVia",
-          "crawlDepth",
-          "mimeTypeHint"
+          "width",
+          "height",
+          "extension",
+          "foundOnPageCount"
         ]
       }
     }

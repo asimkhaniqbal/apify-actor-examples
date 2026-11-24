@@ -4,93 +4,150 @@
 
 # WebMD Health Condition & Drug Information Scraper
 
-[WebMD](https://www.webmd.com) publishes consumer-facing reference pages on medical conditions and prescription/OTC drugs. This actor searches either collection by name and returns the matching pages as structured records — a plain-language description plus condition-specific or drug-specific details, with no account needed.
+WebMD publishes consumer-facing reference material on medical conditions and on prescription and over-the-counter medicines. This actor collects those public pages without an account, API key, cookie or login: it searches the A-Z condition topic index, searches WebMD's drug catalogue, browses either collection letter by letter, and opens each matched page to add the details WebMD actually publishes.
 
 ## What this actor does
 
-- **Two search modes** — medical conditions (e.g. diabetes, asthma, migraines) or drugs & medications (e.g. ibuprofen, metformin)
-- **Returns a plain-language description** pulled from each matched page's opening content
-- **Condition mode adds symptoms and body system** when WebMD's page states them
-- **Drug mode adds drug class and known brand names** when WebMD's page states them
-- **Empty fields are omitted** — a record only contains the fields that were actually found on the matched page
+- **Two collections** — `conditions` (medical-condition topics from WebMD's All Health Topics A-Z index) and `drugs` (drug monographs from WebMD's A-Z drug catalogue).
+- **Search or browse** — pass a name, brand name or keyword, or leave the query blank and browse one letter at a time.
+- **Letter filter and pagination** — the `letter` control restricts work to one A-Z letter, and the actor walks every matching index page (including the two-letter sub-index pages in the drug catalogue) until `maxItems` is reached or the source is exhausted.
+- **Drug-type filter** — keep only prescription drugs, only OTC drugs, or both.
+- **Detail enrichment** — optionally open each matched page for descriptions, symptom lists, body system, drug class, brand names, availability, dosage forms, treated conditions, common side effects and review metadata.
+- **Omit-empty output** — a field appears only when WebMD publishes it for that record; no placeholders or nulls.
 
-## Output per record
+## Modes
 
-### Condition records (mode=conditions)
+### `conditions`
+
+Searches WebMD's All Health Topics index. A keyword filters topic names; the actor scans the A-Z index (or the one letter you choose), then optionally opens each topic page.
+
+### `drugs`
+
+Searches WebMD's drug catalogue. A keyword uses WebMD's drug search; a blank query browses the A-Z catalogue. The actor walks the letter's sub-index pages (`a/ab`, `a/ac`, …) so long letters are paginated rather than truncated. OTC brand-product pages are skipped; records link to the full drug monograph.
+
+## Output fields
+
+Every record includes `recordType` (`conditions` or `drugs`) and `scrapedAt` (ISO 8601).
+
+### Condition records
 
 | Field | Description |
 |---|---|
-| `name` | Condition name |
-| `conditionUrl` | Link to the WebMD condition page |
-| `description` | Plain-language description excerpt (up to 600 characters) |
-| `symptoms` | List of symptoms, when the page lists them (up to 8) |
-| `bodySystem` | Body system/category the condition is filed under, when stated |
-| `recordType` | Always `conditions` |
-| `scrapedAt` | ISO 8601 timestamp of the run |
+| `name` | Topic name as listed in the A-Z index |
+| `pageTitle` | Heading shown on the WebMD page |
+| `conditionUrl` | Absolute WebMD URL |
+| `description` | WebMD's summary of the topic |
+| `symptoms` | Symptom list when the page has a Symptoms section |
+| `causes` | Causes list when the page has a Causes section |
+| `diagnosis` | Diagnosis list when the page has a Diagnosis section |
+| `treatment` | Treatment list when the page has a Treatment section |
+| `bodySystem` | WebMD section the topic belongs to, e.g. `Skin Problems & Treatments` |
+| `writtenBy` | Author named on the page |
+| `reviewedBy` | Medical reviewer named on the page |
+| `lastReviewed` | Review date in `YYYY-MM-DD` form |
 
-### Drug records (mode=drugs)
+### Drug records
 
 | Field | Description |
 |---|---|
-| `genericName` | Generic drug name |
-| `drugUrl` | Link to the WebMD drug page |
-| `description` | Plain-language description excerpt (up to 600 characters) |
-| `drugClass` | Drug class, when stated |
-| `brandNames` | Known brand names for the drug, when listed (up to 5) |
-| `recordType` | Always `drugs` |
-| `scrapedAt` | ISO 8601 timestamp of the run |
+| `name` | Drug name as listed in the catalogue |
+| `genericName` | Generic name when WebMD publishes one |
+| `brandNames` | Known brand names |
+| `drugClass` | Drug class or classes |
+| `drugType` | `prescription` or `otc` |
+| `description` | Plain-language summary of what the drug is used for |
+| `conditionsTreated` | Conditions listed in the "used for" section |
+| `commonSideEffects` | Common side effects listed by WebMD |
+| `warnings` | Warning and precaution list when WebMD publishes one |
+| `interactions` | Interaction notes when WebMD lists them |
+| `availability` | Prescription/OTC status and generic availability |
+| `dosageForms` | How the drug is taken or supplied |
+| `writtenBy` | Author named on the page |
+| `reviewedBy` | Medical reviewer named on the page |
+| `lastReviewed` | Review date in `YYYY-MM-DD` form |
+| `drugUrl` | Absolute WebMD URL |
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `conditions` | `conditions` (medical conditions) or `drugs` (drugs & medications) |
-| `searchQuery` | string | `diabetes` | Condition or drug name to search for |
-| `maxItems` | integer | `20` | Maximum number of records to return (the actor caps this at 200 even if a higher value is set) |
+| `mode` | select | `conditions` | `conditions` or `drugs` |
+| `searchQuery` | string | – | Name, brand name or keyword; blank browses the A-Z index. The daily prefill uses `diabetes`. |
+| `letter` | select | `all` | Restrict to one letter (A–Z) or search all letters |
+| `drugType` | select | `all` | `all`, `prescription` or `otc`; ignored in conditions mode |
+| `includeDetails` | boolean | `true` | Open matched pages for the detail fields |
+| `maxItems` | integer | `20` | Stop after this many records (1–500) |
 
-### Example: search a medical condition
+### Search a condition
 
 ```json
 {
   "mode": "conditions",
-  "searchQuery": "diabetes",
-  "maxItems": 10
+  "searchQuery": "high blood pressure",
+  "letter": "all",
+  "includeDetails": true,
+  "maxItems": 20
 }
 ```
 
-### Example: search a drug name
+### Search a drug by brand name
 
 ```json
 {
   "mode": "drugs",
-  "searchQuery": "ibuprofen",
+  "searchQuery": "Advil",
+  "drugType": "otc",
+  "includeDetails": true,
   "maxItems": 10
+}
+```
+
+### Browse a letter without a query
+
+```json
+{
+  "mode": "drugs",
+  "searchQuery": "",
+  "letter": "m",
+  "drugType": "prescription",
+  "includeDetails": false,
+  "maxItems": 100
 }
 ```
 
 ## Use cases
 
-- **Patient-education content** — pull plain-language descriptions of conditions or drugs for a health blog or FAQ page
-- **Health-literacy tools** — surface symptom lists alongside a condition name for a symptom-checker style app
-- **Drug-reference lookups** — collect drug class and brand-name information for a medication-reference tool
-- **Content auditing** — compare WebMD's published description for a condition or drug against your own internal content
+- **Patient-education libraries** — build a searchable catalogue of plain-language condition summaries.
+- **Medication reference tools** — collect drug class, brand names, availability and dosage forms.
+- **Content QA** — compare your own health content with WebMD's current descriptions and review dates.
+- **Research inventories** — enumerate WebMD's A-Z condition or drug catalogue by letter.
 
-## FAQ
+## Data source and access
 
-**Do I need a WebMD account or API key?**
-No. This actor reads WebMD's public condition and drug pages.
+All data comes from public WebMD pages: the All Health Topics A-Z index, the drug A-Z index, and the individual condition and drug pages linked from them. No WebMD account, API key or cookie is required. If WebMD blocks a request from the run's network, the actor automatically retries through Apify Proxy; you do not need to configure a proxy.
 
-**Why does a search sometimes return a record with only `name`/`conditionUrl` (or `genericName`/`drugUrl`) and no description?**
-WebMD's page layout varies by condition/drug, and not every page exposes a clearly identifiable description paragraph, symptom list, or drug class in a consistent place. When a detail isn't found, the field is simply left out rather than filled with a placeholder.
+## Limits and FAQ
 
-**What's the difference between the two modes?**
-`conditions` searches WebMD's medical-condition reference pages and can return `symptoms`/`bodySystem`. `drugs` searches WebMD's drug reference pages and can return `drugClass`/`brandNames`. The two search different parts of the site and return different detail fields.
+**Why does a condition lack `symptoms`?**
+Only pages with a distinct Symptoms section expose a symptom list. Health-centre landing pages and some short articles do not, so the field is omitted rather than guessed.
 
-**Can I search for a doctor or healthcare provider?**
-No — this actor only covers condition and drug reference pages, not WebMD's physician directory.
+**Why does a drug lack `conditionsTreated` or `brandNames`?**
+WebMD uses different monograph layouts for different medicines. Fields the page does not publish are omitted. The same applies to condition `causes`, `diagnosis` and `treatment`: only pages with those sections include them.
 
-**How many results can I get per search?**
-Up to `maxItems` (default 20), capped at 200 per run regardless of a higher value, and further limited by how many matching pages WebMD's search returns for that term.
+**Does the actor return drug interactions and warnings?**
+It returns the interaction and warning lists WebMD publishes on each monograph. WebMD describes interaction categories rather than a pair-by-pair severity table, so pair-level interaction data is not available from these pages.
+
+**Are ratings, reviews or pill images included?**
+No. Those live on separate review and pill-identification pages and are outside this reference-data actor.
+
+**Are vitamins and supplements included?**
+No. `drugs` mode returns drug monographs. WebMD's vitamin and supplement ingredient pages use a different reference system and are out of scope.
+
+**Are OTC product pages included?**
+WebMD's drug search also lists product-family pages (for example, "Advil Children's Products"). Those pages are not full monographs and are skipped; the actor keeps the matching monograph (for example, "Ibuprofen (Advil, Caldolor, Motrin)").
+
+**How many records can I get?**
+`maxItems` caps a run at 500. The A-Z sources contain thousands of topics and drugs, so use the letter filter to split a large harvest into smaller runs.
 
 **Is this affiliated with WebMD?**
-No, this is an independent third-party actor that reads WebMD's publicly available pages. It is not affiliated with or endorsed by WebMD LLC.
+No. This is an independent third-party actor that reads publicly available WebMD pages. It is not affiliated with or endorsed by WebMD LLC.

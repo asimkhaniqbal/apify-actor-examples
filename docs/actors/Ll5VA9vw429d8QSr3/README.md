@@ -4,99 +4,124 @@
 
 # Website Image URL & Metadata Extractor
 
-Finding every image a website actually serves — including the ones hidden in CSS backgrounds or `srcset` responsive sets — usually means digging through page source by hand. This actor crawls a site starting from one URL and lists every image it finds, with its source tag, dimensions, and alt text, so you get a full inventory instead of just the obvious `<img>` tags.
+Image inventories go wrong in the places nobody looks: the hero image lives in a CSS background, the real product photo hides in a `srcset`, the favicon is the only asset that survives a redesign, and a CDN serves everything from extensionless paths. This actor reads the server-delivered markup of a site and returns one clean record per unique image URL — with the page it was found on, alt text, declared dimensions, file format, and how it was discovered.
 
-## What this actor does
+## Three ways to run it
 
-- **Collects every image reference on a page** — `<img src>`, lazy-loaded `data-src`, `srcset` candidates, `<picture>` sources, favicons, and inline `style="background-image: url(...)"` declarations
-- **Crawls deeper on request** — follows internal links up to a configurable depth (same host only) to pick up images from linked pages too
-- **Filters by file extension** — keep only the formats you care about (e.g. only SVG, or only WebP/AVIF)
-- **Bounds run size** — per-page and per-run image caps keep large galleries from ballooning the dataset
-- **Empty fields are omitted** — a record only contains the attributes that were actually present on that image tag
+| Mode | Use it when |
+|---|---|
+| **Crawl a website** | You want to walk a site from its homepage: same-host links (optional subdomains), next-page pagination, and a hard page ceiling. |
+| **Specific pages only** | You already have the URLs to audit and want exactly those pages, with no link following. |
+| **XML sitemaps** | You have a `sitemap.xml` or a Google image sitemap. Sitemap indexes are followed automatically, so a large site is covered from one URL. |
 
-## Output per image
+## What gets extracted
 
-- `url` — absolute URL of the image (data: URIs and javascript: pseudo-URLs are filtered out)
-- `sourcePage` — the page where the image was discovered
-- `pageTitle` — the `<title>` of the page where the image was found
-- `alt` — the image's `alt` attribute, when present
-- `hasAltText` — `true` when `alt` is present and non-empty, so you can filter for missing alt text without checking field presence
-- `title` — the image's `title` attribute, when present
-- `width` / `height` — explicit pixel dimensions from the tag, when numeric values are given
-- `extension` — lowercase file extension parsed from the URL path (e.g. `jpg`, `svg`, `webp`)
-- `discoveredVia` — how the image was found: `img-tag`, `srcset`, `picture-source`, `link-icon`, or `css-background`
-- `mimeTypeHint` — MIME type inferred from the file extension (e.g. `image/png`, `image/svg+xml`)
-- `crawlDepth` — how many link-hops from the start URL the hosting page was found at (0 = the start URL itself)
-- `scrapedAt` — ISO 8601 timestamp of the run
+- `<img src>` plus common lazy-load attributes (`data-src`, `data-lazy-src`, `data-original`, `data-url`)
+- Every `srcset` and `data-srcset` candidate, including its `640w` width or `2x` density descriptor
+- `<picture><source>` candidates
+- Icon links (`icon`, `shortcut icon`, `apple-touch-icon`)
+- Inline `style="background-image: url(...)"` and `<style>` block URLs; optionally same-host stylesheets
+- Open Graph, Twitter card and `image_src` URLs
+- `image`, `logo` and `thumbnailUrl` values inside JSON-LD blocks
+- `<image:loc>` entries in XML image sitemaps, with the sitemap title/caption when present
 
-## Input
+Every record carries `hasAltText` (`true`/`false`, even when the alt text is absent), `foundOnPageCount`, and a UTC `scrapedAt` timestamp. Empty attributes are omitted rather than emitted as `null`.
 
-| Field | Type | Default | Description |
-|---|---|---|---|
-| `startUrl` | string | – | Page to start from. Must be `http://` or `https://` (required) |
-| `maxCrawlDepth` | integer | `1` | `0` = only the start URL; `1`+ = also follow internal links that many levels deep (same host only) (0–5) |
-| `maxImagesPerPage` | integer | `200` | Cap on images extracted from a single page (1–5000) |
-| `maxTotalImages` | integer | `1000` | Hard cap on total images emitted across the whole run (1–50000) |
-| `imageExtensions` | array | `["jpg","jpeg","png","gif","webp","svg","avif","bmp","ico"]` | Only image URLs ending in one of these extensions are kept |
-| `includeBackgroundImages` | boolean | `true` | Also extract images referenced via inline `style="background-image: url(...)"` |
-| `userAgent` | string | – | Custom User-Agent string; most sites work with the default |
+## Filters that stay honest
 
-### Example: inventory a homepage and one level of links
+- **File format** — keep only the extensions you care about; extensionless CDN URLs are accepted separately
+- **Declared size** — `minWidth` / `minHeight` use tag dimensions or srcset width descriptors
+- **Alt text** — `requireAltText` makes the output an accessibility punch list
+- **URL patterns** — include/exclude regexes apply to image URLs and to links the crawler would follow
+- **Tracking pixels** — 1x1 images and common pixel/beacon/spacer names are dropped by default
+- **Source toggles** — turn off srcset, icons, meta images, or CSS backgrounds independently
+
+## Optional HTTP metadata
+
+Set `fetchImageMetadata` to add `contentType`, `contentLengthBytes`, `lastModified` and `httpStatus` to each unique image. It costs one small HEAD request per image (with a 1-byte range fallback for servers that reject HEAD), bounded by `metadataConcurrency`.
+
+## Input reference
+
+| Field | Default | Notes |
+|---|---|---|
+| `mode` | `crawl` | `crawl`, `pages`, or `sitemap` |
+| `startUrls` | – | Required. Pages in crawl/pages mode; sitemap URLs in sitemap mode. Legacy `startUrl` still accepted. |
+| `maxCrawlDepth` | `1` | 0–10; pagination pages do not consume depth |
+| `followPagination` | `true` | Follow rel=next, pager containers and “next” links |
+| `paginationSelector` | – | Extra CSS selector for next-page links |
+| `maxPages` | `50` | Page or sitemap-document request ceiling |
+| `maxImagesPerPage` | `500` | Unique images collected per page |
+| `maxTotalImages` | `1000` | Unique images emitted per run |
+| `imageExtensions` | `["jpg","jpeg","png","gif","webp","svg","avif","bmp","ico"]` | Extension allow-list |
+| `acceptExtensionlessImages` | `true` | Keep CDN URLs with no file extension |
+| `includeSrcset` / `includeIcons` / `includeMetaImages` | `true` | Source toggles |
+| `includeBackgroundImages` | `true` | Inline styles and `<style>` blocks |
+| `fetchExternalStylesheets` | `false` | Up to 5 same-host CSS files per page |
+| `excludeTrackingPixels` | `true` | Drop 1x1 and beacon-style images |
+| `requireAltText` | `false` | Keep only images with alt text |
+| `minWidth` / `minHeight` | `0` | Declared pixel minimums |
+| `urlIncludePattern` / `urlExcludePattern` | – | Regex filters for image and page URLs |
+| `sameHostOnly` / `includeSubdomains` | `true` / `false` | Crawl scope |
+| `crawlSitemapPages` | `false` | Crawl page URLs listed in regular sitemaps |
+| `fetchImageMetadata` | `false` | HEAD enrichment |
+| `metadataConcurrency` | `5` | Parallel image HEAD requests |
+| `requestTimeoutSecs` | `20` | Per-request timeout |
+| `userAgent` | – | Optional Chrome override |
+
+### Examples
+
+Inventory a homepage and one level of internal links:
 
 ```json
 {
-  "startUrl": "https://apify.com",
+  "mode": "crawl",
+  "startUrls": ["https://example.com"],
   "maxCrawlDepth": 1,
+  "maxPages": 25,
   "maxTotalImages": 500
 }
 ```
 
-### Example: only vector/next-gen formats, single page
+Audit exactly three pages for images missing alt text:
 
 ```json
 {
-  "startUrl": "https://example.com",
-  "maxCrawlDepth": 0,
-  "imageExtensions": ["svg", "webp", "avif"]
+  "mode": "pages",
+  "startUrls": ["https://example.com/a", "https://example.com/b", "https://example.com/c"],
+  "requireAltText": false,
+  "fetchImageMetadata": true
 }
 ```
 
-### Example: large gallery site with tight per-page bound
+Read a large image sitemap without crawling every page:
 
 ```json
 {
-  "startUrl": "https://example.com/gallery",
-  "maxCrawlDepth": 2,
-  "maxImagesPerPage": 50,
-  "maxTotalImages": 2000,
-  "includeBackgroundImages": false
+  "mode": "sitemap",
+  "startUrls": ["https://example.com/sitemap.xml"],
+  "maxPages": 20,
+  "maxTotalImages": 2000
 }
 ```
 
-## Use cases
+## Output per image
 
-- **Content audits** — see every image a site serves, split out by whether it came from an `<img>` tag or a CSS background
-- **Asset inventory** — collect every logo, hero image, and icon from a brand or competitor site in one pass
-- **Format migration planning** — find every JPEG/PNG that's a candidate for conversion to WebP/AVIF
-- **Accessibility review** — filter for `hasAltText: false` to flag images missing alt text
-- **Design research** — compare image dimensions and counts across a competitor's pages
+`url`, `sourcePage`, `pageTitle`, `crawlDepth`, `discoveredVia`, `alt`, `hasAltText`, `title`, `width`, `height`, `srcsetWidth`, `srcsetDensity`, `loading`, `fetchPriority`, `ariaLabel`, `longDescription`, `fileName`, `extension`, `mimeTypeHint`, `isLazyLoaded`, `foundOnPageCount`, `scrapedAt`; sitemap records add `sitemapUrl`, `title` and `caption`; header enrichment adds `contentType`, `contentLengthBytes`, `lastModified` and `httpStatus`.
+
+## Limits worth knowing
+
+- **Server HTML only.** Images injected after JavaScript runs are not visible. Sites that ship an empty shell until hydration may produce few or no records; check the site with JavaScript disabled before assuming a bug.
+- **Declared dimensions, not decoded pixels.** `width`, `height` and `srcsetWidth` come from markup. Decoding actual image bytes is intentionally out of scope and is not needed for URL inventories.
+- **URLs and metadata, not files.** The actor never downloads image bodies, so there is no ZIP output and no storage cost for image bytes.
+- **Politeness.** Requests respect timeouts and retry 429/5xx responses; there is no browser, cookie jar, or proxy requirement. A site that blocks datacenter IPs will return no records — use a site that serves public HTML.
 
 ## FAQ
 
-**Does it download the actual image files?**
-No. The actor collects URLs and metadata only, not image bytes. Feed the `url` field into a separate downloader if you need the files themselves.
+**Does it deduplicate?**
+Yes. Records are unique by absolute image URL across every page and sitemap in the run; `foundOnPageCount` tells you how many pages referenced the same file.
 
-**Does it work on pages where images only appear after JavaScript runs?**
-Not reliably. The actor reads each page's server-delivered markup; images that are injected client-side by a JavaScript framework after the page loads may not be present yet when the page is fetched.
+**Can I limit the crawl to one section?**
+Set `urlIncludePattern` (for example `/products/`) and keep `sameHostOnly` on. Pagination and internal links are filtered by the same pattern.
 
-**Can I limit it to just the one page I give it?**
-Yes — set `maxCrawlDepth` to `0`.
-
-**Does it follow links to other websites?**
-No. Link-following only stays within the same host as `startUrl`.
-
-**What happens if a page has no images, or the URL is invalid?**
-The run still completes and the dataset isn't left empty — you'll get a single status record describing why (e.g. no images found, or an invalid `startUrl`) instead of a silent, empty result.
-
-**How are duplicate images across pages handled?**
-Deduplication is by absolute URL — the same image referenced from several pages produces one record, with `sourcePage` set to the page it was first seen on.
+**What happens when nothing matches?**
+The run completes and pushes one explanatory status record (`reason: no_images_found`) plus a status message — never a silent empty dataset.
