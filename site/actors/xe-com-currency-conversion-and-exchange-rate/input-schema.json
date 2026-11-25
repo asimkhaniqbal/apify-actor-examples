@@ -12,21 +12,21 @@
       "type": "number"
     },
     "date": {
-      "description": "YYYY-MM-DD. Leave empty for the latest daily rates. XE has daily rate history back to the mid-1990s; today's date and future dates are rejected. Ignored when 'Historical dates (batch)' is set.",
+      "description": "YYYY-MM-DD. Leave empty for live/today's rates. In mode=convert, converts the amount using XE's historical daily rate table for that date; in mode=ratesTable, fetches that day's full table. XE has daily rate history back to the mid-1990s; today's date and future dates are rejected. Ignored when 'Historical dates (batch)' is set.",
       "editor": "datepicker",
-      "title": "Historical date (mode=ratesTable, optional)",
+      "title": "Historical date (optional)",
       "type": "string"
     },
     "dates": {
       "default": [],
-      "description": "Fetch the rates table for multiple historical dates in one run (e.g. to build a trend series), instead of a single 'Historical date'. Each entry must be YYYY-MM-DD; invalid or duplicate entries are dropped. Overrides 'Historical date' when non-empty. Up to 20 dates per run.",
+      "description": "Fetch multiple historical dates in one run (e.g. to build a trend series), instead of a single 'Historical date'. Each entry must be YYYY-MM-DD; invalid or duplicate entries are dropped. Overrides 'Historical date' when non-empty. Up to 20 dates per run. mode=convert emits one conversion per date and target; mode=ratesTable emits each date's full table.",
       "editor": "stringList",
       "items": {
         "type": "string"
       },
       "maxItems": 20,
       "prefill": [],
-      "title": "Historical dates (mode=ratesTable, batch, optional)",
+      "title": "Historical dates (batch, optional)",
       "type": "array"
     },
     "fromCurrency": {
@@ -500,10 +500,17 @@
       "title": "Include obsolete currencies",
       "type": "boolean"
     },
+    "includeRateStats": {
+      "default": true,
+      "description": "Attach XE's rolling 7-, 30- and 90-day high/low/average/volatility statistics for each converted pair. Adds one small request per target currency, so disable for the fastest multi-currency conversions. Historical conversions (date/dates set) never include these live statistics.",
+      "prefill": true,
+      "title": "Include 7/30/90-day rate statistics (mode=convert, live only)",
+      "type": "boolean"
+    },
     "maxItems": {
       "default": 50,
-      "description": "Hard cap on emitted records.",
-      "maximum": 250,
+      "description": "Hard cap on emitted records. The full rate table for one date is up to ~190 rows, so raise this when batching dates or converting into many currencies.",
+      "maximum": 10000,
       "minimum": 1,
       "prefill": 50,
       "title": "Max items",
@@ -519,7 +526,7 @@
         "currencyInfo"
       ],
       "enumTitles": [
-        "Convert an amount between two currencies",
+        "Convert an amount between two currencies (live or a historical date)",
         "Full exchange-rate table for a base currency (live or historical)",
         "Currency metadata lookup (name, crypto flag, obsolete flag)"
       ],

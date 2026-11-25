@@ -4,106 +4,172 @@
 
 # WeddingWire Vendor Directory & Profile Scraper
 
-[WeddingWire](https://www.weddingwire.com) lists wedding vendors across 15 service categories — photographers, venues, caterers, florists, DJs and more — for cities throughout the US. This actor searches that directory by category and location, or pulls a full profile for a single vendor URL, with no account needed.
+WeddingWire is a US wedding-planning marketplace with vendor listings across photography, venues,
+catering, music, beauty, attire and more. This actor reads its public directory and vendor profiles
+without an account, login or cookie: browse by category and location, narrow by price and other
+filters, or hand it a list of vendor URLs for complete profiles.
 
-## What this actor does
+## Modes
 
-- **Searches by category, city and state** across all 15 WeddingWire vendor categories
-- **Pulls a full profile for one vendor** when given its WeddingWire URL directly
-- **Returns rating, review count and price range** for each vendor, when WeddingWire publishes them
-- **Includes contact details** — phone, website, and email when the vendor's profile lists one
-- **Empty fields are omitted** — a vendor record only contains the fields WeddingWire actually published for it
-
-## Output per vendor
-
-| Field | Description |
+| Mode | What it does |
 |---|---|
-| `vendorId` | WeddingWire's internal vendor ID |
-| `name` | Vendor/business name |
-| `category` | Vendor category, e.g. `photographers` |
-| `city` | City |
-| `state` | US state |
-| `address` | Street address, when published |
-| `rating` | Average star rating (0–5) |
-| `reviewCount` | Number of reviews |
-| `priceRange` | Price tier or range as published on the vendor's profile |
-| `phone` | Phone number |
-| `website` | Vendor's own website URL |
-| `email` | Contact email, when the profile lists one |
-| `description` | Vendor bio/description |
-| `imageUrl` | Primary photo URL |
-| `images` | Gallery photos (up to 10) |
-| `vendorUrl` | WeddingWire profile URL |
-| `scrapedAt` | ISO 8601 timestamp of the run |
+| `searchVendors` | Browse one category in a state or city, with optional filters and automatic pagination. |
+| `vendorDetails` | Fetch full profiles for WeddingWire `/biz/…` vendor URLs. |
+
+## What you get
+
+**Directory records** carry the vendor's name, category, real address, rating, review count,
+published starting price, photos, listing tier and profile URL. Turn on `includeDetails` to open
+each vendor's profile and add phone, website, description, awards, team/feature tags, social links
+and map coordinates.
+
+**Profile records** include everything WeddingWire publishes publicly: schema.org business details,
+address and coordinates, aggregate rating and review count, starting price, description, up to 10
+photos, award years, features, social links and phone/website when listed. `includeReviews` adds up
+to 25 recent reviews with author, rating, date and text.
+
+**Catalog coverage:** 20 service categories (photographers, planners, caterers, DJs, florists,
+videographers, officiants, cakes, photo booths, attire, rentals, ceremony music, bands, favors,
+invitations, transportation, travel agents, jewelry, lighting) and 16 venue types (reception halls,
+hotels, barns, country clubs, restaurants, historic venues, mansions, parks, wineries, museums,
+churches, rooftops, waterfronts, boats, gardens, beaches).
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `searchVendors` | `searchVendors` (search by category and location) or `vendorDetails` (fetch one vendor by URL) |
-| `category` | string | `photographers` | Vendor category to search (mode=searchVendors) — one of 15 categories such as `reception-venues`, `caterers`, `florists`, `wedding-planners` |
-| `city` | string | `los-angeles` | City to search, in URL-friendly form, e.g. `los-angeles` (mode=searchVendors) |
-| `state` | string | `ca` | Two-letter US state code (mode=searchVendors) |
-| `vendorUrl` | string | – | Direct WeddingWire vendor profile URL (mode=vendorDetails) |
-| `maxItems` | integer | `20` | Maximum number of vendors to return (1–500) |
+| `mode` | select | `searchVendors` | Directory search or profile URLs. |
+| `category` | select | `photographers` | All 36 WeddingWire categories. |
+| `state` | select | `ca` | US state or Washington DC. |
+| `city` | text | `los-angeles` | City name or slug; leave empty to search the whole state. |
+| `priceRange` | select | `any` | Under $1,000, $1,000–$1,750, $1,750–$2,500, $2,500–$3,500, $3,500+. |
+| `diversity` | select | `any` | Black-, Asian-, Hispanic/Latinx-, LGBTQ+-, Native American-, Pacific Islander-, veteran- or woman-owned. |
+| `photographyStyle` | select | `any` | Contemporary, film, natural, photojournalism, traditional or vintage (photographers only). |
+| `photographyService` | select | `any` | Additional hours, boudoir, destination/travel, engagement, high-res, one event/day, second shooter, video or wedding portraits (photographers only). |
+| `minRating` | number | 0 | Drop vendors below this rating; 0 keeps unrated vendors. |
+| `includeDetails` | boolean | true | Enrich each directory record from its profile (one extra request per vendor). |
+| `includeReviews` | boolean | false | Add the 25 most recent reviews (also fetches the profile when needed). |
+| `vendorUrls` | stringList | – | WeddingWire vendor URLs (`mode=vendorDetails`). |
+| `maxItems` | integer | 20 | Record cap, 1–1000. |
 
-### Example: photographers in Los Angeles
+### Example: wedding photographers in Los Angeles
 
 ```json
 {
   "mode": "searchVendors",
   "category": "photographers",
-  "city": "los-angeles",
   "state": "ca",
-  "maxItems": 20
+  "city": "los-angeles",
+  "maxItems": 25,
+  "includeDetails": true
 }
 ```
 
-### Example: reception venues in a different city
+### Example: budget-friendly florists in New York
 
 ```json
 {
   "mode": "searchVendors",
-  "category": "reception-venues",
-  "city": "chicago",
-  "state": "il",
-  "maxItems": 30
+  "category": "florists",
+  "state": "ny",
+  "city": "new-york",
+  "priceRange": "under-1000",
+  "maxItems": 50
 }
 ```
 
-### Example: full profile for one vendor
+### Example: full profile with recent reviews
 
 ```json
 {
   "mode": "vendorDetails",
-  "vendorUrl": "https://www.weddingwire.com/biz/your-vendor"
+  "vendorUrls": [
+    "https://www.weddingwire.com/biz/example-vendor/abc123.html"
+  ],
+  "includeReviews": true
 }
 ```
 
-## Use cases
+## Output fields
 
-- **Wedding planning** — compare vendors in a category by rating, review count and price range
-- **Lead generation** — build a list of vendors in a target market along with phone/website/email
-- **Market research** — see how many vendors and what price tiers exist for a category in a city
-- **Competitive intelligence** — monitor a category's vendor listings and ratings over time
-- **Directory building** — pull structured vendor profiles to populate your own local wedding-resource site
+| Field | Type | Description |
+|---|---|---|
+| `vendorId` | string | WeddingWire vendor ID |
+| `name` | string | Business name |
+| `category` | string | Category slug used for the search |
+| `categoryName` | string | WeddingWire's display category |
+| `categoryId`, `categoryGroupId` | string | WeddingWire category identifiers |
+| `address`, `city`, `state`, `postalCode`, `country` | string | Real vendor address (state is a two-letter code) |
+| `latitude`, `longitude` | number | Map coordinates from the profile |
+| `rating` | number | Average star rating (0–5) |
+| `reviewCount` | integer | Number of published reviews |
+| `startingPrice` | number | Published starting price |
+| `priceCurrency` | string | Currency code, normally `USD` |
+| `priceRange` | string | Human-readable price, e.g. `From $1,395` |
+| `phone` | string | Profile phone number |
+| `website` | string | Vendor's own website, tracking parameters removed |
+| `email` | string | Reserved for compatibility; WeddingWire rarely publishes one, so usually omitted |
+| `description` | string | Profile "about" text |
+| `imageUrl` | string | Primary photo |
+| `images` | array | Up to 10 profile photos |
+| `awardYears` | array | Years of WeddingWire Couples' Choice / award wins |
+| `awardCount` | integer | Number of award wins shown |
+| `awardWinner` | boolean | Whether the vendor carries an award or winner ribbon |
+| `features` | array | Team-size and feature tags from the profile |
+| `socialLinks` | object | Facebook, Instagram, X, Pinterest and similar profile links |
+| `reviewsUrl` | string | WeddingWire reviews page |
+| `reviews` | array | Recent reviews (`author`, `rating`, `date`, `text`) when `includeReviews` is on |
+| `listingTier`, `ribbon` | string | Directory placement context |
+| `storefrontId` | string | WeddingWire storefront ID |
+| `searchLocation` | string | The location that produced a directory record |
+| `vendorUrl` | string | WeddingWire profile URL |
+| `scrapedAt` | string | ISO 8601 run timestamp |
+
+Every field is omit-empty: a vendor record contains only fields WeddingWire actually published for
+that vendor.
+
+## Filters, pagination and limits
+
+- Server-side filters are passed to WeddingWire's own directory endpoint, so they affect the result
+  count before pagination: price bucket, diversity group, photography style and photography service.
+  `minRating` is applied after each page is read.
+- WeddingWire serves 24 vendors per page and stops one query at 500 records. Requests above 500 for
+  a whole state are automatically split by region and deduplicated by `vendorId`. A single city
+  query that has more than 500 vendors returns the 500 WeddingWire exposes and says so in the run
+  status; narrow the category or price range to reach the rest. `maxItems` can be set up to 1000.
+- `includeDetails` costs one profile request per vendor and `includeReviews` one more; the default
+  daily test uses neither.
+- Photos link to WeddingWire's public CDN and open in a browser.
+
+## Compatibility
+
+The previous release's `mode`, `category`, `state`, `city`, `vendorUrl` and `maxItems` inputs still
+work. `vendorUrl` is accepted and mapped internally; new searches use `vendorUrls`. Existing output
+field names are unchanged, and the new fields are additive.
 
 ## FAQ
 
-**Does this require a WeddingWire account or login?**
-No. WeddingWire's vendor directory and profile pages are publicly accessible.
+**Do I need a WeddingWire account, cookies or a proxy?**
+No. Every published page this actor reads is public. It picks its own network route automatically if
+WeddingWire challenges a request.
 
-**What's the difference between WeddingWire and The Knot?**
-Both sites are owned by the same parent company and list overlapping vendors, but they run separate directories with their own listings and interfaces. This actor only covers WeddingWire.
+**Why is a vendor from another city in my Los Angeles results?**
+WeddingWire places paid spotlight vendors in local results. The record keeps the vendor's real city
+and state in `city`/`state` and records the query location in `searchLocation`, so the address stays
+accurate.
 
-**Why do some vendors have no `email` or `website`?**
-Not every vendor lists a public email address or external website on their WeddingWire profile — the field is left out rather than filled with a placeholder when it isn't published.
+**Why do some vendors have no description, website or price?**
+WeddingWire uses a lighter profile layout for some listings. Those fields are left out rather than
+filled with placeholders.
 
-**How many vendors can I get per search?**
-Up to `maxItems` (maximum 500). Larger cities list far more vendors per category than smaller ones, so results vary by market.
+**Can I get every review?**
+The public reviews page exposes the 25 most recent reviews; `includeReviews` returns those. The
+aggregate `reviewCount` still reports the full published total.
 
-**Can I look up a specific vendor directly?**
-Yes — use `mode: "vendorDetails"` with that vendor's WeddingWire profile URL to get its full record.
+**Can I sort results?**
+WeddingWire's US directory UI does not expose a sort control; results follow its own featured order.
+Use category, price, diversity and photography filters to shape the list.
 
 **Is this affiliated with WeddingWire?**
-No, this is an independent third-party actor that reads WeddingWire's publicly available pages. It is not affiliated with or endorsed by WeddingWire or The Knot Worldwide.
+No. This is an independent third-party actor that reads publicly available WeddingWire pages. It is
+not affiliated with or endorsed by WeddingWire or The Knot Worldwide.

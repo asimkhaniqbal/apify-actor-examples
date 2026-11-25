@@ -4,38 +4,41 @@
 
 # Bazaraki.com Category & Subcategory Ad Scraper
 
-Scrape [Bazaraki.com](https://www.bazaraki.com) — Cyprus's largest classifieds marketplace, covering real estate, cars & motors, jobs, electronics, and general items across all five districts of Cyprus. Search by keyword, browse all 15 top-level categories directly (no keyword required), drill into Real Estate / Motors subcategories, filter by city and price, or fetch specific listings by URL.
+Scrape [Bazaraki.com](https://www.bazaraki.com) — Cyprus's largest classifieds marketplace, covering real estate, cars & motors, jobs, electronics, pets and general items across all five districts. Browse any category or Real Estate/Motors subcategory without a keyword, search by keyword, filter by district, price, bedrooms, condition and sort order, or fetch exact listing and filtered search URLs.
 
 ## What this actor does
 
-- **Two modes:** `search` (keyword + category/subcategory/city/price/sort browsing) and `byUrls` (fetch specific listing URLs you already have)
-- **15 categories, all directly browsable without a keyword:** real estate for sale/rent, motors, jobs, phones, electronics, clothing, computers/gaming, home/garden, hobbies/sports, animals, health/beauty, kids' stuff, services, business, or all
-- **32 subcategories** for Real Estate for Sale/to Rent and Motors (e.g. houses, apartments, cars, motorbikes, boats) for finer-grained browsing than the top-level category
-- **5 cities:** Nicosia, Limassol, Larnaca, Paphos, Famagusta, or all Cyprus
+- **Two modes:** `search` (keyword + category/subcategory + district + price + bedrooms + condition + sort, with automatic pagination) and `byUrls` (listing URLs and/or category/search URLs, filters included)
+- **16 categories**, all directly browsable without a keyword, including Free stuff
+- **32 subcategories** for Real Estate for Sale/to Rent and Motors, for finer-grained browsing
+- **5 districts:** Nicosia, Limassol, Larnaca, Paphos, Famagusta, or all Cyprus
 - **4 sort orders:** most relevant, newest, cheapest, most expensive
-- **Price range filter:** min/max in EUR
-- **Bedrooms filter (Real Estate):** studio, 1–5, or 6+
-- **Condition filter:** new or used (Real Estate, Motors, Electronics, and most other categories)
-- **Full detail enrichment (optional):** category breadcrumb path, full description, precise coordinates, full photo gallery
+- **Filters verified against the site's own filter vocabulary:** price range, bedrooms (studio to 10+), condition (new / resale / under construction), district
+- **Legacy inputs mapped in code:** `query`, `maxResults`, `startUrl`, `sort`, `priceMin`/`priceMax`, `rooms`, and case variants keep old tasks working
+- **Cookieless and credential-free:** reads Bazaraki's own public JSON listing API; if that path is unreachable it falls back to the server-rendered HTML JSON, then to a stealth browser. No cookies, logins, API keys or proxy setup are required.
+- **Pagination that follows the source:** the site's cursor/next-page signal, 100 rows per request, deduplicated by listing id
 - **Empty fields are omitted** — every record only contains fields Bazaraki actually published for that listing
 
 ## Output per listing
 
 - `id`, `title`
-- `price`, `currencySymbol`, `currencyCode`
-- `pricePerSquareMeter` (real estate listings, requires `includeDetails`)
-- `cityName`, `areaName`, `location` — from the search page; `includeDetails` refines `location`/`cityName` from the listing's own map
-- `latitude`, `longitude` (requires `includeDetails`; present when the listing has a map pin)
-- `categoryPath[]`, `categoryName` (breadcrumb, requires `includeDetails`)
+- `price`, `currencySymbol`, `currencyCode`, `priceOriginal` (struck-through/original price when discounted), `priceDescription` (e.g. Negotiable)
+- `pricePerSquareMeter` (Real Estate, requires `includeDetails`)
+- `cityName`, `areaName`, `location` — the site's own district/area string
+- `latitude`, `longitude`, `coordinatesApproximate` (requires `includeDetails`; present when the listing has a map pin)
+- `categoryPath[]`, `categoryName` — full breadcrumb such as `Motors > Cars > Toyota > Yaris Cross`
 - `description` (full text, requires `includeDetails`)
-- `features[]` — raw feature chips from the search card (e.g. bedroom count, area, condition) when Bazaraki shows them; unlabeled by the site itself, see Limitations
-- `characteristics` — full labeled key/value map from the listing's own "characteristics" panel, exactly as Bazaraki labels it for that category (e.g. `{"Property area": "77 m²", "Mileage (in km)": "22826 km"}`); requires `includeDetails`
-- Promoted typed fields parsed from `characteristics` when present for that listing's category, requires `includeDetails`:
-  - Real estate: `bedrooms`, `bathrooms`, `propertyAreaSqm`, `condition`, `parking`, `includedAmenities[]`, `energyEfficiency`, `itemType`, `floor`, `furnishing`, `constructionYear`, `airConditioning`
-  - Motors: `year`, `mileageKm`, `gearbox`, `fuelType`, `bodyType`, `driveType`, `enginePower`, `engineSize`, `seats`, `colour`, `extras[]`, `referenceNumber`
-  - Other categories (phones, electronics, etc.): `condition`, `kind`, `itemType` when Bazaraki publishes them
+- `features[]` — the raw feature chips the source shows on the listing card
+- `characteristics` — labeled key/value map from the listing's own characteristics panel (requires `includeDetails`)
+- Typed fields parsed from `characteristics` when present for that listing's category:
+  - Real estate: `bedrooms`, `bathrooms`, `propertyAreaSqm`, `plotAreaSqm`, `condition`, `parking`, `includedAmenities[]`, `energyEfficiency`, `itemType`, `floor`, `furnishing`, `constructionYear`, `airConditioning`, `pets`, `postalCode`
+  - Motors: `year`, `mileageKm`, `gearbox`, `fuelType`, `bodyType`, `driveType`, `enginePower`, `engineSize`, `seats`, `colour`, `doors`, `extras[]`, `referenceNumber`, `motTill`
+  - Other categories: `condition`, `kind`, `itemType` and category-specific labels when Bazaraki publishes them
 - `imageUrl`, `imageUrls[]`, `imageCount`
-- `isFeatured` — true for VIP/premium listings
+- `adType` (VIP/TOP/etc.), `isFeatured`, `isVipPlus`, `hasVideo`, `isNew`, `publishedText`
+- `sellerName`, `sellerId`, `sellerLogo`, `sellerVerified`, `isBusinessAccount`, `isCompany`, and with `includeDetails`: `sellerProfileUrl`, `sellerWebsite`, `sellerPostingSince`, `sellerActiveAds`
+- `favoritesCount`, `viewsCount` (require `includeDetails`)
+- `vin`, `imei`, `virtualTourUrl`, `videoUrl`, `youtubeUrl`, `tiktokUrl` (only when the listing has them)
 - `sourceUrl` — the canonical Bazaraki.com listing page
 - `recordType: "listing"`, `scrapedAt`
 
@@ -45,16 +48,16 @@ Scrape [Bazaraki.com](https://www.bazaraki.com) — Cyprus's largest classifieds
 |---|---|---|---|
 | `mode` | select | `search` | `search` / `byUrls` |
 | `searchQuery` | string | – | Free-text keyword (mode=search) |
-| `category` | select | `all` | One of 15 categories, or `all` (mode=search) |
-| `subcategory` | select | – | One of 33 Real Estate / Motors subcategories (e.g. `real-estate-for-sale/houses`); overrides `category` when set (mode=search) |
+| `category` | select | `all` | One of 16 categories, or `all` (mode=search) |
+| `subcategory` | select | – | One of 32 Real Estate / Motors subcategories; overrides `category` (mode=search) |
 | `city` | select | `all` | Nicosia / Limassol / Larnaca / Paphos / Famagusta / all (mode=search) |
 | `sortBy` | select | `relevant` | `relevant` / `newest` / `cheapest` / `expensive` (mode=search) |
-| `minPrice` | int | – | Drop listings priced below this (EUR) |
-| `maxPrice` | int | – | Drop listings priced above this (EUR) |
-| `bedrooms` | select | – | `studio` / `1`–`5` / `6` (6+), Real Estate categories (mode=search) |
-| `condition` | select | – | `new` / `used` (mode=search) |
-| `startUrls` | array | – | Direct Bazaraki.com listing URLs (mode=byUrls) |
-| `includeDetails` | bool | `false` | Fetch each listing's detail page for extra fields (slower, more complete) |
+| `minPrice` | int | – | Only keep listings at or above this EUR amount |
+| `maxPrice` | int | – | Only keep listings at or below this EUR amount |
+| `bedrooms` | select | – | `studio` / `1`–`9` / `10` (10+) for Real Estate |
+| `condition` | select | – | `new` / `used` / `resale` / `under-construction` |
+| `startUrls` | array | – | Listing URLs and/or category/search URLs (mode=byUrls) |
+| `includeDetails` | bool | `false` | Fetch full detail data per listing (slower, more complete) |
 | `maxItems` | int | `30` | Hard cap on emitted records (1–2000) |
 
 ### Example: iPhones under €800 in Nicosia, cheapest first
@@ -70,79 +73,78 @@ Scrape [Bazaraki.com](https://www.bazaraki.com) — Cyprus's largest classifieds
 }
 ```
 
-### Example: mobile phones for sale in Limassol, with full details
-
-```json
-{
-  "mode": "search",
-  "category": "telephones",
-  "city": "limassol",
-  "sortBy": "newest",
-  "maxItems": 100,
-  "includeDetails": true
-}
-```
-
-### Example: houses for sale in Paphos, no keyword needed
+### Example: new 2-bedroom houses for sale in Paphos, with full details
 
 ```json
 {
   "mode": "search",
   "subcategory": "real-estate-for-sale/houses",
   "city": "paphos",
-  "sortBy": "cheapest",
+  "bedrooms": "2",
+  "condition": "new",
+  "includeDetails": true,
   "maxItems": 50
 }
 ```
 
-### Example: new 2-bedroom apartments for sale in Limassol
+### Example: browse a whole category without a keyword
 
 ```json
 {
   "mode": "search",
-  "subcategory": "real-estate-for-sale/apartments-flats",
-  "city": "limassol",
-  "bedrooms": "2",
-  "condition": "new",
-  "maxItems": 50
+  "category": "telephones",
+  "sortBy": "newest",
+  "maxItems": 100
 }
 ```
 
-### Example: fetch specific listing URLs
+### Example: fetch specific listing and search URLs
 
 ```json
 {
   "mode": "byUrls",
-  "startUrls": ["https://www.bazaraki.com/adv/6659275_iphone/"]
+  "startUrls": [
+    "https://www.bazaraki.com/adv/6659275_iphone/",
+    "https://www.bazaraki.com/real-estate-for-sale/houses/lemesos-district-limassol/?price_max=500000"
+  ],
+  "maxItems": 100
 }
 ```
 
 ## Use cases
 
-- **Vehicle price comparison** — monitor used car / motorbike listings
-- **Price tracking / arbitrage** — watch electronics, phones and general items for deals
-- **Real estate market research** — track Cyprus property prices and locations (with `includeDetails`)
-- **Job market analysis** — pull listings from the Jobs category
-- **Data aggregation** — feed a classifieds-aggregator or price-comparison tool
+- Vehicle price comparison and used-car market tracking
+- Price tracking / arbitrage for phones, electronics and general items
+- Cyprus real estate market research with coordinates and labeled property characteristics
+- Jobs and services listing analysis
+- Classifieds aggregation and monitoring
+
+## Data source
+
+Bazaraki is a Next.js site. Its public pages stream the complete listing data as JSON, and the same data is served by the site's own JSON listing endpoints. This actor reads that data directly, so a restyle does not empty a run. The older pre-2026 HTML layouts are still parsed as a fallback. If the JSON path is blocked from the current network, the actor falls back to the HTML page (identical embedded JSON) and finally to a stealth browser that solves Cloudflare's challenge; the browser path is only used when the cheaper paths fail.
 
 ## Limitations
 
-- **Real Estate and Motors category pages use a different card layout.** `real-estate-for-sale`, `real-estate-to-rent` and `car-motorbikes-boats-and-parts` render their listings in an older card layout than other categories; the actor detects and parses both layouts automatically, so browsing these 3 categories (with or without a keyword, at the top level or via `subcategory`) returns real listings either way.
-- **A bare listing ID is not enough to fetch a specific listing.** Bazaraki's URL routing requires the listing's own slug — `mode=byUrls` needs the full URL (e.g. `https://www.bazaraki.com/adv/6659275_iphone/`), not just the numeric ID.
-- **`features[]` values (from the search-results card) are unlabeled.** The search page shows small icon-tagged chips (e.g. bedroom count, floor area) without machine-readable labels in the page's own HTML — the actor passes these through as raw text so you can still see them. For labeled equivalents, turn on `includeDetails`: every listing's own detail page publishes a full labeled `characteristics` map (and the common ones are promoted to typed top-level fields like `bedrooms`, `mileageKm`, `fuelType` — see "Output per listing").
-- **No private contact info.** Bazaraki requires a logged-in session to reveal seller phone numbers, WhatsApp, and email; the actor only extracts publicly visible listing data.
-- **`sourceUrl` is Cloudflare-protected.** Bazaraki.com sits behind Cloudflare's bot-management, so `sourceUrl` (and any other bazaraki.com page link) returns a JS-challenge page to plain `curl`/non-browser HTTP clients — it opens normally in a real web browser. Image URLs (`imageUrl`/`imageUrls[]`, served from `cdn1.bazaraki.com`) are not behind this protection and load directly.
+- **Keyword search is capped by Bazaraki at about 1,000 matches.** Browse a category (or add district/price filters) to split a larger search.
+- **Images need browser-like headers.** Bazaraki's image CDN answers a plain `curl` request without a Referer with 403; the URLs open normally in a browser (and the actor uses the site's own Referer when fetching). They are returned as the site's original absolute CDN URLs.
+- **Coordinates are published only when the seller pins a map location.** Listings without a pin omit `latitude`/`longitude`; when the site marks a pin approximate, `coordinatesApproximate` is `true`.
+- **A bare listing ID is not enough for `byUrls`.** Bazaraki's routing requires the URL's slug — use the full listing URL (e.g. `https://www.bazaraki.com/adv/6659275_iphone/`).
+- **Private contact info is not scraped.** Phone numbers, WhatsApp, email and chat require a logged-in session; the actor only returns publicly visible data (`sellerName`, profile URL, website, business flag).
+- **`publishedText` is the site's relative text** ("2 weeks ago"), not an exact timestamp — Bazaraki does not publish the original posting timestamp in the listing JSON.
+- **Paid VIP/TOP ads always lead each page**, then the selected sort applies inside each block; this is the site's ordering, not an actor bug.
 
 ## FAQ
 
-**What's Bazaraki?**  Cyprus's largest online classifieds marketplace — comparable to Craigslist, OLX, or Gumtree — covering real estate, vehicles, jobs, services and general items across the whole island.
+**What's Bazaraki?** Cyprus's largest online classifieds marketplace — comparable to Craigslist, OLX or Gumtree — covering real estate, vehicles, jobs, services and general items across the whole island.
 
-**Which currency are prices in?**  Euro (EUR) — Cyprus uses the Euro. Both the currency symbol (`€`) and ISO code (`EUR`) are included on every priced listing.
+**Which currency are prices in?** Euro (EUR). Both the symbol (`€`) and ISO code (`EUR`) are included on every priced listing.
 
-**Can I search without a keyword?**  Yes, for all 15 categories — leave `searchQuery` empty and set `category` (and/or `subcategory`, `city`) to browse unfiltered.
+**Can I search without a keyword?** Yes, for all 16 categories — leave `searchQuery` empty and set `category` (and/or `subcategory`, `city`) to browse.
 
-**Can I browse a specific property type or vehicle type?**  Yes — use `subcategory` (e.g. `real-estate-for-sale/apartments-flats`, `car-motorbikes-boats-and-parts/motorbikes`) for finer-grained browsing than the top-level `category`. It's available for the Real Estate and Motors verticals, Bazaraki's two largest categories.
+**Can I browse a specific property or vehicle type?** Yes — use `subcategory` for finer-grained browsing in Bazaraki's two largest verticals, Real Estate and Motors.
 
-**Why is `includeDetails` off by default?**  The search page already returns price, location, image and a feature summary — enough for most use cases. Turning on `includeDetails` fetches each listing's own page for the category breadcrumb, full description, precise coordinates, and the full photo gallery, at the cost of one extra request per listing.
+**Why is `includeDetails` off by default?** The listing card already returns price, location, seller, image gallery, promotion type and feature chips — enough for most use cases. `includeDetails` adds the full description, labeled characteristics, coordinates, seller profile and view/favorite counters, at the cost of one extra request per listing.
 
-**How many listings can I pull at once?**  Up to 2000 per run.
+**How many listings can I pull at once?** Up to 2000 per run. Pagination follows Bazaraki's own cursor and stops at the source's end.
+
+**Do I need a proxy?** No. The actor reads the public JSON path first and only escalates automatically if the network path is blocked.

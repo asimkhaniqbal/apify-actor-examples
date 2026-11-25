@@ -1,68 +1,162 @@
 {
-  "description": "Search WeddingWire wedding vendors by category and location.",
+  "description": "Search WeddingWire's US vendor directory by category and location, or fetch full profiles from vendor URLs.",
   "properties": {
     "category": {
       "default": "photographers",
-      "description": "Type of wedding vendor to search for.",
+      "description": "WeddingWire vendor category to browse. All services and venue types are supported.",
       "editor": "select",
       "enum": [
         "photographers",
-        "reception-venues",
-        "caterers",
+        "wedding-planners",
+        "beauty-health",
         "bands-djs",
         "florists",
-        "officiants-premarital-counseling",
-        "beauty-health",
+        "caterers",
         "videographers",
-        "invitations-stationery",
-        "wedding-planners",
+        "officiants-premarital-counseling",
         "cakes-desserts",
-        "jewelry-accessories",
-        "transportation",
         "photo-video-booths",
-        "lighting-decor"
+        "dress-attire",
+        "event-rentals",
+        "ceremony-music",
+        "bands",
+        "favors-gifts",
+        "invitations-stationery",
+        "transportation",
+        "travel-agents",
+        "jewelry-accessories",
+        "lighting-decor",
+        "reception-venues",
+        "hotels",
+        "barns-farms",
+        "country-clubs",
+        "restaurants",
+        "historic-venues",
+        "mansions",
+        "parks",
+        "wineries-breweries",
+        "museums",
+        "churches-temples",
+        "rooftops-lofts",
+        "waterfronts",
+        "boats",
+        "gardens",
+        "beaches"
       ],
       "enumTitles": [
         "Photographers",
-        "Reception Venues",
-        "Caterers",
-        "Bands & DJs",
+        "Wedding planners",
+        "Hair & makeup",
+        "DJs",
         "Florists",
-        "Officiants",
-        "Beauty & Health",
+        "Caterers",
         "Videographers",
-        "Invitations & Stationery",
-        "Wedding Planners",
-        "Cakes & Desserts",
-        "Jewelry & Accessories",
+        "Officiants",
+        "Cakes & desserts",
+        "Photo & video booths",
+        "Dresses & attire",
+        "Event rentals",
+        "Ceremony music",
+        "Bands",
+        "Favors & gifts",
+        "Invitations & stationery",
         "Transportation",
-        "Photo & Video Booths",
-        "Lighting & Decor"
+        "Travel agents",
+        "Jewelry & accessories",
+        "Lighting & decor",
+        "Reception venues",
+        "Hotels",
+        "Barns & farms",
+        "Country clubs",
+        "Restaurants",
+        "Historic venues",
+        "Mansions",
+        "Parks",
+        "Wineries & breweries",
+        "Museums",
+        "Churches & temples",
+        "Rooftops & lofts",
+        "Waterfronts",
+        "Boats",
+        "Gardens",
+        "Beaches"
       ],
       "prefill": "photographers",
-      "title": "Vendor Category",
+      "title": "Vendor category",
       "type": "string"
     },
     "city": {
       "default": "los-angeles",
-      "description": "City to search for vendors (use URL-friendly format, e.g. 'los-angeles').",
+      "description": "Optional city, e.g. `los-angeles` or `Los Angeles`. Leave empty to search the whole state.",
       "editor": "textfield",
       "prefill": "los-angeles",
-      "title": "City",
+      "title": "City or town",
       "type": "string"
+    },
+    "diversity": {
+      "default": "any",
+      "description": "Filter for a specific vendor-owned diversity group.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "black-owned",
+        "asian-owned",
+        "hispanic-latinx-owned",
+        "lgbtq-owned",
+        "native-american-owned",
+        "pacific-islander-owned",
+        "veteran-owned",
+        "woman-owned"
+      ],
+      "enumTitles": [
+        "Any vendor",
+        "Black-owned",
+        "Asian-owned",
+        "Hispanic or Latinx-owned",
+        "LGBTQ+-owned",
+        "Native American-owned",
+        "Pacific Islander-owned",
+        "Veteran-owned",
+        "Woman-owned"
+      ],
+      "title": "Vendor diversity",
+      "type": "string"
+    },
+    "includeDetails": {
+      "default": true,
+      "description": "Open each vendor's profile to add phone, website, description, photos, awards and social links. Adds one request per vendor.",
+      "prefill": false,
+      "sectionCaption": "Profile enrichment",
+      "title": "Fetch full profiles",
+      "type": "boolean"
+    },
+    "includeReviews": {
+      "default": false,
+      "description": "Add up to 25 recent reviews (author, rating, date, text) to each enriched profile. Adds one request per vendor.",
+      "prefill": false,
+      "title": "Fetch recent reviews",
+      "type": "boolean"
     },
     "maxItems": {
       "default": 20,
-      "description": "Maximum number of vendors to return.",
-      "maximum": 500,
+      "description": "Hard cap on records. WeddingWire serves at most 500 vendors per search; larger state-wide requests are split by region automatically.",
+      "maximum": 1000,
       "minimum": 1,
-      "prefill": 20,
-      "title": "Max Items",
+      "prefill": 3,
+      "title": "Max vendors",
       "type": "integer"
+    },
+    "minRating": {
+      "default": 0,
+      "description": "Drop vendors rated below this value. Set to 0 to keep unrated vendors.",
+      "maximum": 5,
+      "minimum": 0,
+      "title": "Minimum rating",
+      "type": "number"
     },
     "mode": {
       "default": "searchVendors",
-      "description": "What to scrape from WeddingWire.",
+      "description": "Search the directory by category and location, or fetch full profiles for specific vendor URLs.",
       "editor": "select",
       "enum": [
         "searchVendors",
@@ -70,15 +164,96 @@
       ],
       "enumTitles": [
         "Search vendors by category and location",
-        "Get details for a specific vendor URL"
+        "Get full profiles for specific vendor URLs"
       ],
       "prefill": "searchVendors",
+      "sectionCaption": "What to scrape",
       "title": "Mode",
+      "type": "string"
+    },
+    "photographyService": {
+      "default": "any",
+      "description": "Optional service filter, applied only when category is Photographers.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "additional-hours",
+        "boudoir-shoot",
+        "destination-travel",
+        "engagement-shoot",
+        "high-res-images",
+        "one-event-day",
+        "second-shooter",
+        "video",
+        "wedding-portraits"
+      ],
+      "enumTitles": [
+        "Any service",
+        "Additional hours",
+        "Boudoir shoot",
+        "Destination / travel",
+        "Engagement shoot",
+        "High-res images",
+        "One event / day",
+        "Second shooter",
+        "Video",
+        "Wedding portraits"
+      ],
+      "title": "Photography service",
+      "type": "string"
+    },
+    "photographyStyle": {
+      "default": "any",
+      "description": "Optional style filter, applied only when category is Photographers.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "contemporary",
+        "film",
+        "natural",
+        "photojournalism",
+        "traditional",
+        "vintage"
+      ],
+      "enumTitles": [
+        "Any style",
+        "Contemporary",
+        "Film",
+        "Natural",
+        "Photojournalism",
+        "Traditional",
+        "Vintage"
+      ],
+      "title": "Photography style",
+      "type": "string"
+    },
+    "priceRange": {
+      "default": "any",
+      "description": "Filter by the vendor's published starting price.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "under-1000",
+        "1000-1750",
+        "1750-2500",
+        "2500-3500",
+        "3500-plus"
+      ],
+      "enumTitles": [
+        "Any price",
+        "Under $1,000",
+        "$1,000 - $1,750",
+        "$1,750 - $2,500",
+        "$2,500 - $3,500",
+        "$3,500+"
+      ],
+      "sectionCaption": "Optional filters",
+      "title": "Price range",
       "type": "string"
     },
     "state": {
       "default": "ca",
-      "description": "US state code (e.g., ca, ny, tx).",
+      "description": "US state (or Washington DC) to search. Ignored in vendorDetails mode.",
       "editor": "select",
       "enum": [
         "al",
@@ -89,6 +264,7 @@
         "co",
         "ct",
         "de",
+        "dc",
         "fl",
         "ga",
         "hi",
@@ -130,8 +306,7 @@
         "wa",
         "wv",
         "wi",
-        "wy",
-        "dc"
+        "wy"
       ],
       "enumTitles": [
         "Alabama",
@@ -142,6 +317,7 @@
         "Colorado",
         "Connecticut",
         "Delaware",
+        "Washington DC",
         "Florida",
         "Georgia",
         "Hawaii",
@@ -183,24 +359,26 @@
         "Washington",
         "West Virginia",
         "Wisconsin",
-        "Wyoming",
-        "Washington DC"
+        "Wyoming"
       ],
       "prefill": "ca",
       "title": "State",
       "type": "string"
     },
-    "vendorUrl": {
-      "description": "Direct WeddingWire vendor URL (mode=vendorDetails).",
-      "editor": "textfield",
-      "title": "Vendor URL",
-      "type": "string"
+    "vendorUrls": {
+      "default": [],
+      "description": "WeddingWire vendor profile URLs, e.g. https://www.weddingwire.com/biz/your-vendor/abc123.html (mode=vendorDetails).",
+      "editor": "stringList",
+      "prefill": [],
+      "sectionCaption": "Profile targets",
+      "title": "Vendor URLs",
+      "type": "array"
     }
   },
   "required": [
     "mode"
   ],
   "schemaVersion": 1,
-  "title": "WeddingWire Vendor Scraper Input",
+  "title": "WeddingWire Vendor Directory & Profile Scraper Input",
   "type": "object"
 }

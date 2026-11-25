@@ -1,9 +1,9 @@
 {
-  "description": "Search or browse Bazaraki.com classifieds, or fetch specific listing URLs.",
+  "description": "Browse Bazaraki.com category and subcategory ads, search by keyword, filter by district, price, bedrooms, condition and sort order, or fetch specific listing and search URLs.",
   "properties": {
     "bedrooms": {
       "default": "",
-      "description": "Restrict Real Estate listings to this number of bedrooms. Ignored for non-Real-Estate categories.",
+      "description": "Restrict Real Estate listings to this number of bedrooms. Ignored for categories that do not offer a bedroom filter.",
       "editor": "select",
       "enum": [
         "",
@@ -13,7 +13,11 @@
         "3",
         "4",
         "5",
-        "6"
+        "6",
+        "7",
+        "8",
+        "9",
+        "10"
       ],
       "enumTitles": [
         "(any)",
@@ -23,15 +27,19 @@
         "3 bedrooms",
         "4 bedrooms",
         "5 bedrooms",
-        "6+ bedrooms"
+        "6 bedrooms",
+        "7 bedrooms",
+        "8 bedrooms",
+        "9 bedrooms",
+        "10+ bedrooms"
       ],
       "prefill": "",
-      "title": "Bedrooms (mode=search, Real Estate)",
+      "title": "Bedrooms (Real Estate)",
       "type": "string"
     },
     "category": {
       "default": "all",
-      "description": "Restrict results to a top-level category.",
+      "description": "Browse one of Bazaraki's top-level categories, or all categories when a keyword is given.",
       "editor": "select",
       "enum": [
         "all",
@@ -49,7 +57,8 @@
         "animals",
         "beauty-and-health",
         "services",
-        "business"
+        "business",
+        "free-stuff"
       ],
       "enumTitles": [
         "All categories",
@@ -67,15 +76,16 @@
         "Animals, pets",
         "Health, beauty",
         "Services",
-        "Business"
+        "Business",
+        "Free stuff"
       ],
-      "prefill": "all",
+      "prefill": "telephones",
       "title": "Category (mode=search)",
       "type": "string"
     },
     "city": {
       "default": "all",
-      "description": "Restrict results to a Cyprus city/district.",
+      "description": "Restrict results to a Cyprus district.",
       "editor": "select",
       "enum": [
         "all",
@@ -94,32 +104,36 @@
         "Famagusta"
       ],
       "prefill": "all",
-      "title": "City / district (mode=search)",
+      "title": "District (mode=search)",
       "type": "string"
     },
     "condition": {
       "default": "",
-      "description": "Restrict results to new or used items. Supported across most categories (Real Estate, Motors, Electronics, etc.); ignored where Bazaraki doesn't offer a condition attribute for that category.",
+      "description": "Restrict results to new, resale/used, or under-construction items where Bazaraki offers a condition filter (mainly Real Estate and some goods). `used` and `resale` mean the same thing.",
       "editor": "select",
       "enum": [
         "",
         "new",
-        "used"
+        "used",
+        "resale",
+        "under-construction"
       ],
       "enumTitles": [
         "(any)",
-        "New",
-        "Used"
+        "New / brand new",
+        "Used",
+        "Resale",
+        "Under construction"
       ],
       "prefill": "",
-      "title": "Condition (mode=search)",
+      "title": "Condition",
       "type": "string"
     },
     "includeDetails": {
       "default": false,
-      "description": "When on, fetches each listing's detail page for extra fields (category breadcrumb, full description, coordinates, more photos). Slower but more complete.",
+      "description": "When on, fetches each listing's detail data for the full description, labeled characteristics, coordinates, seller profile, views/favorites and the complete photo gallery. Slower but much more complete.",
       "prefill": false,
-      "title": "Fetch full detail page per listing (mode=search)",
+      "title": "Fetch full detail page per listing",
       "type": "boolean"
     },
     "maxItems": {
@@ -127,19 +141,19 @@
       "description": "Hard cap on emitted records.",
       "maximum": 2000,
       "minimum": 1,
-      "prefill": 30,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
     "maxPrice": {
-      "description": "Drop listings priced above this (EUR).",
+      "description": "Only keep listings priced at or below this amount (EUR; monthly rent for rentals).",
       "maximum": 50000000,
       "minimum": 0,
       "title": "Max price (EUR)",
       "type": "integer"
     },
     "minPrice": {
-      "description": "Drop listings priced below this (EUR).",
+      "description": "Only keep listings priced at or above this amount (EUR; monthly rent for rentals).",
       "maximum": 50000000,
       "minimum": 0,
       "title": "Min price (EUR)",
@@ -147,7 +161,7 @@
     },
     "mode": {
       "default": "search",
-      "description": "What to fetch.",
+      "description": "Search / browse listings, or fetch the exact listing and search URLs you already have.",
       "editor": "select",
       "enum": [
         "search",
@@ -155,23 +169,22 @@
       ],
       "enumTitles": [
         "Search / browse listings",
-        "Fetch specific listing URLs"
+        "Fetch specific listing or search URLs"
       ],
       "prefill": "search",
       "title": "Mode",
       "type": "string"
     },
     "searchQuery": {
-      "default": "",
-      "description": "Free-text keyword search, e.g. `iphone`, `toyota`, `apartment`. Leave empty to browse a category unfiltered.",
+      "description": "Free-text keyword, e.g. `iphone`, `toyota`, `apartment`. Leave empty to browse a category unfiltered. Bazaraki caps keyword results at about 1,000 matches; use category + filters for complete lists.",
       "editor": "textfield",
-      "prefill": "iphone",
-      "title": "Search query (mode=search)",
+      "prefill": "",
+      "title": "Keyword (mode=search)",
       "type": "string"
     },
     "sortBy": {
       "default": "relevant",
-      "description": "How to order results.",
+      "description": "How to order results. Bazaraki always shows paid VIP/TOP ads first within a page, then applies this order.",
       "editor": "select",
       "enum": [
         "relevant",
@@ -191,15 +204,15 @@
     },
     "startUrls": {
       "default": [],
-      "description": "Direct Bazaraki.com listing URLs to fetch, e.g. `https://www.bazaraki.com/adv/6659275_iphone/`. A bare numeric ID is not enough — Bazaraki's routing requires the URL's slug.",
+      "description": "Full Bazaraki listing URLs (e.g. `https://www.bazaraki.com/adv/6659275_iphone/`) and/or category or search URLs (filters are kept). A bare numeric ID cannot be fetched because Bazaraki's routing needs the URL's slug.",
       "editor": "stringList",
       "prefill": [],
-      "title": "Listing URLs (mode=byUrls)",
+      "title": "Listing or search URLs (mode=byUrls)",
       "type": "array"
     },
     "subcategory": {
       "default": "",
-      "description": "Drill down into a Real Estate or Motors subcategory (property type / vehicle type). Overrides `category` when set; leave empty to use the top-level `category` instead.",
+      "description": "Drill into a Real Estate or Motors subcategory (property type or vehicle type). Overrides `category` when set.",
       "editor": "select",
       "enum": [
         "",

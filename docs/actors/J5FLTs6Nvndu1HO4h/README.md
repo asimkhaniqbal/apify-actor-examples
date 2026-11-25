@@ -10,6 +10,7 @@ Convert currency amounts, pull live or historical exchange-rate tables, and look
 
 - **Three modes:** `convert`, `ratesTable`, `currencyInfo`
 - **Live conversion:** convert any amount between any two of 180+ currencies
+- **Historical conversion:** convert on a past date (or a batch of dates) using XE's daily historical rate table
 - **Full rate tables:** every currency's rate against a base currency, live or on a historical date
 - **Historical rates:** daily-close exchange rates back to ~1995
 - **Currency metadata:** full name, plural name, crypto flag, obsolete flag, buy/sell availability
@@ -23,10 +24,11 @@ Convert currency amounts, pull live or historical exchange-rate tables, and look
 - `fromCurrency`, `fromCurrencyName`, `toCurrency`, `toCurrencyName`
 - `amount`, `convertedAmount`, `exchangeRate`, `inverseRate`
 - `timestamp` — when the underlying rate was captured
-- `rate7dHigh`, `rate7dLow`, `rate7dAverage`, `rate7dVolatilityPercent`, `rate7dStandardDeviation`, `rate7dDataPoints`, `rate7dHighTimestamp`, `rate7dLowTimestamp` — 7-day rate history stats for this pair
+- `date` (historical conversions only) — the daily rate date used
+- `rate7dHigh`, `rate7dLow`, `rate7dAverage`, `rate7dVolatilityPercent`, `rate7dStandardDeviation`, `rate7dDataPoints`, `rate7dHighTimestamp`, `rate7dLowTimestamp` — 7-day rate history stats for this pair (live conversions only)
 - `rate30dHigh`, `rate30dLow`, `rate30dAverage`, `rate30dVolatilityPercent`, `rate30dStandardDeviation`, `rate30dDataPoints`, `rate30dHighTimestamp`, `rate30dLowTimestamp` — 30-day rate history stats
 - `rate90dHigh`, `rate90dLow`, `rate90dAverage`, `rate90dVolatilityPercent`, `rate90dStandardDeviation`, `rate90dDataPoints`, `rate90dHighTimestamp`, `rate90dLowTimestamp` — 90-day rate history stats
-- `sourceUrl` — the xe.com converter page for this pair
+- `sourceUrl` — the xe.com converter page for a live pair, or the historical rate table for a dated conversion
 - `recordType: "conversion"`, `scrapedAt`
 
 ### `mode=ratesTable` (one record per target currency)
@@ -68,15 +70,16 @@ The extended fields (`country` through `isTradable`) come from xe.com's currency
 | `amount` | number | `1` | Amount to convert (mode=convert) |
 | `fromCurrency` | string | `USD` | Source currency (mode=convert) / base currency (mode=ratesTable) |
 | `toCurrency` | string | `EUR` | Target currency (mode=convert) |
-| `toCurrencies` | array | `[]` | Convert into multiple currencies at once (mode=convert), one record per currency from a single live-rates snapshot. Empty = use only `toCurrency` |
-| `date` | string | – | Historical date `YYYY-MM-DD` (mode=ratesTable). Leave empty for the latest daily table. Ignored when `dates` is set |
-| `dates` | array | `[]` | Batch of historical dates `YYYY-MM-DD` (mode=ratesTable, up to 20), fetched in one run to build a trend series. Overrides `date` when non-empty |
+| `toCurrencies` | array | `[]` | Convert into multiple currencies at once (mode=convert), one record per currency from a single live-rates snapshot. Empty = use only `toCurrency`. Unknown codes are skipped with a status message |
+| `date` | string | – | Historical date `YYYY-MM-DD`. In `convert`, converts using that day's historical rate table; in `ratesTable`, returns that day's full table. Leave empty for live/today. Ignored when `dates` is set |
+| `dates` | array | `[]` | Batch of historical dates `YYYY-MM-DD` (up to 20), fetched in one run to build a trend series. `convert` emits one conversion per date and target; `ratesTable` emits each date's table. Overrides `date` when non-empty |
 | `targetCurrencies` | array | `[]` | Restrict `ratesTable` / `currencyInfo` output to these currency codes. Empty = all |
 | `sortBy` | string | `currencyCodeAsc` | Row order for `ratesTable`: `currencyCodeAsc` / `rateAsc` / `rateDesc` |
 | `includeCryptoCurrencies` | boolean | `true` | Include crypto assets in `ratesTable` / `currencyInfo` |
 | `includeObsoleteCurrencies` | boolean | `false` | Include retired currencies (pre-Euro DEM, FRF, ...) |
 | `includeExtendedInfo` | boolean | `true` | `currencyInfo` only: fetch country, symbol, central bank, inflation rate, nicknames, used-in countries and description from xe.com's currency encyclopedia (one extra request per currency; disable for faster runs) |
-| `maxItems` | int | `50` | Hard cap on emitted records (1–250) |
+| `includeRateStats` | boolean | `true` | `convert` only (live, not historical): attach XE's rolling 7/30/90-day high/low/average/volatility stats per pair (one small request per target; disable for the fastest multi-currency conversions) |
+| `maxItems` | int | `50` | Hard cap on emitted records (1–10000). Raise it when batching dates or converting into many currencies |
 
 ### Example: convert an amount
 
@@ -97,6 +100,18 @@ The extended fields (`country` through `isTradable`) come from xe.com's currency
   "amount": 500,
   "fromCurrency": "USD",
   "toCurrencies": ["EUR", "JPY", "GBP"]
+}
+```
+
+### Example: convert on a historical date
+
+```json
+{
+  "mode": "convert",
+  "amount": 500,
+  "fromCurrency": "USD",
+  "toCurrencies": ["EUR", "JPY"],
+  "dates": ["2020-06-15", "2024-01-02"]
 }
 ```
 
@@ -140,6 +155,15 @@ The extended fields (`country` through `isTradable`) come from xe.com's currency
 - **Crypto dashboards** — track crypto-to-fiat rates alongside traditional currencies
 - **Data enrichment** — attach currency names, obsolete/crypto flags to a dataset of currency codes
 
+## Limitations
+
+- **Mid-market rates only.** XE's public pages quote the mid-market rate. They are not the buy/sell rate a bank or transfer provider charges, and this actor does not scrape provider quotes.
+- **No intraday tick/chart history.** XE's public chart endpoint returns inconsistent series (a bogus first point and mixed pair orientation in spot checks), so it is not shipped. Historical output is XE's daily rate table, which goes back to the mid-1990s and thins out for older dates (~44 currencies in early 1998, 140+ from the early 2000s).
+- **No upstream pagination.** XE returns a full rate table (~190 rows) in one response; there is no page cursor to follow. Use `maxItems` and `targetCurrencies` to control volume. Batch `dates` are capped at 20 per run (20 extra requests).
+- **Coverage follows XE's own pages.** A handful of sanctioned/discontinued currencies (e.g. RUB, IRR, KPW) still have metadata but no live rate row or encyclopedia page, so their rate/sourceUrl/extended fields are omitted rather than fabricated.
+- **Statistics are live-only.** The 7/30/90-day blocks reflect XE's current rolling windows and are never attached to historical conversions.
+- **English/XE only.** No other locale, bank, or ECB feed is mixed in; every number comes from xe.com.
+
 ## FAQ
 
 **Where does the data come from?**  [xe.com](https://www.xe.com), one of the most widely used currency-conversion services online. Rates are sourced from XE's mid-market feed and updated throughout the trading day; the daily rate table is a once-per-day close snapshot.
@@ -150,7 +174,9 @@ The extended fields (`country` through `isTradable`) come from xe.com's currency
 
 **What currency codes are supported?**  180+ active ISO currency codes plus major cryptocurrencies (BTC, ETH, LTC, XRP, ADA, DOGE, and more). Pick from the dropdown in each currency field, or check the `currencyInfo` mode output for the full list.
 
-**Is `mode=convert` real-time?**  It reflects XE's live quoted mid-market rate at request time, refreshed frequently throughout the day.
+**Is `mode=convert` real-time?**  With no date/dates it reflects XE's live quoted mid-market rate at request time, refreshed frequently throughout the day. Set `date` or `dates` to convert with XE's historical daily rate table instead; historical conversions omit the live 7/30/90-day statistics and carry the rate date.
+
+**What happens to unknown currency codes in a multi-currency conversion?**  Valid codes are still converted; unknown ones are skipped and named in the run's status message, so one typo no longer discards the whole batch.
 
 **Can I get rates for a currency pair that isn't USD-based?**  Yes — `mode=convert` computes the cross-rate between any two supported currencies directly (e.g. GBP → JPY), not just versus USD.
 

@@ -12,6 +12,7 @@
         "schulische-und-duale-ausbildung",
         "duales-studium",
         "abiturientenprogramm",
+        "betriebsinterne-ausbildung",
         "weiterbildung"
       ],
       "enumTitles": [
@@ -21,6 +22,7 @@
         "School-based + dual training",
         "Dual study program",
         "Abitur graduate program",
+        "Company-internal training",
         "Further training / retraining"
       ],
       "prefill": "",
@@ -116,22 +118,26 @@
     },
     "expectedGraduation": {
       "default": "",
-      "description": "Filter results to listings requiring this school-leaving qualification.",
+      "description": "Filter results to listings requiring this school-leaving qualification. Mapped to ausbildung.de's own filter values server-side and re-checked on the records.",
       "editor": "select",
       "enum": [
         "",
         "hauptschulabschluss",
+        "qualifizierter-hauptschulabschluss",
         "mittlerer-schulabschluss",
         "fachabitur",
         "abitur",
+        "ohne-schulabschluss",
         "keine-angabe"
       ],
       "enumTitles": [
         "(any / no filter)",
         "Hauptschulabschluss",
-        "Mittlerer Schulabschluss (Realschule)",
+        "Hauptschulabschluss mit Qualifikation",
+        "Mittlere Reife (Realschule)",
         "Fachabitur",
         "Abitur",
+        "Kein Schulabschluss",
         "No specific requirement stated"
       ],
       "prefill": "",
@@ -155,8 +161,8 @@
     },
     "maxItems": {
       "default": 20,
-      "description": "Hard cap on emitted records. The actor pages through ausbildung.de's results (~20 listings per page for city searches, ~3 for narrow profession searches) until this cap is reached or the source pool is exhausted (stops automatically after several pages return no new listings).",
-      "maximum": 300,
+      "description": "Hard cap on emitted records (1-1000). The actor pages through ausbildung.de's search results 20 at a time via the site's own pagination API until this cap is reached or the source pool is exhausted (stops automatically after several pages return no new listings).",
+      "maximum": 1000,
       "minimum": 1,
       "prefill": 20,
       "title": "Max items",
@@ -173,17 +179,19 @@
     },
     "mode": {
       "default": "byCity",
-      "description": "What to fetch.",
+      "description": "What to fetch. `byUrl` reads the URLs in `searchUrls`.",
       "editor": "select",
       "enum": [
         "byCity",
         "byProfession",
-        "byQuery"
+        "byQuery",
+        "byUrl"
       ],
       "enumTitles": [
         "Search by city + category",
         "Search by specific profession (nationwide)",
-        "Free-text keyword search (nationwide)"
+        "Free-text keyword search (nationwide)",
+        "Scrape pasted ausbildung.de search URLs"
       ],
       "prefill": "byCity",
       "title": "Mode",
@@ -197,12 +205,68 @@
       "title": "Profession slug (mode=byProfession)",
       "type": "string"
     },
+    "radiusKm": {
+      "default": "30",
+      "description": "Only used in city mode. Round the search around the selected city. 30 km is the site default; 200 km covers the wider metro area.",
+      "editor": "select",
+      "enum": [
+        "5",
+        "10",
+        "20",
+        "25",
+        "30",
+        "50",
+        "75",
+        "100",
+        "200"
+      ],
+      "enumTitles": [
+        "5 km",
+        "10 km",
+        "20 km",
+        "25 km",
+        "30 km (site default)",
+        "50 km",
+        "75 km",
+        "100 km",
+        "200 km"
+      ],
+      "prefill": "30",
+      "title": "Search radius around the city (km)",
+      "type": "string"
+    },
     "searchQuery": {
       "default": "Fachinformatiker",
       "description": "Free-text keyword searched nationwide across profession titles and company names, e.g. `Fachinformatiker`, `Bäcker`, `McDonald's`. Broader than `professionSlug` (exact slug match) — matches partial/fuzzy profession and employer names.",
       "editor": "textfield",
       "prefill": "Fachinformatiker",
       "title": "Search query (mode=byQuery)",
+      "type": "string"
+    },
+    "searchUrls": {
+      "description": "Paste one or more ausbildung.de search URLs (city+category, profession, or keyword search). When set, these URLs override `mode` and the single-value location inputs. Examples: https://www.ausbildung.de/staedte/berlin/it/ , https://www.ausbildung.de/suche/?search=Fachinformatiker , https://www.ausbildung.de/suche/?professions=Fachinformatiker%2Fin",
+      "editor": "stringList",
+      "title": "Search URLs (any mode)",
+      "type": "array"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Server-side result ordering. Relevance is the site default; Aktualität shows recently activated listings first.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "start_date",
+        "distance",
+        "activated_at"
+      ],
+      "enumTitles": [
+        "Relevance (site default)",
+        "Training start date",
+        "Distance from the city",
+        "Recently activated"
+      ],
+      "prefill": "relevance",
+      "title": "Sort results by",
       "type": "string"
     },
     "startDateFrom": {

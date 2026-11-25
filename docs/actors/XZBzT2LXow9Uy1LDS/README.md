@@ -8,11 +8,13 @@ Scrape German apprenticeship (Ausbildung) job listings from [ausbildung.de](http
 
 ## What this actor does
 
-- **Three modes:** `byCity` (city + broad category browse), `byProfession` (nationwide lookup for one specific occupation), and `byQuery` (free-text keyword search nationwide, matching partial profession/employer names)
+- **Three search modes + pasted URLs:** `byCity` (city + broad category browse), `byProfession` (nationwide lookup for one specific occupation), `byQuery` (free-text keyword search nationwide, matching partial profession/employer names), and `byUrl` (paste any ausbildung.de city, profession, or search URL in `searchUrls`)
 - **Any German city:** works with any city ausbildung.de indexes (Berlin, München, Hamburg, Köln, and thousands of smaller towns)
 - **~700 professions:** from `fachinformatiker` to `altenpfleger` to `bankkaufmann`
-- **Filters:** required school diploma, apprenticeship type, training start-date range, minimum open positions, keyword, direct-application-only, top-rated-employer-only
-- **Optional deep enrichment:** fetch each listing's detail page for the full job description, employer contact/website, and address
+- **Server-side filters:** search radius around the city, sort order (relevance / start date / distance / recently activated), required school diploma, apprenticeship type, and earliest training start date — the same filters ausbildung.de itself applies
+- **Client-side filters:** latest start date, minimum open positions, keyword, direct-application-only, top-rated-employer-only
+- **Real pagination:** pages through ausbildung.de's own search API 20 listings at a time — unlike `?page=N` URLs, this keeps the city/category filter on every page
+- **Optional deep enrichment:** fetch each listing's detail page for the full job description, education requirement, occupation, employer website, and address
 - **Empty fields are omitted**
 
 ## Output per listing
@@ -20,10 +22,10 @@ Scrape German apprenticeship (Ausbildung) job listings from [ausbildung.de](http
 - `vacancyId`, `jobPostingId` — ausbildung.de internal IDs
 - `title`, `professionTitle` — the specific posting title and the standardized occupation name
 - `corporationName`, `subsidiaryName` — hiring company
-- `location`, `city`, `postalCode` — parsed from the raw location string
+- `location`, `city`, `postalCode` — parsed from the raw location string; the `00000` placeholder is omitted
 - `vacancyCount` — number of open positions in this posting
 - `relatedBranchesCount` — number of other company locations also offering this posting
-- `startsNoEarlierThan`, `validUntil` — training start date and posting expiry
+- `startsNoEarlierThan`, `validUntil` — training start date and posting expiry, normalized to ISO `YYYY-MM-DD`
 - `expectedGraduation` — required school-leaving diploma
 - `apprenticeshipType` — dual apprenticeship / school-based / dual-study / etc.
 - `duration` — training length
@@ -32,27 +34,32 @@ Scrape German apprenticeship (Ausbildung) job listings from [ausbildung.de](http
 - `inSpotlight`, `topRatedEmployer` — ausbildung.de curation flags
 - `corporationRecentReviewCount`, `corporationRecentStarCountAvg` — employer rating (when reviews exist)
 - `listingUrl` / `sourceUrl` — canonical ausbildung.de detail page
-- With `includeJobDescription: true`, also: `description` (full plain-text job ad), `employmentType`, `datePosted`, `employerWebsite`, `streetAddress`, `addressLocality`, `addressRegion`, `addressCountry`, `industry`, `educationRequirements`, `jobImage`
+- With `includeJobDescription: true`, also: `description` (full plain-text job ad), `employmentType`, `datePosted`, `validThrough`, `employerWebsite`, `streetAddress`, `addressLocality`, `addressRegion`, `addressCountry`, `industry`, `occupationalCategory`, `educationRequirements`, `jobImage`
 - `recordType: "apprenticeshipListing"`, `scrapedAt`
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `byCity` | `byCity`, `byProfession`, or `byQuery` |
+| `mode` | string | `byCity` | `byCity`, `byProfession`, `byQuery`, or `byUrl` |
+| `searchUrls` | array | – | Paste one or more ausbildung.de search URLs; overrides `mode` and the single-value location inputs |
 | `citySlug` | string | `berlin` | City name (mode=byCity). Umlauts auto-normalized. |
 | `category` | select | `kaufmaennisch` | Broad industry/topic filter (mode=byCity) |
+| `radiusKm` | select | `30` | Search radius around the city (5–200 km) |
+| `sortBy` | select | `relevance` | `relevance`, `start_date`, `distance`, `activated_at` |
 | `professionSlug` | string | `fachinformatiker` | Exact profession slug (mode=byProfession), nationwide |
 | `searchQuery` | string | `Fachinformatiker` | Free-text keyword (mode=byQuery), nationwide — matches partial profession/employer names |
-| `expectedGraduation` | select | – | Required school diploma |
-| `apprenticeshipType` | select | – | Dual / school-based / dual-study / etc. |
-| `startDateFrom` / `startDateTo` | string | – | Only keep listings whose training start date (`YYYY-MM-DD`) falls in this range |
+| `expectedGraduation` | select | – | Required school diploma; `abitur` also accepts Fachabitur, matching the site |
+| `apprenticeshipType` | select | – | Dual / school-based / dual-study / company-internal / retraining |
+| `startDateFrom` / `startDateTo` | string | – | Earliest / latest training start date (`YYYY-MM-DD`); `startDateFrom` is applied server-side too |
 | `minVacancyCount` | int | `0` | Drop listings with fewer open positions |
 | `keyword` | string | – | Substring match on title/profession/company |
 | `directApplicationOnly` | bool | `false` | Only listings with direct online application |
 | `topRatedEmployerOnly` | bool | `false` | Only ausbildung.de-flagged top employers |
 | `includeJobDescription` | bool | `false` | Fetch full description + contact details per listing (slower) |
-| `maxItems` | int | `20` | Hard cap (1–300). The actor pages through results (~20/page for city searches, ~3/page for narrow profession searches) until the cap is reached or the source pool is exhausted. |
+| `maxItems` | int | `20` | Hard cap (1–1000). The actor pages through the site's search API 20 at a time until the cap or the source pool is exhausted. |
+
+Legacy alias keys are still read when the corresponding canonical field is absent (for example through the API without the console's prefilled defaults): `city`, `where`, `topic`, `profession`, `query`, `what`, `includeDetails`, `maxResults`, `results_wanted`, `trainingType`, `radius`, `sort`, `startUrl`, `searchUrl`, `startUrls`. Canonical schema fields take precedence, so saved tasks that use the existing schema keep running unchanged.
 
 ### Example: IT apprenticeships in Berlin
 
@@ -108,9 +115,11 @@ Scrape German apprenticeship (Ausbildung) job listings from [ausbildung.de](http
 
 ## Limitations
 
-- The actor pages through ausbildung.de's server-rendered results (via `?page=N`) up to 25 pages, stopping early once several consecutive pages yield no new listings — this handles ausbildung.de's pool-recycling behavior for narrow queries (e.g. rare profession + city combos) without looping forever. Very broad queries may still not reach `maxItems` if the underlying pool is smaller than requested.
-- City + specific-profession combinations (e.g. "altenpfleger in Berlin") are not directly filterable — use `mode=byCity` with a broad `category`, or `mode=byProfession` for nationwide profession-only results.
+- The actor pages through ausbildung.de's own search API (20 listings per page, up to 60 pages) and stops early once several consecutive pages yield no new vacancy IDs — this handles ausbildung.de's pool-recycling behavior for narrow queries (e.g. rare profession + city combos) without looping forever. The site may still return fewer unique listings than its own headline count for very broad searches because its pagination samples a randomized pool.
+- The site's own result cap is used (`resultsCount`); very broad searches can expose at most what ausbildung.de itself exposes through that search.
+- City + specific-profession combinations (e.g. "altenpfleger in Berlin") are not directly filterable — use `mode=byCity` with a broad `category`, or `mode=byProfession` for nationwide profession-only results. Use `searchUrls` with the site's own filtered search URL if you need a combination the UI supports.
 - Company-directory browsing and German-state-level (`Bundesland`) listing pages are navigation-only on ausbildung.de (they link out to individual cities) and are not exposed as a separate mode.
+- `expectedGraduation` follows the site's own equivalence: `abitur` includes listings that ask for Fachabitur, and `mittlerer-schulabschluss` includes qualified Hauptschulabschluss.
 
 ## FAQ
 
@@ -120,10 +129,10 @@ Scrape German apprenticeship (Ausbildung) job listings from [ausbildung.de](http
 
 **How do I find valid `professionSlug` values?**  Browse [ausbildung.de/berufe/glossar/](https://www.ausbildung.de/berufe/glossar/) for the full alphabetical list of ~700 professions. Common examples: `fachinformatiker`, `kauffrau-im-einzelhandel`, `mechatroniker`, `altenpfleger`, `bankkaufmann`, `koch`, `elektroniker-betriebstechnik`.
 
-**Why do some listings lack a `postalCode`?**  ausbildung.de sometimes shows only the city name (e.g. "Berlin") without a postal code for postings that cover multiple locations within a region.
+**Why do some listings lack a `postalCode`?**  ausbildung.de sometimes shows only the city name (e.g. "Berlin") without a postal code for postings that cover multiple locations within a region, and it uses the internal placeholder `00000` for "no street address". The actor omits that placeholder.
 
 **Why does a valid-looking `professionSlug` sometimes return 0 listings?**  A handful of glossary entries describe occupations that have been superseded or merged into newer training paths (e.g. the legacy `altenpfleger` title was folded into the unified `pflegefachmann` qualification after Germany's 2020 nursing-education reform) or are university-track roles ausbildung.de lists for reference only (e.g. `arzt`, `apotheker`). These pages exist but currently carry no active apprenticeship postings — 0 records is the correct, real-time answer, not a scraper bug.
 
-**Is proxy or login required?**  No. The actor reads ausbildung.de's public, server-rendered pages directly.
+**Is proxy or login required?**  No. The actor reads ausbildung.de's public pages and its own server actions directly, cookielessly, with no proxy configuration.
 
-**How fresh is the data?**  Real-time — the actor reads the same server-rendered page a browser visitor would see at request time.
+**How fresh is the data?**  Real-time — the actor reads the same server-rendered search state a browser visitor would see at request time.
