@@ -4,96 +4,148 @@
 
 # Zoom Marketplace Category Tracker
 
-The Zoom App Marketplace lists every app built for Zoom Meeting, Zoom Phone, Zoom Webinar and Zoom's other products, but the marketplace itself doesn't expose a stable "rank" number you can track over time. This actor fetches every app tied to one chosen Zoom product and numbers them by their default marketplace position, so you can watch rank, rating and new entrants change from run to run.
+The Zoom App Marketplace returns apps in its own ranking order, but it does not give you a rank number or a clean export. This actor reads the public marketplace listings and numbers every matching app by its position, so you can compare categories, products and keywords run after run and see exactly who moved.
 
-## What this actor does
+It is cookieless: no Zoom account, login, API key, cookie or proxy is needed.
 
-- **Pulls every app tied to one Zoom product** — Zoom Meeting, Phone, Webinar, Chat, Rooms, Events, Whiteboard, IQ, or Contact Center
-- **Numbers each app by its default marketplace position** (`rankInProduct`) so repeated runs are directly comparable
-- **Returns rating breakdowns** when an app has been rated
-- **Flags FedRAMP authorization and Essential App status** for each app
-- **Empty fields are omitted** — a record only contains the fields Zoom actually published for that app
+## Ways to track
+
+| Mode | What it does |
+|---|---|
+| **Category** | Rank every app in one of the 28 Zoom Marketplace categories, from CRM and Productivity to Workflow Automation |
+| **Product** | Rank every app that works with a Zoom product (Meetings, Phone, Webinars, Contact Center, …). This is the original tracker input and keeps working unchanged |
+| **Keyword** | Rank Zoom's own marketplace search results for a phrase such as `notetaker` or `crm` |
+| **App audit** | Load specific apps by app ID or Marketplace URL and return their full public listing |
+
+Category, product, keyword and user-role filters can be combined. Pagination walks the full result set (up to your `maxItems` cap) instead of stopping at the first page.
 
 ## Output per app
 
 | Field | Description |
 |---|---|
-| `rankInProduct` | 1-based position in the default marketplace listing, filtered to the selected product |
-| `appId` | Unique Zoom Marketplace app ID |
+| `rank` | 1-based position in the returned result set, in Zoom's default marketplace order |
+| `rankInProduct` | The original rank field, filled whenever a Zoom product filter is used |
+| `rankInCategory` | Position within the selected category, filled whenever a category is used |
+| `appId` | Zoom Marketplace app ID |
 | `name` | App display name |
-| `companyName` | Developer/company name |
-| `description` | App description |
-| `iconUrl` | App icon URL |
-| `appUrl` | Link to the app's Zoom Marketplace page |
-| `worksWith` | Every Zoom product this app works with |
-| `workIn` | Zoom surfaces this app works in |
-| `usage` | Usage type reported by Zoom, e.g. `ADMIN_MANAGEMENT` or `USER_OPERATION` |
-| `fedRampAuthorized` | Whether the app is FedRAMP authorized |
-| `essentialApp` | Whether Zoom marked this app as an Essential App |
-| `ratingStatistics` | Rating breakdown (total ratings, average, and count per star level), present only when the app has been rated |
+| `companyName` | Developer or company name |
+| `description` | Short marketplace description |
+| `iconUrl`, `darkModeIconUrl` | Absolute icon URLs |
+| `appUrl` | Link to the app's Marketplace page |
+| `worksWith` | Zoom product codes the app works with |
+| `workIn` | Zoom surfaces the app runs in |
+| `usage` | `ADMIN_MANAGEMENT` or `USER_OPERATION` |
+| `fedRampAuthorized` | Whether Zoom marks the app FedRAMP authorized |
+| `essentialApp` | Whether Zoom marks the app as essential, when the marketplace exposes it |
+| `ratingStatistics` | Total ratings, average rating and the 1–5 star counts, when rated |
+| `mcpUrl` | MCP endpoint published by the app, when present |
+| `categories` | Human-readable marketplace categories (with `includeAppDetails`) |
+| `screenshots` | Image and video URLs from the listing (with `includeAppDetails`) |
+| `applicationType`, `developerType` | Marketplace app and developer classification (with `includeAppDetails`) |
+| `isAgentApp`, `monetized` | Listing flags (with `includeAppDetails`) |
+| `createdAt`, `modifiedAt` | ISO 8601 dates for the listing (with `includeAppDetails`) |
+| `supportUrl`, `privacyUrl`, `termsUrl`, `documentationUrl` | Developer links (with `includeAppDetails`) |
+| `longDescription` | Full listing description as plain text (with `includeAppDetails`) |
+| `scopes` | Public OAuth scopes requested by the app (with `includeAppDetails`) |
+| `developerEmail`, `developerPhone`, `developerAddress` | Developer business contact details (with `includeAppDetails`) |
 | `scrapedAt` | ISO 8601 timestamp of the run |
+
+Empty values are omitted at every depth, so a record only carries fields Zoom actually publishes for that app.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `product` | string | – | Zoom product to track: `ZOOM_MEETING`, `ZOOM_PHONE`, `ZOOM_WEBINAR`, `ZOOM_CHAT`, `ZOOM_ROOM`, `ZOOM_EVENTS`, `ZOOM_WHITEBOARD`, `ZOOM_IQ`, or `ZOOM_CONTACT_CENTER` (required) |
-| `maxItems` | integer | `50` | Maximum number of ranked apps to return (1–1000) |
+| `category` | string | – | One of 28 Marketplace categories |
+| `product` | string | – | One of 13 Zoom products; the legacy tracker input |
+| `searchQuery` | string | – | Zoom Marketplace keyword search |
+| `appIds` | string list | – | App IDs or Marketplace URLs to audit; cannot be combined with the filters above |
+| `usage` | string | – | `ADMIN_MANAGEMENT` or `USER_OPERATION` |
+| `maxItems` | integer | `50` | Maximum apps to return (1–5000) |
+| `includeAppDetails` | boolean | `false` | Add the full listing fields shown above (one extra request per app) |
 
-### Example: top 20 Zoom Meeting apps
+Provide at least one of `category`, `product`, `searchQuery` or `appIds`. The daily-test prefill uses `category=productivity` and `maxItems=3`.
+
+### Examples
+
+Top 20 apps in the CRM category, with ratings:
 
 ```json
 {
-  "product": "ZOOM_MEETING",
+  "category": "crm",
   "maxItems": 20
 }
 ```
 
-### Example: full ranking for Zoom Phone
+The original product ranking, unchanged:
 
 ```json
 {
   "product": "ZOOM_PHONE",
-  "maxItems": 200
+  "maxItems": 100
 }
 ```
 
-### Example: Zoom Contact Center apps, daily-test sized
+Notetakers matching a keyword:
 
 ```json
 {
-  "product": "ZOOM_CONTACT_CENTER",
-  "maxItems": 10
+  "searchQuery": "notetaker",
+  "maxItems": 25
+}
+```
+
+Full details for three known apps:
+
+```json
+{
+  "appIds": [
+    "PN3rVBK6R0aXBU5Fw2i6aQ",
+    "https://marketplace.zoom.us/apps/o8JuTnfNQ3mS5URt2qjp1Q"
+  ],
+  "maxItems": 3
 }
 ```
 
 ## Use cases
 
-- **Competitive intelligence** — see exactly where your app ranks among other Zoom Meeting or Zoom Phone integrations
-- **Market research** — pull a complete, ranked list of everything competing in a Zoom product category
-- **Partnership discovery** — find every app built for a specific Zoom product as a source of integration partners
-- **Rank-change monitoring** — run on a schedule and compare `rankInProduct` across runs to catch new entrants or shifts
-- **Sales prospecting** — identify companies building for a given Zoom product for targeted outreach
+- **Category rank tracking** — see where every app sits in a Zoom Marketplace category and how positions shift between runs
+- **Competitive monitoring** — watch a competitor's rating, category placement and listing changes
+- **Partner discovery** — pull a complete, ordered list of apps for a Zoom product or category
+- **Integration due diligence** — audit a shortlist of apps, including their public OAuth scopes and developer links
+- **Market research** — compare app counts and rating distributions across categories and products
 
 ## FAQ
 
-**Does this need a Zoom account or API key?**
-No. The Zoom App Marketplace listing data used here is publicly accessible.
+**Do I need a Zoom account or API key?**
+No. Only the public Marketplace listings are read.
 
-**What exactly does `rankInProduct` measure?**
-The 1-based position of the app among all marketplace apps tied to the selected product, in the order Zoom's own marketplace returns them. Rank 1 is the first app listed for that product.
+**How is `rank` calculated?**
+It is the app's 1-based position in the result set returned by Zoom's marketplace search, after your filters. Rank 1 is the first app Zoom lists. `rankInProduct` keeps the original product-ranking meaning. In app-audit mode, `rank` follows the order of your `appIds` list.
 
-**How do I track rank changes over time?**
-Run this actor on a schedule (daily or weekly) and keep each run's dataset. Comparing `rankInProduct` across runs shows which apps moved up, dropped, or newly appeared.
+**Can I combine category and product?**
+Yes. Zoom applies both filters, and `rank` is the position within that intersection. `rankInProduct` and `rankInCategory` both receive the same position for that combined run.
 
-**An app works with several Zoom products — how is it ranked?**
-Each product gets its own independent ranking, so the same app can rank differently for `ZOOM_MEETING` than for `ZOOM_PHONE`.
+**Why does an app come back for a product that is not in `worksWith`?**
+Zoom also matches apps installed as a surface inside a product (`workIn`), such as Contact Center apps. The actor keeps Zoom's own result set and does not drop those apps.
 
-**Why does `worksWith` sometimes list more than the product I searched for?**
-Many apps integrate with multiple Zoom products at once. `worksWith` lists all of them; this actor only filters which apps are *included* based on your chosen product, it doesn't trim that array.
+**Why are some detail fields missing on a normal run?**
+Fields such as categories, screenshots, scopes and developer contacts are only on the app detail page. Enable `includeAppDetails` to fetch them. App-audit runs always load the full listing, because the detail page is the only way to look an app up by ID.
+
+**How many apps can I get?**
+The marketplace currently lists over 4,000 apps. Pagination reads 100 apps per request; `maxItems` can go up to 5,000, which covers every category and product.
 
 **How current is the data?**
-Each run reads the marketplace listing live, so results reflect the current state of the Zoom App Marketplace.
+Every run reads the live marketplace.
 
 **Is this affiliated with Zoom?**
-No, this is an independent third-party actor that reads Zoom's publicly available marketplace listings. It is not affiliated with or endorsed by Zoom Video Communications, Inc.
+No. It is an independent third-party actor reading Zoom's public marketplace listings.
+
+## Limitations
+
+- Zoom exposes no official sort order. The actor preserves the marketplace's default order; it does not invent sort options.
+- The public listings currently report `fedRampAuthorized: false` for every app, so no FedRAMP filter is offered.
+- The `essentialApp` flag is not exposed by the public listing endpoints and is kept only for backward compatibility.
+- Review text and reviewer details are not part of this actor's public listing endpoints.
+- Pricing, install counts and revenue data are not published by the public marketplace.
+- A single run can return at most 5,000 apps. Split by category or product to cover the full marketplace above that cap.

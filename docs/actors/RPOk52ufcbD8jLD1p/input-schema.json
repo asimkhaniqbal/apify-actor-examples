@@ -1,48 +1,155 @@
 {
-  "description": "Track all apps for a specific Zoom product in their default marketplace ranking order.",
+  "description": "Track Zoom App Marketplace apps in their default marketplace order, filtered by category, Zoom product, keyword or specific app IDs.",
   "properties": {
+    "appIds": {
+      "description": "Audit specific apps by Zoom Marketplace app ID or app URL. Cannot be combined with category, product, keyword or usage filters.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "App IDs or URLs to Audit",
+      "type": "array"
+    },
+    "category": {
+      "description": "Rank every app listed in this Zoom Marketplace category. Leave empty to use a Zoom product, a keyword search or app IDs instead.",
+      "editor": "select",
+      "enum": [
+        "analytics",
+        "broadcasting-streaming",
+        "business-system-integrator",
+        "crm",
+        "carrier-provider-exchange",
+        "team_collaborations",
+        "customer_service",
+        "eCommerce",
+        "eventmanagement",
+        "games",
+        "health-wellness",
+        "humanResources",
+        "learning_development",
+        "marketing",
+        "note-taking",
+        "presentations",
+        "productivity",
+        "project-management",
+        "recording_transcriptions",
+        "sales_automation",
+        "scheduling_calendar",
+        "content_and_compliance",
+        "social-activities",
+        "surveys-polls",
+        "transcription-translation",
+        "virtual-backgrounds-scenes",
+        "whiteboards",
+        "workflow-automation"
+      ],
+      "enumTitles": [
+        "Analytics",
+        "Broadcasting & Streaming",
+        "Business System Integrator",
+        "CRM",
+        "Carrier Provider Exchange",
+        "Collaboration",
+        "Customer Service",
+        "E-Commerce",
+        "Event Management",
+        "Games",
+        "Health & Wellness",
+        "Human Resources",
+        "Learning & Development",
+        "Marketing",
+        "Note Taking",
+        "Presentations",
+        "Productivity",
+        "Project Management",
+        "Recordings",
+        "Sales",
+        "Scheduling",
+        "Security & Compliance",
+        "Social Activities",
+        "Surveys & Polls",
+        "Transcription & Translation",
+        "Virtual Backgrounds & Scenes",
+        "Whiteboards",
+        "Workflow Automation"
+      ],
+      "prefill": "productivity",
+      "title": "Marketplace Category",
+      "type": "string"
+    },
+    "includeAppDetails": {
+      "default": false,
+      "description": "Fetch the full Marketplace listing for each app. Adds categories, screenshots, developer contact details, support/privacy/terms links, OAuth scopes, app type and created/modified dates (one extra request per app).",
+      "prefill": false,
+      "title": "Include App Details",
+      "type": "boolean"
+    },
     "maxItems": {
       "default": 50,
-      "description": "Maximum number of apps to return.",
-      "maximum": 1000,
+      "description": "Maximum number of apps to return (1-5000).",
+      "maximum": 5000,
       "minimum": 1,
-      "prefill": 50,
+      "prefill": 3,
       "title": "Max Items",
       "type": "integer"
     },
     "product": {
-      "description": "Return all apps that work with this Zoom product, ranked by their position in the full marketplace listing.",
+      "description": "Track apps that work with this Zoom product. This is the original tracker input and keeps working unchanged.",
       "editor": "select",
       "enum": [
         "ZOOM_MEETING",
-        "ZOOM_PHONE",
         "ZOOM_WEBINAR",
-        "ZOOM_CHAT",
         "ZOOM_ROOM",
-        "ZOOM_EVENTS",
+        "ZOOM_PHONE",
+        "ZOOM_CHAT",
+        "ZOOM_CONTACT_CENTER",
         "ZOOM_WHITEBOARD",
         "ZOOM_IQ",
-        "ZOOM_CONTACT_CENTER"
+        "ZOOM_VIRTUAL_AGENT",
+        "ZOOM_EVENTS",
+        "ZOOM_MAIL",
+        "ZOOM_WORKFLOWS",
+        "ZOOM_AIC"
       ],
       "enumTitles": [
-        "Zoom Meeting",
-        "Zoom Phone",
-        "Zoom Webinar",
-        "Zoom Chat",
+        "Zoom Meetings",
+        "Zoom Webinars",
         "Zoom Rooms",
-        "Zoom Events",
+        "Zoom Phone",
+        "Zoom Chat",
+        "Zoom Contact Center",
         "Zoom Whiteboard",
-        "Zoom IQ",
-        "Zoom Contact Center"
+        "Zoom Revenue Accelerator",
+        "Zoom Virtual Agent",
+        "Zoom Events",
+        "Zoom Mail",
+        "Zoom Workflows",
+        "Zoom AI"
       ],
-      "prefill": "ZOOM_MEETING",
       "title": "Zoom Product",
+      "type": "string"
+    },
+    "searchQuery": {
+      "description": "Only return marketplace apps matching this keyword in Zoom's own marketplace search (for example `notetaker` or `crm`).",
+      "editor": "textfield",
+      "title": "Keyword Search",
+      "type": "string"
+    },
+    "usage": {
+      "description": "Only return apps installed by admins or apps any user can operate.",
+      "editor": "select",
+      "enum": [
+        "ADMIN_MANAGEMENT",
+        "USER_OPERATION"
+      ],
+      "enumTitles": [
+        "Admins",
+        "Any user"
+      ],
+      "title": "User Role",
       "type": "string"
     }
   },
-  "required": [
-    "product"
-  ],
   "schemaVersion": 1,
   "title": "Zoom Marketplace Category Tracker Input",
   "type": "object"
