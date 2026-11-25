@@ -1,0 +1,285 @@
+{
+  "description": "Search or browse Bazaraki.com classifieds, or fetch specific listing URLs.",
+  "properties": {
+    "bedrooms": {
+      "default": "",
+      "description": "Restrict Real Estate listings to this number of bedrooms. Ignored for non-Real-Estate categories.",
+      "editor": "select",
+      "enum": [
+        "",
+        "studio",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "enumTitles": [
+        "(any)",
+        "Studio",
+        "1 bedroom",
+        "2 bedrooms",
+        "3 bedrooms",
+        "4 bedrooms",
+        "5 bedrooms",
+        "6+ bedrooms"
+      ],
+      "prefill": "",
+      "title": "Bedrooms (mode=search, Real Estate)",
+      "type": "string"
+    },
+    "category": {
+      "default": "all",
+      "description": "Restrict results to a top-level category.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "real-estate-for-sale",
+        "real-estate-to-rent",
+        "car-motorbikes-boats-and-parts",
+        "jobs-and-services",
+        "telephones",
+        "children-and-babies",
+        "clothing-shoes-and-accessories",
+        "computers-and-games",
+        "electronics-and-appliances",
+        "home-gardens-and-pools",
+        "hobbies-sports-leisure-and-travel",
+        "animals",
+        "beauty-and-health",
+        "services",
+        "business"
+      ],
+      "enumTitles": [
+        "All categories",
+        "Real Estate for sale",
+        "Real Estate to rent",
+        "Motors (cars, motorbikes, boats, parts)",
+        "Jobs",
+        "Mobile phones, communication",
+        "Kids' stuff",
+        "Clothes, footwear, accessories",
+        "Computers, gaming",
+        "Electronics, appliances",
+        "Home, garden, pool",
+        "Hobbies, sports, leisure, travel",
+        "Animals, pets",
+        "Health, beauty",
+        "Services",
+        "Business"
+      ],
+      "prefill": "all",
+      "title": "Category (mode=search)",
+      "type": "string"
+    },
+    "city": {
+      "default": "all",
+      "description": "Restrict results to a Cyprus city/district.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "nicosia",
+        "limassol",
+        "larnaca",
+        "paphos",
+        "famagusta"
+      ],
+      "enumTitles": [
+        "All Cyprus",
+        "Nicosia",
+        "Limassol",
+        "Larnaca",
+        "Paphos",
+        "Famagusta"
+      ],
+      "prefill": "all",
+      "title": "City / district (mode=search)",
+      "type": "string"
+    },
+    "condition": {
+      "default": "",
+      "description": "Restrict results to new or used items. Supported across most categories (Real Estate, Motors, Electronics, etc.); ignored where Bazaraki doesn't offer a condition attribute for that category.",
+      "editor": "select",
+      "enum": [
+        "",
+        "new",
+        "used"
+      ],
+      "enumTitles": [
+        "(any)",
+        "New",
+        "Used"
+      ],
+      "prefill": "",
+      "title": "Condition (mode=search)",
+      "type": "string"
+    },
+    "includeDetails": {
+      "default": false,
+      "description": "When on, fetches each listing's detail page for extra fields (category breadcrumb, full description, coordinates, more photos). Slower but more complete.",
+      "prefill": false,
+      "title": "Fetch full detail page per listing (mode=search)",
+      "type": "boolean"
+    },
+    "maxItems": {
+      "default": 30,
+      "description": "Hard cap on emitted records.",
+      "maximum": 2000,
+      "minimum": 1,
+      "prefill": 30,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Drop listings priced above this (EUR).",
+      "maximum": 50000000,
+      "minimum": 0,
+      "title": "Max price (EUR)",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Drop listings priced below this (EUR).",
+      "maximum": 50000000,
+      "minimum": 0,
+      "title": "Min price (EUR)",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byUrls"
+      ],
+      "enumTitles": [
+        "Search / browse listings",
+        "Fetch specific listing URLs"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "searchQuery": {
+      "default": "",
+      "description": "Free-text keyword search, e.g. `iphone`, `toyota`, `apartment`. Leave empty to browse a category unfiltered.",
+      "editor": "textfield",
+      "prefill": "iphone",
+      "title": "Search query (mode=search)",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "relevant",
+      "description": "How to order results.",
+      "editor": "select",
+      "enum": [
+        "relevant",
+        "newest",
+        "cheapest",
+        "expensive"
+      ],
+      "enumTitles": [
+        "Most relevant",
+        "Newest first",
+        "Cheapest first",
+        "Most expensive first"
+      ],
+      "prefill": "relevant",
+      "title": "Sort order (mode=search)",
+      "type": "string"
+    },
+    "startUrls": {
+      "default": [],
+      "description": "Direct Bazaraki.com listing URLs to fetch, e.g. `https://www.bazaraki.com/adv/6659275_iphone/`. A bare numeric ID is not enough — Bazaraki's routing requires the URL's slug.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Listing URLs (mode=byUrls)",
+      "type": "array"
+    },
+    "subcategory": {
+      "default": "",
+      "description": "Drill down into a Real Estate or Motors subcategory (property type / vehicle type). Overrides `category` when set; leave empty to use the top-level `category` instead.",
+      "editor": "select",
+      "enum": [
+        "",
+        "real-estate-for-sale/houses",
+        "real-estate-for-sale/apartments-flats",
+        "real-estate-for-sale/commercial-property",
+        "real-estate-for-sale/plots-of-land",
+        "real-estate-for-sale/buildings",
+        "real-estate-for-sale/prefabricated-houses",
+        "real-estate-for-sale/other",
+        "real-estate-to-rent/houses",
+        "real-estate-to-rent/apartments-flats",
+        "real-estate-to-rent/commercial-property",
+        "real-estate-to-rent/plots-of-land",
+        "real-estate-to-rent/rooms-flatmates",
+        "real-estate-to-rent/short-term",
+        "real-estate-to-rent/other",
+        "car-motorbikes-boats-and-parts/cars-trucks-and-vans",
+        "car-motorbikes-boats-and-parts/car-hire",
+        "car-motorbikes-boats-and-parts/motorbikes",
+        "car-motorbikes-boats-and-parts/car-parts",
+        "car-motorbikes-boats-and-parts/accessories",
+        "car-motorbikes-boats-and-parts/motorbikes-and-scooters",
+        "car-motorbikes-boats-and-parts/tractors-parts",
+        "car-motorbikes-boats-and-parts/trucks",
+        "car-motorbikes-boats-and-parts/boats-and-sea",
+        "car-motorbikes-boats-and-parts/buses",
+        "car-motorbikes-boats-and-parts/vans",
+        "car-motorbikes-boats-and-parts/tools-equipment",
+        "car-motorbikes-boats-and-parts/lifts-cranes",
+        "car-motorbikes-boats-and-parts/trailers",
+        "car-motorbikes-boats-and-parts/caravans",
+        "car-motorbikes-boats-and-parts/quads",
+        "car-motorbikes-boats-and-parts/go-karts",
+        "car-motorbikes-boats-and-parts/aeroplanes"
+      ],
+      "enumTitles": [
+        "(none — use category)",
+        "Real Estate for Sale: Houses",
+        "Real Estate for Sale: Apartments, flats",
+        "Real Estate for Sale: Commercial property",
+        "Real Estate for Sale: Plots of land",
+        "Real Estate for Sale: Residential buildings",
+        "Real Estate for Sale: Prefabricated houses",
+        "Real Estate for Sale: Other",
+        "Real Estate to Rent: Houses",
+        "Real Estate to Rent: Apartments, flats",
+        "Real Estate to Rent: Commercial property",
+        "Real Estate to Rent: Plots of land",
+        "Real Estate to Rent: Rooms, flatmates",
+        "Real Estate to Rent: Short term",
+        "Real Estate to Rent: Other",
+        "Motors: Cars",
+        "Motors: Car rentals",
+        "Motors: Motorbikes",
+        "Motors: Auto parts",
+        "Motors: Auto accessories",
+        "Motors: Motorbike parts, accessories",
+        "Motors: Tractors, parts",
+        "Motors: Trucks, truck parts",
+        "Motors: Boats, sailing, marine equipment",
+        "Motors: Buses",
+        "Motors: Vans",
+        "Motors: Tools, equipment",
+        "Motors: Lifts, cranes",
+        "Motors: Trailers",
+        "Motors: Caravans",
+        "Motors: Quads, ATV, buggy",
+        "Motors: Go-karts",
+        "Motors: Aircraft"
+      ],
+      "prefill": "",
+      "title": "Subcategory (mode=search)",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Bazaraki Cyprus Classifieds Scraper Input",
+  "type": "object"
+}

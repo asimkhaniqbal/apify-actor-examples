@@ -1,0 +1,234 @@
+{
+  "description": "Search German apprenticeship (Ausbildung) listings on ausbildung.de by city + category, or by specific profession nationwide.",
+  "properties": {
+    "apprenticeshipType": {
+      "default": "",
+      "description": "Filter by the type of vocational training program.",
+      "editor": "select",
+      "enum": [
+        "",
+        "klassische-duale-berufsausbildung",
+        "schulische-ausbildung",
+        "schulische-und-duale-ausbildung",
+        "duales-studium",
+        "abiturientenprogramm",
+        "weiterbildung"
+      ],
+      "enumTitles": [
+        "(any / no filter)",
+        "Classic dual apprenticeship",
+        "School-based training",
+        "School-based + dual training",
+        "Dual study program",
+        "Abitur graduate program",
+        "Further training / retraining"
+      ],
+      "prefill": "",
+      "title": "Apprenticeship type",
+      "type": "string"
+    },
+    "category": {
+      "default": "kaufmaennisch",
+      "description": "Broad topic/industry to filter the city search. `kaufmaennisch` (commercial/office) is the broadest category and is populated for virtually every city. Not every category has listings in every city — an unlisted combination returns 0 records, not an error. Note: `alle-berufe` (unfiltered) is intentionally excluded because ausbildung.de renders it as an infinite-scroll page with no listings in the initial server response.",
+      "editor": "select",
+      "enum": [
+        "kaufmaennisch",
+        "abitur",
+        "autos",
+        "drogistin",
+        "elektronik",
+        "fachkraft-fuer-lagerlogistik",
+        "fachmann-systemgastronomie",
+        "fachverkaeufer-lebensmittelhandwerk",
+        "fleischer",
+        "gastronomie",
+        "gesundheitswesen",
+        "handelsfachwirt",
+        "handwerk",
+        "hauptschulabschluss",
+        "it",
+        "kauffrau-im-einzelhandel",
+        "kinder",
+        "kreativ",
+        "marketing",
+        "mechatroniker",
+        "medien",
+        "medizin",
+        "ohne-mathe",
+        "ohne-schulabschluss",
+        "pflege",
+        "realschulabschluss",
+        "soziales",
+        "sport",
+        "technik",
+        "verkaeuferin"
+      ],
+      "enumTitles": [
+        "Commercial/Office",
+        "Abitur required",
+        "Automotive",
+        "Drugstore/Retail (Drogistin)",
+        "Electronics",
+        "Warehouse logistics specialist",
+        "Systems gastronomy specialist",
+        "Food-trade sales specialist",
+        "Butcher",
+        "Gastronomy/Hospitality",
+        "Healthcare",
+        "Retail management specialist",
+        "Skilled trades/Handicraft",
+        "Hauptschule diploma",
+        "IT",
+        "Retail saleswoman",
+        "Childcare",
+        "Creative",
+        "Marketing",
+        "Mechatronics",
+        "Media",
+        "Medicine",
+        "No math required",
+        "No school diploma required",
+        "Nursing/Care",
+        "Realschule diploma",
+        "Social work",
+        "Sports",
+        "Technology",
+        "Sales assistant"
+      ],
+      "prefill": "kaufmaennisch",
+      "title": "Category (mode=byCity)",
+      "type": "string"
+    },
+    "citySlug": {
+      "default": "berlin",
+      "description": "German city name/slug, e.g. `berlin`, `muenchen`, `hamburg`, `koeln`. Umlauts should be transliterated (ä→ae, ö→oe, ü→ue, ß→ss) and spaces become hyphens — the actor also normalizes common input automatically.",
+      "editor": "textfield",
+      "prefill": "berlin",
+      "title": "City (mode=byCity)",
+      "type": "string"
+    },
+    "directApplicationOnly": {
+      "default": false,
+      "description": "Only keep listings that support direct online application (no email/postal-only listings).",
+      "prefill": false,
+      "title": "Direct application only",
+      "type": "boolean"
+    },
+    "expectedGraduation": {
+      "default": "",
+      "description": "Filter results to listings requiring this school-leaving qualification.",
+      "editor": "select",
+      "enum": [
+        "",
+        "hauptschulabschluss",
+        "mittlerer-schulabschluss",
+        "fachabitur",
+        "abitur",
+        "keine-angabe"
+      ],
+      "enumTitles": [
+        "(any / no filter)",
+        "Hauptschulabschluss",
+        "Mittlerer Schulabschluss (Realschule)",
+        "Fachabitur",
+        "Abitur",
+        "No specific requirement stated"
+      ],
+      "prefill": "",
+      "title": "Required school diploma",
+      "type": "string"
+    },
+    "includeJobDescription": {
+      "default": false,
+      "description": "For each listing, also fetch its detail page and add the full description text, contact/address details, and employment type. Slower (1 extra request per record) but much richer output.",
+      "prefill": false,
+      "title": "Fetch full job description",
+      "type": "boolean"
+    },
+    "keyword": {
+      "default": "",
+      "description": "Case-insensitive substring match against title, profession title, and company name.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Keyword filter",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Hard cap on emitted records. The actor pages through ausbildung.de's results (~20 listings per page for city searches, ~3 for narrow profession searches) until this cap is reached or the source pool is exhausted (stops automatically after several pages return no new listings).",
+      "maximum": 300,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "minVacancyCount": {
+      "default": 0,
+      "description": "Drop listings offering fewer open positions than this.",
+      "maximum": 10000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Min open positions per listing",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "byCity",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "byCity",
+        "byProfession",
+        "byQuery"
+      ],
+      "enumTitles": [
+        "Search by city + category",
+        "Search by specific profession (nationwide)",
+        "Free-text keyword search (nationwide)"
+      ],
+      "prefill": "byCity",
+      "title": "Mode",
+      "type": "string"
+    },
+    "professionSlug": {
+      "default": "fachinformatiker",
+      "description": "Exact ausbildung.de profession slug, nationwide search (no city filter). Examples: `fachinformatiker`, `kauffrau-im-einzelhandel`, `mechatroniker`, `altenpfleger`, `bankkaufmann`, `koch`, `elektroniker-betriebstechnik`. Browse the full glossary at ausbildung.de/berufe/glossar/ for all ~700 slugs.",
+      "editor": "textfield",
+      "prefill": "fachinformatiker",
+      "title": "Profession slug (mode=byProfession)",
+      "type": "string"
+    },
+    "searchQuery": {
+      "default": "Fachinformatiker",
+      "description": "Free-text keyword searched nationwide across profession titles and company names, e.g. `Fachinformatiker`, `Bäcker`, `McDonald's`. Broader than `professionSlug` (exact slug match) — matches partial/fuzzy profession and employer names.",
+      "editor": "textfield",
+      "prefill": "Fachinformatiker",
+      "title": "Search query (mode=byQuery)",
+      "type": "string"
+    },
+    "startDateFrom": {
+      "description": "Only keep listings whose training start date (`startsNoEarlierThan`) is on or after this date.",
+      "editor": "textfield",
+      "title": "Training starts on or after (YYYY-MM-DD)",
+      "type": "string"
+    },
+    "startDateTo": {
+      "description": "Only keep listings whose training start date (`startsNoEarlierThan`) is on or before this date.",
+      "editor": "textfield",
+      "title": "Training starts on or before (YYYY-MM-DD)",
+      "type": "string"
+    },
+    "topRatedEmployerOnly": {
+      "default": false,
+      "description": "Only keep listings from employers ausbildung.de has flagged as top-rated.",
+      "prefill": false,
+      "title": "Top-rated employers only",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Ausbildung.de Vocational Training Scraper Input",
+  "type": "object"
+}

@@ -1,0 +1,49 @@
+{
+  "description": "Track all apps for a specific Zoom product in their default marketplace ranking order.",
+  "properties": {
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of apps to return.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "product": {
+      "description": "Return all apps that work with this Zoom product, ranked by their position in the full marketplace listing.",
+      "editor": "select",
+      "enum": [
+        "ZOOM_MEETING",
+        "ZOOM_PHONE",
+        "ZOOM_WEBINAR",
+        "ZOOM_CHAT",
+        "ZOOM_ROOM",
+        "ZOOM_EVENTS",
+        "ZOOM_WHITEBOARD",
+        "ZOOM_IQ",
+        "ZOOM_CONTACT_CENTER"
+      ],
+      "enumTitles": [
+        "Zoom Meeting",
+        "Zoom Phone",
+        "Zoom Webinar",
+        "Zoom Chat",
+        "Zoom Rooms",
+        "Zoom Events",
+        "Zoom Whiteboard",
+        "Zoom IQ",
+        "Zoom Contact Center"
+      ],
+      "prefill": "ZOOM_MEETING",
+      "title": "Zoom Product",
+      "type": "string"
+    }
+  },
+  "required": [
+    "product"
+  ],
+  "schemaVersion": 1,
+  "title": "Zoom Marketplace Category Tracker Input",
+  "type": "object"
+}
