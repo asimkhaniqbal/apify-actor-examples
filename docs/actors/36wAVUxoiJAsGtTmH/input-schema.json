@@ -1,0 +1,131 @@
+{
+  "description": "Search Corcoran listings by region, fetch listings by ID, or browse the region directory.",
+  "properties": {
+    "listingIds": {
+      "default": [],
+      "description": "Corcoran listing IDs, e.g. `109473943`.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Listing IDs (mode=byIds)",
+      "type": "array"
+    },
+    "listingStatus": {
+      "default": "any",
+      "description": "Only keep listings with this status.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "Active",
+        "PreListing",
+        "InContract",
+        "Closed",
+        "Rented",
+        "Contingent"
+      ],
+      "enumTitles": [
+        "Any",
+        "Active",
+        "Pre-listing",
+        "In contract",
+        "Closed",
+        "Rented",
+        "Contingent"
+      ],
+      "prefill": "any",
+      "title": "Listing status",
+      "type": "string"
+    },
+    "maxBedrooms": {
+      "description": "Only keep listings with at most this many bedrooms.",
+      "maximum": 50,
+      "minimum": 0,
+      "title": "Max bedrooms",
+      "type": "integer"
+    },
+    "maxItems": {
+      "default": 25,
+      "description": "Hard cap on emitted records.",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Only keep listings priced at most this much.",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Max price (USD)",
+      "type": "integer"
+    },
+    "minBedrooms": {
+      "description": "Only keep listings with at least this many bedrooms.",
+      "maximum": 50,
+      "minimum": 0,
+      "title": "Min bedrooms",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Only keep listings priced at least this much.",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Min price (USD)",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byIds",
+        "browseRegions"
+      ],
+      "enumTitles": [
+        "Search listings by region",
+        "Lookup listings by ID",
+        "Browse all regions"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "regionId": {
+      "default": 1,
+      "description": "Corcoran region ID (mode=search). `1` = New York City, `2` = South Florida, `3` = The Hamptons, `100` = Northern California, `103` = Chicago, `109` = Denver, `128` = Nashville, `133` = Houston, `141` = Washington Metro Area. Use mode=browseRegions for the full list.",
+      "maximum": 9999,
+      "minimum": 1,
+      "prefill": 1,
+      "title": "Region ID (mode=search)",
+      "type": "integer"
+    },
+    "searchQuery": {
+      "description": "Only keep listings whose address, city, neighborhood, or property type contains this substring.",
+      "editor": "textfield",
+      "title": "Keyword filter",
+      "type": "string"
+    },
+    "transactionType": {
+      "default": "for-sale",
+      "description": "Sale or rental listings.",
+      "editor": "select",
+      "enum": [
+        "for-sale",
+        "for-rent"
+      ],
+      "enumTitles": [
+        "For sale",
+        "For rent"
+      ],
+      "prefill": "for-sale",
+      "title": "Transaction type",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Corcoran Real Estate Listings Scraper Input",
+  "type": "object"
+}

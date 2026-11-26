@@ -1,0 +1,72 @@
+{
+  "description": "Search products on carrefour.fr, browse by category, or get current promotions.",
+  "properties": {
+    "categorySlug": {
+      "description": "Carrefour category path slug (mode=browseCategory), e.g. 'informatique', 'electromenager', 'telephone-mobile'.",
+      "editor": "textfield",
+      "title": "Category slug",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of products to return.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 50,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "searchProducts",
+      "description": "What to scrape from Carrefour France.",
+      "editor": "select",
+      "enum": [
+        "searchProducts",
+        "browseCategory",
+        "getPromotions"
+      ],
+      "enumTitles": [
+        "Search products by keyword",
+        "Browse a product category",
+        "Get current promotions"
+      ],
+      "prefill": "searchProducts",
+      "title": "Mode",
+      "type": "string"
+    },
+    "query": {
+      "default": "smartphone",
+      "description": "Product search keyword (mode=searchProducts).",
+      "editor": "textfield",
+      "prefill": "smartphone",
+      "title": "Search query",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Product sort order.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "price_asc",
+        "price_desc",
+        "new"
+      ],
+      "enumTitles": [
+        "Relevance",
+        "Price: low to high",
+        "Price: high to low",
+        "Newest first"
+      ],
+      "prefill": "relevance",
+      "title": "Sort by",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "Carrefour France Scraper Input",
+  "type": "object"
+}

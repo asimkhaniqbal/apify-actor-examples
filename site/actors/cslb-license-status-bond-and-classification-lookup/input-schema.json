@@ -1,0 +1,233 @@
+{
+  "description": "Look up California contractor licenses on the CSLB (Contractors State License Board) public license check tool -- by license number, business name, personnel name, or HIS (Home Improvement Salesperson) registration number.",
+  "properties": {
+    "businessName": {
+      "description": "Business name to search for. CSLB matches from this name alphabetically forward (type fewer letters if you don't find the license, e.g. `Swinerton` instead of `Swinerton Builders Inc`).",
+      "editor": "textfield",
+      "prefill": "Swinerton",
+      "title": "Business name (mode=byBusinessName)",
+      "type": "string"
+    },
+    "classificationFilter": {
+      "default": "any",
+      "description": "Only emit license records that carry this CSLB classification. Records with no classification data always pass through. Ignored in mode=byHISNumber.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "A",
+        "B",
+        "C",
+        "B-2",
+        "C-2",
+        "C-4",
+        "C-5",
+        "C-6",
+        "C-7",
+        "C-8",
+        "C-9",
+        "C-10",
+        "C-11",
+        "C-12",
+        "C-13",
+        "C-15",
+        "C-16",
+        "C-17",
+        "C-20",
+        "C-21",
+        "C-22",
+        "C-23",
+        "C-27",
+        "C-28",
+        "C-29",
+        "C-31",
+        "C-32",
+        "C-33",
+        "C-34",
+        "C-35",
+        "C-36",
+        "C-38",
+        "C-39",
+        "C-42",
+        "C-43",
+        "C-45",
+        "C-46",
+        "C-47",
+        "C-49",
+        "C-50",
+        "C-51",
+        "C-53",
+        "C-54",
+        "C-55",
+        "C-57",
+        "C-60"
+      ],
+      "enumTitles": [
+        "Any classification",
+        "A - General Engineering Contractor",
+        "B - General Building Contractor",
+        "C - Specialty Contractor",
+        "B-2 - Residential Remodeling Contractor",
+        "C-2 - Insulation and Acoustical Contractor",
+        "C-4 - Boiler, Hot Water Heating and Steam Fitting Contractor",
+        "C-5 - Framing and Rough Carpentry Contractor",
+        "C-6 - Cabinet, Millwork and Finish Carpentry Contractor",
+        "C-7 - Low Voltage Systems Contractor",
+        "C-8 - Concrete Contractor",
+        "C-9 - Drywall Contractor",
+        "C-10 - Electrical Contractor",
+        "C-11 - Elevator Contractor",
+        "C-12 - Earthwork and Paving Contractor",
+        "C-13 - Fencing Contractor",
+        "C-15 - Flooring and Floor Covering Contractor",
+        "C-16 - Fire Protection Contractor",
+        "C-17 - Glazing Contractor",
+        "C-20 - Warm-Air Heating, Ventilating and Air-Conditioning Contractor",
+        "C-21 - Building Moving/Demolition Contractor",
+        "C-22 - Asbestos Abatement Contractor",
+        "C-23 - Ornamental Metal Contractor",
+        "C-27 - Landscaping Contractor",
+        "C-28 - Lock and Security Equipment Contractor",
+        "C-29 - Masonry Contractor",
+        "C-31 - Construction Zone Traffic Control Contractor",
+        "C-32 - Parking and Highway Improvement Contractor",
+        "C-33 - Painting and Decorating Contractor",
+        "C-34 - Pipeline Contractor",
+        "C-35 - Lathing and Plastering Contractor",
+        "C-36 - Plumbing Contractor",
+        "C-38 - Refrigeration Contractor",
+        "C-39 - Roofing Contractor",
+        "C-42 - Sanitation System Contractor",
+        "C-43 - Sheet Metal Contractor",
+        "C-45 - Sign Contractor",
+        "C-46 - Solar Contractor",
+        "C-47 - General Manufactured Housing Contractor",
+        "C-49 - Tree and Palm Contractor",
+        "C-50 - Reinforcing Steel Contractor",
+        "C-51 - Structural Steel Contractor",
+        "C-53 - Swimming Pool Contractor",
+        "C-54 - Ceramic and Mosaic Tile Contractor",
+        "C-55 - Water Conditioning Contractor",
+        "C-57 - Well Drilling Contractor",
+        "C-60 - Welding Contractor"
+      ],
+      "prefill": "any",
+      "title": "Classification (trade) filter",
+      "type": "string"
+    },
+    "hisNumber": {
+      "description": "Home Improvement Salesperson (HIS) registration number (1-8 digits; the site's \"SP\" suffix is added automatically).",
+      "editor": "textfield",
+      "prefill": "100000",
+      "title": "HIS registration number (mode=byHISNumber)",
+      "type": "string"
+    },
+    "includePersonnel": {
+      "default": true,
+      "description": "Attach the owners/officers/RMO/RME associated with each license (name, title, association date, classification). Adds a few extra requests per license.",
+      "prefill": true,
+      "title": "Include personnel (owners/officers)",
+      "type": "boolean"
+    },
+    "licenseNumbers": {
+      "default": [
+        "1100000"
+      ],
+      "description": "CSLB contractor license numbers to look up (1-8 digits each; letters/punctuation are stripped automatically).",
+      "editor": "stringList",
+      "prefill": [
+        "1100000"
+      ],
+      "title": "License numbers (mode=byLicenseNumber)",
+      "type": "array"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Hard cap on emitted records.",
+      "maximum": 200,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "byLicenseNumber",
+      "description": "Which CSLB search to run.",
+      "editor": "select",
+      "enum": [
+        "byLicenseNumber",
+        "byBusinessName",
+        "byPersonnelName",
+        "byHISNumber"
+      ],
+      "enumTitles": [
+        "Search by license number",
+        "Search by business name",
+        "Search by personnel name",
+        "Search by HIS registration number"
+      ],
+      "prefill": "byLicenseNumber",
+      "title": "Mode",
+      "type": "string"
+    },
+    "personnelFirstName": {
+      "description": "Optional first name to narrow a personnel name search.",
+      "editor": "textfield",
+      "prefill": "John",
+      "title": "Personnel first name (mode=byPersonnelName)",
+      "type": "string"
+    },
+    "personnelLastName": {
+      "description": "Last name of a qualifying individual, owner, or officer associated with a license.",
+      "editor": "textfield",
+      "prefill": "Smith",
+      "title": "Personnel last name (mode=byPersonnelName)",
+      "type": "string"
+    },
+    "proxyConfiguration": {
+      "default": {
+        "useApifyProxy": false
+      },
+      "description": "Optional. CSLB's search form has no CAPTCHA and works reliably without a proxy; this is offered for extra resilience only.",
+      "editor": "proxy",
+      "prefill": {
+        "useApifyProxy": false
+      },
+      "title": "Proxy configuration",
+      "type": "object"
+    },
+    "statusFilter": {
+      "default": "any",
+      "description": "Only emit records whose current status matches. Records with no detectable status always pass through.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "active",
+        "expired",
+        "inactive",
+        "revoked",
+        "suspended",
+        "cancelled",
+        "other"
+      ],
+      "enumTitles": [
+        "Any status",
+        "Active",
+        "Expired",
+        "Inactive",
+        "Revoked",
+        "Suspended",
+        "Cancelled / Surrendered",
+        "Other / Unknown"
+      ],
+      "prefill": "any",
+      "title": "License / registration status filter",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "CSLB Contractor License Scraper Input",
+  "type": "object"
+}
