@@ -1,20 +1,55 @@
 {
-  "description": "Search products on carrefour.fr, browse by category, or get current promotions.",
+  "description": "Search products on carrefour.fr, browse a category, or pull current promotions. All results work without an account or proxy setup.",
   "properties": {
-    "categorySlug": {
-      "description": "Carrefour category path slug (mode=browseCategory), e.g. 'informatique', 'electromenager', 'telephone-mobile'.",
+    "brand": {
+      "description": "Only return products from this brand, exactly as Carrefour lists it, for example 'LACTEL' or 'SAMSUNG'.",
       "editor": "textfield",
-      "title": "Category slug",
+      "title": "Brand",
+      "type": "string"
+    },
+    "carrefourBrandsOnly": {
+      "default": false,
+      "description": "Only return Carrefour own-brand products.",
+      "prefill": false,
+      "title": "Only Carrefour own brands",
+      "type": "boolean"
+    },
+    "categorySlug": {
+      "description": "Carrefour category slug or full category URL (mode=browseCategory), for example 'cremerie', 'smartphones-objets-connectes' or 'https://www.carrefour.fr/r/cremerie/laits/lait-demi-ecreme'.",
+      "editor": "textfield",
+      "title": "Category slug or URL",
       "type": "string"
     },
     "maxItems": {
       "default": 50,
-      "description": "Maximum number of products to return.",
+      "description": "Maximum number of products to return (1-500).",
       "maximum": 500,
       "minimum": 1,
-      "prefill": 50,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
+    },
+    "minRating": {
+      "default": "any",
+      "description": "Only return products rated at least this many stars.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "5.0",
+        "4.5",
+        "4.0",
+        "3.5"
+      ],
+      "enumTitles": [
+        "Any rating",
+        "5 stars",
+        "4.5 stars and up",
+        "4 stars and up",
+        "3.5 stars and up"
+      ],
+      "prefill": "any",
+      "title": "Minimum customer rating",
+      "type": "string"
     },
     "mode": {
       "default": "searchProducts",
@@ -34,29 +69,73 @@
       "title": "Mode",
       "type": "string"
     },
+    "nutriscore": {
+      "default": "any",
+      "description": "Only return products with this Nutri-Score (food products).",
+      "editor": "select",
+      "enum": [
+        "any",
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "enumTitles": [
+        "Any Nutri-Score",
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "prefill": "any",
+      "title": "Nutri-Score",
+      "type": "string"
+    },
+    "organicOnly": {
+      "default": false,
+      "description": "Only return products Carrefour flags as organic.",
+      "prefill": false,
+      "title": "Only organic products",
+      "type": "boolean"
+    },
+    "promotionsOnly": {
+      "default": false,
+      "description": "Only return products Carrefour currently shows with a promotion or immediate discount.",
+      "prefill": false,
+      "title": "Only products on promotion",
+      "type": "boolean"
+    },
     "query": {
-      "default": "smartphone",
-      "description": "Product search keyword (mode=searchProducts).",
+      "default": "lait",
+      "description": "Product search keyword, for example 'lait', 'smartphone' or 'yaourt' (mode=searchProducts).",
       "editor": "textfield",
-      "prefill": "smartphone",
+      "prefill": "lait",
       "title": "Search query",
       "type": "string"
     },
     "sortBy": {
       "default": "relevance",
-      "description": "Product sort order.",
+      "description": "Product sort order. 'Rating' means highest customer rating first. 'new' is a legacy value that now falls back to relevance because Carrefour no longer exposes a newest-first sort.",
       "editor": "select",
       "enum": [
         "relevance",
         "price_asc",
         "price_desc",
+        "unit_price_asc",
+        "unit_price_desc",
+        "rating",
         "new"
       ],
       "enumTitles": [
         "Relevance",
         "Price: low to high",
         "Price: high to low",
-        "Newest first"
+        "Price per kg/L: low to high",
+        "Price per kg/L: high to low",
+        "Customer rating: high to low",
+        "Newest first (legacy: uses relevance)"
       ],
       "prefill": "relevance",
       "title": "Sort by",

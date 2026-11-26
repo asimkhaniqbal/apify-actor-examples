@@ -9,7 +9,7 @@
     },
     "category": {
       "default": "",
-      "description": "Filter protocols by DefiLlama category (e.g. `Lending`, `Dexes`, `Liquid Staking`, `Yield Aggregator`, `Bridge`, `CDP`, `Yield`, `Derivatives`, `Cross Chain`).",
+      "description": "Filter records by DefiLlama category (e.g. `Lending`, `Dexes`, `Liquid Staking`, `Yield Aggregator`, `Bridge`, `CDP`, `Yield`, `Derivatives`, `Cross Chain`).",
       "editor": "select",
       "enum": [
         "",
@@ -67,13 +67,13 @@
       ],
       "prefill": "",
       "sectionCaption": "Filters",
-      "sectionDescription": "Optional client-side filters applied after fetch.",
-      "title": "Category filter (mode=protocols)",
+      "sectionDescription": "Optional filters applied after fetch: text search, chain, category, TVL/APY floors, and yield-only options.",
+      "title": "Category filter (protocols / DEX / lending / fees)",
       "type": "string"
     },
     "chain": {
       "default": "",
-      "description": "Chain name as DefiLlama uses it. Use the dropdown for top chains, OR paste an exact chain name from the chains list (case-sensitive — DefiLlama uses `Ethereum`, `BSC`, etc.).",
+      "description": "Chain name as DefiLlama uses it. Required for `historicalChainTvl`; also filters protocols, chains, stablecoins, yields, DEX, lending, fees, and bridges by chain where the source exposes it. Use the dropdown for top chains, OR paste an exact chain name from the chains list (case-sensitive — DefiLlama uses `Ethereum`, `BSC`, etc.).",
       "editor": "select",
       "enum": [
         "",
@@ -149,20 +149,27 @@
     },
     "maxItems": {
       "default": 100,
-      "description": "Hard cap on emitted records. Example: `100`.",
+      "description": "Hard cap on records emitted in this run. Combine with `offset` to page through a long result set. Example: `100`.",
       "maximum": 50000,
       "minimum": 1,
-      "prefill": 20,
+      "prefill": 3,
       "sectionCaption": "Output",
-      "sectionDescription": "Hard caps and output controls.",
-      "title": "Max items",
+      "sectionDescription": "Pagination, sorting, and hard output caps.",
+      "title": "Max items (page size)",
       "type": "integer"
+    },
+    "minApy": {
+      "description": "Drop yield pools whose total APY is below this percentage. Applies to `mode=yields` only.",
+      "maximum": 1000000,
+      "minimum": -100000,
+      "title": "Minimum APY % (mode=yields)",
+      "type": "number"
     },
     "minTvlUsd": {
       "description": "Drop records with TVL below this threshold (USD).",
       "maximum": 1000000000000,
       "minimum": 0,
-      "title": "Minimum TVL in USD (mode=protocols / yields)",
+      "title": "Minimum TVL in USD (protocols / chains / yields / lending)",
       "type": "integer"
     },
     "mode": {
@@ -213,6 +220,15 @@
       "title": "Mode",
       "type": "string"
     },
+    "offset": {
+      "default": 0,
+      "description": "Skip this many records after filtering and sorting, then emit up to `maxItems`. Page 2 with `maxItems=100` means `offset=100`.",
+      "maximum": 1000000,
+      "minimum": 0,
+      "prefill": 0,
+      "title": "Pagination offset",
+      "type": "integer"
+    },
     "poolId": {
       "description": "DefiLlama yield pool UUID (visible in the pool URL on yields.llama.fi).",
       "editor": "textfield",
@@ -225,6 +241,70 @@
       "sectionCaption": "Inputs",
       "sectionDescription": "Mode-specific identifiers: protocol slug, chain name, stablecoin / pool / bridge / token IDs, or a defillama.com URL.",
       "title": "Protocol slug (mode=byProtocol / dexByProtocol / lendingByProtocol)",
+      "type": "string"
+    },
+    "searchQuery": {
+      "description": "Case-insensitive text match on name, symbol, or project — e.g. `aave`, `uniswap`, `USDC`.",
+      "editor": "textfield",
+      "title": "Name search (any list mode)",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "",
+      "description": "Sort matching records before applying `offset` and `maxItems`. Leave empty to keep the source order.",
+      "editor": "select",
+      "enum": [
+        "",
+        "tvlUsd",
+        "apy",
+        "apyBase",
+        "apyReward",
+        "change1d",
+        "change7d",
+        "volume24hUsd",
+        "fees24hUsd",
+        "circulating",
+        "priceUsd",
+        "marketCapUsd",
+        "date",
+        "timestamp",
+        "name"
+      ],
+      "enumTitles": [
+        "(source order)",
+        "TVL (USD)",
+        "APY (%)",
+        "Base APY (%)",
+        "Reward APY (%)",
+        "1-day change (%)",
+        "7-day change (%)",
+        "24h volume (USD)",
+        "24h fees (USD)",
+        "Circulating supply",
+        "Price (USD)",
+        "Market cap (USD)",
+        "Date",
+        "Timestamp",
+        "Name"
+      ],
+      "prefill": "",
+      "title": "Sort by",
+      "type": "string"
+    },
+    "sortOrder": {
+      "default": "desc",
+      "description": "Direction used when `sortBy` is set. Records with a missing sort value are placed last.",
+      "editor": "select",
+      "enum": [
+        "desc",
+        "asc"
+      ],
+      "enumTitles": [
+        "Highest / newest first",
+        "Lowest / oldest first"
+      ],
+      "prefill": "desc",
+      "title": "Sort direction",
       "type": "string"
     },
     "stablecoinId": {
@@ -254,6 +334,19 @@
       "editor": "textfield",
       "title": "URL (mode=byUrl)",
       "type": "string"
+    },
+    "yieldProject": {
+      "description": "Only keep yield pools from projects whose slug contains this text, e.g. `aave`, `lido`, `curve`.",
+      "editor": "textfield",
+      "title": "Yield project filter (mode=yields)",
+      "type": "string"
+    },
+    "yieldStablecoinOnly": {
+      "default": false,
+      "description": "Keep only yield pools where DefiLlama marks the underlying asset as a stablecoin.",
+      "prefill": false,
+      "title": "Stablecoin pools only (mode=yields)",
+      "type": "boolean"
     }
   },
   "required": [

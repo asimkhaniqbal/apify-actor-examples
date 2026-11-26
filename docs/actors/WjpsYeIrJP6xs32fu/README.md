@@ -4,102 +4,149 @@
 
 # Carrefour.fr Product Search, Category & Promotions Scraper
 
-[Carrefour France](https://www.carrefour.fr) is one of France's largest retail chains, selling groceries and general merchandise online. This actor searches its catalog by keyword, browses a specific category, or pulls currently discounted products, returning price, brand and stock status for each one with no account needed.
+Collect live product data from [Carrefour France](https://www.carrefour.fr): search the catalogue
+by keyword, open any category, or read every current promotion. The actor returns shelf prices,
+crossed prices and promotion labels, unit prices, stock state, customer ratings, Nutri-Score,
+seller details, category paths, images and direct product links. No login, cookie or proxy setup is
+required.
 
-## What this actor does
+## Modes
 
-- **Searches products by keyword** across Carrefour's full online catalog
-- **Browses a specific category** by its category slug instead of a keyword
-- **Pulls currently promoted/discounted products** directly
-- **Sorts results** by relevance, price, or newest first
-- **Empty fields are omitted** — a product only contains the fields Carrefour actually published for it
+| Mode | What it does | Required input |
+|---|---|---|
+| `searchProducts` | Keyword search across the French catalogue | `query` |
+| `browseCategory` | Browse one category, subcategory or full category URL | `categorySlug` |
+| `getPromotions` | Read products Carrefour currently marks as promoted | — |
 
-## Output per product
-
-| Field | Description |
-|---|---|
-| `productId` | Carrefour's internal product/SKU identifier |
-| `productName` | Full product name |
-| `brand` | Product brand/manufacturer |
-| `price` | Current selling price |
-| `currency` | Always `EUR` |
-| `originalPrice` | Price before discount, when the product is on promotion |
-| `discount` | Discount percentage, when the product is on promotion |
-| `promotionLabel` | Promotional badge/offer text, when the product carries one |
-| `promotionEndDate` | Promotion end date, when published |
-| `category` | Product category |
-| `inStock` | Whether the product is currently in stock |
-| `rating` | Average customer rating |
-| `reviewCount` | Number of customer reviews |
-| `imageUrl` | Product image URL |
-| `productUrl` | Direct link to the product page |
-| `scrapedAt` | ISO 8601 timestamp of the run |
+All modes support pagination up to `maxItems`, the same filters, and six sort orders.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `searchProducts` | `searchProducts`, `browseCategory`, or `getPromotions` |
-| `query` | string | `smartphone` | Keyword to search for (mode=searchProducts) |
-| `categorySlug` | string | – | Carrefour category path slug, e.g. `informatique`, `electromenager`, `telephone-mobile` (mode=browseCategory) |
-| `sortBy` | string | `relevance` | `relevance`, `price_asc`, `price_desc`, or `new` |
-| `maxItems` | integer | `50` | Maximum number of products to return (1–500) |
+| `mode` | string | `searchProducts` | `searchProducts`, `browseCategory` or `getPromotions` |
+| `query` | string | `lait` | Keyword for `searchProducts` |
+| `categorySlug` | string | – | Category slug or full `/r/...` URL |
+| `brand` | string | – | Exact brand name filter |
+| `promotionsOnly` | boolean | `false` | Only products with a current promotion |
+| `organicOnly` | boolean | `false` | Only organic products |
+| `carrefourBrandsOnly` | boolean | `false` | Only Carrefour own brands |
+| `nutriscore` | string | `any` | `any`, `A`, `B`, `C`, `D` or `E` |
+| `minRating` | string | `any` | `any`, `5.0`, `4.5`, `4.0` or `3.5` |
+| `sortBy` | string | `relevance` | Relevance, price, unit price or rating sort |
+| `maxItems` | integer | `50` | Maximum products to return (1–500) |
 
-### Example: keyword search
+## Filters and sorting
+
+- **Brand** — exact brand name as Carrefour lists it, e.g. `LACTEL` or `SAMSUNG`.
+- **Promotions only** — products with a current promotion or immediate discount.
+- **Organic only** — products flagged organic by Carrefour.
+- **Carrefour own brands** — own-brand assortment only.
+- **Nutri-Score** — `A`, `B`, `C`, `D` or `E`.
+- **Minimum rating** — 3.5, 4.0, 4.5 or 5.0 stars.
+- **Sort** — relevance, price (both directions), price per kg/L (both directions), or rating.
+
+Filters combine, for example: a category browse for `cremerie` with brand `LACTEL`,
+`promotionsOnly=true` and `sortBy=price_asc`.
+
+## Output
+
+One dataset item per product. Empty values are omitted rather than written as `null`.
+
+| Field | Meaning |
+|---|---|
+| `productId` | EAN / Carrefour product identifier |
+| `productName` | Product title |
+| `brand` | Brand as shown by Carrefour |
+| `price` | Current shelf price in EUR, after an immediate quantity-1 promotion |
+| `currency` | `EUR` |
+| `originalPrice` | Crossed price when the current price is reduced |
+| `discount` | Reduction percentage when `originalPrice` is present |
+| `unitPrice` | Price per kg, litre or unit when Carrefour publishes it |
+| `unitPriceLabel` | Formatted unit price, e.g. `1.05 € / L` |
+| `unit` | Unit of measure for `unitPrice` |
+| `category` | Deepest category label |
+| `categoryPath` | Full breadcrumb, `A > B > C` |
+| `categorySlug` | Category URI usable as `categorySlug` |
+| `inStock` | Whether the selected offer is currently purchasable |
+| `lowStock` | Present and `true` when stock is low |
+| `rating` | Average customer rating |
+| `reviewCount` | Number of customer reviews |
+| `nutriscore` | Nutri-Score letter, food products only |
+| `isBestSeller` | Present and `true` for best sellers |
+| `seller` | `Carrefour` or the marketplace seller name |
+| `isMarketplace` | Present and `true` for marketplace sellers |
+| `otherOffersCount` | Number of additional seller offers |
+| `packaging` | Pack description, e.g. `le pack de 6 bouteilles de 1L` |
+| `format` | Format, e.g. `6x1L` |
+| `promotionLabel` | Promotion text, e.g. `1 acheté = 80€ de remise` |
+| `promotionType` | Carrefour promotion type code |
+| `promotionEndDate` | Promotion end date when Carrefour publishes one |
+| `imageUrl` | Product image at 540×540 |
+| `productUrl` | Direct product page URL |
+| `scrapedAt` | ISO 8601 scrape timestamp |
+
+## Examples
+
+Search for milk, cheapest first:
 
 ```json
 {
   "mode": "searchProducts",
-  "query": "smartphone",
-  "sortBy": "relevance",
-  "maxItems": 50
-}
-```
-
-### Example: browse a category, cheapest first
-
-```json
-{
-  "mode": "browseCategory",
-  "categorySlug": "informatique",
+  "query": "lait",
   "sortBy": "price_asc",
   "maxItems": 100
 }
 ```
 
-### Example: current promotions
+Browse organic baby products with a 4.5-star minimum:
+
+```json
+{
+  "mode": "browseCategory",
+  "categorySlug": "bebe",
+  "organicOnly": true,
+  "minRating": "4.5",
+  "maxItems": 50
+}
+```
+
+Read current promotions for one brand:
 
 ```json
 {
   "mode": "getPromotions",
-  "maxItems": 100
+  "brand": "CORONA",
+  "maxItems": 30
 }
 ```
 
-## Use cases
+## Data source and behaviour
 
-- **Price monitoring** — track a product or category's price and discount levels over time
-- **Promotion tracking** — pull currently discounted items to spot deals as they go live
-- **Assortment research** — browse a category to see brand mix and price spread
-- **Competitive benchmarking** — compare Carrefour's pricing against other French retailers
-- **Catalog enrichment** — attach Carrefour pricing and stock data to a product-matching pipeline
+The actor reads the same server-rendered catalogue payload that powers the public category and
+search pages. It requests one page at a time, follows Carrefour's own next-page link, stops at
+`maxItems` or when the source is exhausted, and retries temporary blocks with a different Safari
+TLS fingerprint. When the hosting network itself is challenged, it automatically routes the request
+through an Apify anti-bot proxy. It does not sign in and does not send cookies.
+
+## Limitations
+
+- Prices are Carrefour's national online prices. Drive/store-specific prices require a store
+  session and are not collected.
+- A price-range filter is not exposed because Carrefour's cookieless URL grammar does not accept a
+  working range value; use `maxItems` with a sort order and filter locally if needed.
+- Ingredients, allergens and the nutrition table live on product detail pages, not in the
+  search/category payload, so they are not part of this actor's output.
+- Carrefour may change its page payload; the actor reports a clear status message instead of
+  returning partial fabricated rows when that happens.
 
 ## FAQ
 
-**Does this require a Carrefour account or login?**
-No. Product search, category and promotion pages are publicly accessible.
+**Do I need a Carrefour account?** No. The actor reads public catalogue pages.
 
-**How many products can I get per run?**
-Up to `maxItems` (maximum 500).
+**Do I configure a proxy?** No. The actor handles request fingerprints internally.
 
-**What language are product names in?**
-French — this actor reads the French Carrefour site (carrefour.fr).
+**Why is `new` still a sort option?** It is kept for saved tasks from the previous version; the
+site no longer offers a newest-first sort, so `new` falls back to relevance.
 
-**Why do some products have no `originalPrice` or `discount`?**
-Those fields only appear when the product is actually on promotion; full-price products simply don't carry them.
-
-**How current is the data?**
-Each run reads carrefour.fr live, so prices and stock status reflect the current state of the site.
-
-**Is this affiliated with Carrefour?**
-No, this is an independent third-party actor that reads Carrefour's publicly available pages. It is not affiliated with or endorsed by Carrefour Group.
+**How fresh is the data?** Each run reads the live page; `scrapedAt` records the exact time.

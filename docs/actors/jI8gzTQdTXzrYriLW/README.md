@@ -4,15 +4,18 @@
 
 # Chairish Vintage Furniture Dimension & Style Filter Scraper
 
-[Chairish](https://www.chairish.com) is a curated marketplace for one-of-a-kind vintage, antique and designer furniture, art and decor. This actor browses a category, searches by keyword, browses one seller's shop, or looks up exact listing URLs, with filters down to design style, color, set size and physical dimensions — no account needed.
+[Chairish](https://www.chairish.com) is a curated marketplace for one-of-a-kind vintage, antique and designer furniture, art and decor. This actor browses a category, searches by keyword, browses one seller's shop or one maker's catalog, or reads exact listing and collection URLs, with filters down to design style, color, set size and physical dimensions — no account needed.
 
 ## What this actor does
 
-- **Four modes** — browse a category (`collection`), search by keyword (`search`), browse one seller's shop (`bySeller`), or look up exact listing URLs (`byUrls`)
-- **Filters most searches and category browses directly** by price range, condition, color, design style, set size (single/pair/set of 3+), sale status, shipping cost, availability, item location, and width/depth/height in inches
+- **Five modes** — browse a category (`collection`), search by keyword (`search`), browse one seller's shop (`bySeller`), browse one maker/designer (`byMaker`), or read exact product/list URLs (`byUrls`)
+- **Any Chairish list URL** — `byUrls` accepts product pages plus `/collection/`, `/maker/`, `/style/`, `/shop/` and `/search?q=` listing pages, and paginates them in full
+- **Filters** on categories, maker pages, seller shops and keyword searches: price range, condition, color, design style, set size (single/pair/set of 3+), sale status, shipping options, availability, item location, and width/depth/height in inches
 - **Sorts results** by curated order, newest, price, or most favorited
-- **Returns rich per-listing detail** — dimensions, material, color, brand, taxonomy, and seller info
+- **Optional detail enrichment** (`includeDetails`) opens each product page to add designer, period, country of origin, item type, full materials, style tags, condition notes, seat count/height, maker link, and the seller's rating, review and sales counts
+- **Rich listing data without enrichment** — current and original price, discount, unit (item/set), stock status, quantity, ships-to countries, lead time, cubic feet, spotlight badges, seller ID/shop link, taxonomy, dimensions and photos
 - **Empty fields are omitted** — a listing only contains the fields Chairish actually published for it
+- **No login, cookies, API key or proxy setup** — public pages only
 
 ## Output per listing
 
@@ -21,16 +24,26 @@
 | `productId`, `title`, `productUrl`, `sourceUrl` | Identity and links |
 | `description` | Listing description |
 | `price`, `currency`, `priceValidUntil`, `availability` | Pricing and availability |
+| `originalPrice`, `discountAmount`, `discountPercentage`, `onSale` | Present when the seller has reduced the price |
+| `priceUnit` | `item` or `set` (Chairish's price basis) |
 | `condition` | `New`, `Used`, or `Refurbished` |
-| `category` | Chairish's category path, e.g. `Furniture > Chairs > Arm Chairs, Recliners & Sleeper Chairs` |
-| `color`, `material`, `brand` | Product attributes |
+| `category`, `taxonomyPath` | Chairish's published category path plus its finer internal breadcrumb |
+| `color`, `material`, `brand`, `designer` | Product attributes (`designer` with detail enrichment) |
+| `materials`, `styleTags`, `period`, `countryOfOrigin`, `itemType` | Detail-enrichment attributes |
+| `conditionDetail`, `conditionNotes` | Detail-enrichment condition text |
 | `depthIn`, `heightIn`, `widthIn` | Dimensions in inches |
+| `numberOfSeats`, `seatHeightIn` | Detail-enrichment seating specs when published |
+| `productStatus`, `quantity`, `isPurchasable`, `onHold` | Stock state |
+| `shipsToCountryCodes`, `leadTimeWeeks`, `cubicFeet` | Shipping profile |
 | `sellerName`, `sellerImageUrl`, `sellerRegion`, `sellerLocality`, `sellerCountry` | Seller identity and location |
-| `sellerSlug` | The seller shop slug queried; present only on `bySeller` records |
-| `sellerRating`, `sellerReviewCount` | Seller's aggregate rating, present only when a listing's own detail page was read (`byUrls`, or when a result was opened for full detail) |
-| `discountPercentage`, `onSale` | Present when the listing is currently marked down |
-| `taxonomyPath` | Chairish's full internal category breadcrumb, more granular than `category` |
+| `sellerId`, `sellerUrl` | Chairish's seller ID and shop link |
+| `sellerRating`, `sellerReviewCount`, `sellerSalesCount`, `sellerReviewsUrl` | Detail-enrichment seller reputation |
+| `sellerSlug` | Present only on `bySeller` records |
+| `makerSlug`, `makerUrl` | Detail-enrichment maker page link |
 | `isLocalPickupAvailable`, `isMadeToOrder`, `isNewlyMade`, `isPromotedListing` | Listing flags |
+| `spotlightTypes`, `hasProp65Warning` | Curated badges and California Prop 65 flag |
+| `searchQuery` | Keyword that found the record (search mode) |
+| `sourceListUrl`, `sourcePosition` | The listing page and rank that produced the record |
 | `imageUrl`, `imageUrls` | Photos (up to 10) |
 | `recordType`, `scrapedAt` | Record marker and fetch timestamp |
 
@@ -38,19 +51,22 @@
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `collection` | `collection`, `search`, `byUrls`, or `bySeller` |
-| `collectionHandle` | string | `sofas` | Category to browse, from a fixed list of Chairish's curated collections (mode=collection) |
+| `mode` | string | `collection` | `collection`, `search`, `byUrls`, `bySeller`, or `byMaker` |
+| `collectionHandle` | string | `sofas` | Category to browse from a fixed list of common collections (mode=collection) |
 | `searchQuery` | string | `mid century credenza` | Keyword to search for (mode=search) |
-| `sellerSlug` | string | – | Seller shop slug or full `/shop/<slug>` URL (mode=bySeller) |
-| `productUrls` | array | – | Exact product or collection URLs to fetch (mode=byUrls) |
+| `searchQueries` | array | – | Multiple keywords in one run; duplicates removed, each row tagged with its `searchQuery` |
+| `sellerSlug` | string | – | Seller shop slug, seller ID, or `/shop/<slug>` URL (mode=bySeller) |
+| `makerSlug` | string | – | Maker/designer slug or `/maker/<slug>` URL (mode=byMaker) |
+| `productUrls` | array | – | Product, collection, maker, style, shop or search URLs (mode=byUrls) |
 | `minPrice` / `maxPrice` | integer | – | Price range in USD |
 | `condition` | string | – | `New`, `Used`, or `Refurbished` |
-| `color` | string | – | One of 17 color options, e.g. `Blue`, `Brown` |
+| `color` | string | – | One of 17 color swatches, e.g. `Blue`, `Brown` |
 | `style` | string | – | One of 49 design styles, e.g. `Art Deco`, `Mid-Century Modern` |
 | `setSize` | string | – | `1` (single item), `2` (a pair), or `3P` (a set of 3 or more) |
 | `onSaleOnly` | boolean | `false` | Only items currently marked down |
 | `freeShippingOnly` | boolean | `false` | Only items with free shipping |
-| `underFiftyShippingOnly` | boolean | `false` | Only items with shipping under $50 (ignored if `freeShippingOnly` is on) |
+| `underFiftyShippingOnly` | boolean | `false` | Only items with shipping under $50 |
+| `freeLocalPickupOnly` | boolean | `false` | Only items whose listing flags free local pickup (matched while paging) |
 | `availability` | string | – | `hideSoldOut` or `readyToShip` |
 | `featured` | string | – | `newArrivals` or `aList` (curated designer picks) |
 | `itemLocation` | string | – | `USA` or `Europe` |
@@ -58,7 +74,8 @@
 | `minDepthIn` / `maxDepthIn` | integer | – | Depth range in inches; listings with no published depth always pass |
 | `minHeightIn` / `maxHeightIn` | integer | – | Height range in inches; listings with no published height always pass |
 | `sortBy` | string | – | Curated (default), Newest, Price low-to-high, Price high-to-low, or Most Favorited |
-| `maxItems` | integer | `30` | Hard cap on emitted records (1–500) |
+| `includeDetails` | boolean | `false` | Fetch each product page for detail-only fields (one extra request per emitted listing) |
+| `maxItems` | integer | `3` | Hard cap on emitted records (1–10,000; one list URL caps at 9,504) |
 
 ### Example: vintage sofas under a price cap
 
@@ -82,6 +99,28 @@
 }
 ```
 
+### Example: several keyword searches in one run
+
+```json
+{
+  "mode": "search",
+  "searchQueries": ["walnut credenza", "travertine coffee table", "murano lamp"],
+  "maxPrice": 4000
+}
+```
+
+### Example: one maker's catalog with full details
+
+```json
+{
+  "mode": "byMaker",
+  "makerSlug": "knoll",
+  "includeDetails": true,
+  "sortBy": "price",
+  "maxItems": 25
+}
+```
+
 ### Example: one seller's shop, priced lowest first
 
 ```json
@@ -93,27 +132,31 @@
 }
 ```
 
-### Example: look up specific listings
+### Example: look up a product and a whole collection
 
 ```json
 {
   "mode": "byUrls",
-  "productUrls": ["https://www.chairish.com/product/36569681/antique-rug-wingback-chair"]
+  "productUrls": [
+    "https://www.chairish.com/product/36569681/antique-rug-wingback-chair",
+    "https://www.chairish.com/collection/mid-century-credenzas?price=1000-4000"
+  ],
+  "maxItems": 40
 }
 ```
 
 ## Use cases
 
-- **Interior designers and stylists** — source one-of-a-kind pieces by category, style and exact dimensions for a client's space
-- **Vintage/antique resellers** — watch a supplier's or competitor's shop (`bySeller`) for new inventory and pricing
-- **Market research** — track pricing for a design style or category, e.g. Mid-Century Modern credenzas, over time
+- **Interior designers and stylists** — source one-of-a-kind pieces by maker, style and exact dimensions for a client's space
+- **Vintage/antique resellers** — watch a supplier's or competitor's shop (`bySeller`) and a maker's catalog (`byMaker`) for new inventory and pricing
+- **Market research** — track pricing for a design style, maker or category, e.g. Mid-Century Modern credenzas, over time
 - **Decor curation** — pull a themed collection of furniture and decor for a shopping or inspiration site
-- **Deal hunting** — filter to `onSaleOnly` across a category or a specific seller's shop
+- **Deal hunting** — filter to `onSaleOnly` or `freeLocalPickupOnly` across a category, maker or seller
 
 ## FAQ
 
 **Do I need a Chairish account or login?**
-No. Category, search, shop and listing pages are all publicly accessible.
+No. Category, search, shop, maker and listing pages are all publicly accessible.
 
 **Is this new or used furniture?**
 Both — Chairish lists vintage, antique and new designer pieces from individual sellers and dealers. Use the `condition` filter to narrow to one.
@@ -124,20 +167,27 @@ Each run reads chairish.com live, so sold or removed listings simply won't appea
 **Does keyword search return exact-phrase matches only?**
 No — Chairish's own search resolves a query to its closest matching category or filtered view, the same way it behaves on the site itself.
 
-**Can I browse a specific seller's full shop?**
-Yes — use `mode: "bySeller"` with that seller's shop slug (e.g. `schumacher`) or full `/shop/<slug>` URL to get their catalog with the same filters as category or keyword browsing.
+**Can I browse a specific seller's or maker's full catalog?**
+Yes — use `bySeller` with a shop slug/ID or `byMaker` with a maker slug, and the same filters as a category browse apply.
 
 **Are prices always in USD?**
 Yes — Chairish is a US-focused marketplace, so prices are listed in USD regardless of the seller's location.
 
+**What does `includeDetails` add, and what does it cost?**
+It opens each emitted listing's product page to fill designer, period, country of origin, item type, styles, full materials, condition notes, seat specs, maker link and seller reputation. That is one extra HTTP request per emitted record, so it is off by default.
+
 **Why do some listings have no `sellerRating`?**
-Seller rating and review count are only available when a listing's own detail page is read — on `byUrls` lookups, or when a result is opened for full detail — not from category/search listing cards alone.
+Seller rating, review count and sales count come from product pages, so they appear only with `includeDetails` (or when that record was fetched as a product URL in `byUrls`). Sellers with no reviews simply have no rating.
 
 **Is `Refurbished` filtered the same way as `New`/`Used`?**
 It narrows results the same way from your perspective, though Chairish treats `Refurbished` slightly differently internally than its two primary condition options — the output is unaffected either way.
 
+**Can I get more than 9,504 listings from one category?**
+Chairish blocks pagination past page 99 at 96 listings per page. Split the request by price range, style, color or subcategory to cover more of the catalog.
+
 ## Limitations
 
 - Chairish is a US-focused marketplace; prices are in USD and most sellers are US-based.
-- `collectionHandle` offers a curated list of the most common furniture/decor categories. Chairish hosts 190+ collections in total (including jewelry, books and seasonal collections outside furniture/decor); use `mode: "byUrls"` to fetch a collection not in the list.
-- Individual seller shipping cost and lead time aren't part of the structured listing data and aren't included in the output.
+- `collectionHandle` offers a curated list of the most common furniture/decor categories. Chairish hosts 150+ collections in total (including jewelry, books and seasonal collections outside furniture/decor); use `mode: "byUrls"` with a collection URL to read one not in the list.
+- A single list URL stops at Chairish's page-99 ceiling (9,504 listings with the actor's 96-per-page requests). Partition by filters to go deeper.
+- Individual seller shipping cost and exact delivery date aren't part of the structured listing data and aren't included; `leadTimeWeeks`, `shipsToCountryCodes` and `cubicFeet` are.

@@ -1,42 +1,71 @@
 {
-  "description": "Search Corcoran listings by region, fetch listings by ID, or browse the region directory.",
+  "description": "Search Corcoran listings by region with price, bedroom, bathroom, property-type, status and location filters; look up listings by ID or URL; or browse the region directory.",
   "properties": {
-    "listingIds": {
+    "citiesOrBoroughs": {
       "default": [],
-      "description": "Corcoran listing IDs, e.g. `109473943`.",
+      "description": "City or borough names, e.g. `Manhattan`, `Brooklyn`, `Miami Beach`.",
       "editor": "stringList",
       "prefill": [],
-      "title": "Listing IDs (mode=byIds)",
+      "title": "Cities or boroughs",
+      "type": "array"
+    },
+    "includeDetails": {
+      "default": false,
+      "description": "Fetch each listing's detail page for description, features, year built, taxes, days on market and building info. Costs one extra request per listing.",
+      "prefill": false,
+      "title": "Enrich each listing with detail data",
+      "type": "boolean"
+    },
+    "isNewDevelopment": {
+      "default": false,
+      "description": "Only return new-development listings.",
+      "prefill": false,
+      "title": "New developments only",
+      "type": "boolean"
+    },
+    "listingIds": {
+      "default": [],
+      "description": "Listing IDs or full Corcoran listing URLs for mode=byIds. Example: `109473943` or `https://www.corcoran.com/listing/for-sale/.../109473943`.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Listing IDs or URLs",
       "type": "array"
     },
     "listingStatus": {
       "default": "any",
-      "description": "Only keep listings with this status.",
+      "description": "Limit to a status. Sold and Rented search recent history; use Sold/rented window to widen it.",
       "editor": "select",
       "enum": [
         "any",
         "Active",
         "PreListing",
-        "InContract",
-        "Closed",
-        "Rented",
-        "Contingent"
+        "Contract Signed",
+        "Back on Market",
+        "Sold",
+        "Rented"
       ],
       "enumTitles": [
         "Any",
         "Active",
-        "Pre-listing",
-        "In contract",
-        "Closed",
-        "Rented",
-        "Contingent"
+        "Coming soon / pre-listing",
+        "In contract / signed",
+        "Back on market",
+        "Sold",
+        "Rented"
       ],
       "prefill": "any",
       "title": "Listing status",
       "type": "string"
     },
+    "maxBathrooms": {
+      "description": "Only listings with at most this many bathrooms.",
+      "maximum": 50,
+      "minimum": 0,
+      "title": "Max bathrooms",
+      "type": "integer"
+    },
     "maxBedrooms": {
-      "description": "Only keep listings with at most this many bedrooms.",
+      "description": "Only listings with at most this many bedrooms.",
       "maximum": 50,
       "minimum": 0,
       "title": "Max bedrooms",
@@ -44,37 +73,46 @@
     },
     "maxItems": {
       "default": 25,
-      "description": "Hard cap on emitted records.",
-      "maximum": 1000,
+      "description": "Hard cap on emitted listings. Larger caps page through Corcoran's search results.",
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 10,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
     "maxPrice": {
-      "description": "Only keep listings priced at most this much.",
+      "description": "Only listings priced at most this much. Leave empty for no maximum.",
       "maximum": 1000000000,
       "minimum": 0,
       "title": "Max price (USD)",
       "type": "integer"
     },
+    "minBathrooms": {
+      "description": "Only listings with at least this many bathrooms.",
+      "maximum": 50,
+      "minimum": 0,
+      "title": "Min bathrooms",
+      "type": "integer"
+    },
     "minBedrooms": {
-      "description": "Only keep listings with at least this many bedrooms.",
+      "description": "Only listings with at least this many bedrooms.",
       "maximum": 50,
       "minimum": 0,
       "title": "Min bedrooms",
       "type": "integer"
     },
     "minPrice": {
-      "description": "Only keep listings priced at least this much.",
+      "description": "Only listings priced at least this much. Leave empty for no minimum.",
       "maximum": 1000000000,
       "minimum": 0,
+      "sectionCaption": "Listing filters",
+      "sectionDescription": "All filters are applied by Corcoran's search API, so they work across pagination.",
       "title": "Min price (USD)",
       "type": "integer"
     },
     "mode": {
       "default": "search",
-      "description": "What to fetch.",
+      "description": "Search listings, look up exact listings by ID or URL, or browse the region directory.",
       "editor": "select",
       "enum": [
         "search",
@@ -83,26 +121,141 @@
       ],
       "enumTitles": [
         "Search listings by region",
-        "Lookup listings by ID",
+        "Look up listings by ID or URL",
         "Browse all regions"
       ],
       "prefill": "search",
+      "sectionCaption": "What to scrape",
+      "sectionDescription": "Pick a mode, then fill the fields that mode uses.",
       "title": "Mode",
       "type": "string"
     },
+    "neighborhoods": {
+      "default": [],
+      "description": "Neighborhood names, e.g. `Upper East Side`, `Chelsea`. Leave empty for the whole region.",
+      "editor": "stringList",
+      "prefill": [],
+      "sectionCaption": "Location filters",
+      "sectionDescription": "Narrow a region by neighborhood, city/borough or ZIP code.",
+      "title": "Neighborhoods",
+      "type": "array"
+    },
+    "openHouseDays": {
+      "default": [],
+      "description": "Only listings with an open house on these upcoming days (0 = today, 1 = tomorrow, ... 6). Leave empty to ignore open-house dates.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "enumTitles": [
+          "Today",
+          "Tomorrow",
+          "In 2 days",
+          "In 3 days",
+          "In 4 days",
+          "In 5 days",
+          "In 6 days"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Open-house days",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "propertyTypes": {
+      "default": [],
+      "description": "Limit to one or more property types. Leave empty for every type.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "Condo",
+          "Co-op",
+          "Condop",
+          "Townhouse",
+          "Single Family",
+          "Multi Family",
+          "Commercial"
+        ],
+        "enumTitles": [
+          "Condo",
+          "Co-op",
+          "Condop",
+          "Townhouse",
+          "Single-family home",
+          "Multi-family home",
+          "Commercial"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Property types",
+      "type": "array",
+      "uniqueItems": true
+    },
     "regionId": {
       "default": 1,
-      "description": "Corcoran region ID (mode=search). `1` = New York City, `2` = South Florida, `3` = The Hamptons, `100` = Northern California, `103` = Chicago, `109` = Denver, `128` = Nashville, `133` = Houston, `141` = Washington Metro Area. Use mode=browseRegions for the full list.",
+      "description": "Corcoran region ID for search mode. `1` = New York City, `2` = South Florida, `3` = The Hamptons, `100` = Northern California, `103` = Chicago, `109` = Denver, `128` = Nashville, `133` = Houston, `137` = Boston, `141` = Washington Metro Area. Use mode=browseRegions for the full list.",
       "maximum": 9999,
       "minimum": 1,
       "prefill": 1,
-      "title": "Region ID (mode=search)",
+      "title": "Region ID",
       "type": "integer"
     },
+    "regionIds": {
+      "default": [],
+      "description": "Search several regions in one run. When set, this replaces Region ID. Example: `1, 2, 3` for NYC, South Florida and the Hamptons.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Region IDs (multiple)",
+      "type": "array"
+    },
     "searchQuery": {
-      "description": "Only keep listings whose address, city, neighborhood, or property type contains this substring.",
+      "description": "Free-text search handled by Corcoran, e.g. an address, building or neighborhood.",
       "editor": "textfield",
-      "title": "Keyword filter",
+      "title": "Search keyword",
+      "type": "string"
+    },
+    "soldRentedWindowDays": {
+      "default": 30,
+      "description": "How far back to search when Listing status is Sold or Rented. Ignored for other statuses.",
+      "maximum": 3650,
+      "minimum": 1,
+      "prefill": 30,
+      "title": "Sold/rented window (days)",
+      "type": "integer"
+    },
+    "sortBy": {
+      "default": "recommended+desc",
+      "description": "Order of listings before the item cap is applied.",
+      "editor": "select",
+      "enum": [
+        "recommended+desc",
+        "listedDate+desc",
+        "price",
+        "price+desc",
+        "squareFeetInterior+desc",
+        "openHouses+desc"
+      ],
+      "enumTitles": [
+        "Recommended",
+        "Newest",
+        "Price low to high",
+        "Price high to low",
+        "Most square feet",
+        "Open houses first"
+      ],
+      "prefill": "recommended+desc",
+      "sectionCaption": "Output",
+      "sectionDescription": "Control ordering, enrichment and the run size.",
+      "title": "Sort order",
       "type": "string"
     },
     "transactionType": {
@@ -120,6 +273,14 @@
       "prefill": "for-sale",
       "title": "Transaction type",
       "type": "string"
+    },
+    "zipCodes": {
+      "default": [],
+      "description": "US ZIP codes, e.g. `10022`, `33139`.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "ZIP codes",
+      "type": "array"
     }
   },
   "required": [

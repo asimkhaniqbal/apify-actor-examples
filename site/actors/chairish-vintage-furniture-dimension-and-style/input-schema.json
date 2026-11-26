@@ -20,7 +20,7 @@
     },
     "collectionHandle": {
       "default": "sofas",
-      "description": "Category to browse, from Chairish's own collection facets. Required for mode=collection. (Only the listed values are accepted -- the platform's input validation rejects any other slug, even though chairish.com hosts additional collection pages; use mode=byUrls to fetch one of those directly.)",
+      "description": "Category to browse, from Chairish's own collection facets. Required for mode=collection. Only the listed values are accepted by the dropdown; Chairish hosts 150+ more collection pages (jewelry, books, seasonal), which you can fetch with mode=byUrls and a full collection URL.",
       "editor": "select",
       "enum": [
         "new-arrivals",
@@ -187,12 +187,28 @@
       "title": "Featured collection (mode=collection, search, bySeller)",
       "type": "string"
     },
+    "freeLocalPickupOnly": {
+      "default": false,
+      "description": "Only keep listings that offer free local pickup. Chairish exposes this flag on every listing, but its shipping facet for this option is not applied server-side, so the actor matches it as a post-filter while it pages through results.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Free local pickup only (mode=collection, search, bySeller, byMaker)",
+      "type": "boolean"
+    },
     "freeShippingOnly": {
       "default": false,
       "description": "Restrict results to items with free shipping. Applied server-side via Chairish's own shipping-options facet, so it narrows the source results (not just a post-filter). Not available in mode=byUrls.",
       "editor": "checkbox",
       "prefill": false,
       "title": "Free shipping only (mode=collection, search, bySeller)",
+      "type": "boolean"
+    },
+    "includeDetails": {
+      "default": false,
+      "description": "Open every product page to add detail-only fields: designer, period, country of origin, item type, styles, full materials, condition notes, seat count/height, maker link, and seller rating/review/sales counts. Costs one extra request per emitted listing and makes runs noticeably slower; product URLs in mode=byUrls are always read in full.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Fetch full listing details",
       "type": "boolean"
     },
     "itemLocation": {
@@ -212,6 +228,14 @@
       "title": "Item location (mode=collection, search, bySeller)",
       "type": "string"
     },
+    "makerSlug": {
+      "default": "",
+      "description": "Chairish maker/designer slug (e.g. `knoll`, `hans-wegner`) or a full `chairish.com/maker/<slug>` URL. Required for mode=byMaker. Returns that maker's real catalog, paginated, with the same filters as a category browse.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Maker or designer slug/URL (mode=byMaker)",
+      "type": "string"
+    },
     "maxDepthIn": {
       "description": "Drop listings deeper than this (inches). Applied server-side via Chairish's own per-category dimension facet, so it narrows the source results (not just a post-filter); also enforced as a post-filter. Listings without a published depth always pass. Not available in mode=byUrls.",
       "maximum": 1000,
@@ -227,11 +251,11 @@
       "type": "integer"
     },
     "maxItems": {
-      "default": 30,
-      "description": "Hard cap on emitted records.",
-      "maximum": 500,
+      "default": 3,
+      "description": "Hard cap on emitted records. Chairish blocks pagination past page 99 (9,504 listings per list URL); narrow filters or split by category to reach more.",
+      "maximum": 10000,
       "minimum": 1,
-      "prefill": 30,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
@@ -279,19 +303,21 @@
     },
     "mode": {
       "default": "collection",
-      "description": "What to fetch.",
+      "description": "What to fetch: a category collection, a keyword search, exact product or list URLs, one seller's shop, or one maker/designer page.",
       "editor": "select",
       "enum": [
         "collection",
         "search",
         "byUrls",
-        "bySeller"
+        "bySeller",
+        "byMaker"
       ],
       "enumTitles": [
         "Browse a category collection",
         "Search by keyword",
-        "Lookup by product/collection URL",
-        "Browse a seller's shop"
+        "Look up by product or list URL",
+        "Browse a seller's shop",
+        "Browse a maker/designer page"
       ],
       "prefill": "collection",
       "title": "Mode",
@@ -307,10 +333,18 @@
     },
     "productUrls": {
       "default": [],
-      "description": "Exact chairish.com product or collection URLs to fetch directly.",
+      "description": "Exact chairish.com URLs to fetch. Supports product pages (`/product/<id>/...`) and any listing page: `/collection/<slug>`, `/maker/<slug>`, `/style/<slug>`, `/shop/<slug>` or `/search?q=...`. Listing URLs are paginated in full; product URLs are read as detail pages.",
       "editor": "stringList",
       "prefill": [],
       "title": "Product or collection URLs (mode=byUrls)",
+      "type": "array"
+    },
+    "searchQueries": {
+      "default": [],
+      "description": "One or more free-text keyword searches, run in order with duplicate listings removed. Use this instead of `searchQuery` when you need several terms in one run; each record carries the `searchQuery` that found it.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Search queries (mode=search, optional)",
       "type": "array"
     },
     "searchQuery": {
@@ -323,7 +357,7 @@
     },
     "sellerSlug": {
       "default": "",
-      "description": "Chairish seller/dealer shop slug (e.g. `schumacher`) or a full `chairish.com/shop/<slug>` URL. Required for mode=bySeller. Returns that seller's real catalog, paginated, with the same price/color/style/sort filters as `collection`/`search`.",
+      "description": "Chairish seller/dealer shop slug (e.g. `schumacher`), seller ID (e.g. `15s4wy`), or a full `chairish.com/shop/<slug>` URL. Required for mode=bySeller. Returns that seller's real catalog, paginated, with the same price/color/style/sort filters as `collection`/`search`.",
       "editor": "textfield",
       "prefill": "schumacher",
       "title": "Seller shop slug or URL (mode=bySeller)",

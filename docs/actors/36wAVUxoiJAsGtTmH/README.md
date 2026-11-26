@@ -4,107 +4,161 @@
 
 # Corcoran Real Estate Listings Scraper
 
-Scrape **Corcoran** — the luxury real estate brokerage. Search homes for sale and rent across 40+ regions with price, bedroom, and status filters; fetch listing detail pages with agents, media, and acreage; or browse the full region directory.
+Collect **Corcoran** property listings without a login, cookie or API key. Search for-sale and rental inventory across 40+ regions, follow the site's own pagination, filter by price, bedrooms, bathrooms, property type, status, neighborhood, city or ZIP, and optionally enrich every listing with its detail-page description, features, taxes and building facts.
 
-## What this actor does
+## What it collects
 
-- **Three modes:** `search` (listings by region), `byIds` (detail lookup), `browseRegions`
-- **Regions:** New York City, South Florida, The Hamptons, Chicago, Denver, Houston, Nashville, and 40+ more
-- **Listing data:** price, beds, baths, sqft, address, status, property type, agents, photos
-- **Detail data:** acreage, year built, stories, full media gallery, agent credentials
-- **Filters:** price range, bedroom range, listing status, keyword
-- **Empty fields are omitted**
+- **Listing search** — Corcoran's live search index for any region or group of regions.
+- **Exact lookups** — pass listing IDs or paste full Corcoran listing URLs.
+- **Region directory** — every Corcoran region with its ID, areas, slug and map coordinates.
+- **Real filters** — price, bedroom, bathroom, property type, listing status, location names, ZIP codes, open-house days and new developments are sent to Corcoran's search API, so they hold across every page.
+- **Full result pages** — the actor pages with the site's cursor until your item cap is reached or the source is exhausted.
+- **Detail enrichment** — optional per-listing detail fetch adds description, amenities, year built, taxes, days on market and building information.
 
-## Output per listing
+Every record is omit-empty: a field is present only when Corcoran publishes a real value for that listing.
 
-- `listingId`, `propertyId`
-- `address1`, `address2`, `city`, `state`, `zipCode`, `boroughName`, `neighborhoodName`
-- `price` — asking price in USD
-- `bedrooms`, `bathrooms`, `halfBaths`, `squareFootage`
-- `listingStatus` — `Active`, `PreListing`, `InContract`, `Closed`, …
-- `propertyType`, `listingType`, `transactionType`, `unitType`
-- `mediaUrl`, `media[]` — listing photos
-- `agents[]` — name, email, office
-- `isNewDevelopment`, `isExclusive`, `hasVirtualTour`, `isReducedPrice`, `isOpenHouse`
-- `latitude`, `longitude`
-- `listingUrl`
-- `recordType: "listing"`, `scrapedAt`
+## Modes
 
-On detail pages (mode=byIds) additionally: `acreage`, `yearBuilt`, `stories`, `brokerageName`, `addressAltText`, `listingStyle`, `saleType`.
+| Mode | What it does |
+|---|---|
+| `search` | Search listings by region with filters and pagination. |
+| `byIds` | Look up exact listings by ID or full Corcoran URL. |
+| `browseRegions` | Emit the live region directory. |
 
 ## Input
 
-| Field | Type | Default | Description |
-|---|---|---|---|
-| `mode` | string | `search` | `search` / `byIds` / `browseRegions` |
-| `regionId` | int | `1` | Corcoran region ID (mode=search) |
-| `transactionType` | string | `for-sale` | `for-sale` / `for-rent` |
-| `listingIds` | array | – | Listing IDs (mode=byIds) |
-| `searchQuery` | string | – | Keyword on address/city/neighborhood |
-| `minPrice` / `maxPrice` | int | – | Price range in USD |
-| `minBedrooms` / `maxBedrooms` | int | – | Bedroom range |
-| `listingStatus` | string | `any` | Active / PreListing / InContract / Closed / … |
-| `maxItems` | int | `25` | Hard cap (1–1000) |
+| Field | Type | Notes |
+|---|---|---|
+| `mode` | select | `search`, `byIds` or `browseRegions`. |
+| `regionId` | integer | Single Corcoran region ID (1 = New York City). |
+| `regionIds` | array | Multiple region IDs; replaces `regionId` when set. |
+| `transactionType` | select | `for-sale` or `for-rent`. |
+| `listingIds` | array | IDs or full listing URLs for `byIds`. |
+| `minPrice` / `maxPrice` | integer | Price range in USD. |
+| `minBedrooms` / `maxBedrooms` | integer | Bedroom range. |
+| `minBathrooms` / `maxBathrooms` | integer | Bathroom range. |
+| `propertyTypes` | multi-select | Condo, Co-op, Condop, Townhouse, Single Family, Multi Family, Commercial. |
+| `listingStatus` | select | Any, Active, PreListing, Contract Signed, Back on Market, Sold, Rented. |
+| `soldRentedWindowDays` | integer | History window for Sold/Rented searches (default 30 days). |
+| `openHouseDays` | multi-select | Only listings with an open house on these upcoming days (0 = today, ... 6). |
+| `isNewDevelopment` | boolean | New developments only. |
+| `neighborhoods` | array | Neighborhood names, e.g. `Upper East Side`. |
+| `citiesOrBoroughs` | array | City or borough names, e.g. `Manhattan`. |
+| `zipCodes` | array | US ZIP codes. |
+| `searchQuery` | string | Corcoran keyword search (address, building, neighborhood). |
+| `sortBy` | select | Recommended, Newest, price low/high, most square feet, open houses first. |
+| `includeDetails` | boolean | Fetch each listing's detail page for extra fields. |
+| `maxItems` | integer | 1–10,000; default 25, daily-test prefill 3. |
 
-### Example: NYC homes over $1M
+### Defaults
+
+| Field | Default |
+|---|---|
+| `mode` | `search` |
+| `regionId` | `1` (New York City) |
+| `regionIds` | empty |
+| `transactionType` | `for-sale` |
+| `listingIds` | empty |
+| `propertyTypes` | empty (all types) |
+| `listingStatus` | `any` |
+| `soldRentedWindowDays` | `30` |
+| `openHouseDays` | empty |
+| `isNewDevelopment` | `false` |
+| `neighborhoods`, `citiesOrBoroughs`, `zipCodes` | empty |
+| `sortBy` | `recommended+desc` |
+| `includeDetails` | `false` |
+| `maxItems` | `25` (prefill `3`) |
+
+### Example: Manhattan condos between $1M and $3M
 
 ```json
 {
   "mode": "search",
   "regionId": 1,
+  "propertyTypes": ["Condo"],
   "minPrice": 1000000,
-  "maxItems": 20
+  "maxPrice": 3000000,
+  "minBedrooms": 2,
+  "sortBy": "price+desc",
+  "maxItems": 100
 }
 ```
 
-### Example: Miami rentals
+### Example: rentals with open houses this week
 
 ```json
 {
   "mode": "search",
-  "regionId": 2,
-  "transactionType": "for-rent"
+  "regionIds": [1, 2],
+  "transactionType": "for-rent",
+  "openHouseDays": ["1"],
+  "maxItems": 50
 }
 ```
 
-### Example: lookup specific listings
+### Example: look up listings from URLs
 
 ```json
 {
   "mode": "byIds",
-  "listingIds": ["109473943", "23882571"]
+  "listingIds": [
+    "109473943",
+    "https://www.corcoran.com/listing/for-sale/1122-madison-avenue-penthouse-new-york-ny-10028/23734012/regionId/1"
+  ]
 }
 ```
 
+## Output
+
+Each listing record keeps its stable camelCase fields and adds more data when Corcoran publishes it:
+
+- **Identity** — `listingId`, `propertyId`, `webId`, `buildingId`, `listingUrl`, `sourceUrl`, `listingMlsNumber`, `sourceKey`, `listingAgency`.
+- **Address** — `address1`, `address2`, `streetName`, `city`, `state`, `zipCode`, `boroughName`, `neighborhoodName`, `latitude`, `longitude`.
+- **Place** — `regionId`, `regionName`, `country`.
+- **Pricing** — `price`, `priceUSD`, `minimumLeaseRate`, `maximumLeaseRate`, `annualTax`, `monthlyTax`.
+- **Layout** — `bedrooms`, `bathrooms`, `halfBaths`, `totalBedrooms`, `totalBathrooms`, `squareFootage`, `acreage`, `acreageUnit`, `yearBuilt`, `stories`, `daysOnMarket`.
+- **Classification** — `listingStatus`, `listingStatusLabel`, `propertyType`, `ownership`, `buildingType`, `listingType`, `transactionType`, `unitType`.
+- **Content** — `description`, `headline`, `features[]`, `essentialFeatures[]`, `additionalFeatures[]`.
+- **Media** — `mediaUrl`, `media[]`, `listingImages[]`, `buildingImages[]`, `floorplanUrls[]`, `videoUrl`.
+- **Open houses** — `openHouses[]` with date, start/end time, virtual and appointment flags.
+- **People** — `agents[]` with name, title, email, phone, office, license and photo.
+- **Building** — `buildingName`, `buildingType`, `buildingOwnership`, `buildingDescription`, `buildingFeatures[]`, `buildingFloors`, `buildingUnitCount`, `buildingYearBuilt`.
+- **Status flags** — `isNewDevelopment`, `isExclusive`, `isReducedPrice`, `isOpenHouse`, `isTrending`, `isIdx`, `isVow`, `hasVirtualTour`, `isAddressHidden`, `isPriceHidden`.
+- **Provenance** — `recordType`, `scrapedAt`, plus `attributionCompanyName`, `attributionCompanyLogoUrl`.
+
+`browseRegions` records contain `regionId`, `regionName`, `regionCode`, `regionSlug`, `regionUrl`, `areas[]`, `defaultZone`, `affiliateName` and coordinates.
+
 ## Use cases
 
-- **Luxury market research** — track Corcoran inventory, pricing, and exclusivity by region
-- **Real estate lead gen** — collect listings with agent contact details
-- **New-development intelligence** — filter `isNewDevelopment` for pipeline tracking
-- **Regional benchmarking** — compare price bands across Corcoran's 40+ regions
-- **Appraisal support** — verified listing data with acreage and year built
+- Track luxury inventory and price bands across Corcoran's regional markets.
+- Build agent lead lists from listing contacts.
+- Monitor new developments, open houses and price reductions.
+- Pull sold/rented comparables for appraisal and investment research.
+- Feed listing data into dashboards or CRMs with stable listing IDs.
 
 ## FAQ
 
-### What is the data source?
-Corcoran's own publicly accessible listing data. This is a third-party actor and is not affiliated with Corcoran.
+### Does this need a Corcoran account?
+No. The actor reads Corcoran's public listing API and public region directory without cookies, logins or keys.
 
-### Are prices real?
-Yes — every price comes from Corcoran's live listing data.
+### Are prices and statuses live?
+Yes. Every value comes from Corcoran at scrape time.
 
-### How fresh is the data?
-As fresh as Corcoran's live site at scrape time. Corcoran updates listings continuously.
+### How far can pagination go?
+`maxItems` supports up to 10,000 listings per run and the actor pages through the site's own result set. A single very broad region can contain more listings than the cap; raise `maxItems` or narrow the filters.
 
-### What is a region ID?
-Corcoran organizes listings into regions (1 = New York City, 2 = South Florida, 3 = The Hamptons, …). Use `browseRegions` to get the full directory with names.
+### What does `includeDetails` add?
+One detail request per listing adds description, amenity list, taxes, days on market, building details and full media. It makes runs slower but does not change the base fields.
 
 ### Why are some fields missing?
-Fields are only emitted when Corcoran provides them (e.g. not all listings publish bathrooms). Empty fields are omitted rather than emitted as null.
+Conditional fields are omitted when Corcoran does not publish them — for example, land listings often have no bathroom count. Nothing is invented or emitted as null.
 
-### Does this require an account or API key?
-No. The actor reads Corcoran's publicly accessible listing data with no login or key needed on your end.
+### Do old saved inputs still work?
+Yes. Saved tasks using `regionId`, `listingIds`, `searchQuery`, `minPrice`, `maxPrice`, `minBedrooms`, `maxBedrooms`, `listingStatus` or `maxItems` run unchanged. Legacy status names (`InContract`, `Closed`, `Contingent`) are mapped to the current Corcoran statuses.
 
 ## Limitations
 
-- Results are hard-capped at **1000 records per run** (`maxItems`).
-- Fields are only emitted when Corcoran provides them (e.g. not all listings publish bathrooms). Empty fields are omitted rather than emitted as null.
+- Corcoran's search API is the source; a listing that is hidden or removed on the site is not returned.
+- Sold and rented searches look back over a configurable window (`soldRentedWindowDays`, default 30 days).
+- Very large `maxItems` requests take longer because each page is fetched from Corcoran's API.
+- This is a third-party actor and is not affiliated with Corcoran.

@@ -111,6 +111,7 @@ Look up California contractor licenses on the **CSLB (Contractors State License 
 - Data comes from CSLB's public "Check A License" tool (`cslb.ca.gov/OnlineServices/CheckLicenseII`). This actor is not affiliated with CSLB or the State of California.
 - `businessName` and `personnelLastName` searches match CSLB's own alphabetical "starts here" browse behavior (the same behavior as the live site's search box), narrowed down to names that actually start with your query so a nonsense query cleanly returns 0 records instead of unrelated alphabetical neighbors.
 - HIS "by name" search (a 5th CSLB search mode, mechanically similar to `byPersonnelName` but against the separate Home Improvement Salesperson registry) is out of scope for this version; use `byHISNumber` if you already have the registration number.
+- CSLB returns at most 50 business-name or 100 personnel-name matches per query, and its own "Next 50" control does not advance (verified in a real browser). Use a longer name prefix to partition a broad search; the actor stops cleanly when the source has no more rows.
 - Bond and workers' compensation history (beyond the currently-on-file entry) is not included -- only the current bond/WC record shown on the license detail page.
 - `classificationFilter` and `statusFilter` only affect records that actually carry that data; records CSLB doesn't return a classification or status for always pass through.
 

@@ -4,14 +4,16 @@
 
 # DefiLlama Protocol, Chain & Yield Data Extractor
 
-Pull live DeFi metrics straight from DefiLlama's open datasets — total value locked, stablecoin supply, yield-pool APY, DEX and lending volume, protocol fees, bridge flow, and token prices. 18 modes cover everything from a single protocol's full TVL history to a snapshot of every chain at once.
+Pull live DeFi metrics straight from DefiLlama's open datasets — total value locked, stablecoin supply, yield-pool APY, DEX and lending volume, protocol fees, bridge flow, and token prices. Eighteen modes cover everything from one protocol's full TVL history to a ranked snapshot of every chain at once, with filters, deterministic sorting, and offset pagination on top.
 
 ## What this actor does
 
 - **18 modes** spanning protocols, chains, stablecoins, yield pools, DEX/lending volume, fees, bridges, and token prices
-- **History and snapshot pairs** — e.g. `protocols` for current TVL across every project, `byProtocol` for one project's full TVL time series
-- **`byUrl` auto-detect** — paste any defillama.com page URL and the actor figures out the right mode and identifier for you
-- **Client-side filters** — category, chain, and minimum-TVL thresholds narrow a snapshot before it's returned
+- **Snapshot and history pairs** — e.g. `protocols` for current TVL across every project, `byProtocol` for one project's full TVL time series
+- **`byUrl` auto-detect** — paste any defillama.com page URL and the actor chooses the right mode and identifier
+- **Mode-aware filters** — name search, chain, category, minimum TVL, minimum APY, stablecoin-only pools, and project-scoped yields
+- **Deterministic paging** — `sortBy` + `sortOrder` + `offset` + `maxItems` produce stable pages over a long result set
+- **Legacy key support in code** — old key names still work without cluttering the input form
 - **Empty fields are omitted** from every record
 
 ## Output per record
@@ -20,41 +22,41 @@ Every record carries `recordType`, `siteName: "DefiLlama"`, and `scrapedAt`, plu
 
 **`protocol`** (modes `protocols`, `byProtocol`)
 - `id`, `slug`, `name`, `symbol`, `address`, `description`, `url`, `logo`
-- `chains[]`, `category`
-- `tvl`, `tvlUsd`, `chainTvls` (per-chain breakdown)
+- `chains[]`, `chain`, `category`, `module`, `parentProtocol`, `protocolType`, `isParentProtocol`, `misrepresentedTokens`
+- `rank` (TVL rank across all protocols), `tvl`, `tvlUsd`, `chainTvls`, `currentChainTvls`
 - `change1h`, `change1d`, `change7d`
 - `marketCapUsd`, `fullyDilutedValuationUsd`
-- `twitter`, `github[]`, `audits`, `auditLinks[]`
-- `listedAt`, `listedAtIso`, `cmcId`, `cgId`
+- `twitter`, `github[]`, `audits`, `auditLinks[]`, `governanceIds[]`, `methodology`
+- `listedAt`, `listedAtIso`, `cmcId`, `cgId`, `raiseCount`, `hackCount`
 - `defillamaUrl`
 
 **`protocolHistory`** (mode `byProtocol`) — `slug`, `date`, `dateIso`, `tvlUsd`
 
-**`chainTvl`** (mode `tvl`) — `name`, `tokenSymbol`, `chainId`, `cgId`, `cmcId`, `tvlUsd`, `defillamaUrl`
+**`chainTvl`** (mode `tvl`) — `name`, `tokenSymbol`, `chainId`, `cgId`, `gasTokenCgId`, `cmcId`, `rank`, `sharePct`, `tvlUsd`, `defillamaUrl`
 
 **`chainHistory`** (mode `historicalChainTvl`) — `chain`, `date`, `dateIso`, `tvlUsd`
 
-**`stablecoin`** (mode `stablecoins`) — `id`, `name`, `symbol`, `pegType`, `pegMechanism`, `chains[]`, `circulating`, `circulatingPrevDay`, `circulatingPrevWeek`, `circulatingPrevMonth`, `priceUsd` (when `stablecoinIncludePrices` is on), `delisted`, `defillamaUrl`
+**`stablecoin`** (mode `stablecoins`) — `id`, `name`, `symbol`, `pegType`, `pegMechanism`, `chains[]`, `circulating`, `circulatingPrevDay`, `circulatingPrevWeek`, `circulatingPrevMonth`, `change1dPct`, `change7dPct`, `change30dPct`, `priceUsd` (when `stablecoinIncludePrices` is on), `delisted`, `defillamaUrl`
 
 **`stablecoinChain`** (mode `stablecoinChains`) — `name`, `circulatingUSD` or per-currency `circulating<CODE>` fields
 
 **`stablecoinPrice`** (mode `stablecoinPrices`) — `stablecoinId`, `name`, `symbol`, `currentPriceUsd`, `date`, `dateIso`, `circulatingUSD`
 
-**`yieldPool`** (mode `yields`) — `pool`, `poolMeta`, `project`, `symbol`, `chain`, `tvlUsd`, `apy`, `apyBase`, `apyReward`, `apyMean30d`, `ilRisk`, `exposure`, `stablecoin`, `rewardTokens[]`, `underlyingTokens[]`, `defillamaUrl`
+**`yieldPool`** (mode `yields`) — `pool`, `poolMeta`, `project`, `symbol`, `chain`, `tvlUsd`, `apy`, `apyBase`, `apyReward`, `apyBase7d`, `apyMean30d`, `apyChange1d`, `apyChange7d`, `apyChange30d`, `ilRisk`, `il7d`, `exposure`, `stablecoin`, `volume1dUsd`, `volume7dUsd`, `predictedClass`, `predictedProbability`, `binnedConfidence`, `rewardTokens[]`, `underlyingTokens[]`, `defillamaUrl`
 
 **`yieldHistory`** (mode `yieldsByPool`) — `poolId`, `timestamp`, `apy`, `apyBase`, `apyReward`, `tvlUsd`
 
-**`dexVolume`** (mode `dexVolumes`) — `name`, `displayName`, `module`, `category`, `logo`, `url`, `chains[]`, `volume24hUsd`, `volume48to24hUsd`, `volume7dUsd`, `volume30dUsd`, `volumeAllTimeUsd`, `change1d`, `change7d`, `change30d`, `defillamaUrl`
+**`dexVolume`** (mode `dexVolumes`) — `name`, `displayName`, `module`, `category`, `protocolType`, `parentProtocol`, `logo`, `url`, `chains[]`, `volume24hUsd`, `volume48to24hUsd`, `volumeLastFullDayUsd`, `volume7dUsd`, `volume14dto7dUsd`, `volume30dUsd`, `volume60dto30dUsd`, `volume1yUsd`, `volumeAllTimeUsd`, `annualized1yUsd`, `average1yUsd`, `monthlyAverage1yUsd`, `change1d`, `change7d`, `change30d`, `change7dOver7d`, `change30dOver30d`, `defillamaUrl`
 
 **`dexHistory`** (mode `dexByProtocol`) — `slug`, `timestamp`, `timestampIso`, `volumeUsd`
 
-**`lendingMarket`** (mode `lendingMarkets`) and **`lendingHistory`** (mode `lendingByProtocol`) — same shape as `dexVolume` / `dexHistory`, scoped to lending protocols
+**`lendingMarket`** / **`lendingHistory`** (modes `lendingMarkets`, `lendingByProtocol`) — public protocol TVL data for lending-category protocols, with the same identity, chain, rank, TVL, and change fields as protocol records plus a daily `tvlUsd` history
 
-**`fees`** (mode `fees`) — same shape as `dexVolume`, with `fees24hUsd`, `fees7dUsd`, etc. in place of `volume*Usd`
+**`fees`** (mode `fees`) — same shape as `dexVolume`, with `fees24hUsd`, `fees7dUsd`, `fees1yUsd`, etc. in place of `volume*Usd`
 
-**`bridge`** (mode `bridges`) — `id`, `name`, `displayName`, `icon`, `chains[]`, `volumeLastDayUsd`, `volumeDayBeforeUsd`, `volumeWeeklyUsd`, `volumeMonthlyUsd`, `txsLastDay`, `txsWeekly`, `txsMonthly`
+**`bridge`** (mode `bridges`) — `id`, `name`, `displayName`, `icon`, `chains[]`, `volumeLastDayUsd`, `volumeDayBeforeUsd`, `volumeWeeklyUsd`, `volumeMonthlyUsd`, `txsLastDay`, `txsWeekly`, `txsMonthly` (DefiLlama currently gates this dataset behind a paid plan)
 
-**`bridgeHistory`** (mode `bridgeByName`) — `bridge`, `date`, `dateIso`, `depositUsd`, `withdrawUsd`
+**`bridgeHistory`** (mode `bridgeByName`) — `bridge`, `date`, `dateIso`, `depositUsd`, `withdrawUsd` (same paid-plan caveat)
 
 **`tokenPrice`** (mode `currentPrices`) — `tokenId`, `symbol`, `priceUsd`, `decimals`, `timestamp`, `timestampIso`, `confidence`
 
@@ -64,25 +66,61 @@ Every record carries `recordType`, `siteName: "DefiLlama"`, and `scrapedAt`, plu
 |---|---|---|---|
 | `mode` | string | `protocols` | One of the 18 modes listed above |
 | `protocolSlug` | string | – | Protocol slug from its defillama.com URL, e.g. `aave` (modes `byProtocol` / `dexByProtocol` / `lendingByProtocol`) |
-| `chain` | string | – | Chain name, e.g. `Ethereum` (mode `historicalChainTvl`, optional filter on `tvl`) |
-| `category` | string | – | Protocol category filter, e.g. `Lending`, `Dexes` (mode `protocols`) |
-| `minTvlUsd` | int | – | Drop records below this TVL in USD (modes `protocols` / `yields`) |
+| `chain` | string | – | Required for `historicalChainTvl`; also filters protocols, chains, stablecoins, yields, DEX, lending, fees, and bridges by chain where available |
+| `category` | string | – | Category filter for protocols, DEX, lending, and fee records, e.g. `Lending`, `Dexes` |
+| `minTvlUsd` | int | – | Drop records below this TVL in USD (protocols / chains / yields / lending) |
+| `searchQuery` | string | – | Case-insensitive name/symbol/project search across list modes |
+| `minApy` | number | – | Minimum total APY for yield pools (mode `yields`) |
+| `yieldStablecoinOnly` | boolean | `false` | Keep only stablecoin yield pools (mode `yields`) |
+| `yieldProject` | string | – | Keep yield pools whose project slug contains this text (mode `yields`) |
 | `stablecoinId` | int | – | DefiLlama stablecoin ID, e.g. `1` = USDT (mode `stablecoinPrices`) |
 | `poolId` | string | – | Yield pool UUID from yields.llama.fi (mode `yieldsByPool`) |
-| `bridgeName` | string | – | Bridge identifier from the bridges list (mode `bridgeByName`) |
+| `bridgeName` | string | – | Bridge name from the bridges list (mode `bridgeByName`) |
 | `tokenIds` | array | `[]` | Token IDs in `coingecko:bitcoin` / `ethereum:0x...` format, up to 100 (mode `currentPrices`) |
 | `stablecoinIncludePrices` | boolean | `true` | Include current price per stablecoin (mode `stablecoins`) |
 | `url` | string | – | Any defillama.com URL — mode and identifier are detected automatically (mode `byUrl`) |
-| `maxItems` | int | `100` | Hard cap on emitted records |
+| `maxItems` | int | `100` | Page size: hard cap on records emitted in this run |
+| `offset` | int | `0` | Records to skip after filtering and sorting; page 2 means `offset = maxItems` |
+| `sortBy` | string | – | Sort matching records before paging: TVL, APY, change, volume, fees, supply, price, market cap, date, timestamp, or name |
+| `sortOrder` | string | `desc` | `desc` or `asc`; records with a missing value sort last |
 
-### Example: lending protocols above $1M TVL
+### Example: top lending protocols on Ethereum
 
 ```json
 {
   "mode": "protocols",
+  "chain": "Ethereum",
   "category": "Lending",
-  "minTvlUsd": 1000000,
+  "minTvlUsd": 1000000000,
+  "sortBy": "tvlUsd",
+  "sortOrder": "desc",
   "maxItems": 20
+}
+```
+
+### Example: second page of a long result set
+
+```json
+{
+  "mode": "protocols",
+  "sortBy": "tvlUsd",
+  "sortOrder": "desc",
+  "offset": 100,
+  "maxItems": 100
+}
+```
+
+### Example: higher-yield stablecoin pools
+
+```json
+{
+  "mode": "yields",
+  "chain": "Ethereum",
+  "minTvlUsd": 10000000,
+  "minApy": 5,
+  "yieldStablecoinOnly": true,
+  "sortBy": "apy",
+  "maxItems": 50
 }
 ```
 
@@ -114,18 +152,25 @@ Every record carries `recordType`, `siteName: "DefiLlama"`, and `scrapedAt`, plu
 }
 ```
 
+## Legacy inputs
+
+Saved tasks that still send old key names keep working: keys such as `limit` / `maxResults` (→ `maxItems`), `skip` / `start` (→ `offset`), `protocol` / `slug` (→ `protocolSlug`), `chainName` (→ `chain`), `minTVL` (→ `minTvlUsd`), `pool` (→ `poolId`), `bridge` (→ `bridgeName`), `tokens` (→ `tokenIds`), `includePrices` (→ `stablecoinIncludePrices`), `search` / `query` (→ `searchQuery`), `project` (→ `yieldProject`), `stablecoinOnly` (→ `yieldStablecoinOnly`), and `sort` / `order` are mapped in code. Old identifiers such as `mode: "protocol"` or `mode: "yield"` are also understood by the code path, but the input schema validates `mode` against the canonical list, so use the canonical mode value in new runs.
+
 ## Use cases
 
 - **Treasury dashboards** — pull chain and protocol TVL on a schedule to track exposure
-- **Yield scouting** — rank pools by APY and TVL, filtered by chain or stablecoin-only pools
-- **DeFi research reports** — combine DEX volume, fees, and lending totals for market-structure analysis
-- **Bridge-flow monitoring** — watch deposit/withdraw volume for a specific bridge over time
+- **Yield scouting** — rank stablecoin pools by APY with TVL floors, then page through the tail
+- **DeFi research reports** — combine DEX volume, fees, and lending TVL for market-structure analysis
+- **Bridge-flow monitoring** — watch deposit/withdraw volume when the upstream dataset allows it
 - **Portfolio pricing** — look up current USD prices for a basket of tokens by ID
 
 ## FAQ
 
 **Do I need an API key?**
-No. Every mode reads DefiLlama's free, public datasets.
+No. Every mode reads DefiLlama's free public datasets and runs cookielessly.
+
+**How do I paginate?**
+Sort first (`sortBy` + `sortOrder`), then set `offset` and `maxItems`. Without a sort the source order is preserved, which may change between runs.
 
 **How do I find `protocolSlug`, `poolId`, or `bridgeName`?**
 Copy the slug straight out of a defillama.com URL (e.g. `defillama.com/protocol/aave` → `aave`), or paste the whole URL into `mode: "byUrl"` and let the actor work it out.
@@ -133,11 +178,14 @@ Copy the slug straight out of a defillama.com URL (e.g. `defillama.com/protocol/
 **Why doesn't `mode=protocols` include a TVL history?**
 It returns the current snapshot (with 1h/1d/7d change) for every protocol in one call. For the full time series, use `mode=byProtocol` with a `protocolSlug`.
 
-**Why are `bridges` and `bridgeByName` sometimes empty?**
-DefiLlama moved parts of its bridge-volume dataset behind a paid plan. When that happens the run completes with a status message pointing at the limitation instead of failing silently — every other mode is unaffected.
+**What happened to the lending modes?**
+DefiLlama's lending overview/summary endpoints currently return HTTP 500. The actor derives lending markets and history from public protocol TVL data for lending-category protocols instead, and says so in the run status. No cookie or key is involved.
+
+**Why are `bridges` and `bridgeByName` empty?**
+DefiLlama moved bridge volume and transaction history behind a paid plan. The run finishes cleanly with a status message explaining the limit; every other mode is unaffected.
 
 **Why do some chains show no TVL in `mode=tvl`?**
-Entries with zero reported TVL are dropped to keep the dataset free of placeholder rows.
+Chains with zero reported TVL are dropped so the dataset stays free of placeholder rows.
 
 **Is price data live?**
 Yes for `currentPrices` — it reflects DefiLlama's latest aggregated quote, including a `confidence` score; values below `0.5` may be stale upstream.
