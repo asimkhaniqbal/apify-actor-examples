@@ -1,51 +1,123 @@
 {
-  "description": "Search the Delaware Division of Corporations' free entity database by name or file number. Keep `maxItems` small -- see the README's Data Source & Usage Notes before running large jobs.",
+  "description": "Search the Delaware Division of Corporations' free entity database by one or more company names, file numbers, or both. Optional filters narrow results by entity kind, entity type, residency, formation state and date, and registered-agent name.",
   "properties": {
-    "entityName": {
-      "default": "AMAZON",
-      "description": "Case-insensitive \"starts with\" match against the entity name, e.g. `GOOGLE` matches `GOOGLE FIBER INC.`. This mirrors the Delaware search's own matching behavior -- it is not a substring/contains search.",
-      "editor": "textfield",
-      "prefill": "AMAZON",
-      "title": "Entity name (mode=searchByName)",
-      "type": "string"
+    "entityKinds": {
+      "default": [],
+      "description": "Keep only these Delaware entity kinds. Leave empty for all kinds.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "Corporation",
+          "Credit Services Organization",
+          "Limited Partnership",
+          "Limited Liability Company",
+          "Statutory Trust",
+          "Partnership",
+          "Registered Series",
+          "Unincorporated Non-Profit Association"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "sectionCaption": "Filters",
+      "title": "Entity kinds",
+      "type": "array"
+    },
+    "entityNames": {
+      "default": [
+        "AMAZON"
+      ],
+      "description": "One or more company names to search (case-insensitive \"starts with\" by default). Every name is searched in the same run and duplicates are removed. Used by mode=searchByName and mode=both.",
+      "editor": "stringList",
+      "prefill": [
+        "AMAZON WEB SERVICES, INC."
+      ],
+      "title": "Entity names",
+      "type": "array"
+    },
+    "entityTypes": {
+      "default": [],
+      "description": "Keep only these Delaware entity types. Leave empty for all types.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "General",
+          "Bank",
+          "Benefit Corporation",
+          "Closed Corp",
+          "Professional Association",
+          "Dual Entity",
+          "Regulated Investment Corp.",
+          "Non-Title 8",
+          "Exempt",
+          "Series",
+          "Stock, Non-taxable"
+        ],
+        "type": "string"
+      },
+      "prefill": [],
+      "title": "Entity types",
+      "type": "array"
     },
     "exactMatch": {
       "default": false,
-      "description": "Off (default) mirrors the source's default \"starts with\" match, e.g. `GOOGLE` matches `GOOGLE FIBER INC.`. On, the actor submits the name wrapped in quotation marks, which is the Delaware search form's own documented syntax for an exact whole-name match (its help text literally says \"For exact searches use quotation marks\") -- useful when you know the full legal entity name and only want that one record.",
-      "prefill": false,
-      "title": "Exact name match (mode=searchByName)",
+      "description": "Off: mirrors the source's default \"starts with\" match, so `GOOGLE` also finds `GOOGLE FIBER INC.`. On: only the complete legal name is returned, using the Delaware form's own documented quotation-mark exact-match syntax.",
+      "prefill": true,
+      "title": "Exact name match",
+      "type": "boolean"
+    },
+    "expandBroadSearches": {
+      "default": true,
+      "description": "Delaware returns at most 50 matches per name search and refuses to page further. When on, a broader search is automatically split into alphabetical prefixes (e.g. `AMAZON` into `AMAZON A`, `AMAZON B`, ...) so later matches can still be collected. Costs a few extra requests only when the source reports the 50-result cap; ignored for exact matches.",
+      "prefill": true,
+      "title": "Reach past the 50-result window",
       "type": "boolean"
     },
     "fileNumbers": {
       "default": [],
-      "description": "Exact Delaware file number(s) to look up, e.g. `5804452`.",
+      "description": "Exact Delaware file numbers to look up, e.g. `4152954`. Used by mode=byFileNumber and mode=both.",
       "editor": "stringList",
       "prefill": [],
-      "title": "File numbers (mode=byFileNumber)",
+      "title": "File numbers",
       "type": "array"
+    },
+    "formationDateFrom": {
+      "description": "Keep only entities formed on or after this date (YYYY-MM-DD). Leave empty for no lower bound.",
+      "editor": "datepicker",
+      "title": "Formation date from",
+      "type": "string"
+    },
+    "formationDateTo": {
+      "description": "Keep only entities formed on or before this date (YYYY-MM-DD). Leave empty for no upper bound.",
+      "editor": "datepicker",
+      "title": "Formation date to",
+      "type": "string"
     },
     "maxItems": {
       "default": 5,
-      "description": "Hard cap on emitted records. Kept low by default -- each additional result costs one extra request against a source that actively rate-limits automated traffic.",
-      "maximum": 25,
+      "description": "Hard cap on emitted records across all names and file numbers. Kept low by default because each record needs one extra detail request against a source that actively rate-limits automated traffic.",
+      "maximum": 100,
       "minimum": 1,
-      "prefill": 3,
-      "title": "Max items",
+      "prefill": 1,
+      "title": "Max entities",
       "type": "integer"
     },
     "mode": {
       "default": "searchByName",
-      "description": "What to fetch.",
+      "description": "What to look up. Use names, file numbers, or both in one run.",
       "editor": "select",
       "enum": [
         "searchByName",
-        "byFileNumber"
+        "byFileNumber",
+        "both"
       ],
       "enumTitles": [
-        "Search by entity name (starts with)",
-        "Lookup by exact file number"
+        "Search by entity name",
+        "Look up exact file numbers",
+        "Search names and file numbers"
       ],
       "prefill": "searchByName",
+      "sectionCaption": "Search",
       "title": "Mode",
       "type": "string"
     },
@@ -53,20 +125,54 @@
       "default": {
         "useApifyProxy": true
       },
-      "description": "Uses Apify's free datacenter (AUTO) proxy group to get a fresh IP if a request is rate-limited by the source. Residential proxy is never used by this actor.",
+      "description": "Optional. The actor defaults to Apify's free datacenter (AUTO) proxy group and uses a fresh IP automatically if Delaware rate-limits a request. Residential proxy is never used by default.",
       "editor": "proxy",
       "prefill": {
         "useApifyProxy": true
       },
+      "sectionCaption": "Run settings",
       "title": "Proxy configuration",
       "type": "object"
+    },
+    "registeredAgentContains": {
+      "default": "",
+      "description": "Keep only entities whose registered-agent name contains this text, e.g. `CORPORATION SERVICE` (case-insensitive).",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "Registered agent contains",
+      "type": "string"
+    },
+    "residency": {
+      "default": "any",
+      "description": "Domestic = formed in Delaware. Foreign = formed elsewhere and registered to do business in Delaware.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "Domestic",
+        "Foreign"
+      ],
+      "enumTitles": [
+        "Any residency",
+        "Domestic",
+        "Foreign"
+      ],
+      "prefill": "any",
+      "title": "Residency",
+      "type": "string"
+    },
+    "stateOfFormation": {
+      "default": "",
+      "description": "Keep only entities whose `stateOfFormation` equals this value, e.g. `DELAWARE` or `CALIFORNIA` (case-insensitive). Leave empty for all.",
+      "editor": "textfield",
+      "prefill": "",
+      "title": "State of formation",
+      "type": "string"
     }
   },
   "required": [
-    "mode",
-    "proxyConfiguration"
+    "mode"
   ],
   "schemaVersion": 1,
-  "title": "Delaware Corporation Entity Search Scraper Input",
+  "title": "Delaware Corporate Registry Lookup Input",
   "type": "object"
 }

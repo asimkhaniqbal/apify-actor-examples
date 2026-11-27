@@ -1,5 +1,5 @@
 {
-  "description": "Scrape restaurant listings from Glovo by city, or search by keyword within a city.",
+  "description": "Scrape restaurant listings from Glovo by city, or search by keyword within a city. Results can be expanded beyond the first page by scanning Glovo's cuisine-filtered listing pages.",
   "properties": {
     "city": {
       "default": "madrid",
@@ -52,18 +52,27 @@
       "type": "string"
     },
     "cuisine": {
-      "description": "Optional. Filter restaurants by cuisine tag (case-insensitive substring match), e.g. `Pizza`, `Sushi`, `Italiana`, `Burgers`. Cuisine tags are shown in the local language of the selected city.",
+      "description": "Optional. Matched case-insensitively against Glovo's cuisine tags, e.g. `Pizza`, `Sushi`, `Italiana`, `Burgers`. Tags are shown in the local language of the selected city; `pizza` and `burgers` work in every market.",
       "editor": "textfield",
       "title": "Cuisine filter",
       "type": "string"
     },
     "maxItems": {
       "default": 20,
-      "description": "Hard cap on emitted records. Glovo shows up to 50 restaurants per city/food category page.",
-      "maximum": 50,
+      "description": "Hard cap on emitted records. Glovo embeds 50 restaurants per category page; larger values scan additional cuisine-filtered pages until the cap or maxPages is reached.",
+      "maximum": 500,
       "minimum": 1,
       "prefill": 20,
       "title": "Max items",
+      "type": "integer"
+    },
+    "maxPages": {
+      "default": 10,
+      "description": "Maximum number of Glovo listing pages to request (the first page plus cuisine-filtered pages). Each page carries up to 50 restaurants and requests are deduplicated.",
+      "maximum": 45,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Max listing pages",
       "type": "integer"
     },
     "minRating": {
@@ -75,7 +84,7 @@
     },
     "mode": {
       "default": "restaurants",
-      "description": "`Browse restaurants` lists every restaurant Glovo shows for the selected city (optionally filtered by cuisine). `Search` additionally filters those restaurants by a keyword matched against the restaurant name and cuisine tag.",
+      "description": "`Browse restaurants` lists every restaurant Glovo shows for the selected city (optionally filtered by cuisine). `Search` additionally filters restaurants by a keyword matched against the restaurant name and cuisine tag.",
       "editor": "select",
       "enum": [
         "restaurants",
@@ -124,6 +133,26 @@
       "editor": "textfield",
       "prefill": "pizza",
       "title": "Search keyword",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "recommended",
+      "description": "Order in which Glovo lists the restaurants: its own recommendation order, customer rating, delivery fee, or distance from the city centre.",
+      "editor": "select",
+      "enum": [
+        "recommended",
+        "rating",
+        "deliveryFee",
+        "distance"
+      ],
+      "enumTitles": [
+        "Recommended (Glovo default)",
+        "Highest rated",
+        "Lowest delivery fee",
+        "Closest to me"
+      ],
+      "prefill": "recommended",
+      "title": "Sort order",
       "type": "string"
     }
   },

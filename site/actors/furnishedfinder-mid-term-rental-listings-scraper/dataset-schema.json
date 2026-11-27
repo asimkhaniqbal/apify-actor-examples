@@ -9,6 +9,16 @@
         "nullable": true,
         "type": "array"
       },
+      "archiveUrl": {
+        "description": "Internet Archive replay URL of the snapshot used for a fallback record",
+        "nullable": true,
+        "type": "string"
+      },
+      "archivedAt": {
+        "description": "ISO 8601 UTC timestamp of the Internet Archive snapshot used for a fallback record",
+        "nullable": true,
+        "type": "string"
+      },
       "availableOnDate": {
         "description": "Availability text e.g. Available or a date",
         "nullable": true,
@@ -45,6 +55,11 @@
         "type": "string"
       },
       "contactName": {
+        "nullable": true,
+        "type": "string"
+      },
+      "dataSource": {
+        "description": "Content source: 'wayback' when the live property page was blocked and an Internet Archive snapshot was used; absent on live records",
         "nullable": true,
         "type": "string"
       },
@@ -206,6 +221,11 @@
         "nullable": true,
         "type": "integer"
       },
+      "totalSleeps": {
+        "description": "Maximum guests the listing sleeps",
+        "nullable": true,
+        "type": "integer"
+      },
       "url": {
         "description": "Canonical property URL",
         "type": "string"
@@ -235,6 +255,10 @@
             "format": "array",
             "label": "Amenities"
           },
+          "archivedAt": {
+            "format": "text",
+            "label": "Archived At"
+          },
           "avgRating": {
             "format": "number",
             "label": "Rating"
@@ -250,6 +274,10 @@
           "city": {
             "format": "text",
             "label": "City"
+          },
+          "dataSource": {
+            "format": "text",
+            "label": "Data Source"
           },
           "id": {
             "format": "text",
@@ -340,7 +368,9 @@
           "photos",
           "url",
           "inputUrl",
-          "sourceType"
+          "sourceType",
+          "dataSource",
+          "archivedAt"
         ]
       }
     },
@@ -359,6 +389,10 @@
           "city": {
             "format": "text",
             "label": "City"
+          },
+          "dataSource": {
+            "format": "text",
+            "label": "Data Source"
           },
           "inputUrl": {
             "format": "text",
@@ -402,7 +436,8 @@
           "propertyType",
           "url",
           "inputUrl",
-          "sourceType"
+          "sourceType",
+          "dataSource"
         ]
       }
     }

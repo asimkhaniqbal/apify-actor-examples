@@ -4,34 +4,41 @@
 
 # Glovo Restaurant Ratings & Delivery Data by City
 
-Scrape restaurant listings from [Glovo](https://glovoapp.com) — the on-demand delivery platform covering Spain, Italy, Portugal, Kenya, Nigeria, Uganda, Georgia, Kazakhstan, and Moldova. Get restaurant names, cuisine tags, ratings, delivery fees, estimated delivery times, and menu photos, filtered by city, cuisine, or keyword. No login or cookies required.
+Scrape restaurant listings from [Glovo](https://glovoapp.com) across Spain, Italy, Portugal, Kenya, Nigeria, Uganda, Georgia, Kazakhstan, and Moldova. Get restaurant names, cuisine tags, customer ratings, review counts, delivery fees, ETAs, distance, promotions, and photos — filtered by city, cuisine, rating, open status, and sort order. No login, cookies, or browser required.
 
 ## What this actor does
 
-- **Two modes:** browse every restaurant Glovo shows for a city, or search restaurants/cuisines by keyword
+- **Two modes** — browse a city's restaurants, or search restaurant names and cuisines by keyword
 - **19 cities across 9 countries** — Spain, Italy, Portugal, Kenya, Nigeria, Uganda, Georgia, Kazakhstan, Moldova
-- **Filters:** cuisine tag, minimum rating, "currently open only", "top-rated only", "has active promotion only"
-- **Real delivery data:** live delivery fee, currency, ETA, and customer satisfaction score straight from Glovo
+- **Server-side listing filters** — cuisine, sort order (recommended / rating / delivery fee / distance), and top-rated only
+- **Client-side result filters** — minimum rating, currently open, and active promotions
+- **Beyond the first page** — Glovo embeds 50 restaurants per listing page. The actor can scan Glovo's cuisine-filtered listing pages and merge them, deduplicated, up to 500 records (`maxItems`) and 45 requests (`maxPages`)
+- **Real delivery data** — live delivery fee, currency, ETA, distance, customer satisfaction score, and review count straight from Glovo
 - **Empty fields are omitted** — every record only contains data Glovo actually returned
 
 ## Output per restaurant
 
 - `restaurantId` — Glovo's internal store ID
+- `storeAddressId` — branch/address ID (unique per physical store)
 - `name` — restaurant name
 - `cuisine[]` — cuisine tag (in the local language of the city)
 - `city`, `country`
+- `rank` — position in the merged, deduplicated result list
 - `rating` — customer satisfaction score (0-100)
 - `reviewCount` — number of ratings behind the score
-- `deliveryFee`, `currency`
+- `deliveryFee` — numeric delivery fee
+- `deliveryFeeLabel` — fee as displayed on the card, e.g. `Gratis` or `0,29 €`
+- `currency` — ISO currency of `deliveryFee`
+- `isFreeDelivery`, `isDiscountedDeliveryFee`, `isPrimeDelivery`, `isSurgePricing` — live delivery-pricing flags
 - `estimatedDeliveryTime` — e.g. `30-40 min`
+- `distance` — e.g. `<100m`
 - `imageUrl` — restaurant photo
 - `restaurantUrl` — direct link to the restaurant's Glovo storefront
 - `isOpen` — currently accepting orders
 - `isTopRated` — Glovo has flagged this restaurant as top-rated
 - `isNew` — flagged as newly added to Glovo
 - `isSponsored` — sponsored/paid placement in the listing
-- `isSurgePricing` — dynamic (surge) delivery pricing is currently active
-- `promotions[]` — active discounts/deals (e.g. `{"benefit": "-10%", "type": "Percentage off products", "description": "en algunos productos", "isPrime": false}`), omitted when the restaurant has no active promotion
+- `promotions[]` — active discounts/deals, e.g. `{"benefit": "-10%", "type": "Percentage off products"}`
 - `sourceUrl`, `scrapedAt`, `recordType: "restaurant"`
 
 ## Input
@@ -41,12 +48,14 @@ Scrape restaurant listings from [Glovo](https://glovoapp.com) — the on-demand 
 | `mode` | string | `restaurants` | `restaurants` (browse) or `search` (keyword) |
 | `city` | string | `madrid` | One of 19 supported cities |
 | `query` | string | – | Required for `search`; matched against name + cuisine |
-| `cuisine` | string | – | Filter by cuisine tag, e.g. `Pizza`, `Sushi`, `Burgers` |
+| `cuisine` | string | – | Cuisine tag filter, e.g. `Pizza`, `Sushi`, `Burgers` |
 | `minRating` | integer | – | Drop restaurants below this rating (0-100) |
 | `onlyOpen` | boolean | `false` | Only currently-open restaurants |
 | `onlyTopRated` | boolean | `false` | Only restaurants Glovo flags as top-rated |
-| `onlyWithPromotions` | boolean | `false` | Only restaurants with at least one active discount/deal |
-| `maxItems` | integer | `20` | Hard cap (1-50) |
+| `onlyWithPromotions` | boolean | `false` | Only restaurants with at least one active deal |
+| `sortBy` | string | `recommended` | `recommended`, `rating`, `deliveryFee`, or `distance` |
+| `maxItems` | integer | `20` | Hard cap (1-500) |
+| `maxPages` | integer | `10` | Maximum listing pages to request (1-45) |
 | `proxyConfiguration` | object | off | Optional Apify proxy (AUTO datacenter group) |
 
 ### Example: browse American-style restaurants in Madrid
@@ -66,39 +75,61 @@ Scrape restaurant listings from [Glovo](https://glovoapp.com) — the on-demand 
 {
   "mode": "search",
   "city": "lagos",
-  "query": "chicken"
+  "query": "chicken",
+  "maxItems": 60,
+  "maxPages": 8
 }
 ```
 
-### Example: only open, highly rated restaurants in Milano
+### Example: highly rated pizza in Milano, cheapest delivery first
 
 ```json
 {
   "mode": "restaurants",
   "city": "milano",
-  "minRating": 80,
-  "onlyOpen": true
+  "cuisine": "Pizza",
+  "minRating": 85,
+  "sortBy": "deliveryFee",
+  "maxItems": 100,
+  "maxPages": 20
 }
 ```
+
+## How pagination works
+
+Glovo's category page contains the first 50 restaurants plus the total the city reports (for example, 1,522 in Madrid). Its "load more" control calls a private, session-bound API. This actor stays cookieless: it requests the same server-rendered cuisine-filtered pages the site's filter chips link to, then merges and deduplicates every restaurant by ID. Results are ranked in the order they appear across the first page and subsequent cuisine pages.
+
+Because Glovo caps each page at 50 restaurants and cuisine pages overlap, a run may emit fewer records than `maxItems` even when `maxPages` is high. That is a source limit, not a missing field: `maxItems=500` with `maxPages=45` requests every cuisine page in large cities.
 
 ## Use cases
 
 - **Market research** — compare cuisine mix, ratings, and delivery fees across cities
-- **Competitor tracking** — monitor a chain's presence and ratings across markets
-- **Delivery cost analysis** — compare delivery fees and ETAs city to city
-- **Food delivery aggregators** — seed a directory with real restaurant listings
-- **Local business intelligence** — see which restaurants are open and how they rank
+- **Competitor tracking** — monitor a chain's presence, ratings, and promotions by market
+- **Delivery cost analysis** — compare delivery fees, ETAs, and distances city to city
+- **Food delivery directories** — seed a directory with real restaurant listings
+- **Local business intelligence** — see which restaurants are open, top-rated, or running deals
 
 ## FAQ
 
 **Which cities are supported?** Madrid, Barcelona, Valencia, Sevilla, Bilbao, Malaga (Spain); Milano, Roma, Torino, Napoli (Italy); Lisboa, Porto (Portugal); Nairobi (Kenya); Lagos, Abuja (Nigeria); Kampala (Uganda); Tbilisi (Georgia); Almaty (Kazakhstan); Chisinau (Moldova).
 
-**How many restaurants can I get per run?** Up to 50 — the number Glovo's food category page returns per city.
+**How many restaurants can I get per run?** Up to 500 deduplicated records. Glovo exposes 50 per listing page, so the actor scans cuisine-filtered pages when `maxItems` is above 50 or `maxPages` is above 1.
 
-**Why is `cuisine` a free-text field instead of a dropdown?** Glovo shows cuisine tags in the local language of each city (e.g. `Pizza` in Spain, `Jollof` in Nigeria), so the available values differ by city. Type any tag you see in the results, or leave it blank to get every cuisine.
+**Why did I get fewer rows than `maxItems`?** Either the city genuinely has fewer restaurants, the active filters removed them, or the `maxPages` budget was reached. The status message reports the total Glovo says the city has.
+
+**Is the sort order global across merged pages?** Glovo applies the requested order to each listing page. The actor fetches the sorted first page first, then appends rating/fee/distance-sorted cuisine pages, deduplicated. For runs capped at the first 50 rows the order is exactly Glovo's; larger runs preserve each page's internal order.
+
+**Why is `cuisine` free text instead of a dropdown?** Glovo shows cuisine tags in each city's local language (e.g. `Hamburguesas` in Madrid, `Jollof` in Lagos), so the available values differ by city. Type any tag you see in the results, or leave it blank.
 
 **What does `rating` mean?** Glovo shows a customer satisfaction percentage rather than a 5-star score. `87` means 87% of customers were satisfied.
 
 **Do I need a proxy?** No. Glovo's public listing pages work from Apify's standard datacenter IPs. The proxy option is available for extra reliability if you run into rate limiting.
 
-**Is login required?** No — all data comes from Glovo's public restaurant listing pages.
+**Is login required?** No — all data comes from Glovo's public listing pages.
+
+## Limitations
+
+- Only the 19 listed cities are supported; other Glovo markets need their own city entry.
+- Glovo caps each listing page at 50 restaurants, and it does not document a public pagination endpoint. This actor uses its cuisine-filtered pages instead of the private session API.
+- Restaurant menus, individual dishes, and customer reviews are not part of this actor.
+- Ratings, fees, and open/closed status are live values and can change between runs.

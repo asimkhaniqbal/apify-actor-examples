@@ -1,5 +1,48 @@
 {
   "properties": {
+    "amenities": {
+      "description": "Keep only listings that have every selected amenity.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "gym",
+          "laundry",
+          "free-parking",
+          "dedicated-working-space",
+          "king-bed",
+          "wifi",
+          "fenced-yard",
+          "air-conditioning",
+          "pool",
+          "ev-charger",
+          "blackout-curtains",
+          "wheelchair-accessible",
+          "elevator",
+          "disabled-parking",
+          "close-to-public-transport"
+        ],
+        "type": "string"
+      },
+      "title": "Required Amenities",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "bathrooms": {
+      "description": "Only include listings with exactly this many bathrooms. Combines with Minimum Bathrooms.",
+      "editor": "number",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Exact Bathrooms",
+      "type": "integer"
+    },
+    "bedrooms": {
+      "description": "Only include listings with exactly this many bedrooms (0 = studio). Combines with Minimum Bedrooms.",
+      "editor": "number",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Exact Bedrooms",
+      "type": "integer"
+    },
     "city": {
       "description": "City name to search for rentals (e.g. 'Phoenix', 'New York'). Required unless `startUrls` is provided.",
       "editor": "textfield",
@@ -7,9 +50,18 @@
       "title": "City",
       "type": "string"
     },
+    "includeDetails": {
+      "default": false,
+      "description": "Fetch each property page to add square footage, itemized fees, house rules, utilities, bed/bath details, and ratings. Adds one request per listing and is slower.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Fetch Full Property Details",
+      "type": "boolean"
+    },
     "includeReviews": {
       "default": false,
       "description": "Try to extract individual review text, ratings, and dates when FurnishedFinder embeds them in the property page. Note: only a small fraction of FurnishedFinder properties expose reviews in the page payload — most only expose `avgRating` and `totalReviewCount`. The rating/count fields are extracted regardless of this toggle when present.",
+      "editor": "checkbox",
       "prefill": false,
       "title": "Include Reviews",
       "type": "boolean"
@@ -26,13 +78,39 @@
     "maxPrice": {
       "description": "Maximum monthly rent in USD",
       "editor": "number",
+      "maximum": 100000,
       "minimum": 0,
       "title": "Max Price (USD/month)",
+      "type": "integer"
+    },
+    "minBathrooms": {
+      "description": "Only include listings with at least this many bathrooms.",
+      "editor": "number",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Minimum Bathrooms",
+      "type": "integer"
+    },
+    "minBedrooms": {
+      "description": "Only include listings with at least this many bedrooms.",
+      "editor": "number",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Minimum Bedrooms",
+      "type": "integer"
+    },
+    "minBeds": {
+      "description": "Only include listings with at least this many individual beds.",
+      "editor": "number",
+      "maximum": 50,
+      "minimum": 0,
+      "title": "Minimum Beds",
       "type": "integer"
     },
     "minPrice": {
       "description": "Minimum monthly rent in USD",
       "editor": "number",
+      "maximum": 100000,
       "minimum": 0,
       "title": "Min Price (USD/month)",
       "type": "integer"
@@ -40,6 +118,7 @@
     "moreDetails": {
       "default": false,
       "description": "Extract landlord name, biography, profile image, verification status, and nearby hospitals from the property page.",
+      "editor": "checkbox",
       "prefill": false,
       "title": "Fetch Landlord Details",
       "type": "boolean"
@@ -49,6 +128,28 @@
       "editor": "textfield",
       "title": "Move-in Date",
       "type": "string"
+    },
+    "moveOutDate": {
+      "description": "Target move-out date in YYYY-MM-DD format. Used with Move-in Date to keep only listings available for the whole stay.",
+      "editor": "textfield",
+      "title": "Move-out Date",
+      "type": "string"
+    },
+    "petsAllowed": {
+      "default": false,
+      "description": "Only include pet-friendly listings.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Pets Allowed",
+      "type": "boolean"
+    },
+    "privateBathroom": {
+      "default": false,
+      "description": "Only include listings with a private bathroom.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Private Bathroom",
+      "type": "boolean"
     },
     "propertyType": {
       "description": "Filter by property type. FurnishedFinder only exposes two filter classes: 'room' (private room in a shared place) and 'entire_unit' (whole apartment/house/condo). The granular type (House, Condo, Apartment) appears in the output `propertyType` field of every record.",
@@ -76,8 +177,16 @@
       "title": "Proxy Configuration",
       "type": "object"
     },
+    "sleeps": {
+      "description": "Only include listings that sleep at least this many guests.",
+      "editor": "number",
+      "maximum": 50,
+      "minimum": 0,
+      "title": "Minimum Sleeps",
+      "type": "integer"
+    },
     "startUrls": {
-      "description": "Override city/state with explicit FurnishedFinder URLs — search pages or /property/{id}_{unit} URLs. When set, city and state are ignored.",
+      "description": "Override city/state with explicit FurnishedFinder URLs — search pages or /property/{id}_{unit} URLs. When set, city and state are ignored. If a property page is blocked from cloud IPs, the actor falls back to the newest Internet Archive (Wayback Machine) snapshot and labels the record with `dataSource: \"wayback\"` and `archivedAt`.",
       "editor": "requestListSources",
       "title": "Start URLs (optional)",
       "type": "array"
@@ -88,6 +197,14 @@
       "prefill": "AZ",
       "title": "State",
       "type": "string"
+    },
+    "utilitiesIncluded": {
+      "default": false,
+      "description": "Only include listings where utilities are included in the rent.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Utilities Included",
+      "type": "boolean"
     }
   },
   "required": [],

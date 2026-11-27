@@ -4,259 +4,115 @@
 
 # Dubizzle UAE Multi-Category Listings Scraper
 
-Extract structured classified listings from Dubizzle, the UAE's largest online marketplace. Paste a category or search URL, or search by keyword and city, across every Dubizzle category — motors, property, jobs, electronics, furniture, pets, fashion, and more — and get price, photos, seller info, location, and contact availability for each listing in English and Arabic. This actor is an independent third-party tool and is not affiliated with, endorsed by, or sponsored by Dubizzle.
+Collect live classified listings from Dubizzle UAE across motors, property, jobs, classifieds and community services. Search by category, keyword and emirate, or paste Dubizzle category and search URLs, and receive one clean JSON record per listing with AED prices, bilingual titles, photos, location, seller details and category-specific attributes. This is an independent third-party tool and is not affiliated with, endorsed by or sponsored by Dubizzle.
 
-## What this actor does
+## What you can scrape
 
-- **Two search modes** — paste one or more Dubizzle category/search URLs, or search by keyword plus a UAE city when you don't have a URL handy
-- **Every category** — motors, property for rent/sale, jobs, electronics, furniture, pets, fashion, sports, gaming, kids, business & industrial, media, and free-stuff listings
-- **Bilingual fields** — names, descriptions, and URLs are returned in both English and Arabic where Dubizzle provides them
-- **Automatic pagination** up to a configurable per-URL/search item limit, with newest-first or price-ascending sort options
-- **Empty fields are omitted** — a listing only carries the attributes Dubizzle actually published for it, plus category-specific attributes beyond the documented set below
+- **Motors** — used cars, new cars, number plates, motorcycles, rental cars, heavy vehicles and auto parts, with make, model, trim, year, odometer, body type, fuel and transmission
+- **Property** — apartments, villas, townhouses, rooms, land and commercial units for rent or sale, with bedrooms, bathrooms, size, furnishing, amenities, agent and agency details
+- **Jobs and jobs wanted** — vacancies and job-seeker ads with salary text, employment type, company, experience and education requirements
+- **Classifieds** — electronics, furniture, mobile phones, computers, appliances, sports gear, baby items, pets and clothing
+- **Community services** — movers, home maintenance and other local services
 
----
+## How to run it
 
-## Supported Categories
+### 1. Paste Dubizzle URLs
 
-| Category | Examples |
-|---|---|
-| **Motors** | Used Cars, New Cars, Motorcycles, Trucks, Boats, Heavy Equipment |
-| **Property for Rent** | Apartments, Villas, Offices, Shops, Warehouses, Rooms |
-| **Property for Sale** | Apartments, Villas, Land, Commercial Properties |
-| **Jobs** | Full-time, Part-time, Freelance, all industries |
-| **Electronics & Appliances** | Mobile Phones, Computers, TVs, Cameras, Networking |
-| **Furniture & Garden** | Home Furniture, Office Furniture, Garden & Outdoor |
-| **Pets** | Dogs, Cats, Birds, Fish, Pet Accessories |
-| **Fashion & Beauty** | Clothing, Shoes, Bags, Accessories, Jewelry |
-| **Sports Equipment** | Gym Equipment, Outdoor Sports, Water Sports |
-| **Gaming** | Consoles, Games, Accessories |
-| **Kids & Baby Products** | Toys, Strollers, Clothing, Nursery |
-| **Business & Industrial** | Machinery, Tools, Catering, Agriculture |
-| **Books, Music & Movies** | Books, CDs, DVDs, Instruments |
-| **Free Stuff** | Items listed at no cost |
-
----
-
-## Output per listing
-
-Each scraped listing is saved as a JSON object to the Apify dataset. Below are the key fields grouped by category.
-
-### Identification
-
-| Field | Description |
-|---|---|
-| `id` | Internal Dubizzle listing ID |
-| `uuid` | Unique listing UUID |
-| `objectID` | Search index object identifier |
-| `name` | Listing title as an object with `en` (English) and `ar` (Arabic) keys |
-| `name_en` | Convenience field — English listing title |
-| `permalink` | Canonical URL of the listing |
-| `absolute_url` | Multilingual URL object with `en` and `ar` versions |
-
-### Pricing
-
-| Field | Description |
-|---|---|
-| `price` | Listed price (number or structured object with currency) |
-
-### Location
-
-| Field | Description |
-|---|---|
-| `site` | City/emirate the listing belongs to (object with `en`/`ar`) |
-| `city` | Convenience field — English city name |
-| `location_list` | Hierarchical location array (country > city > area) |
-| `neighbourhood` | Neighbourhood or sub-area name |
-| `_geoloc` | Geolocation object with `lat` and `lng` coordinates |
-
-### Category
-
-| Field | Description |
-|---|---|
-| `category` | Top-level category object with slug, name (en/ar) |
-| `category_v2` | Full category hierarchy with `slug_paths` |
-| `category_slug` | Convenience field — top-level category slug string |
-
-### Media
-
-| Field | Description |
-|---|---|
-| `photos` | Array of full-resolution photo URLs |
-| `photo_thumbnails` | Array of thumbnail photo URLs |
-| `photos_count` | Total number of photos |
-| `has_video` | Boolean — whether the listing includes a video |
-| `video_url` | Video URL if available |
-
-### Seller Information
-
-| Field | Description |
-|---|---|
-| `seller_type` | Type of seller: `individual`, `business`, `agent` |
-| `user` | Seller user profile object |
-| `business` | Business profile details (if applicable) |
-| `is_verified` | Whether the seller is verified |
-| `is_trusted_seller` | Whether the seller has a trusted seller badge |
-
-### Contact Flags
-
-| Field | Description |
-|---|---|
-| `has_phone_number` | Whether a phone number is available |
-| `has_whatsapp_number` | Whether WhatsApp contact is available |
-| `has_sms_number` | Whether SMS contact is available |
-| `can_chat` | Whether in-app chat is enabled |
-
-### Listing Details
-
-| Field | Description |
-|---|---|
-| `details` | Array of key-value attribute pairs specific to the listing type. Examples: `bedrooms`, `bathrooms`, `size` for property; `body_type`, `color`, `year` for motors; `salary`, `company_name` for jobs. |
-
-### Promotion & Visibility
-
-| Field | Description |
-|---|---|
-| `is_premium` | Whether the listing has a premium placement |
-| `is_super_ad` | Whether the listing is marked as a super ad |
-| `featured_listing` | Whether the listing is featured |
-
-### Timestamps
-
-| Field | Description |
-|---|---|
-| `added` | Unix timestamp when the listing was published |
-| `created_at` | ISO 8601 creation datetime |
-
----
-
-## Sample Output
+Add one or more category or search page URLs. The city and category are read from each link:
 
 ```json
 {
-  "id": "123456789",
-  "uuid": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-  "name_en": "Toyota Camry 2021 - Excellent Condition",
-  "price": 75000,
-  "city": "Dubai",
-  "site": { "en": "Dubai", "ar": "دبي" },
-  "neighbourhood": "Al Barsha",
-  "_geoloc": { "lat": 25.1080, "lng": 55.1754 },
-  "category_slug": "motors",
-  "photos": [
-    "https://images.dubizzle.com/listings/123456789/photo1.jpg"
+  "startUrls": [
+    "https://dubai.dubizzle.com/motors/used-cars/",
+    "https://abudhabi.dubizzle.com/property-for-rent/residential/apartmentflat/"
   ],
-  "photos_count": 8,
-  "has_video": false,
-  "seller_type": "individual",
-  "is_verified": true,
-  "has_phone_number": true,
-  "has_whatsapp_number": true,
-  "can_chat": true,
-  "details": [
-    { "key": "Year", "value": "2021" },
-    { "key": "Kilometers", "value": "45,000 km" },
-    { "key": "Body Type", "value": "Sedan" },
-    { "key": "Color", "value": "White" }
-  ],
-  "is_premium": false,
-  "is_super_ad": false,
-  "added": 1712345678,
-  "created_at": "2024-04-05T12:34:56Z",
-  "permalink": "https://dubai.dubizzle.com/motors/used-cars/toyota/camry/2024/04/05/toyota-camry-2021/",
-  "absolute_url": {
-    "en": "https://dubai.dubizzle.com/motors/used-cars/toyota/camry/2024/04/05/toyota-camry-2021/",
-    "ar": "https://dubai.dubizzle.com/ar/motors/used-cars/toyota/camry/2024/04/05/toyota-camry-2021/"
-  }
+  "maxItems": 100
 }
 ```
 
----
+### 2. Search by category, keyword and city
 
-## Input
-
-| Field | Type | Default | Description |
-|---|---|---|---|
-| `urls` | array | `[]` | One or more Dubizzle listing or category URLs to scrape. Takes priority over keyword search. |
-| `keyword` | string | `""` | Search term to find listings (e.g. `laptop`, `honda civic`). Used only when no `urls` are provided. |
-| `location` | string | `uae` | UAE city to search in: `uae`, `dubai`, `abudhabi`, `sharjah`, `rak`, `ajman`, `fujairah`, `uaq`, `alain`. |
-| `sort_by` | string | `""` (relevance) | `""` (relevance), `date_desc` (newest first), or `price_asc` (price low to high). |
-| `page` | int | `1` | Page number to start from (1-based) — useful for resuming a run. |
-| `max_items_per_url` | int | `20` | Maximum listings to collect per URL or search. |
-| `max_retries_per_url` | int | `2` | How many times to retry a URL before giving up on it. |
-| `ignore_url_failures` | boolean | `true` | When `true`, a failed URL is skipped so the rest of the run continues; when `false`, the run stops on the first failure. |
-
-You must provide either `urls` or `keyword`; if both are set, `urls` takes priority.
-
-### Example: scrape Dubai used cars by URL
+No URL needed. Pick a category, a city and optionally a keyword:
 
 ```json
 {
-  "urls": ["https://dubai.dubizzle.com/motors/used-cars/"],
-  "max_items_per_url": 50,
-  "sort_by": "date_desc"
+  "category": "classifieds-electronics",
+  "keyword": "iPhone",
+  "location": "sharjah",
+  "priceMin": 500,
+  "priceMax": 4000,
+  "sortBy": "newest",
+  "maxItems": 50
 }
 ```
 
-### Example: keyword search in Abu Dhabi, cheapest first
+### 3. Filter and paginate
 
-```json
-{
-  "keyword": "laptop",
-  "location": "abudhabi",
-  "max_items_per_url": 30,
-  "sort_by": "price_asc"
-}
-```
+Every search honours the filters that apply to its category:
 
-### Example: multiple property URLs in one run
+| Filter | Applies to | Notes |
+|---|---|---|
+| `priceMin`, `priceMax` | All priced sections | AED. Listings without a price (many jobs and services) are excluded when a price filter is set |
+| `postedWithinDays` | All sections | 1, 3, 7, 14, 30 or 90 days |
+| `bedroomsMin`, `bedroomsMax` | Property | Ignored with a log note on other categories |
+| `furnishing` | Property | Furnished, unfurnished or any |
+| `yearMin`, `yearMax` | Motors | Model year range |
+| `maxKilometers` | Motors | Odometer ceiling |
+| `sellerType` | Motors, classifieds, jobs, community | Owner/dealer/rental for motors; individual/business elsewhere. Dubizzle does not expose a property seller filter |
+| `sortBy` | All sections | Relevance, newest first or price low to high |
+| `page`, `maxPages`, `maxItems` | All sections | Real server-side pagination with duplicate removal across searches |
 
-```json
-{
-  "urls": [
-    "https://dubai.dubizzle.com/property-for-rent/residential/apartment/",
-    "https://dubai.dubizzle.com/property-for-sale/residential/apartment/"
-  ],
-  "max_items_per_url": 100,
-  "sort_by": "date_desc",
-  "ignore_url_failures": true
-}
-```
+The actor requests up to 100 listings per page, keeps paging until `maxItems` is reached or Dubizzle runs out of results, and removes duplicates that appear in overlapping searches.
 
-## Use cases
 
-- **Price monitoring** — track used car or real estate prices across UAE cities over time
-- **Market research** — analyze listing volumes, price distributions, and trends by category
-- **Lead generation** — collect seller contact-availability signals for outreach campaigns
-- **Competitive analysis** — monitor competitor listings and pricing by category and city
-- **Real estate intelligence** — gather rental and sale prices by neighbourhood and city
-- **Data enrichment** — augment your own database with Dubizzle listing metadata
+## Input reference
 
-## FAQ
+| Input | Default | Description |
+|---|---|---|
+| `startUrls` | – | Category or search page URLs; city and category come from each URL |
+| `keyword` | – | Optional search text applied to URL and category searches |
+| `category` | `all` | Section to scrape when no URL is supplied |
+| `location` | `uae` | City or emirate filter |
+| `sortBy` | `relevance` | Relevance, newest or price low to high |
+| `postedWithinDays` | `any` | Posting window in days |
+| `priceMin` | – | Minimum price in AED |
+| `priceMax` | – | Maximum price in AED |
+| `bedroomsMin` | – | Minimum bedrooms for property |
+| `bedroomsMax` | – | Maximum bedrooms for property |
+| `furnishing` | `any` | Furnished, unfurnished or any |
+| `yearMin` | – | Earliest vehicle model year |
+| `yearMax` | – | Latest vehicle model year |
+| `maxKilometers` | – | Maximum vehicle odometer in km |
+| `sellerType` | `any` | Seller type filter where Dubizzle exposes it |
+| `page` | `1` | Starting result page |
+| `maxItems` | `20` | Maximum listings per URL or search |
+| `maxPages` | `0` | Page cap per search; 0 means automatic |
+| `maxRetries` | `2` | Retries per page on temporary errors |
+| `ignoreUrlFailures` | `true` | Continue when one search fails after retries |
 
-### What categories are supported?
+The daily prefill uses one Ras Al Khaimah used-cars URL and `maxItems: 3`.
 
-The actor supports all major Dubizzle categories including Motors (cars, motorcycles, trucks, boats), Property for Rent, Property for Sale, Jobs, Electronics & Appliances, Furniture & Garden, Pets, Fashion & Beauty, Sports Equipment, Gaming, Kids & Baby Products, Books, Music & Movies, Business & Industrial, and Free Stuff. If a Dubizzle URL exists for a category, it can be scraped.
+## Output
 
-### Which UAE cities and locations can I search?
+Every record carries the stable Dubizzle listing identifier, title in English (`name_en`) and the original bilingual `name`, the canonical `permalink`, AED `priceValue` and `priceCurrency`, `publishedAt` in ISO 8601 UTC, `categoryPath` and `categoryName`, `city`, `neighbourhoodName`, `locationPath`, coordinates, `imageUrls`, `thumbnailUrls`, `seller_type`, `sellerName`, `isVerified` and contact-availability flags.
 
-You can search across the entire UAE or filter by specific emirate: Dubai, Abu Dhabi, Sharjah, Ras Al Khaimah (RAK), Ajman, Fujairah, Umm Al Quwain (UAQ), and Al Ain. In keyword mode, set the `location` field to one of the values in the input table above. In URL mode, the city is automatically detected from the URL subdomain (e.g., `dubai.dubizzle.com`).
+Category-specific fields are added only when Dubizzle publishes them:
 
-### Can I scrape multiple pages of results?
+- **Property** — `bedroomCount`, `bathroomCount`, `sizeSqft`, `isFurnished`, `propertyType`, `propertyPurpose`, `amenityNames`, agency and agent profile, RERA reference where present
+- **Motors** — `vehicleMake`, `vehicleModel`, `vehicleTrim`, `vehicleYear`, `odometerKm`, `bodyType`, `fuelType`, `transmission`, regional specs and inspection badges
+- **Jobs** — `companyName`, `employmentType`, `salaryText`, `experienceLevel`, `educationLevel`, `isRemote`
+- **Classifieds and community** — condition, age, warranty, usage and the full category-specific `details` map
 
-Yes. The actor automatically paginates through all available pages until it reaches the `max_items_per_url` limit or runs out of results. You can also set the `page` parameter to start from a specific page number, which is useful for resuming interrupted runs or targeting later pages.
+Empty values are omitted at every depth; no `null`, empty string, empty array or empty object is written.
 
-### How do I search for a specific product?
+## Input compatibility
 
-Use keyword mode: set `keyword` to your search term (e.g., `"iPhone 15 Pro"`, `"2-bedroom apartment"`, `"treadmill"`) and optionally set `location` to narrow results to a specific city. For more targeted scraping, find the relevant category page on Dubizzle, copy its URL, and use URL mode instead.
+Existing saved tasks keep working. The actor still accepts the previous input keys `urls`, `sort_by`, `max_items_per_url`, `max_retries_per_url` and `ignore_url_failures` and maps them in code. Every existing output field is still present; the revamp only adds fields.
 
-### What format is the output data in?
+## Limits and good to know
 
-All results are stored in the Apify dataset as structured JSON objects with 70+ fields per listing. You can export the data in JSON, CSV, Excel, XML, or HTML formats directly from the Apify platform. The data is flat enough for spreadsheet analysis while also preserving nested objects for programmatic use.
-
-### What happens if one of my URLs fails?
-
-By default (`ignore_url_failures: true`) the actor retries that URL up to `max_retries_per_url` times, then skips it and keeps processing the rest of your list. Set `ignore_url_failures: false` if you'd rather the run stop on the first failed URL.
-
-### Is this affiliated with Dubizzle?
-
-No. This is an independent third-party actor that reads Dubizzle's own publicly accessible listing pages. It is not affiliated with, endorsed by, or sponsored by Dubizzle or any of its subsidiaries.
+- Pagination follows Dubizzle's exact result count for each search, and `maxItems`/`maxPages` bound the work. Very large pulls take longer and use more requests; narrow by city, category or price band when you only need a slice.
+- Listing detail pages are protected by a browser challenge, so this actor does not open them. It uses the public search index instead, which already contains descriptions, attributes, photos and seller metadata.
+- Jobs and community listings often have no price or photos; those fields are omitted rather than filled with a placeholder.
+- Property listings do not expose a seller-type field in the search index, so `sellerType` has no effect on property searches.
+- The actor needs no cookies, login, API key or proxy configuration.

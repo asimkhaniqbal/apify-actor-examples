@@ -4,15 +4,16 @@
 
 # FurnishedFinder Mid-Term Rental Listings Scraper
 
-Extract furnished, mid-term rental listings from [FurnishedFinder.com](https://www.furnishedfinder.com) by city and state, or by direct property URL. Built for the 30+ day furnished-rental market — travel nurses, corporate relocations, and remote workers — this actor returns price, specs, amenities, photos, and optional landlord-profile and review data for every listing, automatically working past FurnishedFinder's 72-listing-per-search cap to collect hundreds of listings per city in one run.
+Extract furnished, mid-term rental listings from [FurnishedFinder.com](https://www.furnishedfinder.com) by city and state, or by direct property URL. Built for the 30+ day furnished-rental market — travel nurses, corporate relocations, and remote workers — this actor returns price, specs, amenities, photos, and optional landlord-profile and review data for every listing, automatically working past FurnishedFinder's 72-listing-per-search cap to collect hundreds of listings per city in one run. When FurnishedFinder blocks a direct property page from cloud IPs, the actor falls back to the newest Internet Archive snapshot and clearly labels the record as archived.
 
 ## What this actor does
 
-- **Search by city/state or by URL** — run a city + state search, or pass specific FurnishedFinder search or property URLs via `startUrls`
+- **Search by city/state or by URL** — run a city + state search, or pass specific FurnishedFinder search or property URLs via `startUrls`; blocked property URLs use a labelled Internet Archive fallback when a snapshot exists
 - **Automatic price-range slicing** — splits a city search into price slices behind the scenes so you can collect well beyond the 72-listing-per-request cap
-- **Filters** — price range, move-in date, and property class (`room` vs. `entire_unit`)
-- **Optional enrichment** — landlord profile and verification badges (`moreDetails`), and embedded reviews (`includeReviews`) when FurnishedFinder publishes them
+- **Filters** — monthly price range, move-in and move-out dates, property class (`room` vs. `entire_unit`), bedrooms (minimum and exact), bathrooms (minimum and exact), minimum beds, guest sleeps, pets, utilities, private bathroom, and 15 amenities such as WiFi, pool, gym, laundry, parking, and EV charging
+- **Optional enrichment** — full property-page details (`includeDetails`), landlord profile and verification badges (`moreDetails`), and embedded reviews (`includeReviews`) when FurnishedFinder publishes them
 - **Deduplicated by property + unit ID** within a run, and empty fields are omitted from every record
+- **Backward compatible** — saved tasks using the older `propertyTypes`, `includeLandlord`, or `maxResults` keys keep running
 
 ## Output per listing
 
@@ -22,16 +23,20 @@ Extract furnished, mid-term rental listings from [FurnishedFinder.com](https://w
 - `title`, `propertyType` — listing name and granular type (`Apartment`, `House`, `Condo`, `Room`, …)
 - `city`, `state`, `latitude`, `longitude`
 - `monthlyPrice`, `monthlyPriceText` — rent as an integer USD value and FurnishedFinder's raw display text
-- `fees[]` — deposit, cleaning, pet, and other fees with `type` and `amount`
-- `bedrooms`, `bathrooms`, `minimumStayDays`
+- `fees[]` — deposit, cleaning, pet, and other fees with `type` and `amount` (with `includeDetails`)
+- `bedrooms`, `bathrooms`, `minimumStayDays`, `totalSleeps`
 - `spaceDescription`, `neighborhoodDescription`, `houseRules[]`
 - `amenities[]` — e.g. wifi, kitchen, laundry, pool, pet-friendly
 - `bedList[]`, `bathList[]` — per-room bed type and bathroom type
 - `photos[]` — full-size image URLs
+- `squareFootage`, `utilitiesIncluded`, and `houseRules[]` — when `includeDetails` is on (or on direct property-URL runs)
 - `avgRating`, `totalReviewCount` — when FurnishedFinder publishes them
 - `reviews[]` — individual review text, rating, and date (only when `includeReviews` is on and FurnishedFinder embeds them on the page)
-- `landlord` — display name, profile image, username, platform tenure, verification badges, and nearby hospitals (only when `moreDetails` is on); landlord email and phone are never included since FurnishedFinder gates direct contact behind a login-only messaging form
-- `scrapedAt` — UTC timestamp
+- landlord fields (`contactName`, `profileImage`, `username`, `tenure`, verification badges, `nearbyHospitals`) — only when `moreDetails` is on; landlord email and phone are never included since FurnishedFinder gates direct contact behind a login-only messaging form
+- `dataSource` — `wayback` when the live property page was blocked and an Internet Archive snapshot was used; omitted on live records
+- `archivedAt` — ISO 8601 timestamp of the Internet Archive snapshot used for a fallback record
+- `archiveUrl` — the Internet Archive replay URL that produced a fallback record
+- `scrapedAt` — UTC timestamp of the run
 
 ## Input
 
@@ -39,12 +44,22 @@ Extract furnished, mid-term rental listings from [FurnishedFinder.com](https://w
 |---|---|---|---|
 | `city` | string | – | City to search. Required unless `startUrls` is set. |
 | `state` | string | – | US state, full name or 2-letter code. Required unless `startUrls` is set. |
-| `startUrls` | array | – | FurnishedFinder search or `/property/{id}_{unit}` URLs. Overrides `city`/`state` when set. |
+| `startUrls` | array | – | FurnishedFinder search or `/property/{id}_{unit}` URLs. Overrides `city`/`state` when set. Blocked property pages fall back to the newest Internet Archive snapshot and are labelled `dataSource: "wayback"`. |
 | `maxItems` | int | `20` | Maximum listings to return (1–1000). |
 | `minPrice` / `maxPrice` | int | – | Monthly rent range in USD. |
 | `moveInDate` | string | – | Target move-in date, `YYYY-MM-DD`. |
-| `propertyType` | array | – | `room` (private room) and/or `entire_unit` (whole place). |
-| `moreDetails` | boolean | `false` | Attach landlord profile and verification fields. |
+| `moveOutDate` | string | – | Target move-out date, `YYYY-MM-DD`. Use with `moveInDate` to keep only listings available for the whole stay. |
+| `propertyType` | array | – | `room` (private room) and/or `entire_unit` (whole place). Legacy `apartment`, `house`, and `condo` values are mapped to `entire_unit`. |
+| `minBedrooms` / `bedrooms` | int | – | Minimum / exact bedroom count. |
+| `minBathrooms` / `bathrooms` | int | – | Minimum / exact bathroom count. |
+| `minBeds` | int | – | Minimum individual beds. |
+| `sleeps` | int | – | Minimum guest capacity. |
+| `petsAllowed` | boolean | `false` | Only pet-friendly listings. |
+| `utilitiesIncluded` | boolean | `false` | Only listings with utilities in the rent. |
+| `privateBathroom` | boolean | `false` | Only listings with a private bathroom. |
+| `amenities` | array | – | Require every selected amenity: `gym`, `laundry`, `free-parking`, `dedicated-working-space`, `king-bed`, `wifi`, `fenced-yard`, `air-conditioning`, `pool`, `ev-charger`, `blackout-curtains`, `wheelchair-accessible`, `elevator`, `disabled-parking`, `close-to-public-transport`. |
+| `includeDetails` | boolean | `false` | Fetch each property page for square footage, fees, house rules, utilities, bed/bath lists, and ratings. Adds one request per listing. |
+| `moreDetails` | boolean | `false` | Attach landlord profile and verification fields (also fetches the property page). |
 | `includeReviews` | boolean | `false` | Attach individual reviews when FurnishedFinder embeds them. |
 | `proxyConfiguration` | object | datacenter | Apify proxy configuration. |
 
@@ -76,7 +91,7 @@ Extract furnished, mid-term rental listings from [FurnishedFinder.com](https://w
 
 ```json
 {
-  "startUrls": [{ "url": "https://www.furnishedfinder.com/property/979582_1" }],
+  "startUrls": [{ "url": "https://www.furnishedfinder.com/property/1057767_1" }],
   "includeReviews": true
 }
 ```
@@ -95,16 +110,19 @@ Extract furnished, mid-term rental listings from [FurnishedFinder.com](https://w
 A datacenter proxy is enabled by default and generally sufficient. For large runs (100+ listings), switching to a residential proxy in `proxyConfiguration` can improve reliability.
 
 **Can I scrape a single property by URL?**
-Yes — pass `startUrls: [{"url": "https://www.furnishedfinder.com/property/<id>_<unit>"}]` and the actor fetches just that listing.
+Yes — pass `startUrls: [{"url": "https://www.furnishedfinder.com/property/<id>_<unit>"}]`. FurnishedFinder sometimes blocks property-detail pages from cloud/datacenter IPs even when the search API is open. When the live page cannot be reached, the actor uses the newest Internet Archive (Wayback Machine) snapshot of that exact property and labels the record with `dataSource: "wayback"` and `archivedAt`. If the property is neither live-reachable nor archived, the run fails honestly instead of returning an empty dataset. City/state search is the most reliable mode.
 
 **Which states are supported?**
 All 50 US states plus the District of Columbia, by full name (`Texas`) or 2-letter code (`TX`).
 
 **How many listings can I get per city?**
-Up to `maxItems` (default `20`, max `1000`). FurnishedFinder caps a single search at 72 listings; the actor automatically slices the price range and merges results so a city can return far more than that in one run.
+Up to `maxItems` (default `20`, max `1000`). FurnishedFinder returns 72 listings per request; the actor follows the site's pagination through the full result set (Austin, for example, currently has 2,700+ listings) and falls back to price-range slicing if a market's page cursor stops advancing. Very large markets above `maxItems` are capped by your input, not by the 72-per-page size.
 
 **Why is a field missing from some records?**
-Fields FurnishedFinder doesn't publish for a listing are omitted rather than returned as `null` — for example, `reviews` only appears when a property embeds reviews on its page, and `avgRating`/`totalReviewCount` only appear when FurnishedFinder shows them at all.
+Fields FurnishedFinder doesn't publish for a listing are omitted rather than returned as `null` — for example, `reviews` only appears when a property embeds reviews on its page, and `avgRating`/`totalReviewCount` only appear when FurnishedFinder shows them at all. Detail-page fields such as `squareFootage` and `fees` require `includeDetails`.
+
+**What are the limitations?**
+FurnishedFinder keeps landlord email, phone, and exact street address behind its login-only messaging flow, so those are never returned. Individual review text is embedded for only a small share of listings; the rating and review count are returned whenever the site publishes them. Property-detail pages can be blocked from cloud IPs, so `includeDetails`, `moreDetails`, and `includeReviews` may not enrich every cloud run; the actor logs the failure and keeps the base search record. Direct property URLs use a labelled Internet Archive fallback when the live page is blocked, so their content can be weeks or months old — check `archivedAt`. A blocked property that has no archive snapshot still fails the run instead of returning an empty dataset. The actor deliberately does not use residential proxies for the search API because it is publicly reachable.
 
 **Does the scraper return landlord email or phone?**
 No. FurnishedFinder keeps direct contact behind a login-only on-site messaging form. With `moreDetails` on you still get the landlord's display name, profile image, verification badges, platform tenure, and nearby hospitals — the public-facing information FurnishedFinder does expose.
@@ -113,7 +131,7 @@ No. FurnishedFinder keeps direct contact behind a login-only on-site messaging f
 No. Results are deduplicated by property and unit ID within a run.
 
 **How fresh is the data?**
-Every run fetches live data at request time — there's no cache, and every record carries its own `scrapedAt` timestamp.
+City/state searches and reachable property pages are fetched live at request time, and every record carries its own `scrapedAt` timestamp. The one exception is a blocked direct property URL that falls back to an Internet Archive snapshot: that record is labelled `dataSource: "wayback"` and its `archivedAt` timestamp shows how old the snapshot is.
 
 **Is this affiliated with FurnishedFinder?**
 No. This is an independent third-party actor and is not affiliated with or endorsed by FurnishedFinder.

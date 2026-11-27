@@ -1,34 +1,147 @@
 {
-  "description": "Scrape Dubizzle UAE product listings. Provide search URLs or use keyword/location filters to find listings across motors, real estate, jobs, and more. Independent tool — not affiliated with Dubizzle.",
+  "description": "Scrape Dubizzle UAE classified listings across motors, property, jobs, classifieds and community services. Provide category or search URLs, or pick a category plus keyword and city. Independent tool, not affiliated with Dubizzle.",
   "properties": {
-    "ignore_url_failures": {
+    "bedroomsMax": {
+      "description": "Property only. Maximum number of bedrooms.",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Maximum Bedrooms",
+      "type": "integer"
+    },
+    "bedroomsMin": {
+      "description": "Property only. Minimum number of bedrooms.",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Minimum Bedrooms",
+      "type": "integer"
+    },
+    "category": {
+      "default": "all",
+      "description": "Dubizzle section to scrape. Choose All categories to search everywhere, or pick a specific section such as used cars, apartments for rent, jobs or electronics.",
+      "editor": "select",
+      "enum": [
+        "all",
+        "motors",
+        "motors-used-cars",
+        "motors-number-plates",
+        "motors-motorcycles",
+        "motors-rental-cars",
+        "motors-heavy-vehicles",
+        "motors-auto-parts",
+        "property-for-rent",
+        "property-for-rent-residential",
+        "property-for-rent-apartments",
+        "property-for-rent-villas",
+        "property-for-rent-rooms",
+        "property-for-rent-commercial",
+        "property-for-rent-short-term",
+        "property-for-sale",
+        "property-for-sale-residential",
+        "property-for-sale-apartments",
+        "property-for-sale-villas",
+        "property-for-sale-land",
+        "property-for-sale-commercial",
+        "jobs",
+        "jobs-wanted",
+        "classifieds",
+        "classifieds-electronics",
+        "classifieds-furniture",
+        "classifieds-mobile-phones",
+        "classifieds-computers",
+        "classifieds-home-appliances",
+        "classifieds-sports",
+        "classifieds-baby",
+        "classifieds-pets",
+        "classifieds-clothing",
+        "community",
+        "community-movers",
+        "community-home-maintenance"
+      ],
+      "enumTitles": [
+        "All categories",
+        "Motors (all)",
+        "Motors > Used cars",
+        "Motors > Number plates",
+        "Motors > Motorcycles",
+        "Motors > Rental cars",
+        "Motors > Heavy vehicles",
+        "Motors > Auto accessories & parts",
+        "Property for rent (all)",
+        "Property for rent > Residential",
+        "Property for rent > Apartments",
+        "Property for rent > Villas",
+        "Property for rent > Rooms & flatmates",
+        "Property for rent > Commercial",
+        "Property for rent > Short term",
+        "Property for sale (all)",
+        "Property for sale > Residential",
+        "Property for sale > Apartments",
+        "Property for sale > Villas",
+        "Property for sale > Land",
+        "Property for sale > Commercial",
+        "Jobs",
+        "Jobs wanted",
+        "Classifieds (all)",
+        "Classifieds > Electronics",
+        "Classifieds > Furniture, home & garden",
+        "Classifieds > Mobile phones & tablets",
+        "Classifieds > Computers & networking",
+        "Classifieds > Home appliances",
+        "Classifieds > Sports equipment",
+        "Classifieds > Baby items",
+        "Classifieds > Pets",
+        "Classifieds > Clothing & accessories",
+        "Community (all)",
+        "Community > Movers & removals",
+        "Community > Home maintenance"
+      ],
+      "title": "Category",
+      "type": "string"
+    },
+    "furnishing": {
+      "default": "any",
+      "description": "Property only. Keep furnished or unfurnished homes, or any.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "furnished",
+        "unfurnished"
+      ],
+      "enumTitles": [
+        "Any",
+        "Furnished",
+        "Unfurnished"
+      ],
+      "title": "Furnishing",
+      "type": "string"
+    },
+    "ignoreUrlFailures": {
       "default": true,
-      "description": "Continue running the scraper even if some URLs fail after max retries.",
+      "description": "Keep going with the remaining searches when one search still fails after its retries.",
       "prefill": true,
-      "sectionCaption": "General Options",
-      "title": "Ignore URL Failures",
+      "title": "Ignore Search Failures",
       "type": "boolean"
     },
     "keyword": {
-      "description": "Keyword to search for (e.g., 'Toyota', 'laptop', 'apartment'). Used only when no URLs are provided.",
+      "description": "Optional search text, for example Toyota, iPhone 15, apartment or a job title. Works across all categories and together with URLs.",
       "editor": "textfield",
-      "sectionCaption": "Scrape with Search Filters",
-      "sectionDescription": "Use keyword + location to search. Ignored when URLs are provided.",
+      "sectionCaption": "Search filters",
+      "sectionDescription": "Choose a category, city and optional keyword. Ignored only for the city and category parts when URLs are provided.",
       "title": "Search Keyword",
       "type": "string"
     },
     "location": {
       "default": "uae",
-      "description": "UAE city/emirate to search in.",
+      "description": "UAE city or emirate to search in. Choose All UAE to search the whole country.",
       "editor": "select",
       "enum": [
         "uae",
         "dubai",
         "abudhabi",
-        "rak",
         "sharjah",
-        "fujairah",
         "ajman",
+        "rak",
+        "fujairah",
         "uaq",
         "alain"
       ],
@@ -36,58 +149,139 @@
         "All UAE",
         "Dubai",
         "Abu Dhabi",
-        "Ras Al Khaimah",
         "Sharjah",
-        "Fujairah",
         "Ajman",
+        "Ras Al Khaimah",
+        "Fujairah",
         "Umm Al Quwain",
         "Al Ain"
       ],
-      "title": "Location",
+      "title": "City / Emirate",
       "type": "string"
     },
-    "max_items_per_url": {
+    "maxItems": {
       "default": 20,
-      "description": "Maximum number of items to scrape per URL or search query.",
+      "description": "Maximum listings to save for each URL or keyword/category search. Duplicates across searches are removed.",
+      "maximum": 100000,
       "minimum": 1,
-      "prefill": 20,
-      "title": "Max Items Per URL/Search",
+      "prefill": 3,
+      "title": "Max Items Per Search",
       "type": "integer"
     },
-    "max_retries_per_url": {
+    "maxKilometers": {
+      "description": "Motors only. Maximum listed odometer reading in kilometres.",
+      "minimum": 0,
+      "title": "Maximum Odometer (km)",
+      "type": "integer"
+    },
+    "maxPages": {
+      "default": 0,
+      "description": "Safety cap on result pages fetched per search. 0 means automatic, stopping at maxItems or when results run out.",
+      "maximum": 1000,
+      "minimum": 0,
+      "title": "Max Pages Per Search",
+      "type": "integer"
+    },
+    "maxRetries": {
       "default": 2,
-      "description": "Maximum retry attempts for each URL if it fails.",
+      "description": "Retries for rate limits and temporary Dubizzle search errors.",
+      "maximum": 10,
       "minimum": 0,
       "prefill": 2,
-      "title": "Max Retries Per URL",
+      "title": "Max Retries Per Page",
       "type": "integer"
     },
     "page": {
       "default": 1,
-      "description": "Page number to start scraping from (1-based).",
+      "description": "1-based result page to start from.",
+      "maximum": 1000,
       "minimum": 1,
       "title": "Starting Page",
       "type": "integer"
     },
-    "sort_by": {
-      "default": "",
-      "description": "Sort order for results.",
+    "postedWithinDays": {
+      "default": "any",
+      "description": "Only collect listings added to Dubizzle during this window.",
       "editor": "select",
       "enum": [
-        "",
-        "date_desc",
-        "price_asc"
+        "any",
+        "1",
+        "3",
+        "7",
+        "14",
+        "30",
+        "90"
       ],
       "enumTitles": [
-        "Default",
-        "Date (newest first)",
-        "Price (low to high)"
+        "Any time",
+        "Last 24 hours",
+        "Last 3 days",
+        "Last 7 days",
+        "Last 14 days",
+        "Last 30 days",
+        "Last 90 days"
       ],
-      "title": "Sort By",
+      "title": "Posted Within",
       "type": "string"
     },
-    "urls": {
-      "description": "Dubizzle product list page URLs to scrape. When provided, keyword/location/sort filters are ignored.\n\nExamples:\n- https://dubai.dubizzle.com/motors/used-cars/\n- https://abudhabi.dubizzle.com/property-for-rent/residential/\n- https://sharjah.dubizzle.com/electronics/",
+    "priceMax": {
+      "description": "Optional maximum asking price in AED.",
+      "minimum": 0,
+      "title": "Maximum Price (AED)",
+      "type": "integer"
+    },
+    "priceMin": {
+      "description": "Optional minimum asking price in AED. Listings without a price (many jobs and services) are excluded when this is set.",
+      "minimum": 0,
+      "sectionCaption": "Narrow the results",
+      "sectionDescription": "Optional price, size and vehicle filters. Filters that do not apply to the chosen category are ignored with a note in the run log.",
+      "title": "Minimum Price (AED)",
+      "type": "integer"
+    },
+    "sellerType": {
+      "default": "any",
+      "description": "Filter by seller. Owner, dealer and rental apply to motors; individual and business apply to classifieds, jobs and community listings. Property seller filtering is not exposed by Dubizzle and is ignored with a note.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "owner",
+        "dealer",
+        "individual",
+        "business",
+        "agent",
+        "rental"
+      ],
+      "enumTitles": [
+        "Any seller",
+        "Owner",
+        "Dealer",
+        "Individual",
+        "Business",
+        "Agent",
+        "Rental company"
+      ],
+      "title": "Seller Type",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "Order in which listings are collected. Relevance uses Dubizzle's default ranking.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "newest",
+        "price_low_to_high"
+      ],
+      "enumTitles": [
+        "Relevance (Dubizzle default)",
+        "Newest first",
+        "Price: low to high"
+      ],
+      "title": "Sort Results",
+      "type": "string"
+    },
+    "startUrls": {
+      "description": "One or more Dubizzle UAE category or search page URLs, for example https://dubai.dubizzle.com/motors/used-cars/ or https://abudhabi.dubizzle.com/property-for-rent/residential/apartmentflat/. When provided, the city and category come from each URL and the category dropdown is ignored. Keyword and filter fields still apply.",
       "editor": "stringList",
       "items": {
         "type": "string"
@@ -95,13 +289,27 @@
       "prefill": [
         "https://rak.dubizzle.com/motors/used-cars/"
       ],
-      "sectionCaption": "Scrape with Search URLs",
-      "sectionDescription": "Enter one or more Dubizzle search page URLs. These take priority over keyword/location filters.",
-      "title": "Search URLs",
+      "sectionCaption": "Start with URLs",
+      "sectionDescription": "Paste Dubizzle category or search pages. Leave empty to search by category, keyword and city instead.",
+      "title": "Category or Search URLs",
       "type": "array"
+    },
+    "yearMax": {
+      "description": "Motors only. Latest model year.",
+      "maximum": 2100,
+      "minimum": 1950,
+      "title": "Vehicle Year To",
+      "type": "integer"
+    },
+    "yearMin": {
+      "description": "Motors only. Earliest model year.",
+      "maximum": 2100,
+      "minimum": 1950,
+      "title": "Vehicle Year From",
+      "type": "integer"
     }
   },
   "schemaVersion": 1,
-  "title": "Dubizzle Listings Scraper (Unofficial)",
+  "title": "Dubizzle UAE Listings Scraper",
   "type": "object"
 }
