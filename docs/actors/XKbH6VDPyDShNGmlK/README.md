@@ -4,141 +4,164 @@
 
 # Haraj Classifieds Search & Seller Listings Scraper
 
-Scrape **Haraj** (haraj.com.sa) — Saudi Arabia's largest online classifieds marketplace, covering cars, real estate, electronics, furniture, jobs, services, and everything in between. Search by keyword, browse by category or city, look up specific listings by ID/URL, or pull every active listing from a seller. No login, cookies, or proxy required.
+Collect live ads from **Haraj** (haraj.com.sa), Saudi Arabia's largest classifieds marketplace — cars, real estate, electronics, jobs, furniture, services, animals and more. The actor uses Haraj's own public JSON API, so it runs without login, cookies or a proxy. Search by keyword, browse by section or region, resolve specific ad IDs/URLs, download a seller's active inventory, or pull the public store profile behind a seller name.
 
-## What this actor does
+## Modes
 
-- **Five modes:** `search` (keyword), `browse` (category / city / latest feed), `byId` (lookup by listing ID or URL), `byAuthor` (all listings from a seller), `trending` (site-wide trending search keywords — not listings)
-- **20 categories and 21 cities/regions** (Saudi Arabia, Kuwait, UAE, Bahrain) — filter by one or several at once, plus free-text `subTag`, `carBodyType`, and `neighborhood` for finer brand/model, car body style, and town-level narrowing
-- **Rich filters:** price range (SAR), only-with-image, only-with-video, exclude a category, hide dealer/store showroom listings (mode=search), sort order
-- **Category-specific enrichment:** car specs (model year, mileage, fuel, transmission, condition), real estate REGA registration numbers, job details, general spec attributes, and an optional `similarListings[]` lookup (mode=byId)
-- **Empty fields are omitted**
+| Mode | What it returns |
+|---|---|
+| `search` | Ads matching a free-text keyword, optionally narrowed by section, region, price, recency, media and seller type |
+| `browse` | The same listing feed without a keyword — by section, region, or the site-wide latest feed |
+| `byId` | One record per ad ID or ad URL you provide |
+| `byAuthor` | Every active ad from one seller (accepts a display name, `@handler`, or `/users/...` link) |
+| `seller` | A seller/store profile: join date, followers, rating, verified badges, store description, public store phone/email, store pages and map point |
+| `trending` | Haraj's own trending search keywords (not ads) |
 
-## Output per listing
+All 21 sections are selectable, including **Jobs (`وظائف`)**. There are 21 regions (20 Saudi regions plus Kuwait, UAE and Bahrain), and `cities` lets you combine several regions in one run.
 
-- `id` — Haraj numeric listing ID
-- `title`, `description`
-- `priceSAR` — price in Saudi Riyal (omitted when the seller didn't state a price)
-- `category` — the listing's most specific category tag
-- `categories[]` — full list of category/brand/model tags Haraj assigned to the listing
-- `city`, `geoCity`, `geoNeighborhood`, `geoHash` — region, city/town, neighborhood, and a geohash for the listing's approximate coordinates
-- `images[]`, `thumbnailUrl`
-- `url` — canonical listing URL
-- `authorUsername`, `authorId` — seller / store name and Haraj's numeric account ID (useful for disambiguating sellers who share a display name)
-- `postedDate`, `updatedDate` — ISO 8601 UTC (updatedDate only present when different from postedDate — e.g. the seller renewed/bumped the ad)
-- `hasImage`, `hasVideo`, `isPromoted`, `commentCount`
-- `upvotes`, `downvotes` — Haraj's community "helpful / not helpful" feedback counts on the listing (0 is a real "no votes yet" value, not a missing one)
-- `car` — for vehicle listings: `listingType`, `is4WheelDrive`, `modelYear`, `mileageKm`, `fuelType`, `transmission`, `condition`, `vehicleType`, `bank`
-- `realEstate` — for property listings: `regaAdvertiserRegistrationNumber`, `regaAuthorizationNumber`
-- `job` — for job listings (when reachable via search/byId/byAuthor): `offerType`, `experienceLevel`, `contractType`, `qualification`, `commercialRegisterNumber`
-- `specs` — key/value attributes Haraj extracted for the item (e.g. laptop brand, RAM size, screen size)
-- `similarListings[]` — only when `mode=byId` and `includeSimilarListings=true`: related listings (`id`, `title`, `url`, `priceSAR`, `thumbnailUrl`, `city`)
-- `recordType` — `listing` / `carListing` / `realEstateListing` / `jobListing`, `scrapedAt`
+## Listing filters
 
-## Output for `mode=trending`
+- **Recency:** `postedWithin` — last 24 hours, 3 days, week or month
+- **Price:** `priceMin` / `priceMax` in SAR; `onlyWithPrice` drops "message me" ads
+- **Media:** `onlyWithImage`, `onlyWithVideo`
+- **Section:** `category`, `excludeCategory`, free-text `subTag` (brand/model/generic tag), `carBodyType`
+- **Place:** one `city`, several `cities`, or an exact `neighborhood`
+- **Seller type:** `hideShowRooms` hides dealer/showroom accounts
+- **Cars:** `carCondition`, `fuelType`, `transmission`, `sellOrWaiver`, `is4WD`, `mileageMinKm`, `mileageMaxKm`, `modelYearMin`, `modelYearMax`
+- **Volume:** `splitByCity` runs the same query once per region and merges the results; this is the way past Haraj's roughly 300-row window for a single query
 
-Each record is a trending search keyword, not a listing:
+## Listing output
 
-- `keyword` — the trending search term
-- `score` — Haraj's relevance/popularity score for the keyword over the requested window (0-1 range observed)
-- `rangeInDays` — the window that was requested
-- `recordType` — `trendingKeyword`, `scrapedAt`
+Core fields: `id`, `title`, `description`, `priceSAR`, `priceFormatted`, `category`, `categories[]`, `subcategory`, `city`, `geoCity`, `geoNeighborhood`, `geoHash`, `latitude`, `longitude`, `images[]`, `thumbnailUrl`, `imageCount`, `url`, `authorUsername`, `authorId`, `sellerUrl`, `postedDate`, `updatedDate`, `hasImage`, `hasVideo`, `isPromoted`, `postType`, `commentsEnabled`, `commentCount`, `upvotes`, `downvotes`, `recordType`, `scrapedAt`.
+
+Optional:
+
+- `specs` — key/value attributes Haraj stored (phone model/storage/colour, laptop specs, …)
+- `car` — `listingType`, `is4WheelDrive`, `modelYear`, `mileageThousandKm` (raw Haraj value), `mileageKm` (actual kilometres), `fuelType`, `transmission`, `condition`, `vehicleType`, `bank`, `make`, `modelName`
+- `realEstate` — REGA advertiser registration and authorization numbers
+- `job` — offer type, experience, contract type, qualification, commercial register, job family
+- `phones[]` — phone numbers the seller wrote in the ad, normalised to `+9665…`
+- `seller` — compact seller/store object when `includeSeller=true`
+- `likeCount` — when `includeLikeCounts=true`
+- `comments[]` — when `includeComments=true` (author, body, date, reply marker)
+- `similarListings[]` — when `mode=byId` and `includeSimilarListings=true`
+
+Empty values are always omitted — never `null`, `""`, `[]` or `{}`.
+
+## Seller profile output (`mode=seller`)
+
+`id`, `username`, `url`, `handler`, `profileType` (`USER`/`STORE`), `description`, `registrationDate`, `lastSeen`, `followerCount`, `rating` (`upvotes`, `downvotes`, `upvotesPaid`, `downvotesPaid`, `average`), `badges[]`, `verifications[]`, `isRealtor`, `linkedViaNafath`, `vatNumber`, `phoneNumbers[]`, `emails[]`, `latitude`, `longitude`, `storePages[]`, `recordType=sellerProfile`.
+
+## Trending output (`mode=trending`)
+
+`keyword`, `score`, `rangeInDays`, `recordType=trendingKeyword`, `scrapedAt`.
 
 ## Input
 
-| Field | Type | Default | Description |
+| Field | Type | Default | Notes |
 |---|---|---|---|
-| `mode` | string | `search` | `search` / `browse` / `byId` / `byAuthor` / `trending` |
-| `searchQuery` | string | – | Free-text keyword (mode=search, required for this mode) |
-| `category` | string | – | One of 20 top-level categories (mode=search, browse) |
-| `subTag` | string | – | A specific brand/model tag, narrower than `category` (mode=search, browse). Takes priority over `category` for upstream narrowing when both are set. |
-| `carBodyType` | string | – | One of 12 car body styles (mode=search, browse). Takes priority over `subTag`/`category` for upstream narrowing when both are set. |
-| `city` | string | – | One of 21 cities/regions (mode=search, browse) |
-| `cities` | array | `[]` | Multiple cities/regions at once, OR-combined with `city` if both set (mode=search, browse) |
-| `neighborhood` | string | – | A specific town/district, narrower than `city`/`cities` — ANDed with them (mode=search, browse, byAuthor) |
-| `excludeCategory` | string | – | Drop results from this category |
-| `postIds` | array | – | Listing IDs or full URLs (mode=byId, required for this mode) |
-| `authorUsername` | string | – | Exact seller/store username (mode=byAuthor, required for this mode) |
-| `includeSimilarListings` | bool | `false` | Attach `similarListings[]` per record (mode=byId only) |
-| `trendingRangeDays` | int | `1` | Trending window in days, 1–14 (mode=trending) |
-| `priceMin` | int | – | Drop listings priced below this (SAR) |
-| `priceMax` | int | – | Drop listings priced above this (SAR) |
-| `onlyWithImage` | bool | `false` | Only listings with photos |
-| `onlyWithVideo` | bool | `false` | Only listings with video |
-| `hideShowRooms` | bool | `false` | Exclude dealer/store-seller listings (mode=search only) |
-| `sortBy` | string | `recentlyActive` | `recentlyActive` (bumped/renewed first) / `newestPosted` (by original post date) |
-| `maxItems` | int | `30` | Hard cap (1–1000) |
+| `mode` | select | `search` | `search` / `browse` / `byId` / `byAuthor` / `seller` / `trending` |
+| `searchQuery` | string | — | Keyword in Arabic or English; required for `search` |
+| `category` | select | any | 21 top-level sections incl. Jobs |
+| `subTag` | string | — | A specific brand/model/category tag; wins over `category` for narrowing |
+| `carBodyType` | select | any | 12 body styles; wins over `subTag`/`category` for narrowing |
+| `city` | select | any | One region; `عسير` is accepted as an alias of `أبها` |
+| `cities` | array | `[]` | Several regions at once; OR-combined with `city` |
+| `neighborhood` | string | — | Exact finer town/district (`geoCity`); AND-combined with city filters |
+| `excludeCategory` | select | none | Drop one top-level section |
+| `postIds` | array | `[]` | Ad IDs or full ad URLs; required for `byId` |
+| `authorUsername` | string | — | Seller name, `@handler`, or `/users/...` link; used by `byAuthor` and `seller` |
+| `includeSimilarListings` | bool | `false` | Attach related ads (mode=byId) |
+| `trendingRangeDays` | int | `1` | 1–14 days (mode=trending) |
+| `postedWithin` | select | any | `1days` / `3days` / `1week` / `1months` |
+| `priceMin` / `priceMax` | int | — | SAR bounds |
+| `onlyWithPrice` | bool | `false` | Skip ads without a stated price |
+| `onlyWithImage` / `onlyWithVideo` | bool | `false` | Media presence |
+| `hideShowRooms` | bool | `false` | Hide dealer/showroom sellers (search, browse) |
+| `carCondition` | select | any | `NEW`, `USED`, quality grades, `DAMGED` |
+| `fuelType` | select | any | `GASOLINE`, `DIESEL`, `HYBRID`, `ELECTRIC` |
+| `transmission` | select | any | `AUTO`, `MANUAL` |
+| `sellOrWaiver` | select | any | `SELL`, `WAIVER` |
+| `is4WD` | bool | `false` | Require four-wheel drive |
+| `mileageMinKm` / `mileageMaxKm` | int | — | Kilometre bounds |
+| `modelYearMin` / `modelYearMax` | int | — | Model-year bounds |
+| `sortBy` | select | `recentlyActive` | `recentlyActive` or `newestPosted` |
+| `splitByCity` | bool | `false` | Run per region and merge (gets past the single-query window) |
+| `includeSeller` | bool | `false` | Attach a compact `seller` object to each ad |
+| `includeLikeCounts` | bool | `false` | Add `likeCount` (one request per ad) |
+| `includeComments` | bool | `false` | Add `comments[]` (one request per ad page) |
+| `maxCommentsPerListing` | int | `10` | 1–100; used with `includeComments` |
+| `maxItems` | int | `30` | 1–1000 emitted records |
 
-### Example: search with price range
+### Examples
+
+Keyword search with a price band and recency:
 
 ```json
-{
-  "mode": "search",
-  "searchQuery": "ايفون",
-  "priceMin": 1000,
-  "priceMax": 3000,
-  "maxItems": 50
-}
+{ "mode": "search", "searchQuery": "ايفون", "postedWithin": "3days", "priceMin": 1000, "priceMax": 3000, "maxItems": 50 }
 ```
 
-### Example: browse cars for sale in Jeddah
+Browse a section and region, newest first:
 
 ```json
-{
-  "mode": "browse",
-  "category": "حراج السيارات",
-  "city": "جده",
-  "onlyWithImage": true,
-  "maxItems": 50
-}
+{ "mode": "browse", "category": "حراج السيارات", "city": "جده", "sortBy": "newestPosted", "onlyWithImage": true, "maxItems": 50 }
 ```
 
-### Example: lookup specific listings by ID or URL
+Car filters:
 
 ```json
-{
-  "mode": "byId",
-  "postIds": ["186610241", "https://haraj.com.sa/11186610633/ايفون_17_برو/"]
-}
+{ "mode": "browse", "category": "حراج السيارات", "carCondition": "USED", "fuelType": "GASOLINE", "transmission": "AUTO", "mileageMaxKm": 150000, "modelYearMin": 2018, "maxItems": 100 }
 ```
 
-### Example: every active listing from a seller
+Seller inventory + profile snippet:
 
 ```json
-{
-  "mode": "byAuthor",
-  "authorUsername": "معرض رائد علي القحطاني",
-  "maxItems": 100
-}
+{ "mode": "byAuthor", "authorUsername": "https://haraj.com.sa/users/da3.9", "includeSeller": true, "maxItems": 100 }
+```
+
+Seller/store profile:
+
+```json
+{ "mode": "seller", "authorUsername": "@Ayman_354" }
+```
+
+Specific ads with engagement:
+
+```json
+{ "mode": "byId", "postIds": ["186610241"], "includeSeller": true, "includeLikeCounts": true, "includeComments": true }
+```
+
+More results for a broad query:
+
+```json
+{ "mode": "browse", "category": "حراج الأجهزة", "splitByCity": true, "maxItems": 500 }
 ```
 
 ## Use cases
 
-- **Price intelligence** — track asking prices for cars, phones, or real estate across Saudi cities
-- **Lead generation** — monitor new listings in a specific category or city as they're posted
-- **Market research** — analyze categories, brands, and specs trending on Saudi Arabia's largest classifieds site
-- **Seller monitoring** — track everything a specific store/seller has listed
-- **Real estate analytics** — pull REGA-licensed property listings with registration details
-- **Automotive analytics** — collect model year, mileage, fuel type, and condition across car listings
+- Price monitoring for cars, phones and property across Saudi regions
+- New-ad alerts by keyword, section or seller
+- Seller/store due diligence from public profile and verification data
+- Lead lists with seller names, store phones and ad text phone numbers
+- Automotive market analysis with model year, mileage, fuel and condition
+- Jobs-market sampling (all job ads are reachable through the Jobs section)
 
-## FAQ
+## FAQ and honest limits
 
-**What is Haraj?** Haraj (حراج) is Saudi Arabia's largest classifieds marketplace, used for buying and selling cars, real estate, electronics, and general goods across Saudi Arabia, Kuwait, UAE, and Bahrain. This actor is an independent, third-party tool using Haraj's own public API — it is not affiliated with or endorsed by Haraj.
+**Does it need a login, cookie or proxy?** No. Every shipped field comes from Haraj's public API and works with a plain HTTP request.
 
-**Why is `priceSAR` missing on some listings?** Haraj lets sellers post without stating a price (common for "message me" listings). The actor omits the field entirely rather than showing a fake `0`.
+**Why do some sellers have no phone number?** Haraj only exposes store-profile phone numbers publicly on business (`STORE`) profiles. Personal sellers' contact numbers require a logged-in Haraj session, which this actor never uses, so that field is omitted for them. Numbers a seller writes in the ad text are still returned in `phones[]`.
 
-**What's the difference between `search` and `browse`?** `search` matches a free-text keyword against listing titles/descriptions (optionally narrowed by category/city/price). `browse` returns listings for a category and/or city (or the site-wide latest feed if neither is set) without requiring a keyword.
+**Why does a broad query stop before `maxItems`?** Haraj's own pagination returns roughly 300 unique ads per query and then repeats. The actor stops and says so in the status message. Enable `splitByCity` (and/or narrow by section, brand or region) to collect more.
 
-**Is Jobs a supported category?** Haraj's Jobs section (`وظائف`) is powered by a separate service that isn't reachable through the same public search/browse API used for the rest of the site, so it isn't included in the `category` dropdown. Individual job posts that also surface through keyword search or a specific seller's listings are still returned (with a populated `job` object) when found that way.
+**Are real-estate area/room/bathroom fields included?** Haraj's public API does not expose structured property attributes; only the REGA licence numbers are structured. Size/room details remain in the free-text description. This is a site limitation, not a missing selector.
 
-**Will `maxItems` always be fully delivered?** Not always, and this is expected. Haraj's own pagination only exposes a finite window of unique listings for a given `search`/`browse` request before it starts repeating already-seen listings. The unfiltered site-wide "latest" feed (`browse` with no category/city) has the smallest window, typically a few hundred listings; a specific keyword search or a category/city-scoped browse typically goes deeper. When a run hits this plateau it stops rather than looping forever, and reports the actual delivered count vs. the requested `maxItems` in the run's status message.
+**Why is `mileageKm` different from Haraj's raw mileage number?** Haraj stores mileage in thousands of kilometres. `mileageThousandKm` preserves the raw value; `mileageKm` is the converted distance in kilometres. Both are provided so either convention can be used.
 
-**What's the difference between `city` and `cities`?** `city` restricts results to exactly one city/region. `cities` (mode=search, browse) restricts to ANY of several cities/regions at once — useful for e.g. "show me listings in the three largest cities" in a single run instead of three separate runs. If both are set, a record needs to match only one of the two to be included (OR), not both.
+**What is `mode=trending`?** Haraj's own trending-search-keyword feed for the chosen 1–14 day window, useful for choosing a keyword before a `search` run.
 
-**What's `neighborhood` and how is it different from `city`?** `city`/`cities` match Haraj's 21 top-level regions (e.g. "الرياض" Riyadh, the whole metro area). `neighborhood` matches Haraj's finer per-listing town/district tag (the `geoCity` output field — e.g. "الدرعية" Diriyah, a specific district within Riyadh). It's free-text (not a dropdown) because that value set runs into the hundreds and isn't stable enough to curate — enter the value exactly as it appears in a listing's own `geoCity` field. When combined with `city`/`cities`, a listing must satisfy both (AND).
+**Can I monitor only new ads?** This actor is stateless by design and does not keep cross-run history. Use a schedule and deduplicate on `id` in your storage.
 
-**What's `carBodyType` and how does it relate to `category`/`subTag`?** `carBodyType` is a curated 12-value dropdown for a car's body style (sedan, SUV, hatchback, pickup, etc.). When more than one of `carBodyType`/`subTag`/`category` is set, `carBodyType` takes priority for upstream narrowing — the others still apply afterward as extra checks (e.g. `carBodyType="سيدان"` + `subTag="تويوتا"` correctly returns only Toyota sedans). It's most useful set alone or combined with `city`/`category`, since most body types already imply a brand-agnostic style search.
+**What about map-area searches?** Haraj accepts a `near` parameter on its API, but in live probing it returned the same unrelated set for distinct values, so the actor does not expose it as a filter. Region, city and neighbourhood filters cover the supported location axes.
 
-**What's `subTag` and how is it different from `category`?** `category` is one of Haraj's 20 top-level sections (e.g. "حراج السيارات" Cars). `subTag` is any finer node in Haraj's own tag tree attached to a listing — a specific brand ("تويوتا" Toyota) or model ("كامري" Camry). It's free-text because that tree runs into the thousands and isn't a stable curated set. When both `category` and `subTag` are set, `subTag` takes priority for upstream narrowing — `category` still applies afterward as an extra check (harmless when the two are consistent, e.g. Cars + Toyota; returns 0 results if they contradict, e.g. Real Estate + Toyota).
-
-**What does `mode=trending` return?** Not listings — it's Haraj's own site-wide trending-search-keywords feed (what people are searching for over the last `trendingRangeDays` days), useful for spotting a hot keyword before running a `search`. Haraj's endpoint only has data for 1-14 day windows; values outside that range are clamped.
+Independent third-party tool using Haraj's public API. Not affiliated with or endorsed by Haraj.
