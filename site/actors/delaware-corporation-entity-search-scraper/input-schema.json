@@ -1,0 +1,72 @@
+{
+  "description": "Search the Delaware Division of Corporations' free entity database by name or file number. Keep `maxItems` small -- see the README's Data Source & Usage Notes before running large jobs.",
+  "properties": {
+    "entityName": {
+      "default": "AMAZON",
+      "description": "Case-insensitive \"starts with\" match against the entity name, e.g. `GOOGLE` matches `GOOGLE FIBER INC.`. This mirrors the Delaware search's own matching behavior -- it is not a substring/contains search.",
+      "editor": "textfield",
+      "prefill": "AMAZON",
+      "title": "Entity name (mode=searchByName)",
+      "type": "string"
+    },
+    "exactMatch": {
+      "default": false,
+      "description": "Off (default) mirrors the source's default \"starts with\" match, e.g. `GOOGLE` matches `GOOGLE FIBER INC.`. On, the actor submits the name wrapped in quotation marks, which is the Delaware search form's own documented syntax for an exact whole-name match (its help text literally says \"For exact searches use quotation marks\") -- useful when you know the full legal entity name and only want that one record.",
+      "prefill": false,
+      "title": "Exact name match (mode=searchByName)",
+      "type": "boolean"
+    },
+    "fileNumbers": {
+      "default": [],
+      "description": "Exact Delaware file number(s) to look up, e.g. `5804452`.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "File numbers (mode=byFileNumber)",
+      "type": "array"
+    },
+    "maxItems": {
+      "default": 5,
+      "description": "Hard cap on emitted records. Kept low by default -- each additional result costs one extra request against a source that actively rate-limits automated traffic.",
+      "maximum": 25,
+      "minimum": 1,
+      "prefill": 3,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "searchByName",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "searchByName",
+        "byFileNumber"
+      ],
+      "enumTitles": [
+        "Search by entity name (starts with)",
+        "Lookup by exact file number"
+      ],
+      "prefill": "searchByName",
+      "title": "Mode",
+      "type": "string"
+    },
+    "proxyConfiguration": {
+      "default": {
+        "useApifyProxy": true
+      },
+      "description": "Uses Apify's free datacenter (AUTO) proxy group to get a fresh IP if a request is rate-limited by the source. Residential proxy is never used by this actor.",
+      "editor": "proxy",
+      "prefill": {
+        "useApifyProxy": true
+      },
+      "title": "Proxy configuration",
+      "type": "object"
+    }
+  },
+  "required": [
+    "mode",
+    "proxyConfiguration"
+  ],
+  "schemaVersion": 1,
+  "title": "Delaware Corporation Entity Search Scraper Input",
+  "type": "object"
+}

@@ -1,0 +1,97 @@
+{
+  "properties": {
+    "city": {
+      "description": "City name to search for rentals (e.g. 'Phoenix', 'New York'). Required unless `startUrls` is provided.",
+      "editor": "textfield",
+      "prefill": "Phoenix",
+      "title": "City",
+      "type": "string"
+    },
+    "includeReviews": {
+      "default": false,
+      "description": "Try to extract individual review text, ratings, and dates when FurnishedFinder embeds them in the property page. Note: only a small fraction of FurnishedFinder properties expose reviews in the page payload — most only expose `avgRating` and `totalReviewCount`. The rating/count fields are extracted regardless of this toggle when present.",
+      "prefill": false,
+      "title": "Include Reviews",
+      "type": "boolean"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Maximum number of listings to scrape",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 5,
+      "title": "Max Items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Maximum monthly rent in USD",
+      "editor": "number",
+      "minimum": 0,
+      "title": "Max Price (USD/month)",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Minimum monthly rent in USD",
+      "editor": "number",
+      "minimum": 0,
+      "title": "Min Price (USD/month)",
+      "type": "integer"
+    },
+    "moreDetails": {
+      "default": false,
+      "description": "Extract landlord name, biography, profile image, verification status, and nearby hospitals from the property page.",
+      "prefill": false,
+      "title": "Fetch Landlord Details",
+      "type": "boolean"
+    },
+    "moveInDate": {
+      "description": "Target move-in date in YYYY-MM-DD format",
+      "editor": "textfield",
+      "title": "Move-in Date",
+      "type": "string"
+    },
+    "propertyType": {
+      "description": "Filter by property type. FurnishedFinder only exposes two filter classes: 'room' (private room in a shared place) and 'entire_unit' (whole apartment/house/condo). The granular type (House, Condo, Apartment) appears in the output `propertyType` field of every record.",
+      "editor": "select",
+      "items": {
+        "enum": [
+          "room",
+          "entire_unit"
+        ],
+        "type": "string"
+      },
+      "title": "Property Type",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "proxyConfiguration": {
+      "default": {
+        "useApifyProxy": true
+      },
+      "description": "Proxy configuration. Apify Proxy (datacenter) is enabled by default — FurnishedFinder uses Cloudflare which blocks plain datacenter requests without proxy rotation.",
+      "editor": "proxy",
+      "prefill": {
+        "useApifyProxy": true
+      },
+      "title": "Proxy Configuration",
+      "type": "object"
+    },
+    "startUrls": {
+      "description": "Override city/state with explicit FurnishedFinder URLs — search pages or /property/{id}_{unit} URLs. When set, city and state are ignored.",
+      "editor": "requestListSources",
+      "title": "Start URLs (optional)",
+      "type": "array"
+    },
+    "state": {
+      "description": "US state — full name (e.g. 'Arizona') or two-letter code (e.g. 'AZ'). Required unless `startUrls` is provided.",
+      "editor": "textfield",
+      "prefill": "AZ",
+      "title": "State",
+      "type": "string"
+    }
+  },
+  "required": [],
+  "schemaVersion": 1,
+  "title": "Furnished Finder Scraper Input",
+  "type": "object"
+}

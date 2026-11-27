@@ -1,0 +1,137 @@
+{
+  "description": "Scrape restaurant listings from Glovo by city, or search by keyword within a city.",
+  "properties": {
+    "city": {
+      "default": "madrid",
+      "description": "City to scrape Glovo restaurants for.",
+      "editor": "select",
+      "enum": [
+        "madrid",
+        "barcelona",
+        "valencia",
+        "sevilla",
+        "bilbao",
+        "malaga",
+        "milano",
+        "roma",
+        "torino",
+        "napoli",
+        "lisboa",
+        "porto",
+        "nairobi",
+        "lagos",
+        "abuja",
+        "kampala",
+        "tbilisi",
+        "almaty",
+        "chisinau"
+      ],
+      "enumTitles": [
+        "Madrid, Spain",
+        "Barcelona, Spain",
+        "Valencia, Spain",
+        "Sevilla, Spain",
+        "Bilbao, Spain",
+        "Malaga, Spain",
+        "Milano, Italy",
+        "Roma, Italy",
+        "Torino, Italy",
+        "Napoli, Italy",
+        "Lisboa, Portugal",
+        "Porto, Portugal",
+        "Nairobi, Kenya",
+        "Lagos, Nigeria",
+        "Abuja, Nigeria",
+        "Kampala, Uganda",
+        "Tbilisi, Georgia",
+        "Almaty, Kazakhstan",
+        "Chisinau, Moldova"
+      ],
+      "prefill": "madrid",
+      "title": "City",
+      "type": "string"
+    },
+    "cuisine": {
+      "description": "Optional. Filter restaurants by cuisine tag (case-insensitive substring match), e.g. `Pizza`, `Sushi`, `Italiana`, `Burgers`. Cuisine tags are shown in the local language of the selected city.",
+      "editor": "textfield",
+      "title": "Cuisine filter",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 20,
+      "description": "Hard cap on emitted records. Glovo shows up to 50 restaurants per city/food category page.",
+      "maximum": 50,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "minRating": {
+      "description": "Drop restaurants with a customer satisfaction score (0-100) below this value.",
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Minimum rating",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "restaurants",
+      "description": "`Browse restaurants` lists every restaurant Glovo shows for the selected city (optionally filtered by cuisine). `Search` additionally filters those restaurants by a keyword matched against the restaurant name and cuisine tag.",
+      "editor": "select",
+      "enum": [
+        "restaurants",
+        "search"
+      ],
+      "enumTitles": [
+        "Browse restaurants by city",
+        "Search restaurants by keyword"
+      ],
+      "prefill": "restaurants",
+      "title": "Mode",
+      "type": "string"
+    },
+    "onlyOpen": {
+      "default": false,
+      "description": "Only return restaurants that are currently open for delivery.",
+      "prefill": false,
+      "title": "Only currently open",
+      "type": "boolean"
+    },
+    "onlyTopRated": {
+      "default": false,
+      "description": "Only return restaurants Glovo has flagged as top-rated.",
+      "prefill": false,
+      "title": "Only top-rated",
+      "type": "boolean"
+    },
+    "onlyWithPromotions": {
+      "default": false,
+      "description": "Only return restaurants that currently have at least one active discount/deal (e.g. percentage off, 2x1).",
+      "prefill": false,
+      "title": "Only with active promotions",
+      "type": "boolean"
+    },
+    "proxyConfiguration": {
+      "default": {
+        "useApifyProxy": false
+      },
+      "description": "Optional. Glovo does not require a proxy from most locations, but you can enable Apify's free datacenter proxy (AUTO group) for extra reliability.",
+      "editor": "proxy",
+      "title": "Proxy configuration",
+      "type": "object"
+    },
+    "query": {
+      "description": "Required when mode=search. Matched (case-insensitive) against restaurant name and cuisine tag, e.g. `pizza`, `sushi`, `mcdonald`.",
+      "editor": "textfield",
+      "prefill": "pizza",
+      "title": "Search keyword",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode",
+    "city"
+  ],
+  "schemaVersion": 1,
+  "title": "Glovo Restaurant Scraper Input",
+  "type": "object"
+}

@@ -1,0 +1,107 @@
+{
+  "description": "Scrape Dubizzle UAE product listings. Provide search URLs or use keyword/location filters to find listings across motors, real estate, jobs, and more. Independent tool — not affiliated with Dubizzle.",
+  "properties": {
+    "ignore_url_failures": {
+      "default": true,
+      "description": "Continue running the scraper even if some URLs fail after max retries.",
+      "prefill": true,
+      "sectionCaption": "General Options",
+      "title": "Ignore URL Failures",
+      "type": "boolean"
+    },
+    "keyword": {
+      "description": "Keyword to search for (e.g., 'Toyota', 'laptop', 'apartment'). Used only when no URLs are provided.",
+      "editor": "textfield",
+      "sectionCaption": "Scrape with Search Filters",
+      "sectionDescription": "Use keyword + location to search. Ignored when URLs are provided.",
+      "title": "Search Keyword",
+      "type": "string"
+    },
+    "location": {
+      "default": "uae",
+      "description": "UAE city/emirate to search in.",
+      "editor": "select",
+      "enum": [
+        "uae",
+        "dubai",
+        "abudhabi",
+        "rak",
+        "sharjah",
+        "fujairah",
+        "ajman",
+        "uaq",
+        "alain"
+      ],
+      "enumTitles": [
+        "All UAE",
+        "Dubai",
+        "Abu Dhabi",
+        "Ras Al Khaimah",
+        "Sharjah",
+        "Fujairah",
+        "Ajman",
+        "Umm Al Quwain",
+        "Al Ain"
+      ],
+      "title": "Location",
+      "type": "string"
+    },
+    "max_items_per_url": {
+      "default": 20,
+      "description": "Maximum number of items to scrape per URL or search query.",
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max Items Per URL/Search",
+      "type": "integer"
+    },
+    "max_retries_per_url": {
+      "default": 2,
+      "description": "Maximum retry attempts for each URL if it fails.",
+      "minimum": 0,
+      "prefill": 2,
+      "title": "Max Retries Per URL",
+      "type": "integer"
+    },
+    "page": {
+      "default": 1,
+      "description": "Page number to start scraping from (1-based).",
+      "minimum": 1,
+      "title": "Starting Page",
+      "type": "integer"
+    },
+    "sort_by": {
+      "default": "",
+      "description": "Sort order for results.",
+      "editor": "select",
+      "enum": [
+        "",
+        "date_desc",
+        "price_asc"
+      ],
+      "enumTitles": [
+        "Default",
+        "Date (newest first)",
+        "Price (low to high)"
+      ],
+      "title": "Sort By",
+      "type": "string"
+    },
+    "urls": {
+      "description": "Dubizzle product list page URLs to scrape. When provided, keyword/location/sort filters are ignored.\n\nExamples:\n- https://dubai.dubizzle.com/motors/used-cars/\n- https://abudhabi.dubizzle.com/property-for-rent/residential/\n- https://sharjah.dubizzle.com/electronics/",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "https://rak.dubizzle.com/motors/used-cars/"
+      ],
+      "sectionCaption": "Scrape with Search URLs",
+      "sectionDescription": "Enter one or more Dubizzle search page URLs. These take priority over keyword/location filters.",
+      "title": "Search URLs",
+      "type": "array"
+    }
+  },
+  "schemaVersion": 1,
+  "title": "Dubizzle Listings Scraper (Unofficial)",
+  "type": "object"
+}

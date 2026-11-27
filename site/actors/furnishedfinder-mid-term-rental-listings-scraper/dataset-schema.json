@@ -1,0 +1,410 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "properties": {
+      "amenities": {
+        "items": {
+          "type": "string"
+        },
+        "nullable": true,
+        "type": "array"
+      },
+      "availableOnDate": {
+        "description": "Availability text e.g. Available or a date",
+        "nullable": true,
+        "type": "string"
+      },
+      "avgRating": {
+        "nullable": true,
+        "type": "number"
+      },
+      "bathList": {
+        "nullable": true,
+        "type": "array"
+      },
+      "bathroomType": {
+        "description": "Private Bath, Shared Bath, etc.",
+        "nullable": true,
+        "type": "string"
+      },
+      "bathrooms": {
+        "type": "number"
+      },
+      "bedList": {
+        "nullable": true,
+        "type": "array"
+      },
+      "bedrooms": {
+        "type": "integer"
+      },
+      "biography": {
+        "nullable": true,
+        "type": "string"
+      },
+      "city": {
+        "type": "string"
+      },
+      "contactName": {
+        "nullable": true,
+        "type": "string"
+      },
+      "description": {
+        "nullable": true,
+        "type": "string"
+      },
+      "displayPhone": {
+        "nullable": true,
+        "type": "boolean"
+      },
+      "emailVerified": {
+        "nullable": true,
+        "type": "boolean"
+      },
+      "fees": {
+        "nullable": true,
+        "type": "array"
+      },
+      "houseRules": {
+        "nullable": true,
+        "type": "array"
+      },
+      "id": {
+        "description": "Unique property+unit identifier",
+        "type": "string"
+      },
+      "idVerified": {
+        "nullable": true,
+        "type": "boolean"
+      },
+      "inputUrl": {
+        "description": "Input search URL or startUrl that produced this record",
+        "type": "string"
+      },
+      "isAvailableNow": {
+        "description": "True if immediately available",
+        "nullable": true,
+        "type": "boolean"
+      },
+      "isGoodResponder": {
+        "description": "True when FurnishedFinder marks the landlord as a good responder",
+        "nullable": true,
+        "type": "boolean"
+      },
+      "isRegionMatch": {
+        "description": "True when FurnishedFinder marks the listing as an exact regional match",
+        "nullable": true,
+        "type": "boolean"
+      },
+      "landlordCity": {
+        "nullable": true,
+        "type": "string"
+      },
+      "landlordState": {
+        "nullable": true,
+        "type": "string"
+      },
+      "latitude": {
+        "description": "Approximate latitude from search card",
+        "type": "number"
+      },
+      "laundryType": {
+        "description": "In-Unit W/D, Shared, None, etc.",
+        "nullable": true,
+        "type": "string"
+      },
+      "licenseNumber": {
+        "nullable": true,
+        "type": "string"
+      },
+      "longitude": {
+        "description": "Approximate longitude from search card",
+        "type": "number"
+      },
+      "minimumStayDays": {
+        "nullable": true,
+        "type": "integer"
+      },
+      "monthlyPrice": {
+        "description": "Parsed monthly rent in USD",
+        "nullable": true,
+        "type": "integer"
+      },
+      "monthlyPriceText": {
+        "description": "Formatted price string e.g. $2,000/month",
+        "nullable": true,
+        "type": "string"
+      },
+      "nearbyHospitals": {
+        "nullable": true,
+        "type": "array"
+      },
+      "neighborhoodDescription": {
+        "nullable": true,
+        "type": "string"
+      },
+      "phoneVerified": {
+        "nullable": true,
+        "type": "boolean"
+      },
+      "photos": {
+        "items": {
+          "type": "string"
+        },
+        "nullable": true,
+        "type": "array"
+      },
+      "profileImage": {
+        "nullable": true,
+        "type": "string"
+      },
+      "propertyType": {
+        "description": "Apartment, House, Room, etc.",
+        "type": "string"
+      },
+      "propertyTypeClass": {
+        "description": "Filter class: room or entire_unit",
+        "nullable": true,
+        "type": "string"
+      },
+      "rentalLicense": {
+        "nullable": true,
+        "type": "string"
+      },
+      "reviews": {
+        "nullable": true,
+        "type": "array"
+      },
+      "scrapedAt": {
+        "description": "ISO 8601 UTC timestamp",
+        "type": "string"
+      },
+      "sourceType": {
+        "description": "Input mode that produced this record: structured, searchUrl, or propertyUrl",
+        "type": "string"
+      },
+      "spaceDescription": {
+        "nullable": true,
+        "type": "string"
+      },
+      "squareFootage": {
+        "nullable": true,
+        "type": "integer"
+      },
+      "state": {
+        "description": "Two-letter state code",
+        "type": "string"
+      },
+      "tenure": {
+        "nullable": true,
+        "type": "string"
+      },
+      "title": {
+        "description": "Listing title",
+        "type": "string"
+      },
+      "totalReviewCount": {
+        "nullable": true,
+        "type": "integer"
+      },
+      "url": {
+        "description": "Canonical property URL",
+        "type": "string"
+      },
+      "userUuid": {
+        "nullable": true,
+        "type": "string"
+      },
+      "username": {
+        "nullable": true,
+        "type": "string"
+      },
+      "utilitiesIncluded": {
+        "nullable": true,
+        "type": "boolean"
+      }
+    },
+    "type": "object"
+  },
+  "title": "Furnished Finder Listings",
+  "views": {
+    "detailed": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "amenities": {
+            "format": "array",
+            "label": "Amenities"
+          },
+          "avgRating": {
+            "format": "number",
+            "label": "Rating"
+          },
+          "bathrooms": {
+            "format": "number",
+            "label": "Baths"
+          },
+          "bedrooms": {
+            "format": "number",
+            "label": "Beds"
+          },
+          "city": {
+            "format": "text",
+            "label": "City"
+          },
+          "id": {
+            "format": "text",
+            "label": "ID"
+          },
+          "inputUrl": {
+            "format": "text",
+            "label": "Input URL"
+          },
+          "isGoodResponder": {
+            "format": "boolean",
+            "label": "Good Responder"
+          },
+          "isRegionMatch": {
+            "format": "boolean",
+            "label": "Region Match"
+          },
+          "latitude": {
+            "format": "number",
+            "label": "Lat"
+          },
+          "longitude": {
+            "format": "number",
+            "label": "Lon"
+          },
+          "minimumStayDays": {
+            "format": "number",
+            "label": "Min Stay"
+          },
+          "monthlyPrice": {
+            "format": "number",
+            "label": "Price"
+          },
+          "photos": {
+            "format": "array",
+            "label": "Photos"
+          },
+          "propertyType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "sourceType": {
+            "format": "text",
+            "label": "Source Type"
+          },
+          "squareFootage": {
+            "format": "number",
+            "label": "SqFt"
+          },
+          "state": {
+            "format": "text",
+            "label": "State"
+          },
+          "title": {
+            "format": "text",
+            "label": "Title"
+          },
+          "totalReviewCount": {
+            "format": "number",
+            "label": "Reviews"
+          },
+          "url": {
+            "format": "text",
+            "label": "URL"
+          }
+        }
+      },
+      "title": "Detailed Results",
+      "transformation": {
+        "fields": [
+          "id",
+          "title",
+          "propertyType",
+          "city",
+          "state",
+          "latitude",
+          "longitude",
+          "monthlyPrice",
+          "bedrooms",
+          "bathrooms",
+          "isRegionMatch",
+          "isGoodResponder",
+          "squareFootage",
+          "minimumStayDays",
+          "avgRating",
+          "totalReviewCount",
+          "amenities",
+          "photos",
+          "url",
+          "inputUrl",
+          "sourceType"
+        ]
+      }
+    },
+    "overview": {
+      "display": {
+        "component": "table",
+        "properties": {
+          "bathrooms": {
+            "format": "number",
+            "label": "Baths"
+          },
+          "bedrooms": {
+            "format": "number",
+            "label": "Beds"
+          },
+          "city": {
+            "format": "text",
+            "label": "City"
+          },
+          "inputUrl": {
+            "format": "text",
+            "label": "Input URL"
+          },
+          "monthlyPrice": {
+            "format": "number",
+            "label": "Rent (USD)"
+          },
+          "propertyType": {
+            "format": "text",
+            "label": "Type"
+          },
+          "sourceType": {
+            "format": "text",
+            "label": "Source Type"
+          },
+          "state": {
+            "format": "text",
+            "label": "State"
+          },
+          "title": {
+            "format": "text",
+            "label": "Title"
+          },
+          "url": {
+            "format": "text",
+            "label": "URL"
+          }
+        }
+      },
+      "title": "Listings Overview",
+      "transformation": {
+        "fields": [
+          "title",
+          "city",
+          "state",
+          "monthlyPrice",
+          "bedrooms",
+          "bathrooms",
+          "propertyType",
+          "url",
+          "inputUrl",
+          "sourceType"
+        ]
+      }
+    }
+  }
+}
