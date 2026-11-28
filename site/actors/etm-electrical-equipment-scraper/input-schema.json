@@ -1,0 +1,92 @@
+{
+  "description": "Search ETM.ru, browse a category, or fetch full product details.",
+  "properties": {
+    "brand": {
+      "description": "Restrict category browsing to one manufacturer. Accepts `<brandId>_<brandSlug>` (e.g. `432_iek`) or a full brand-filtered catalog URL (e.g. `https://www.etm.ru/catalog/5004_avtomaticheskie_vykljuchateli-432_iek`). Get real brand ids/slugs for a category from `mode=categoryFacets`'s `brands[].brandFilter` field first.",
+      "editor": "textfield",
+      "title": "Brand filter (mode=byCategory, optional)",
+      "type": "string"
+    },
+    "category": {
+      "description": "Category id+slug (e.g. `501010_avtomaticheskie_vykljuchateli`) or a full catalog URL (e.g. `https://www.etm.ru/catalog/501010_avtomaticheskie_vykljuchateli`). Top-level examples: `010_elektrika_i_svet` (electrics & light), `030_vodosnabzhenie_i_vodootvedenie` (water supply), `050_instrument_i_osnastka` (tools), `080_sistemy_bezopasnosti` (security systems). For `mode=categoryFacets`, either this or `searchQuery` may be given.",
+      "editor": "textfield",
+      "prefill": "501010_avtomaticheskie_vykljuchateli",
+      "title": "Category (mode=byCategory / categoryFacets)",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 10,
+      "description": "Hard cap on emitted records.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to fetch from ETM.ru.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byCategory",
+        "productDetails",
+        "categoryFacets"
+      ],
+      "enumTitles": [
+        "Search products (free-text query)",
+        "Browse a category",
+        "Fetch product details (URLs or IDs)",
+        "Get subcategory/brand breakdown (category or search query)"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "productUrls": {
+      "default": [],
+      "description": "Product page URLs (e.g. `https://www.etm.ru/cat/nn/7416742`) or bare numeric product IDs (e.g. `7416742`).",
+      "editor": "stringList",
+      "prefill": [
+        "https://www.etm.ru/cat/nn/7416742"
+      ],
+      "title": "Product URLs or IDs (mode=productDetails)",
+      "type": "array"
+    },
+    "proxyConfiguration": {
+      "default": {
+        "apifyProxyCountry": "RU",
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "description": "ETM.ru geo-blocks non-Russian IP addresses at the network edge (returns HTTP 444 / a \"forbidden IP address, possible VPN\" page). A residential proxy located in Russia is required to reach the site — see the README \"Data Source\" section for details.",
+      "editor": "proxy",
+      "prefill": {
+        "apifyProxyCountry": "RU",
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ],
+        "useApifyProxy": true
+      },
+      "title": "Proxy configuration",
+      "type": "object"
+    },
+    "searchQuery": {
+      "default": "автомат",
+      "description": "Free-text search term, e.g. автомат (circuit breaker), кабель (cable), розетка (socket).",
+      "editor": "textfield",
+      "prefill": "автомат",
+      "title": "Search query (mode=search)",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode",
+    "proxyConfiguration"
+  ],
+  "schemaVersion": 1,
+  "title": "ETM Scraper Input",
+  "type": "object"
+}

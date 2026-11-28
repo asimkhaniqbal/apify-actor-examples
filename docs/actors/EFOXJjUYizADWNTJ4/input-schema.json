@@ -1,0 +1,155 @@
+{
+  "properties": {
+    "emirate": {
+      "default": "dubai",
+      "description": "Filter listings by emirate or major city. Leave empty for all UAE.",
+      "editor": "select",
+      "enum": [
+        "",
+        "dubai",
+        "abu-dhabi",
+        "sharjah",
+        "ajman",
+        "ras-al-khaimah",
+        "fujairah",
+        "umm-al-quwain"
+      ],
+      "enumTitles": [
+        "All UAE",
+        "Dubai",
+        "Abu Dhabi",
+        "Sharjah",
+        "Ajman",
+        "Ras Al Khaimah",
+        "Fujairah",
+        "Umm Al Quwain"
+      ],
+      "prefill": "dubai",
+      "title": "Emirate / City",
+      "type": "string"
+    },
+    "furnished": {
+      "default": "",
+      "description": "Filter by furnishing status.",
+      "editor": "select",
+      "enum": [
+        "",
+        "furnished",
+        "unfurnished",
+        "semi-furnished"
+      ],
+      "enumTitles": [
+        "Any",
+        "Furnished",
+        "Unfurnished",
+        "Semi-Furnished"
+      ],
+      "title": "Furnished",
+      "type": "string"
+    },
+    "maxItems": {
+      "default": 50,
+      "description": "Maximum number of listings to return (1–1000).",
+      "editor": "number",
+      "maximum": 1000,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Maximum Items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Maximum listing price in AED.",
+      "editor": "number",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Maximum Price (AED)",
+      "type": "integer"
+    },
+    "minBedrooms": {
+      "description": "Minimum number of bedrooms (0 = studio).",
+      "editor": "number",
+      "maximum": 10,
+      "minimum": 0,
+      "title": "Minimum Bedrooms",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Minimum listing price in AED.",
+      "editor": "number",
+      "maximum": 1000000000,
+      "minimum": 0,
+      "title": "Minimum Price (AED)",
+      "type": "integer"
+    },
+    "mode": {
+      "default": "forSale",
+      "description": "Choose what to scrape: forSale (sale listings), forRent (rental listings), byUrl (scrape specific listing URLs).",
+      "editor": "select",
+      "enum": [
+        "forSale",
+        "forRent",
+        "byUrl"
+      ],
+      "enumTitles": [
+        "For Sale",
+        "For Rent",
+        "By URL"
+      ],
+      "prefill": "forSale",
+      "title": "Scraping Mode",
+      "type": "string"
+    },
+    "propertyType": {
+      "default": "",
+      "description": "Filter by property type.",
+      "editor": "select",
+      "enum": [
+        "",
+        "AP",
+        "VH",
+        "TH",
+        "PH",
+        "FF",
+        "LP",
+        "BU",
+        "OF",
+        "SH",
+        "WB",
+        "FA",
+        "HO"
+      ],
+      "enumTitles": [
+        "All Types",
+        "Apartment",
+        "Villa",
+        "Townhouse",
+        "Penthouse",
+        "Full Floor",
+        "Land/Plot",
+        "Bulk Units",
+        "Office",
+        "Shop",
+        "Warehouse/Storage",
+        "Farm",
+        "Hotel Apartment"
+      ],
+      "title": "Property Type",
+      "type": "string"
+    },
+    "propertyUrls": {
+      "description": "List of PropertyFinder property listing URLs to scrape directly.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "title": "Property URLs (for byUrl mode)",
+      "type": "array"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "schemaVersion": 1,
+  "title": "PropertyFinder UAE Scraper Input",
+  "type": "object"
+}

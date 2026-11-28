@@ -1,0 +1,139 @@
+{
+  "description": "Search Citilink.ru, browse a category, or fetch full product details.",
+  "properties": {
+    "category": {
+      "description": "A Citilink category slug (e.g. `smartfony`), a catalog path (`/catalog/smartfony/`), or a full category URL (`https://www.citilink.ru/catalog/smartfony/`). Find slugs by browsing citilink.ru/catalog/.",
+      "editor": "textfield",
+      "prefill": "smartfony",
+      "title": "Category (mode=byCategory)",
+      "type": "string"
+    },
+    "inStockOnly": {
+      "default": false,
+      "description": "Only emit products currently available for purchase.",
+      "prefill": false,
+      "title": "In stock only",
+      "type": "boolean"
+    },
+    "maxItems": {
+      "default": 10,
+      "description": "Hard cap on emitted records.",
+      "maximum": 500,
+      "minimum": 1,
+      "prefill": 10,
+      "title": "Max items",
+      "type": "integer"
+    },
+    "maxPrice": {
+      "description": "Drop products more expensive than this (Russian rubles).",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Max price (RUB)",
+      "type": "integer"
+    },
+    "maxReviewsPerProduct": {
+      "default": 20,
+      "description": "Cap on full-text customer reviews fetched per product ID (mode=reviews). Distinct from the star-rating opinion summary already included in mode=productDetails.",
+      "maximum": 200,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max reviews per product (mode=reviews)",
+      "type": "integer"
+    },
+    "minPrice": {
+      "description": "Drop products cheaper than this (Russian rubles).",
+      "maximum": 100000000,
+      "minimum": 0,
+      "title": "Min price (RUB)",
+      "type": "integer"
+    },
+    "minRating": {
+      "description": "Drop products rated below this (0-5 scale).",
+      "maximum": 5,
+      "minimum": 0,
+      "title": "Min rating",
+      "type": "number"
+    },
+    "mode": {
+      "default": "search",
+      "description": "What to fetch.",
+      "editor": "select",
+      "enum": [
+        "search",
+        "byCategory",
+        "productDetails",
+        "reviews"
+      ],
+      "enumTitles": [
+        "Search products by keyword",
+        "Browse a category",
+        "Fetch product details by ID or URL",
+        "Fetch full customer reviews by product ID or URL"
+      ],
+      "prefill": "search",
+      "title": "Mode",
+      "type": "string"
+    },
+    "productIds": {
+      "default": [],
+      "description": "Citilink product IDs (e.g. `2143346`) or full product URLs (e.g. `https://www.citilink.ru/product/smartfon-apple-iphone-17-a3520-256gb-purpurnyi-3g-4g-1sim-6-3-1206x262-2143346/`).",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Product IDs or URLs (mode=productDetails / mode=reviews)",
+      "type": "array"
+    },
+    "proxyConfiguration": {
+      "default": {
+        "useApifyProxy": true
+      },
+      "description": "Citilink is protected by the QRATOR anti-bot service, which requires a real browser session. The default AUTO (datacenter) proxy group works for this challenge; residential proxy is not required.",
+      "editor": "proxy",
+      "prefill": {
+        "useApifyProxy": true
+      },
+      "title": "Proxy configuration",
+      "type": "object"
+    },
+    "searchQuery": {
+      "default": "iphone",
+      "description": "Free-text keyword search (mode=search). Example: `iphone`, `ноутбук`, `телевизор`.",
+      "editor": "textfield",
+      "prefill": "iphone",
+      "title": "Search query",
+      "type": "string"
+    },
+    "sortBy": {
+      "default": "relevance",
+      "description": "How to order results before truncating to Max items. Applied by the actor across the fetched result window (search/byCategory modes only) — see README for details.",
+      "editor": "select",
+      "enum": [
+        "relevance",
+        "priceAsc",
+        "priceDesc",
+        "discount",
+        "rating",
+        "opinions",
+        "reviews"
+      ],
+      "enumTitles": [
+        "Relevance (Citilink default order)",
+        "Price: low to high",
+        "Price: high to low",
+        "Biggest discount first",
+        "Highest rating first",
+        "Most opinions first",
+        "Most reviews first"
+      ],
+      "prefill": "relevance",
+      "title": "Sort by",
+      "type": "string"
+    }
+  },
+  "required": [
+    "mode",
+    "proxyConfiguration"
+  ],
+  "schemaVersion": 1,
+  "title": "Citilink Scraper Input",
+  "type": "object"
+}
