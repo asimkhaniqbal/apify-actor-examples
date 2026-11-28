@@ -1,8 +1,25 @@
 {
   "properties": {
+    "completionStatus": {
+      "default": "",
+      "description": "Completed or off-plan. Applies to sale listings only.",
+      "editor": "select",
+      "enum": [
+        "",
+        "completed",
+        "off_plan"
+      ],
+      "enumTitles": [
+        "Any",
+        "Completed",
+        "Off-plan"
+      ],
+      "title": "Completion status",
+      "type": "string"
+    },
     "emirate": {
       "default": "dubai",
-      "description": "Filter listings by emirate or major city. Leave empty for all UAE.",
+      "description": "Limit the search to one emirate, or search all seven emirates. Used by the sale and rent modes.",
       "editor": "select",
       "enum": [
         "",
@@ -25,12 +42,12 @@
         "Umm Al Quwain"
       ],
       "prefill": "dubai",
-      "title": "Emirate / City",
+      "title": "Emirate",
       "type": "string"
     },
     "furnished": {
       "default": "",
-      "description": "Filter by furnishing status.",
+      "description": "PropertyFinder filters furnished and unfurnished server-side; semi-furnished is matched from the listing's published status.",
       "editor": "select",
       "enum": [
         "",
@@ -42,48 +59,66 @@
         "Any",
         "Furnished",
         "Unfurnished",
-        "Semi-Furnished"
+        "Semi-furnished"
       ],
-      "title": "Furnished",
+      "sectionCaption": "More filters",
+      "title": "Furnishing",
       "type": "string"
+    },
+    "includeDetails": {
+      "default": true,
+      "description": "Adds the full photo gallery, community and tower photos, floor plans, broker licence, permit validation link, agent stats and building facts. One extra page per listing.",
+      "editor": "checkbox",
+      "prefill": false,
+      "title": "Fetch full listing details",
+      "type": "boolean"
+    },
+    "maxBedrooms": {
+      "description": "Optional upper bedroom limit; leave empty for no cap.",
+      "editor": "number",
+      "maximum": 20,
+      "minimum": 0,
+      "title": "Maximum bedrooms",
+      "type": "integer"
     },
     "maxItems": {
       "default": 50,
-      "description": "Maximum number of listings to return (1–1000).",
+      "description": "Stop after this many matching listings. PropertyFinder caps a single query at about 4,000 pages; narrow the filters to reach deeper.",
       "editor": "number",
-      "maximum": 1000,
+      "maximum": 100000,
       "minimum": 1,
-      "prefill": 20,
-      "title": "Maximum Items",
+      "prefill": 3,
+      "title": "Maximum listings",
       "type": "integer"
     },
     "maxPrice": {
-      "description": "Maximum listing price in AED.",
+      "description": "Maximum asking price in UAE dirhams.",
       "editor": "number",
-      "maximum": 1000000000,
+      "maximum": 10000000000,
       "minimum": 0,
-      "title": "Maximum Price (AED)",
+      "title": "Maximum price (AED)",
       "type": "integer"
     },
     "minBedrooms": {
-      "description": "Minimum number of bedrooms (0 = studio).",
+      "description": "0 means studio. Bedroom filters apply to residential types only.",
       "editor": "number",
-      "maximum": 10,
+      "maximum": 20,
       "minimum": 0,
-      "title": "Minimum Bedrooms",
+      "prefill": 2,
+      "title": "Minimum bedrooms",
       "type": "integer"
     },
     "minPrice": {
-      "description": "Minimum listing price in AED.",
+      "description": "Minimum asking price in UAE dirhams.",
       "editor": "number",
-      "maximum": 1000000000,
+      "maximum": 10000000000,
       "minimum": 0,
-      "title": "Minimum Price (AED)",
+      "title": "Minimum price (AED)",
       "type": "integer"
     },
     "mode": {
       "default": "forSale",
-      "description": "Choose what to scrape: forSale (sale listings), forRent (rental listings), byUrl (scrape specific listing URLs).",
+      "description": "Search all UAE listings, or paste exact PropertyFinder URLs (detail pages, landing pages or search pages).",
       "editor": "select",
       "enum": [
         "forSale",
@@ -91,17 +126,18 @@
         "byUrl"
       ],
       "enumTitles": [
-        "For Sale",
-        "For Rent",
-        "By URL"
+        "Listings for sale",
+        "Listings for rent",
+        "Specific PropertyFinder URLs"
       ],
       "prefill": "forSale",
-      "title": "Scraping Mode",
+      "sectionCaption": "Search settings",
+      "title": "What to scrape",
       "type": "string"
     },
     "propertyType": {
       "default": "",
-      "description": "Filter by property type.",
+      "description": "Residential types use the standard sale/rent pages; office, shop, warehouse and factory use the commercial pages.",
       "editor": "select",
       "enum": [
         "",
@@ -115,34 +151,33 @@
         "OF",
         "SH",
         "WB",
-        "FA",
-        "HO"
+        "FA"
       ],
       "enumTitles": [
-        "All Types",
+        "Any type",
         "Apartment",
         "Villa",
         "Townhouse",
         "Penthouse",
-        "Full Floor",
-        "Land/Plot",
-        "Bulk Units",
+        "Half floor",
+        "Land / plot",
+        "Bulk sale units",
         "Office",
         "Shop",
-        "Warehouse/Storage",
-        "Farm",
-        "Hotel Apartment"
+        "Warehouse / storage",
+        "Factory / industrial"
       ],
-      "title": "Property Type",
+      "title": "Property type",
       "type": "string"
     },
     "propertyUrls": {
-      "description": "List of PropertyFinder property listing URLs to scrape directly.",
+      "description": "Used by the URL mode. Accepts detail pages, /to/ short links, and landing or search pages (which are paginated). Mixed valid and invalid URLs are processed individually.",
       "editor": "stringList",
       "items": {
         "type": "string"
       },
-      "title": "Property URLs (for byUrl mode)",
+      "sectionCaption": "Specific URLs",
+      "title": "PropertyFinder URLs",
       "type": "array"
     }
   },
@@ -150,6 +185,6 @@
     "mode"
   ],
   "schemaVersion": 1,
-  "title": "PropertyFinder UAE Scraper Input",
+  "title": "PropertyFinder UAE Listings & Amenities",
   "type": "object"
 }

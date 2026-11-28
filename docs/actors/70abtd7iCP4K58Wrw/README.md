@@ -4,117 +4,140 @@
 
 # Ja.is Iceland Yellow & White Pages Directory Scraper
 
-Scrape [Ja.is](https://ja.is), Iceland's national business and phone directory. Search by name, keyword, business category, or town, or fetch specific Ja.is listing pages directly. Returns names, addresses, phone numbers, websites, social media links, GPS coordinates, opening hours, and Icelandic national IDs (kennitala) for both businesses (yellow pages) and people (white pages). No login, no cookies, no paid API key required.
+Scrape [Ja.is](https://ja.is), Iceland's national business and phone directory. Search by keyword, browse an exact trade category or town, filter by postal code or open-now status, or paste Ja.is URLs (listing pages and search pages both work). Returns businesses and people with every phone number and email the listing publishes, websites, social links, categories, opening hours, GPS coordinates, logos and banners, branch locations, Icelandic national IDs (kennitala), and optional company-registry data. No login, no cookies, no API key, no proxy setup.
 
 ## What this actor does
 
-- **Four modes:** `search` (free text), `byCategory` (browse a trade/industry), `byCity` (browse a town), `byUrl` (fetch specific listing pages)
-- **Both directories:** business/yellow-pages listings and person/white-pages listings, in one dataset
-- **Full Icelandic character support** — þ, ð, æ, ö, á, é, í, ó, ú, ý round-trip correctly in both search queries and output, with accent-insensitive keyword matching
-- **Detail enrichment** — optionally visits each listing's page to add phone number, website, social media links, GPS coordinates, opening hours, and kennitala (national ID / VAT number)
-- **Filters** — city, business category, people/businesses-only, must-have-phone, must-have-website, free-text keyword
-- **Empty fields are omitted** — every record only contains fields Ja.is actually returned
+- **Four modes:** `search` (one or many keywords), `byCategory` (exact Ja.is trade), `byCity` (whole town; combine with a category for large exports), `byUrl` (listing or search URLs)
+- **Pages to the end of the source result set**, not just the first quick-results block. Exact category exports are complete (every "bakarí" in Iceland, for example); broad city-only exports page through the town's people too, so add a category or keyword when you need thousands of rows
+- **Both directories:** businesses (yellow pages) and people (white pages) in one dataset, with `searchScope` to pick one
+- **Complete contact data:** the primary phone plus every department phone, every email, website, and social profile published on the listing
+- **Rich listing data:** description, slogan, banner, logo, weekly opening-hours table, open/closed status, branch locations, GPS coordinates, and kennitala
+- **Optional Icelandic company registry:** legal name, registration date, legal form, municipality, ISAT industry code, VAT number, board members, and the five latest annual-account filings from the public Skatturinn registry
+- **Filters:** open now, postal code, city, exact category, people/businesses only, has phone, has website, accent-insensitive keyword
+- **Empty fields are omitted** — nothing is fabricated; a field appears only when Ja.is or the registry publishes it
 
 ## Output per listing
 
-Common to every record:
+Every record:
 - `recordType` — `"business"` or `"person"`
-- `sourceUrl` — the canonical Ja.is page for this listing
-- `name`
-- `occupation` — trade / job title / primary business activity
-- `address`, `postalCode`, `city`, `country`
-- `phone`, `phonePretty` (when "Fetch full details" is on)
+- `sourceUrl` — canonical Ja.is page
+- `name`, `occupation`, `address`, `postalCode`, `city`
+- `phone`, `phonePretty`, `phones[]` — primary number and every additional number
+- `email`, `emails[]`, `fax`
+- `website`, `latitude`, `longitude`
 - `scrapedAt`
 
-Business-only fields:
-- `clusterKey`, `hashid` — Ja.is's internal listing identifiers
-- `categories[]` — business type tags (e.g. `bakarí`, `veitingastaður`)
-- `isBranch`, `isPrimary` — whether this is a branch location of a larger registered company
-- `distanceDisplay` — distance from the search reference point, when Ja.is includes one
-- `website` — the business's own homepage
-- `facebook`, `instagram`, `linkedin`, `twitter`, `youtube`, `tiktok` — social media profile links, when published on the listing (via "Fetch full details")
-- `kennitala` — Icelandic national ID / VAT number
-- `logoUrl`, `logoUrlLarge`
-- `latitude`, `longitude`
-- `openingHours` — structured weekly schedule, when published
-- `isOpenNow` — whether the business is open at the moment the listing was scraped, when Ja.is publishes hours for it
-- `openingStatus` — human-readable status text, e.g. `Lokað`, `Sólarhringsopnun`
+Businesses:
+- `clusterKey`, `hashid`
+- `categories[]`
+- `isBranch`, `isPrimary`, `brandColor`
+- `logoUrl`, `logoUrlLarge`, `bannerUrl`
+- `facebook`, `instagram`, `linkedin`, `twitter`, `youtube`, `tiktok`
+- `kennitala`
+- `openingHours` (raw source schedule), `openingHoursWeekly[]` (normalised day/opens/closes), `isOpenNow`, `openingStatus`
+- `slogan`, `description`, `descriptionImages[]`, `descriptionVideos[]`
+- `contacts[]` — department/staff label with its phones, emails, websites, and fax
+- `otherLocations[]` — sibling branches with name, address, phone, and Ja.is URL
+- `registry{}` — only when **Add Icelandic company-registry data** is on: `legalName`, `kennitala`, `registeredDate`, `address`, `postalCode`, `postalStation`, `municipalityCode`, `municipality`, `legalFormCode`, `legalForm`, `isatCode`, `isatLabel`, `vatNumber`, `vatRegisteredDate`, `boardMembers[]`, `annualAccounts[]`
+- `distanceDisplay` — when Ja.is includes one for the search
 
-Person-only fields:
-- `hashid`
+People:
+- `hashid`, every published phone and email
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
 | `mode` | string | `search` | `search` / `byCategory` / `byCity` / `byUrl` |
-| `searchQuery` | string | `bakarí` | Free-text query (mode=search; also combinable with city on byCity) |
-| `category` | string (enum) | – | Business category to browse (mode=byCategory) |
-| `city` | string (enum) | – | Restrict to one Icelandic town; usable with any mode |
-| `urls` | array | – | Direct Ja.is listing URLs (mode=byUrl) |
-| `searchScope` | string (enum) | `all` | `all` / `people` / `businesses` |
-| `fetchDetails` | bool | `true` | Visit each listing's page for phone/website/coordinates/hours |
-| `hasPhone` | bool | `false` | Only keep listings with a phone number |
-| `hasWebsite` | bool | `false` | Only keep businesses with a website |
-| `containsKeyword` | string | – | Extra client-side text filter (accent-insensitive) |
-| `maxItems` | int | `30` | Hard cap on emitted records (1–500) |
+| `searchQueries` | array | – | One or more free-text searches (JS: `["bakarí","hótel"]`). Prefill is `["bakarí"]` |
+| `category` | string (enum) | – | Exact Ja.is trade/category |
+| `city` | string (enum) | – | Restrict to one Icelandic town |
+| `postalCode` | string | – | Three-digit postal code, e.g. `101` |
+| `urls` | array | – | Ja.is listing or search URLs |
+| `searchScope` | string | `all` | `all` / `people` / `businesses` |
+| `openNow` | boolean | `false` | Keep only businesses open at scrape time |
+| `fetchDetails` | boolean | `true` | Visit each listing page for emails, socials, description, contacts, hours, branches, kennitala |
+| `includeCompanyRegistry` | boolean | `false` | Add Skatturinn registry data (one extra request per business) |
+| `hasPhone` | boolean | `false` | Drop listings with no phone number |
+| `hasWebsite` | boolean | `false` | Drop listings with no website |
+| `containsKeyword` | string | – | Accent-insensitive client-side text filter |
+| `maxItems` | integer | `30` | Hard cap, 1–10,000 (prefill is 3) |
 
 ### Example: search by keyword
 
 ```json
 {
   "mode": "search",
-  "searchQuery": "bakarí",
-  "maxItems": 30
-}
-```
-
-### Example: browse a category in one town
-
-```json
-{
-  "mode": "byCategory",
-  "category": "hárgreiðslustofa",
-  "city": "Akureyri",
+  "searchQueries": ["bakarí", "hótel"],
   "maxItems": 50
 }
 ```
 
-### Example: fetch specific listings
+### Example: complete category export
+
+```json
+{
+  "mode": "byCategory",
+  "category": "veitingastaður",
+  "maxItems": 1000
+}
+```
+
+### Example: one town with a category and open-now filter
+
+```json
+{
+  "mode": "byCity",
+  "city": "Akureyri",
+  "category": "kaffihús",
+  "openNow": true,
+  "maxItems": 100
+}
+```
+
+### Example: URLs
 
 ```json
 {
   "mode": "byUrl",
-  "urls": ["https://ja.is/myllan-bakari/", "https://ja.is/e/eZZdk/"]
+  "urls": [
+    "https://ja.is/myllan-bakari/",
+    "https://ja.is/e/qYdWy/",
+    "https://ja.is/?q=bakar%C3%AD"
+  ]
 }
 ```
 
 ## Use cases
 
-- **Lead generation** — build a list of businesses in a category/town with phone numbers and websites
-- **Market research** — map the density and distribution of a trade across Icelandic towns
-- **Data enrichment** — resolve a known company or person name to their address, phone, and kennitala
-- **Directory migration** — bulk-export a category of listings for import into a CRM
+- **Lead generation** — export every business in a trade or postal code with phone numbers, emails, and websites
+- **Market research** — compare trade density across Icelandic towns and postal codes
+- **Data enrichment** — resolve a company or person to every published phone, email, address, and kennitala
+- **Compliance and finance** — add legal form, ISAT industry, VAT registration, board members, and recent filings
+- **Directory migration** — bulk-export a category or town into a CRM
 
 ## FAQ
 
-**Does this require an Apify proxy or login?** No. Ja.is's public search and listing pages are freely accessible; the actor uses no cookies, no API key, and no proxy by default.
+**Does this require an Apify proxy, login, or API key?** No. Ja.is's public search and listing pages are reachable directly; the actor uses no cookies, no account, and no paid proxy.
 
-**What's a "kennitala"?** Iceland's national identification number, used for both individuals and companies (equivalent to a US EIN/SSN or a VAT number). The actor extracts it for businesses when published on their listing page.
+**Why did I get 500 rows from a very broad query?** The quick search endpoint exposes at most 529 rows per query. The actor also reads the site's map search endpoint, which has no such cap, so broad searches and city-only exports keep going. If a city-only export is very large, add a category or `containsKeyword` to make it fast.
 
-**Why do some listings have fewer fields than others?** Ja.is only publishes what each business or person has chosen to list — not every listing has a website, opening hours, or GPS coordinates. The actor never fabricates missing data; a field is simply omitted when the source doesn't provide it.
+**How are exact categories handled?** `byCategory` uses Ja.is's own `company_type` filter (not a fuzzy text guess) and then adds any exact-category listings the map endpoint omitted. Category exports are complete.
 
-**How does city/category filtering work?** Ja.is's search matches every query word against a listing's name, address, town, and category fields. The actor also re-checks the result client-side so the output strictly matches your filter, even if the underlying search is fuzzy.
+**What's a kennitala?** Iceland's national identification number for people and companies (similar to a VAT/tax ID). It is read from the listing and, when the registry option is on, used to fetch the official company record.
 
-**Does it handle Icelandic letters like þ, ð, æ, ö?** Yes — both in your search input and in the returned data. Filtering (e.g. `containsKeyword`) is accent-insensitive, so `Kopavogur` and `Kópavogur` match the same listings.
+**Why do some listings have fewer fields?** Ja.is publishes only what each business or person chose to share. A missing website, email, or opening-hours schedule is omitted, never sent as `null`.
 
-**What towns and categories are available?** The `city` and `category` dropdowns cover Iceland's major municipalities and the most common trades/industries. `searchQuery` accepts any free text if you need a town or category outside the curated lists.
+**Does it handle Icelandic letters?** Yes — þ, ð, æ, ö, á, é, í, ó, ú, ý work in queries and output, and `containsKeyword` matching is accent-insensitive (`Kopavogur` matches `Kópavogur`).
 
-**Is `fetchDetails` worth the extra time?** It's what fills in `phone`, `website`, `latitude`/`longitude`, `kennitala`, and `openingHours` — for a phone/business directory these are usually the fields you actually want. Turn it off only if you need a fast, lightweight name/address list.
+**Are reviews or ratings included?** Ja.is does not publish reviews or star ratings for listings, so there is nothing to extract. The actor does not invent them.
 
-**How fresh is the data?** Ja.is is Iceland's official phone-book and business-registry front end, updated continuously as businesses and individuals update their own listings.
+**Is product-price search included?** No. Ja.is Vöruleit is a separate e-commerce price catalog, not a phone/business directory; this actor stays focused on directory listings.
 
 ## Limitations
 
-- **Results per query are capped by Ja.is itself.** A single search/category/city query typically returns up to ~12 business listings and ~18 person listings — this mirrors what Ja.is's own website shows as "quick results" and is not a pagination bug in the actor. To collect more listings for a broad category, narrow by city or run multiple category/keyword combinations rather than raising `maxItems` on one broad query.
-- **`hasPhone` / `hasWebsite` filters require `fetchDetails: true`.** Phone and website are only discovered by visiting each listing's page; with `fetchDetails` off, these filters will drop every result.
+- **Reviews/ratings** — not published by Ja.is.
+- **Annual accounts** — the registry option returns the five most recent filings, not the complete filing archive.
+- **Very large city-only exports** — the source has no city filter, so the actor pages through the town's people as well; add a category, postal code, or keyword for a fast export.
+- **Product-price search and map POIs** — separate Ja.is products, out of scope for this directory actor.

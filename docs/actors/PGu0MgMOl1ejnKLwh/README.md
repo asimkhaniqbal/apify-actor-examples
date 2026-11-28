@@ -4,124 +4,172 @@
 
 # Eldorado.ru Electronics Catalog Scraper
 
-Scrape the catalog that now carries [Eldorado](https://www.eldorado.ru)'s former product line. Eldorado's own storefront has closed — every eldorado.ru page now redirects visitors to the M.Video marketplace, which absorbed Eldorado's business — so this actor scrapes that live successor catalog on your behalf: real, current product data (price, rating, specifications, images, seller info), searchable and browsable just as the original Eldorado storefront was. No login, cookies, or account required.
+Eldorado's own storefront is closed: every eldorado.ru product and category link now lands on the M.Video marketplace, which absorbed the brand and sells the same product line. This actor follows that redirect for you and returns the live successor catalog as structured data — products, prices, specifications, sellers, pickup stores and customer reviews — with no login, cookies or account.
 
-## What this actor does
+## What it does
 
-- **Three modes:** `search`, `byCategory`, `productDetails`
-- **89 top-level categories** — electronics, appliances, and everything else the merged catalog carries
-- **Price, rating, and stock filters**
-- **Full specifications** — flattened spec tables and seller info (name, seller ID, INN, OGRN, phone, address, work schedule) in `search`/`productDetails` modes
-- **Structured breadcrumb path** (`breadcrumbPath[]`, with category IDs) alongside the plain-string `breadcrumbs[]`
-- **Customer reviews** — individual review text/score/pros-cons/helpfulness, plus a star-rating breakdown and "would recommend" percentage (`search` and `productDetails` modes, configurable via `maxReviews`)
-- **Certificate & instruction PDFs, related product variants** (other sizes/colors of the same model) — `search`/`productDetails` modes
-- **Empty fields are omitted**
+- **Five modes:** keyword search, category browse, product details, a flat review export, or paste-links mode.
+- **All result pages, not just the first one** — search and category walks follow the catalog's own cursor until the result set ends or your row cap is reached, de-duplicated by product ID.
+- **Multiple queries and categories per run** — results are merged without duplicates.
+- **City-aware stock** — pick Москва, Санкт-Петербург or any other mvideo.ru city; pickup stores, quantities and delivery dates follow it.
+- **Live filters** — brand, condition and parallel-import facets are resolved from the exact response the site serves for your query/category, so no stale hardcoded facet IDs. Price is filtered server-side; rating, discount and stock are applied to every row.
+- **Price layers** — sale price, base price, promo price, per-promotion discount amounts and percentages, final-price flag, M.Club bonus rubles and their breakdown.
+- **Full product records** — description, grouped specifications, five key specs, weight, gallery, 3D images, videos, certificate and instruction PDFs, breadcrumbs with category IDs, model variants, seller/legal-entity details.
+- **Marketplace intelligence** — the buybox seller plus every other seller offer with its price, rating, order count and legal name.
+- **Pickup stock** — optional per-store list with address, metro, coordinates, quantity, availability date and opening hours.
+- **Customer reviews** — rating, text, pros/cons, photos, replies, likes, popularity flag, star histogram and "would recommend" percentage when the source provides it; or one flat row per review.
+- **Omit-empty everywhere** — a field the source does not have for a product is absent, never null.
 
-## Output per product
+## Modes
 
-- `productId`, `name`
-- `productUrl` / `sourceUrl`
-- `modelName`, `brandName`, `brandId` (`search`/`productDetails` only)
-- `categoryId`, `categoryName`
-- `breadcrumbs[]` (`search`/`productDetails` only — plain-string category trail)
-- `breadcrumbPath[]` (`search`/`productDetails` only — structured trail, `{name, categoryId}` per level)
-- `salePrice`, `basePrice`, `discountPercent`, `currency` (RUB), `bonusAmount`
-- `ratingStar`, `ratingCount`, `ratingBreakdown` (`search`/`productDetails` — `{"1": count, ..., "5": count}`), `recommendPercent` (`search`/`productDetails`)
-- `reviews[]` (`search`/`productDetails` mode only, up to `maxReviews` — `{reviewId, author, score, text, benefits, drawbacks, recommended, likes, dislikes, date, photoCount}`)
-- `inStock`, `isPreorder`
-- `isNew`, `isLastChance`, `badgeText`, `availabilityStatus` (`byCategory` mode only — promo badge and raw listing status)
-- `storeOnly` (`search`/`productDetails` only — set when the product is available for in-store pickup only)
-- `imageUrl`, `imageUrls[]`
-- `description`, `specifications[]` (`search`/`productDetails` mode only — `{name, value}` pairs)
-- `weightKg` (`search`/`productDetails` only)
-- `sellerId`, `sellerName`, `sellerInn`, `sellerOgrn`, `sellerPhone`, `sellerAddress`, `sellerWorkSchedule` (`search`/`productDetails` only)
-- `certificateUrls[]`, `instructionUrls[]` (`search`/`productDetails` mode only — direct links to the product's certificate/instruction PDF documents, when the manufacturer filed them)
-- `relatedProducts[]` (`search`/`productDetails` mode only — sibling products in the same model line that differ by one attribute, e.g. other screen sizes/colors: `{productId, attributeName, value, productUrl}`)
-- `recordType: "product"`, `scrapedAt`
+| Mode | What it returns |
+|---|---|
+| `search` | Products for one or more keywords, with optional full detail enrichment. |
+| `byCategory` | Products from one or more category IDs/URLs, walked to the end of each category. |
+| `productDetails` | Full records for exact product URLs or numeric IDs; invalid IDs become error rows. |
+| `reviews` | One row per customer review for the supplied products. |
+| `byUrl` | Paste product, search-result or category links; each is routed to the matching mode. |
+
+## Output fields
+
+**Identity and taxonomy:** `productId`, `name`, `modelName`, `brandName`, `brandId`, `productType`, `materialSource`, `categoryId`, `categoryName`, `breadcrumbs[]`, `breadcrumbPath[]` (`{name, categoryId}`), `condition`, `productUrl`, `sourceUrl`, `position`, `query`, `source`.
+
+**Price:** `salePrice`, `basePrice`, `promoPrice`, `discountAmount`, `discountPercent`, `discounts[]` (`{type, promoId, promoName, amount}`), `isFinalPrice`, `bonusAmount`, `bonusBreakdown[]`, `currency` (RUB).
+
+**Ratings and reviews:** `ratingStar`, `ratingCount`, `totalRating`, `reviewsTotal`, `ratingBreakdown` (`{"1"…"5"}`), `recommendPercent` (when available), `reviews[]` (`reviewId`, `author`, `authorId`, `score`, `text`, `benefits`, `drawbacks`, `date`, `photos[]`, `photoCount`, `responses[]`, `likes`, `dislikes`, `recommended`, `isPopular`).
+
+**Availability:** `inStock`, `soldOut`, `storeOnly`, `showcase`, `isPrepayment`, `isPreorder`, `isNew`, `isLastChance`, `isOriginal`, `badgeText`, `availabilityStatus`, `deliveryDate`, `stockLocation`, `prepaidOnly`, `stores[]`, `storeCount`, `storeQuantity`.
+
+**Content:** `description`, `specifications[]` (`{name, value}`), `specificationGroups[]` (`{group, properties[]}`), `keySpecifications[]`, `weightKg`, `imageUrl`, `imageUrls[]`, `images3d[]`, `videos[]`, `certificateUrls[]`, `instructionUrls[]`, `relatedProducts[]`, `otherOffers[]`, `multiofferCount`.
+
+**Seller:** `sellerId`, `sellerName`, `sellerLegalName`, `sellerInn`, `sellerOgrn`, `sellerPhone`, `sellerAddress`, `sellerWorkSchedule`, `sellerRating`, `sellerReviews`, `sellerOrders`.
+
+**Context:** `cityId`, `cityName`, `regionId`, `recordType`, `scrapedAt`.
+
+Review rows in `mode=reviews` carry `reviewId`, `productId`, `productUrl`, `productName`, `rating`, `author`, `authorId`, `text`, `pros`, `cons`, `photos[]`, `responses[]`, `likes`, `dislikes`, `isPopular`, `cityId`, `cityName`, `date`, `recordType`, `scrapedAt`.
+
+Invalid product IDs and unsupported links are emitted as error rows (`recordType=error`, `message`, `errorType`) instead of silently disappearing.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `search` | `search` / `byCategory` / `productDetails` |
-| `searchQuery` | string | `телевизор` | Free-text query (mode=search) |
-| `category` | string (select) | – | One of 89 top-level categories (mode=byCategory) |
-| `categoryUrl` | string | – | Custom category URL/ID, overrides `category` |
-| `productUrls` | array | – | Product URLs or numeric IDs (mode=productDetails) |
-| `sortOrder` | string | `popularity` | `popularity` / `priceAsc` / `priceDesc` (mode=byCategory) |
-| `minPrice` / `maxPrice` | integer | – | Price range filter, RUB |
-| `minRating` | number | – | Minimum customer rating (0-5) |
-| `inStockOnly` | boolean | `false` | Only emit in-stock products |
-| `maxItems` | integer | `10` | Hard cap on emitted records (1-1000; `mode=search` is separately capped at ~10 by the site itself) |
-| `maxReviews` | integer | `5` | Customer reviews to fetch per product (0-20, `search`/`productDetails` only) — set to 0 to skip |
-| `proxyConfiguration` | object | Apify Proxy (auto) | Proxy to use — see FAQ below |
+| `mode` | select | `search` | `search` / `byCategory` / `productDetails` / `reviews` / `byUrl` |
+| `searchQueries` | array | `[]` (uses `телевизор` when empty) | One or more keywords (mode=search) |
+| `city` | string | `Москва` | City name or mvideo city ID; controls prices, stores and delivery |
+| `category` | select | – | Top-level category (mode=byCategory) |
+| `categoryUrls` | array | `[]` | Extra category URLs/IDs, including sub-categories |
+| `productUrls` | array | `[]` | Product URLs or numeric IDs (productDetails/reviews) |
+| `urls` | array | `[]` | Product, search or category links (mode=byUrl) |
+| `sortOrder` | select | `popularity` | `popularity` / `priceAsc` / `priceDesc` |
+| `brands` | array | `[]` | Brand names, resolved against the live brand facet |
+| `minPrice` / `maxPrice` | integer | – | Sale-price range in RUB (server-side) |
+| `minRating` | number | – | Minimum rating; unrated products are excluded when set |
+| `minDiscount` | integer | – | Minimum discount percent (0-99) |
+| `condition` | select | `any` | `any` / `new` / `refurbished` / `markdown` / `showcase` |
+| `fromAbroad` | boolean | `false` | Parallel-import listings only |
+| `inStockOnly` | boolean | `false` | Only currently available products |
+| `fetchDetails` | boolean | `true` | Full detail per product; turn off for fast listing-level runs |
+| `maxItems` | integer | `10` | Product/review row cap; error rows are additional; `0` means all up to 10,000 |
+| `maxReviews` | integer | `5` | Reviews per product; `0` skips review requests |
+| `includeStoreStock` | boolean | `false` | Attach per-store pickup stock |
+| `storeLimit` | integer | `20` | Maximum stores per product |
+| `includeOtherOffers` | boolean | `true` | Attach the other-seller offer block |
+| `failOnEmpty` | boolean | `false` | Mark the run failed when zero rows are emitted |
+| `proxyConfiguration` | proxy | auto | Optional; the actor picks its route automatically |
 
-### Example: search
+### Examples
+
+Search two keywords, cheapest first:
 
 ```json
-{ "mode": "search", "searchQuery": "ноутбук", "maxItems": 10 }
+{ "mode": "search", "searchQueries": ["телевизор", "монитор"], "sortOrder": "priceAsc", "maxItems": 100 }
 ```
 
-### Example: browse a category, cheapest first, in stock only
+Browse a sub-category, Samsung only, new condition:
 
 ```json
 {
   "mode": "byCategory",
-  "category": "1",
-  "sortOrder": "priceAsc",
-  "inStockOnly": true,
-  "maxItems": 50
+  "categoryUrls": ["https://www.mvideo.ru/televizory-i-cifrovoe-tv-1/televizory-65"],
+  "brands": ["Samsung"],
+  "condition": "new",
+  "maxItems": 200
 }
 ```
 
-### Example: full details for specific products
+Full details with stores, other sellers and 20 reviews:
 
 ```json
 {
   "mode": "productDetails",
-  "productUrls": [
-    "https://www.mvideo.ru/products/televizor-general-electronics-ge55lqs2-401211841"
-  ]
+  "productUrls": ["https://www.mvideo.ru/products/televizor-general-electronics-ge55lqs2-401211841"],
+  "maxReviews": 20,
+  "includeStoreStock": true,
+  "includeOtherOffers": true,
+  "city": "Санкт-Петербург"
 }
 ```
 
-### Example: mid-range products only, with reviews
+Flat review export:
+
+```json
+{ "mode": "reviews", "productUrls": ["401211841"], "maxReviews": 100, "maxItems": 100 }
+```
+
+Paste links:
 
 ```json
 {
-  "mode": "byCategory",
-  "category": "20",
-  "minPrice": 20000,
-  "maxPrice": 60000,
-  "minRating": 4,
-  "maxItems": 30
+  "mode": "byUrl",
+  "urls": [
+    "https://www.mvideo.ru/products/401211841",
+    "https://www.mvideo.ru/product-list-page?q=наушники",
+    "https://www.mvideo.ru/televizory-i-cifrovoe-tv-1/televizory-65"
+  ],
+  "maxItems": 50
 }
 ```
 
 ## Use cases
 
-- **Price monitoring** — track prices/discounts across a category over time
-- **Market research** — compare brand assortment and pricing in Russian electronics retail
-- **Product catalog enrichment** — pull specifications and images for a known list of products
-- **Competitive intelligence** — monitor seller/stock status for specific SKUs
-- **Review analysis** — collect customer review text, ratings, and recommend-rate for a product line
+- **Price monitoring** — diff sale/base/promo prices, discounts and bonus rubles on a schedule.
+- **Assortment research** — measure brand and category depth across Russian electronics retail.
+- **Catalog enrichment** — pull specifications, galleries, documents and breadcrumbs for known SKUs.
+- **Availability intelligence** — follow city-specific pickup stock and delivery dates.
+- **Review analytics** — export review text, pros/cons, photos and star histograms for sentiment work.
+- **Marketplace seller tracking** — compare the buybox seller with every competing offer on a listing.
+
+## How the actor connects
+
+The catalog is read from mvideo.ru's own public `bff/*` JSON endpoints — the same calls the website makes. The actor tries a plain HTTPS connection with browser TLS impersonation first, falls back to a real headless browser session if the site challenges that connection, and only then to a residential session. Every tier calls the same endpoints, so the output is identical. No user-supplied proxy setup is required.
 
 ## FAQ
 
-**Why does an "Eldorado" actor scrape mvideo.ru?** Because eldorado.ru no longer has a catalog of its own. Every eldorado.ru content page now redirects to the M.Video marketplace, which absorbed Eldorado's business and now exclusively sells what used to be Eldorado's product line. Scraping that live successor catalog is the only way to keep delivering real, current data under the Eldorado name, rather than fabricating data or scraping a dead site. Product URLs and IDs in the output are mvideo.ru's — old `eldorado.ru/cat/detail/...` links no longer resolve to anything.
+**Why does an Eldorado actor read mvideo.ru?** Because eldorado.ru no longer operates its own catalog. Product and category links redirect to the M.Video marketplace, which sells the former Eldorado line. Reading that live catalog is the only way to keep returning real, current data under the Eldorado name.
 
-**Is this actor affiliated with Eldorado or M.Video?** No — this is an independent, third-party actor that reads publicly available catalog data.
+**Do old eldorado.ru links work as input?** No — use a current mvideo.ru product URL or the numeric product ID printed on that page. Old `eldorado.ru/cat/detail/...` links no longer resolve to a product.
 
-**Do I need to provide a proxy?** No — `proxyConfiguration` defaults to the free Apify datacenter pool. The actor only escalates to a paid residential proxy session internally, and only if the free tier gets blocked on every attempt.
+**Do I need a proxy or cookies?** No. The actor starts with a direct connection, escalates on its own, and never asks for a login.
 
-**Why do some products have fewer fields than others?** Fields are only included when the source actually returns a value for that product (e.g. not every product has a customer rating yet, or a discount).
+**How deep does search go?** The source reports the full match count and pages through it with its own cursor. At test time `телевизор` reported about 2,700 matches. Set `maxItems` to the number you need; `0` walks up to the 10,000-row cap.
 
-**What currency are prices in?** Russian rubles (RUB) — the catalog only sells in the Russian market.
+**Why are some fields missing on some products?** Empty fields are omitted. Not every SKU has a rating, a discount, a third-party seller, a certificate, a video or pickup stock. `recommendPercent` is filled only when the source returns it; the review list does not expose it for most products.
 
-**Can I get more than 10 results from `mode=search`?** Not directly — the site's own search API caps at ~10 matching products per query. For broader discovery, find the product's category via one search, then switch to `mode=byCategory` with that category for full pagination.
+**Does the city change prices?** Prices are normally identical across cities; the city selector is primarily an availability control (pickup stores, quantities and delivery dates).
 
-**How fresh is the data?** Real-time — every run fetches current prices, stock status, and ratings directly from the live site.
+**Why do some listings show unusual prices?** The actor mirrors what the source returns. Showcase, prepayment and marketplace listings occasionally carry unusual source prices (for example a display unit priced far above its regular model); the actor does not "correct" or fabricate a price.
 
-**Can I turn off customer reviews to speed up `productDetails`/`search` runs?** Yes — set `maxReviews` to `0`. Reviews, `ratingBreakdown`, and `recommendPercent` are all fetched together in one request, so skipping them saves one request per item.
+**Why is `byCategory` cheaper than `search` by default?** Both honor `fetchDetails`; turn it off for listing-level rows and turn it on when you need specifications and seller data. `productDetails` always fetches full records.
 
-**Why does `byCategory` mode return different fields than `search`/`productDetails`?** `byCategory` returns fast catalog-listing data (price, rating, stock badges) for many products at once; `search` and `productDetails` fetch each product's full detail page, which additionally includes specifications, description, seller info, documents, related variants, and full review data.
+**Can I sort by rating, newest or discount?** The catalog only exposes popularity and sale-price ordering. Use `minRating` and `minDiscount` as filters instead.
+
+**Are unsupported links ignored?** They produce an error row with the reason, so a bad paste is visible in the dataset rather than silently dropped.
+
+**What are the known limits?** There is no sitemap/crawl-the-whole-catalog mode, no brand-page link support (a brand page needs a keyword because the catalog rejects brand-only queries), no store-directory mode, the source exposes no used-condition facet, and the source offers no rating/newest/discount sort. For more than the row cap, split by category, brand or price range.
+
+**Is this actor affiliated with Eldorado or M.Video?** No. It is an independent, third-party tool that reads publicly reachable product data.
+
+## Data source
+
+All data comes from the public mvideo.ru storefront and its `bff/*` API. The research trail for the eldorado.ru redirect and the endpoint/field verification is in `docs/RESEARCH-eldorado-scraper.md`.

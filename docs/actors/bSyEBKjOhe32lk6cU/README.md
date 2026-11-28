@@ -4,223 +4,195 @@
 
 # ETM Electrical Equipment Scraper
 
-Scrape [ETM.ru](https://www.etm.ru) — one of Russia's largest B2B electrical-equipment
-distributors, selling circuit breakers, cables, sockets, luminaires, tools, and
-industrial-automation components. Search by keyword, browse any product
-category, or pull full product details: price, specifications, images,
-certificates, and stock availability.
+Extract product data from [ETM.ru](https://www.etm.ru), one of Russia's largest B2B
+electrical-equipment distributors: circuit breakers, cables, sockets, luminaires, tools and
+industrial-automation components. Search the catalog, browse categories or a manufacturer,
+pull full product cards, or map a category's subcategories and brands. No login, cookies or
+API key needed.
 
-## What this actor does
+## What it collects
 
-- **Four modes:** `search`, `byCategory`, `productDetails`, `categoryFacets`
-- **Search** — free-text keyword search across ETM's full catalog
-- **Category browsing** — paginate any category by its id/slug or catalog URL, optionally
-  filtered to a single manufacturer/brand
-- **Product details** — full specs, certificates, technical documents, package/logistics
-  data, structured per-warehouse stock, and real analog/substitute products
-- **Category/search facets** — the real subcategory and brand breakdown (with ETM's own
-  live product counts per facet) for a category or search query, useful for discovering
-  narrower categories/brands to feed back into `byCategory`
-- **Empty fields are omitted** — every record only contains fields ETM actually returned
+- **Five modes:** keyword search, category browse, brand browse, product details, and
+  category/brand breakdown.
+- **Prices:** current price, retail price, legal-entity price, cashback, promo label.
+- **Availability:** city-specific availability text, pickup text, total stock and a
+  per-warehouse stock breakdown.
+- **Product cards:** description, specifications, full images, videos, certificates,
+  technical documents, package/logistics tables, variants, analog products and brand info.
+- **Category context:** code, name, full breadcrumb and URL.
+- **Price history (optional):** compare prices between runs and keep a rolling 10-point
+  history for scheduled monitoring.
 
-## Output per product
+Every record is omit-empty: a field appears only when ETM actually returned it.
 
-**Search / category listing records:**
-- `productId`, `sku`, `name`
-- `brand`, `brandSeries`, `brandSlug`
-- `countryOfOrigin`, `packaging`, `unit`
-- `price`, `currency`, `priceLabel` (e.g. "promotional price")
-- `availabilityText`, `pickupText`
-- `categoryCode`
-- `thumbnailUrl`, `imageUrl`
-- `isNew` — only present when ETM flags the product as newly listed
-- `productUrl`
-- `scrapedAt`
+## Modes
 
-**Product-detail records** additionally include:
-- `description`, `etmCode`, `packagingInfo`, `warranty`, `paymentMethods`
-- `brandId` (ETM's internal manufacturer id)
-- `priceRetail`, `cashbackAmount` (ETM loyalty cashback, RUB, when offered)
-- `categoryPath[]`, `category`, `categoryUrl` — full breadcrumb trail
-- `images[]` (full-size)
-- `specifications[]` — `{name, value}` pairs (power, voltage, dimensions, IP rating, etc.)
-- `certificates[]` — `{name, type, fileUrl}` (EAC/GOST conformity certificates, PDF)
-- `technicalDocuments[]` — `{name, type, url}` (datasheets, manuals, PDF)
-- `packages[]` — `{unit, quantity, weightKg, lengthM, widthM, heightM, volumeL}` per
-  packaging unit (single item, factory box, pallet, etc.) — real logistics data for
-  freight/shipping calculations
-- `stockByWarehouse[]` — `{warehouseType, quantity, deliveryTime}` (or `{warehouseType,
-  status}` for backorder/made-to-order items) — a structured breakdown per ETM
-  warehouse network (supplier distribution center, local warehouse, etc.), not just
-  one combined text label
-- `analogs[]` — real substitute/equivalent products ETM itself recommends, shaped
-  identically to a listing record (`productId`, `name`, `brand`, `price`,
-  `productUrl`, …) so it's a drop-in swap for cross-brand sourcing
-- `ratingValue`, `reviewCount` — only present when the product has actual customer
-  reviews (omitted rather than emitted as `0`/`0` on the vast majority of products
-  that have none yet)
-- `discontinued`, `isNew`
-- `externalArt`, `certificateName`, `relatedProducts[]` — occasionally present
-  instead of `brandId`/`warranty`/`paymentMethods`/`packages[]`/`stockByWarehouse[]`/
-  `ratingValue`/`analogs[]` on an older ETM page shape; whichever shape a given
-  product page returns determines which of these two field groups you get
-- `scrapedAt`
+| Mode | What it does |
+|---|---|
+| `search` | Keyword search. Accepts one or more queries. |
+| `byCategory` | Paginates a category by id+slug, slug or catalog URL. Optional brand and site filters. |
+| `byBrand` | Browses one manufacturer's products across the catalog. |
+| `productDetails` | Full product cards from URLs, numeric ids or `ETM…` codes. |
+| `categoryFacets` | Real subcategory and brand breakdown, with ETM's own live product counts. |
 
-**Category/search facet records** (`mode=categoryFacets`) contain instead:
-- `queryType` (`category` or `search`), `query` (the input you gave)
-- `categoryCode`, `categoryName`, `categoryUrl`, `categoryPath[]` — the category itself
-  and its breadcrumb (only for `category` queries; omitted for free-text `search` queries)
-- `subcategories[]` — `{categoryCode, categoryName, categorySlug, productCount, categoryUrl}`
-  for every subcategory ETM shows within the current result set, each with its own live
-  product count
-- `brands[]` — `{brandId, brandName, brandSlug, productCount, brandFilter}` for every
-  manufacturer ETM shows within the current result set, each with its own live product
-  count — `brandFilter` is a ready-to-use value for the `byCategory` mode's `brand` input
-- `scrapedAt`
+`search` and `byCategory` can also enrich every row with the full product card by setting
+`includeDetails` (one extra request per product).
+
+## Output
+
+**Search / category / brand rows:**
+
+`productId`, `sku`, `name`, `brand`, `brandId`, `brandSeries`, `brandSlug`,
+`countryOfOrigin`, `countryCode`, `packaging`, `packagingQuantity`, `unit`,
+`price`, `currency`, `priceRetail`, `priceLegalEntity`, `priceText`, `priceLabel`,
+`cashbackAmount`, `availabilityText`, `pickupText`, `stockQuantity`, `stockByWarehouse[]`,
+`minOrderQuantity`, `orderMultiples[]`, `ratingValue`, `reviewCount`, `isNew`,
+`discontinued`, `eacCertified`, `categoryCode`, `categoryName`, `thumbnailUrl`, `imageUrl`,
+`images[]`, `videos[]`, `searchQuery`, `sourceCategory`, `sourceBrand`, `productUrl`,
+`cityId`, `cityName`, `scrapedAt`.
+
+**Product-detail records add:**
+
+`etmCode`, `description`, `warranty`, `paymentMethods`, `promotion`, `cashbackManufacturer`,
+`packagingInfo`, `categoryPath[]`, `category`, `categoryUrl`, `productClassCode`,
+`specifications[]`, `additionalInformation[]`, `certificates[]` (`name`, `type`, `fileUrl`,
+`registryUrl`), `technicalDocuments[]`, `packages[]` (`unit`, `quantity`, `weightKg`,
+`lengthM`, `widthM`, `heightM`, `volumeL`), `stockByWarehouse[]`, `analogs[]`,
+`bundleProducts[]`, `variantCount`, `variantProperties[]`, `variants[]`, `brandDescription`.
+
+With `trackPriceHistory`: `previousPrice`, `priceChanged`, `priceChange`, `priceChangePct`,
+`priceHistory[]`.
+
+**`categoryFacets` records:**
+
+`queryType`, `query`, `categoryCode`, `categoryName`, `categoryUrl`, `categoryPath[]`,
+`totalProducts`, `subcategories[]` (`categoryCode`, `categoryName`, `categorySlug`,
+`categoryPath`, `productCount`, `categoryUrl`), `brands[]` (`brandId`, `brandName`,
+`brandSlug`, `productCount`, `brandFilter`), `cityId`, `cityName`, `scrapedAt`.
 
 ## Input
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | select | `search` | `search` / `byCategory` / `productDetails` / `categoryFacets` |
-| `searchQuery` | string | `автомат` | Free-text query (mode=search, or mode=categoryFacets) |
-| `category` | string | – | Category id+slug or catalog URL (mode=byCategory, or mode=categoryFacets) |
-| `brand` | string | – | Optional brand filter, `<brandId>_<brandSlug>` or a brand-filtered catalog URL (mode=byCategory only) |
-| `productUrls` | array | – | Product URLs or numeric IDs (mode=productDetails) |
-| `maxItems` | int | `10` | Hard cap on emitted records (1–500) |
-| `proxyConfiguration` | proxy | Residential (RU) | Required — see "Why is residential proxy required?" in the FAQ |
+| `mode` | select | `search` | `search` / `byCategory` / `byBrand` / `productDetails` / `categoryFacets` |
+| `searchQueries` | array | – | One or more Russian keywords (legacy `searchQuery` is still accepted) |
+| `categories` | array | – | Category id+slug, slug or catalog URL (legacy `category` is still accepted) |
+| `brand` | string | – | Brand id+slug (`432_iek`), numeric id, brand URL or brand-filtered URL; required for `byBrand` |
+| `productUrls` | array | – | Product URLs, numeric ids or ETM codes |
+| `maxItems` | int | 10 | Hard cap on emitted records (1–10,000) |
+| `includeDetails` | boolean | false | Enrich search/category rows with full product cards |
+| `onlyNew` | boolean | false | ETM "Только новинки" filter |
+| `onlyDiscounted` | boolean | false | ETM "Со скидкой" filter |
+| `madeInRussia` | boolean | false | ETM "Сделано в России / ЕАЭС" filter |
+| `inStockOnly` | boolean | false | Hide products that cannot be supplied |
+| `includeDiscontinued` | boolean | false | Include discontinued products |
+| `city` | string | `77` | ETM city id or name (`77` = Moscow, `78` = Saint Petersburg) |
+| `trackPriceHistory` | boolean | false | Compare prices between runs and add a rolling history |
+| `priceHistoryKey` | string | `default` | Separate price-history stores per workflow |
 
-### Example: search for circuit breakers
+### Examples
+
+Search for circuit breakers:
 
 ```json
-{
-  "mode": "search",
-  "searchQuery": "автомат",
-  "maxItems": 20
-}
+{ "mode": "search", "searchQueries": ["автомат"], "maxItems": 20 }
 ```
 
-### Example: browse a category
+Browse a category, filtered to one brand and in-stock products:
 
 ```json
 {
   "mode": "byCategory",
-  "category": "501010_avtomaticheskie_vykljuchateli",
+  "categories": ["5004_avtomaticheskie_vykljuchateli"],
+  "brand": "23_keaz",
+  "inStockOnly": true,
   "maxItems": 50
 }
 ```
 
-### Example: fetch specific products
+Browse a manufacturer:
+
+```json
+{ "mode": "byBrand", "brand": "953_navigator", "maxItems": 30 }
+```
+
+Fetch products by URL and ETM code:
 
 ```json
 {
   "mode": "productDetails",
-  "productUrls": [
-    "https://www.etm.ru/cat/nn/7416742",
-    "6187756"
-  ]
+  "productUrls": ["https://www.etm.ru/cat/nn/9532795", "ETM7416742"]
 }
 ```
 
-### Example: browse a category filtered to one brand
+Map a category:
+
+```json
+{ "mode": "categoryFacets", "categories": ["5004_avtomaticheskie_vykljuchateli"] }
+```
+
+Monitor prices between scheduled runs:
 
 ```json
 {
-  "mode": "byCategory",
-  "category": "5004_avtomaticheskie_vykljuchateli",
-  "brand": "432_iek",
-  "maxItems": 50
+  "mode": "search",
+  "searchQueries": ["автомат"],
+  "trackPriceHistory": true,
+  "priceHistoryKey": "breakers",
+  "maxItems": 100
 }
 ```
 
-### Example: get subcategory/brand breakdown for a category
+## How it works
 
-```json
-{
-  "mode": "categoryFacets",
-  "category": "5004_avtomaticheskie_vykljuchateli"
-}
-```
+ETM renders each catalog/product page as a Next.js page with the full server payload in
+`__NEXT_DATA__`. The actor reads that payload instead of brittle CSS selectors, so a layout
+change does not break extraction. Product variants come from the card's `similarProducts`
+axes; category facets come from `initialState.catalog.categoryInfo`.
 
-## Use cases
+ETM geo-restricts its storefront to Russian IPs. The actor automatically escalates through
+no proxy, Apify datacenter proxy and a Russian residential proxy, then keeps the first
+working route for the rest of the run. You do not configure a proxy.
 
-- **Price monitoring** — track electrical-equipment pricing across brands
-- **Catalog enrichment** — pull specifications and certificates for procurement systems
-- **Market research** — analyze category assortment and brand coverage
-- **Sourcing** — find in-stock alternatives across manufacturers for a given product class
-- **Compliance** — verify EAC/GOST certification documents for imported equipment
+## Limits and notes
+
+- **Search result cap:** ETM returns at most 1,000 products per search query. Split a broad
+  query by category or brand (the `categoryFacets` mode returns the exact values to use) to
+  collect more.
+- **Category cap:** ETM reports up to 100,000 products per category. Use subcategories or a
+  brand filter to page deeper.
+- **Sorting:** the public site only offers relevance and ETM-code order; price/rating sort
+  parameters are ignored upstream, so they are not exposed.
+- **Reviews:** aggregate ratings and review counts are public, but review text is shown only
+  to logged-in customers who bought the product. The actor ships the aggregate only.
+- **Individual prices:** contract/individual customer prices need an ETM login. The public
+  current, retail and legal-entity prices are included.
+- **Certificate PDFs:** certificate links are real ETM document URLs, but like the storefront
+  they are served to Russian IPs and may need a browser session. `registryUrl` points to the
+  public EAC registry entry; images, videos and technical datasheets are on the global CDN.
+- **Language:** ETM's catalog is Russian; use Russian keywords for relevant results.
 
 ## FAQ
 
-**Why does this actor require a residential proxy?** ETM.ru's own block page
-states the reason: it geo-restricts access to Russian IP ranges. This isn't
-a workaround for scraping etiquette — non-Russian visitors (VPN users
-included) get the same block in a normal browser.
+**Do I need a proxy?** No. The actor selects the required route automatically.
 
-**Can I search in English?** ETM's catalog is Russian-language; search terms
-should be in Russian (e.g. `автомат`, `кабель`, `розетка`) for relevant
-results. Product data returned (names, specs) is also in Russian, matching
-the site's audience.
+**What is `priceLegalEntity`?** ETM's public price for legal entities (`price560` on the
+site), shown alongside the regular and retail prices.
 
-**What does `category` accept?** Either the bare `<code>_<slug>` identifier
-(e.g. `501010_avtomaticheskie_vykljuchateli`) or a full catalog URL from
-etm.ru — both are accepted interchangeably.
+**Why is there no `price` on some products?** ETM returns a text value such as
+"Свяжитесь с нами" for made-to-order items. That text is kept in `priceText` instead of a
+fabricated number.
 
-**Why are some products missing `priceRetail`?** ETM shows a single price for
-most SKUs; `priceRetail` only appears when the site returns a distinct retail
-price alongside the wholesale/contract price.
+**What is `stockByWarehouse`?** ETM's per-warehouse availability breakdown (supplier
+distribution center, local warehouse, KDK warehouse), with quantity and delivery time.
 
-**Are prices in rubles?** Yes — all `price` fields are in RUB (Russian rubles),
-matching ETM's own currency.
+**What are `variants`?** Sibling products in the same family (different pole count, current,
+colour, etc.) with their own id, price and availability.
 
-**What if a product has no listed price?** ETM occasionally omits price for
-discontinued or made-to-order items; the `price` field is omitted rather than
-set to `0` or `null` in that case.
+**What are `analogs`?** ETM's own substitute/equivalent products for an item.
 
-**What are `analogs[]`?** ETM's own substitute/equivalent-product
-recommendations for the item (e.g. an alternative manufacturer's version of
-the same lamp/breaker/socket) — useful for sourcing when a specific brand is
-out of stock. Only present when ETM lists at least one analog for that SKU.
+**Can I pass legacy inputs?** Yes. Old saved tasks that send `searchQuery` or `category` keep
+working; the values are mapped to `searchQueries` / `categories` in code.
 
-**What is `stockByWarehouse[]`?** ETM tracks availability per warehouse
-network (its own distribution center vs. a local regional warehouse vs.
-made-to-order), each with its own quantity and delivery estimate. This field
-gives that breakdown as structured data instead of a single combined text
-string; `availabilityText` still carries the human-readable summary for
-convenience.
-
-**How do I find the right `brand` value for `byCategory`?** Run
-`mode=categoryFacets` on the category first — every entry in its `brands[]`
-array includes a `brandFilter` value (e.g. `432_iek`) ready to paste into the
-`brand` input.
-
-**Does the `brand` filter work on `mode=search`?** No — it's only supported on
-`mode=byCategory`. ETM's brand-filtered URL pattern is category-scoped
-(`<categoryCode>_<categorySlug>-<brandId>_<brandSlug>`); free-text search
-doesn't expose the same URL-level filter.
-
-**Is the `brand` filter on `mode=byCategory` guaranteed accurate?** Yes — ETM's
-own brand-filtered category URL isn't consistently honored server-side for
-every category (it can silently return the full, unfiltered category page),
-so the actor additionally checks every product's manufacturer against the
-requested brand before including it in the output. You will only ever see
-products from the brand you asked for, even on categories where ETM's URL
-filter itself doesn't take effect (in that case the actor pages further into
-the category, as needed, to keep finding matches). If a `brand` is requested
-that genuinely has no products in the category (typo, wrong id, or a brand
-that just isn't sold in that category — some ETM categories carry 10,000+
-products across dozens of brands), the actor stops after several consecutive
-fully-empty pages rather than paging through the entire category, and reports
-this via the run's status message instead of silently returning nothing.
-
-**What if I pass a `productUrls` numeric ID that doesn't exist?** ETM's own
-product page for an unrecognized bare ID (e.g. `1`) can resolve to an
-unrelated fallback product rather than a 404 — this is the site's own
-behavior, not the actor's. The output record always reflects whichever real
-product ETM actually returned for that URL/ID; double-check the returned
-`productUrl` against what you intended if you're passing bare numeric IDs
-that weren't sourced from a search/category/facets result first.
-
-**Are `categoryFacets` product counts accurate?** Yes — `productCount` on each
-subcategory/brand facet is ETM's own live count for that facet within the
-current category or search result set, not an estimate.
+**Can I get more than 10,000 records?** The per-run cap is 10,000. Run separate queries,
+categories or brands and combine the datasets.

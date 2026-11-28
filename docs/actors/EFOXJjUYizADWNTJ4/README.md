@@ -4,47 +4,67 @@
 
 # PropertyFinder UAE Listing & Amenity Extractor
 
-[PropertyFinder](https://www.propertyfinder.ae/) is one of the UAE's largest real estate portals, listing sale and rental properties across every emirate. This actor pulls its listings for sale, for rent, or from exact property URLs you supply, with price, location, agent/broker details, amenities and photos for each one.
+PropertyFinder is the largest real-estate portal in the United Arab Emirates. This actor collects its public sale and rental listings across all seven emirates and returns one row per property with pricing, location, amenities, full photo gallery, floor plans, building facts, agent and broker metadata, and permit details when the portal publishes them.
 
-## What this actor does
+Built for UAE market research, investment screening, rental comparisons, amenity analysis, and brokerage benchmarking.
 
-- **Three modes:** `forSale`, `forRent`, and `byUrl` (exact listing URLs)
-- **Nationwide coverage** — filter by any of the 7 emirates, or leave it open for all of the UAE
-- **Property-type and budget filters** — 12 property types, min bedrooms, price range, furnishing status
-- **Location detail** — city, community, full address and GPS coordinates parsed from each listing
-- **Empty fields are omitted** — a field only appears when PropertyFinder actually published that value
+## Modes
 
-## Output per listing
+| Mode | What it does |
+|---|---|
+| `forSale` | Search sale listings by emirate, property type, bedrooms, price, furnishing and completion status. |
+| `forRent` | Search rental listings with the same filters (completion status is sale-only). |
+| `byUrl` | Scrape exact PropertyFinder URLs: detail pages, `/to/` short links, and landing or search pages (which are paginated automatically). |
 
-- `propertyId`, `title`, `description`
-- `propertyType` — e.g. Apartment, Villa, Townhouse, Office
-- `offeringType` — `sale` or `rent`
-- `price`, `currency`, `rentPeriod` (rental listings only, e.g. yearly/monthly)
-- `bedrooms`, `bathrooms`, `areaSqft`
-- `furnished` — furnishing status
-- `fullAddress`, `city`, `community`, `latitude`, `longitude`
-- `agentName`, `brokerName`
-- `imageUrls[]` — listing photos
-- `amenities[]`
-- `listingUrl`
-- `listedDate`
-- `recordType` — always `"property"`
-- `sourceUrl`, `scrapedAt`
+## Filters
 
-## Input
+- **Emirate** — Dubai, Abu Dhabi, Sharjah, Ajman, Ras Al Khaimah, Fujairah, Umm Al Quwain, or all UAE.
+- **Property type** — apartment, villa, townhouse, penthouse, half floor, land, bulk sale units, office, shop, warehouse and factory.
+- **Bedrooms** — minimum and optional maximum; `0` means studio. Bedroom paths apply to residential types.
+- **Price** — minimum and maximum in AED.
+- **Furnishing** — furnished and unfurnished are applied by PropertyFinder; semi-furnished is matched from the published status.
+- **Completion** — completed or off-plan, for sale listings.
+- **Listing limit** — stop at any number up to 100,000.
+
+Every search is paginated with the site's own `page` parameter until the requested number of matching listings is reached, the source runs out, or PropertyFinder's roughly 4,000-page per-query ceiling is hit. Split broad queries by emirate, property type, bedrooms or price to go deeper.
+
+## Output
+
+Identity and provenance: `propertyId`, `listingId`, `reference`, `title`, `description`, `propertyType`, `propertyTypeId`, `categoryId`, `offeringType`, `purpose`, `listingUrl`, `sourceUrl`, `scrapedAt`, `recordType`, `detailsIncluded`.
+
+Pricing: `price`, `currency`, `rentPeriod`, `pricePerArea`, `pricePerAreaUnit`.
+
+Property facts: `bedrooms`, `bedroomsLabel`, `isStudio`, `bathrooms`, `areaValue`, `areaUnit`, `areaSqft`, `sizeSqm`, `furnished`, `furnishingStatus`, `completionStatus`, `completionStatusRaw`.
+
+Location: `fullAddress`, `city`, `community`, `subCommunity`, `tower`, `locationId`, `locationName`, `locationType`, `locationPath`, `locationTree`, `latitude`, `longitude`.
+
+Amenities and media: `amenities`, `amenityNames`, `amenityCodes`, `imageUrls`, `coverImage`, `imagesCount`, `communityImages`, `towerImages`, `floorPlans`, `floorPlanCount`, `view360Url`, `videoUrl`.
+
+Agent and broker: `agentId`, `agentName`, `agentProfileUrl`, `agentImage`, `agentLanguages`, `agentPosition`, `agentExperienceYears`, `agentTotalProperties`, `agentTransactionsCount`, `agentLicenseNumber`, `isSuperAgent`, `brokerId`, `brokerName`, `brokerProfileUrl`, `brokerLogo`, `brokerEmail`, `brokerPhone`, `brokerAddress`, `brokerLicenseNumber`, `brokerTotalProperties`, `contactEmail`, `contactPhone`, `contactWhatsapp`, `contactOptions`.
+
+Regulatory and building: `permitNumber`, `rera`, `permitValidationUrl`, `permitAuthority`, `permitIssuedLicenseNumber`, `zoneName`, `licenses`, `buildingDetails`.
+
+Flags: `isVerified`, `isPremium`, `isFeatured`, `isExclusive`, `isDirectFromDeveloper`, `isNewConstruction`, `isAvailable`, `isPriceDrop`, `isGreatValue`, `isHighDemand`, `isLuxe`, `isUnderOffer`, `isSpotlight`, `isPfExclusive`, `hasView360`, `hasVideo`.
+
+A field is included only when PropertyFinder published a real value for that listing; empty fields are omitted rather than returned as `null`.
+
+## Inputs
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `mode` | string | `forSale` | `forSale` / `forRent` / `byUrl` |
-| `emirate` | string | `dubai` | Emirate/city to filter by, or blank for all UAE |
-| `propertyType` | string | – | Property type filter (e.g. `AP` Apartment, `VH` Villa, `TH` Townhouse) |
-| `minBedrooms` | integer | – | Minimum bedrooms (0 = studio) |
-| `minPrice` / `maxPrice` | integer | – | Price range in AED |
-| `furnished` | string | – | `furnished` / `unfurnished` / `semi-furnished` |
-| `propertyUrls` | array | – | Direct listing URLs (mode=byUrl) |
-| `maxItems` | integer | `50` | Maximum listings to return (1–1000) |
+| `mode` | select | `forSale` | Sale search, rent search, or specific URLs. |
+| `emirate` | select | `dubai` | One emirate or all UAE. |
+| `propertyType` | select | any | Residential or commercial type. |
+| `minBedrooms` | integer | – | Minimum bedrooms; `0` = studio. |
+| `maxBedrooms` | integer | – | Optional maximum bedrooms. |
+| `minPrice` / `maxPrice` | integer | – | AED price range. |
+| `furnished` | select | any | Furnished, unfurnished or semi-furnished. |
+| `completionStatus` | select | any | Completed or off-plan (sale only). |
+| `includeDetails` | boolean | true | Fetch the full gallery, floor plans, permits, licences and building facts (one extra page per listing). |
+| `propertyUrls` | array | – | Detail, short, landing or search URLs for `byUrl`. |
+| `maxItems` | integer | 50 | Maximum matching listings. |
 
-### Example: apartments for sale in Dubai, 2+ bedrooms
+### Example: Dubai apartments for sale
 
 ```json
 {
@@ -52,8 +72,9 @@
   "emirate": "dubai",
   "propertyType": "AP",
   "minBedrooms": 2,
-  "maxPrice": 3000000,
-  "maxItems": 50
+  "maxPrice": 2500000,
+  "includeDetails": true,
+  "maxItems": 100
 }
 ```
 
@@ -64,43 +85,49 @@
   "mode": "forRent",
   "emirate": "abu-dhabi",
   "furnished": "furnished",
-  "maxItems": 30
+  "maxItems": 50
 }
 ```
 
-### Example: fetch specific listings by URL
+### Example: exact URLs
 
 ```json
 {
   "mode": "byUrl",
   "propertyUrls": [
-    "https://www.propertyfinder.ae/en/plp/buy/apartment-for-sale-dubai-downtown-dubai-12345678.html"
+    "https://www.propertyfinder.ae/en/plp/buy/apartment-for-sale-dubai-downtown-dubai-burj-views-burj-views-a-171505912.html",
+    "https://www.propertyfinder.ae/en/buy/dubai/villas-for-sale.html"
   ]
 }
 ```
 
-## Use cases
+## How it works
 
-- **UAE market research** — compare prices across emirates, communities and property types
-- **Investment analysis** — spot pricing trends within a specific community over time
-- **Rental yield estimates** — compare sale listings against rentals in the same community
-- **Agent/broker benchmarking** — see which agents and brokerages list the most properties
-- **Relocation shortlisting** — filter rentals by bedroom count, budget and furnishing status
+PropertyFinder renders each listing into the page itself. The actor reads that structured data from the sale/rent landing pages and, when `includeDetails` is on, from each listing's detail page. No login, cookie, API key or proxy setup is required. Detail pages are protected by a bot challenge; the actor obtains a short-lived browser token once per run and reuses it, so detail enrichment stays reliable without asking you to configure anything.
 
 ## FAQ
 
-**Do I need to log in or provide an API key?** No — all data comes from PropertyFinder's publicly rendered listing pages.
+**Do I need a PropertyFinder account or API key?** No. The actor reads public listing pages.
 
-**What currency are prices in?** AED (UAE Dirhams), as published on the listing.
+**Can I get agent email addresses and mobile numbers?** No. PropertyFinder does not publish agent personal email or phone numbers. The actor returns the public agent profile metadata plus the brokerage's published email, phone and the listing-level WhatsApp contact when present.
 
-**Can I filter by a specific community, like JBR or Business Bay?** Not as a direct input filter — use `byUrl` mode with a PropertyFinder search URL for that community, or filter the output by `community` after scraping.
+**Why does a listing have no permit details?** Permit numbers and Dubai Trakheesi validation links are published inconsistently, mostly on sale listings. The field is omitted when the source has none.
 
-**Why is `rentPeriod` missing on sale listings?** That field only applies to rentals (e.g. yearly, monthly); sale listings don't carry a rent period, so the field is omitted.
+**Why are some photos missing?** Search pages expose four thumbnails per listing. Turn on `includeDetails` to get the full gallery, plus community and tower photos.
 
-**Why do some listings have no `latitude`/`longitude`?** Coordinates are only included when PropertyFinder publishes a non-zero location for the listing.
+**Why did a large query stop before my limit?** PropertyFinder caps a single query at about 4,000 pages, and some filters run out earlier. Narrow the search by emirate, type, bedrooms or price and combine the runs.
 
-**How current is the data?** Each run reads PropertyFinder's live listing pages at request time; there's no cached snapshot.
+**Can I filter by community, bathrooms or amenities?** The site's community, bathroom and amenity facets live on its `/en/search` pages. Use `byUrl` with the search URL you built on PropertyFinder; the actor paginates it and keeps your filters. Note that PropertyFinder's robots rules disallow search-result URLs, so prefer the bracketed landing-page filters for scheduled runs.
 
-**Does this cover off-plan properties?** Yes — both ready and off-plan listings appear in PropertyFinder's `forSale` results and are scraped the same way.
+**Why is `completionStatus` missing on rentals?** PropertyFinder only publishes a completion status for sale listings.
 
-**Is this affiliated with PropertyFinder?** No. This is an independent tool that reads PropertyFinder's public pages and is not affiliated with or endorsed by PropertyFinder.
+**Does this cover Arabic listings?** It reads the English pages. Arabic and English listings share the same underlying records, so the output is the same.
+
+**Is this affiliated with PropertyFinder?** No. This is an independent tool and is not affiliated with, endorsed by or sponsored by PropertyFinder.
+
+## Notes and limits
+
+- PropertyFinder's terms restrict automated access; use the data responsibly and respect applicable law.
+- Agent personal contact details are not public. The actor does not bypass lead forms or CAPTCHAs.
+- Hotel apartment and farm landing pages are not available on the UAE portal; those legacy filter values are ignored.
+- A single query is capped at about 4,000 pages. Split broad searches to collect more.

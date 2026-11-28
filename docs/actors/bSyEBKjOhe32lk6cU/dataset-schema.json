@@ -1,6 +1,23 @@
 {
   "actorSpecification": 1,
   "views": {
+    "facets": {
+      "display": {
+        "component": "table",
+        "properties": {}
+      },
+      "title": "Category & brand breakdown",
+      "transformation": {
+        "fields": [
+          "queryType",
+          "query",
+          "categoryName",
+          "totalProducts",
+          "subcategories",
+          "brands"
+        ]
+      }
+    },
     "overview": {
       "display": {
         "component": "table",
@@ -12,9 +29,33 @@
           "name",
           "brand",
           "price",
+          "priceRetail",
+          "priceLegalEntity",
           "currency",
           "availabilityText",
-          "sku",
+          "stockQuantity",
+          "ratingValue",
+          "reviewCount",
+          "categoryName",
+          "productUrl"
+        ]
+      }
+    },
+    "priceChanges": {
+      "display": {
+        "component": "table",
+        "properties": {}
+      },
+      "title": "Price changes",
+      "transformation": {
+        "fields": [
+          "productId",
+          "name",
+          "price",
+          "previousPrice",
+          "priceChange",
+          "priceChangePct",
+          "priceHistory",
           "productUrl"
         ]
       }

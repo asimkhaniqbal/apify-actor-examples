@@ -1,90 +1,157 @@
 {
-  "description": "Search ETM.ru, browse a category, or fetch full product details.",
+  "description": "Search ETM.ru, browse categories or brands, fetch full product details, or map a category's subcategories and brands.",
   "properties": {
     "brand": {
-      "description": "Restrict category browsing to one manufacturer. Accepts `<brandId>_<brandSlug>` (e.g. `432_iek`) or a full brand-filtered catalog URL (e.g. `https://www.etm.ru/catalog/5004_avtomaticheskie_vykljuchateli-432_iek`). Get real brand ids/slugs for a category from `mode=categoryFacets`'s `brands[].brandFilter` field first.",
+      "description": "Accepts a brand id+slug (432_iek), a numeric ETM brand id (432), a brand URL (https://www.etm.ru/brand/953_navigator), or a brand-filtered catalog URL. In search and byCategory modes it filters results to that manufacturer; in byBrand mode it selects the brand to browse. Get brand ids from the Category & brand breakdown mode.",
       "editor": "textfield",
-      "title": "Brand filter (mode=byCategory, optional)",
+      "title": "Brand (filter for search / byCategory; required for byBrand)",
       "type": "string"
     },
-    "category": {
-      "description": "Category id+slug (e.g. `501010_avtomaticheskie_vykljuchateli`) or a full catalog URL (e.g. `https://www.etm.ru/catalog/501010_avtomaticheskie_vykljuchateli`). Top-level examples: `010_elektrika_i_svet` (electrics & light), `030_vodosnabzhenie_i_vodootvedenie` (water supply), `050_instrument_i_osnastka` (tools), `080_sistemy_bezopasnosti` (security systems). For `mode=categoryFacets`, either this or `searchQuery` may be given.",
+    "categories": {
+      "description": "Category id+slug, a catalog URL, or a top-level slug. Examples: 5004_avtomaticheskie_vykljuchateli, https://www.etm.ru/catalog/5004_avtomaticheskie_vykljuchateli, 010_elektrika_i_svet. Old category ids that ETM has moved (e.g. 501010_…) redirect to the current page.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
+      "prefill": [
+        "5004_avtomaticheskie_vykljuchateli"
+      ],
+      "sectionCaption": "Categories and brands",
+      "title": "Categories (mode=byCategory / categoryFacets)",
+      "type": "array"
+    },
+    "city": {
+      "default": "77",
+      "description": "ETM prices and availability are city-specific. Pass an ETM city id (77 = Moscow, 78 = Saint Petersburg) or a city name such as Москва or Санкт-Петербург. Unknown names fall back to Moscow.",
       "editor": "textfield",
-      "prefill": "501010_avtomaticheskie_vykljuchateli",
-      "title": "Category (mode=byCategory / categoryFacets)",
+      "prefill": "77",
+      "sectionCaption": "Market",
+      "title": "City for prices and stock",
       "type": "string"
+    },
+    "inStockOnly": {
+      "default": false,
+      "description": "Use ETM's 'Скрыть непоставляемые товары' filter.",
+      "prefill": false,
+      "title": "Hide products that cannot be supplied",
+      "type": "boolean"
+    },
+    "includeDetails": {
+      "default": false,
+      "description": "When enabled, every search or category row is followed to its product page and enriched with specifications, images, certificates, variants, package data and stock breakdown. Costs one extra request per product.",
+      "prefill": false,
+      "sectionCaption": "Enrichment",
+      "title": "Enrich search/category rows with full product details",
+      "type": "boolean"
+    },
+    "includeDiscontinued": {
+      "default": false,
+      "description": "By default ETM hides products it has discontinued. Enable this to include them.",
+      "prefill": false,
+      "title": "Include discontinued products",
+      "type": "boolean"
+    },
+    "madeInRussia": {
+      "default": false,
+      "description": "Use ETM's 'Сделано в России / ЕАЭС' filter.",
+      "prefill": false,
+      "title": "Only made in Russia / EAEU",
+      "type": "boolean"
     },
     "maxItems": {
       "default": 10,
-      "description": "Hard cap on emitted records.",
-      "maximum": 500,
+      "description": "Hard cap on emitted product records for the whole run. Search result sets are capped by ETM at 1,000 products; a category can hold up to 100,000.",
+      "maximum": 10000,
       "minimum": 1,
       "prefill": 10,
+      "sectionCaption": "Output",
       "title": "Max items",
       "type": "integer"
     },
     "mode": {
       "default": "search",
-      "description": "What to fetch from ETM.ru.",
+      "description": "What to collect from ETM.ru. Search finds products by keyword; Browse categories and Browse a brand page through the catalog; Product details returns full cards; Category & brand breakdown maps the assortment.",
       "editor": "select",
       "enum": [
         "search",
         "byCategory",
+        "byBrand",
         "productDetails",
         "categoryFacets"
       ],
       "enumTitles": [
-        "Search products (free-text query)",
-        "Browse a category",
-        "Fetch product details (URLs or IDs)",
-        "Get subcategory/brand breakdown (category or search query)"
+        "Search by keyword",
+        "Browse categories",
+        "Browse a brand",
+        "Product details (URLs or IDs)",
+        "Category & brand breakdown"
       ],
       "prefill": "search",
+      "sectionCaption": "What to scrape",
       "title": "Mode",
+      "type": "string"
+    },
+    "onlyDiscounted": {
+      "default": false,
+      "description": "Use ETM's 'Со скидкой' filter.",
+      "prefill": false,
+      "title": "Only discounted products",
+      "type": "boolean"
+    },
+    "onlyNew": {
+      "default": false,
+      "description": "Use ETM's 'Только новинки' filter.",
+      "prefill": false,
+      "sectionCaption": "Filters",
+      "title": "Only new products",
+      "type": "boolean"
+    },
+    "priceHistoryKey": {
+      "default": "default",
+      "description": "Separate price-history stores for different workflows (for example one key per product category). Only used when price tracking is enabled.",
+      "editor": "textfield",
+      "prefill": "default",
+      "title": "Price history key",
       "type": "string"
     },
     "productUrls": {
       "default": [],
-      "description": "Product page URLs (e.g. `https://www.etm.ru/cat/nn/7416742`) or bare numeric product IDs (e.g. `7416742`).",
+      "description": "Product page URLs (https://www.etm.ru/cat/nn/7416742), bare numeric product ids (7416742), or ETM codes (ETM7416742).",
       "editor": "stringList",
+      "items": {
+        "type": "string"
+      },
       "prefill": [
         "https://www.etm.ru/cat/nn/7416742"
       ],
-      "title": "Product URLs or IDs (mode=productDetails)",
+      "sectionCaption": "Product details",
+      "title": "Product URLs, IDs or ETM codes (mode=productDetails)",
       "type": "array"
     },
-    "proxyConfiguration": {
-      "default": {
-        "apifyProxyCountry": "RU",
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
-        ],
-        "useApifyProxy": true
+    "searchQueries": {
+      "description": "One or more keywords in Russian, e.g. автомат (circuit breaker), кабель (cable), розетка (socket). The legacy single-value field searchQuery is still accepted.",
+      "editor": "stringList",
+      "items": {
+        "type": "string"
       },
-      "description": "ETM.ru geo-blocks non-Russian IP addresses at the network edge (returns HTTP 444 / a \"forbidden IP address, possible VPN\" page). A residential proxy located in Russia is required to reach the site — see the README \"Data Source\" section for details.",
-      "editor": "proxy",
-      "prefill": {
-        "apifyProxyCountry": "RU",
-        "apifyProxyGroups": [
-          "RESIDENTIAL"
-        ],
-        "useApifyProxy": true
-      },
-      "title": "Proxy configuration",
-      "type": "object"
+      "prefill": [
+        "автомат"
+      ],
+      "sectionCaption": "Search",
+      "title": "Search queries (mode=search)",
+      "type": "array"
     },
-    "searchQuery": {
-      "default": "автомат",
-      "description": "Free-text search term, e.g. автомат (circuit breaker), кабель (cable), розетка (socket).",
-      "editor": "textfield",
-      "prefill": "автомат",
-      "title": "Search query (mode=search)",
-      "type": "string"
+    "trackPriceHistory": {
+      "default": false,
+      "description": "Store each product's price in the run's key-value store and add previousPrice, priceChange, priceChangePct and a rolling priceHistory[] to later runs. Useful for scheduled price monitoring.",
+      "prefill": false,
+      "sectionCaption": "Price history",
+      "title": "Track price history between runs",
+      "type": "boolean"
     }
   },
   "required": [
-    "mode",
-    "proxyConfiguration"
+    "mode"
   ],
   "schemaVersion": 1,
   "title": "ETM Scraper Input",

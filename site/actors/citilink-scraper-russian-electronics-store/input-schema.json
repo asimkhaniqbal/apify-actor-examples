@@ -1,11 +1,19 @@
 {
   "description": "Search Citilink.ru, browse a category, or fetch full product details.",
   "properties": {
+    "brands": {
+      "default": [],
+      "description": "Keep only these brands, case-insensitive (e.g. `XIAOMI`, `Samsung`). Records without a brand are dropped when this filter is set. Applies to search and byCategory modes.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Brands (optional)",
+      "type": "array"
+    },
     "category": {
-      "description": "A Citilink category slug (e.g. `smartfony`), a catalog path (`/catalog/smartfony/`), or a full category URL (`https://www.citilink.ru/catalog/smartfony/`). Find slugs by browsing citilink.ru/catalog/.",
+      "description": "A Citilink category slug (`smartfony`), a nested catalog compilation (`smartfony/iphone`), a path (`/catalog/smartfony/`), or a full URL (`https://www.citilink.ru/catalog/smartfony/iphone/`). Find paths by browsing citilink.ru/catalog/.",
       "editor": "textfield",
       "prefill": "smartfony",
-      "title": "Category (mode=byCategory)",
+      "title": "Category or compilation (mode=byCategory)",
       "type": "string"
     },
     "inStockOnly": {
@@ -17,10 +25,10 @@
     },
     "maxItems": {
       "default": 10,
-      "description": "Hard cap on emitted records.",
-      "maximum": 500,
+      "description": "Hard cap on emitted records. The live catalog exposes up to its own result count; very broad categories can be much larger than this cap.",
+      "maximum": 2000,
       "minimum": 1,
-      "prefill": 10,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
@@ -74,6 +82,20 @@
       "title": "Mode",
       "type": "string"
     },
+    "monitorMode": {
+      "default": false,
+      "description": "Compare this run with the previous run of the same search/category and add changeType, previousPrice, priceChangePercent, firstSeenAt, and lastSeenAt to each product. State is kept in the actor's key-value store. Off by default.",
+      "prefill": false,
+      "title": "Price & stock monitor",
+      "type": "boolean"
+    },
+    "onlyChanges": {
+      "default": false,
+      "description": "When monitorMode is on, emit only products that are new or whose price/availability changed since the previous run. Has no effect when monitorMode is off.",
+      "prefill": false,
+      "title": "Only changed products (monitor mode)",
+      "type": "boolean"
+    },
     "productIds": {
       "default": [],
       "description": "Citilink product IDs (e.g. `2143346`) or full product URLs (e.g. `https://www.citilink.ru/product/smartfon-apple-iphone-17-a3520-256gb-purpurnyi-3g-4g-1sim-6-3-1206x262-2143346/`).",
@@ -96,15 +118,15 @@
     },
     "searchQuery": {
       "default": "iphone",
-      "description": "Free-text keyword search (mode=search). Example: `iphone`, `ноутбук`, `телевизор`.",
+      "description": "Free-text keyword search (mode=search). A query that exactly matches a Citilink category (e.g. `ноутбук`) opens that category's full catalog page; other queries use the site search. Examples: `iphone`, `ноутбук`, `телевизор`.",
       "editor": "textfield",
-      "prefill": "iphone",
+      "prefill": "ноутбук",
       "title": "Search query",
       "type": "string"
     },
     "sortBy": {
       "default": "relevance",
-      "description": "How to order results before truncating to Max items. Applied by the actor across the fetched result window (search/byCategory modes only) — see README for details.",
+      "description": "Result order (search/byCategory). Applied server-side by Citilink; the actor verifies the order before emitting.",
       "editor": "select",
       "enum": [
         "relevance",
@@ -121,11 +143,17 @@
         "Price: high to low",
         "Biggest discount first",
         "Highest rating first",
-        "Most opinions first",
-        "Most reviews first"
+        "Most customer reviews first (Отзывы)",
+        "Most overviews first (Обзоры)"
       ],
       "prefill": "relevance",
       "title": "Sort by",
+      "type": "string"
+    },
+    "watchId": {
+      "description": "Reuse the same monitor history across several differently-configured runs (e.g. one task for several queries). Leave empty to derive a stable ID from the mode, query/category, sort, brands, and maxItems.",
+      "editor": "textfield",
+      "title": "Monitor watch ID (optional)",
       "type": "string"
     }
   },

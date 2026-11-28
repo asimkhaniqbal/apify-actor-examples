@@ -1,9 +1,17 @@
 {
-  "description": "Search, browse a category, or fetch full product details from the catalog that now sells Eldorado's former product line (eldorado.ru's own storefront closed and permanently redirects to the M.Video marketplace — see the README for the research trail).",
+  "description": "Search, browse, or fetch full product and review data from the live catalog that carries Eldorado's former product line (eldorado.ru's own storefront closed and redirects to the M.Video marketplace — see the README for the research trail).",
   "properties": {
+    "brands": {
+      "default": [],
+      "description": "Only return products from these brands. Accepts the brand name as the site spells it (Samsung, LG, TCL). Multiple values are combined as 'any of these'; the live brand facet is resolved for each query or category.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Brands (mode=search / byCategory)",
+      "type": "array"
+    },
     "category": {
       "default": "",
-      "description": "Top-level category to browse (the taxonomy of the catalog that now carries Eldorado's former product line).",
+      "description": "Top-level category to browse. Leave empty and use `categoryUrls` for any sub-category or a custom taxonomy branch.",
       "editor": "select",
       "enum": [
         "",
@@ -193,11 +201,64 @@
       "title": "Category (mode=byCategory)",
       "type": "string"
     },
-    "categoryUrl": {
-      "description": "Overrides `category`. Accepts a full mvideo.ru category URL (e.g. https://www.mvideo.ru/televizory-i-cifrovoe-tv-1/televizory-65) or a bare numeric category ID, for sub-categories not in the dropdown.",
+    "categoryUrls": {
+      "default": [],
+      "description": "Any mvideo.ru category URL or numeric category ID, e.g. https://www.mvideo.ru/televizory-i-cifrovoe-tv-1/televizory-65. Use this for sub-categories that are not in the Category dropdown; values are browsed in addition to it.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Custom category URLs or IDs (mode=byCategory)",
+      "type": "array"
+    },
+    "city": {
+      "default": "Москва",
+      "description": "Russian city name or mvideo.ru city ID (for example Москва, Санкт-Петербург, CityCZ_975). The city controls current prices, pickup stores and delivery dates.",
       "editor": "textfield",
-      "title": "Custom category URL or ID (mode=byCategory)",
+      "prefill": "Москва",
+      "title": "City",
       "type": "string"
+    },
+    "condition": {
+      "default": "any",
+      "description": "Filter by item condition through the site's live condition facet. The source exposes new, refurbished, markdown and showcase values (used is not a facet value). If the facet is unavailable for the chosen query or category, the run reports it instead of returning unfiltered products.",
+      "editor": "select",
+      "enum": [
+        "any",
+        "new",
+        "refurbished",
+        "markdown",
+        "showcase"
+      ],
+      "enumTitles": [
+        "Any condition",
+        "New",
+        "Refurbished",
+        "Markdown / clearance",
+        "Showcase / display unit"
+      ],
+      "prefill": "any",
+      "title": "Condition",
+      "type": "string"
+    },
+    "failOnEmpty": {
+      "default": false,
+      "description": "Mark the run as failed when zero rows are emitted, for example when the site is blocked or a query genuinely matches nothing.",
+      "prefill": false,
+      "title": "Fail when nothing is found",
+      "type": "boolean"
+    },
+    "fetchDetails": {
+      "default": true,
+      "description": "Fetch each product's detail record (description, specifications, seller, documents, variants, exact price) instead of listing fields only. Applies to search and category browsing; productDetails always fetches details. Turn off for fast, cheap listing-level runs.",
+      "prefill": true,
+      "title": "Fetch full product details",
+      "type": "boolean"
+    },
+    "fromAbroad": {
+      "default": false,
+      "description": "Only return parallel-import listings, resolved through the site's live 'Товары из-за рубежа' facet.",
+      "prefill": false,
+      "title": "Parallel import only",
+      "type": "boolean"
     },
     "inStockOnly": {
       "default": false,
@@ -206,17 +267,31 @@
       "title": "In stock only",
       "type": "boolean"
     },
+    "includeOtherOffers": {
+      "default": true,
+      "description": "Fetch the marketplace offer block and attach otherOffers[] with prices, seller names and seller ratings when available.",
+      "prefill": false,
+      "title": "Include other seller offers (productDetails)",
+      "type": "boolean"
+    },
+    "includeStoreStock": {
+      "default": false,
+      "description": "Fetch per-store pickup availability for the chosen city and attach a stores[] list.",
+      "prefill": false,
+      "title": "Include pickup store stock (productDetails)",
+      "type": "boolean"
+    },
     "maxItems": {
       "default": 10,
-      "description": "Hard cap on emitted records. Note: mode=search is limited to ~10 results (the site's own search-suggestion API caps at 10 matches); use mode=byCategory for larger result sets.",
-      "maximum": 1000,
-      "minimum": 1,
-      "prefill": 10,
+      "description": "Hard cap on product rows (or review rows in mode=reviews). Invalid-input error rows are additional and do not count toward this cap. Use 0 for all, capped at 10,000. For full search coverage set a high cap and turn off Fetch full product details.",
+      "maximum": 10000,
+      "minimum": 0,
+      "prefill": 3,
       "title": "Max items",
       "type": "integer"
     },
     "maxPrice": {
-      "description": "Drop products more expensive than this (sale price, in Russian rubles).",
+      "description": "Drop products more expensive than this sale price, in Russian rubles. Applied in the catalog itself, so pagination stays efficient.",
       "maximum": 10000000,
       "minimum": 0,
       "title": "Max price (RUB)",
@@ -224,15 +299,23 @@
     },
     "maxReviews": {
       "default": 5,
-      "description": "How many of the most helpful customer reviews to fetch and attach to each product's `reviews[]` field (also populates `ratingBreakdown` and `recommendPercent`). Only applies to mode=search and mode=productDetails, since those are the modes that fetch full product details. Set to 0 to skip fetching reviews.",
-      "maximum": 20,
+      "description": "Reviews to fetch per product in productDetails (attached as reviews[]) and reviews mode (one row per review), paginated 20 at a time. Set to 0 to skip review fetching entirely.",
+      "maximum": 200,
       "minimum": 0,
-      "prefill": 5,
-      "title": "Max customer reviews per product (search / productDetails)",
+      "prefill": 0,
+      "title": "Customer reviews per product",
+      "type": "integer"
+    },
+    "minDiscount": {
+      "description": "Drop products with a smaller discount than this (0-99 percent). Products without a discount are excluded when this filter is set.",
+      "editor": "number",
+      "maximum": 99,
+      "minimum": 0,
+      "title": "Min discount (%)",
       "type": "integer"
     },
     "minPrice": {
-      "description": "Drop products cheaper than this (sale price, in Russian rubles).",
+      "description": "Drop products cheaper than this sale price, in Russian rubles. Applied in the catalog itself, so pagination stays efficient.",
       "maximum": 10000000,
       "minimum": 0,
       "title": "Min price (RUB)",
@@ -248,17 +331,21 @@
     },
     "mode": {
       "default": "search",
-      "description": "What to fetch.",
+      "description": "What to fetch. Choose keyword search, a category browse, full details for exact products, a flat review export, or paste mvideo.ru links.",
       "editor": "select",
       "enum": [
         "search",
         "byCategory",
-        "productDetails"
+        "productDetails",
+        "reviews",
+        "byUrl"
       ],
       "enumTitles": [
         "Search products by keyword",
-        "Browse a category",
-        "Fetch product details by URL/ID"
+        "Browse catalog categories",
+        "Full details for product URLs/IDs",
+        "Customer reviews as one row each",
+        "Paste mvideo.ru product, search or category links"
       ],
       "prefill": "search",
       "title": "Mode",
@@ -266,19 +353,19 @@
     },
     "productUrls": {
       "default": [],
-      "description": "Product URLs (e.g. https://www.mvideo.ru/products/televizor-...-401211841) or bare numeric product IDs. Old eldorado.ru/cat/detail/... URLs no longer resolve to a catalog page — use the current URL or numeric ID instead.",
+      "description": "mvideo.ru product URLs or bare numeric product IDs. Old eldorado.ru/cat/detail/... links no longer resolve to a catalog page — use the current URL or numeric ID instead.",
       "editor": "stringList",
       "prefill": [
         "https://www.mvideo.ru/products/televizor-general-electronics-ge55lqs2-401211841"
       ],
-      "title": "Product URLs or IDs (mode=productDetails)",
+      "title": "Product URLs or IDs (mode=productDetails / reviews)",
       "type": "array"
     },
     "proxyConfiguration": {
       "default": {
         "useApifyProxy": true
       },
-      "description": "Apify Proxy to use. The actor tries the free datacenter (AUTO) pool first (Tier 3: Playwright); if the anti-bot blocks every attempt, it automatically escalates to a residential proxy session (Tier 4: Camoufox) regardless of this setting.",
+      "description": "Optional. The actor connects directly first and only escalates to Apify Proxy or a residential session if mvideo.ru refuses the direct connection. Leave the default unless you need a specific proxy setup.",
       "editor": "proxy",
       "prefill": {
         "useApifyProxy": true
@@ -286,17 +373,19 @@
       "title": "Proxy configuration",
       "type": "object"
     },
-    "searchQuery": {
-      "default": "телевизор",
-      "description": "Free-text product search, e.g. телевизор, ноутбук, холодильник.",
-      "editor": "textfield",
-      "prefill": "телевизор",
-      "title": "Search query (mode=search)",
-      "type": "string"
+    "searchQueries": {
+      "default": [],
+      "description": "One or more product search phrases, e.g. телевизор, ноутбук, холодильник. Each phrase is searched and the results are merged without duplicates. If the field is empty, the actor uses `телевизор`.",
+      "editor": "stringList",
+      "prefill": [
+        "телевизор"
+      ],
+      "title": "Search queries (mode=search)",
+      "type": "array"
     },
     "sortOrder": {
       "default": "popularity",
-      "description": "Result ordering for category browsing.",
+      "description": "Result ordering. The catalog supports popularity and sale-price ordering; other orderings are not offered by the source.",
       "editor": "select",
       "enum": [
         "popularity",
@@ -309,8 +398,25 @@
         "Price: high to low"
       ],
       "prefill": "popularity",
-      "title": "Sort order (mode=byCategory)",
+      "title": "Sort order (mode=search / byCategory)",
       "type": "string"
+    },
+    "storeLimit": {
+      "default": 20,
+      "description": "Cap on stores[] entries per product when pickup store stock is included.",
+      "maximum": 200,
+      "minimum": 1,
+      "prefill": 20,
+      "title": "Max stores per product",
+      "type": "integer"
+    },
+    "urls": {
+      "default": [],
+      "description": "Paste mvideo.ru product links, search result links (…/product-list-page?q=…) or category links. Products are fetched in full; search and category links are walked page by page. Unsupported links are reported as error rows.",
+      "editor": "stringList",
+      "prefill": [],
+      "title": "Links to open (mode=byUrl)",
+      "type": "array"
     }
   },
   "required": [

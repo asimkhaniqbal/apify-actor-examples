@@ -13,15 +13,22 @@ or API key required.
 
 - **Search** — run a free-text keyword search (e.g. `iphone`, `ноутбук`, `телевизор`) and get
   back matching products with price, rating, and availability.
-- **Browse a category** — pull every product listed under any Citilink catalog category
-  (smartphones, laptops, TVs, appliances, etc.) by slug or URL.
+- **Browse a category or compilation** — pull every product listed under any Citilink catalog
+  category or nested compilation (smartphones, laptops, TVs, `smartfony/iphone`, etc.) by slug,
+  path, or URL.
 - **Product details** — fetch full specifications, description, price, color variants, variant
   axes (colour/storage/etc.), and images for one or more products by ID or URL.
 - **Reviews** — fetch full-text customer reviews (title, body, view count, likes/dislikes) for
   one or more products by ID or URL — distinct from the star-rating opinion summary already
   included in product details.
+- **Price & stock monitor** — optionally compare each run with the previous run of the same
+  search/category and flag new products, price moves, and stock changes.
 - **Empty fields are omitted** from every record — a field only appears when Citilink actually
   supplied a value for it.
+
+Listing pages are read from the product grid Citilink embeds in the page itself and from the
+site's own GraphQL response, with an automatic fallback between the two. If one path is
+rate-limited, category and compilation browsing still returns real, ordered products.
 
 ## Output: per-product (search / byCategory)
 
@@ -37,10 +44,16 @@ or API key required.
 - `properties` — Key specs shown on the listing card (name/value pairs)
 - `images`, `imageUrl` — Product photo URLs
 - `multiplicity` — Minimum purchasable quantity increment, when above 1
+- `quantityInPackageFromSupplier` — Units per supplier package, when above 1
+- `isCrossBorder` — Whether the item ships from abroad
+- `storesInStock`, `maxCountInStock` — Store stock counters, when above 0
 - `accessMode` — Citilink's own visibility/sale mode for the listing
 - `earliestDeliveryDate` — Earliest self-pickup/delivery date, if available
 - `labels` — Promotional badges (installment plans, bundles, etc.)
 - `sourceUrl`, `scrapedAt`, `recordType` — Standard metadata
+
+Monitor mode (opt-in) adds `changeType` (`new` / `priceUp` / `priceDown` / `stockChange` /
+`unchanged`), `previousPrice`, `priceChangePercent`, `firstSeenAt`, and `lastSeenAt`.
 
 ## Output: per-product (productDetails)
 
@@ -52,6 +65,9 @@ All of the fields above, plus:
 - `categorySlug`, `categoryPath` — Category slug and full breadcrumb (root → leaf)
 - `brandId`, `brandName` — Brand ID and name
 - `vendorCode` — Manufacturer/vendor code
+- `maxCountInStock` — Maximum units the site allows in one order, when above 0
+- `isDiscount`, `isCrossBorder`, `isPreorderVAD` — Site flags for discounted, cross-border, and pre-order items
+- `lastAvailable` — Site-provided last-availability marker, when present
 - `accessoriesCount`, `discussionsCount`, `documentationsCount`, `servicesCount`, `videosCount` — Per-section content counters
 - `colorVariants` — Sibling products in other colors, each with its own `id`, `productUrl`, `color`, `isAvailable`, and `imageUrl`
 - `variantGroups` — Every variant axis the product exposes (colour, storage, etc.), each with its sibling-product options — not just colour
@@ -86,7 +102,7 @@ them in time:
 |---|---|---|---|
 | `mode` | string | `search` | `search` / `byCategory` / `productDetails` / `reviews` |
 | `searchQuery` | string | `iphone` | Free-text keyword (mode=search) |
-| `category` | string | – | Category slug (`smartfony`), catalog path, or full URL (mode=byCategory) |
+| `category` | string | – | Category slug (`smartfony`), nested compilation (`smartfony/iphone`), catalog path, or full URL (mode=byCategory) |
 | `productIds` | array | `[]` | Product IDs or full product URLs (mode=productDetails, reviews) |
 | `maxReviewsPerProduct` | int | `20` | Cap on reviews fetched per product ID (1-200, mode=reviews) |
 | `sortBy` | string | `relevance` | `relevance` / `priceAsc` / `priceDesc` / `discount` / `rating` / `opinions` / `reviews` (mode=search, byCategory) |
@@ -94,16 +110,30 @@ them in time:
 | `maxPrice` | int | – | Drop products more expensive than this, RUB (mode=search, byCategory) |
 | `minRating` | number | – | Drop products rated below this, 0-5 scale (mode=search, byCategory) |
 | `inStockOnly` | boolean | `false` | Only return purchasable products (mode=search, byCategory) |
-| `maxItems` | int | `10` | Hard cap on emitted records (1-500) |
+| `brands` | array | `[]` | Keep only these brands, case-insensitive (mode=search, byCategory) |
+| `monitorMode` | boolean | `false` | Compare with the previous run and add change fields (mode=search, byCategory) |
+| `onlyChanges` | boolean | `false` | With `monitorMode`, emit only new/changed products |
+| `watchId` | string | – | Stable monitor history ID; empty = derived from the input scope |
+| `maxItems` | int | `10` | Hard cap on emitted records (1-2000) |
 | `proxyConfiguration` | object | AUTO group | Apify proxy — required; the default AUTO (datacenter) group is sufficient |
 
 ### How sorting works
 
-When `sortBy=relevance` (the default), results are returned in Citilink's own order. For any
-other `sortBy` value, the actor gathers a wider window of results in relevance order, sorts that
-window by the requested key, then truncates to `maxItems`. This means non-relevance sorts reorder
-the *fetched* window rather than Citilink's entire catalog — for the most accurate top-N on a very
-broad category, narrow the search with a keyword or price filter first.
+`sortBy` is passed to Citilink's own `?sorting=` parameter, so the site returns the ordered
+result set before the actor sees it (verified against the live catalog on 2026-11-28: every enum
+value flips the site's selected sort and returns the corresponding order). The actor also applies
+a final client-side pass over the fetched records so missing-value ordering stays deterministic.
+For non-relevance sorts the actor fetches a wider window when `maxItems` is small, so narrow price
+or rating filters still produce a correct top-N.
+
+### How the monitor works
+
+Set `monitorMode: true` on a `search` or `byCategory` run. The actor stores the last price and
+availability of every emitted product in its key-value store under a watch key derived from the
+mode, query/category, sort, brands, and `maxItems` (or your own `watchId`). The next run with the
+same scope adds `changeType`, `previousPrice`, `priceChangePercent`, `firstSeenAt`, and
+`lastSeenAt`. Set `onlyChanges: true` to emit only new or changed products — ideal for schedules
+and price-drop alerts. Run without `onlyChanges` first to seed the history.
 
 ## Example: search with price and rating filters
 
@@ -128,6 +158,32 @@ broad category, narrow the search with a keyword or price filter first.
   "inStockOnly": true,
   "sortBy": "discount",
   "maxItems": 100
+}
+```
+
+## Example: browse a nested compilation
+
+```json
+{
+  "mode": "byCategory",
+  "category": "smartfony/iphone",
+  "brands": ["APPLE"],
+  "sortBy": "priceAsc",
+  "maxItems": 50
+}
+```
+
+## Example: daily price-drop monitor
+
+```json
+{
+  "mode": "byCategory",
+  "category": "smartfony",
+  "sortBy": "priceAsc",
+  "maxItems": 200,
+  "monitorMode": true,
+  "onlyChanges": true,
+  "watchId": "smartfony-price-watch"
 }
 ```
 
@@ -173,9 +229,27 @@ No. The actor scrapes publicly available product data with no authentication.
 Citilink blocks automated requests without a working proxy session. The default AUTO
 (datacenter) proxy group is sufficient — residential proxy is not required.
 
-**Why is `sortBy` not a perfect global sort?**
-See "How sorting works" above — it's applied across the fetched result window, not Citilink's
-full catalog, to keep run times predictable.
+**How complete is a category crawl?**
+Citilink paginates at 36 products per page and reports its own total. The actor follows that
+pagination until your `maxItems` or the catalog's last page. When the site's GraphQL endpoint
+answers with its bot challenge on a rate-limited IP, category and compilation pages still render
+their first 8 products per page, so the actor falls back to that server-rendered grid; very large
+category crawls can then stop short of the site's reported total. Re-run later or split by nested
+compilation (`smartfony/iphone`) or brand to cover more.
+
+**Why can some review runs return fewer reviews than requested?**
+Review text is loaded by the site's own review widget. The actor captures that first page and
+paginates through the review endpoint when the site allows it; on a rate-limited session only the
+first page may be available. Products with hidden reviews return none — that is a Citilink setting,
+not an actor error.
+
+**Why do listing images look smaller than product-detail images?**
+The server-rendered listing grid only publishes 250 px thumbnails, while product-detail records
+carry the full-size gallery. Use `mode=productDetails` when you need large images.
+
+**Why is `sortBy` no longer a fetched-window sort?**
+It is now Citilink's own server-side sort (see "How sorting works"), so it reflects the site's
+full catalog order rather than a local subset.
 
 **Can I search in Russian?**
 Yes — `searchQuery` and `category` both accept Cyrillic text/slugs directly.
